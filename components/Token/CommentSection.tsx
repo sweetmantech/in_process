@@ -4,6 +4,10 @@ import { formatTimeAgo } from "@/lib/formatTimeAgo";
 const CommentSection = ({ tokenId }: { tokenId: bigint }) => {
   const { comments, loading, error } = useComments(tokenId);
 
+  const sortedComments = [...comments].sort(
+    (a, b) => b.timestamp - a.timestamp
+  );
+
   return (
     <div className="mt-4">
       <h4 className="text-lg font-semibold mb-2">Comments:</h4>
@@ -15,7 +19,7 @@ const CommentSection = ({ tokenId }: { tokenId: bigint }) => {
         <p className="text-gray-500">No comments yet</p>
       ) : (
         <div className="space-y-2">
-          {comments.map((comment) => (
+          {sortedComments.map((comment) => (
             <div
               key={comment.transactionHash}
               className="p-2 bg-gray-100 rounded"

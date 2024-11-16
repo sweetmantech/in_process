@@ -7,3 +7,4 @@
 5. display how long ago the comment was left. ex. 3 sec ago, 1 day ago, 4 hours ago
 6. reverse the current ordering of the comments. latest comment should be highest in the rendered UI list
 7. Only show the first 3 comments. Add a button to view the next 3 comments.
+8. Comments are left on the correct tokenId. currently, all comments are left on tokenId 1.
