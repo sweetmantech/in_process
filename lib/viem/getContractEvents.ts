@@ -1,6 +1,5 @@
 import { publicClient } from "./publicClient";
 import { COLLECTION_ADDRESS } from "../consts";
-import { parseAbiItem } from "viem";
 import {
   zoraTimedSaleStrategyABI,
   zoraTimedSaleStrategyAddress,
