@@ -4,7 +4,15 @@ import {
   MintCommentEvent,
 } from "@/lib/viem/getContractEvents";
 
-export function useComments(tokenId: bigint) {
+export type UseCommentsReturn = {
+  comments: MintCommentEvent[];
+  loading: boolean;
+  error: Error | null;
+  visibleComments: number;
+  showMoreComments: () => void;
+};
+
+export function useComments(tokenId: bigint): UseCommentsReturn {
   const [comments, setComments] = useState<MintCommentEvent[]>([]);
   const [visibleComments, setVisibleComments] = useState(3);
   const [loading, setLoading] = useState(true);

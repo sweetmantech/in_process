@@ -2,29 +2,13 @@
 
 import { useEffect, useState } from "react";
 import CommentButton from "../CommentButton/CommentButton";
-import { getMintCommentEvents } from "@/lib/viem/getContractEvents";
-import { useComments } from "@/hooks/useComments";
 import CommentSection from "./CommentSection";
+import { useTokenProvider } from "@/providers/TokenProvider";
+import { TokenMetadata } from "@/types/token";
 
-interface TokenMetadata {
-  name?: string;
-  description?: string;
-  image?: string;
-  content?: {
-    mime: string;
-    uri: string;
-  };
-  canvas_url?: string;
-}
-
-interface TokenInfo {
-  tokenId: string;
-  tokenURI: string;
-}
-
-const Token = ({ token }: { token: { token: TokenInfo } }) => {
+const Token = () => {
+  const { token } = useTokenProvider();
   const [metadata, setMetadata] = useState<TokenMetadata | null>(null);
-  const { comments } = useComments(BigInt(token.token.tokenId));
 
   const convertIpfsToHttp = (ipfsUrl: string) => {
     if (!ipfsUrl.startsWith("ipfs://")) return ipfsUrl;

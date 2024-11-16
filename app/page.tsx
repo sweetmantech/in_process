@@ -9,6 +9,7 @@ import { createCollectorClient, MintableReturn } from "@zoralabs/protocol-sdk";
 import { useEffect, useState } from "react";
 import { baseSepolia } from "viem/chains";
 import { PublicClient } from "viem";
+import { TokenProvider } from "@/providers/TokenProvider";
 
 export default function Home() {
   const [tokens, setTokens] = useState<MintableReturn[]>([]);
@@ -49,7 +50,9 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
             {tokens.map((token: any) => (
-              <Token key={token.token.tokenId} token={token} />
+              <TokenProvider key={token.token.tokenId} token={token}>
+                <Token />
+              </TokenProvider>
             ))}
           </div>
         )}

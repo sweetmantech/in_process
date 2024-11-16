@@ -8,5 +8,6 @@
 6. reverse the current ordering of the comments. latest comment should be highest in the rendered UI list
 7. Only show the first 3 comments. Add a button to view the next 3 comments.
 8. Comments are left on the correct tokenId. currently, all comments are left on tokenId 1.
-9. add a comment button to the token component to write the comment.
-10. Use the text input in the Crossmint purchase component so the created comment is not hard-coded.
+9. create a TokenProvider to store the metadata and comments in the context.
+10. add a textarea to the token component to write the comment.
+11. Use the text input from the textarea in the Crossmint purchase component so the created comment is not hard-coded.
