@@ -5,6 +5,7 @@ import CommentButton from "../CommentButton/CommentButton";
 import CommentSection from "./CommentSection";
 import { useTokenProvider } from "@/providers/TokenProvider";
 import { TokenMetadata } from "@/types/token";
+import WriteComment from "./WriteComment";
 
 const Token = () => {
   const { token } = useTokenProvider();
@@ -59,6 +60,7 @@ const Token = () => {
         </div>
       )}
       <CommentSection tokenId={BigInt(token.token.tokenId)} />
+      <WriteComment />
       <CommentButton tokenId={BigInt(token.token.tokenId)} />
     </div>
   );
