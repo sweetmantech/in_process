@@ -2,6 +2,7 @@
 
 import { useState, Suspense } from "react";
 import dynamic from "next/dynamic";
+import { useCollectionProvider } from "@/providers/CollectionProvider";
 
 const CrossmintModal = dynamic(() => import("./CrossmintModal"), {
   loading: () => (
@@ -14,12 +15,17 @@ const CrossmintModal = dynamic(() => import("./CrossmintModal"), {
 
 export default function CommentButton() {
   const [isOpen, setIsOpen] = useState(false);
+  const { styling } = useCollectionProvider();
 
   return (
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+        className={`px-4 py-2 rounded-lg hover:opacity-80 transition-opacity`}
+        style={{
+          backgroundColor: styling?.theme?.color?.accent || "#3B82F6",
+          color: styling?.theme?.color?.accentText || "white",
+        }}
       >
         Leave a Comment
       </button>

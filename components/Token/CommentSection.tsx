@@ -1,9 +1,11 @@
 import { formatTimeAgo } from "@/lib/formatTimeAgo";
 import { useTokenProvider } from "@/providers/TokenProvider";
+import { useCollectionProvider } from "@/providers/CollectionProvider";
 
 const CommentSection = () => {
   const { visibleComments, comments, loading, error, showMoreComments } =
     useTokenProvider();
+  const { styling } = useCollectionProvider();
 
   const sortedComments = [...comments].sort(
     (a, b) => b.timestamp - a.timestamp
@@ -17,20 +19,35 @@ const CommentSection = () => {
       ) : error ? (
         <p className="text-red-500">Error loading comments</p>
       ) : comments.length === 0 ? (
-        <p className="text-gray-500">No comments yet</p>
+        <p>No comments yet</p>
       ) : (
         <div className="space-y-2">
           {sortedComments.slice(0, visibleComments).map((comment) => (
             <div
               key={comment.transactionHash}
-              className="p-2 bg-gray-100 rounded"
+              className="p-2 rounded"
+              style={{
+                backgroundColor: styling?.theme?.color?.background || "#f3f4f6",
+                border: `1px solid ${styling?.theme?.color?.text}33`,
+              }}
             >
-              <p className="text-sm text-black">{comment.comment}</p>
+              <p
+                className={`text-sm`}
+                style={{ color: styling?.theme?.color?.text }}
+              >
+                {comment.comment}
+              </p>
               <div className="flex justify-between items-center mt-1">
-                <p className="text-xs text-gray-500">
+                <p
+                  className="text-xs"
+                  style={{ color: `${styling?.theme?.color?.accentText}` }}
+                >
                   By: {comment.sender.slice(0, 6)}...{comment.sender.slice(-4)}
                 </p>
-                <p className="text-xs text-gray-500">
+                <p
+                  className="text-xs"
+                  style={{ color: `${styling?.theme?.color?.text}99` }}
+                >
                   {formatTimeAgo(comment.timestamp)}
                 </p>
               </div>
@@ -39,7 +56,10 @@ const CommentSection = () => {
           {sortedComments.length > visibleComments && (
             <button
               onClick={showMoreComments}
-              className="w-full py-2 mt-2 text-sm text-blue-500 hover:text-blue-600 transition-colors"
+              className="w-full py-2 mt-2 text-sm"
+              style={{
+                color: styling?.theme?.color?.accentText,
+              }}
             >
               View More Comments
             </button>
