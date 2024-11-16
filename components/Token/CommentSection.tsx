@@ -2,7 +2,8 @@ import { useComments } from "@/hooks/useComments";
 import { formatTimeAgo } from "@/lib/formatTimeAgo";
 
 const CommentSection = ({ tokenId }: { tokenId: bigint }) => {
-  const { comments, loading, error } = useComments(tokenId);
+  const { visibleComments, comments, loading, error, showMoreComments } =
+    useComments(tokenId);
 
   const sortedComments = [...comments].sort(
     (a, b) => b.timestamp - a.timestamp
@@ -19,7 +20,7 @@ const CommentSection = ({ tokenId }: { tokenId: bigint }) => {
         <p className="text-gray-500">No comments yet</p>
       ) : (
         <div className="space-y-2">
-          {sortedComments.map((comment) => (
+          {sortedComments.slice(0, visibleComments).map((comment) => (
             <div
               key={comment.transactionHash}
               className="p-2 bg-gray-100 rounded"
@@ -35,6 +36,14 @@ const CommentSection = ({ tokenId }: { tokenId: bigint }) => {
               </div>
             </div>
           ))}
+          {sortedComments.length > visibleComments && (
+            <button
+              onClick={showMoreComments}
+              className="w-full py-2 mt-2 text-sm text-blue-500 hover:text-blue-600 transition-colors"
+            >
+              View More Comments
+            </button>
+          )}
         </div>
       )}
     </div>

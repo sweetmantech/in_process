@@ -6,8 +6,13 @@ import {
 
 export function useComments(tokenId: bigint) {
   const [comments, setComments] = useState<MintCommentEvent[]>([]);
+  const [visibleComments, setVisibleComments] = useState(3);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
+
+  const showMoreComments = () => {
+    setVisibleComments((prev) => prev + 3);
+  };
 
   useEffect(() => {
     async function fetchComments() {
@@ -31,5 +36,7 @@ export function useComments(tokenId: bigint) {
     comments,
     loading,
     error,
+    visibleComments,
+    showMoreComments,
   };
 }
