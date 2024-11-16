@@ -9,12 +9,15 @@ const TokenContext = createContext<any | undefined>(undefined);
 export function TokenProvider({
   children,
   token,
+  tokenId,
 }: {
   children: ReactNode;
   token: TokenInfo;
+  tokenId: bigint;
 }) {
-  const writeComment = useWriteComment(BigInt(token.token.tokenId));
-  const comments = useComments(BigInt(token.token.tokenId));
+  console.log("SWEETS PROVIDER HAS token.token.tokenId?", tokenId);
+  const writeComment = useWriteComment(tokenId);
+  const comments = useComments(tokenId);
 
   return (
     <TokenContext.Provider
