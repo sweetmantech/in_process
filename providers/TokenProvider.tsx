@@ -20,7 +20,7 @@ export function TokenProvider({
     <TokenContext.Provider
       value={{
         token,
-        comments,
+        ...comments,
         ...writeComment,
       }}
     >
