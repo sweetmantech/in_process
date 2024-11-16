@@ -2,27 +2,15 @@
 
 import { useEffect, useState } from "react";
 import CommentButton from "../CommentButton/CommentButton";
+import CommentSection from "./CommentSection";
+import { useTokenProvider } from "@/providers/TokenProvider";
+import { TokenMetadata } from "@/types/token";
+import WriteComment from "./WriteComment";
 
-interface TokenMetadata {
-  name?: string;
-  description?: string;
-  image?: string;
-  content?: {
-    mime: string;
-    uri: string;
-  };
-  canvas_url?: string;
-}
-
-interface TokenInfo {
-  tokenId: string;
-  tokenURI: string;
-}
-
-const Token = ({ token }: { token: { token: TokenInfo } }) => {
+const Token = () => {
+  const { token } = useTokenProvider();
   const [metadata, setMetadata] = useState<TokenMetadata | null>(null);
 
-  console.log("metadata", metadata);
   const convertIpfsToHttp = (ipfsUrl: string) => {
     if (!ipfsUrl.startsWith("ipfs://")) return ipfsUrl;
     return ipfsUrl.replace(
@@ -71,6 +59,8 @@ const Token = ({ token }: { token: { token: TokenInfo } }) => {
           )}
         </div>
       )}
+      <CommentSection />
+      <WriteComment />
       <CommentButton />
     </div>
   );
