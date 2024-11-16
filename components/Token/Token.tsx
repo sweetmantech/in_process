@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import CommentButton from "../CommentButton/CommentButton";
 import { getMintCommentEvents } from "@/lib/viem/getContractEvents";
 import { useComments } from "@/hooks/useComments";
+import CommentSection from "./CommentSection";
 
 interface TokenMetadata {
   name?: string;
@@ -74,6 +75,7 @@ const Token = ({ token }: { token: { token: TokenInfo } }) => {
           )}
         </div>
       )}
+      <CommentSection tokenId={BigInt(token.token.tokenId)} />
       <CommentButton />
     </div>
   );
