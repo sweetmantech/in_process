@@ -7,7 +7,6 @@ const CommentSection = () => {
     useTokenProvider();
   const { styling } = useCollectionProvider();
 
-  console.log("styling", styling);
   const sortedComments = [...comments].sort(
     (a, b) => b.timestamp - a.timestamp
   );

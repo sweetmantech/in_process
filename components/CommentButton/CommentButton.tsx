@@ -17,8 +17,6 @@ export default function CommentButton() {
   const [isOpen, setIsOpen] = useState(false);
   const { styling } = useCollectionProvider();
 
-  console.log("styling?.theme?.accent", styling?.theme?.color?.accent);
-
   return (
     <>
       <button
