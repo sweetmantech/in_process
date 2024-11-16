@@ -30,7 +30,7 @@ export default function CommentButton({ tokenId }: CommentButtonProps) {
 
       {isOpen && (
         <Suspense fallback={<div>Loading...</div>}>
-          <CrossmintModal tokenId={tokenId} onClose={() => setIsOpen(false)} />
+          <CrossmintModal onClose={() => setIsOpen(false)} />
         </Suspense>
       )}
     </>

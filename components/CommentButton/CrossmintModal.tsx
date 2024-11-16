@@ -4,14 +4,10 @@ import { CrossmintPaymentElement } from "@crossmint/client-sdk-react-ui";
 
 interface CrossmintModalProps {
   onClose: () => void;
-  tokenId: bigint;
 }
 
-export default function CrossmintModal({
-  onClose,
-  tokenId,
-}: CrossmintModalProps) {
-  const { comment } = useTokenProvider();
+export default function CrossmintModal({ onClose }: CrossmintModalProps) {
+  const { comment, token } = useTokenProvider();
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
@@ -34,7 +30,7 @@ export default function CrossmintModal({
             totalPrice: "0.000111",
             quantity: "1",
             collection: COLLECTION_ADDRESS,
-            tokenId: Number(tokenId),
+            tokenId: Number(token.token.tokenId),
             mintReferral: MINT_FEE_RECIPIENT,
             comment,
           }}
