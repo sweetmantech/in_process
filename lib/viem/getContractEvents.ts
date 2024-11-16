@@ -19,8 +19,6 @@ export async function getMintCommentEvents(
   tokenId?: bigint
 ): Promise<MintCommentEvent[]> {
   try {
-    console.log("publicClient", publicClient);
-    console.log(zoraTimedSaleStrategyAddress[baseSepolia.id]);
     const logs = await publicClient.getContractEvents({
       abi: zoraTimedSaleStrategyABI,
       eventName: "MintComment",
@@ -31,7 +29,6 @@ export async function getMintCommentEvents(
         collection: COLLECTION_ADDRESS,
       },
     });
-    console.log("LOGS", logs);
 
     const blocks = await Promise.all(
       logs.map((log) =>

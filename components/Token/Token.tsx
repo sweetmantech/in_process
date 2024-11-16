@@ -24,8 +24,7 @@ interface TokenInfo {
 
 const Token = ({ token }: { token: { token: TokenInfo } }) => {
   const [metadata, setMetadata] = useState<TokenMetadata | null>(null);
-  const { comments, loading, error } = useComments(BigInt(token.token.tokenId));
-  console.log("comments from hook", comments);
+  const { comments } = useComments(BigInt(token.token.tokenId));
 
   const convertIpfsToHttp = (ipfsUrl: string) => {
     if (!ipfsUrl.startsWith("ipfs://")) return ipfsUrl;
@@ -76,7 +75,7 @@ const Token = ({ token }: { token: { token: TokenInfo } }) => {
         </div>
       )}
       <CommentSection tokenId={BigInt(token.token.tokenId)} />
-      <CommentButton />
+      <CommentButton tokenId={BigInt(token.token.tokenId)} />
     </div>
   );
 };

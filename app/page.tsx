@@ -28,8 +28,6 @@ export default function Home() {
             tokenContract: COLLECTION_ADDRESS,
           }
         );
-
-        console.log(tokenData);
         setTokens([...tokenData].reverse());
       } catch (error) {
         console.error("Error fetching tokens:", error);

@@ -12,7 +12,11 @@ const CrossmintModal = dynamic(() => import("./CrossmintModal"), {
   ssr: false,
 });
 
-export default function CommentButton() {
+interface CommentButtonProps {
+  tokenId: bigint;
+}
+
+export default function CommentButton({ tokenId }: CommentButtonProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -26,7 +30,7 @@ export default function CommentButton() {
 
       {isOpen && (
         <Suspense fallback={<div>Loading...</div>}>
-          <CrossmintModal onClose={() => setIsOpen(false)} />
+          <CrossmintModal tokenId={tokenId} onClose={() => setIsOpen(false)} />
         </Suspense>
       )}
     </>
