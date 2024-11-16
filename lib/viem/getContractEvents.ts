@@ -12,6 +12,7 @@ export type MintCommentEvent = {
   comment: string;
   blockNumber: bigint;
   transactionHash: string;
+  timestamp: number;
 };
 
 export async function getMintCommentEvents(
@@ -32,12 +33,21 @@ export async function getMintCommentEvents(
     });
     console.log("LOGS", logs);
 
-    return logs.map((log) => ({
+    const blocks = await Promise.all(
+      logs.map((log) =>
+        publicClient.getBlock({
+          blockNumber: log.blockNumber!,
+        })
+      )
+    );
+
+    return logs.map((log, index) => ({
       tokenId: log.args.tokenId!,
       sender: log.args.sender!,
       comment: log.args.comment!,
       blockNumber: log.blockNumber!,
       transactionHash: log.transactionHash,
+      timestamp: Number(blocks[index].timestamp) * 1000,
     }));
   } catch (error) {
     console.error("Error fetching MintComment events:", error);

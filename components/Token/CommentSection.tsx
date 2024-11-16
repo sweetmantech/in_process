@@ -1,4 +1,5 @@
 import { useComments } from "@/hooks/useComments";
+import { formatTimeAgo } from "@/lib/formatTimeAgo";
 
 const CommentSection = ({ tokenId }: { tokenId: bigint }) => {
   const { comments, loading, error } = useComments(tokenId);
@@ -20,9 +21,14 @@ const CommentSection = ({ tokenId }: { tokenId: bigint }) => {
               className="p-2 bg-gray-100 rounded"
             >
               <p className="text-sm text-black">{comment.comment}</p>
-              <p className="text-xs text-gray-500">
-                By: {comment.sender.slice(0, 6)}...{comment.sender.slice(-4)}
-              </p>
+              <div className="flex justify-between items-center mt-1">
+                <p className="text-xs text-gray-500">
+                  By: {comment.sender.slice(0, 6)}...{comment.sender.slice(-4)}
+                </p>
+                <p className="text-xs text-gray-500">
+                  {formatTimeAgo(comment.timestamp)}
+                </p>
+              </div>
             </div>
           ))}
         </div>
