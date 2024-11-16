@@ -59,9 +59,9 @@ const Token = () => {
           )}
         </div>
       )}
-      <CommentSection tokenId={BigInt(token.token.tokenId)} />
+      <CommentSection />
       <WriteComment />
-      <CommentButton tokenId={BigInt(token.token.tokenId)} />
+      <CommentButton />
     </div>
   );
 };

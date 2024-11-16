@@ -12,11 +12,7 @@ const CrossmintModal = dynamic(() => import("./CrossmintModal"), {
   ssr: false,
 });
 
-interface CommentButtonProps {
-  tokenId: bigint;
-}
-
-export default function CommentButton({ tokenId }: CommentButtonProps) {
+export default function CommentButton() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (

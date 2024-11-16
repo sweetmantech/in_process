@@ -1,9 +1,9 @@
-import { useComments } from "@/hooks/useComments";
 import { formatTimeAgo } from "@/lib/formatTimeAgo";
+import { useTokenProvider } from "@/providers/TokenProvider";
 
-const CommentSection = ({ tokenId }: { tokenId: bigint }) => {
+const CommentSection = () => {
   const { visibleComments, comments, loading, error, showMoreComments } =
-    useComments(tokenId);
+    useTokenProvider();
 
   const sortedComments = [...comments].sort(
     (a, b) => b.timestamp - a.timestamp
