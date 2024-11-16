@@ -6,36 +6,18 @@ import CommentSection from "./CommentSection";
 import { useTokenProvider } from "@/providers/TokenProvider";
 import { TokenMetadata } from "@/types/token";
 import WriteComment from "./WriteComment";
+import convertIpfsToHttp from "@/lib/ipfs/convertIpfsToHttp";
+import fetchIpfs from "@/lib/ipfs/fetchIpfs";
+import { useCollectionProvider } from "@/providers/CollectionProvider";
 
 const Token = () => {
   const { token } = useTokenProvider();
+  const { styling } = useCollectionProvider();
   const [metadata, setMetadata] = useState<TokenMetadata | null>(null);
 
-  const convertIpfsToHttp = (ipfsUrl: string) => {
-    if (!ipfsUrl.startsWith("ipfs://")) return ipfsUrl;
-    return ipfsUrl.replace(
-      "ipfs://",
-      "https://ipfs.decentralized-content.com/ipfs/"
-    );
-  };
-
   useEffect(() => {
-    const getTokenMetadata = async (
-      tokenUri: string
-    ): Promise<TokenMetadata> => {
-      try {
-        const response = await fetch(convertIpfsToHttp(tokenUri));
-        if (!response.ok) throw new Error("Failed to fetch metadata");
-        const data = await response.json();
-        return data;
-      } catch (error) {
-        console.error("Error fetching token metadata:", error);
-        return {};
-      }
-    };
-
     const fetchMetadata = async () => {
-      const data = await getTokenMetadata(token.token.tokenURI);
+      const data = await fetchIpfs(token.token.tokenURI);
       setMetadata(data);
     };
 
@@ -43,7 +25,13 @@ const Token = () => {
   }, [token.token.tokenURI]);
 
   return (
-    <div key={token.token.tokenId} className="border rounded-lg p-4">
+    <div
+      key={token.token.tokenId}
+      className="rounded-lg p-4"
+      style={{
+        border: `1px solid ${styling?.theme?.color?.border}`,
+      }}
+    >
       <h3>Token ID: {token.token.tokenId}</h3>
       <h3>Token URI: {convertIpfsToHttp(token.token.tokenURI)}</h3>
       {metadata && (

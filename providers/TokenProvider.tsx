@@ -15,7 +15,6 @@ export function TokenProvider({
   token: TokenInfo;
   tokenId: bigint;
 }) {
-  console.log("SWEETS PROVIDER HAS token.token.tokenId?", tokenId);
   const writeComment = useWriteComment(tokenId);
   const comments = useComments(tokenId);
 

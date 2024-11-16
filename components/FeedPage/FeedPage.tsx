@@ -10,6 +10,7 @@ import { baseSepolia } from "viem/chains";
 import { Address } from "viem";
 import { TokenProvider } from "@/providers/TokenProvider";
 import { getPublicClient } from "@/lib/viem/publicClient";
+import { useCollectionProvider } from "@/providers/CollectionProvider";
 
 export default function FeedPage({
   chainId = baseSepolia.id,
@@ -21,30 +22,24 @@ export default function FeedPage({
   const [tokens, setTokens] = useState<MintableReturn[]>([]);
   const [loading, setLoading] = useState(true);
   const { authenticated } = usePrivy();
+  const { styling } = useCollectionProvider();
 
   useEffect(() => {
     async function fetchTokens() {
       try {
         const publicClient = getPublicClient(chainId);
-        console.log("publicClient", publicClient);
-
         const collectorClient = createCollectorClient({
           chainId,
           publicClient,
         });
-        console.log("COLLECTOR CLIENT", collectorClient);
-
         const { tokens: tokenData } = await collectorClient.getTokensOfContract(
           {
             tokenContract: address,
           }
         );
-
-        console.log("TOKEN DATA", tokenData);
         const filteredTokens = tokenData.filter(
           (token) => token.token.tokenId !== undefined
         );
-        console.log("filteredTokens", filteredTokens);
 
         setTokens([...filteredTokens].reverse());
       } catch (error) {
@@ -57,10 +52,14 @@ export default function FeedPage({
     fetchTokens();
   }, [address, chainId]);
 
-  console.log("Tokens data:", tokens);
-
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+    <div
+      className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]"
+      style={{
+        backgroundColor: styling?.theme?.color?.background,
+        color: styling?.theme?.color?.text,
+      }}
+    >
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
         <div className="mb-8">{!authenticated && <LoginButton />}</div>
         {loading ? (

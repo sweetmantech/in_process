@@ -6,6 +6,7 @@ import { ZORA_TO_VIEM } from "@/lib/zora/zoraToViem";
 import { Address } from "node:cluster";
 import { useParams } from "next/navigation";
 import * as chains from "viem/chains";
+import { CollectionProvider } from "@/providers/CollectionProvider";
 
 export default function TokenPage() {
   const params = useParams();
@@ -13,5 +14,10 @@ export default function TokenPage() {
   const [chain, address] = collection.split("%3A");
   const viemChainName = ZORA_TO_VIEM[chain as ZoraChains];
   const viemChain = chains[viemChainName];
-  return <FeedPage chainId={viemChain.id} address={address as Address} />;
+
+  return (
+    <CollectionProvider chainId={viemChain.id} address={address as Address}>
+      <FeedPage chainId={viemChain.id} address={address as Address} />
+    </CollectionProvider>
+  );
 }
