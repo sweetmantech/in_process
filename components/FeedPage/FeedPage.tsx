@@ -38,7 +38,8 @@ export default function FeedPage({
           }
         );
         const filteredTokens = tokenData.filter(
-          (token) => token.token.tokenId !== undefined
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (token: any) => token.token.tokenId !== undefined
         );
 
         setTokens([...filteredTokens].reverse());
@@ -66,8 +67,8 @@ export default function FeedPage({
           <p>Loading tokens...</p>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
             {tokens.length > 0 &&
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               tokens.map((token: any) => (
                 <TokenProvider
                   key={token?.token?.tokenId || token.token.uid}
