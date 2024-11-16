@@ -1,13 +1,10 @@
-import { useComments, UseCommentsReturn } from "@/hooks/useComments";
+import { useComments } from "@/hooks/useComments";
+import useWriteComment from "@/hooks/useWriteComment";
 import { TokenInfo } from "@/types/token";
 import { createContext, useContext, ReactNode } from "react";
 
-export interface TokenContextType {
-  token: TokenInfo;
-  comments: UseCommentsReturn;
-}
-
-const TokenContext = createContext<TokenContextType | undefined>(undefined);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const TokenContext = createContext<any | undefined>(undefined);
 
 export function TokenProvider({
   children,
@@ -16,6 +13,7 @@ export function TokenProvider({
   children: ReactNode;
   token: TokenInfo;
 }) {
+  const writeComment = useWriteComment(BigInt(token.token.tokenId));
   const comments = useComments(BigInt(token.token.tokenId));
 
   return (
@@ -23,6 +21,7 @@ export function TokenProvider({
       value={{
         token,
         comments,
+        ...writeComment,
       }}
     >
       {children}

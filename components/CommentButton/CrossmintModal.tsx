@@ -1,4 +1,5 @@
 import { COLLECTION_ADDRESS, MINT_FEE_RECIPIENT } from "@/lib/consts";
+import { useTokenProvider } from "@/providers/TokenProvider";
 import { CrossmintPaymentElement } from "@crossmint/client-sdk-react-ui";
 
 interface CrossmintModalProps {
@@ -10,6 +11,8 @@ export default function CrossmintModal({
   onClose,
   tokenId,
 }: CrossmintModalProps) {
+  const { comment } = useTokenProvider();
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
       <div className="bg-white p-6 rounded-lg relative">
@@ -33,7 +36,7 @@ export default function CrossmintModal({
             collection: COLLECTION_ADDRESS,
             tokenId: Number(tokenId),
             mintReferral: MINT_FEE_RECIPIENT,
-            comment: "ETH GLOBAL BANGKOK 2024",
+            comment,
           }}
         />
       </div>

@@ -1,7 +1,7 @@
-import useWriteComment from "@/hooks/useWriteComment";
+import { useTokenProvider } from "@/providers/TokenProvider";
 
 const WriteComment = () => {
-  const { comment, handleCommentChange } = useWriteComment();
+  const { comment, handleCommentChange } = useTokenProvider();
 
   return (
     <div className="comment-section">
