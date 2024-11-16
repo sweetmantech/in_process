@@ -3,7 +3,7 @@
 import FeedPage from "@/components/FeedPage";
 import { ZoraChains } from "@/lib/zora/zoraToViem";
 import { ZORA_TO_VIEM } from "@/lib/zora/zoraToViem";
-import { Address } from "node:cluster";
+import { Address } from "viem";
 import { useParams } from "next/navigation";
 import * as chains from "viem/chains";
 import { CollectionProvider } from "@/providers/CollectionProvider";
