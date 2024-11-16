@@ -1,6 +1,5 @@
 "use client";
 
-import { MintableReturn } from "@zoralabs/protocol-sdk";
 import { useEffect, useState } from "react";
 import CommentButton from "../CommentButton/CommentButton";
 
@@ -15,7 +14,12 @@ interface TokenMetadata {
   canvas_url?: string;
 }
 
-const Token = ({ token }: { token: MintableReturn }) => {
+interface TokenInfo {
+  tokenId: string;
+  tokenURI: string;
+}
+
+const Token = ({ token }: { token: { token: TokenInfo } }) => {
   const [metadata, setMetadata] = useState<TokenMetadata | null>(null);
 
   console.log("metadata", metadata);
@@ -58,6 +62,7 @@ const Token = ({ token }: { token: MintableReturn }) => {
         <div className="mt-4">
           <h3 className="text-xl font-bold">Name: {metadata.name}</h3>
           {metadata.image && (
+            // eslint-disable-next-line @next/next/no-img-element
             <img
               src={convertIpfsToHttp(metadata.image)}
               alt={metadata.name || "Token image"}

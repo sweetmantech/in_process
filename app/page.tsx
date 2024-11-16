@@ -11,9 +11,9 @@ import {
 } from "@coinbase/onchainkit/identity";
 import { usePrivy } from "@privy-io/react-auth";
 import { createCollectorClient, MintableReturn } from "@zoralabs/protocol-sdk";
-import { auth } from "hono/utils/basic-auth";
 import { useEffect, useState } from "react";
 import { useChainId, usePublicClient } from "wagmi";
+import { PublicClient } from "viem";
 
 export default function Home() {
   const [tokens, setTokens] = useState<MintableReturn[]>([]);
@@ -29,7 +29,7 @@ export default function Home() {
       try {
         const collectorClient = createCollectorClient({
           chainId,
-          publicClient,
+          publicClient: publicClient as PublicClient,
         });
 
         const { tokens: tokenData } = await collectorClient.getTokensOfContract(
@@ -76,7 +76,8 @@ export default function Home() {
           <p>Loading tokens...</p>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {tokens.map((token) => (
+            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+            {tokens.map((token: any) => (
               <Token key={token.token.tokenId} token={token} />
             ))}
           </div>
