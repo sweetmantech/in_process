@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import CommentButton from "../CommentButton/CommentButton";
 import { getMintCommentEvents } from "@/lib/viem/getContractEvents";
+import { useComments } from "@/hooks/useComments";
 
 interface TokenMetadata {
   name?: string;
@@ -22,6 +23,8 @@ interface TokenInfo {
 
 const Token = ({ token }: { token: { token: TokenInfo } }) => {
   const [metadata, setMetadata] = useState<TokenMetadata | null>(null);
+  const { comments, loading, error } = useComments(BigInt(token.token.tokenId));
+  console.log("comments from hook", comments);
 
   const convertIpfsToHttp = (ipfsUrl: string) => {
     if (!ipfsUrl.startsWith("ipfs://")) return ipfsUrl;
@@ -38,10 +41,6 @@ const Token = ({ token }: { token: { token: TokenInfo } }) => {
       try {
         const response = await fetch(convertIpfsToHttp(tokenUri));
         if (!response.ok) throw new Error("Failed to fetch metadata");
-        const comments = await getMintCommentEvents(
-          BigInt(token.token.tokenId)
-        );
-        console.log("comments", comments);
         const data = await response.json();
         return data;
       } catch (error) {
