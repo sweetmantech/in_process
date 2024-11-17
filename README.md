@@ -4,12 +4,11 @@
 
 ## 🌟 Key Features
 
-### 🖼️ Digital Art Feed
-
+- 🖼️ **Digital Art Feed** - Feed of Digital Art
 - **Custom Collection Styling** - Each collection can define its own theme and style
 - **Interactive Comments** - Users can engage with art through comments
 - **Credit Card Integration** - Easy payments with CrossMint
-- **Web3 Authentication** - Seamless login with Privy
+- **Email Authentication** - Seamless login with Privy
 
 ### 🎯 Core Components
 
