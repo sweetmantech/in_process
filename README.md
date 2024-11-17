@@ -1,8 +1,51 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎨 In Process By LATASHÁ
 
-## Getting Started
+> A social feed for your digital art on Zora. Bring your own style. Built on Base.
 
-First, run the development server:
+## 🌟 Key Features
+
+### 🖼️ Digital Art Feed
+
+- **Custom Collection Styling** - Each collection can define its own theme and style
+- **Interactive Comments** - Users can engage with art through comments
+- **Credit Card Integration** - Easy payments with CrossMint
+- **Web3 Authentication** - Seamless login with Privy
+
+### 🎯 Core Components
+
+1. **Landing Page**
+
+- Beautiful gradient animations
+- Collection URL input
+- Mobile-responsive design
+
+2. **Feed Page**
+
+- Dynamic digital art loading
+- Grid layout for art display
+- Custom styling per collection
+
+3. **Comment System**
+
+- Real-time updates
+- Pagination support
+- Styled to match collection theme
+
+## 🚀 Quick Start
+
+1. Install dependencies:
+
+```bash
+npm install
+# or
+yarn install
+# or
+pnpm install
+# or
+bun install
+```
+
+2. Run the development server:
 
 ```bash
 npm run dev
@@ -14,23 +57,48 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. Open [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🛠️ Tech Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Frontend
 
-## Learn More
+- **Next.js 15** - React framework
+- **Tailwind CSS** - Styling
+- **Framer Motion** - Animations
+- **shadcn/ui** - UI components
 
-To learn more about Next.js, take a look at the following resources:
+### Onchain
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Zora Protocol** - Digital art infrastructure
+- **Privy** - Onchain authentication
+- **CrossMint** - Credit card + Google Pay + Apple Pay payments
+- **Base** - L2 blockchain
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### State Management
 
-## Deploy on Vercel
+- **Context API** - React contexts for:
+  - Digital art data
+  - Collection styling
+  - Authentication state
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🔗 Important Links
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [Live Demo](https://in-process.vercel.app)
+- [GitHub Repo](https://github.com/SweetmanTech/IN_PROCESS)
+- [Zora Documentation](https://docs.zora.co/docs/smart-contracts/protocol/intro)
+- [Base Network](https://base.org)
+
+## 🏆 Why We Built This
+
+In Process aims to revolutionize how we interact with digital art by:
+
+1. Making Digital art collections more engaging through social features
+2. Allowing artists to maintain their brand through custom styling
+3. Lowering barriers to entry with credit card payments
+4. Building on Base for fast, affordable transactions
+
+## 👥 Team
+
+- LATASHÁ - Creator & Vision
+- sweetman.eth - The dev for onchain music
