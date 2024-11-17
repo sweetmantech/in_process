@@ -21,3 +21,5 @@
 11. update the landing page by coping the contents from Myco.wtf codebase
 
 - codebase to copy from: https://github.com/SweetmanTech/myco-landing-page
+
+12. add an input for the collection address. On enter, open a new tab with the collect route for the URL entered (see step 1)
