@@ -22,7 +22,6 @@ export async function getMintCommentEvents(
 ): Promise<MintCommentEvent[]> {
   try {
     const publicClient = getPublicClient(chainId);
-    console.log("publicClient", publicClient);
     const logs = await publicClient.getContractEvents({
       abi: zoraTimedSaleStrategyABI,
       eventName: "MintComment",

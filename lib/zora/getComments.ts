@@ -1,4 +1,4 @@
-import { determineMediaType, getIPFSUrl } from "./utils";
+import { determineMediaType, getIPFSUrl } from "@/lib/zora/utils";
 
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -68,10 +68,10 @@ export const fetchTokenData = async (
     collectionAddress,
     network,
     chain,
-    limit,
-    after
+    limit
   );
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const executeRequest = async (delay: number): Promise<any> => {
     await wait(delay); // Wait before making the request
 
@@ -90,7 +90,7 @@ export const fetchTokenData = async (
         const retryDelay = retryAfter ? parseInt(retryAfter) * 1000 : delay * 2;
 
         if (retries > 0) {
-          console.log(`Rate limited. Retrying in ${retryDelay}ms...`);
+          console.error(`Rate limited. Retrying in ${retryDelay}ms...`);
           return executeRequest(retryDelay);
         } else {
           throw new Error("Rate limit exceeded. Max retries reached.");
@@ -125,7 +125,8 @@ export const fetchTokenData = async (
   try {
     const allData = await executeRequest(initialDelay);
 
-    const tokens = allData.data.tokens.nodes.map((node) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const tokens = allData.data.tokens.nodes.map((node: any) => {
       const token = node.token;
       const metadata = token.metadata;
       const mediaType = determineMediaType(metadata.content.mime);
@@ -134,8 +135,10 @@ export const fetchTokenData = async (
         mediaType === "audio" ? getIPFSUrl(metadata.image, IPFS_GATEWAY) : null;
 
       const comments = allData.data.mintComments.comments
-        .filter((comment) => comment.tokenId === token.tokenId)
-        .map((comment) => ({
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        .filter((comment: any) => comment.tokenId === token.tokenId)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        .map((comment: any) => ({
           fromAddress: comment.fromAddress,
           comment: comment.comment,
           quantity: comment.quantity,

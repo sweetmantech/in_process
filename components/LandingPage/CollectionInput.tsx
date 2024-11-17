@@ -10,7 +10,6 @@ export default function CollectionInput() {
       e.preventDefault();
       if (collectionAddress) {
         const parsedAddress = parseZoraUrl(collectionAddress);
-        console.log("parsedAddress", parsedAddress);
         window.open(`/collect/${parsedAddress}`, "_blank");
         setCollectionAddress("");
       }

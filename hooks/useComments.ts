@@ -43,12 +43,9 @@ export function useComments(tokenId: bigint): UseCommentsReturn {
           null
         );
 
-        console.log("result", result);
-
         const token = result.tokens.find(
           (t: any) => BigInt(t.tokenId) === tokenId
         );
-        console.log("token", token);
 
         const mappedComments =
           token?.comments.map((comment: any) => ({
@@ -58,8 +55,6 @@ export function useComments(tokenId: bigint): UseCommentsReturn {
             timestamp: new Date(comment.blockTimestamp),
             transactionHash: comment.transactionHash,
           })) || [];
-
-        console.log("mappedComments", mappedComments);
 
         setComments(mappedComments);
       } catch (err) {
