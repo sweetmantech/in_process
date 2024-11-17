@@ -1,15 +1,16 @@
-import Link from "next/link";
+"use client";
 
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/Button";
 import { Announcement } from "@/components/ui/announcement";
 import { FadeIn } from "@/components/ui/fade-in";
-import { Icons, OpenAIIcon, TailwindCSSIcon } from "@/components/ui/icons";
+import { Icons } from "@/components/ui/icons";
 import { PageActions, PageHeader } from "@/components/ui/page-header";
 import BgNoiseWrapper from "@/components/ui/texture-wrapper";
 import { GradientHeading } from "@/components/ui/gradient-heading";
 import Image from "next/image";
-import { COLLECTION_ADDRESS } from "@/lib/consts";
+import CollectionInput from "./CollectionInput";
 
 export default function LandingPage() {
   return (
@@ -60,6 +61,13 @@ export default function LandingPage() {
                 </div>
               </div>
             </FadeIn>
+
+            <FadeIn>
+              <div className="mt-6 flex flex-col items-center gap-4 w-[500px]">
+                <CollectionInput />
+              </div>
+            </FadeIn>
+
             <FadeIn>
               <PageActions>
                 <Link
