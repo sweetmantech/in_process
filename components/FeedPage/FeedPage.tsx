@@ -66,7 +66,7 @@ export default function FeedPage({
         {loading ? (
           <p>Loading tokens...</p>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 gap-6 max-w-2xl w-full">
             {tokens.length > 0 &&
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
               tokens.map((token: any) => (

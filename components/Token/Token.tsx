@@ -32,11 +32,9 @@ const Token = () => {
         border: `1px solid ${styling?.theme?.color?.border}`,
       }}
     >
-      <h3>Token ID: {token.token.tokenId}</h3>
-      <h3>Token URI: {convertIpfsToHttp(token.token.tokenURI)}</h3>
       {metadata && (
         <div className="mt-4">
-          <h3 className="text-xl font-bold">Name: {metadata.name}</h3>
+          <h3 className="text-xl font-bold">{metadata.name}</h3>
           {metadata.image && (
             // eslint-disable-next-line @next/next/no-img-element
             <img

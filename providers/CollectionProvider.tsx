@@ -5,6 +5,8 @@ import { Address } from "viem";
 
 interface CollectionContextType {
   styling?: CollectionStyle;
+  address: Address;
+  chainId: number;
 }
 
 interface CollectionProviderProps {
@@ -25,7 +27,7 @@ export function CollectionProvider({
   const { styling } = useCollectionStyling(chainId, address);
 
   return (
-    <CollectionContext.Provider value={{ styling }}>
+    <CollectionContext.Provider value={{ styling, address, chainId }}>
       {children}
     </CollectionContext.Provider>
   );

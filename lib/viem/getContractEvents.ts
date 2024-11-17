@@ -1,10 +1,10 @@
-import { publicClient } from "./publicClient";
-import { COLLECTION_ADDRESS } from "../consts";
 import {
   zoraTimedSaleStrategyABI,
   zoraTimedSaleStrategyAddress,
 } from "@zoralabs/protocol-deployments";
 import { baseSepolia } from "viem/chains";
+import { getPublicClient } from "./publicClient";
+import { Address } from "viem";
 
 export type MintCommentEvent = {
   tokenId: bigint;
@@ -16,9 +16,12 @@ export type MintCommentEvent = {
 };
 
 export async function getMintCommentEvents(
+  chainId: number,
+  address: Address,
   tokenId?: bigint
 ): Promise<MintCommentEvent[]> {
   try {
+    const publicClient = getPublicClient(chainId);
     const logs = await publicClient.getContractEvents({
       abi: zoraTimedSaleStrategyABI,
       eventName: "MintComment",
@@ -26,7 +29,7 @@ export async function getMintCommentEvents(
       fromBlock: "earliest",
       args: {
         tokenId: tokenId,
-        collection: COLLECTION_ADDRESS,
+        collection: address,
       },
     });
 
