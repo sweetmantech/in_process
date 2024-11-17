@@ -10,7 +10,7 @@ const useCollectionStyling = (chainId: number, address: Address) => {
     async function fetchStyling() {
       try {
         const collectionStyle = await getCollectionStyle(chainId, address);
-        if (!collectionStyle) throw new Error("No styling found");
+        if (!collectionStyle) return;
         setStyling(collectionStyle);
       } catch (error) {
         console.error("Error fetching styling:", error);
