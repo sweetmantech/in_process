@@ -12,7 +12,7 @@ export default function CollectionInput() {
         const parsedAddress = parseZoraUrl(collectionAddress);
         console.log("parsedAddress", parsedAddress);
         window.open(`/collect/${parsedAddress}`, "_blank");
-        setCollectionAddress(""); // Clear input after submission
+        setCollectionAddress("");
       }
     }
   };
