@@ -1,23 +1,9 @@
 import { Input } from "@/components/ui/Input";
+import parseZoraUrl from "@/lib/zora/parseZoraUrl";
 import { useState } from "react";
 
 export default function CollectionInput() {
   const [collectionAddress, setCollectionAddress] = useState("");
-
-  const parseZoraUrl = (url: string) => {
-    try {
-      // Handle both URLs and direct chain:address formats
-      if (url.includes("zora.co/collect/")) {
-        const match = url.match(/collect\/([\w]+):([^/?]+)/);
-        if (match) {
-          return `${match[1]}:${match[2]}`; // Returns "chain:address" format
-        }
-      }
-      return url; // Return as-is if it's already in chain:address format
-    } catch (error) {
-      return url;
-    }
-  };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
