@@ -7,7 +7,7 @@ import useCreateMetadata from "@/hooks/useCreateMetadata";
 
 const useZoraCreateParameters = (
   chainId: number = CHAIN_ID,
-  collection: Address
+  collection?: Address
 ) => {
   const publicClient = usePublicClient();
   const { address } = useAccount();
@@ -33,7 +33,7 @@ const useZoraCreateParameters = (
             createReferral: REFERRAL_RECIPIENT,
             salesConfig,
           },
-          account: address,
+          account: address as Address,
         });
       newParameters = existingParameters;
     } else {
@@ -48,7 +48,7 @@ const useZoraCreateParameters = (
             createReferral: REFERRAL_RECIPIENT,
             salesConfig,
           },
-          account: address,
+          account: address as Address,
         });
       newParameters = {
         ...newContractParameters,

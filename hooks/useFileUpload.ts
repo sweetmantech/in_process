@@ -10,7 +10,7 @@ const useFileUpload = () => {
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
 
-  const fileUpload = async (event) => {
+  const fileUpload = async (event: any) => {
     setError("");
     setLoading(true);
 
@@ -44,7 +44,7 @@ const useFileUpload = () => {
         setAnimationUri(uri);
         setMimeType(mimeType);
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
       setError(err.message ?? "Failed to upload the file. Please try again.");
     }
