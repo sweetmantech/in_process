@@ -4,7 +4,7 @@ export async function GET() {
   try {
     const data = await generatePinataJWT();
     return Response.json(data);
-  } catch (e) {
+  } catch (e: any) {
     console.log(e);
     const message = e?.message ?? "failed to generate JWT";
     return Response.json({ message }, { status: 500 });
