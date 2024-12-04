@@ -1,4 +1,4 @@
-import { Input } from "@/components/ui/Input";
+import { Input } from "@/components/ui/input";
 import parseZoraUrl from "@/lib/zora/parseZoraUrl";
 import { useState } from "react";
 
