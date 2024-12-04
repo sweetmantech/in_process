@@ -1,11 +1,11 @@
 import { getIpfsLink } from "@/lib/utils";
 import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
 import { useRef, useState } from "react";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import { Pause, Play } from "lucide-react";
-import { Slider } from "../ui/slider";
+import { Slider } from "@/components/ui/slider";
 
-const AudioPlayer = ({ onClick }) => {
+const AudioPlayer = ({ onClick }: { onClick: () => void }) => {
   const { imageUri, animationUri } = useZoraCreateProvider();
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
