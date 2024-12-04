@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
 
-const CreateButton = ({ children }: any) => {
+const CreateButton = () => {
   const { create } = useZoraCreateProvider();
 
   return (
@@ -11,7 +11,7 @@ const CreateButton = ({ children }: any) => {
       onClick={() => create()}
       className="bg-white text-black p-3 transform hover:scale-105 transition-transform duration-150 hover:shadow-lg"
     >
-      {children}
+      Create
     </Button>
   );
 };
