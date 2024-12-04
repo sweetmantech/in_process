@@ -33,6 +33,7 @@ export function useMediaUpload(): UseMediaUploadResult {
 
 // Example implementation - replace with your preferred storage solution
 async function uploadToStorage(file: File): Promise<string> {
-  // Implement your storage upload logic here
-  return "https://example.com/media/1234";
+  // For now, just return a mock URL. In production, implement actual file upload.
+  console.log("Uploading file:", file.name);
+  return `https://example.com/media/${file.name}`;
 }

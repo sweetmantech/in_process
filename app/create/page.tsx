@@ -1,11 +1,8 @@
 "use client";
 
 import { CreatePage } from "@/components/create-page";
-import { useRouter } from "next/navigation";
 
 export default function Create() {
-  const router = useRouter();
-
   const handleSuccess = (tokenId: string) => {
     console.log(`Token ${tokenId} created successfully!`);
     // Optionally redirect to the token's page

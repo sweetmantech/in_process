@@ -8,7 +8,6 @@ interface CreatePageProps {
   className?: string;
   onSuccess?: (tokenId: string) => void;
   defaultValues?: CreatePageDefaultValues;
-  theme?: CreatePageTheme;
 }
 
 interface CreatePageDefaultValues {
@@ -18,22 +17,10 @@ interface CreatePageDefaultValues {
   sellerFeeBasisPoints?: number;
 }
 
-interface CreatePageTheme {
-  colors?: {
-    primary?: string;
-    secondary?: string;
-    accent?: string;
-    background?: string;
-  };
-  borderRadius?: string;
-  fontFamily?: string;
-}
-
 export function CreatePage({
   className = "",
   onSuccess,
   defaultValues,
-  theme,
 }: CreatePageProps) {
   const {
     createToken,

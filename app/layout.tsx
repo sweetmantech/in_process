@@ -1,21 +1,18 @@
-import type { Metadata } from "next";
+import { WagmiProvider } from "@/providers/wagmi-provider";
+import { ZoraCreateProvider } from "@/providers/zora-create-provider";
 import "./globals.css";
-import { Providers } from "@/providers/Providers";
-
-export const metadata: Metadata = {
-  title: "In Process",
-  description: "Imagined by LATASHÁ",
-};
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
-      <body className={`font-nounish antialiased`}>
-        <Providers>{children}</Providers>
+      <body>
+        <WagmiProvider>
+          <ZoraCreateProvider>{children}</ZoraCreateProvider>
+        </WagmiProvider>
       </body>
     </html>
   );
