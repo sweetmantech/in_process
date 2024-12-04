@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/Button";
+import { buttonVariants } from "@/components/ui/button";
 import { Announcement } from "@/components/ui/announcement";
 import { FadeIn } from "@/components/ui/fade-in";
 import { Icons } from "@/components/ui/icons";
