@@ -1,4 +1,6 @@
-const UploadIcon = (props) => (
+import { SVGProps } from "react";
+
+const UploadIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg
     {...props}
     xmlns="http://www.w3.org/2000/svg"
