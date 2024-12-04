@@ -1,6 +1,6 @@
 import UploadIcon from "./UploadIcon";
 
-const NoFileSelected = ({ onClick }) => (
+const NoFileSelected = ({ onClick }: { onClick: () => void }) => (
   <div
     className="absolute inset-0 flex flex-col items-center justify-center space-y-2 text-muted-foreground cursor-pointer"
     onClick={onClick}
