@@ -1,24 +1,26 @@
 "use client";
 
-import { createPublicClient, createWalletClient, custom, http } from "viem";
+import { createPublicClient, http } from "viem";
 import { base } from "viem/chains";
 import { createContext, useContext, useState } from "react";
 import {
   zoraCreator1155FactoryImplABI,
-  zoraCreator1155FactoryAddress,
+  zoraCreator1155FactoryImplAddress,
 } from "@zoralabs/protocol-deployments";
 
 interface ZoraCreateContextType {
   createToken: (params: CreateTokenParams) => Promise<string>;
   isLoading: boolean;
   error: Error | null;
+  imageUri?: string;
+  animationUri?: string;
+  mimeType?: string;
 }
 
 interface CreateTokenParams {
   name: string;
   symbol: string;
   description?: string;
-  sellerFeeBasisPoints?: number;
   mediaUrl?: string;
 }
 
@@ -35,6 +37,9 @@ export function ZoraCreateProvider({
 }) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
+  const [imageUri, setImageUri] = useState<string>();
+  const [animationUri, setAnimationUri] = useState<string>();
+  const [mimeType, setMimeType] = useState<string>();
 
   const publicClient = createPublicClient({
     chain: base,
@@ -45,29 +50,18 @@ export function ZoraCreateProvider({
     setIsLoading(true);
     setError(null);
     try {
-      if (!window.ethereum) throw new Error("No ethereum wallet found");
-
-      const walletClient = createWalletClient({
-        chain: base,
-        transport: custom(window.ethereum),
-      });
-
-      const [address] = await walletClient.requestAddresses();
-
-      const hash = await walletClient.writeContract({
-        address: zoraCreator1155FactoryAddress,
+      const { hash } = await publicClient.writeContract({
+        address: zoraCreator1155FactoryImplAddress,
         abi: zoraCreator1155FactoryImplABI,
-        functionName: "createToken",
+        functionName: "createContract",
         args: [
           params.name,
           params.symbol,
           params.description || "",
-          params.sellerFeeBasisPoints || 0,
+          0,
           params.mediaUrl || "",
         ],
-        account: address,
       });
-
       const receipt = await publicClient.waitForTransactionReceipt({ hash });
       return receipt.transactionHash;
     } catch (err) {
@@ -79,7 +73,16 @@ export function ZoraCreateProvider({
   };
 
   return (
-    <ZoraCreateContext.Provider value={{ createToken, isLoading, error }}>
+    <ZoraCreateContext.Provider
+      value={{
+        createToken,
+        isLoading,
+        error,
+        imageUri,
+        animationUri,
+        mimeType,
+      }}
+    >
       {children}
     </ZoraCreateContext.Provider>
   );
