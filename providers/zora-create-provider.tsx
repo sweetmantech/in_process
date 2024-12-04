@@ -4,9 +4,9 @@ import { createPublicClient, createWalletClient, custom, http } from "viem";
 import { base } from "viem/chains";
 import { createContext, useContext, useState } from "react";
 import {
-  ZORA_CREATOR_721_FACTORY_ABI,
-  ZORA_CREATOR_721_FACTORY_ADDRESS,
-} from "@zoralabs/zora-721-contracts";
+  zoraCreator1155FactoryImplABI,
+  zoraCreator1155FactoryAddress,
+} from "@zoralabs/protocol-deployments";
 
 interface ZoraCreateContextType {
   createToken: (params: CreateTokenParams) => Promise<string>;
@@ -55,8 +55,8 @@ export function ZoraCreateProvider({
       const [address] = await walletClient.requestAddresses();
 
       const hash = await walletClient.writeContract({
-        address: ZORA_CREATOR_721_FACTORY_ADDRESS,
-        abi: ZORA_CREATOR_721_FACTORY_ABI,
+        address: zoraCreator1155FactoryAddress,
+        abi: zoraCreator1155FactoryImplABI,
         functionName: "createToken",
         args: [
           params.name,
