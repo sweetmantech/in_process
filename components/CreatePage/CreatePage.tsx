@@ -4,7 +4,7 @@ import { useAccount } from "wagmi";
 import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
 import Spinner from "@/components/ui/spinner";
 import MediaUpload from "@/components/MediaUpload/MediaUpload";
-import LoginButton from "./LoginButton";
+import LoginButton from "@/components/LoginButton";
 import Title from "./Title";
 import CreateButton from "./CreateButton";
 
@@ -23,6 +23,7 @@ export default function CreatePage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <LoginButton />
       <div className="mt-8 md:flex md:space-x-8">
         <div className="md:w-1/2 flex flex-col items-center gap-5">
           <MediaUpload />
