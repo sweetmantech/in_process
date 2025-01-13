@@ -1,6 +1,6 @@
 import { COLLECTION_ADDRESS, MINT_FEE_RECIPIENT } from "@/lib/consts";
 import { useTokenProvider } from "@/providers/TokenProvider";
-import { CrossmintPaymentElement } from "@crossmint/client-sdk-react-ui";
+import { CrossmintPaymentElement_DEPRECATED as CrossmintPaymentElement } from "@crossmint/client-sdk-react-ui";
 
 interface CrossmintModalProps {
   onClose: () => void;
