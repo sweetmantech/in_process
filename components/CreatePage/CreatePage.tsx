@@ -25,7 +25,7 @@ export default function CreatePage() {
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <LoginButton />
       <div className="mt-8 md:flex md:space-x-8">
-        <div className="md:w-1/2 flex flex-col items-center gap-5">
+        <div className="md:w-1/4 flex flex-col items-center gap-5">
           <MediaUpload />
         </div>
         {name && (
@@ -33,9 +33,9 @@ export default function CreatePage() {
             <div className="w-full flex flex-col items-start gap-4">
               <Title />
             </div>
-            {address ? <CreateButton /> : <LoginButton />}
           </div>
         )}
+        {address ? <CreateButton /> : <LoginButton />}
       </div>
     </div>
   );
