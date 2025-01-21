@@ -35,9 +35,9 @@ importers:
       '@zoralabs/protocol-deployments':
         specifier: ^0.3.8
         version: 0.3.11
-      '@zoralabs/protocol-sdk':
-        specifier: ^0.11.8
-        version: 0.11.12(abitype@1.0.7(typescript@5.7.3)(zod@3.22.4))(viem@2.22.8(bufferutil@4.0.9)(typescript@5.7.3)(utf-8-validate@5.0.10)(zod@3.22.4))
+      abitype:
+        specifier: ^1.0.8
+        version: 1.0.8(typescript@5.7.3)(zod@3.22.4)
       class-variance-authority:
         specifier: ^0.7.0
         version: 0.7.1
@@ -50,6 +50,9 @@ importers:
       lucide-react:
         specifier: ^0.460.0
         version: 0.460.0(react@19.0.0-rc-66855b96-20241106)
+      multiformats:
+        specifier: ^13.3.1
+        version: 13.3.1
       next:
         specifier: 15.0.3
         version: 15.0.3(react-dom@19.0.0-rc-66855b96-20241106(react@19.0.0-rc-66855b96-20241106))(react@19.0.0-rc-66855b96-20241106)
@@ -62,6 +65,9 @@ importers:
       react-wrap-balancer:
         specifier: ^1.1.1
         version: 1.1.1(react@19.0.0-rc-66855b96-20241106)
+      semver:
+        specifier: ^7.6.3
+        version: 7.6.3
       tailwind-merge:
         specifier: ^2.5.4
         version: 2.6.0
@@ -84,6 +90,9 @@ importers:
       '@types/react-dom':
         specifier: ^18
         version: 18.3.5(@types/react@18.3.18)
+      '@types/semver':
+        specifier: ^7.5.8
+        version: 7.5.8
       eslint:
         specifier: ^8
         version: 8.57.1
@@ -1602,6 +1611,9 @@ packages:
   '@types/react@18.3.18':
     resolution: {integrity: sha512-t4yC+vtgnkYjNSKlFx1jkAhH8LgTo2N/7Qvi83kdEaUtMDiwpbLAktKDaAMlRcJ5eSxZkH74eEGt1ky31d7kfQ==}
 
+  '@types/semver@7.5.8':
+    resolution: {integrity: sha512-I8EUhyrgfLrcTkzV3TSsGyl1tSuPrEDzr0yd5m90UgNxQkyDXULk3b6MlQqTCpZpNtWe1K0hzclnZkTcLBe2UQ==}
+
   '@types/stylis@4.2.5':
     resolution: {integrity: sha512-1Xve+NMN7FWjY14vLoY5tL3BVEQ/n42YLwaqJIPYhotZ9uBHt87VceMwWQpzmdEt2TNXIorIFG+YeCUUW7RInw==}
 
@@ -1886,15 +1898,6 @@ packages:
   '@zoralabs/protocol-deployments@0.3.11':
     resolution: {integrity: sha512-VWobz6g7n2pgIyC23lQoKNATyLq/s2wFqZX/U9so3vqvSdGU28tIuaQiV4lMuTJTS58w3eGhd6MDTQBMMBcYnw==}
 
-  '@zoralabs/protocol-deployments@0.4.0':
-    resolution: {integrity: sha512-Nz2HHCTJgY54e5nZGLXAAelcWNSzpyfHQ6l3i0cCWDTvchfOhkQWy5ZNmJ+Glvl7QzPcntg2m6qXKnwcJJRSWg==}
-
-  '@zoralabs/protocol-sdk@0.11.12':
-    resolution: {integrity: sha512-WPFrmHvLeD3v72RQppSDz0F2dV4JJUQB4xUF+M3ZkvDZiMtUra20Blfka8S0QyytvoAQxpoDhZpJja45ylQI0w==}
-    peerDependencies:
-      abitype: ^1.0.2
-      viem: ^2.21.21
-
   JSONStream@1.3.5:
     resolution: {integrity: sha512-E+iruNOY8VV9s4JEbe1aNEm6MiszPRr/UfcHMz0TQh1BXSxHK+ASV1R6W4HpjBhSeS+54PIsAMCBmwD06LLsqQ==}
     hasBin: true
@@ -1912,6 +1915,17 @@ packages:
 
   abitype@1.0.7:
     resolution: {integrity: sha512-ZfYYSktDQUwc2eduYu8C4wOs+RDPmnRYMh7zNfzeMtGGgb0U+6tLGjixUic6mXf5xKKCcgT5Qp6cv39tOARVFw==}
+    peerDependencies:
+      typescript: '>=5.0.4'
+      zod: ^3 >=3.22.0
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+      zod:
+        optional: true
+
+  abitype@1.0.8:
+    resolution: {integrity: sha512-ZeiI6h3GnW06uYDLx0etQtX/p8E24UaHHBj57RSjK7YBFe7iuVn07EDpOeP451D06sF27VOz9JJPlIKJmXgkEg==}
     peerDependencies:
       typescript: '>=5.0.4'
       zod: ^3 >=3.22.0
@@ -3393,6 +3407,9 @@ packages:
 
   ms@2.1.3:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
+
+  multiformats@13.3.1:
+    resolution: {integrity: sha512-QxowxTNwJ3r5RMctoGA5p13w5RbRT2QDkoM+yFlqfLiioBp78nhDjnRLvmSBI9+KAqN4VdgOVWM9c0CHd86m3g==}
 
   multiformats@9.9.0:
     resolution: {integrity: sha512-HoMUjhH9T8DDBNT+6xzkrd9ga/XiBI4xLr58LJACwK6G3HTOPeMz4nB4KJs33L2BelrIJa7P0VuNaVF3hMYfjg==}
@@ -6968,6 +6985,8 @@ snapshots:
       '@types/prop-types': 15.7.14
       csstype: 3.1.3
 
+  '@types/semver@7.5.8': {}
+
   '@types/stylis@4.2.5': {}
 
   '@types/trusted-types@2.0.7': {}
@@ -7993,14 +8012,6 @@ snapshots:
 
   '@zoralabs/protocol-deployments@0.3.11': {}
 
-  '@zoralabs/protocol-deployments@0.4.0': {}
-
-  '@zoralabs/protocol-sdk@0.11.12(abitype@1.0.7(typescript@5.7.3)(zod@3.22.4))(viem@2.22.8(bufferutil@4.0.9)(typescript@5.7.3)(utf-8-validate@5.0.10)(zod@3.22.4))':
-    dependencies:
-      '@zoralabs/protocol-deployments': 0.4.0
-      abitype: 1.0.7(typescript@5.7.3)(zod@3.22.4)
-      viem: 2.22.8(bufferutil@4.0.9)(typescript@5.7.3)(utf-8-validate@5.0.10)(zod@3.22.4)
-
   JSONStream@1.3.5:
     dependencies:
       jsonparse: 1.3.1
@@ -8012,6 +8023,11 @@ snapshots:
       zod: 3.22.4
 
   abitype@1.0.7(typescript@5.7.3)(zod@3.22.4):
+    optionalDependencies:
+      typescript: 5.7.3
+      zod: 3.22.4
+
+  abitype@1.0.8(typescript@5.7.3)(zod@3.22.4):
     optionalDependencies:
       typescript: 5.7.3
       zod: 3.22.4
@@ -8717,7 +8733,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-module-utils@2.12.0(@typescript-eslint/parser@8.19.1(eslint@8.57.1)(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.7.0(eslint-plugin-import@2.31.0)(eslint@8.57.1))(eslint@8.57.1):
+  eslint-module-utils@2.12.0(@typescript-eslint/parser@8.19.1(eslint@8.57.1)(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.7.0)(eslint@8.57.1):
     dependencies:
       debug: 3.2.7
     optionalDependencies:
@@ -8739,7 +8755,7 @@ snapshots:
       doctrine: 2.1.0
       eslint: 8.57.1
       eslint-import-resolver-node: 0.3.9
-      eslint-module-utils: 2.12.0(@typescript-eslint/parser@8.19.1(eslint@8.57.1)(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.7.0(eslint-plugin-import@2.31.0)(eslint@8.57.1))(eslint@8.57.1)
+      eslint-module-utils: 2.12.0(@typescript-eslint/parser@8.19.1(eslint@8.57.1)(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.7.0)(eslint@8.57.1)
       hasown: 2.0.2
       is-core-module: 2.16.1
       is-glob: 4.0.3
@@ -9774,6 +9790,8 @@ snapshots:
 
   ms@2.1.3: {}
 
+  multiformats@13.3.1: {}
+
   multiformats@9.9.0: {}
 
   mz@2.7.0:
@@ -9929,7 +9947,7 @@ snapshots:
       '@noble/hashes': 1.6.1
       '@scure/bip32': 1.6.0
       '@scure/bip39': 1.5.0
-      abitype: 1.0.7(typescript@5.7.3)(zod@3.22.4)
+      abitype: 1.0.8(typescript@5.7.3)(zod@3.22.4)
       eventemitter3: 5.0.1
     optionalDependencies:
       typescript: 5.7.3
