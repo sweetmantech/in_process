@@ -30,7 +30,7 @@ async function toSalesStrategyFromSubgraph({
       saleStart: salesConfig.saleStart.toString(),
       // the following are not needed for now but we wanna satisfy concrete
       erc20Z: zeroAddress,
-      mintFee: 0n,
+      mintFee: BigInt(0),
       pool: zeroAddress,
       secondaryActivated: false,
     };
@@ -39,7 +39,7 @@ async function toSalesStrategyFromSubgraph({
     return {
       saleType: "erc20",
       address: minter,
-      mintFeePerQuantity: 0n,
+      mintFeePerQuantity: BigInt(0),
       saleStart: salesConfig.saleStart.toString(),
       saleEnd: salesConfig.saleEnd.toString(),
       currency: salesConfig.currency,
