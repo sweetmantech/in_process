@@ -81,7 +81,7 @@ export async function getUniswapQuote(
   const { fee, wethBalance, erc20zBalance } = pool;
 
   // 1 unit always comes to 1e18 erc20 equivalent
-  const amountWithDecimals = input.quantity * 10n ** 18n;
+  const amountWithDecimals = input.quantity * BigInt(10) ** BigInt(18);
 
   const amount =
     type === "buy"

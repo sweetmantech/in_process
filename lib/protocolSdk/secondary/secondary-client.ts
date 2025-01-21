@@ -185,7 +185,7 @@ function handleBuyWithComment({
         tokenId,
         accountAddress,
         costWithSlippage,
-        0n,
+        BigInt(0),
         comment,
       ],
       account,
@@ -223,7 +223,7 @@ function handleBuyWithoutComment({
         recipient || accountAddress,
         accountAddress,
         costWithSlippage,
-        0n,
+        BigInt(0),
       ],
       account,
       value: costWithSlippage,
@@ -337,7 +337,7 @@ async function makeSell({
     args: [accountAddress, tokenId],
   });
 
-  const availableToSell = tokenCount ?? 0n;
+  const availableToSell = tokenCount ?? BigInt(0);
   const availableToReceive = poolBalance.weth;
 
   if (quantity > availableToSell) {
@@ -353,7 +353,7 @@ async function makeSell({
   const data = encodeAbiParameters(safeTransferSwapAbiParameters, [
     recipient || accountAddress,
     receivedWithSlippage,
-    0n,
+    BigInt(0),
   ]);
 
   return {

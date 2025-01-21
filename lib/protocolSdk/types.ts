@@ -1,5 +1,5 @@
 import { Account, Address, SimulateContractParameters } from "viem";
-import { PublicClient } from "src/utils";
+import { PublicClient } from "./utils";
 
 export type GenericTokenIdTypes = number | bigint | string;
 

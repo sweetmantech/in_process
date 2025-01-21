@@ -55,4 +55,4 @@ export function randomNewContract(): NewContractParams {
 export const randomNonce = () =>
   keccak256(toBytes(Math.round(Math.random() * 1000)));
 export const thirtySecondsFromNow = () =>
-  BigInt(Math.round(new Date().getTime() / 1000)) + 30n;
+  BigInt(Math.round(new Date().getTime() / 1000)) + BigInt(30);

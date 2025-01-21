@@ -1,5 +1,5 @@
 import { Address, parseEther } from "viem";
-import { PublicClient } from "src/utils";
+import { PublicClient } from "../utils";
 import {
   zoraTimedSaleStrategyABI,
   zoraTimedSaleStrategyAddress,
@@ -42,14 +42,14 @@ export async function getSecondaryInfo({
     erc20z: result.erc20zAddress,
     pool: result.poolAddress,
     secondaryActivated: result.secondaryActivated,
-    saleEnd: result.saleEnd === 0n ? undefined : result.saleEnd,
+    saleEnd: result.saleEnd === BigInt(0) ? undefined : result.saleEnd,
     saleStart: result.saleStart,
     name: result.name,
     symbol: result.symbol,
     marketCountdown:
-      result.marketCountdown === 0n ? undefined : result.marketCountdown,
+      result.marketCountdown === BigInt(0) ? undefined : result.marketCountdown,
     minimumMintsForCountdown:
-      result.minimumMarketEth === 0n
+      result.minimumMarketEth === BigInt(0)
         ? undefined
         : result.minimumMarketEth / parseEther("0.0000111"),
     mintCount:

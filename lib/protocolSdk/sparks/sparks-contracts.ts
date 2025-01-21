@@ -65,9 +65,9 @@ export const mintWithEthParams = ({
   });
 
 const getPaidMintValue = (quantities: bigint[], pricePerMint?: bigint) => {
-  if (!pricePerMint || pricePerMint === 0n) return;
+  if (!pricePerMint || pricePerMint === BigInt(0)) return;
 
-  return quantities.reduce((a, b) => a + b, 0n) * pricePerMint;
+  return quantities.reduce((a, b) => a + b, BigInt(0)) * pricePerMint;
 };
 
 /**

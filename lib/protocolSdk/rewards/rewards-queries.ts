@@ -25,7 +25,7 @@ function aggregateUnclaimedFees(
   }[],
   wethAddress: Address
 ) {
-  let ethBalance = 0n;
+  let ethBalance = BigInt(0);
   // Aggregate unclaimed fees by token address
   const unclaimedFeesAggregate = unclaimedFees.reduce((acc, fee) => {
     const addFee = (token: `0x${string}`, amount: bigint) => {
@@ -38,13 +38,13 @@ function aggregateUnclaimedFees(
       }
     };
     // Apply 75% fee to each token amount
-    addFee(fee.token0, (fee.token0Amount * 75n) / 100n);
-    addFee(fee.token1, (fee.token1Amount * 75n) / 100n);
+    addFee(fee.token0, (fee.token0Amount * BigInt(75)) / BigInt(100));
+    addFee(fee.token1, (fee.token1Amount * BigInt(75)) / BigInt(100));
     return acc;
   }, {} as Record<string, bigint>);
 
   return {
-    eth: (ethBalance * 75n) / 100n, // Apply 75% fee to ETH balance
+    eth: (ethBalance * BigInt(75)) / BigInt(100), // Apply 75% fee to ETH balance
     erc20: unclaimedFeesAggregate,
   };
 }
@@ -137,7 +137,7 @@ export const withdrawProtocolRewards = ({
     functionName: "withdrawFor",
     address:
       protocolRewardsAddress[chainId as keyof typeof protocolRewardsAddress],
-    args: [withdrawFor, 0n],
+    args: [withdrawFor, BigInt(0)],
   });
 };
 
@@ -209,7 +209,7 @@ const createProtocolRewardsCall = (
   callData: encodeFunctionData({
     abi: protocolRewardsABI,
     functionName: "withdrawFor",
-    args: [withdrawFor, 0n],
+    args: [withdrawFor, BigInt(0)],
   }),
   allowFailure: false,
 });
