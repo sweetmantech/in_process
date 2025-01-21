@@ -129,7 +129,7 @@ async function validateBuyConditions({
   accountAddress: Address;
   publicClient: PublicClient;
 }): Promise<{ error?: string }> {
-  const availableToBuy = poolBalance.erc20z / BigInt(1e18) - 1n;
+  const availableToBuy = poolBalance.erc20z / BigInt(1e18) - BigInt(1);
   const availableToSpend = await publicClient.getBalance({
     address: accountAddress,
   });
