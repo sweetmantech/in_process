@@ -47,16 +47,16 @@ export class SubgraphContractGetter
       return responseData;
     };
 
-    const responseData = await retriesGeneric({
+    const responseData = (await retriesGeneric({
       tryFn,
       maxTries: retries,
       linearBackoffMS: 1000,
-    });
+    })) as any;
 
     const nextTokenId =
       responseData.tokens.length === 0
-        ? 1n
-        : BigInt(responseData.tokens[0]!.tokenId) + 1n;
+        ? BigInt(1)
+        : BigInt(responseData.tokens[0]!.tokenId) + BigInt(1);
 
     return {
       name: responseData.name,
