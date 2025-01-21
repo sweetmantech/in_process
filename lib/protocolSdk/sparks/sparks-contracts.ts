@@ -12,8 +12,8 @@ import { AbiParametersToPrimitiveTypes, ExtractAbiFunction } from "abitype";
 import {
   PremintMintArguments,
   PremintConfigV2,
+  ContractCreationConfig,
 } from "@zoralabs/protocol-deployments";
-import { ContractCreationConfig } from "../premint/preminter";
 import { makeContractParameters } from "../utils";
 import {
   Account,
