@@ -1,4 +1,4 @@
-import { createCreatorClient } from "@zoralabs/protocol-sdk";
+import { createCreatorClient } from "@/lib/protocolSdk";
 import { Address } from "viem";
 import { CHAIN_ID, REFERRAL_RECIPIENT } from "@/lib/consts";
 import { useAccount, usePublicClient } from "wagmi";
