@@ -1,4 +1,4 @@
-import { ISubgraphQuery } from "src/apis/subgraph-querier";
+import { ISubgraphQuery } from "../apis/subgraph-querier";
 import { Address } from "viem";
 
 export type RewardsToken = {
@@ -10,7 +10,7 @@ export type RewardsToken = {
           id: Address;
         };
       };
-    },
+    }
   ];
 };
 

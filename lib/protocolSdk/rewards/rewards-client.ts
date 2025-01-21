@@ -1,4 +1,4 @@
-import { IPublicClient } from "src/types";
+import { IPublicClient } from "../types";
 import { IRewardsGetter } from "./subgraph-rewards-getter";
 import { Account, Address } from "viem";
 import { getRewardsBalance, withdrawRewards } from "./rewards-queries";
