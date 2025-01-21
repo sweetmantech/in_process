@@ -61,7 +61,7 @@ export async function quoteExactOutputSingle({
         tokenOut,
         amount: amountOut,
         fee,
-        sqrtPriceLimitX96: 0n,
+        sqrtPriceLimitX96: BigInt(0),
       },
     ],
   });
@@ -105,7 +105,7 @@ export async function quoteExactInputSingle({
         tokenOut,
         amountIn,
         fee,
-        sqrtPriceLimitX96: 0n,
+        sqrtPriceLimitX96: BigInt(0),
       },
     ],
   });

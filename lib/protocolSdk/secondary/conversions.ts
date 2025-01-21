@@ -1,6 +1,6 @@
 import { formatEther } from "viem";
 
-export const WEI_PER_SPARK = 1_000_000_000_000n;
+export const WEI_PER_SPARK = BigInt(1_000_000_000_000);
 
 export function convertWeiToSparks(wei: string | number | bigint) {
   return BigInt(wei) / WEI_PER_SPARK;

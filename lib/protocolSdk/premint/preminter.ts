@@ -29,7 +29,7 @@ import {
   PremintConfigWithVersion,
   TokenCreationConfig,
 } from "@zoralabs/protocol-deployments";
-import { PublicClient } from "src/utils";
+import { PublicClient } from "../utils";
 import {
   ContractCreationConfigAndAddress,
   ContractCreationConfigOrAddress,
@@ -37,7 +37,7 @@ import {
 } from "./contract-types";
 import { IPremintGetter } from "./premint-api-client";
 import { isPremintConfigV1, isPremintConfigV2 } from "./conversions";
-import { MintCosts } from "src/mint/types";
+import { MintCosts } from "../mint/types";
 
 export const getPremintExecutorAddress = () =>
   zoraCreator1155PremintExecutorImplAddress[999] as Address;
@@ -89,7 +89,7 @@ export async function recoverPremintSigner<T extends PremintConfigVersion>({
 }
 
 export async function tryRecoverPremintSigner(
-  params: Parameters<typeof recoverPremintSigner>[0],
+  params: Parameters<typeof recoverPremintSigner>[0]
 ) {
   try {
     return await recoverPremintSigner(params);
@@ -448,7 +448,7 @@ export const emptyContractCreationConfig = (): ContractCreationConfig => ({
 });
 
 export function defaultAdditionalAdmins(
-  collection: ContractCreationConfigWithOptionalAdditionalAdmins,
+  collection: ContractCreationConfigWithOptionalAdditionalAdmins
 ): ContractCreationConfig {
   return {
     ...collection,
