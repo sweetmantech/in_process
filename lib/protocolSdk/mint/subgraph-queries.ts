@@ -1,5 +1,5 @@
-import { ISubgraphQuery } from "src/apis/subgraph-querier";
-import { GenericTokenIdTypes } from "src/types";
+import { ISubgraphQuery } from "../apis/subgraph-querier";
+import { GenericTokenIdTypes } from "../types";
 import { Address } from "viem";
 
 export type FixedPriceSaleStrategyResult = {

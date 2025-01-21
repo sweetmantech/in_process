@@ -18,10 +18,10 @@ import {
   FixedPriceParamsType,
   TimedSaleParamsType,
 } from "./types";
-import { Concrete } from "src/utils";
+import { Concrete } from "../utils";
 
 const PERMISSION_BITS = {
-  MINTER: 2n ** 2n,
+  MINTER: BigInt(2) ** BigInt(2),
 };
 
 type SetupErc20MinterProps = {
@@ -252,14 +252,14 @@ function setupAllowListMinter({
 }
 
 const isAllowList = (
-  salesConfig: ConcreteSalesConfig,
+  salesConfig: ConcreteSalesConfig
 ): salesConfig is Concrete<AllowListParamType> =>
   salesConfig.type === "allowlistMint";
 const isErc20 = (
-  salesConfig: ConcreteSalesConfig,
+  salesConfig: ConcreteSalesConfig
 ): salesConfig is Concrete<Erc20ParamsType> => salesConfig.type === "erc20Mint";
 const isFixedPrice = (
-  salesConfig: ConcreteSalesConfig,
+  salesConfig: ConcreteSalesConfig
 ): salesConfig is Concrete<FixedPriceParamsType> =>
   salesConfig.type === "fixedPrice" ||
   (salesConfig as unknown as Concrete<FixedPriceParamsType>).pricePerToken >
