@@ -4,7 +4,7 @@ import LoginButton from "@/components/LoginButton";
 import Token from "@/components/Token";
 import { COLLECTION_ADDRESS } from "@/lib/consts";
 import { usePrivy } from "@privy-io/react-auth";
-import { createCollectorClient, MintableReturn } from "@zoralabs/protocol-sdk";
+import { createCollectorClient, MintableReturn } from "@/lib/protocolSdk";
 import { useEffect, useState } from "react";
 import { baseSepolia } from "viem/chains";
 import { Address } from "viem";

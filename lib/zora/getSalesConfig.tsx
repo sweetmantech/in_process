@@ -1,7 +1,4 @@
-import {
-  FixedPriceParamsType,
-  TimedSaleParamsType,
-} from "@zoralabs/protocol-sdk";
+import { FixedPriceParamsType, TimedSaleParamsType } from "@/lib/protocolSdk";
 
 const getSalesConfig = (saleStrategy: string) => {
   const timedSaleConfig = {
