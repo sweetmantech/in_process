@@ -76,10 +76,10 @@ export const defaultTokenConfigV1MintArguments = (): Omit<
   "fixedPriceMinter" | "tokenURI" | "royaltyRecipient"
 > => ({
   maxSupply: OPEN_EDITION_MINT_SIZE,
-  maxTokensPerAddress: 0n,
-  pricePerToken: 0n,
-  mintDuration: 0n,
-  mintStart: 0n,
+  maxTokensPerAddress: BigInt(0),
+  pricePerToken: BigInt(0),
+  mintDuration: BigInt(0),
+  mintStart: BigInt(0),
   royaltyMintSchedule: 0,
   royaltyBPS: 1000, // 10%,
 });
@@ -130,10 +130,10 @@ export const defaultTokenConfigV2MintArguments = (): Omit<
   "fixedPriceMinter" | "tokenURI" | "payoutRecipient" | "createReferral"
 > => ({
   maxSupply: OPEN_EDITION_MINT_SIZE,
-  maxTokensPerAddress: 0n,
-  pricePerToken: 0n,
-  mintDuration: 0n,
-  mintStart: 0n,
+  maxTokensPerAddress: BigInt(0),
+  pricePerToken: BigInt(0),
+  mintDuration: BigInt(0),
+  mintStart: BigInt(0),
   royaltyBPS: 1000, // 10%,
 });
 
@@ -214,6 +214,7 @@ export function getPremintedLogFromReceipt(
       if (decodedLog.eventName === "PremintedV2") {
         return decodedLog.args;
       }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err: any) {}
   }
 }
@@ -356,7 +357,7 @@ export class PremintClient {
       uid,
       tokenContract,
       minterAccount,
-      quantityToMint: mintArguments?.quantityToMint || 1n,
+      quantityToMint: mintArguments?.quantityToMint || BigInt(1),
       mintComment: mintArguments?.mintComment,
       mintReferral: mintArguments?.mintReferral,
       mintRecipient: mintArguments?.mintRecipient,

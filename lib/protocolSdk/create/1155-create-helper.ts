@@ -45,6 +45,7 @@ export const getTokenIdFromCreateReceipt = (
       if (decodedLog && decodedLog.eventName === "SetupNewToken") {
         return decodedLog.args.tokenId;
       }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err: any) {}
   }
 
@@ -66,6 +67,7 @@ export const getContractAddressFromReceipt = (
       if (decodedLog && decodedLog.eventName === "SetupNewContract") {
         return decodedLog.args.newContract;
       }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err: any) {}
   }
 
@@ -192,7 +194,7 @@ async function createNew1155ContractAndToken({
   publicClient: Pick<PublicClient, "readContract">;
   chainId: number;
 }): Promise<CreateNew1155ContractAndTokenReturn> {
-  const nextTokenId = 1n;
+  const nextTokenId = BigInt(1);
   const contractVersion = new1155ContractVersion(chainId);
 
   const {

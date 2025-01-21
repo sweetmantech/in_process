@@ -25,6 +25,7 @@ export const get = async <T>(url: string) => {
     let json;
     try {
       json = await response.json();
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (e: any) {}
     throw new BadResponseError(
       `Invalid response, status ${response.status}`,
@@ -69,6 +70,7 @@ export const post = async <T>(url: string, data: any) => {
     let json;
     try {
       json = await response.json();
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (e: any) {}
     throw new BadResponseError(
       `Bad response: ${response.status}`,

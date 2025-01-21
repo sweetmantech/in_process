@@ -2,8 +2,8 @@ import { Account, Address } from "viem";
 import {
   GenericTokenIdTypes,
   SimulateContractParametersWithAccount,
-} from "src/types";
-import { AllowListEntry } from "src/allow-list/types";
+} from "../types";
+import { AllowListEntry } from "../allow-list/types";
 
 export type MintParameters<MintType> = {
   /** Type of the collection to be minted. */
@@ -170,13 +170,13 @@ export type OnchainSalesStrategies =
 export type SaleStrategies = OnchainSalesStrategies | PremintSaleStrategy;
 
 export function isErc20SaleStrategy(
-  salesConfig: SaleStrategies,
+  salesConfig: SaleStrategies
 ): salesConfig is ERC20SaleStrategy {
   return salesConfig.saleType === "erc20";
 }
 
 export function isTimedSaleStrategy(
-  salesConfig: SaleStrategies,
+  salesConfig: SaleStrategies
 ): salesConfig is ZoraTimedSaleStrategy {
   return salesConfig.saleType === "timed";
 }
@@ -247,6 +247,7 @@ export interface IOnchainMintGetter {
 
   getContractPremintTokenIds(params: {
     tokenAddress: Address;
+    // eslint-disable-next-line @typescript-eslint/no-wrapper-object-types
   }): Promise<{ tokenId: BigInt; uid: number }[]>;
 }
 
@@ -281,7 +282,7 @@ export type PrepareMintReturn = {
 
 export type PrepareMint = (params: MintParametersBase) => PrepareMintReturn;
 export type AsyncPrepareMint = (
-  params: MintParametersBase,
+  params: MintParametersBase
 ) => Promise<PrepareMintReturn>;
 
 export type MintableReturn = {

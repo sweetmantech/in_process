@@ -18,15 +18,20 @@ const wrapText = ({
   lineHeight: number;
 }) => {
   // Split text into words
+  // eslint-disable-next-line prefer-const
   let words = text.replaceAll("\n", " \n ").split(/ +/);
   let line = ""; // This will store the text of the current line
   let testLine = ""; // This will store the text when we add a word, to test if it's too long
+  // eslint-disable-next-line prefer-const
   let lineArray = []; // This is an array of lines, which the function will return
 
+  // eslint-disable-next-line no-var
   for (var n = 0; n < words.length; n++) {
     // Measure text sizing
     testLine += `${words[n]} `;
+    // eslint-disable-next-line prefer-const
     let metrics = ctx.measureText(testLine);
+    // eslint-disable-next-line prefer-const
     let testWidth = metrics.width;
     // If the width of this test line is more than the max width
     if (words[n]?.includes("\n") || (testWidth > maxWidth && n > 0)) {
@@ -98,7 +103,9 @@ async function generateTextPreview(text: string): Promise<File> {
 }
 
 function generateTextTitle(text: string) {
+  // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
   const firstLine = text.split("\n")[0]!;
+  // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
   const firstSentence = firstLine?.split(". ")[0]!;
 
   if (firstSentence.length > 50) {
@@ -114,7 +121,7 @@ const toTextFile = (text: string) =>
 /** For text nfts, this will generate files that are needed for the metadata json, including the txt.file containing the text, and a thumbnail image containing a preview of the text
  */
 export async function generateTextNftMetadataFiles(
-  text: string,
+  text: string
 ): Promise<TextMetadataFiles> {
   const name = generateTextTitle(text);
   const textFile = toTextFile(text);
