@@ -1,5 +1,5 @@
-import { AsyncPrepareMint } from "src/mint/types";
-import { Concrete } from "src/utils";
+import { AsyncPrepareMint } from "../mint/types";
+import { Concrete } from "../utils";
 import { Account, Address, Hex, SimulateContractParameters } from "viem";
 
 export type NewContractParams = {

@@ -1,4 +1,4 @@
-import { ISubgraphQuery } from "src/apis/subgraph-querier";
+import { ISubgraphQuery } from "../apis/subgraph-querier";
 import { Address } from "viem";
 
 export function buildContractInfoQuery({

@@ -1,4 +1,4 @@
-import { IPremintGetter } from "src/premint/premint-api-client";
+import { IPremintGetter } from "../premint/premint-api-client";
 import {
   ContractInfo,
   Erc20Approval,
@@ -258,7 +258,7 @@ function parsePremint({
         URI: premint.collection!.contractURI,
       },
       tokenURI: premint.premint.premintConfig.tokenConfig.tokenURI,
-      totalMinted: 0n,
+      totalMinted: BigInt(0),
       salesConfig: {
         duration: premint.premint.premintConfig.tokenConfig.mintDuration,
         maxTokensPerAddress:

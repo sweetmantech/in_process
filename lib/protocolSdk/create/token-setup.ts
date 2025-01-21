@@ -140,7 +140,7 @@ export function constructCreate1155TokenCalls(
   const verifyTokenIdExpected = encodeFunctionData({
     abi: zoraCreator1155ImplABI,
     functionName: "assumeLastTokenIdMatches",
-    args: [nextTokenId - 1n],
+    args: [nextTokenId - BigInt(1)],
   });
 
   const setupNewToken = buildSetupNewToken({

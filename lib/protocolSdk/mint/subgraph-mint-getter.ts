@@ -66,7 +66,7 @@ function parseERC20SalesConfig(
       ...erc20Minter,
       maxTokensPerAddress: BigInt(erc20Minter.maxTokensPerAddress),
       pricePerToken: BigInt(erc20Minter.pricePerToken),
-      mintFeePerQuantity: 0n,
+      mintFeePerQuantity: BigInt(0),
     },
     saleEnd,
     saleActive:
@@ -100,7 +100,7 @@ function parseZoraTimedSalesConfig(
   blockTime: bigint
 ): ParsedSalesConfig {
   const saleEnd = BigInt(zoraTimedMinter.saleEnd);
-  const hasSaleEnd = saleEnd > 0n;
+  const hasSaleEnd = saleEnd > BigInt(0);
   return {
     salesStrategy: {
       saleType: "timed",
@@ -184,7 +184,7 @@ function getTargetStrategy({
   );
 
   const saleStrategies = stillValidSalesStrategies.sort((a, b) =>
-    (a.saleEnd ?? 0n) > (b.saleEnd ?? 0n) ? 1 : -1
+    (a.saleEnd ?? BigInt(0)) > (b.saleEnd ?? BigInt(0)) ? 1 : -1
   );
 
   let targetStrategy: ParsedSalesConfig | undefined;

@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { IPublicClient } from "src/types";
+import { IPublicClient } from "../types";
 import {
   GetMintParameters,
   IOnchainMintGetter,
@@ -8,7 +8,7 @@ import {
   SaleType,
 } from "./types";
 import { MakeMintParametersArguments, GetMintCostsParameters } from "./types";
-import { IPremintGetter } from "src/premint/premint-api-client";
+import { IPremintGetter } from "../premint/premint-api-client";
 
 import { getMint, getMintCosts, getMintsOfContract } from "./mint-queries";
 
@@ -50,7 +50,7 @@ export class MintClient {
    * @returns Parameters for simulating/executing the mint transaction, any necessary erc20 approval, and costs to mint
    */
   async mint(
-    parameters: MakeMintParametersArguments,
+    parameters: MakeMintParametersArguments
   ): Promise<PrepareMintReturn> {
     return mint({
       parameters,

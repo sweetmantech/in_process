@@ -370,7 +370,7 @@ function paidMintCost(
 
   if (allowListEntry) return allowListEntry.price;
 
-  return 0n;
+  return BigInt(0);
 }
 
 export function parseMintCosts({
@@ -392,7 +392,7 @@ export function parseMintCosts({
     : undefined;
 
   const totalPurchaseCostEth = totalPurchaseCostCurrency
-    ? 0n
+    ? BigInt(0)
     : tokenPurchaseCost;
 
   return {
