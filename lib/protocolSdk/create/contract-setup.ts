@@ -2,10 +2,10 @@ import { Address, Hex, PublicClient } from "viem";
 import {
   contracts1155,
   zoraCreator1155FactoryImplABI,
-  zoraCreator1155FactoryImplAddress,
   zoraCreator1155ImplABI,
 } from "@zoralabs/protocol-deployments";
 import { NewContractParams } from "./types";
+import { getFactoryAddress } from "./factory-addresses";
 
 type contracts1155Address = keyof typeof contracts1155.addresses;
 export function new1155ContractVersion(chainId: number): string {
@@ -34,10 +34,7 @@ export async function getDeterministicContractAddress({
 }): Promise<Address> {
   const contractAddress = await publicClient.readContract({
     abi: zoraCreator1155FactoryImplABI,
-    address:
-      zoraCreator1155FactoryImplAddress[
-        chainId as keyof typeof zoraCreator1155FactoryImplAddress
-      ],
+    address: getFactoryAddress(chainId),
     functionName: "deterministicContractAddressWithSetupActions",
     args: [
       account,
