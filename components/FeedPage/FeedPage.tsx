@@ -2,18 +2,17 @@
 
 import LoginButton from "@/components/LoginButton";
 import Token from "@/components/Token";
-import { COLLECTION_ADDRESS } from "@/lib/consts";
+import { CHAIN_ID, COLLECTION_ADDRESS } from "@/lib/consts";
 import { usePrivy } from "@privy-io/react-auth";
 import { createCollectorClient, MintableReturn } from "@/lib/protocolSdk";
 import { useEffect, useState } from "react";
-import { baseSepolia } from "viem/chains";
 import { Address } from "viem";
 import { TokenProvider } from "@/providers/TokenProvider";
 import { getPublicClient } from "@/lib/viem/publicClient";
 import { useCollectionProvider } from "@/providers/CollectionProvider";
 
 export default function FeedPage({
-  chainId = baseSepolia.id,
+  chainId = CHAIN_ID,
   address = COLLECTION_ADDRESS,
 }: {
   chainId?: number;

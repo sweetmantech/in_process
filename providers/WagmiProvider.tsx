@@ -2,7 +2,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactNode } from "react";
 import { coinbaseWallet } from "wagmi/connectors";
 import { createConfig, http, WagmiProvider as WProvider } from "wagmi";
-import { CHAIN, CHAIN_ID } from "@/lib/consts";
+import { CHAIN } from "@/lib/consts";
 
 const queryClient = new QueryClient();
 
@@ -15,7 +15,8 @@ const config = createConfig({
     }),
   ],
   transports: {
-    [CHAIN_ID]: http(),
+    8453: http(),
+    84532: http(),
   },
 });
 
