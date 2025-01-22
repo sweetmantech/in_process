@@ -1,6 +1,5 @@
 import {
   zoraCreator1155FactoryImplABI,
-  zoraCreator1155FactoryImplAddress,
   zoraCreator1155ImplABI,
 } from "@zoralabs/protocol-deployments";
 import type {
@@ -28,6 +27,7 @@ import {
 import { constructCreate1155TokenCalls } from "./token-setup";
 import { makeOnchainPrepareMintFromCreate } from "./mint-from-create";
 import { IContractGetter } from "./contract-getter";
+import { getFactoryAddress } from "./factory-addresses";
 
 // Default royalty bps
 const ROYALTY_BPS_DEFAULT = 1000;
@@ -101,10 +101,7 @@ export function makeCreateContractAndTokenCall({
     abi: zoraCreator1155FactoryImplABI,
     functionName: "createContractDeterministic",
     account,
-    address:
-      zoraCreator1155FactoryImplAddress[
-        chainId as keyof typeof zoraCreator1155FactoryImplAddress
-      ],
+    address: getFactoryAddress(chainId),
     args: [
       contract.uri,
       contract.name,
