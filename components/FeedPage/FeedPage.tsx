@@ -4,12 +4,12 @@ import LoginButton from "@/components/LoginButton";
 import Token from "@/components/Token";
 import { CHAIN_ID, COLLECTION_ADDRESS } from "@/lib/consts";
 import { usePrivy } from "@privy-io/react-auth";
-import { createCollectorClient, MintableReturn } from "@/lib/protocolSdk";
 import { useEffect, useState } from "react";
 import { Address } from "viem";
 import { TokenProvider } from "@/providers/TokenProvider";
 import { getPublicClient } from "@/lib/viem/publicClient";
 import { useCollectionProvider } from "@/providers/CollectionProvider";
+import { zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
 
 export default function FeedPage({
   chainId = CHAIN_ID,
@@ -18,7 +18,7 @@ export default function FeedPage({
   chainId?: number;
   address?: Address;
 }) {
-  const [tokens, setTokens] = useState<MintableReturn[]>([]);
+  const [tokens, setTokens] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const { authenticated } = usePrivy();
   const { styling } = useCollectionProvider();
@@ -27,21 +27,43 @@ export default function FeedPage({
     async function fetchTokens() {
       try {
         const publicClient = getPublicClient(chainId);
-        const collectorClient = createCollectorClient({
-          chainId,
-          publicClient,
-        });
-        const { tokens: tokenData } = await collectorClient.getTokensOfContract(
-          {
-            tokenContract: address,
-          }
-        );
-        const filteredTokens = tokenData.filter(
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          (token: any) => token.token.tokenId !== undefined
-        );
 
-        setTokens([...filteredTokens].reverse());
+        // Get the next token ID to know how many tokens to fetch
+        const nextTokenId = await publicClient.readContract({
+          address,
+          abi: zoraCreator1155ImplABI,
+          functionName: "nextTokenId",
+        });
+
+        console.log("nextTokenId", nextTokenId);
+
+        const tokenPromises = [];
+        // Fetch all tokens from 1 to nextTokenId - 1
+        for (let i = BigInt(1); i < nextTokenId; i++) {
+          const promise = publicClient
+            .readContract({
+              address,
+              abi: zoraCreator1155ImplABI,
+              functionName: "uri",
+              args: [i],
+            })
+            .then(async (uri) => {
+              return {
+                token: {
+                  tokenId: i,
+                  uri,
+                  contract: {
+                    address,
+                  },
+                },
+              };
+            });
+          tokenPromises.push(promise);
+        }
+
+        const tokenResults = await Promise.all(tokenPromises);
+        console.log("tokenResults", tokenResults);
+        setTokens(tokenResults.reverse());
       } catch (error) {
         console.error("Error fetching tokens:", error);
       } finally {
@@ -67,12 +89,11 @@ export default function FeedPage({
         ) : (
           <div className="grid grid-cols-1 gap-6 max-w-2xl w-full">
             {tokens.length > 0 &&
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              tokens.map((token: any) => (
+              tokens.map((token) => (
                 <TokenProvider
-                  key={token?.token?.tokenId || token.token.uid}
+                  key={token?.token?.tokenId}
                   token={token}
-                  tokenId={token?.token?.tokenId || token.token.uid}
+                  tokenId={token?.token?.tokenId}
                 >
                   <Token />
                 </TokenProvider>

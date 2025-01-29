@@ -6,6 +6,7 @@ export const ZORA_TO_VIEM = {
   oeth: "optimism",
   pgn: "pgn",
   zora: "zora",
+  bsep: "baseSepolia",
 } as const;
 
 export type ZoraChains = keyof typeof ZORA_TO_VIEM;

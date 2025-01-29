@@ -6,6 +6,8 @@ import { CHAIN_ID } from "@/lib/consts";
 import { useParams } from "next/navigation";
 import { Address } from "viem";
 import useZoraCreateParameters from "./useZoraCreateParameters";
+import { getContractAddressFromReceipt } from "@/lib/protocolSdk/create/1155-create-helper";
+import { getPublicClient } from "@/lib/viem/publicClient";
 
 export default function useZoraCreate() {
   const { address } = useAccount();
@@ -33,12 +35,18 @@ export default function useZoraCreate() {
         throw new Error("Parameters not ready");
       }
 
-      await writeContractAsync({
+      const hash = await writeContractAsync({
         ...parameters,
       });
+
+      const publicClient = await getPublicClient();
+      const receipt = await publicClient.waitForTransactionReceipt({ hash });
+      const contractAddress = getContractAddressFromReceipt(receipt);
+      return { contractAddress };
     } catch (err) {
       setCreating(false);
       console.error(err);
+      throw err;
     }
   };
 
