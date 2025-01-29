@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
 import { useAccount } from "wagmi";
 import { useRouter } from "next/navigation";
+import { getShortNetworkName } from "@/lib/zora/zoraToViem";
+import { CHAIN } from "@/lib/consts";
 
 const CreateButton = () => {
   const { create, name, imageUri, animationUri } = useZoraCreateProvider();
@@ -15,9 +17,13 @@ const CreateButton = () => {
   const handleCreate = async () => {
     try {
       const result = await create();
-      if (result?.contractAddress) {
-        console.log("result.contractAddress", result.contractAddress);
-        router.push(`/collect/${result.contractAddress}`);
+      if (result?.contractAddress && CHAIN) {
+        const shortNetworkName = getShortNetworkName(CHAIN.name.toLowerCase());
+        if (!shortNetworkName) {
+          console.error("Unknown network:", CHAIN.name);
+          return;
+        }
+        router.push(`/collect/${shortNetworkName}:${result.contractAddress}`);
       }
     } catch (error) {
       console.error("Error creating:", error);
