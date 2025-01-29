@@ -1,4 +1,4 @@
-import { Address } from "viem";
+import { Address, ContractFunctionExecutionError } from "viem";
 import { getPublicClient } from "../viem/publicClient";
 import { JSON_EXTENSION_REGISTRY } from "../consts";
 import { jsonExtensionRegistryABI } from "../abis/jsonExtensionRegistryABI";
@@ -12,12 +12,23 @@ export async function getCollectionStyle(
   try {
     const client = getPublicClient(chainId);
 
-    const jsonExtension = await client.readContract({
-      address: JSON_EXTENSION_REGISTRY,
-      abi: jsonExtensionRegistryABI,
-      functionName: "getJSONExtension",
-      args: [collectionAddress],
-    });
+    const jsonExtension = await client
+      .readContract({
+        address: JSON_EXTENSION_REGISTRY,
+        abi: jsonExtensionRegistryABI,
+        functionName: "getJSONExtension",
+        args: [collectionAddress],
+      })
+      .catch((error) => {
+        if (error instanceof ContractFunctionExecutionError) {
+          console.log(
+            "No JSON extension found for collection:",
+            collectionAddress
+          );
+          return null;
+        }
+        throw error;
+      });
 
     if (!jsonExtension) return null;
     const style = await fetchIpfs(jsonExtension);

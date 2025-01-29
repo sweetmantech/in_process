@@ -4,12 +4,11 @@ import LoginButton from "@/components/LoginButton";
 import Token from "@/components/Token";
 import { CHAIN_ID, COLLECTION_ADDRESS } from "@/lib/consts";
 import { usePrivy } from "@privy-io/react-auth";
-import { createCollectorClient, MintableReturn } from "@/lib/protocolSdk";
-import { useEffect, useState } from "react";
 import { Address } from "viem";
 import { TokenProvider } from "@/providers/TokenProvider";
-import { getPublicClient } from "@/lib/viem/publicClient";
 import { useCollectionProvider } from "@/providers/CollectionProvider";
+import { getTokensOfContract } from "@/lib/viem/getTokensOfContract";
+import { useQuery } from "@tanstack/react-query";
 
 export default function FeedPage({
   chainId = CHAIN_ID,
@@ -18,39 +17,13 @@ export default function FeedPage({
   chainId?: number;
   address?: Address;
 }) {
-  const [tokens, setTokens] = useState<MintableReturn[]>([]);
-  const [loading, setLoading] = useState(true);
   const { authenticated } = usePrivy();
   const { styling } = useCollectionProvider();
 
-  useEffect(() => {
-    async function fetchTokens() {
-      try {
-        const publicClient = getPublicClient(chainId);
-        const collectorClient = createCollectorClient({
-          chainId,
-          publicClient,
-        });
-        const { tokens: tokenData } = await collectorClient.getTokensOfContract(
-          {
-            tokenContract: address,
-          }
-        );
-        const filteredTokens = tokenData.filter(
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          (token: any) => token.token.tokenId !== undefined
-        );
-
-        setTokens([...filteredTokens].reverse());
-      } catch (error) {
-        console.error("Error fetching tokens:", error);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchTokens();
-  }, [address, chainId]);
+  const { data: tokens = [], isLoading } = useQuery({
+    queryKey: ["tokens", chainId, address],
+    queryFn: () => getTokensOfContract(chainId, address),
+  });
 
   return (
     <div
@@ -62,17 +35,16 @@ export default function FeedPage({
     >
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
         <div className="mb-8">{!authenticated && <LoginButton />}</div>
-        {loading ? (
+        {isLoading ? (
           <p>Loading tokens...</p>
         ) : (
           <div className="grid grid-cols-1 gap-6 max-w-2xl w-full">
             {tokens.length > 0 &&
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              tokens.map((token: any) => (
+              tokens.map((token) => (
                 <TokenProvider
-                  key={token?.token?.tokenId || token.token.uid}
+                  key={token?.token?.tokenId}
                   token={token}
-                  tokenId={token?.token?.tokenId || token.token.uid}
+                  tokenId={BigInt(token?.token?.tokenId)}
                 >
                   <Token />
                 </TokenProvider>
