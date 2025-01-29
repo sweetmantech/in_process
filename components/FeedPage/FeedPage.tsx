@@ -7,9 +7,8 @@ import { usePrivy } from "@privy-io/react-auth";
 import { useEffect, useState } from "react";
 import { Address } from "viem";
 import { TokenProvider } from "@/providers/TokenProvider";
-import { getPublicClient } from "@/lib/viem/publicClient";
 import { useCollectionProvider } from "@/providers/CollectionProvider";
-import { zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
+import { getTokensOfContract } from "@/lib/viem/getTokensOfContract";
 
 export default function FeedPage({
   chainId = CHAIN_ID,
@@ -24,46 +23,10 @@ export default function FeedPage({
   const { styling } = useCollectionProvider();
 
   useEffect(() => {
-    async function fetchTokens() {
+    async function fetchData() {
       try {
-        const publicClient = getPublicClient(chainId);
-
-        // Get the next token ID to know how many tokens to fetch
-        const nextTokenId = await publicClient.readContract({
-          address,
-          abi: zoraCreator1155ImplABI,
-          functionName: "nextTokenId",
-        });
-
-        console.log("nextTokenId", nextTokenId);
-
-        const tokenPromises = [];
-        // Fetch all tokens from 1 to nextTokenId - 1
-        for (let i = BigInt(1); i < nextTokenId; i++) {
-          const promise = publicClient
-            .readContract({
-              address,
-              abi: zoraCreator1155ImplABI,
-              functionName: "uri",
-              args: [i],
-            })
-            .then(async (uri) => {
-              return {
-                token: {
-                  tokenId: i,
-                  uri,
-                  contract: {
-                    address,
-                  },
-                },
-              };
-            });
-          tokenPromises.push(promise);
-        }
-
-        const tokenResults = await Promise.all(tokenPromises);
-        console.log("tokenResults", tokenResults);
-        setTokens(tokenResults.reverse());
+        const tokens = await getTokensOfContract(chainId, address);
+        setTokens(tokens);
       } catch (error) {
         console.error("Error fetching tokens:", error);
       } finally {
@@ -71,7 +34,7 @@ export default function FeedPage({
       }
     }
 
-    fetchTokens();
+    fetchData();
   }, [address, chainId]);
 
   return (
