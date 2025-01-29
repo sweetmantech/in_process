@@ -37,7 +37,6 @@ const useZoraCreateParameters = (
         });
       newParameters = existingParameters;
     } else {
-      console.log("creating new 1155 contract params");
       const { parameters: newContractParameters } =
         await creatorClient.create1155({
           contract: {
@@ -51,8 +50,6 @@ const useZoraCreateParameters = (
           },
           account: address as Address,
         });
-      console.log("new contract parameters", newContractParameters);
-
       newParameters = {
         ...newContractParameters,
         functionName: "createContract",
