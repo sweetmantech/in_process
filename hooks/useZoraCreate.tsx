@@ -29,10 +29,8 @@ export default function useZoraCreate() {
         throw new Error("No wallet connected");
       }
       await switchChainAsync({ chainId });
-      console.log("fetching parameters");
-
       const parameters = await fetchParameters();
-      console.log("parameters", parameters);
+
       if (!parameters) {
         throw new Error("Parameters not ready");
       }
