@@ -25,8 +25,8 @@ export async function getTokensOfContract(chainId: number, address: Address) {
         })
         .then(async (uri) => ({
           token: {
-            tokenId: i,
-            uri,
+            tokenId: i.toString(),
+            tokenURI: uri,
             contract: {
               address,
             },
