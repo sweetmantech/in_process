@@ -3,7 +3,7 @@ import { useState } from "react";
 
 const useCreateMetadata = () => {
   const [name, setName] = useState<string>("");
-  const [isTimedSale, setIsTimedSale] = useState<boolean>(true);
+  const [isTimedSale, setIsTimedSale] = useState<boolean>(false);
   const [imageUri, setImageUri] = useState<string>("");
   const [mimeType, setMimeType] = useState<string>("");
   const [animationUri, setAnimationUri] = useState<string>("");

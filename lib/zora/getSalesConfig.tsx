@@ -1,4 +1,5 @@
 import { FixedPriceParamsType, TimedSaleParamsType } from "@/lib/protocolSdk";
+import { maxUint64 } from "viem";
 
 const getSalesConfig = (saleStrategy: string) => {
   const timedSaleConfig = {
@@ -9,6 +10,7 @@ const getSalesConfig = (saleStrategy: string) => {
   const fixedPriceSaleConfig = {
     type: "fixedPrice",
     pricePerToken: BigInt(1),
+    saleEnd: maxUint64,
   } as FixedPriceParamsType;
   return saleStrategy === "ZoraTimedSaleStrategy"
     ? timedSaleConfig
