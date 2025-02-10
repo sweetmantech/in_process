@@ -19,7 +19,7 @@ export class SubgraphRewardsGetter
 
   async getErc20ZzForCreator({ address }: { address: Address }) {
     const queryResults = await this.querySubgraphWithRetries(
-      buildCreatorERC20zs({ address })
+      buildCreatorERC20zs({ address }),
     );
 
     const results = (
@@ -37,9 +37,9 @@ export class SubgraphRewardsGetter
       }) || []
     ).filter(
       (
-        idAndActivated
+        idAndActivated,
       ): idAndActivated is { secondaryActivated: boolean; erc20z: Address } =>
-        !!idAndActivated
+        !!idAndActivated,
     );
 
     return results;

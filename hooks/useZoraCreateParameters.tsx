@@ -7,7 +7,7 @@ import useCreateMetadata from "@/hooks/useCreateMetadata";
 
 const useZoraCreateParameters = (
   chainId: number = CHAIN_ID,
-  collection?: Address
+  collection?: Address,
 ) => {
   const publicClient = usePublicClient();
   const { address } = useAccount();
@@ -20,7 +20,7 @@ const useZoraCreateParameters = (
     const salesConfig = getSalesConfig(
       createMetadata.isTimedSale
         ? "ZoraTimedSaleStrategy"
-        : "ZoraFixedPriceSaleStrategy"
+        : "ZoraFixedPriceSaleStrategy",
     );
 
     let newParameters;

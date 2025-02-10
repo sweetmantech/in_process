@@ -64,7 +64,7 @@ const MediaUpload = () => {
           "w-full relative rounded-md min-h-[300px] min-w-[300px]",
           !imageUri && !animationUri && "aspect-square",
           (loading || (!imageUri && !animationUri)) &&
-            "border-dashed border-2 border-black"
+            "border-dashed border-2 border-black",
         )}
       >
         <input

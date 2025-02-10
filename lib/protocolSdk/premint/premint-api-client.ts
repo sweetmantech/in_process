@@ -49,7 +49,7 @@ const postSignature = async ({
   httpClient?: Pick<IHttpClient, "retries" | "post">;
 }): Promise<PremintSignatureResponse> =>
   retries(() =>
-    post<PremintSignatureResponse>(`${ZORA_API_BASE}premint/signature`, data)
+    post<PremintSignatureResponse>(`${ZORA_API_BASE}premint/signature`, data),
   );
 
 const getNextUID = async ({
@@ -64,8 +64,8 @@ const getNextUID = async ({
     get<PremintNextUIDGetResponse>(
       `${ZORA_API_BASE}premint/signature/${
         getApiNetworkConfigForChain(chainId).zoraBackendChainName
-      }/${collection_address}/next_uid`
-    )
+      }/${collection_address}/next_uid`,
+    ),
   );
 
 export const getSignature = async ({
@@ -82,8 +82,8 @@ export const getSignature = async ({
   const chainName = getApiNetworkConfigForChain(chainId).zoraBackendChainName;
   const result = await retries(() =>
     get<PremintSignatureGetResponse>(
-      `${ZORA_API_BASE}premint/signature/${chainName}/${collectionAddress.toLowerCase()}/${uid}`
-    )
+      `${ZORA_API_BASE}premint/signature/${chainName}/${collectionAddress.toLowerCase()}/${uid}`,
+    ),
   );
 
   return convertGetPremintApiResponse(result);
@@ -101,8 +101,8 @@ const getOfCollection = async ({
   const chainName = getApiNetworkConfigForChain(chainId).zoraBackendChainName;
   const result = await retries(() =>
     get<PremintSignatureGetOfCollectionResponse>(
-      `${ZORA_API_BASE}premint/signature/${chainName}/${collectionAddress.toLowerCase()}`
-    )
+      `${ZORA_API_BASE}premint/signature/${chainName}/${collectionAddress.toLowerCase()}`,
+    ),
   );
 
   return convertGetPremintOfCollectionApiResponse(result);
@@ -130,7 +130,7 @@ export interface IPremintAPI {
     params: {
       signature: Hex;
     } & PremintConfigWithVersion<T> &
-      ContractCreationConfigOrAddress
+      ContractCreationConfigOrAddress,
   ): Promise<PremintSignatureResponse>;
 }
 

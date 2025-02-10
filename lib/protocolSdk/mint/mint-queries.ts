@@ -90,7 +90,7 @@ export async function getPremintsOfCollectionWithTokenIds({
   const premintsWithTokenId = premints.map((premint) => ({
     ...premint,
     tokenId: premintUidsAndTokenIds.find(
-      ({ uid }) => uid === premint.premint.premintConfig.uid
+      ({ uid }) => uid === premint.premint.premintConfig.uid,
     )?.tokenId,
   }));
 
@@ -199,7 +199,7 @@ async function getPremintsOfContractMintable({
   const offChainPremints = premints.filter(
     (premint) =>
       // if premint's uid is not in the list of uids from the subgraph, it is offchain
-      typeof premint.tokenId === "undefined"
+      typeof premint.tokenId === "undefined",
   );
 
   if (offChainPremints.length === 0) return [];
@@ -225,7 +225,7 @@ async function getPremintsOfContractMintable({
 }
 
 export function isPrimaryMintActive(
-  premint: Pick<PremintFromApi, "premint">["premint"]
+  premint: Pick<PremintFromApi, "premint">["premint"],
 ) {
   const currentTime = new Date().getTime() / 1000;
 
@@ -297,7 +297,7 @@ export const makeOnchainPrepareMint =
 
 function toMintableReturn(
   result: GetMintableReturn,
-  chainId: number
+  chainId: number,
 ): MintableReturn {
   const primaryMintActive = result.primaryMintActive;
   if (!primaryMintActive) {
@@ -316,7 +316,7 @@ function toMintableReturn(
     secondaryMarketActive: result.secondaryMarketActive,
     prepareMint: makeOnchainPrepareMint(
       result.salesConfigAndTokenInfo,
-      chainId
+      chainId,
     ),
   };
 }
@@ -327,7 +327,7 @@ const makePremintPrepareMint = (
   premint: Pick<
     PremintFromApi,
     "premint" | "signer" | "collectionAddress" | "collection" | "signature"
-  >
+  >,
 ): PrepareMint => {
   return (params: MintParametersBase) => {
     return {
@@ -377,7 +377,7 @@ function toPremintMintReturn({
 
 export function getRequiredErc20Approvals(
   params: MintParametersBase,
-  salesConfig: OnchainSalesConfigAndTokenInfo["salesConfig"]
+  salesConfig: OnchainSalesConfigAndTokenInfo["salesConfig"],
 ): Erc20Approval | undefined {
   if (salesConfig?.saleType !== "erc20") return undefined;
 

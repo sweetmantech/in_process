@@ -7,7 +7,7 @@ export type IPFSUploadResponse = {
 
 export const uploadFile = async (
   file: File,
-  jwt?: string
+  jwt?: string,
 ): Promise<IPFSUploadResponse> => {
   try {
     console.log("uploadingFile...");

@@ -6,7 +6,9 @@
     "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prettier:fix": "npx prettier --write app components hooks lib providers",
+    "format": "yarn run prettier:fix"
   },
   "dependencies": {
     "@crossmint/client-sdk-react-ui": "^1.10.4",
@@ -26,6 +28,7 @@
     "lucide-react": "^0.460.0",
     "multiformats": "^13.3.1",
     "next": "15.0.3",
+    "prettier": "^3.5.0",
     "react": "19.0.0-rc-66855b96-20241106",
     "react-dom": "19.0.0-rc-66855b96-20241106",
     "react-wrap-balancer": "^1.1.1",

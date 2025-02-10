@@ -40,11 +40,11 @@ export function useComments(tokenId: bigint): UseCommentsReturn {
           network,
           networkType,
           10,
-          null
+          null,
         );
 
         const token = result.tokens.find(
-          (t: any) => BigInt(t.tokenId) === tokenId
+          (t: any) => BigInt(t.tokenId) === tokenId,
         );
 
         const mappedComments =
@@ -59,7 +59,7 @@ export function useComments(tokenId: bigint): UseCommentsReturn {
         setComments(mappedComments);
       } catch (err) {
         setError(
-          err instanceof Error ? err : new Error("Failed to fetch comments")
+          err instanceof Error ? err : new Error("Failed to fetch comments"),
         );
       } finally {
         setLoading(false);

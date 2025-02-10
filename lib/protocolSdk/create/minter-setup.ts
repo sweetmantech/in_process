@@ -252,14 +252,14 @@ function setupAllowListMinter({
 }
 
 const isAllowList = (
-  salesConfig: ConcreteSalesConfig
+  salesConfig: ConcreteSalesConfig,
 ): salesConfig is Concrete<AllowListParamType> =>
   salesConfig.type === "allowlistMint";
 const isErc20 = (
-  salesConfig: ConcreteSalesConfig
+  salesConfig: ConcreteSalesConfig,
 ): salesConfig is Concrete<Erc20ParamsType> => salesConfig.type === "erc20Mint";
 const isFixedPrice = (
-  salesConfig: ConcreteSalesConfig
+  salesConfig: ConcreteSalesConfig,
 ): salesConfig is Concrete<FixedPriceParamsType> =>
   salesConfig.type === "fixedPrice" ||
   (salesConfig as unknown as Concrete<FixedPriceParamsType>).pricePerToken >

@@ -7,7 +7,7 @@ import { CollectionStyle } from "@/types/zora";
 
 export async function getCollectionStyle(
   chainId: number,
-  collectionAddress: Address
+  collectionAddress: Address,
 ): Promise<CollectionStyle | null> {
   try {
     const client = getPublicClient(chainId);
@@ -23,7 +23,7 @@ export async function getCollectionStyle(
         if (error instanceof ContractFunctionExecutionError) {
           console.log(
             "No JSON extension found for collection:",
-            collectionAddress
+            collectionAddress,
           );
           return null;
         }

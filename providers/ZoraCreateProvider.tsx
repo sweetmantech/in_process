@@ -23,7 +23,7 @@ const useZoraCreateProvider = () => {
   const context = useContext(ZoraCreateContext);
   if (!context) {
     throw new Error(
-      "useZoraCreateProvider must be used within a ZoraCreateProvider"
+      "useZoraCreateProvider must be used within a ZoraCreateProvider",
     );
   }
   return context;

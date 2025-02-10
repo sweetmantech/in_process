@@ -10,7 +10,7 @@ export type RewardsToken = {
           id: Address;
         };
       };
-    }
+    },
   ];
 };
 

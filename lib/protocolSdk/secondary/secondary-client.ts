@@ -281,7 +281,7 @@ export async function buyWithSlippage({
       erc20z,
       chainId,
     },
-    publicClient
+    publicClient,
   );
 
   const call = await makeBuy({
@@ -405,7 +405,7 @@ export async function sellWithSlippage({
 
   const { poolBalance, amount, price } = await getUniswapQuote(
     { type: "sell", quantity, poolAddress: pool, chainId, erc20z },
-    publicClient
+    publicClient,
   );
 
   const call = await makeSell({
@@ -477,7 +477,7 @@ export class SecondaryClient {
    * @returns A promise that resolves to the result of the buy operation, including price breakdown and transaction parameters.
    */
   async buy1155OnSecondary(
-    input: BuyWithSlippageInput
+    input: BuyWithSlippageInput,
   ): Promise<BuyOrSellWithSlippageResult> {
     // Call the buyWithSlippage function with the provided input and client details
     return buyWithSlippage({
@@ -493,7 +493,7 @@ export class SecondaryClient {
    * @returns A promise that resolves to the result of the sell operation, including price breakdown and transaction parameters.
    */
   async sell1155OnSecondary(
-    input: SellWithSlippageInput
+    input: SellWithSlippageInput,
   ): Promise<BuyOrSellWithSlippageResult> {
     // Call the sellWithSlippage function with the provided input and client details
     return sellWithSlippage({

@@ -16,7 +16,7 @@ export function isCID(str: string | null | undefined): boolean {
 }
 
 export function normalizeIPFSUrl(
-  url: string | null | undefined
+  url: string | null | undefined,
 ): IPFSUrl | null {
   if (!url || typeof url !== "string") return null;
 
@@ -77,7 +77,7 @@ function isIPFSUrl(url: string | null | undefined): boolean {
 }
 
 export function isNormalizeableIPFSUrl(
-  url: string | null | undefined
+  url: string | null | undefined,
 ): boolean {
   return url ? isIPFSUrl(url) || isCID(url) : false;
 }

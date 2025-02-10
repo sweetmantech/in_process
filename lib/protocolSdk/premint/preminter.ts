@@ -89,7 +89,7 @@ export async function recoverPremintSigner<T extends PremintConfigVersion>({
 }
 
 export async function tryRecoverPremintSigner(
-  params: Parameters<typeof recoverPremintSigner>[0]
+  params: Parameters<typeof recoverPremintSigner>[0],
 ) {
   try {
     return await recoverPremintSigner(params);
@@ -448,7 +448,7 @@ export const emptyContractCreationConfig = (): ContractCreationConfig => ({
 });
 
 export function defaultAdditionalAdmins(
-  collection: ContractCreationConfigWithOptionalAdditionalAdmins
+  collection: ContractCreationConfigWithOptionalAdditionalAdmins,
 ): ContractCreationConfig {
   return {
     ...collection,
