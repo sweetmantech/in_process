@@ -3,7 +3,7 @@ import HorizontalFeed from "../HorizontalFeed";
 import { FC } from "react";
 import { Skeleton } from "../ui/skeleton";
 
-const Feed: FC<void> = () => {
+const Feed: FC = () => {
   const { isLoading, data, error } = useArtistFeed();
 
   if (isLoading) return <Skeleton className="w-full max-w-4xl mx-auto h-20" />;

@@ -33,7 +33,9 @@ export default function LandingPage() {
                 In Process <br className="hidden md:block" /> By LATASHÁ
               </GradientHeading>
             </FadeIn>
-            <Feed />
+            <FadeIn className="w-full">
+              <Feed />
+            </FadeIn>
             <FadeIn>
               <div className="flex flex-wrap items-center justify-center gap-1 text-center text-base  leading-3  text-foreground md:text-2xl md:font-normal md:leading-6">
                 <span>A feed</span>
