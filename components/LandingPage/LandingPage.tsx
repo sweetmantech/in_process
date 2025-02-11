@@ -11,9 +11,12 @@ import BgNoiseWrapper from "@/components/ui/texture-wrapper";
 import { GradientHeading } from "@/components/ui/gradient-heading";
 import Image from "next/image";
 import CollectionInput from "./CollectionInput";
-import HorizontalFeed from "./HorizontalFeed";
+import { useLatestFeed } from "@/hooks/useLatestFeed";
+import HorizontalFeed from "../HorizontalFeed";
 
 export default function LandingPage() {
+  const { feed } = useLatestFeed();
+
   return (
     <div className=" isolate min-h-screen overflow-hidden bg-white bg-gradientTopRightLight pb-8 sm:pb-12 md:pb-0">
       <div className="container relative pt-12"></div>
@@ -33,7 +36,7 @@ export default function LandingPage() {
                 In Process <br className="hidden md:block" /> By LATASHÁ
               </GradientHeading>
             </FadeIn>
-            <HorizontalFeed />
+            {feed.length > 0 && <HorizontalFeed feed={feed} />}
             <FadeIn>
               <div className="flex flex-wrap items-center justify-center gap-1 text-center text-base  leading-3  text-foreground md:text-2xl md:font-normal md:leading-6">
                 <span>A feed</span>
