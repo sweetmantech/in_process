@@ -1,21 +1,19 @@
 import { NextRequest } from "next/server";
+import { QueryParameter } from "@duneanalytics/client-sdk";
+import client from "@/lib/dune/client";
 
 export async function GET(req: NextRequest) {
   try {
     const artistAddress = req.nextUrl.searchParams.get("artistAddress");
-    const options = {
-      method: "GET",
-      headers: {
-        "X-DUNE-API-KEY": process.env.DUNE_API_KEY as string,
-      },
-    };
-    const queryParams = new URLSearchParams({
-      artistAddress: artistAddress as string,
-    }); // Define limit and offset parameters
-    const url = `https://api.dune.com/api/v1/query/4707397/results?${queryParams}`;
-    const response = await fetch(url, options);
-    const data = await response.json();
-    return Response.json(data.result.rows);
+    const queryId = 4707397;
+    const query_parameters: QueryParameter[] = [
+      QueryParameter.text("TextField", artistAddress as string),
+    ];
+    const executionResult = await client.runQuery({
+      queryId,
+      query_parameters,
+    });
+    return Response.json(executionResult.result?.rows);
   } catch (e: any) {
     console.log(e);
     const message = e?.message ?? "failed to get Latest";

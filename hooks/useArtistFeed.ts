@@ -28,7 +28,7 @@ export function useArtistFeed() {
     async function fetchMetadata() {
       if (!data) return;
       const metadata = await getMetadata(data);
-      setFeed(metadata);
+      setFeed(metadata.filter((ele: NftMetadata) => ele.name));
     }
     fetchMetadata();
   }, [data]);
