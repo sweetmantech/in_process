@@ -48,7 +48,7 @@ export const createAllowList = async ({
 
   return (
     await retries(() =>
-      post<AllowListCreateResponse>(`${baseUrl}allowlist`, data)
+      post<AllowListCreateResponse>(`${baseUrl}allowlist`, data),
     )
   ).root;
 };
@@ -74,8 +74,8 @@ export const getAllowListEntry = async ({
 
   const response = await retries(() =>
     get<AllowListAllowedResponse>(
-      `${baseUrl}allowed?user=${address}&root=${merkleRoot}`
-    )
+      `${baseUrl}allowed?user=${address}&root=${merkleRoot}`,
+    ),
   );
 
   const entries = response?.map((x) => ({
@@ -85,7 +85,7 @@ export const getAllowListEntry = async ({
   }));
 
   const entry = entries?.sort(
-    (a, b) => Number(a.price) - Number(b.price) || b.maxCanMint - a.maxCanMint
+    (a, b) => Number(a.price) - Number(b.price) || b.maxCanMint - a.maxCanMint,
   )[0];
 
   return {

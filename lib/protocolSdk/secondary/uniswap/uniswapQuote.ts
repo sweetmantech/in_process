@@ -70,7 +70,7 @@ type GetQuoteInput = {
 };
 export async function getUniswapQuote(
   input: GetQuoteInput,
-  client: PublicClient
+  client: PublicClient,
 ): Promise<GetQuoteOutput> {
   const { type, quantity, poolAddress, chainId, erc20z } = input;
 

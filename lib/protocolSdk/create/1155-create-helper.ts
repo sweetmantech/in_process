@@ -33,7 +33,7 @@ import { getFactoryAddress } from "./factory-addresses";
 const ROYALTY_BPS_DEFAULT = 1000;
 
 export const getTokenIdFromCreateReceipt = (
-  receipt: TransactionReceipt
+  receipt: TransactionReceipt,
 ): bigint => {
   for (const data of receipt.logs) {
     try {
@@ -50,12 +50,12 @@ export const getTokenIdFromCreateReceipt = (
   }
 
   throw new Error(
-    "No event found in receipt that could be used to get tokenId"
+    "No event found in receipt that could be used to get tokenId",
   );
 };
 
 export const getContractAddressFromReceipt = (
-  receipt: TransactionReceipt
+  receipt: TransactionReceipt,
 ): Address => {
   for (const data of receipt.logs) {
     try {
@@ -72,7 +72,7 @@ export const getContractAddressFromReceipt = (
   }
 
   throw new Error(
-    "No event found in receipt that could be used to get contract address"
+    "No event found in receipt that could be used to get contract address",
   );
 };
 
@@ -153,7 +153,7 @@ export class Create1155Client {
   }
 
   async createNew1155(
-    props: CreateNew1155ContractParams
+    props: CreateNew1155ContractParams,
   ): Promise<CreateNew1155ContractAndTokenReturn> {
     return createNew1155ContractAndToken({
       ...props,

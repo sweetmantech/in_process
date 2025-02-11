@@ -16,7 +16,7 @@ interface CollectionProviderProps {
 }
 
 const CollectionContext = createContext<CollectionContextType>(
-  {} as CollectionContextType
+  {} as CollectionContextType,
 );
 
 export function CollectionProvider({
@@ -37,7 +37,7 @@ export function useCollectionProvider() {
   const context = useContext(CollectionContext);
   if (context === undefined) {
     throw new Error(
-      "useCollectionProvider must be used within a CollectionProvider"
+      "useCollectionProvider must be used within a CollectionProvider",
     );
   }
   return context;

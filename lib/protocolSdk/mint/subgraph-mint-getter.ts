@@ -38,7 +38,7 @@ type ParsedSalesConfig = {
 function parseFixedPriceSalesConfig(
   fixedPrice: FixedPriceSaleStrategyResult["fixedPrice"],
   contractMintFee: bigint,
-  blockTime: bigint
+  blockTime: bigint,
 ): ParsedSalesConfig {
   const saleEnd = BigInt(fixedPrice.saleEnd);
   return {
@@ -57,7 +57,7 @@ function parseFixedPriceSalesConfig(
 
 function parseERC20SalesConfig(
   erc20Minter: ERC20SaleStrategyResult["erc20Minter"],
-  blockTime: bigint
+  blockTime: bigint,
 ): ParsedSalesConfig {
   const saleEnd = BigInt(erc20Minter.saleEnd);
   return {
@@ -77,7 +77,7 @@ function parseERC20SalesConfig(
 function parsePresaleSalesConfig(
   presale: PresaleSalesStrategyResult["presale"],
   contractMintFee: bigint,
-  blockTime: bigint
+  blockTime: bigint,
 ): ParsedSalesConfig {
   const saleEnd = BigInt(presale.presaleEnd);
   return {
@@ -97,7 +97,7 @@ function parsePresaleSalesConfig(
 
 function parseZoraTimedSalesConfig(
   zoraTimedMinter: ZoraTimedMinterSaleStrategyResult["zoraTimedMinter"],
-  blockTime: bigint
+  blockTime: bigint,
 ): ParsedSalesConfig {
   const saleEnd = BigInt(zoraTimedMinter.saleEnd);
   const hasSaleEnd = saleEnd > BigInt(0);
@@ -130,14 +130,14 @@ function parseZoraTimedSalesConfig(
 function parseSalesConfig(
   targetStrategy: SalesStrategyResult,
   contractMintFee: bigint,
-  blockTime: bigint
+  blockTime: bigint,
 ): ParsedSalesConfig {
   switch (targetStrategy.type) {
     case "FIXED_PRICE":
       return parseFixedPriceSalesConfig(
         targetStrategy.fixedPrice,
         contractMintFee,
-        blockTime
+        blockTime,
       );
     case "ERC_20_MINTER":
       return parseERC20SalesConfig(targetStrategy.erc20Minter, blockTime);
@@ -145,12 +145,12 @@ function parseSalesConfig(
       return parsePresaleSalesConfig(
         targetStrategy.presale,
         contractMintFee,
-        blockTime
+        blockTime,
       );
     case "ZORA_TIMED":
       return parseZoraTimedSalesConfig(
         targetStrategy.zoraTimedMinter,
-        blockTime
+        blockTime,
       );
     default:
       throw new Error("Unknown saleType");
@@ -176,15 +176,15 @@ function getTargetStrategy({
       : token.contract.salesStrategies) || [];
 
   const parsedStrategies = allStrategies.map((strategy) =>
-    parseSalesConfig(strategy, contractMintFee, blockTime)
+    parseSalesConfig(strategy, contractMintFee, blockTime),
   );
 
   const stillValidSalesStrategies = parsedStrategies.filter(
-    (strategy) => strategy.saleActive || strategy.secondaryMarketActive
+    (strategy) => strategy.saleActive || strategy.secondaryMarketActive,
   );
 
   const saleStrategies = stillValidSalesStrategies.sort((a, b) =>
-    (a.saleEnd ?? BigInt(0)) > (b.saleEnd ?? BigInt(0)) ? 1 : -1
+    (a.saleEnd ?? BigInt(0)) > (b.saleEnd ?? BigInt(0)) ? 1 : -1,
   );
 
   let targetStrategy: ParsedSalesConfig | undefined;
@@ -193,14 +193,14 @@ function getTargetStrategy({
     return saleStrategies[0];
   } else {
     targetStrategy = saleStrategies.find(
-      ({ salesStrategy }) => salesStrategy.saleType === preferredSaleType
+      ({ salesStrategy }) => salesStrategy.saleType === preferredSaleType,
     );
     if (!targetStrategy) {
       const targetStrategy = saleStrategies.find(
         ({ salesStrategy }) =>
           salesStrategy.saleType === "timed" ||
           salesStrategy.saleType === "fixedPrice" ||
-          salesStrategy.saleType === "erc20"
+          salesStrategy.saleType === "erc20",
       );
       if (!targetStrategy) throw new Error("Cannot find valid sale strategy");
       return targetStrategy;
@@ -232,7 +232,7 @@ export class SubgraphMintGetter
       buildNftTokenSalesQuery({
         tokenId,
         tokenAddress,
-      })
+      }),
     );
 
     if (!token) {
@@ -262,7 +262,7 @@ export class SubgraphMintGetter
     const tokens = await this.querySubgraphWithRetries(
       buildContractTokensQuery({
         tokenAddress,
-      })
+      }),
     );
 
     if (!tokens || tokens.length === 0) return [];
@@ -278,7 +278,7 @@ export class SubgraphMintGetter
           preferredSaleType,
           defaultMintFee,
           blockTime,
-        })
+        }),
       );
   }
 
@@ -290,7 +290,7 @@ export class SubgraphMintGetter
     const premints = await this.querySubgraphWithRetries(
       buildPremintsOfContractQuery({
         tokenAddress,
-      })
+      }),
     );
 
     return (

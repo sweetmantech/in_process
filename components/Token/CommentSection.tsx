@@ -8,7 +8,7 @@ const CommentSection = () => {
   const { styling } = useCollectionProvider();
 
   const sortedComments = [...comments].sort(
-    (a, b) => b.timestamp - a.timestamp
+    (a, b) => b.timestamp - a.timestamp,
   );
 
   return (

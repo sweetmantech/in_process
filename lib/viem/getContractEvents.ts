@@ -18,7 +18,7 @@ export type MintCommentEvent = {
 export async function getMintCommentEvents(
   chainId: number,
   address: Address,
-  tokenId?: bigint
+  tokenId?: bigint,
 ): Promise<MintCommentEvent[]> {
   try {
     const publicClient = getPublicClient(chainId);
@@ -37,8 +37,8 @@ export async function getMintCommentEvents(
       logs.map((log) =>
         publicClient.getBlock({
           blockNumber: log.blockNumber!,
-        })
-      )
+        }),
+      ),
     );
 
     return logs.map((log, index) => ({

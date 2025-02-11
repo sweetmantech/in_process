@@ -19,7 +19,7 @@ export default function useZoraCreate() {
   const collection = params.collection as Address | undefined;
   const { fetchParameters, createMetadata } = useZoraCreateParameters(
     chainId,
-    collection
+    collection,
   );
 
   const create = async () => {

@@ -38,7 +38,7 @@ export class SubgraphContractGetter
   }> {
     const tryFn = async () => {
       const responseData = await this.querySubgraphWithRetries(
-        buildContractInfoQuery({ contractAddress })
+        buildContractInfoQuery({ contractAddress }),
       );
       if (!responseData) {
         console.log("could not find contract");

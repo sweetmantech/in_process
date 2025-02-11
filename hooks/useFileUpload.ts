@@ -21,7 +21,7 @@ const useFileUpload = () => {
       }
       if (file.size > MAX_FILE_SIZE) {
         throw new Error(
-          `File size exceeds the maximum limit of ${MAX_FILE_SIZE / ONE_MB}MB.`
+          `File size exceeds the maximum limit of ${MAX_FILE_SIZE / ONE_MB}MB.`,
         );
       }
 

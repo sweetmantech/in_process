@@ -50,7 +50,7 @@ export class MintClient {
    * @returns Parameters for simulating/executing the mint transaction, any necessary erc20 approval, and costs to mint
    */
   async mint(
-    parameters: MakeMintParametersArguments
+    parameters: MakeMintParametersArguments,
   ): Promise<PrepareMintReturn> {
     return mint({
       parameters,

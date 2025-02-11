@@ -7,7 +7,7 @@ const saveFile = async (data: any, jwt?: string) => {
         Authorization: `Bearer ${jwt ?? process.env.PINATA_JWT}`,
       },
       body: data,
-    }
+    },
   );
   const { IpfsHash } = await response.json();
   return IpfsHash;

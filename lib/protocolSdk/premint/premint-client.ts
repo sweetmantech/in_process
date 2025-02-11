@@ -109,7 +109,7 @@ const pickTokenConfigV2 = (tokenConfig: TokenConfigInput) => ({
 
 const tokenConfigV1WithDefault = (
   tokenConfig: TokenConfigInput,
-  fixedPriceMinter: Address
+  fixedPriceMinter: Address,
 ): TokenCreationConfigV1 => ({
   ...pickTokenConfigV1(tokenConfig),
   ...defaultTokenConfigV1MintArguments(),
@@ -118,7 +118,7 @@ const tokenConfigV1WithDefault = (
 
 const tokenConfigV2WithDefault = (
   tokenConfig: TokenConfigInput,
-  fixedPriceMinter: Address
+  fixedPriceMinter: Address,
 ): TokenCreationConfigV2 => ({
   ...pickTokenConfigV2(tokenConfig),
   ...defaultTokenConfigV2MintArguments(),
@@ -181,7 +181,7 @@ const makeTokenConfigWithDefaults = ({
       premintConfigVersion: PremintConfigVersion.V1,
       tokenConfig: tokenConfigV1WithDefault(
         tokenCreationConfig,
-        fixedPriceMinter
+        fixedPriceMinter,
       ),
     };
   }
@@ -190,7 +190,7 @@ const makeTokenConfigWithDefaults = ({
     premintConfigVersion: PremintConfigVersion.V2,
     tokenConfig: tokenConfigV2WithDefault(
       tokenCreationConfig,
-      fixedPriceMinter
+      fixedPriceMinter,
     ),
   };
 };
@@ -202,7 +202,7 @@ const makeTokenConfigWithDefaults = ({
  * @returns Premint event arguments
  */
 export function getPremintedLogFromReceipt(
-  receipt: TransactionReceipt
+  receipt: TransactionReceipt,
 ): PremintedV2LogType | undefined {
   for (const data of receipt.logs) {
     try {
@@ -242,7 +242,7 @@ export class PremintClient {
 
   getDataFromPremintReceipt(
     receipt: TransactionReceipt,
-    blockExplorerUrl?: string
+    blockExplorerUrl?: string,
   ) {
     return getDataFromPremintReceipt(receipt, this.chainId, blockExplorerUrl);
   }
@@ -269,7 +269,7 @@ export class PremintClient {
    * @returns A PremintReturn. {@link PremintReturn}
    */
   async deletePremint(
-    params: DeletePremintParams
+    params: DeletePremintParams,
   ): Promise<PremintReturn<any>> {
     return deletePremint({
       ...params,
@@ -286,7 +286,7 @@ export class PremintClient {
    * @returns A PremintReturn. {@link PremintReturn}
    */
   async createPremint(
-    parameters: CreatePremintParameters
+    parameters: CreatePremintParameters,
   ): Promise<PremintReturn<any>> {
     return createPremint({
       ...parameters,
@@ -371,7 +371,7 @@ export class PremintClient {
 export function getDataFromPremintReceipt(
   receipt: TransactionReceipt,
   chainId: number,
-  blockExplorerUrl?: string
+  blockExplorerUrl?: string,
 ) {
   const premintedLog = getPremintedLogFromReceipt(receipt);
   return {

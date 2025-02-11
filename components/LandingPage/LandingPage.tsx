@@ -11,6 +11,7 @@ import BgNoiseWrapper from "@/components/ui/texture-wrapper";
 import { GradientHeading } from "@/components/ui/gradient-heading";
 import Image from "next/image";
 import CollectionInput from "./CollectionInput";
+import HorizontalFeed from "./HorizontalFeed";
 
 export default function LandingPage() {
   return (
@@ -32,7 +33,7 @@ export default function LandingPage() {
                 In Process <br className="hidden md:block" /> By LATASHÁ
               </GradientHeading>
             </FadeIn>
-
+            <HorizontalFeed />
             <FadeIn>
               <div className="flex flex-wrap items-center justify-center gap-1 text-center text-base  leading-3  text-foreground md:text-2xl md:font-normal md:leading-6">
                 <span>A feed</span>

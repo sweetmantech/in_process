@@ -23,25 +23,28 @@ function aggregateUnclaimedFees(
     token0Amount: bigint;
     token1Amount: bigint;
   }[],
-  wethAddress: Address
+  wethAddress: Address,
 ) {
   let ethBalance = BigInt(0);
   // Aggregate unclaimed fees by token address
-  const unclaimedFeesAggregate = unclaimedFees.reduce((acc, fee) => {
-    const addFee = (token: `0x${string}`, amount: bigint) => {
-      if (token === wethAddress) {
-        ethBalance += amount;
-      } else if (acc[token]) {
-        acc[token] += amount;
-      } else {
-        acc[token] = amount;
-      }
-    };
-    // Apply 75% fee to each token amount
-    addFee(fee.token0, (fee.token0Amount * BigInt(75)) / BigInt(100));
-    addFee(fee.token1, (fee.token1Amount * BigInt(75)) / BigInt(100));
-    return acc;
-  }, {} as Record<string, bigint>);
+  const unclaimedFeesAggregate = unclaimedFees.reduce(
+    (acc, fee) => {
+      const addFee = (token: `0x${string}`, amount: bigint) => {
+        if (token === wethAddress) {
+          ethBalance += amount;
+        } else if (acc[token]) {
+          acc[token] += amount;
+        } else {
+          acc[token] = amount;
+        }
+      };
+      // Apply 75% fee to each token amount
+      addFee(fee.token0, (fee.token0Amount * BigInt(75)) / BigInt(100));
+      addFee(fee.token1, (fee.token1Amount * BigInt(75)) / BigInt(100));
+      return acc;
+    },
+    {} as Record<string, bigint>,
+  );
 
   return {
     eth: (ethBalance * BigInt(75)) / BigInt(100), // Apply 75% fee to ETH balance
@@ -75,7 +78,7 @@ export const getRewardsBalance = async ({
 }): Promise<RewardsBalance> => {
   const address = typeof account === "string" ? account : account.address;
   const erc20ZsAndSecondaryActivated = await rewardsGetter.getErc20ZzForCreator(
-    { address }
+    { address },
   );
 
   const validErc20Zs = erc20ZsAndSecondaryActivated
@@ -115,7 +118,7 @@ export const getRewardsBalance = async ({
   // Aggregate unclaimed fees
   const unclaimedFeesAggregate = aggregateUnclaimedFees(
     result[1],
-    wethAddressForChain
+    wethAddressForChain,
   );
 
   return {
@@ -151,7 +154,7 @@ const makeClaimSecondaryRoyaltiesCalls = async ({
   rewardsGetter: IRewardsGetter;
 }) => {
   const erc20ZsAndSecondaryActivated = await rewardsGetter.getErc20ZzForCreator(
-    { address: claimFor }
+    { address: claimFor },
   );
 
   const erc20z = erc20ZsAndSecondaryActivated
@@ -202,7 +205,7 @@ export async function withdrawSecondaryRoyalties({
 // Extract protocol rewards withdrawal call creation
 const createProtocolRewardsCall = (
   chainId: number,
-  withdrawFor: Address
+  withdrawFor: Address,
 ): Multicall3Call3 => ({
   target:
     protocolRewardsAddress[chainId as keyof typeof protocolRewardsAddress],
@@ -217,7 +220,7 @@ const createProtocolRewardsCall = (
 // Extract multicall parameters creation
 const createMulticallParameters = (
   calls: Multicall3Call3[],
-  account: Address | Account
+  account: Address | Account,
 ) =>
   makeContractParameters({
     abi: parseAbi(multicall3Abi),

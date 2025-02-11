@@ -121,7 +121,7 @@ const toTextFile = (text: string) =>
 /** For text nfts, this will generate files that are needed for the metadata json, including the txt.file containing the text, and a thumbnail image containing a preview of the text
  */
 export async function generateTextNftMetadataFiles(
-  text: string
+  text: string,
 ): Promise<TextMetadataFiles> {
   const name = generateTextTitle(text);
   const textFile = toTextFile(text);

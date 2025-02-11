@@ -6,7 +6,7 @@ export const createFetchTokenDataQuery = (
   collectionAddress: string,
   network: string,
   chain: string,
-  limit: number
+  limit: number,
 ) => `
   query getData($after: String) {
     tokens(
@@ -62,13 +62,13 @@ export const fetchTokenData = async (
   limit: number,
   after: string | null,
   retries = 3,
-  initialDelay = 1000
+  initialDelay = 1000,
 ) => {
   const query = createFetchTokenDataQuery(
     collectionAddress,
     network,
     chain,
-    limit
+    limit,
   );
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

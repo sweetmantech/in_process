@@ -275,7 +275,7 @@ function makeAllowListMinterArguments({
       BigInt(allowListEntry.maxCanMint),
       allowListEntry.price,
       allowListEntry.proof,
-    ]
+    ],
   );
 }
 
@@ -359,7 +359,7 @@ function makeEthMintCall({
 
 function paidMintCost(
   salesConfig: SaleStrategies,
-  allowListEntry?: Pick<AllowListEntry, "price">
+  allowListEntry?: Pick<AllowListEntry, "price">,
 ) {
   if (
     salesConfig.saleType === "erc20" ||
