@@ -8,6 +8,7 @@ import {
   baseSepolia,
   optimismSepolia,
   base,
+  zora,
 } from "viem/chains";
 
 const getViemNetwork = (chainId: number) => {
@@ -30,6 +31,8 @@ const getViemNetwork = (chainId: number) => {
       return baseSepolia;
     case optimismSepolia.id:
       return optimismSepolia;
+    case zora.id:
+      return zora;
     default:
       return mainnet;
   }
