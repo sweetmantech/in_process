@@ -87,6 +87,7 @@ export async function getMetadata(feed: LatestFeed[]): Promise<NftMetadata[]> {
           tokenId: parseInt(item.token_id, 10),
         };
       } catch (error) {
+        console.error(error);
         return {
           image: "",
           name: "",
