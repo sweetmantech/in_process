@@ -1,34 +1,21 @@
-import { getMetadata, LatestFeed, NftMetadata } from "@/lib/viem/getMetadata";
+import { getMetadata, NftMetadata } from "@/lib/viem/getMetadata";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
 
-async function fetchLatestFeed(): Promise<LatestFeed[]> {
+async function fetchLatestFeed(): Promise<NftMetadata[]> {
   const response = await fetch(`/api/dune/latest`);
   if (!response.ok) {
     throw new Error("Failed to fetch latest");
   }
-  return response.json();
+  const data = await response.json();
+  const metadata = await getMetadata(data);
+  return metadata.filter((ele: NftMetadata) => ele.name);
 }
 
 export function useLatestFeed() {
-  const { data } = useQuery({
+  return useQuery({
     queryKey: ["latestFeed"],
     queryFn: () => fetchLatestFeed(),
     staleTime: 1000 * 60 * 5,
     refetchOnWindowFocus: false,
   });
-  const [feed, setFeed] = useState<NftMetadata[]>([]);
-
-  useEffect(() => {
-    async function fetchMetadata() {
-      if (!data) return;
-      const metadata = await getMetadata(data);
-      setFeed(metadata.filter((ele: NftMetadata) => ele.name));
-    }
-    fetchMetadata();
-  }, [data]);
-
-  return {
-    feed,
-  };
 }
