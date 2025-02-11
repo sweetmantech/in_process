@@ -1,19 +1,11 @@
+import client from "@/lib/dune/client";
+
 export async function GET() {
   try {
-    const options = {
-      method: "GET",
-      headers: {
-        "X-DUNE-API-KEY": process.env.DUNE_API_KEY as string,
-      },
-    };
-
-    const url = `https://api.dune.com/api/v1/query/4706176/results`;
-
-    const response = await fetch(url, options);
-
-    const data = await response.json();
-
-    return Response.json(data.result.rows);
+    const queryResult = await client.runQuery({
+      queryId: 4707812,
+    });
+    return Response.json(queryResult.result?.rows || []);
   } catch (e: any) {
     console.log(e);
     const message = e?.message ?? "failed to get Latest";

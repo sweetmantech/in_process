@@ -1,22 +1,20 @@
-import { NextRequest } from "next/server";
-import { QueryParameter } from "@duneanalytics/client-sdk";
 import client from "@/lib/dune/client";
+import { QueryParameter } from "@duneanalytics/client-sdk";
+import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
   try {
     const artistAddress = req.nextUrl.searchParams.get("artistAddress");
-    const queryId = 4707397;
-    const query_parameters: QueryParameter[] = [
-      QueryParameter.text("TextField", artistAddress as string),
-    ];
-    const executionResult = await client.runQuery({
-      queryId,
-      query_parameters,
+    const queryResult = await client.runQuery({
+      queryId: 4707397,
+      query_parameters: [
+        QueryParameter.text("artistAddress", artistAddress as string),
+      ],
     });
-    return Response.json(executionResult.result?.rows);
+    return Response.json(queryResult.result?.rows || []);
   } catch (e: any) {
     console.log(e);
-    const message = e?.message ?? "failed to get Latest";
+    const message = e?.message ?? "failed to get artist feed";
     return Response.json({ message }, { status: 500 });
   }
 }
