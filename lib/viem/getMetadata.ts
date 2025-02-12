@@ -54,9 +54,7 @@ export async function getMetadata(feed: LatestFeed[]): Promise<NftMetadata[]> {
             type: item.nft_type,
             address: item.nft_contract_address,
           };
-        const response = await fetch(
-          `/api/ipfs/metadata?uri=${encodeURIComponent(uri as string)}`,
-        );
+        const response = await fetch(getIpfsLink(uri as string));
         const data = await response.json();
         return {
           image: getIpfsLink(data?.image || ""),
