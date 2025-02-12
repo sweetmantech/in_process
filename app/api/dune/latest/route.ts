@@ -2,14 +2,14 @@ import client from "@/lib/dune/client";
 
 export async function GET() {
   try {
-    const queryResult = await client.runQuery({
-      queryId: 4707812,
+    const queryId = 4706176;
+    const queryResult = await client.getLatestResult({
+      queryId,
     });
+    client.exec.executeQuery(queryId);
     return Response.json(queryResult.result?.rows || []);
   } catch (e: any) {
     console.log(e);
-    const message = e?.message ?? "failed to get Latest";
-    return Response.json({ message }, { status: 500 });
   }
 }
 

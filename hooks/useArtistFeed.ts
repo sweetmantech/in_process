@@ -17,10 +17,10 @@ async function fetchArtistFeed(artistAddress: string): Promise<NftMetadata[]> {
 export function useArtistFeed() {
   const { artistAddress } = useParams();
   return useQuery({
-    queryKey: ["artistFeed"],
+    queryKey: ["artistFeed", artistAddress],
     queryFn: () => fetchArtistFeed(artistAddress as string),
     staleTime: 1000 * 60 * 5,
     enabled: !!artistAddress,
-    refetchOnWindowFocus: false,
+    refetchOnMount: true,
   });
 }

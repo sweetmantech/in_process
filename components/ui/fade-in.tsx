@@ -1,46 +1,43 @@
-"use client";
+import { motion, useAnimation } from "framer-motion";
+import { useInView } from "react-intersection-observer";
+import { FC, useEffect, ReactNode } from "react";
 
-import { createContext, useContext } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+interface FadeInProps {
+  children: ReactNode;
+  className?: string;
+  checkInview?: boolean;
+}
 
-const FadeInStaggerContext = createContext(false);
+export const FadeIn: FC<FadeInProps> = ({
+  children,
+  className,
+  checkInview = true,
+}) => {
+  const controls = useAnimation();
+  const [ref, inView] = useInView();
 
-const viewport = { once: true, margin: "0px 0px -200px" };
+  useEffect(() => {
+    if (inView || !checkInview) {
+      controls.start("visible");
+      return;
+    }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function FadeIn(props: any) {
-  const shouldReduceMotion = useReducedMotion();
-  const isInStaggerGroup = useContext(FadeInStaggerContext);
+    controls.start("hidden");
+  }, [controls, inView, checkInview]);
 
   return (
     <motion.div
+      ref={ref}
+      animate={controls}
+      initial="hidden"
+      transition={{ duration: 1 }}
       variants={{
-        hidden: { opacity: 0, y: shouldReduceMotion ? 0 : 24 },
         visible: { opacity: 1, y: 0 },
+        hidden: { opacity: 0, y: 100 },
       }}
-      transition={{ duration: 0.5 }}
-      {...(isInStaggerGroup
-        ? {}
-        : {
-            initial: "hidden",
-            whileInView: "visible",
-            viewport,
-          })}
-      {...props}
-    />
+      className={className}
+    >
+      {children}
+    </motion.div>
   );
-}
-
-export function FadeInStagger({ faster = false, ...props }) {
-  return (
-    <FadeInStaggerContext.Provider value={true}>
-      <motion.div
-        initial="hidden"
-        whileInView="visible"
-        viewport={viewport}
-        transition={{ staggerChildren: faster ? 0.12 : 0.2 }}
-        {...props}
-      />
-    </FadeInStaggerContext.Provider>
-  );
-}
+};

@@ -4,9 +4,29 @@ import { NextRequest } from "next/server";
 export async function GET(req: NextRequest) {
   try {
     const uri = req.nextUrl.searchParams.get("uri");
-    const response = await fetch(getIpfsLink(uri as string));
-    const data = await response.json();
-    return Response.json(data);
+    if (!uri) {
+      return Response.json({ message: "No URI provided" }, { status: 400 });
+    }
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 3000);
+    try {
+      const response = await fetch(getIpfsLink(uri as string), {
+        signal: controller.signal,
+      });
+      clearTimeout(timeoutId);
+      const data = await response.json();
+      return Response.json(data);
+    } catch (err) {
+      clearTimeout(timeoutId);
+      if (err instanceof Error && err.name === "AbortError") {
+        return Response.json({
+          image: "",
+          name: "",
+          description: "",
+        });
+      }
+      throw err;
+    }
   } catch (e: any) {
     console.log(e);
     const message = e?.message ?? "failed to generate JWT";
