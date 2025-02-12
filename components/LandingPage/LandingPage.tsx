@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
@@ -11,7 +9,7 @@ import BgNoiseWrapper from "@/components/ui/texture-wrapper";
 import { GradientHeading } from "@/components/ui/gradient-heading";
 import Image from "next/image";
 import CollectionInput from "./CollectionInput";
-import Feed from "./Feed";
+import ServerFeed from "./ServerFeed";
 
 export default function LandingPage() {
   return (
@@ -34,7 +32,7 @@ export default function LandingPage() {
               </GradientHeading>
             </FadeIn>
             <FadeIn className="w-full">
-              <Feed />
+              <ServerFeed />
             </FadeIn>
             <FadeIn>
               <div className="flex flex-wrap items-center justify-center gap-1 text-center text-base  leading-3  text-foreground md:text-2xl md:font-normal md:leading-6">

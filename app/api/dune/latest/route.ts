@@ -1,11 +1,9 @@
-import client from "@/lib/dune/client";
+import { getLatestFeed } from "@/lib/dune/getLatestFeed";
 
 export async function GET() {
   try {
-    const queryResult = await client.runQuery({
-      queryId: 4707812,
-    });
-    return Response.json(queryResult.result?.rows || []);
+    const data = await getLatestFeed();
+    return Response.json(data);
   } catch (e: any) {
     console.log(e);
     const message = e?.message ?? "failed to get Latest";

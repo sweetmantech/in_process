@@ -1,26 +1,7 @@
-import { Address } from "viem";
 import { getPublicClient } from "./publicClient";
 import getNetworkId from "./getNetworkId";
 import { getIpfsLink } from "../utils";
-
-export interface NftMetadata {
-  image: string;
-  name: string;
-  description: string;
-  tokenId: number;
-  type: string;
-  chainId: number;
-  address: Address;
-}
-
-export interface LatestFeed {
-  nft_contract_address: Address;
-  collection_contract_address: Address;
-  token_id: string;
-  nft_type: string;
-  network: string;
-  release_data: string;
-}
+import { LatestFeed, NftMetadata } from "../dune/getLatestFeed";
 
 const aggregatedAbi = [
   {
