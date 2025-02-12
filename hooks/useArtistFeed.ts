@@ -22,5 +22,6 @@ export function useArtistFeed() {
     staleTime: 1000 * 60 * 5,
     enabled: !!artistAddress,
     refetchOnWindowFocus: false,
+    refetchOnMount: true,
   });
 }

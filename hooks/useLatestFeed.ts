@@ -17,5 +17,6 @@ export function useLatestFeed() {
     queryFn: () => fetchLatestFeed(),
     staleTime: 1000 * 60 * 5,
     refetchOnWindowFocus: false,
+    refetchOnMount: true,
   });
 }

@@ -11,11 +11,13 @@ export interface NftMetadata {
   type: string;
   chainId: number;
   address: Address;
+  owner: Address;
 }
 
 export interface LatestFeed {
   nft_contract_address: Address;
   collection_contract_address: Address;
+  owner: Address;
   token_id: string;
   nft_type: string;
   network: string;
@@ -72,6 +74,7 @@ export async function getMetadata(feed: LatestFeed[]): Promise<NftMetadata[]> {
             chainId: getNetworkId(item.network),
             type: item.nft_type,
             address: item.nft_contract_address,
+            owner: item.owner,
           };
         const response = await fetch(
           `/api/ipfs/metadata?uri=${encodeURIComponent(uri as string)}`,
@@ -85,6 +88,7 @@ export async function getMetadata(feed: LatestFeed[]): Promise<NftMetadata[]> {
           type: item.nft_type,
           address: item.nft_contract_address,
           tokenId: parseInt(item.token_id, 10),
+          owner: item.owner,
         };
       } catch (error) {
         console.error(error);
@@ -96,6 +100,7 @@ export async function getMetadata(feed: LatestFeed[]): Promise<NftMetadata[]> {
           chainId: getNetworkId(item.network),
           type: item.nft_type,
           address: item.nft_contract_address,
+          owner: item.owner,
         };
       }
     });
