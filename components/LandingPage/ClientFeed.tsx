@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useLatestFeed } from "@/hooks/useLatestFeed";
 import HorizontalFeed from "../HorizontalFeed";
@@ -27,9 +27,9 @@ const ClientFeed: FC<ClientFeedProps> = ({ initialData }) => {
 
   if (error)
     return <p className="text-center text-red-500 py-4">Failed to load feed</p>;
-  
+
   if (isLoading && !data) return <LoadingSkeleton />;
-  
+
   return <HorizontalFeed feed={data || initialData} />;
 };
 

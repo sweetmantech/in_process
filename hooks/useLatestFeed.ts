@@ -2,9 +2,9 @@ import { useQuery } from "@tanstack/react-query";
 import type { NftMetadata } from "@/lib/dune/getLatestFeed";
 
 async function fetchLatestFeed(): Promise<NftMetadata[]> {
-  const response = await fetch('/api/dune/latest');
+  const response = await fetch("/api/dune/latest");
   if (!response.ok) {
-    throw new Error('Network response was not ok');
+    throw new Error("Network response was not ok");
   }
   return response.json();
 }

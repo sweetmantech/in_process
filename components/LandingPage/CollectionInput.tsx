@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { Input } from "@/components/ui/input";
 import parseZoraUrl from "@/lib/zora/parseZoraUrl";
 import { useState } from "react";
