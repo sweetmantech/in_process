@@ -1,6 +1,5 @@
 import { Address } from "viem";
 import client from "./client";
-import { unstable_cache } from "next/cache";
 import { getMetadata } from "../viem/getMetadata";
 
 export interface NftMetadata {
