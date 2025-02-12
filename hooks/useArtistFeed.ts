@@ -1,4 +1,5 @@
-import { getMetadata, NftMetadata } from "@/lib/viem/getMetadata";
+import { NftMetadata } from "@/lib/dune/getLatestFeed";
+import { getMetadata } from "@/lib/viem/getMetadata";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 
