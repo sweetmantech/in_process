@@ -2,7 +2,7 @@
 
 import { FC, useState } from "react";
 import Image from "next/image";
-import { NftMetadata } from "@/lib/viem/getMetadata";
+import { NftMetadata } from "@/lib/dune/getLatestFeed";
 
 interface HorizontalFeedProps {
   feed: NftMetadata[];
