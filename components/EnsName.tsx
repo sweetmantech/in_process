@@ -10,21 +10,23 @@ interface EnsNameProps {
 }
 const EnsName: FC<EnsNameProps> = ({ className = "", address }) => {
   const [ref, inView] = useInView();
+  const [intialized, setInitialized] = useState(false);
 
   const [ensName, setEnsName] = useState("");
 
   useEffect(() => {
     const fetchEnsname = async () => {
-      if (address && inView) {
+      if (intialized) return;
+      if (inView) {
+        setInitialized(true);
         const response = await getEnsName(address);
         setEnsName(response);
         return;
       }
-
       setEnsName("");
     };
     fetchEnsname();
-  }, [address, inView]);
+  }, [inView, intialized]);
 
   return (
     <p className={`${className}`} ref={ref}>

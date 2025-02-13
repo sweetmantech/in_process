@@ -5,25 +5,20 @@ import { FC, useEffect, ReactNode } from "react";
 interface FadeInProps {
   children: ReactNode;
   className?: string;
-  checkInview?: boolean;
 }
 
-export const FadeIn: FC<FadeInProps> = ({
-  children,
-  className,
-  checkInview = true,
-}) => {
+export const FadeIn: FC<FadeInProps> = ({ children, className }) => {
   const controls = useAnimation();
   const [ref, inView] = useInView();
 
   useEffect(() => {
-    if (inView || !checkInview) {
+    if (inView) {
       controls.start("visible");
       return;
     }
 
     controls.start("hidden");
-  }, [controls, inView, checkInview]);
+  }, [controls, inView]);
 
   return (
     <motion.div

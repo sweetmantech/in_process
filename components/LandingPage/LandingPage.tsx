@@ -15,11 +15,11 @@ import Feed from "./Feed";
 
 export default function LandingPage() {
   return (
-    <div className=" isolate min-h-screen overflow-hidden bg-white bg-gradientTopRightLight pb-8 sm:pb-12 md:pb-0">
+    <div className="isolate min-h-screen overflow-hidden bg-white bg-gradientTopRightLight pb-8 sm:pb-12 md:pb-0">
       <div className="container relative pt-12"></div>
 
       <BgNoiseWrapper url="/egg-shell-noise.png">
-        <div className="container relative pt-12">
+        <div className="max-w-4xl mx-auto relative pt-12 overflow-hidden">
           <PageHeader>
             <FadeIn>
               <Announcement />
