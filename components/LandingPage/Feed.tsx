@@ -1,5 +1,5 @@
 import { useLatestFeed } from "@/hooks/useLatestFeed";
-import HorizontalFeed from "../HorizontalFeed";
+import HorizontalFeed from "../HorizontalFeed/HorizontalFeed";
 import { Skeleton } from "../ui/skeleton";
 import { FC } from "react";
 
@@ -9,7 +9,7 @@ const Feed: FC = () => {
   if (error)
     return <p className="text-center text-red-500 py-4">Failed to load feed</p>;
   if (isLoading) return <Skeleton className="w-full max-w-4xl mx-auto h-20" />;
-  return <HorizontalFeed feed={data || []} />;
+  return <HorizontalFeed feeds={data || []} />;
 };
 
 export default Feed;
