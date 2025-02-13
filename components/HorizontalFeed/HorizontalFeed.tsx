@@ -1,14 +1,14 @@
 "use client";
 
 import { FC, useState } from "react";
-import { LatestFeed } from "@/lib/viem/getUris";
+import { Collection } from "@/lib/viem/getUris";
 import Feed from "./Feed";
 import Slider from "../Slider";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Swiper } from "swiper/types";
 
 interface HorizontalFeedProps {
-  feeds: LatestFeed[];
+  feeds: Collection[];
   shouldCollect?: boolean;
 }
 
@@ -41,7 +41,7 @@ const HorizontalFeed: FC<HorizontalFeedProps> = ({
         className="w-full max-w-4xl mx-auto !overflow-visible my-4"
         slideClassName="!w-fit !m-0"
       >
-        {feeds.map((feed: LatestFeed, i) => (
+        {feeds.map((feed: Collection, i) => (
           <Feed
             key={i}
             feed={feed}

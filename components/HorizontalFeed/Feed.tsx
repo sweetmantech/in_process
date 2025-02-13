@@ -1,5 +1,5 @@
 import { useMetadata } from "@/hooks/useMetadata";
-import { LatestFeed, NftMetadata } from "@/lib/viem/getUris";
+import { Collection, NftMetadata } from "@/lib/viem/getUris";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { FC } from "react";
@@ -9,7 +9,7 @@ import truncateAddress from "@/lib/truncateAddress";
 import EnsName from "../EnsName";
 
 interface FeedProps {
-  feed: LatestFeed;
+  feed: Collection;
   hovered: boolean;
   onHover: () => void;
   onLeave: () => void;
@@ -19,7 +19,7 @@ interface FeedProps {
 const Feed: FC<FeedProps> = ({ feed, onHover, onLeave, hovered, step }) => {
   const { push } = useRouter();
   const { isLoading, data } = useMetadata(feed);
-  const handleClick = (feed: LatestFeed) => {
+  const handleClick = (feed: Collection) => {
     push(`/${feed.owner}`);
   };
   return (

@@ -15,3 +15,18 @@ export interface TokenInfo {
     tokenURI: string;
   };
 }
+
+export interface Metadata {
+  image: string;
+  name: string;
+  description: string;
+}
+
+export interface Collection {
+  contractURI: string
+  creator: string
+  defaultAdmin: string
+  defaultRoyaltyConfiguration: [string, string, string],
+  name: string,
+  newContract: string
+}

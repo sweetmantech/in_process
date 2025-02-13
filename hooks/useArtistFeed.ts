@@ -1,8 +1,8 @@
-import { getUris, LatestFeed } from "@/lib/viem/getUris";
+import { getUris, Collection } from "@/lib/viem/getUris";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 
-async function fetchArtistFeed(artistAddress: string): Promise<LatestFeed[]> {
+async function fetchArtistFeed(artistAddress: string): Promise<Collection[]> {
   const response = await fetch(
     `/api/dune/artist?artistAddress=${artistAddress}`,
   );
