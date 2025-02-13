@@ -1,8 +1,11 @@
-import { Collection, NftMetadata } from "@/lib/viem/getUris";
+import { getIpfsLink } from "@/lib/utils";
+import { Collection, Metadata } from "@/types/token";
 import { useQuery } from "@tanstack/react-query";
 
-async function fetchMetadata(feed: Collection): Promise<NftMetadata> {
-  const response = await fetch(`/api/ipfs/metadata?uri=${feed.uri}`);
+async function fetchMetadata(feed: Collection): Promise<Metadata> {
+  const response = await fetch(
+    `/api/ipfs/metadata?uri=${getIpfsLink(feed.contractURI)}`,
+  );
   if (!response.ok) {
     return {
       name: "",

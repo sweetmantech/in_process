@@ -1,11 +1,11 @@
 "use client";
 
 import { FC, useState } from "react";
-import { Collection } from "@/lib/viem/getUris";
 import Feed from "./Feed";
 import Slider from "../Slider";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Swiper } from "swiper/types";
+import { Collection } from "@/types/token";
 
 interface HorizontalFeedProps {
   feeds: Collection[];
@@ -50,8 +50,8 @@ const HorizontalFeed: FC<HorizontalFeedProps> = ({
             hovered={hoveredEvent === i}
             shouldCollect={shouldCollect}
             step={
-              (new Date(feeds[i === 0 ? 0 : i - 1].release_date).getTime() -
-                new Date(feed.release_date).getTime()) /
+              (new Date(feeds[i === 0 ? 0 : i - 1].released_at).getTime() -
+                new Date(feed.released_at).getTime()) /
               1000 /
               60 /
               60 /

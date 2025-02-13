@@ -1,3 +1,5 @@
+import { Address } from 'viem'
+
 export interface TokenMetadata {
   name?: string;
   description?: string;
@@ -24,9 +26,10 @@ export interface Metadata {
 
 export interface Collection {
   contractURI: string
-  creator: string
-  defaultAdmin: string
+  creator: Address
+  defaultAdmin: Address
   defaultRoyaltyConfiguration: [string, string, string],
   name: string,
-  newContract: string
+  newContract: Address,
+  released_at: number
 }

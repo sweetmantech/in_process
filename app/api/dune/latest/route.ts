@@ -29,6 +29,7 @@ export async function GET() {
       setUpEvent.decoded.inputs.map((ele: any) => {
         data[`${ele.name}`] = ele.value;
       });
+      data.released_at = new Date(transaction.block_time).getTime();
       return data;
     });
     return Response.json(formattedFeed);
