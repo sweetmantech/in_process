@@ -20,7 +20,8 @@ const HorizontalFeed: FC<HorizontalFeedProps> = ({
   const [swiper, setSwiper] = useState<Swiper | null>(null);
 
   return (
-    <div className="relative">
+    <div className="relative w-full">
+      <div className="bg-gray-300 w-full h-0.5 absolute left-0 bottom-1/2" />
       <button className="absolute bottom-1/3 z-[2] rounded-full bg-black text-white p-1">
         <ArrowLeft className="size-6" onClick={() => swiper?.slidePrev()} />
       </button>
