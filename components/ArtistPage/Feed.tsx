@@ -1,4 +1,4 @@
-import HorizontalFeed from "../HorizontalFeed/HorizontalFeed";
+import HorizontalFeed from "../HorizontalFeed";
 import { FC } from "react";
 import { Skeleton } from "../ui/skeleton";
 import { useLatestFeed } from "@/hooks/useLatestFeed";
