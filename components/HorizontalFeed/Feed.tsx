@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import { FC } from "react";
 import { Skeleton } from "../ui/skeleton";
 import { getIpfsLink } from "@/lib/utils";
-import truncateAddress from "@/lib/truncateAddress";
 import EnsName from "../EnsName";
 import { Collection, Metadata } from "@/types/token";
 
