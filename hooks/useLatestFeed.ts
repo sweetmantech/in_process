@@ -1,14 +1,13 @@
-import { getUris, LatestFeed } from "@/lib/viem/getUris";
+import { Collection } from "@/types/token";
 import { useQuery } from "@tanstack/react-query";
 
-async function fetchLatestFeed(): Promise<LatestFeed[]> {
+async function fetchLatestFeed(): Promise<Collection[]> {
   const response = await fetch(`/api/dune/latest`);
   if (!response.ok) {
     throw new Error("Failed to fetch latest");
   }
   const data = await response.json();
-  const feeds = await getUris(data);
-  return feeds;
+  return data;
 }
 
 export function useLatestFeed() {

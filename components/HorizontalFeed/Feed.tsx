@@ -1,5 +1,4 @@
 import { useMetadata } from "@/hooks/useMetadata";
-import { LatestFeed, NftMetadata } from "@/lib/viem/getUris";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { FC } from "react";
@@ -7,9 +6,10 @@ import { Skeleton } from "../ui/skeleton";
 import { getIpfsLink } from "@/lib/utils";
 import truncateAddress from "@/lib/truncateAddress";
 import EnsName from "../EnsName";
+import { Collection, Metadata } from "@/types/token";
 
 interface FeedProps {
-  feed: LatestFeed;
+  feed: Collection;
   hovered: boolean;
   onHover: () => void;
   onLeave: () => void;
@@ -19,14 +19,15 @@ interface FeedProps {
 const Feed: FC<FeedProps> = ({ feed, onHover, onLeave, hovered, step }) => {
   const { push } = useRouter();
   const { isLoading, data } = useMetadata(feed);
-  const handleClick = (feed: LatestFeed) => {
-    push(`/${feed.owner}`);
+  const handleClick = (feed: Collection) => {
+    push(`/${feed.creator}`);
   };
+
   return (
     <div
       className="relative max-w-fit"
       style={{
-        paddingLeft: `${16 + step}px`,
+        paddingLeft: `${16 + step * 10}px`,
       }}
     >
       <div className="bg-gray-300 w-full h-0.5 absolute translate-y-2 left-0" />
@@ -37,27 +38,28 @@ const Feed: FC<FeedProps> = ({ feed, onHover, onLeave, hovered, step }) => {
           onMouseLeave={onLeave}
           onClick={() => handleClick(feed)}
         />
-        <EnsName address={feed.owner} className="text-sm leading-[100%] pt-1" />
-        <p className="text-xs">
-          {new Date(feed.release_date).toLocaleString()}
-        </p>
+        <EnsName
+          address={feed.creator}
+          className="text-sm leading-[100%] pt-1"
+        />
+        <p className="text-xs">{new Date(feed.released_at).toLocaleString()}</p>
       </fieldset>
       {hovered && (
-        <div className="absolute bottom-14 left-1/2 transform -translate-x-1/2 mb-2 bg-white shadow-lg rounded-lg p-2 md:p-4 transition-opacity duration-200 ease-in-out">
+        <div className="absolute bottom-14 mb-2 bg-white shadow-lg rounded-lg p-2 md:p-4 transition-opacity duration-200 ease-in-out">
           <div className="w-[60px] md:w-[150px] aspect-[1/1] overflow-hidden relative">
             {isLoading ? (
               <Skeleton className="size-full" />
             ) : (
               <Image
                 src={
-                  getIpfsLink((data as NftMetadata)?.image) ||
+                  getIpfsLink((data as Metadata)?.image) ||
                   "/images/placeholder.png"
                 }
-                alt={(data as NftMetadata).name}
+                alt={(data as Metadata).name}
                 layout="fill"
                 objectFit="cover"
                 objectPosition="center"
-                blurDataURL={(data as NftMetadata).image}
+                blurDataURL={(data as Metadata).image}
               />
             )}
           </div>
@@ -65,8 +67,7 @@ const Feed: FC<FeedProps> = ({ feed, onHover, onLeave, hovered, step }) => {
             {isLoading ? (
               <Skeleton className="h-4 w-full rounded-xs" />
             ) : (
-              (data as NftMetadata)?.name ||
-              truncateAddress(feed.nft_contract_address)
+              (data as Metadata)?.name || truncateAddress(feed.creator)
             )}
           </h3>
         </div>
