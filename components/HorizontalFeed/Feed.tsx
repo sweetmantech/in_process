@@ -37,7 +37,7 @@ const Feed: FC<FeedProps> = ({ feed, onHover, onLeave, hovered }) => {
         </p>
       </fieldset>
       {hovered && (
-        <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 bg-white shadow-lg rounded-lg p-2 md:p-4 transition-opacity duration-200 ease-in-out">
+        <div className="absolute bottom-14 left-1/2 transform -translate-x-1/2 mb-2 bg-white shadow-lg rounded-lg p-2 md:p-4 transition-opacity duration-200 ease-in-out">
           <div className="w-[60px] md:w-[150px] aspect-[1/1] overflow-hidden relative">
             {isLoading ? (
               <Skeleton className="size-full" />
