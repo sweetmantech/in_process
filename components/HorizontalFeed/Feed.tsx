@@ -14,16 +14,22 @@ interface FeedProps {
   onHover: () => void;
   onLeave: () => void;
   shouldCollect: boolean;
+  step: number;
 }
-const Feed: FC<FeedProps> = ({ feed, onHover, onLeave, hovered }) => {
+const Feed: FC<FeedProps> = ({ feed, onHover, onLeave, hovered, step }) => {
   const { push } = useRouter();
   const { isLoading, data } = useMetadata(feed);
-
   const handleClick = (feed: LatestFeed) => {
     push(`/${feed.owner}`);
   };
   return (
-    <div className="relative">
+    <div
+      className="relative max-w-fit"
+      style={{
+        paddingLeft: `${16 + step}px`,
+      }}
+    >
+      <div className="bg-gray-300 w-full h-0.5 absolute translate-y-2 left-0" />
       <fieldset className="flex flex-col items-center mt-9">
         <button
           className="w-5 h-5 bg-black rounded-full relative z-10 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-opacity-75 transition-transform hover:scale-110"
