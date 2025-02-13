@@ -24,7 +24,7 @@ const Feed: FC<FeedProps> = ({ feed, onHover, onLeave, hovered }) => {
   };
   return (
     <div className="relative">
-      <fieldset className="flex flex-col items-center mt-11">
+      <fieldset className="flex flex-col items-center mt-9">
         <button
           className="w-5 h-5 bg-black rounded-full relative z-10 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-opacity-75 transition-transform hover:scale-110"
           onMouseEnter={onHover}
