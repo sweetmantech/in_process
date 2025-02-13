@@ -1,14 +1,14 @@
 "use client";
 
 import { FC, useState } from "react";
-import { LatestFeed } from "@/lib/viem/getUris";
 import Feed from "./Feed";
 import Slider from "../Slider";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Swiper } from "swiper/types";
+import { Collection } from "@/types/token";
 
 interface HorizontalFeedProps {
-  feeds: LatestFeed[];
+  feeds: Collection[];
   shouldCollect?: boolean;
 }
 
@@ -20,7 +20,8 @@ const HorizontalFeed: FC<HorizontalFeedProps> = ({
   const [swiper, setSwiper] = useState<Swiper | null>(null);
 
   return (
-    <div className="relative">
+    <div className="relative w-full">
+      <div className="bg-gray-300 w-full h-0.5 absolute left-0 bottom-1/2" />
       <button className="absolute bottom-1/3 z-[2] rounded-full bg-black text-white p-1">
         <ArrowLeft className="size-6" onClick={() => swiper?.slidePrev()} />
       </button>
@@ -41,7 +42,7 @@ const HorizontalFeed: FC<HorizontalFeedProps> = ({
         className="w-full max-w-4xl mx-auto !overflow-visible my-4"
         slideClassName="!w-fit !m-0"
       >
-        {feeds.map((feed: LatestFeed, i) => (
+        {feeds.map((feed: Collection, i) => (
           <Feed
             key={i}
             feed={feed}
@@ -50,8 +51,8 @@ const HorizontalFeed: FC<HorizontalFeedProps> = ({
             hovered={hoveredEvent === i}
             shouldCollect={shouldCollect}
             step={
-              (new Date(feeds[i === 0 ? 0 : i - 1].release_date).getTime() -
-                new Date(feed.release_date).getTime()) /
+              (new Date(feeds[i === 0 ? 0 : i - 1].released_at).getTime() -
+                new Date(feed.released_at).getTime()) /
               1000 /
               60 /
               60 /

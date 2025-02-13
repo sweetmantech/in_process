@@ -1,5 +1,5 @@
 import { useLatestFeed } from "@/hooks/useLatestFeed";
-import HorizontalFeed from "../HorizontalFeed/HorizontalFeed";
+import HorizontalFeed from "../HorizontalFeed";
 import { Skeleton } from "../ui/skeleton";
 import { FC } from "react";
 

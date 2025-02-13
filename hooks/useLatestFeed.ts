@@ -1,20 +1,25 @@
-import { getUris, LatestFeed } from "@/lib/viem/getUris";
+import { Collection } from "@/types/token";
 import { useQuery } from "@tanstack/react-query";
+import { useParams } from "next/navigation";
 
-async function fetchLatestFeed(): Promise<LatestFeed[]> {
-  const response = await fetch(`/api/dune/latest`);
+async function fetchLatestFeed(
+  artistAddress: string | string[] | undefined,
+): Promise<Collection[]> {
+  const response = await fetch(
+    `/api/dune/latest?artistAddress=${artistAddress || ""}`,
+  );
   if (!response.ok) {
     throw new Error("Failed to fetch latest");
   }
   const data = await response.json();
-  const feeds = await getUris(data);
-  return feeds;
+  return data;
 }
 
 export function useLatestFeed() {
+  const { artistAddress } = useParams();
   return useQuery({
-    queryKey: ["latestFeed"],
-    queryFn: () => fetchLatestFeed(),
+    queryKey: ["latestFeed", artistAddress],
+    queryFn: () => fetchLatestFeed(artistAddress),
     staleTime: 1000 * 60 * 5,
     refetchOnMount: true,
   });
