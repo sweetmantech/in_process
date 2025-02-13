@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "prettier:fix": "npx prettier --write app components hooks lib providers",
-    "format": "yarn run prettier:fix"
+    "format": "yarn run prettier:fix & yarn lint"
   },
   "dependencies": {
     "@crossmint/client-sdk-react-ui": "^1.10.4",

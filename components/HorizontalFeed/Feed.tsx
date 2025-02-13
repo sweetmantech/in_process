@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import { FC } from "react";
 import { Skeleton } from "../ui/skeleton";
 import { getIpfsLink } from "@/lib/utils";
-import truncateAddress from "@/lib/truncateAddress";
 import EnsName from "../EnsName";
 import { Collection, Metadata } from "@/types/token";
 
@@ -66,7 +65,7 @@ const Feed: FC<FeedProps> = ({ feed, onHover, onLeave, hovered, step }) => {
             {isLoading ? (
               <Skeleton className="h-4 w-full rounded-xs" />
             ) : (
-              (data as Metadata)?.name || truncateAddress(feed.creator)
+              (data as Metadata)?.name || feed.name
             )}
           </h3>
         </div>

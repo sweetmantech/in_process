@@ -26,6 +26,7 @@ const EnsName: FC<EnsNameProps> = ({ className = "", address }) => {
       setEnsName("");
     };
     fetchEnsname();
+    // eslint-disable-next-line
   }, [inView, intialized]);
 
   return (
