@@ -6,6 +6,7 @@ import { FC } from "react";
 import { Skeleton } from "../ui/skeleton";
 import { getIpfsLink } from "@/lib/utils";
 import truncateAddress from "@/lib/truncateAddress";
+import EnsName from "../EnsName";
 
 interface FeedProps {
   feed: LatestFeed;
@@ -23,13 +24,17 @@ const Feed: FC<FeedProps> = ({ feed, onHover, onLeave, hovered }) => {
   };
   return (
     <div className="relative">
-      <fieldset className="flex flex-col items-center">
+      <fieldset className="flex flex-col items-center mt-11">
         <button
           className="w-5 h-5 bg-black rounded-full relative z-10 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-opacity-75 transition-transform hover:scale-110"
           onMouseEnter={onHover}
           onMouseLeave={onLeave}
           onClick={() => handleClick(feed)}
         />
+        <EnsName address={feed.owner} className="text-sm leading-[100%] pt-1" />
+        <p className="text-xs">
+          {new Date(feed.release_date).toLocaleString()}
+        </p>
       </fieldset>
       {hovered && (
         <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 bg-white shadow-lg rounded-lg p-2 md:p-4 transition-opacity duration-200 ease-in-out">
