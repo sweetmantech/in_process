@@ -66,7 +66,7 @@ const Feed: FC<FeedProps> = ({ feed, onHover, onLeave, hovered, step }) => {
             {isLoading ? (
               <Skeleton className="h-4 w-full rounded-xs" />
             ) : (
-              (data as Metadata)?.name || truncateAddress(feed.creator)
+              (data as Metadata)?.name || feed.name
             )}
           </h3>
         </div>
