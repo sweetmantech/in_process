@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Providers } from "@/providers/Providers";
+import LoginButton from "@/components/LoginButton";
 
 export const metadata: Metadata = {
   title: "In Process",
@@ -15,7 +16,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`font-nounish antialiased`}>
-        <Providers>{children}</Providers>
+        <Providers>
+          <LoginButton className="fixed top-4 right-6 z-10" />
+          {children}
+        </Providers>
       </body>
     </html>
   );
