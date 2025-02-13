@@ -1,8 +1,8 @@
-import { getMetadata, NftMetadata } from "@/lib/viem/getMetadata";
+import { getUris, LatestFeed } from "@/lib/viem/getUris";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 
-async function fetchArtistFeed(artistAddress: string): Promise<NftMetadata[]> {
+async function fetchArtistFeed(artistAddress: string): Promise<LatestFeed[]> {
   const response = await fetch(
     `/api/dune/artist?artistAddress=${artistAddress}`,
   );
@@ -10,8 +10,8 @@ async function fetchArtistFeed(artistAddress: string): Promise<NftMetadata[]> {
     throw new Error("Failed to fetch artist feed");
   }
   const data = await response.json();
-  const metadata = await getMetadata(data);
-  return metadata.filter((ele: NftMetadata) => ele.name);
+  const uris = await getUris(data);
+  return uris;
 }
 
 export function useArtistFeed() {
