@@ -1,16 +1,13 @@
 "use client";
 
-import { useAccount } from "wagmi";
 import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
 import Spinner from "@/components/ui/spinner";
 import MediaUpload from "@/components/MediaUpload/MediaUpload";
-import LoginButton from "@/components/LoginButton";
 import Title from "./Title";
 import CreateButton from "./CreateButton";
 
 export default function CreatePage() {
   const { creating, name } = useZoraCreateProvider();
-  const { address } = useAccount();
 
   if (creating) {
     return (
@@ -34,7 +31,7 @@ export default function CreatePage() {
             </div>
           </div>
         )}
-        {address ? <CreateButton /> : <LoginButton />}
+        <CreateButton />
       </div>
     </div>
   );

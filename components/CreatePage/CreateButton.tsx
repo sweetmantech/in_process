@@ -6,16 +6,22 @@ import { useAccount } from "wagmi";
 import { useRouter } from "next/navigation";
 import { getShortNetworkName } from "@/lib/zora/zoraToViem";
 import { CHAIN } from "@/lib/consts";
+import { usePrivy } from "@privy-io/react-auth";
 
 const CreateButton = () => {
   const { create, name, imageUri, animationUri } = useZoraCreateProvider();
   const { address } = useAccount();
   const router = useRouter();
+  const { login } = usePrivy();
 
   const isDisabled = !address || !name || (!imageUri && !animationUri);
 
   const handleCreate = async () => {
     try {
+      if (!address) {
+        login();
+        return;
+      }
       const result = await create();
       if (result?.contractAddress && CHAIN) {
         const shortNetworkName = getShortNetworkName(CHAIN.name.toLowerCase());
