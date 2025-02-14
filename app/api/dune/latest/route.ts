@@ -14,7 +14,10 @@ export async function GET(req: NextRequest) {
           (log) => log.decoded.name === "SetupNewContract",
         );
         if (!setUpEvent) return;
-        const data: any = {};
+        const data: any = {
+          chainId: transaction.chain_id,
+          chain: transaction.chain,
+        };
         setUpEvent.decoded.inputs.map((input) => {
           data[`${input.name}`] = input.value;
         });

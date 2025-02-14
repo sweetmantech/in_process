@@ -6,6 +6,7 @@ import { Skeleton } from "../ui/skeleton";
 import { getIpfsLink } from "@/lib/utils";
 import EnsName from "../EnsName";
 import { Collection, Metadata } from "@/types/token";
+import { getShortNetworkName } from "@/lib/zora/zoraToViem";
 
 interface FeedProps {
   feed: Collection;
@@ -15,10 +16,24 @@ interface FeedProps {
   shouldCollect: boolean;
   step: number;
 }
-const Feed: FC<FeedProps> = ({ feed, onHover, onLeave, hovered, step }) => {
+const Feed: FC<FeedProps> = ({
+  feed,
+  onHover,
+  onLeave,
+  hovered,
+  step,
+  shouldCollect,
+}) => {
   const { push } = useRouter();
   const { isLoading, data } = useMetadata(feed);
   const handleClick = (feed: Collection) => {
+    if (shouldCollect) {
+      const shortNetworkName = getShortNetworkName(
+        feed.chain.replaceAll("_", " "),
+      );
+      push(`/collect/${shortNetworkName}:${feed.newContract}`);
+      return;
+    }
     push(`/${feed.creator}`);
   };
 
