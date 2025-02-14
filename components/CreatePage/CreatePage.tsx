@@ -23,7 +23,6 @@ export default function CreatePage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <LoginButton />
       <div className="mt-8 md:flex md:space-x-8">
         <div className="md:w-1/4 flex flex-col items-center gap-5">
           <MediaUpload />

@@ -33,7 +33,7 @@ const useFileUpload = () => {
         setName(fileNameWithoutExtension);
       }
 
-      const { uri } = await uploadFile(file);
+      const uri = await uploadFile(file);
       if (isImage) {
         setImageUri(uri);
         setBlurImageUrl(URL.createObjectURL(file));

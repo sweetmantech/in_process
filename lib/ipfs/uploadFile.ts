@@ -1,36 +1,13 @@
-import saveFile from "./saveFile";
-
-export type IPFSUploadResponse = {
-  cid: string;
-  uri: string;
-};
-
-export const uploadFile = async (
-  file: File,
-  jwt?: string,
-): Promise<IPFSUploadResponse> => {
+export const uploadFile = async (file: File): Promise<string> => {
   try {
-    console.log("uploadingFile...");
     const data = new FormData();
-    console.log("data", data);
-
     data.set("file", file);
-    console.log("file", file);
+    const res = await fetch("/api/ipfs", { method: "POST", body: data });
+    const arweave_url = await res.json();
 
-    let cid: any;
-    console.log("jwt", jwt);
-    console.log("data", data);
-    if (jwt) {
-      cid = await saveFile(data, jwt);
-    } else {
-      const res = await fetch("/api/ipfs", { method: "POST", body: data });
-      const json = await res.json();
-      cid = json.cid;
-    }
-
-    return { cid, uri: `ipfs://${cid}` };
+    return arweave_url;
   } catch (error) {
     console.error(error);
-    return { cid: "", uri: "" };
+    return "";
   }
 };
