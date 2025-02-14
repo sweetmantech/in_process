@@ -51,21 +51,21 @@
     eventemitter3 "^5.0.1"
     preact "^10.24.2"
 
-"@crossmint/client-sdk-auth@1.1.17":
-  version "1.1.17"
-  resolved "https://registry.yarnpkg.com/@crossmint/client-sdk-auth/-/client-sdk-auth-1.1.17.tgz#4caddc11573bf86f16db0bee3bde3c5f9772d92b"
-  integrity sha512-i+8tJv6xiTq4P8uO7c2+L0bgUCDilOtBxQ6IqHOx27mdPOPzEj1TjG+eWO1WYiChsXc9HC60FI1Jhl6u2EFI+A==
+"@crossmint/client-sdk-auth@1.1.18":
+  version "1.1.18"
+  resolved "https://registry.yarnpkg.com/@crossmint/client-sdk-auth/-/client-sdk-auth-1.1.18.tgz#3e038acac59a00f49b68b7a7b78b8f795815ab02"
+  integrity sha512-JXpHAcSXLghc4Y6Q3JHphmj8VEXKKYDnCOSliYG54ChKn3hL+xtJkK4eq4Y0UrAmLv6i4lqeJAH5f9nhijLr7g==
   dependencies:
-    "@crossmint/client-sdk-base" "1.4.8"
-    "@crossmint/common-sdk-auth" "1.0.15"
+    "@crossmint/client-sdk-base" "1.4.9"
+    "@crossmint/common-sdk-auth" "1.0.16"
     "@crossmint/common-sdk-base" "0.3.2"
     "@farcaster/auth-kit" "0.6.0"
     jwt-decode "4.0.0"
 
-"@crossmint/client-sdk-base@1.4.8":
-  version "1.4.8"
-  resolved "https://registry.yarnpkg.com/@crossmint/client-sdk-base/-/client-sdk-base-1.4.8.tgz#5176f2f5431e7cb3a5aed50e3071c03290b1bc34"
-  integrity sha512-Zie0Brai7NBhqKu819uQO/05xrw7+E24KVEsKtH8A6dJi6Q72KqGDDJlDCsFntc+UvHYD8YAf5ufdX/1NTevlw==
+"@crossmint/client-sdk-base@1.4.9":
+  version "1.4.9"
+  resolved "https://registry.yarnpkg.com/@crossmint/client-sdk-base/-/client-sdk-base-1.4.9.tgz#93e56875630e3f34e465164187a8591731b1d485"
+  integrity sha512-3BHaScpKmwac6k8hEUeNNphIYKgRuBEf14k/z1Zbc60k7LIVWdoSTzixvOU/VMEjYosgxY4x+3sNNf5XJVkzvg==
   dependencies:
     "@crossmint/client-sdk-window" "0.2.2"
     "@crossmint/common-sdk-base" "0.3.2"
@@ -74,16 +74,16 @@
     uuid "9.0.1"
     zod "3.22.4"
 
-"@crossmint/client-sdk-react-ui@^1.10.4":
-  version "1.13.11"
-  resolved "https://registry.yarnpkg.com/@crossmint/client-sdk-react-ui/-/client-sdk-react-ui-1.13.11.tgz#9322131830f32866d4b262bd39be9dfc18cf3762"
-  integrity sha512-cQm9dTdtCm/uT7jlgtKOcQAIYjtKCVcr3PaycFp07zAv2ZxFqXzUbnQDLwqUJZ+/g1COxT4OSD4EKANYJa7kiQ==
+"@crossmint/client-sdk-react-ui@^1.13.13":
+  version "1.13.13"
+  resolved "https://registry.yarnpkg.com/@crossmint/client-sdk-react-ui/-/client-sdk-react-ui-1.13.13.tgz#b70a73f56c7d28bd138eeb4455574c80eb164df6"
+  integrity sha512-rQuP+lS5sYrAQEhL/R0jKevznlh6PMxfFynuxLiUsxV9mYPwiTKsv6Czhi6o/iLOGZCvP+u6D2oIZx7Mp0tsqg==
   dependencies:
-    "@crossmint/client-sdk-auth" "1.1.17"
-    "@crossmint/client-sdk-base" "1.4.8"
-    "@crossmint/client-sdk-smart-wallet" "0.1.33"
+    "@crossmint/client-sdk-auth" "1.1.18"
+    "@crossmint/client-sdk-base" "1.4.9"
+    "@crossmint/client-sdk-smart-wallet" "0.1.34"
     "@crossmint/client-sdk-window" "0.2.2"
-    "@crossmint/common-sdk-auth" "1.0.15"
+    "@crossmint/common-sdk-auth" "1.0.16"
     "@crossmint/common-sdk-base" "0.3.2"
     "@dynamic-labs/ethereum" "2.6.3"
     "@dynamic-labs/sdk-react-core" "2.6.3"
@@ -107,12 +107,12 @@
     viem "2.17.5"
     zod "3.22.4"
 
-"@crossmint/client-sdk-smart-wallet@0.1.33":
-  version "0.1.33"
-  resolved "https://registry.yarnpkg.com/@crossmint/client-sdk-smart-wallet/-/client-sdk-smart-wallet-0.1.33.tgz#d01d4ba5747f56deec58d72f0992089cb69a2347"
-  integrity sha512-kol5W7bCJqPSyJ0iiYLf14bLoyCw80SU4PdtbhcQOE42V7lF9V5EGH2qA6ePiFqpO3Ig653nZdT8DE4H0QsGwQ==
+"@crossmint/client-sdk-smart-wallet@0.1.34":
+  version "0.1.34"
+  resolved "https://registry.yarnpkg.com/@crossmint/client-sdk-smart-wallet/-/client-sdk-smart-wallet-0.1.34.tgz#a623290a1190b55ebd0a82e3071ff576363613ef"
+  integrity sha512-N81IlvJioD6dAybrAA0YJrH+twJXWSgDaRNmAg+nLzyrW5jzGER3sBzQqQn7ECSDeUSdIrxT092jND/JoXBDww==
   dependencies:
-    "@crossmint/client-sdk-base" "1.4.8"
+    "@crossmint/client-sdk-base" "1.4.9"
     "@crossmint/common-sdk-base" "0.3.2"
     "@zerodev/ecdsa-validator" "5.3.1"
     "@zerodev/passkey-validator" "5.4.0"
@@ -130,12 +130,12 @@
     nanoid "5.0.4"
     zod "3.22.4"
 
-"@crossmint/common-sdk-auth@1.0.15":
-  version "1.0.15"
-  resolved "https://registry.yarnpkg.com/@crossmint/common-sdk-auth/-/common-sdk-auth-1.0.15.tgz#6ec5da9a65a58859d70e86873aef48567d9ca830"
-  integrity sha512-rOh4VcJoVEAKGBeIWj8zEf047kcWyuhSmea2L0x3JBYs1PYpuGH18N96KmGIAu4U5wNLCZDFw8LLaK9y/dhLIg==
+"@crossmint/common-sdk-auth@1.0.16":
+  version "1.0.16"
+  resolved "https://registry.yarnpkg.com/@crossmint/common-sdk-auth/-/common-sdk-auth-1.0.16.tgz#0cd6dc8fb5dad4c795ce2b55514a2ab5fcb08a5e"
+  integrity sha512-Inh3yQFbh3sIJpECWnRmv5E5KMl7m2ScGkIQp1jPXNb8QFLCG9ry7kW1fsA1S5uPqY/YB7/hbJ0+i9+fYHj3rA==
   dependencies:
-    "@crossmint/client-sdk-base" "1.4.8"
+    "@crossmint/client-sdk-base" "1.4.9"
     "@crossmint/common-sdk-base" "0.3.2"
 
 "@crossmint/common-sdk-base@0.3.2":
@@ -2615,9 +2615,9 @@
   integrity sha512-GsCCIZDE/p3i96vtEqx+7dBUGXrc7zeSK3wwPHIaRThS+9OhWIXRqzs4d6k1SVU8g91DrNRWxWUGhp5KXQb2VA==
 
 "@types/node@*":
-  version "22.13.1"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-22.13.1.tgz#a2a3fefbdeb7ba6b89f40371842162fac0934f33"
-  integrity sha512-jK8uzQlrvXqEU91UxiK5J7pKHyzgnI1Qnl0QDHIgVGuolJhRb9EEl28Cj9b3rGR8B2lhFCtvIm5os8lFnO/1Ew==
+  version "22.13.4"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-22.13.4.tgz#3fe454d77cd4a2d73c214008b3e331bfaaf5038a"
+  integrity sha512-ywP2X0DYtX3y08eFVx5fNIw7/uIv8hYUKgXoK8oayJlLnKcRfEYCxWMVE1XagUdVtCJlZT1AU4LXEABW+L1Peg==
   dependencies:
     undici-types "~6.20.0"
 

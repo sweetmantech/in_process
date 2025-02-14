@@ -1,6 +1,6 @@
 import { COLLECTION_ADDRESS, MINT_FEE_RECIPIENT } from "@/lib/consts";
 import { useTokenProvider } from "@/providers/TokenProvider";
-import { CrossmintPaymentElement_DEPRECATED as CrossmintPaymentElement } from "@crossmint/client-sdk-react-ui";
+import { CrossmintEmbeddedCheckout  } from "@crossmint/client-sdk-react-ui";
 
 interface CrossmintModalProps {
   onClose: () => void;
@@ -18,7 +18,7 @@ export default function CrossmintModal({ onClose }: CrossmintModalProps) {
         >
           ✕
         </button>
-        <CrossmintPaymentElement
+        {/* <CrossmintPaymentElement
           projectId="425871f2-9b99-45d6-9c9c-8b1825f28bcd"
           collectionId="0536b3aa-ef85-4a6b-891d-71ca73f6c32a"
           environment="staging"
@@ -33,6 +33,23 @@ export default function CrossmintModal({ onClose }: CrossmintModalProps) {
             tokenId: Number(token.token.tokenId),
             mintReferral: MINT_FEE_RECIPIENT,
             comment,
+          }}
+        /> */}
+        <CrossmintEmbeddedCheckout  
+          lineItems={{
+            collectionLocator: `crossmint:0536b3aa-ef85-4a6b-891d-71ca73f6c32a`,
+            callData: {
+              totalPrice: "0.000111",
+              quantity: 1,
+            },
+          }}
+          payment={{
+            crypto: {
+                enabled: true, // Enable crypto payments
+            },
+            fiat: {
+                enabled: true, // Enable fiat payments
+            },
           }}
         />
       </div>

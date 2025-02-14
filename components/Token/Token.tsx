@@ -17,8 +17,12 @@ const Token = () => {
 
   useEffect(() => {
     const fetchMetadata = async () => {
-      const data = await fetchIpfs(token.token.tokenURI);
-      setMetadata(data);
+      try {
+        const data = await fetchIpfs(token.token.tokenURI);
+        setMetadata(data);
+      } catch(error) {
+        console.error(error)
+      }
     };
 
     fetchMetadata();
