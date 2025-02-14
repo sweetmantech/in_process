@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Providers } from "@/providers/Providers";
 import LoginButton from "@/components/LoginButton";
+import Logo from "@/components/Logo";
 
 export const metadata: Metadata = {
   title: "In Process",
@@ -17,6 +18,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`font-nounish antialiased`}>
         <Providers>
+          <Logo className="fixed left-6 top-4 z-10" />
           <LoginButton className="fixed top-4 right-6 z-10" />
           {children}
         </Providers>
