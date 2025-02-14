@@ -51,10 +51,14 @@ const Feed: FC<FeedProps> = ({
           onMouseLeave={onLeave}
           onClick={() => handleClick(feed)}
         />
-        <EnsName
-          address={feed.creator}
-          className="text-sm leading-[100%] pt-1"
-        />
+        {shouldCollect ? (
+          <p>{feed.name}</p>
+        ) : (
+          <EnsName
+            address={feed.creator}
+            className="text-sm leading-[100%] pt-1"
+          />
+        )}
         <p className="text-xs">{new Date(feed.released_at).toLocaleString()}</p>
       </fieldset>
       {hovered && (
