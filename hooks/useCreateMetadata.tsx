@@ -1,4 +1,4 @@
-import { uploadJson } from "@/lib/ipfs/uploadJson";
+import { uploadJson } from "@/lib/arweave/uploadJson";
 import { useState } from "react";
 
 const useCreateMetadata = () => {
