@@ -32,4 +32,6 @@ export interface Collection {
   name: string;
   newContract: Address;
   released_at: number;
+  chain: string;
+  chainId: number;
 }
