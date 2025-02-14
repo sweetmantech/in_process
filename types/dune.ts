@@ -1,5 +1,14 @@
 import { Address } from "viem";
 
+export type DuneDecoded = {
+  name: string;
+  inputs: Array<{
+    name: string;
+    type: string;
+    value: string | Array<string>;
+  }>;
+};
+
 export type DuneDecodedEvent = {
   chain: string;
   chain_id: number;
@@ -19,25 +28,11 @@ export type DuneDecodedEvent = {
   effective_gas_price: string;
   success: boolean;
   data: string;
-  decoded: {
-    name: string;
-    inputs: Array<{
-      name: string;
-      type: string;
-      value: string | Array<string>;
-    }>;
-  };
+  decoded: DuneDecoded;
   logs: Array<{
     address: Address;
     data: string;
     topics: Array<string>;
-    decoded: {
-      name: string;
-      inputs: Array<{
-        name: string;
-        type: string;
-        value: string | Array<string>;
-      }>;
-    };
+    decoded: DuneDecoded;
   }>;
 };
