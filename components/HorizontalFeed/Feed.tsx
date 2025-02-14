@@ -31,7 +31,7 @@ const Feed: FC<FeedProps> = ({
       const shortNetworkName = getShortNetworkName(
         feed.chain.replaceAll("_", " "),
       );
-      push(`/collect/${shortNetworkName}:${feed.newContract}`);
+      push(`/collect/${shortNetworkName}:${feed.newContract}/1`);
       return;
     }
     push(`/${feed.creator}`);
