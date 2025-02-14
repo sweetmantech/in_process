@@ -1,44 +1,30 @@
-import { CHAIN_ID, SETUP_NEW_CONTRACT_EVENT_SIGNATURE } from "@/lib/consts";
-import { FACTORY_ADDRESSES } from "@/lib/protocolSdk/create/factory-addresses";
+import getSetupContractEvents from "@/lib/dune/getSetupContractEvents";
+import { DuneDecodedEvent } from "@/types/dune";
 import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
   const artistAddress = req.nextUrl.searchParams.get("artistAddress");
   try {
-    const options = {
-      method: "GET",
-      headers: { "X-Dune-Api-Key": process.env.DUNE_API_KEY as string },
-    };
-    const params: any = {
-      decode: "true",
-      chain_ids: `${CHAIN_ID}`,
-      topic0: SETUP_NEW_CONTRACT_EVENT_SIGNATURE,
-    };
-    if (artistAddress) params["to"] = FACTORY_ADDRESSES[CHAIN_ID];
-    const urlSearchParams = new URLSearchParams(params);
-    const response = await fetch(
-      `https://api.dune.com/api/echo/v1/transactions/evm/${artistAddress || FACTORY_ADDRESSES[CHAIN_ID]}?${urlSearchParams}`,
-      options,
+    const transactions: DuneDecodedEvent[] = await getSetupContractEvents(
+      artistAddress as string,
     );
-    if (!response.ok) {
-      return Response.json({ message: "failed echo API" }, { status: 500 });
-    }
-
-    const { transactions } = await response.json();
-    const formattedFeed = transactions.map((transaction: any) => {
+    const formattedEvents = transactions.map((transaction: DuneDecodedEvent) => {
       const setUpEvent = transaction.logs.find(
-        (log: any) => log.decoded.name === "SetupNewContract",
+        (log) => log.decoded.name === "SetupNewContract",
       );
+      if (!setUpEvent) return;
       const data: any = {};
-      setUpEvent.decoded.inputs.map((ele: any) => {
-        data[`${ele.name}`] = ele.value;
+      setUpEvent.decoded.inputs.map((input) => {
+        data[`${input.name}`] = input.value;
       });
       data.released_at = new Date(transaction.block_time).getTime();
       return data;
     });
-    return Response.json(formattedFeed);
+    return Response.json(formattedEvents);
   } catch (e: any) {
     console.log(e);
+    const message = e?.message ?? "failed to get Dune transactions";
+    return Response.json({ message }, { status: 500 });
   }
 }
 
