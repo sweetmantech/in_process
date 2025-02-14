@@ -16,7 +16,7 @@ const useZoraCreateParameters = (
   const fetchParameters = async () => {
     if (!publicClient) return;
     const creatorClient = createCreatorClient({ chainId, publicClient });
-    const { uri: cc0MusicIpfsHash } = await createMetadata.getUri();
+    const cc0MusicArweaveUri = await createMetadata.getUri();
     const salesConfig = getSalesConfig(
       createMetadata.isTimedSale
         ? "ZoraTimedSaleStrategy"
@@ -29,7 +29,7 @@ const useZoraCreateParameters = (
         await creatorClient.create1155OnExistingContract({
           contractAddress: collection,
           token: {
-            tokenMetadataURI: cc0MusicIpfsHash,
+            tokenMetadataURI: cc0MusicArweaveUri,
             createReferral: REFERRAL_RECIPIENT,
             salesConfig,
           },
@@ -41,10 +41,10 @@ const useZoraCreateParameters = (
         await creatorClient.create1155({
           contract: {
             name: createMetadata.name,
-            uri: cc0MusicIpfsHash,
+            uri: cc0MusicArweaveUri,
           },
           token: {
-            tokenMetadataURI: cc0MusicIpfsHash,
+            tokenMetadataURI: cc0MusicArweaveUri,
             createReferral: REFERRAL_RECIPIENT,
             salesConfig,
           },

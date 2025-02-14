@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 
 async function fetchMetadata(feed: Collection): Promise<Metadata> {
   const response = await fetch(
-    `/api/ipfs/metadata?uri=${getIpfsLink(feed.contractURI)}`,
+    `/api/metadata?uri=${getIpfsLink(feed.contractURI)}`,
   );
   if (!response.ok) {
     return {
