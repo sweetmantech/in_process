@@ -3,10 +3,10 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { FC } from "react";
 import { Skeleton } from "../ui/skeleton";
-import { getIpfsLink } from "@/lib/utils";
 import EnsName from "../EnsName";
 import { Collection, Metadata } from "@/types/token";
 import { getShortNetworkName } from "@/lib/zora/zoraToViem";
+import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 
 interface FeedProps {
   feed: Collection;
@@ -69,7 +69,7 @@ const Feed: FC<FeedProps> = ({
             ) : (
               <Image
                 src={
-                  getIpfsLink((data as Metadata)?.image) ||
+                  getFetchableUrl((data as Metadata)?.image) ||
                   "/images/placeholder.png"
                 }
                 alt={(data as Metadata).name}
