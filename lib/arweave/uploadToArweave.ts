@@ -35,7 +35,7 @@ const uploadPfpToArweave = async (file: File): Promise<string | null> => {
     });
 
     if (!id) return null;
-    return `https://arweave.net/${id}`;
+    return `ar://${id}`;
   } catch (error) {
     console.error("Error uploading to Arweave:", error);
     return null;
