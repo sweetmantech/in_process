@@ -33,6 +33,6 @@ export type DuneDecodedEvent = {
     address: Address;
     data: string;
     topics: Array<string>;
-    decoded: DuneDecoded;
+    decoded?: DuneDecoded;
   }>;
 };

@@ -1,32 +1,17 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import CommentButton from "../CommentButton/CommentButton";
 import CommentSection from "./CommentSection";
 import { useTokenProvider } from "@/providers/TokenProvider";
-import { TokenMetadata } from "@/types/token";
 import WriteComment from "./WriteComment";
-import convertIpfsToHttp from "@/lib/ipfs/convertIpfsToHttp";
-import fetchIpfs from "@/lib/ipfs/fetchIpfs";
 import { useCollectionProvider } from "@/providers/CollectionProvider";
+import { useMetadata } from "@/hooks/useMetadata";
+import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 
 const Token = () => {
   const { token } = useTokenProvider();
+  const { data: metadata } = useMetadata(token.token.tokenURI);
   const { styling } = useCollectionProvider();
-  const [metadata, setMetadata] = useState<TokenMetadata | null>(null);
-
-  useEffect(() => {
-    const fetchMetadata = async () => {
-      try {
-        const data = await fetchIpfs(token.token.tokenURI);
-        setMetadata(data);
-      } catch(error) {
-        console.error(error)
-      }
-    };
-
-    fetchMetadata();
-  }, [token.token.tokenURI]);
 
   return (
     <div
@@ -42,7 +27,7 @@ const Token = () => {
           {metadata.image && (
             // eslint-disable-next-line @next/next/no-img-element
             <img
-              src={convertIpfsToHttp(metadata.image)}
+              src={getFetchableUrl(metadata.image) || ""}
               alt={metadata.name || "Token image"}
               className="mt-4 max-w-full h-auto rounded"
             />

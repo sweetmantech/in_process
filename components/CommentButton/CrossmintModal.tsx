@@ -1,5 +1,7 @@
+import { FIXED_PRICE_SALE_STRATEGY_ADDRESS } from "@/lib/consts";
 import { useTokenProvider } from "@/providers/TokenProvider";
-import { CrossmintEmbeddedCheckout  } from "@crossmint/client-sdk-react-ui";
+import { CrossmintPayButton_DEPRECATED, CrossmintEmbeddedCheckout } from "@crossmint/client-sdk-react-ui";
+import { useAccount } from "wagmi";
 
 interface CrossmintModalProps {
   onClose: () => void;
@@ -7,7 +9,8 @@ interface CrossmintModalProps {
 
 export default function CrossmintModal({ onClose }: CrossmintModalProps) {
   const { comment, token } = useTokenProvider();
-  
+  const { address } = useAccount();
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
       <div className="bg-white p-6 rounded-lg relative">
@@ -17,26 +20,38 @@ export default function CrossmintModal({ onClose }: CrossmintModalProps) {
         >
           ✕
         </button>
-        <CrossmintEmbeddedCheckout  
+        <CrossmintEmbeddedCheckout
           lineItems={{
-            collectionLocator: `crossmint:781d9202-0f92-4dab-94f7-9b68cabe9dec`,
+            collectionLocator: "crossmint:f83e9991-d62a-4de8-a03f-7dad0d6c6fa8",
             callData: {
               totalPrice: "0.000111000000000001",
-              _priceFixedSaleStrategy: "0xd34872BE0cdb6b09d45FCa067B07f04a1A9aE1aE",
-              _quantity: 1,
-              _to: "0x51027631B9DEF86e088C33368eC4E3A4BE0aD264",
-              _target: "0xc8f78a0b645215ec6a5d79a1038843ae7a95c9f7",
-              _tokenId: 1
+              minter: FIXED_PRICE_SALE_STRATEGY_ADDRESS,
+              tokenId: 1,
+              quantity: 1,
+              rewardsRecipients: [address],
+              minterArguments: "0x00000000000000000000000051027631b9def86e088c33368ec4e3a4be0ad264000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000047465737400000000000000000000000000000000000000000000000000000000"
             },
           }}
           payment={{
             crypto: {
-                enabled: true, // Enable crypto payments
+              enabled: true, // Enable crypto payments
             },
             fiat: {
-                enabled: true, // Enable fiat payments
+              enabled: true, // Enable fiat payments
             },
           }}
+          // mintConfig={{
+          //   totalPrice: "0.000111000000000001",
+          //   minter: FIXED_PRICE_SALE_STRATEGY_ADDRESS,
+          //   tokenId: 1,
+          //   quantity: 1,
+          //   rewardsRecipients: [address],
+          //   minterArguments: "0x00000000000000000000000051027631b9def86e088c33368ec4e3a4be0ad264000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000047465737400000000000000000000000000000000000000000000000000000000"
+          // }}
+          // projectId=""
+          // collectionId="f83e9991-d62a-4de8-a03f-7dad0d6c6fa8"
+          // environment="staging"
+          // paymentMethod="fiat"
         />
       </div>
     </div>
