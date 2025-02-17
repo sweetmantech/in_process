@@ -1,5 +1,5 @@
 import { MAX_FILE_SIZE, ONE_MB } from "@/lib/consts";
-import { uploadFile } from "@/lib/ipfs/uploadFile";
+import { uploadFile } from "@/lib/arweave/uploadFile";
 import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
 import { useState } from "react";
 
@@ -33,7 +33,7 @@ const useFileUpload = () => {
         setName(fileNameWithoutExtension);
       }
 
-      const { uri } = await uploadFile(file);
+      const uri = await uploadFile(file);
       if (isImage) {
         setImageUri(uri);
         setBlurImageUrl(URL.createObjectURL(file));

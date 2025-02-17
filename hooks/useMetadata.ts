@@ -1,10 +1,10 @@
-import { getIpfsLink } from "@/lib/utils";
+import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import { Collection, Metadata } from "@/types/token";
 import { useQuery } from "@tanstack/react-query";
 
 async function fetchMetadata(feed: Collection): Promise<Metadata> {
   const response = await fetch(
-    `/api/ipfs/metadata?uri=${getIpfsLink(feed.contractURI)}`,
+    `/api/metadata?uri=${getFetchableUrl(feed.contractURI)}`,
   );
   if (!response.ok) {
     return {
