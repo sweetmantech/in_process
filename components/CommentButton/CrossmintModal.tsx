@@ -1,4 +1,3 @@
-import { COLLECTION_ADDRESS, MINT_FEE_RECIPIENT } from "@/lib/consts";
 import { useTokenProvider } from "@/providers/TokenProvider";
 import { CrossmintEmbeddedCheckout  } from "@crossmint/client-sdk-react-ui";
 
@@ -8,7 +7,7 @@ interface CrossmintModalProps {
 
 export default function CrossmintModal({ onClose }: CrossmintModalProps) {
   const { comment, token } = useTokenProvider();
-
+  
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
       <div className="bg-white p-6 rounded-lg relative">
@@ -18,29 +17,16 @@ export default function CrossmintModal({ onClose }: CrossmintModalProps) {
         >
           ✕
         </button>
-        {/* <CrossmintPaymentElement
-          projectId="425871f2-9b99-45d6-9c9c-8b1825f28bcd"
-          collectionId="0536b3aa-ef85-4a6b-891d-71ca73f6c32a"
-          environment="staging"
-          cardWalletPaymentMethods={["apple-pay", "google-pay"]}
-          emailInputOptions={{
-            show: true,
-          }}
-          mintConfig={{
-            totalPrice: "0.000111",
-            quantity: "1",
-            collection: COLLECTION_ADDRESS,
-            tokenId: Number(token.token.tokenId),
-            mintReferral: MINT_FEE_RECIPIENT,
-            comment,
-          }}
-        /> */}
         <CrossmintEmbeddedCheckout  
           lineItems={{
-            collectionLocator: `crossmint:0536b3aa-ef85-4a6b-891d-71ca73f6c32a`,
+            collectionLocator: `crossmint:781d9202-0f92-4dab-94f7-9b68cabe9dec`,
             callData: {
-              totalPrice: "0.000111",
-              quantity: 1,
+              totalPrice: "0.000111000000000001",
+              _priceFixedSaleStrategy: "0xd34872BE0cdb6b09d45FCa067B07f04a1A9aE1aE",
+              _quantity: 1,
+              _to: "0x51027631B9DEF86e088C33368eC4E3A4BE0aD264",
+              _target: "0xc8f78a0b645215ec6a5d79a1038843ae7a95c9f7",
+              _tokenId: 1
             },
           }}
           payment={{

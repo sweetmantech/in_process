@@ -8,7 +8,7 @@ import { CrossmintProvider } from "@crossmint/client-sdk-react-ui";
 
 export function Providers({ children }: { children: ReactNode }) {
   return (
-    <CrossmintProvider>
+    <CrossmintProvider apiKey={process.env.CROSSMINT_API_KEY as string}>
       <WagmiProvider>
         <PrivyProvider>
           <ZoraCreateProvider>{children}</ZoraCreateProvider>
