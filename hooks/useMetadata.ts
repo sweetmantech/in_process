@@ -1,11 +1,9 @@
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
-import { Collection, Metadata } from "@/types/token";
+import { Metadata } from "@/types/token";
 import { useQuery } from "@tanstack/react-query";
 
-async function fetchMetadata(feed: Collection): Promise<Metadata> {
-  const response = await fetch(
-    `/api/metadata?uri=${getFetchableUrl(feed.contractURI)}`,
-  );
+async function fetchMetadata(uri: string): Promise<Metadata> {
+  const response = await fetch(`/api/metadata?uri=${getFetchableUrl(uri)}`);
   if (!response.ok) {
     return {
       name: "",
@@ -16,12 +14,12 @@ async function fetchMetadata(feed: Collection): Promise<Metadata> {
   const data = await response.json();
   return data;
 }
-export function useMetadata(feed: Collection) {
+export function useMetadata(uri: string) {
   return useQuery({
-    queryKey: ["metadata", feed],
-    queryFn: () => fetchMetadata(feed),
+    queryKey: ["metadata", uri],
+    queryFn: () => fetchMetadata(uri),
     staleTime: 1000 * 60 * 5,
-    enabled: !!feed,
+    enabled: !!uri,
     refetchOnMount: true,
   });
 }

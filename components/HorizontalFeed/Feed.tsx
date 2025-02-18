@@ -25,7 +25,7 @@ const Feed: FC<FeedProps> = ({
   shouldCollect,
 }) => {
   const { push } = useRouter();
-  const { isLoading, data } = useMetadata(feed);
+  const { isLoading, data } = useMetadata(feed.contractURI);
   const handleClick = (feed: Collection) => {
     if (shouldCollect) {
       const shortNetworkName = getShortNetworkName(
