@@ -17,6 +17,7 @@ const useZoraCreateParameters = (
     if (!publicClient) return;
     const creatorClient = createCreatorClient({ chainId, publicClient });
     const cc0MusicArweaveUri = await createMetadata.getUri();
+    if (!createMetadata.name) return;
     const salesConfig = getSalesConfig(
       createMetadata.isTimedSale
         ? "ZoraTimedSaleStrategy"

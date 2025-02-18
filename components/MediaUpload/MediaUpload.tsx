@@ -41,14 +41,15 @@ const MediaUpload = () => {
 
     if (imageUri) {
       return (
-        <div className="relative w-[296px] h-[296px]">
+        <div className="relative w-[296px] aspect-[1/1]">
           <Image
             src={blurImageUrl || getIpfsLink(imageUri)}
-            className="w-full h-auto rounded-md cursor-pointer object-contain absolute"
             alt="Image Preview"
             onClick={handleImageClick}
             blurDataURL={blurImageUrl}
             layout="fill"
+            objectFit="cover"
+            objectPosition="center"
           />
         </div>
       );
