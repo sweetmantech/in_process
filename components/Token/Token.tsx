@@ -26,7 +26,7 @@ const Token = () => {
         <div className="mt-4">
           <h3 className="text-xl font-bold">{metadata.name}</h3>
           {metadata.image && (
-            <div className="relative w-[300px] aspect-[1/1]">
+            <div className="relative w-[300px] aspect-[1/1] border rounded-md overflow-hidden">
               <Image
                 src={
                   getFetchableUrl(metadata.image) || "/images/placeholder.png"
@@ -38,6 +38,7 @@ const Token = () => {
                 blurDataURL={
                   getFetchableUrl(metadata.image) || "/images/placeholder.png"
                 }
+                unoptimized
               />
             </div>
           )}
