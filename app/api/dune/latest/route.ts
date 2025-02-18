@@ -18,7 +18,7 @@ export async function GET(req: NextRequest) {
           chainId: transaction.chain_id,
           chain: transaction.chain,
         };
-        setUpEvent?.decoded?.inputs.map((input) => {
+        setUpEvent?.decoded?.inputs.forEach((input) => {
           data[`${input.name}`] = input.value;
         });
         data.released_at = new Date(transaction.block_time).getTime();
