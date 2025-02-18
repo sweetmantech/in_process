@@ -19,12 +19,12 @@ export default function CreatePage() {
   }
 
   return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div className="mt-8 md:flex md:space-x-8">
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 border min-h-screen flex items-center justify-center">
+      <div className="mt-8 md:flex md:space-x-8 w-full">
         <div className="md:w-1/4 flex flex-col items-center gap-5">
           <MediaUpload />
         </div>
-        {name && (
+        {name !== null && (
           <div className="mt-4 md:mt-0 md:w-1/2 flex flex-col items-center gap-3">
             <div className="w-full flex flex-col items-start gap-4">
               <Title />
