@@ -1,6 +1,6 @@
 import { FIXED_PRICE_SALE_STRATEGY_ADDRESS } from "@/lib/consts";
 import { useTokenProvider } from "@/providers/TokenProvider";
-import { CrossmintPayButton_DEPRECATED, CrossmintEmbeddedCheckout } from "@crossmint/client-sdk-react-ui";
+import { CrossmintEmbeddedCheckout } from "@crossmint/client-sdk-react-ui";
 import { useAccount } from "wagmi";
 
 interface CrossmintModalProps {
@@ -22,36 +22,20 @@ export default function CrossmintModal({ onClose }: CrossmintModalProps) {
         </button>
         <CrossmintEmbeddedCheckout
           lineItems={{
-            collectionLocator: "crossmint:f83e9991-d62a-4de8-a03f-7dad0d6c6fa8",
+            collectionLocator: "crossmint:182067fa-1ea5-4761-b7de-718f31825f93",
             callData: {
-              totalPrice: "0.000111000000000001",
-              minter: FIXED_PRICE_SALE_STRATEGY_ADDRESS,
-              tokenId: 1,
-              quantity: 1,
-              rewardsRecipients: [address],
-              minterArguments: "0x00000000000000000000000051027631b9def86e088c33368ec4e3a4be0ad264000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000047465737400000000000000000000000000000000000000000000000000000000"
+              _to: null, // This will be automatically handled by Crossmint
+              _quantity: "1",
+              _priceFixedSaleStrategy: "0xd34872BE0cdb6b09d45FCa067B07f04a1A9aE1aE",
+              _tokenContract: "0xE1D50c3545EcB99bC396c91Df0C83507B1083399",
+              _tokenId: "1",
+              _comment: ""
             },
           }}
           payment={{
-            crypto: {
-              enabled: true, // Enable crypto payments
-            },
-            fiat: {
-              enabled: true, // Enable fiat payments
-            },
+            crypto: { enabled: true },
+            fiat: { enabled: true }
           }}
-          // mintConfig={{
-          //   totalPrice: "0.000111000000000001",
-          //   minter: FIXED_PRICE_SALE_STRATEGY_ADDRESS,
-          //   tokenId: 1,
-          //   quantity: 1,
-          //   rewardsRecipients: [address],
-          //   minterArguments: "0x00000000000000000000000051027631b9def86e088c33368ec4e3a4be0ad264000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000047465737400000000000000000000000000000000000000000000000000000000"
-          // }}
-          // projectId=""
-          // collectionId="f83e9991-d62a-4de8-a03f-7dad0d6c6fa8"
-          // environment="staging"
-          // paymentMethod="fiat"
         />
       </div>
     </div>
