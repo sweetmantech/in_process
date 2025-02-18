@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { MintCommentEvent } from "@/lib/viem/getContractEvents";
 import { useCollectionProvider } from "@/providers/CollectionProvider";
 import { fetchTokenData } from "@/lib/zora/getComments";
+import { getNetwork, getNetworkType } from "@/lib/zora/getNetwork";
 
 export type UseCommentsReturn = {
   comments: MintCommentEvent[];
@@ -10,6 +11,7 @@ export type UseCommentsReturn = {
   error: Error | null;
   visibleComments: number;
   showMoreComments: () => void;
+  addComment: (comment: MintCommentEvent) => void;
 };
 
 export function useComments(tokenId: bigint): UseCommentsReturn {
@@ -23,6 +25,10 @@ export function useComments(tokenId: bigint): UseCommentsReturn {
     setVisibleComments((prev) => prev + 3);
   };
 
+  const addComment = (comment: MintCommentEvent) => {
+    setComments([comment, ...comments]);
+  };
+
   useEffect(() => {
     async function fetchComments() {
       try {
@@ -30,8 +36,8 @@ export function useComments(tokenId: bigint): UseCommentsReturn {
         const API_ENDPOINT = "https://api.zora.co/graphql/";
         const IPFS_GATEWAY = "https://magic.decentralized-content.com/ipfs/";
 
-        const network = chainId === 8453 ? "BASE" : "ZORA";
-        const networkType = chainId === 8453 ? "BASE_MAINNET" : "ZORA_MAINNET";
+        const network = getNetwork(chainId);
+        const networkType = `${network}_${getNetworkType(chainId)}`;
 
         const result = await fetchTokenData(
           API_ENDPOINT,
@@ -55,7 +61,6 @@ export function useComments(tokenId: bigint): UseCommentsReturn {
             timestamp: new Date(comment.blockTimestamp),
             transactionHash: comment.transactionHash,
           })) || [];
-
         setComments(mappedComments);
       } catch (err) {
         setError(
@@ -75,5 +80,6 @@ export function useComments(tokenId: bigint): UseCommentsReturn {
     error,
     visibleComments,
     showMoreComments,
+    addComment,
   };
 }
