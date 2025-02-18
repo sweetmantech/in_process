@@ -11,6 +11,7 @@ export type UseCommentsReturn = {
   error: Error | null;
   visibleComments: number;
   showMoreComments: () => void;
+  addComment: (comment: MintCommentEvent) => void;
 };
 
 export function useComments(tokenId: bigint): UseCommentsReturn {
@@ -24,6 +25,10 @@ export function useComments(tokenId: bigint): UseCommentsReturn {
     setVisibleComments((prev) => prev + 3);
   };
 
+  const addComment = (comment: MintCommentEvent) => {
+    setComments([comment, ...comments]);
+  };
+
   useEffect(() => {
     async function fetchComments() {
       try {
@@ -32,7 +37,7 @@ export function useComments(tokenId: bigint): UseCommentsReturn {
         const IPFS_GATEWAY = "https://magic.decentralized-content.com/ipfs/";
 
         const network = getNetwork(chainId);
-        const networkType = chainId === 84532 ? "BASE_MAINNET" : "ZORA_MAINNET";
+        const networkType = `${network}_${getNetworkType(chainId)}`;
 
         const result = await fetchTokenData(
           API_ENDPOINT,
@@ -48,7 +53,6 @@ export function useComments(tokenId: bigint): UseCommentsReturn {
           (t: any) => BigInt(t.tokenId) === tokenId,
         );
 
-        console.log("ziad", result.tokens);
         const mappedComments =
           token?.comments.map((comment: any) => ({
             sender: comment.fromAddress,
@@ -57,7 +61,6 @@ export function useComments(tokenId: bigint): UseCommentsReturn {
             timestamp: new Date(comment.blockTimestamp),
             transactionHash: comment.transactionHash,
           })) || [];
-
         setComments(mappedComments);
       } catch (err) {
         setError(
@@ -77,5 +80,6 @@ export function useComments(tokenId: bigint): UseCommentsReturn {
     error,
     visibleComments,
     showMoreComments,
+    addComment,
   };
 }
