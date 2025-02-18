@@ -19,7 +19,7 @@ export default function CreatePage() {
   }
 
   return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 border min-h-screen flex items-center justify-center">
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 min-h-screen flex items-center justify-center">
       <div className="mt-8 md:flex md:space-x-8 w-full">
         <div className="md:w-1/4 flex flex-col items-center gap-5">
           <MediaUpload />
