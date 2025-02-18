@@ -1,28 +1,17 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import CommentButton from "../CommentButton/CommentButton";
 import CommentSection from "./CommentSection";
 import { useTokenProvider } from "@/providers/TokenProvider";
-import { TokenMetadata } from "@/types/token";
 import WriteComment from "./WriteComment";
 import convertIpfsToHttp from "@/lib/ipfs/convertIpfsToHttp";
-import fetchIpfs from "@/lib/ipfs/fetchIpfs";
 import { useCollectionProvider } from "@/providers/CollectionProvider";
+import { useMetadata } from "@/hooks/useMetadata";
 
 const Token = () => {
   const { token } = useTokenProvider();
   const { styling } = useCollectionProvider();
-  const [metadata, setMetadata] = useState<TokenMetadata | null>(null);
-
-  useEffect(() => {
-    const fetchMetadata = async () => {
-      const data = await fetchIpfs(token.token.tokenURI);
-      setMetadata(data);
-    };
-
-    fetchMetadata();
-  }, [token.token.tokenURI]);
+  const { data: metadata } = useMetadata(token.token.tokenURI);
 
   return (
     <div
