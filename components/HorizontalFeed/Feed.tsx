@@ -77,6 +77,7 @@ const Feed: FC<FeedProps> = ({
                 objectFit="cover"
                 objectPosition="center"
                 blurDataURL={(data as Metadata).image}
+                unoptimized
               />
             )}
           </div>
