@@ -80,7 +80,7 @@ export const fetchTokenData = async (
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "X-API-KEY": "bvGOq2v_wSQ_a0ME1h65Fw",
+          "X-API-KEY": process.env.NEXT_PUBLIC_ZORA_API_KEY as string,
         },
         body: JSON.stringify({ query, variables: { after } }),
       });
@@ -154,11 +154,11 @@ export const fetchTokenData = async (
         comments,
         imageURL,
         metadata,
-        blockNumber: token.mintInfo.mintContext.blockNumber,
-        blockTimestamp: token.mintInfo.mintContext.blockTimestamp,
-        transactionHash: token.mintInfo.mintContext.transactionHash,
-        originatorAddress: token.mintInfo.originatorAddress,
-        toAddress: token.mintInfo.toAddress,
+        blockNumber: token.mintInfo?.mintContext.blockNumber,
+        blockTimestamp: token.mintInfo?.mintContext.blockTimestamp,
+        transactionHash: token.mintInfo?.mintContext.transactionHash,
+        originatorAddress: token.mintInfo?.originatorAddress,
+        toAddress: token.mintInfo?.toAddress,
       };
     });
 
