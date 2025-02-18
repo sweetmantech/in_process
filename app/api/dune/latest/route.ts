@@ -11,14 +11,14 @@ export async function GET(req: NextRequest) {
     const formattedEvents = transactions.map(
       (transaction: DuneDecodedEvent) => {
         const setUpEvent = transaction.logs.find(
-          (log) => log.decoded.name === "SetupNewContract",
+          (log) => log?.decoded?.name === "SetupNewContract",
         );
         if (!setUpEvent) return;
         const data: any = {
           chainId: transaction.chain_id,
           chain: transaction.chain,
         };
-        setUpEvent.decoded.inputs.map((input) => {
+        setUpEvent?.decoded?.inputs.forEach((input) => {
           data[`${input.name}`] = input.value;
         });
         data.released_at = new Date(transaction.block_time).getTime();
