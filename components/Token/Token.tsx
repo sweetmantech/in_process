@@ -14,7 +14,6 @@ const Token = () => {
   const { styling } = useCollectionProvider();
   const { data: metadata } = useMetadata(token.token.tokenURI);
 
-  console.log("ziad", getFetchableUrl(metadata?.image || ""));
   return (
     <div
       key={token.token.tokenId}
