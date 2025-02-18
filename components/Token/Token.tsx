@@ -4,9 +4,10 @@ import CommentButton from "../CommentButton/CommentButton";
 import CommentSection from "./CommentSection";
 import { useTokenProvider } from "@/providers/TokenProvider";
 import WriteComment from "./WriteComment";
-import convertIpfsToHttp from "@/lib/ipfs/convertIpfsToHttp";
 import { useCollectionProvider } from "@/providers/CollectionProvider";
 import { useMetadata } from "@/hooks/useMetadata";
+import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
+import Image from "next/image";
 
 const Token = () => {
   const { token } = useTokenProvider();
@@ -25,12 +26,20 @@ const Token = () => {
         <div className="mt-4">
           <h3 className="text-xl font-bold">{metadata.name}</h3>
           {metadata.image && (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={convertIpfsToHttp(metadata.image)}
-              alt={metadata.name || "Token image"}
-              className="mt-4 max-w-full h-auto rounded"
-            />
+            <div className="relative w-[300px] aspect-[1/1]">
+              <Image
+                src={
+                  getFetchableUrl(metadata.image) || "/images/placeholder.png"
+                }
+                alt="Token Image."
+                layout="fill"
+                objectFit="cover"
+                objectPosition="center"
+                blurDataURL={
+                  getFetchableUrl(metadata.image) || "/images/placeholder.png"
+                }
+              />
+            </div>
           )}
         </div>
       )}
