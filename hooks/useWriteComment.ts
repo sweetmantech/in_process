@@ -6,8 +6,7 @@ export interface UseWriteCommentReturn {
   handleCommentChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const useWriteComment = (tokenId: bigint): UseWriteCommentReturn => {
+const useWriteComment = (): UseWriteCommentReturn => {
   const [comment, setComment] = useState("");
 
   const handleCommentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {

@@ -44,7 +44,7 @@ export default function FeedPage({
                 <TokenProvider
                   key={token?.token?.tokenId}
                   token={token}
-                  tokenId={BigInt(token?.token?.tokenId)}
+                  tokenId={token?.token?.tokenId}
                 >
                   <Token />
                 </TokenProvider>

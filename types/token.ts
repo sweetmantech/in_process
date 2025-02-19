@@ -15,6 +15,9 @@ export interface TokenInfo {
   token: {
     tokenId: string;
     tokenURI: string;
+    contract: {
+      address: Address;
+    };
   };
 }
 
@@ -34,4 +37,17 @@ export interface Collection {
   released_at: number;
   chain: string;
   chainId: number;
+}
+
+export interface MintCommentEvent {
+  blockNumber: number;
+  chain: string;
+  chainId: number;
+  collection: Address;
+  comment: string;
+  quantity: string;
+  sender: Address;
+  timestamp: number;
+  tokenId: string;
+  transactionHash: string;
 }
