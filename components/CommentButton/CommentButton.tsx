@@ -2,7 +2,17 @@
 
 import { useCollectionProvider } from "@/providers/CollectionProvider";
 import useZoraMintComment from "@/hooks/useZoraMintComment";
-import CrossmintModal from "./CrossmintModal";
+import { Suspense } from "react";
+import dynamic from "next/dynamic";
+
+const CrossmintModal = dynamic(() => import("./CrossmintModal"), {
+  loading: () => (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+      <div className="bg-white p-6 rounded-lg">Loading payment options...</div>
+    </div>
+  ),
+  ssr: false,
+});
 
 export default function CommentButton() {
   const { setIsOpenCrossmint, isOpenCrossmint, mintComment, isLoading } =
@@ -23,7 +33,11 @@ export default function CommentButton() {
         {isLoading ? "Minting..." : "Leave a Comment"}
       </button>
 
-      {isOpenCrossmint && <CrossmintModal onClose={() => setIsOpenCrossmint(false)} />}
+      {isOpenCrossmint && (
+        <Suspense fallback={<div>Loading...</div>}>
+          <CrossmintModal onClose={() => setIsOpenCrossmint(false)} />
+        </Suspense>
+      )}
     </>
   );
 }

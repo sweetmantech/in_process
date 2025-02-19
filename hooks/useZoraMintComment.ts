@@ -8,6 +8,7 @@ import {
 import { CHAIN } from "@/lib/consts";
 import { encodeAbiParameters, parseAbiParameters } from "viem";
 import { useTokenProvider } from "@/providers/TokenProvider";
+import { useUserProvider } from "@/providers/UserProvider";
 
 const useZoraMintComment = () => {
   const [isOpenCrossmint, setIsOpenCrossmint] = useState(false);
@@ -17,11 +18,12 @@ const useZoraMintComment = () => {
   const { address } = useAccount();
   const [isLoading, setIsLoading] = useState(false);
   const { token, comment, addComment, setComment } = useTokenProvider();
+  const { email } = useUserProvider();
 
   const mintComment = async () => {
     setIsLoading(true);
     try {
-      if (!publicClient || !address) {
+      if (!publicClient || !address || email) {
         setIsOpenCrossmint(true);
         return;
       }

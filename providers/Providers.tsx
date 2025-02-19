@@ -4,7 +4,11 @@ import { ReactNode } from "react";
 import PrivyProvider from "./PrivyProvider";
 import { WagmiProvider } from "./WagmiProvider";
 import { ZoraCreateProvider } from "./ZoraCreateProvider";
-import { CrossmintProvider, CrossmintCheckoutProvider } from "@crossmint/client-sdk-react-ui";
+import {
+  CrossmintProvider,
+  CrossmintCheckoutProvider,
+} from "@crossmint/client-sdk-react-ui";
+import UserProvider from "./UserProvider";
 
 export function Providers({ children }: { children: ReactNode }) {
   return (
@@ -14,7 +18,9 @@ export function Providers({ children }: { children: ReactNode }) {
       <CrossmintCheckoutProvider>
         <WagmiProvider>
           <PrivyProvider>
-            <ZoraCreateProvider>{children}</ZoraCreateProvider>
+            <UserProvider>
+              <ZoraCreateProvider>{children}</ZoraCreateProvider>
+            </UserProvider>
           </PrivyProvider>
         </WagmiProvider>
       </CrossmintCheckoutProvider>
