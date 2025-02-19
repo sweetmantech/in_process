@@ -22,9 +22,9 @@ const useZoraMintComment = () => {
     // setIsLoading(true);
     try {
       if (!publicClient || !address) return;
-      const hasBalanceToMint = balance > 0.000111000000000001;
-      setIsOpenCrossmint(true)
-      return
+      const hasBalanceToMint = balance > 0.000000111000000001;
+      setIsOpenCrossmint(true);
+      return;
       // if (!hasBalanceToMint) {
       //   setIsLoading(false);
       //   setIsOpenCrossmint(true);
@@ -47,7 +47,7 @@ const useZoraMintComment = () => {
       //     [],
       //     minterArguments,
       //   ],
-      //   value: BigInt(111000000000001),
+      //   value: BigInt(111000000001),
       // });
 
       // const receipt = await publicClient.waitForTransactionReceipt({ hash });

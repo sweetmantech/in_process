@@ -22,19 +22,33 @@ export default function CrossmintModal({ onClose }: CrossmintModalProps) {
         </button>
         <CrossmintEmbeddedCheckout
           lineItems={{
-            collectionLocator: "crossmint:182067fa-1ea5-4761-b7de-718f31825f93",
+            // collectionLocator: "crossmint:4b386283-a16d-44a6-afcc-c44244643ecf",
+            // callData: {
+            //   to: address,
+            //   quantity: "1",
+            //   priceFixedSaleStrategy:
+            //     "0xd34872BE0cdb6b09d45FCa067B07f04a1A9aE1aE",
+            //   tokenContract: token.token.contract.address,
+            //   tokenId: "1",
+            //   comment,
+            //   totalPrice: "0.000111000000000001"
+            // },
+
+
+            collectionLocator: "crossmint:061b834c-1b2f-4803-8236-5e931b8f6ef4",
             callData: {
-              _to: null, // This will be automatically handled by Crossmint
-              _quantity: "1",
-              _priceFixedSaleStrategy: "0xd34872BE0cdb6b09d45FCa067B07f04a1A9aE1aE",
-              _tokenContract: "0xE1D50c3545EcB99bC396c91Df0C83507B1083399",
-              _tokenId: "1",
-              _comment: ""
+              to: null,
+              totalPrice: "0.000000111000000001",
+              minter: FIXED_PRICE_SALE_STRATEGY_ADDRESS,
+              tokenId: 1,
+              quantity: 1,
+              rewardsRecipients: [address],
+              minterArguments: "0x00000000000000000000000051027631b9def86e088c33368ec4e3a4be0ad264000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000047465737400000000000000000000000000000000000000000000000000000000"
             },
           }}
           payment={{
             crypto: { enabled: true },
-            fiat: { enabled: true }
+            fiat: { enabled: true },
           }}
         />
       </div>
