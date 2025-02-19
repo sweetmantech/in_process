@@ -13,10 +13,10 @@ export function TokenProvider({
 }: {
   children: ReactNode;
   token: TokenInfo;
-  tokenId: bigint;
+  tokenId: string;
 }) {
-  const writeComment = useWriteComment(tokenId);
-  const comments = useComments(tokenId);
+  const writeComment = useWriteComment();
+  const comments = useComments(token.token.contract.address, tokenId);
 
   return (
     <TokenContext.Provider

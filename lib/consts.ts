@@ -3,7 +3,10 @@ export const MINT_FEE_RECIPIENT = "0xcfBf34d385EA2d5Eb947063b67eA226dcDA3DC38";
 
 export const JSON_EXTENSION_REGISTRY =
   "0xabcdefed93200601e1dfe26d6644758801d732e8";
-import { zoraCreator1155FactoryImplABI } from "@zoralabs/protocol-deployments";
+import {
+  zoraCreator1155FactoryImplABI,
+  zoraCreatorFixedPriceSaleStrategyABI,
+} from "@zoralabs/protocol-deployments";
 import { encodeEventTopics } from "viem";
 import { baseSepolia, base } from "viem/chains";
 
@@ -24,4 +27,9 @@ export const MAX_FILE_SIZE = 5 * ONE_MB;
 export const SETUP_NEW_CONTRACT_EVENT_SIGNATURE = encodeEventTopics({
   abi: zoraCreator1155FactoryImplABI,
   eventName: "SetupNewContract",
+})[0];
+
+export const MINT_COMMENT_EVENT_SIGNATURE = encodeEventTopics({
+  abi: zoraCreatorFixedPriceSaleStrategyABI,
+  eventName: "MintComment",
 })[0];

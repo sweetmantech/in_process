@@ -1,9 +1,22 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
-import { MintCommentEvent } from "@/lib/viem/getContractEvents";
-import { useCollectionProvider } from "@/providers/CollectionProvider";
-import { fetchTokenData } from "@/lib/zora/getComments";
-import { getNetwork, getNetworkType } from "@/lib/zora/getNetwork";
+import { Address } from "viem";
+import { MintCommentEvent } from "@/types/token";
+import { useQuery } from "@tanstack/react-query";
+
+async function fetchMintEvents(
+  tokenContract: Address,
+  tokenId: string,
+): Promise<MintCommentEvent[]> {
+  const response = await fetch(
+    `/api/dune/mint_comments?tokenContract=${tokenContract}&tokenId=${tokenId}`,
+  );
+  if (!response.ok) {
+    throw new Error("Failed to fetch mint events.");
+  }
+  const data = await response.json();
+  return data;
+}
 
 export type UseCommentsReturn = {
   comments: MintCommentEvent[];
@@ -14,12 +27,22 @@ export type UseCommentsReturn = {
   addComment: (comment: MintCommentEvent) => void;
 };
 
-export function useComments(tokenId: bigint): UseCommentsReturn {
+export function useComments(
+  tokenContract: Address,
+  tokenId: string,
+): UseCommentsReturn {
   const [comments, setComments] = useState<MintCommentEvent[]>([]);
   const [visibleComments, setVisibleComments] = useState(3);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
-  const { address, chainId } = useCollectionProvider();
+  const {
+    isLoading,
+    data: events,
+    error,
+  } = useQuery({
+    queryKey: ["mintComments", tokenContract, tokenId],
+    queryFn: () => fetchMintEvents(tokenContract, tokenId),
+    staleTime: 1000 * 60 * 5,
+    refetchOnMount: true,
+  });
 
   const showMoreComments = () => {
     setVisibleComments((prev) => prev + 3);
@@ -30,53 +53,12 @@ export function useComments(tokenId: bigint): UseCommentsReturn {
   };
 
   useEffect(() => {
-    async function fetchComments() {
-      try {
-        setLoading(true);
-        const API_ENDPOINT = "https://api.zora.co/graphql/";
-        const IPFS_GATEWAY = "https://magic.decentralized-content.com/ipfs/";
-
-        const network = getNetwork(chainId);
-        const networkType = `${network}_${getNetworkType(chainId)}`;
-
-        const result = await fetchTokenData(
-          API_ENDPOINT,
-          IPFS_GATEWAY,
-          address,
-          network,
-          networkType,
-          10,
-          null,
-        );
-
-        const token = result.tokens.find(
-          (t: any) => BigInt(t.tokenId) === tokenId,
-        );
-
-        const mappedComments =
-          token?.comments.map((comment: any) => ({
-            sender: comment.fromAddress,
-            comment: comment.comment,
-            blockNumber: comment.blockNumber,
-            timestamp: new Date(comment.blockTimestamp),
-            transactionHash: comment.transactionHash,
-          })) || [];
-        setComments(mappedComments);
-      } catch (err) {
-        setError(
-          err instanceof Error ? err : new Error("Failed to fetch comments"),
-        );
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchComments();
-  }, [tokenId, address, chainId]);
+    if (events) setComments(events);
+  }, [events]);
 
   return {
     comments,
-    loading,
+    loading: isLoading,
     error,
     visibleComments,
     showMoreComments,
