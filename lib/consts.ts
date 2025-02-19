@@ -13,7 +13,8 @@ import { baseSepolia, base } from "viem/chains";
 export const IS_TESTNET =
   process.env.NEXT_PUBLIC_IS_TESTNET === "true" ? true : false;
 
-export const FIXED_PRICE_SALE_STRATEGY_ADDRESS = "0xd34872BE0cdb6b09d45FCa067B07f04a1A9aE1aE";
+export const FIXED_PRICE_SALE_STRATEGY_ADDRESS =
+  "0xd34872BE0cdb6b09d45FCa067B07f04a1A9aE1aE";
 
 // Wagmi
 export const CHAIN = IS_TESTNET ? baseSepolia : base;

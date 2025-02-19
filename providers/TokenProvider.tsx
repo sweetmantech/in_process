@@ -4,7 +4,11 @@ import { TokenInfo } from "@/types/token";
 import { createContext, useContext, ReactNode } from "react";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const TokenContext = createContext<any | undefined>(undefined);
+const TokenContext = createContext<
+  | (ReturnType<typeof useWriteComment> &
+      ReturnType<typeof useComments> & { token: TokenInfo })
+  | undefined
+>(undefined);
 
 export function TokenProvider({
   children,

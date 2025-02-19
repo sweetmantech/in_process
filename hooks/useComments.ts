@@ -2,7 +2,11 @@
 import { useEffect, useState } from "react";
 import { Address } from "viem";
 import { MintCommentEvent } from "@/types/token";
-import { useQuery } from "@tanstack/react-query";
+import {
+  QueryObserverResult,
+  RefetchOptions,
+  useQuery,
+} from "@tanstack/react-query";
 
 async function fetchMintEvents(
   tokenContract: Address,
@@ -25,6 +29,9 @@ export type UseCommentsReturn = {
   visibleComments: number;
   showMoreComments: () => void;
   addComment: (comment: MintCommentEvent) => void;
+  refetch: (
+    options?: RefetchOptions,
+  ) => Promise<QueryObserverResult<MintCommentEvent[], Error>>;
 };
 
 export function useComments(
@@ -37,6 +44,7 @@ export function useComments(
     isLoading,
     data: events,
     error,
+    refetch,
   } = useQuery({
     queryKey: ["mintComments", tokenContract, tokenId],
     queryFn: () => fetchMintEvents(tokenContract, tokenId),
@@ -63,5 +71,6 @@ export function useComments(
     visibleComments,
     showMoreComments,
     addComment,
+    refetch,
   };
 }

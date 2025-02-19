@@ -1,6 +1,11 @@
-import { FIXED_PRICE_SALE_STRATEGY_ADDRESS } from "@/lib/consts";
+import { FIXED_PRICE_SALE_STRATEGY_ADDRESS, IS_TESTNET } from "@/lib/consts";
 import { useTokenProvider } from "@/providers/TokenProvider";
-import { CrossmintEmbeddedCheckout } from "@crossmint/client-sdk-react-ui";
+import {
+  CrossmintEmbeddedCheckout,
+  useCrossmintCheckout,
+} from "@crossmint/client-sdk-react-ui";
+import { useEffect } from "react";
+import { Address } from "viem";
 import { useAccount } from "wagmi";
 
 interface CrossmintModalProps {
@@ -8,8 +13,19 @@ interface CrossmintModalProps {
 }
 
 export default function CrossmintModal({ onClose }: CrossmintModalProps) {
-  const { comment, token } = useTokenProvider();
+  const { comment, token, refetch } = useTokenProvider();
   const { address } = useAccount();
+  const { order } = useCrossmintCheckout();
+
+  useEffect(() => {
+    if (order?.phase === "completed") {
+      setTimeout(() => {
+        onClose();
+        refetch();
+      }, 2000);
+    }
+    // eslint-disable-next-line
+  }, [order]);
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
@@ -20,37 +36,31 @@ export default function CrossmintModal({ onClose }: CrossmintModalProps) {
         >
           ✕
         </button>
-        <CrossmintEmbeddedCheckout
-          lineItems={{
-            // collectionLocator: "crossmint:4b386283-a16d-44a6-afcc-c44244643ecf",
-            // callData: {
-            //   to: address,
-            //   quantity: "1",
-            //   priceFixedSaleStrategy:
-            //     "0xd34872BE0cdb6b09d45FCa067B07f04a1A9aE1aE",
-            //   tokenContract: token.token.contract.address,
-            //   tokenId: "1",
-            //   comment,
-            //   totalPrice: "0.000111000000000001"
-            // },
-
-
-            collectionLocator: "crossmint:061b834c-1b2f-4803-8236-5e931b8f6ef4",
-            callData: {
-              to: null,
-              totalPrice: "0.000000111000000001",
-              minter: FIXED_PRICE_SALE_STRATEGY_ADDRESS,
-              tokenId: 1,
-              quantity: 1,
-              rewardsRecipients: [address],
-              minterArguments: "0x00000000000000000000000051027631b9def86e088c33368ec4e3a4be0ad264000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000047465737400000000000000000000000000000000000000000000000000000000"
-            },
-          }}
-          payment={{
-            crypto: { enabled: true },
-            fiat: { enabled: true },
-          }}
-        />
+        {address && (
+          <CrossmintEmbeddedCheckout
+            lineItems={{
+              collectionLocator:
+                "crossmint:4b386283-a16d-44a6-afcc-c44244643ecf",
+              callData: {
+                quantity: 1,
+                priceFixedSaleStrategy: FIXED_PRICE_SALE_STRATEGY_ADDRESS,
+                tokenContract: token.token.contract.address,
+                tokenId: token.token.tokenId,
+                comment,
+                totalPrice: IS_TESTNET
+                  ? "0.000000111000000001"
+                  : "0.000111000000000001",
+              },
+            }}
+            payment={{
+              crypto: { enabled: true },
+              fiat: { enabled: true },
+            }}
+            recipient={{
+              walletAddress: address as Address,
+            }}
+          />
+        )}
       </div>
     </div>
   );

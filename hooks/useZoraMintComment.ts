@@ -19,50 +19,55 @@ const useZoraMintComment = () => {
   const { token, comment, addComment, setComment } = useTokenProvider();
 
   const mintComment = async () => {
-    // setIsLoading(true);
+    setIsLoading(true);
     try {
-      if (!publicClient || !address) return;
+      if (!publicClient || !address) {
+        setIsOpenCrossmint(true);
+        return;
+      }
       const hasBalanceToMint = balance > 0.000000111000000001;
-      setIsOpenCrossmint(true);
-      return;
-      // if (!hasBalanceToMint) {
-      //   setIsLoading(false);
-      //   setIsOpenCrossmint(true);
-      //   return;
-      // }
-      // const minterArguments = encodeAbiParameters(
-      //   parseAbiParameters("address, string"),
-      //   [address, comment],
-      // );
+      if (!hasBalanceToMint) {
+        setIsLoading(false);
+        setIsOpenCrossmint(true);
+        return;
+      }
+      const minterArguments = encodeAbiParameters(
+        parseAbiParameters("address, string"),
+        [address, comment],
+      );
 
-      // const hash = await writeContractAsync({
-      //   address: token.token.contract.address,
-      //   account: address,
-      //   abi: zoraCreator1155ImplABI,
-      //   functionName: "mint",
-      //   args: [
-      //     zoraCreatorFixedPriceSaleStrategyAddress[CHAIN.id],
-      //     token.token.tokenId,
-      //     BigInt(1),
-      //     [],
-      //     minterArguments,
-      //   ],
-      //   value: BigInt(111000000001),
-      // });
+      const hash = await writeContractAsync({
+        address: token.token.contract.address,
+        account: address,
+        abi: zoraCreator1155ImplABI,
+        functionName: "mint",
+        args: [
+          zoraCreatorFixedPriceSaleStrategyAddress[CHAIN.id],
+          BigInt(token.token.tokenId),
+          BigInt(1),
+          [],
+          minterArguments,
+        ],
+        value: BigInt(111000000001),
+      });
 
-      // const receipt = await publicClient.waitForTransactionReceipt({ hash });
+      const receipt = await publicClient.waitForTransactionReceipt({ hash });
 
-      // addComment({
-      //   tokenId: token.tokenId,
-      //   sender: address,
-      //   comment,
-      //   blockNumber: receipt.blockNumber,
-      //   transactionHash: receipt.transactionHash,
-      //   timestamp: new Date().getTime(),
-      // });
-      // setComment("");
-      // setIsLoading(false);
-      // return receipt;
+      addComment({
+        collection: token.token.contract.address,
+        chain: "base_sepolia",
+        chainId: CHAIN.id,
+        tokenId: token.token.tokenId,
+        quantity: "1",
+        sender: address,
+        comment,
+        blockNumber: parseInt(receipt.blockNumber.toString(), 10),
+        transactionHash: receipt.transactionHash,
+        timestamp: new Date().getTime(),
+      });
+      setComment("");
+      setIsLoading(false);
+      return receipt;
     } catch (error) {
       console.error(error);
       setIsLoading(false);
