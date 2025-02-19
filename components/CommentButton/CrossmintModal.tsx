@@ -18,12 +18,7 @@ export default function CrossmintModal({ onClose }: CrossmintModalProps) {
   const { order } = useCrossmintCheckout();
 
   useEffect(() => {
-    if (order?.phase === "completed") {
-      setTimeout(() => {
-        onClose();
-        refetch();
-      }, 2000);
-    }
+    if (order?.phase === "completed") refetch();
     // eslint-disable-next-line
   }, [order]);
 
