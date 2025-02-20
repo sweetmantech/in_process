@@ -27,6 +27,10 @@ const Feed: FC<FeedProps> = ({
   const { push } = useRouter();
   const { isLoading, data } = useMetadata(feed.contractURI);
   const handleClick = (feed: Collection) => {
+    if (data?.external_url) {
+      window.open(data.external_url, "_blank");
+      return;
+    }
     if (shouldCollect) {
       const shortNetworkName = getShortNetworkName(
         feed.chain.replaceAll("_", " "),
