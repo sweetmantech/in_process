@@ -34,3 +34,5 @@ export const MINT_COMMENT_EVENT_SIGNATURE = encodeEventTopics({
   abi: zoraCreatorFixedPriceSaleStrategyABI,
   eventName: "MintComment",
 })[0];
+
+export const CROSSMINT_SIGNER_ADDRESS = "0xa105C311fA72b8Fb78c992EcbDb8b02Ea5bd394d"
