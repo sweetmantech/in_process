@@ -13,10 +13,10 @@ const useZoraCreateParameters = (
   const { address } = useAccount();
   const createMetadata = useCreateMetadata();
 
-  const fetchParameters = async () => {
+  const fetchParameters = async (textRefUri: string) => {
     if (!publicClient) return;
     const creatorClient = createCreatorClient({ chainId, publicClient });
-    const cc0MusicArweaveUri = await createMetadata.getUri();
+    const cc0MusicArweaveUri = await createMetadata.getUri(textRefUri);
     if (!createMetadata.name) return;
     const salesConfig = getSalesConfig(
       createMetadata.isTimedSale

@@ -2,7 +2,7 @@
 
 import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
 import Spinner from "@/components/ui/spinner";
-import MediaUpload from "@/components/MediaUpload/MediaUpload";
+import MetadataCreation from "@/components/MetadataCreation";
 import Title from "./Title";
 import CreateButton from "./CreateButton";
 import BgNoiseWrapper from "../ui/texture-wrapper";
@@ -23,7 +23,7 @@ export default function CreatePage() {
             <p className="text-3xl font-bold pb-8">Create on In Process</p>
             <div className="grid grid-cols-2 gap-6">
               <div className="flex flex-col items-center gap-5">
-                <MediaUpload />
+                <MetadataCreation />
               </div>
               <div className="w-full flex flex-col items-start gap-4">
                 <Title />

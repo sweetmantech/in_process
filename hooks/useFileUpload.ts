@@ -1,11 +1,22 @@
 import { MAX_FILE_SIZE, ONE_MB } from "@/lib/consts";
 import { uploadFile } from "@/lib/arweave/uploadFile";
-import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 
-const useFileUpload = () => {
-  const { setName, setImageUri, setAnimationUri, setMimeType, animationUri } =
-    useZoraCreateProvider();
+interface useFileUploadProps {
+  setName: Dispatch<SetStateAction<string>>;
+  setImageUri: Dispatch<SetStateAction<string>>;
+  setAnimationUri: Dispatch<SetStateAction<string>>;
+  setMimeType: Dispatch<SetStateAction<string>>;
+  animationUri: string;
+}
+
+const useFileUpload = ({
+  setName,
+  setImageUri,
+  setAnimationUri,
+  setMimeType,
+  animationUri,
+}: useFileUploadProps) => {
   const [blurImageUrl, setBlurImageUrl] = useState<string>("");
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
@@ -51,7 +62,13 @@ const useFileUpload = () => {
     setLoading(false);
   };
 
-  return { fileUpload, loading, error, blurImageUrl };
+  return {
+    fileUpload,
+    fileUploading: loading,
+    error,
+    blurImageUrl,
+    setFileUploading: setLoading,
+  };
 };
 
 export default useFileUpload;
