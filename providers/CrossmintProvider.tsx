@@ -5,18 +5,15 @@ import {
   CrossmintProvider as Crossmint,
   CrossmintCheckoutProvider,
 } from "@crossmint/client-sdk-react-ui";
-import { createContext, useContext } from "react";
+import { createContext, Fragment, useContext } from "react";
 
 const CrossmintContext = createContext<
   ReturnType<typeof useCrossmintMintComments> | undefined
 >(undefined);
 
 export function CrossmintProvider({ children }: { children: React.ReactNode }) {
-  if (!process.env.NEXT_PUBLIC_CROSSMINT_API_KEY) {
-    throw new Error(
-      "NEXT_PUBLIC_CROSSMINT_API_KEY environment variable is not set",
-    );
-  }
+  if (!process.env.NEXT_PUBLIC_CROSSMINT_API_KEY) return <Fragment />;
+
   const crossmintComments = useCrossmintMintComments();
 
   return (
