@@ -1,9 +1,9 @@
 "use client";
 
-import { useCollectionProvider } from "@/providers/CollectionProvider";
-import useZoraMintComment from "@/hooks/useZoraMintComment";
 import { Suspense } from "react";
 import dynamic from "next/dynamic";
+import { useCollectionProvider } from "@/providers/CollectionProvider";
+import useZoraMintComment from "@/hooks/useZoraMintComment";
 
 const CrossmintModal = dynamic(() => import("./CrossmintModal"), {
   loading: () => (

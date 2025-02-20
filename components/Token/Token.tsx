@@ -11,8 +11,8 @@ import Image from "next/image";
 
 const Token = () => {
   const { token } = useTokenProvider();
-  const { data: metadata } = useMetadata(token.token.tokenURI);
   const { styling } = useCollectionProvider();
+  const { data: metadata } = useMetadata(token.token.tokenURI);
 
   return (
     <div
