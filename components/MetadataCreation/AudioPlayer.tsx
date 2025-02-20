@@ -42,13 +42,21 @@ const AudioPlayer = ({ onClick }: { onClick: () => void }) => {
   return (
     <div className="size-full bg-white rounded-lg shadow-lg overflow-hidden">
       <div className="relative w-full h-3/4" onClick={onClick}>
-        <Image
-          src={getFetchableUrl(imageUri) || ""}
-          alt="Audio cover"
-          layout="fill"
-          objectFit="cover"
-          objectPosition="center"
-        />
+        {imageUri ? (
+          <Image
+            src={getFetchableUrl(imageUri) || ""}
+            alt="Audio cover"
+            layout="fill"
+            objectFit="cover"
+            objectPosition="center"
+          />
+        ) : (
+          <div className="size-full flex justify-center items-center">
+            <button className="border border-gray-200 rounded-md px-3 py-2 shadow-md">
+              Upload Audio Cover
+            </button>
+          </div>
+        )}
       </div>
       <div className="p-1">
         <audio
