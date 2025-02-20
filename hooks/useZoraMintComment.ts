@@ -8,6 +8,7 @@ import {
 import { CHAIN } from "@/lib/consts";
 import { encodeAbiParameters, parseAbiParameters } from "viem";
 import { useTokenProvider } from "@/providers/TokenProvider";
+import { useUserProvider } from "@/providers/UserProvider";
 
 const useZoraMintComment = () => {
   const [isOpenCrossmint, setIsOpenCrossmint] = useState(false);
@@ -17,12 +18,16 @@ const useZoraMintComment = () => {
   const { address } = useAccount();
   const [isLoading, setIsLoading] = useState(false);
   const { token, comment, addComment, setComment } = useTokenProvider();
+  const { email } = useUserProvider();
 
   const mintComment = async () => {
     setIsLoading(true);
     try {
-      if (!publicClient || !address) return;
-      const hasBalanceToMint = balance > 0.000111000000000001;
+      if (!publicClient || !address || email) {
+        setIsOpenCrossmint(true);
+        return;
+      }
+      const hasBalanceToMint = balance > 0.000000111000000001;
       if (!hasBalanceToMint) {
         setIsLoading(false);
         setIsOpenCrossmint(true);
@@ -40,21 +45,25 @@ const useZoraMintComment = () => {
         functionName: "mint",
         args: [
           zoraCreatorFixedPriceSaleStrategyAddress[CHAIN.id],
-          token.token.tokenId,
+          BigInt(token.token.tokenId),
           BigInt(1),
           [],
           minterArguments,
         ],
-        value: BigInt(111000000000001),
+        value: BigInt(111000000001),
       });
 
       const receipt = await publicClient.waitForTransactionReceipt({ hash });
 
       addComment({
-        tokenId: token.tokenId,
+        collection: token.token.contract.address,
+        chain: "base_sepolia",
+        chainId: CHAIN.id,
+        tokenId: token.token.tokenId,
+        quantity: "1",
         sender: address,
         comment,
-        blockNumber: receipt.blockNumber,
+        blockNumber: parseInt(receipt.blockNumber.toString(), 10),
         transactionHash: receipt.transactionHash,
         timestamp: new Date().getTime(),
       });

@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@ardrive/turbo-sdk": "^1.22.1",
-    "@crossmint/client-sdk-react-ui": "^1.10.4",
+    "@crossmint/client-sdk-react-ui": "^1.14.4",
     "@privy-io/react-auth": "^2.4.2",
     "@radix-ui/react-icons": "^1.3.2",
     "@radix-ui/react-label": "^2.1.0",
