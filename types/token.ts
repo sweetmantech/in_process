@@ -25,6 +25,7 @@ export interface Metadata {
   image: string;
   name: string;
   description: string;
+  external_url?: string;
 }
 
 export interface Collection {

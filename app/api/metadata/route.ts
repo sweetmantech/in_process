@@ -23,6 +23,7 @@ export async function GET(req: NextRequest) {
           image: "",
           name: "",
           description: "",
+          external_url: "",
         });
       }
       throw err;
