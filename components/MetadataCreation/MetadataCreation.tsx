@@ -24,7 +24,7 @@ const MetadataCreation = () => {
   };
 
   return (
-    <div className="w-[300px] aspect-[1/1] relative border border-grey-300 rounded-md overflow-hidden">
+    <div className="w-[300px] aspect-[1/1] relative border border-grey-300 rounded-md overflow-hidden bg-white">
       <TextInput />
       <input
         ref={fileInputRef}
