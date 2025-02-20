@@ -6,7 +6,12 @@ const NoFileSelected = ({ onClick }: { onClick: () => void }) => (
     onClick={onClick}
     type="button"
   >
-    <Image src={"/images/upload-imagination.png"} width={100} height={100} alt="upload imagination"/>
+    <Image
+      src={"/images/upload-imagination.png"}
+      width={100}
+      height={100}
+      alt="upload imagination"
+    />
     <p className="text-sm font-medium">Image Upload (or type for text only)</p>
   </button>
 );

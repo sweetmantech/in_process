@@ -12,7 +12,8 @@ const Title = () => {
         id="title"
         value={name || ""}
         onChange={(e) => setName(e.target.value)}
-        className="border border-black py-7 text-xl"
+        className="border border-black py-4 text-lg !ring-0 !outline-0"
+        placeholder="Name"
       />
     </div>
   );
