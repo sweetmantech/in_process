@@ -11,13 +11,16 @@ const CrossmintContext = createContext<
   ReturnType<typeof useCrossmintMintComments> | undefined
 >(undefined);
 
-export function CrossmintProvider({ children }: { children: React.ReactNode }) {
+export default function CrossmintProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   if (!process.env.NEXT_PUBLIC_CROSSMINT_API_KEY) {
     throw new Error(
       "NEXT_PUBLIC_CROSSMINT_API_KEY environment variable is not set",
     );
   }
-  const crossmintComments = useCrossmintMintComments();
 
   return (
     <CrossmintContext.Provider
