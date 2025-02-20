@@ -9,14 +9,14 @@ import CrossmintProvider from "./CrossmintProvider";
 
 export function Providers({ children }: { children: ReactNode }) {
   return (
-    <CrossmintProvider>
-      <WagmiProvider>
+    <WagmiProvider>
+      <CrossmintProvider>
         <PrivyProvider>
           <UserProvider>
             <ZoraCreateProvider>{children}</ZoraCreateProvider>
           </UserProvider>
         </PrivyProvider>
-      </WagmiProvider>
-    </CrossmintProvider>
+      </CrossmintProvider>
+    </WagmiProvider>
   );
 }
