@@ -22,14 +22,14 @@ export default function useZoraCreate() {
     collection,
   );
 
-  const create = async () => {
-    setCreating(true);
+  const create = async (uri: string) => {
     try {
+      setCreating(true);
       if (!address) {
         throw new Error("No wallet connected");
       }
       await switchChainAsync({ chainId });
-      const parameters = await fetchParameters();
+      const parameters = await fetchParameters(uri);
 
       if (!parameters) {
         throw new Error("Parameters not ready");
@@ -39,9 +39,11 @@ export default function useZoraCreate() {
         ...parameters,
       });
 
-      const publicClient = await getPublicClient();
+      const publicClient = getPublicClient();
       const receipt = await publicClient.waitForTransactionReceipt({ hash });
       const contractAddress = getContractAddressFromReceipt(receipt);
+      setCreating(false);
+      createMetadata.reset();
       return { contractAddress };
     } catch (err) {
       setCreating(false);

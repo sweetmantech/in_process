@@ -9,12 +9,22 @@ import { CHAIN } from "@/lib/consts";
 import { usePrivy } from "@privy-io/react-auth";
 
 const CreateButton = () => {
-  const { create, name, imageUri, animationUri } = useZoraCreateProvider();
+  const {
+    create,
+    name,
+    imageUri,
+    animationUri,
+    textInputRef,
+    uploadTextRefAsImage,
+  } = useZoraCreateProvider();
   const { address } = useAccount();
   const router = useRouter();
   const { login } = usePrivy();
 
-  const isDisabled = !address || !name || (!imageUri && !animationUri);
+  const canCreate =
+    address &&
+    name &&
+    (imageUri || animationUri || textInputRef?.current?.value);
 
   const handleCreate = async () => {
     try {
@@ -22,7 +32,8 @@ const CreateButton = () => {
         login();
         return;
       }
-      const result = await create();
+      const uri = await uploadTextRefAsImage();
+      const result = await create(uri);
       if (result?.contractAddress && CHAIN) {
         const shortNetworkName = getShortNetworkName(CHAIN.name.toLowerCase());
         if (!shortNetworkName) {
@@ -39,7 +50,7 @@ const CreateButton = () => {
   return (
     <Button
       onClick={handleCreate}
-      disabled={isDisabled}
+      disabled={!canCreate}
       className="bg-white text-black p-3 transform hover:scale-105 transition-transform duration-150 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
     >
       Create
