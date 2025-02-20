@@ -80,7 +80,6 @@ const useZoraMintComment = () => {
         comment,
         timestamp: new Date().getTime(),
       } as any);
-      setComment("");
     };
     fetchOrder();
     // eslint-disable-next-line

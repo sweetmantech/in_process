@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import dynamic from "next/dynamic";
 import { useCollectionProvider } from "@/providers/CollectionProvider";
 import useZoraMintComment from "@/hooks/useZoraMintComment";
+import { useTokenProvider } from "@/providers/TokenProvider";
 
 const CrossmintModal = dynamic(() => import("./CrossmintModal"), {
   loading: () => (
@@ -18,6 +19,7 @@ export default function CommentButton() {
   const { setIsOpenCrossmint, isOpenCrossmint, mintComment, isLoading } =
     useZoraMintComment();
   const { styling } = useCollectionProvider();
+  const { setComment } = useTokenProvider();
 
   return (
     <>
@@ -35,7 +37,12 @@ export default function CommentButton() {
 
       {isOpenCrossmint && (
         <Suspense fallback={<div>Loading...</div>}>
-          <CrossmintModal onClose={() => setIsOpenCrossmint(false)} />
+          <CrossmintModal
+            onClose={() => {
+              setIsOpenCrossmint(false);
+              setComment("");
+            }}
+          />
         </Suspense>
       )}
     </>
