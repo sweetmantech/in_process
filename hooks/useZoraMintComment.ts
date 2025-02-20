@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useBalance from "./useBalance";
 import { useAccount, usePublicClient, useWriteContract } from "wagmi";
 import {
@@ -6,9 +6,10 @@ import {
   zoraCreatorFixedPriceSaleStrategyAddress,
 } from "@zoralabs/protocol-deployments";
 import { CHAIN } from "@/lib/consts";
-import { encodeAbiParameters, parseAbiParameters } from "viem";
+import { Address, encodeAbiParameters, parseAbiParameters } from "viem";
 import { useTokenProvider } from "@/providers/TokenProvider";
 import { useUserProvider } from "@/providers/UserProvider";
+import { useCrossmintCheckout } from "@crossmint/client-sdk-react-ui";
 
 const useZoraMintComment = () => {
   const [isOpenCrossmint, setIsOpenCrossmint] = useState(false);
@@ -18,13 +19,16 @@ const useZoraMintComment = () => {
   const { address } = useAccount();
   const [isLoading, setIsLoading] = useState(false);
   const { token, comment, addComment, setComment } = useTokenProvider();
-  const { email } = useUserProvider();
+  const { email, isPrepared } = useUserProvider();
+  const { order } = useCrossmintCheckout();
 
   const mintComment = async () => {
-    setIsLoading(true);
     try {
+      if (!isPrepared()) return;
+      setIsLoading(true);
       if (!publicClient || !address || email) {
         setIsOpenCrossmint(true);
+        setIsLoading(false);
         return;
       }
       const hasBalanceToMint = balance > 0.000000111000000001;
@@ -54,19 +58,11 @@ const useZoraMintComment = () => {
       });
 
       const receipt = await publicClient.waitForTransactionReceipt({ hash });
-
       addComment({
-        collection: token.token.contract.address,
-        chain: "base_sepolia",
-        chainId: CHAIN.id,
-        tokenId: token.token.tokenId,
-        quantity: "1",
         sender: address,
         comment,
-        blockNumber: parseInt(receipt.blockNumber.toString(), 10),
-        transactionHash: receipt.transactionHash,
         timestamp: new Date().getTime(),
-      });
+      } as any);
       setComment("");
       setIsLoading(false);
       return receipt;
@@ -75,6 +71,19 @@ const useZoraMintComment = () => {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    const fetchOrder = async () => {
+      if (order?.phase !== "completed") return;
+      addComment({
+        sender: order.lineItems[0].delivery.recipient?.walletAddress as Address,
+        comment,
+        timestamp: new Date().getTime(),
+      } as any);
+    };
+    fetchOrder();
+    // eslint-disable-next-line
+  }, [order]);
 
   return {
     mintComment,
