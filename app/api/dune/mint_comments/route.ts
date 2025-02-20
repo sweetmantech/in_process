@@ -29,7 +29,11 @@ export async function GET(req: NextRequest) {
         return data;
       },
     );
-    return Response.json(formattedEvents.filter((e) => e.tokenId === tokenId));
+    return Response.json(
+      tokenId
+        ? formattedEvents.filter((e) => e.tokenId === tokenId)
+        : formattedEvents,
+    );
   } catch (e: any) {
     console.log(e);
     const message = e?.message ?? "failed to get Dune transactions";

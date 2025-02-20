@@ -2,11 +2,8 @@
 import { useEffect, useState } from "react";
 import { Address } from "viem";
 import { MintCommentEvent } from "@/types/token";
-import {
-  QueryObserverResult,
-  RefetchOptions,
-  useQuery,
-} from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
+import { useCrossmintProvider } from "@/providers/CrossmintProvider";
 
 async function fetchMintEvents(
   tokenContract: Address,
@@ -29,9 +26,6 @@ export type UseCommentsReturn = {
   visibleComments: number;
   showMoreComments: () => void;
   addComment: (comment: MintCommentEvent) => void;
-  refetch: (
-    options?: RefetchOptions,
-  ) => Promise<QueryObserverResult<MintCommentEvent[], Error>>;
 };
 
 export function useComments(
@@ -40,11 +34,11 @@ export function useComments(
 ): UseCommentsReturn {
   const [comments, setComments] = useState<MintCommentEvent[]>([]);
   const [visibleComments, setVisibleComments] = useState(3);
+  const { data: crossmintMintComments } = useCrossmintProvider();
   const {
     isLoading,
     data: events,
     error,
-    refetch,
   } = useQuery({
     queryKey: ["mintComments", tokenContract, tokenId],
     queryFn: () => fetchMintEvents(tokenContract, tokenId),
@@ -61,8 +55,18 @@ export function useComments(
   };
 
   useEffect(() => {
-    if (events) setComments(events);
-  }, [events]);
+    if (events && crossmintMintComments) {
+      const allComments = [...events, ...crossmintMintComments]
+        .sort(
+          (a: MintCommentEvent, b: MintCommentEvent) =>
+            a.timestamp - b.timestamp,
+        )
+        .filter(
+          (e) => e.collection.toLowerCase() === tokenContract.toLowerCase(),
+        );
+      setComments(allComments);
+    }
+  }, [events, crossmintMintComments]);
 
   return {
     comments,
@@ -71,6 +75,5 @@ export function useComments(
     visibleComments,
     showMoreComments,
     addComment,
-    refetch,
   };
 }
