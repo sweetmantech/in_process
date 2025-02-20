@@ -9,7 +9,7 @@ interface MediaUploadedProps {
   handleImageClick: () => void;
 }
 const Container = ({ children }: { children: React.ReactNode }) => (
-  <div className="absolute size-full left-0 top-0 flex justify-center items-center px-3 py-1">
+  <div className="absolute size-full left-0 top-0 flex justify-center items-center p-3">
     {children}
   </div>
 );
