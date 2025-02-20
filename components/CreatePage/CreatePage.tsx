@@ -8,7 +8,7 @@ import CreateButton from "./CreateButton";
 import BgNoiseWrapper from "../ui/texture-wrapper";
 
 export default function CreatePage() {
-  const { creating, name } = useZoraCreateProvider();
+  const { creating } = useZoraCreateProvider();
 
   return (
     <main className="w-screen h-screen flex justify-center items-center bg-gradientTopRightLight">
@@ -19,19 +19,16 @@ export default function CreatePage() {
             <span>Creating Post!</span>
           </div>
         ) : (
-          <div className="mx-auto min-h-screen flex items-center justify-center">
-            <div className="mt-8 md:flex md:space-x-8 w-full">
+          <div className="mx-auto min-h-screen flex flex-col items-center justify-center">
+            <p className="text-3xl font-bold pb-8">Create on In Process</p>
+            <div className="grid grid-cols-2 gap-6">
               <div className="flex flex-col items-center gap-5">
                 <MediaUpload />
               </div>
-              {typeof name !== "undefined" && (
-                <div className="mt-4 md:mt-0 flex flex-col items-center gap-3">
-                  <div className="w-full flex flex-col items-start gap-4">
-                    <Title />
-                  </div>
-                </div>
-              )}
-              <CreateButton />
+              <div className="w-full flex flex-col items-start gap-4">
+                <Title />
+                <CreateButton />
+              </div>
             </div>
           </div>
         )}
