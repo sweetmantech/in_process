@@ -1,4 +1,4 @@
-import { getIpfsLink } from "@/lib/utils";
+import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 3000);
     try {
-      const response = await fetch(getIpfsLink(uri as string), {
+      const response = await fetch(getFetchableUrl(uri as string) || "", {
         signal: controller.signal,
       });
       clearTimeout(timeoutId);

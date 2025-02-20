@@ -1,9 +1,10 @@
-import { getIpfsLink } from "@/lib/utils";
 import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
 import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Pause, Play } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
+import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
+import Image from "next/image";
 
 const AudioPlayer = ({ onClick }: { onClick: () => void }) => {
   const { imageUri, animationUri } = useZoraCreateProvider();
@@ -39,22 +40,31 @@ const AudioPlayer = ({ onClick }: { onClick: () => void }) => {
   };
 
   return (
-    <div className="w-full bg-white rounded-lg shadow-lg overflow-hidden">
-      <div className="relative" onClick={onClick}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={imageUri ? getIpfsLink(imageUri) : ""}
-          alt="Audio cover"
-          className="w-full h-auto cursor-pointer"
-        />
+    <div className="size-full bg-white rounded-lg shadow-lg overflow-hidden">
+      <div className="relative w-full h-3/4" onClick={onClick}>
+        {imageUri ? (
+          <Image
+            src={getFetchableUrl(imageUri) || ""}
+            alt="Audio cover"
+            layout="fill"
+            objectFit="cover"
+            objectPosition="center"
+          />
+        ) : (
+          <div className="size-full flex justify-center items-center">
+            <button className="border border-gray-200 rounded-md px-3 py-2 shadow-md">
+              Upload Audio Cover
+            </button>
+          </div>
+        )}
       </div>
-      <div className="p-4">
+      <div className="p-1">
         <audio
           ref={audioRef}
-          src={getIpfsLink(animationUri)}
+          src={getFetchableUrl(animationUri) || ""}
           onTimeUpdate={handleTimeUpdate}
         />
-        <div className="flex justify-center mb-4">
+        <div className="text-center">
           <Button
             variant="ghost"
             size="icon"
@@ -62,9 +72,9 @@ const AudioPlayer = ({ onClick }: { onClick: () => void }) => {
             className="text-primary hover:text-primary-dark"
           >
             {isPlaying ? (
-              <Pause className="h-8 w-8" />
+              <Pause className="size-6" />
             ) : (
-              <Play className="h-8 w-8" />
+              <Play className="size-6" />
             )}
           </Button>
         </div>
