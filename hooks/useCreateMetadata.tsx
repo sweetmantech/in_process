@@ -47,7 +47,7 @@ const useCreateMetadata = () => {
   const getUri = async (textRefUri: string) =>
     await uploadJson({
       name,
-      description: "",
+      description,
       image: textRefUri || imageUri,
       animation_url: animationUri,
       content: {
