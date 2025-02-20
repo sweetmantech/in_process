@@ -22,9 +22,9 @@ const CommentSection = () => {
         <p>No comments yet</p>
       ) : (
         <div className="space-y-2">
-          {sortedComments.slice(0, visibleComments).map((comment) => (
+          {sortedComments.slice(0, visibleComments).map((comment, i) => (
             <div
-              key={comment.transactionHash}
+              key={i}
               className="p-2 rounded"
               style={{
                 backgroundColor: styling?.theme?.color?.background || "#f3f4f6",
