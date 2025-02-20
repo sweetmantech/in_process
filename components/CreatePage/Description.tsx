@@ -15,7 +15,7 @@ const Description = () => {
         className="w-full rounded-md bg-background px-2 py-3 border border-black text-lg !ring-0 !outline-0 disabled:text-gray-400 disabled:bg-gray-200"
         placeholder="Description"
         disabled={fileUploading}
-        rows={3}
+        rows={2}
       />
     </div>
   );

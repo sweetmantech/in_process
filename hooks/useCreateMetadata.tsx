@@ -5,6 +5,7 @@ import domtoimage from "dom-to-image";
 import { uploadFile } from "@/lib/arweave/uploadFile";
 
 const useCreateMetadata = () => {
+  const [link, setLink] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [isTimedSale, setIsTimedSale] = useState<boolean>(false);
@@ -38,6 +39,7 @@ const useCreateMetadata = () => {
     if (textInputRef.current) textInputRef.current.value = "";
     setTextInputActive(false);
     setName("");
+    setLink("");
     setDescription("");
     setImageUri("");
     setMimeType("");
@@ -48,6 +50,7 @@ const useCreateMetadata = () => {
     await uploadJson({
       name,
       description,
+      external_url: link,
       image: textRefUri || imageUri,
       animation_url: animationUri,
       content: {
@@ -76,6 +79,8 @@ const useCreateMetadata = () => {
     uploadTextRefAsImage,
     setDescription,
     description,
+    link,
+    setLink,
   };
 };
 
