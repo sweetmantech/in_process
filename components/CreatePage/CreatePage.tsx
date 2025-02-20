@@ -6,6 +6,7 @@ import MetadataCreation from "@/components/MetadataCreation";
 import Title from "./Title";
 import CreateButton from "./CreateButton";
 import BgNoiseWrapper from "../ui/texture-wrapper";
+import Description from "./Description";
 
 export default function CreatePage() {
   const { creating } = useZoraCreateProvider();
@@ -27,6 +28,7 @@ export default function CreatePage() {
               </div>
               <div className="w-full flex flex-col items-start gap-4">
                 <Title />
+                <Description />
                 <CreateButton />
               </div>
             </div>

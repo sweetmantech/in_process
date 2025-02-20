@@ -6,6 +6,7 @@ import { uploadFile } from "@/lib/arweave/uploadFile";
 
 const useCreateMetadata = () => {
   const [name, setName] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
   const [isTimedSale, setIsTimedSale] = useState<boolean>(false);
   const [imageUri, setImageUri] = useState<string>("");
   const [mimeType, setMimeType] = useState<string>("");
@@ -37,6 +38,7 @@ const useCreateMetadata = () => {
     if (textInputRef.current) textInputRef.current.value = "";
     setTextInputActive(false);
     setName("");
+    setDescription("");
     setImageUri("");
     setMimeType("");
     setAnimationUri("");
@@ -72,6 +74,8 @@ const useCreateMetadata = () => {
     textInputRef,
     ...fileUpload,
     uploadTextRefAsImage,
+    setDescription,
+    description,
   };
 };
 
