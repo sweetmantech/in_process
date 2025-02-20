@@ -10,14 +10,8 @@ export default function CrossmintProvider({
 }: {
   children: React.ReactNode;
 }) {
-  if (!process.env.NEXT_PUBLIC_CROSSMINT_API_KEY) {
-    throw new Error(
-      "NEXT_PUBLIC_CROSSMINT_API_KEY environment variable is not set",
-    );
-  }
-
   return (
-    <Crossmint apiKey={process.env.NEXT_PUBLIC_CROSSMINT_API_KEY as string}>
+    <Crossmint apiKey={process.env.NEXT_PUBLIC_CROSSMINT_API_KEY || ""}>
       <CrossmintCheckoutProvider>{children}</CrossmintCheckoutProvider>
     </Crossmint>
   );
