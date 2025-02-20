@@ -11,7 +11,7 @@ export default function CrossmintProvider({
   children: React.ReactNode;
 }) {
   return (
-    <Crossmint apiKey={process.env.NEXT_PUBLIC_CROSSMINT_API_KEY || ""}>
+    <Crossmint apiKey={process.env.NEXT_PUBLIC_CROSSMINT_API_KEY as string}>
       <CrossmintCheckoutProvider>{children}</CrossmintCheckoutProvider>
     </Crossmint>
   );
