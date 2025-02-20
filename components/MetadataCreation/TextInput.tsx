@@ -1,14 +1,16 @@
 import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
 
 const TextInput = () => {
-  const { setName, setTextInputActive, textInputRef } = useZoraCreateProvider();
+  const { setName, setTextInputActive, textInputRef, fileUploading } =
+    useZoraCreateProvider();
 
   return (
     <textarea
-      className="size-full !outline-none p-2"
+      className="size-full !outline-none p-2 disabled:cursor-not-allowed"
       onChange={(e) => setName(e.target.value.slice(0, 10))}
       onFocus={() => setTextInputActive(true)}
       ref={textInputRef}
+      disabled={fileUploading}
     />
   );
 };
