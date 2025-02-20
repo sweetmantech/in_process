@@ -3,7 +3,7 @@ import useFileUpload from "@/hooks/useFileUpload";
 import { cn } from "@/lib/utils";
 import Spinner from "@/components/ui/spinner";
 import { getIpfsLink } from "@/lib/utils";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import NoFileSelected from "./NoFileSelected";
 import AudioPlayer from "./AudioPlayer";
 import Image from "next/image";
@@ -12,6 +12,7 @@ const MediaUpload = () => {
   const { imageUri, animationUri, mimeType } = useZoraCreateProvider();
   const { fileUpload, loading, error, blurImageUrl } = useFileUpload();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [textInputActive, setTextInputActive] = useState(false)
 
   const handleImageClick = () => {
     fileInputRef.current?.click();
@@ -59,24 +60,16 @@ const MediaUpload = () => {
   };
 
   return (
-    <div className="grid w-full max-w-3xl items-center gap-4">
-      <div
-        className={cn(
-          "w-full relative rounded-md min-h-[300px] min-w-[300px]",
-          !imageUri && !animationUri && "aspect-square",
-          (loading || (!imageUri && !animationUri)) &&
-            "border-dashed border-2 border-black",
-        )}
-      >
-        <input
-          ref={fileInputRef}
-          id="media"
-          type="file"
-          className="hidden"
-          onChange={fileUpload}
-        />
-        {renderMedia()}
-      </div>
+    <div className="w-[300px] aspect-[1/1] relative">
+      <textarea className="size-full" onFocus={() => setTextInputActive(true)}/>
+      <input
+        ref={fileInputRef}
+        id="media"
+        type="file"
+        className="hidden"
+        onChange={fileUpload}
+      />
+      {textInputActive ? <></> : <NoFileSelected onClick={handleImageClick} />}
       {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
     </div>
   );
