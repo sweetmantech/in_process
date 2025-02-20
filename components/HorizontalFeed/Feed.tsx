@@ -28,7 +28,10 @@ const Feed: FC<FeedProps> = ({
   const { isLoading, data } = useMetadata(feed.contractURI);
   const handleClick = (feed: Collection) => {
     if (data?.external_url) {
-      window.open(data.external_url, "_blank");
+      const newWindow = window.open(data.external_url, "_blank");
+      if (newWindow) {
+        newWindow.opener = null;
+      }
       return;
     }
     if (shouldCollect) {
