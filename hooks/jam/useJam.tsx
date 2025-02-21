@@ -23,6 +23,7 @@ const useJam = () => {
       setCanvas(fabricCanvas);
       return () => {
         fabricCanvas.dispose();
+        fabricCanvas.off();
       };
     }
   }, [canvasRef]);
