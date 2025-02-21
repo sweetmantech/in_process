@@ -1,5 +1,6 @@
 import * as fabric from "fabric";
-import getRandomHexColor from "../getRandomHexColor";
+import getRandomHexColor from "../../getRandomHexColor";
+import { updateConnectedLines } from "./updateLine";
 
 const addStep = (canvas: fabric.Canvas | null) => {
   if (!canvas) return;
@@ -96,6 +97,12 @@ const addStep = (canvas: fabric.Canvas | null) => {
 
   // Update points when group is modified
   group.on("modified", updateConnectionPoints);
+
+  // Add handler for moving to update connected lines
+  group.on("moving", () => {
+    if (!canvas) return;
+    updateConnectedLines(group, canvas);
+  });
 
   canvas.add(group);
   canvas.requestRenderAll();
