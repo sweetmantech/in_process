@@ -11,10 +11,6 @@ const addStep = (canvas: fabric.Canvas | null) => {
     textAlign: "center",
     originX: "center",
     originY: "center",
-    maxWidth: 80,
-    maxHeight: 80,
-    fixedWidth: 80,
-    fixedHeig: 80,
   });
 
   const rect = new fabric.Rect({
