@@ -2,15 +2,25 @@ import * as fabric from "fabric";
 import getRandomHexColor from "../../getRandomHexColor";
 import { updateConnectedLines } from "./updateLine";
 
-const addStep = (canvas: fabric.Canvas | null) => {
+// Add type for size parameters
+interface StepOptions {
+  width?: number;
+  height?: number;
+}
+
+const addStep = (canvas: fabric.Canvas | null, options: StepOptions = {}) => {
   if (!canvas) return;
+
+  // Use provided dimensions or defaults
+  const width = options.width || 80;
+  const height = options.height || 80;
 
   // Create the main text
   const text = new fabric.Textbox("Process", {
     fill: "#333333",
-    width: 80,
-    height: 80,
-    fontSize: 16,
+    width: width * 0.75, // Scale text box relative to new size
+    height: height * 0.75,
+    fontSize: 12,
     textAlign: "center",
     originX: "center",
     originY: "center",
@@ -19,8 +29,8 @@ const addStep = (canvas: fabric.Canvas | null) => {
   // Create the rectangle
   const rect = new fabric.Rect({
     fill: getRandomHexColor(),
-    width: 100,
-    height: 100,
+    width: width,
+    height: height,
     strokeWidth: 1,
     stroke: "rgba(0,0,0,0.2)",
     rx: 5,
