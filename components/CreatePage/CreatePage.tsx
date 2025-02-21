@@ -14,7 +14,7 @@ export default function CreatePage() {
   const { creating } = useZoraCreateProvider();
 
   return (
-    <main className="w-screen pt-20 flex justify-center items-center bg-gradientTopRightLight">
+    <main className="w-full pt-20 flex justify-center items-center bg-gradientTopRightLight">
       <BgNoiseWrapper url="/egg-shell-noise.png">
         {creating ? (
           <div className="flex flex-col gap-2 items-center">
