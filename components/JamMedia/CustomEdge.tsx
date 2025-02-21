@@ -2,7 +2,7 @@ import {
   BaseEdge,
   EdgeLabelRenderer,
   EdgeProps,
-  getBezierPath,
+  getSmoothStepPath,
 } from "@xyflow/react";
 import { XIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
@@ -39,13 +39,14 @@ const CustomEdge = ({
     setEditValue((label as string) || "");
   }, [label]);
 
-  const [edgePath, labelX, labelY] = getBezierPath({
+  const [edgePath, labelX, labelY] = getSmoothStepPath({
     sourceX,
     sourceY,
     sourcePosition,
     targetX,
     targetY,
     targetPosition,
+    borderRadius: 0,
   });
 
   useEffect(() => {
@@ -56,6 +57,9 @@ const CustomEdge = ({
   }, [edgeData?.isEditing]);
 
   const onKeyDown = (evt: React.KeyboardEvent<HTMLInputElement>) => {
+    // Stop event propagation to prevent edge deletion
+    evt.stopPropagation();
+
     if (evt.key === "Enter" || evt.key === "Escape") {
       evt.preventDefault();
       window.onEdgeLabelChange(id, editValue);
@@ -87,10 +91,12 @@ const CustomEdge = ({
               value={editValue}
               onChange={(e) => setEditValue(e.target.value)}
               onKeyDown={onKeyDown}
-              className="text-[7px] bg-white outline-none text-center w-[20px]"
+              className="text-[7px] bg-white outline-none text-center w-[40px] border border-gray-300 rounded px-1"
             />
           ) : (
-            <div className="text-[7px] px-1 bg-white">{label}</div>
+            <div className="text-[7px] px-2 py-1 bg-white border border-gray-200 rounded min-w-[20px] text-center">
+              {label || "new edge"}
+            </div>
           )}
         </div>
       </EdgeLabelRenderer>

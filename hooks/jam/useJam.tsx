@@ -8,8 +8,8 @@ import {
   applyEdgeChanges,
   Connection,
   addEdge,
+  MarkerType,
 } from "@xyflow/react";
-import getRandomHexColor from "@/lib/getRandomHexColor";
 
 const nodeDefaults = {
   style: {
@@ -19,13 +19,26 @@ const nodeDefaults = {
   },
 };
 
+const edgeDefaults = {
+  type: "custom",
+  style: {
+    strokeWidth: 1,
+    stroke: "#1a192b",
+  },
+  markerEnd: {
+    type: MarkerType.Arrow,
+    width: 10,
+    height: 10,
+    color: "#1a192b",
+  },
+};
+
 const initialNodes = [
   {
     id: "1",
     data: {
       label: "Hello",
       isEditing: false,
-      color: getRandomHexColor(),
     },
     position: { x: 0, y: 0 },
     ...nodeDefaults,
@@ -35,7 +48,6 @@ const initialNodes = [
     data: {
       label: "World",
       isEditing: false,
-      color: getRandomHexColor(),
     },
     position: { x: 100, y: 100 },
     ...nodeDefaults,
@@ -48,8 +60,10 @@ const initialEdges = [
     source: "1",
     target: "2",
     label: "to the",
-    type: "custom",
     data: { isEditing: false },
+    type: "custom",
+    style: edgeDefaults.style,
+    markerEnd: edgeDefaults.markerEnd,
   },
 ];
 
@@ -75,7 +89,6 @@ export function useJam() {
       data: {
         label: `Node ${nodes.length + 1}`,
         isEditing: false,
-        color: getRandomHexColor(),
       },
       position: {
         x: 100 + nodes.length * 50,
@@ -167,8 +180,11 @@ export function useJam() {
       addEdge(
         {
           ...connection,
-          type: "custom",
           data: { isEditing: false },
+          type: "custom",
+          style: edgeDefaults.style,
+          markerEnd: edgeDefaults.markerEnd,
+          label: "new edge",
         },
         eds,
       ),
@@ -191,5 +207,6 @@ export function useJam() {
     onEdgeLabelChange,
     onConnect,
     onEdgeDelete,
+    setNodes,
   };
 }

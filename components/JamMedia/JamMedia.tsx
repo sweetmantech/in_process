@@ -5,11 +5,14 @@ import {
   NodeTypes,
   EdgeTypes,
   Edge,
+  ReactFlowInstance,
 } from "@xyflow/react";
 import CustomNode from "./CustomNode";
 import CustomEdge from "./CustomEdge";
-import { useCallback, useRef } from "react";
+import { useCallback, useRef, useState } from "react";
 import { useJamProvider } from "@/providers/JamProvider";
+import { nanoid } from "nanoid";
+
 const nodeTypes: NodeTypes = {
   default: CustomNode,
 };
@@ -24,14 +27,18 @@ function JamMedia() {
     edges,
     onNodesChange,
     onEdgesChange,
-    addNode,
     onNodeDoubleClick,
     onNodeLabelChange,
     onEdgeDoubleClick,
     onEdgeLabelChange,
     onConnect,
     onEdgeDelete,
+    setNodes,
   } = useJamProvider();
+
+  const reactFlowWrapper = useRef<HTMLDivElement>(null);
+  const [reactFlowInstance, setReactFlowInstance] =
+    useState<ReactFlowInstance | null>(null);
 
   const handleInit = useCallback(() => {
     // Add label change handlers to window for components to access
@@ -65,14 +72,41 @@ function JamMedia() {
     [edges, onEdgeDelete],
   );
 
+  const onAdd = useCallback(() => {
+    if (!reactFlowInstance) return;
+
+    // Get the current viewport
+    const { x, y, zoom } = reactFlowInstance.getViewport();
+
+    // Calculate center of the visible area
+    const centerX =
+      -x / zoom + (reactFlowWrapper.current?.clientWidth || 0) / (2 * zoom);
+    const centerY =
+      -y / zoom + (reactFlowWrapper.current?.clientHeight || 0) / (2 * zoom);
+
+    const newNode = {
+      id: nanoid(),
+      type: "default",
+      position: { x: centerX, y: centerY },
+      data: { label: "New Node", isEditing: false },
+      style: {
+        width: 50,
+        height: 18,
+        fontSize: 7,
+      },
+    };
+
+    setNodes((nodes) => nodes.concat(newNode));
+  }, [reactFlowInstance, setNodes]);
+
   return (
     <div
-      style={{ height: "400px", width: "100%" }}
-      tabIndex={0}
       onKeyDown={onKeyDown}
+      className="border border-gray-700 h-[400px] w-full rounded-md bg-white"
+      ref={reactFlowWrapper}
     >
       <button
-        onClick={addNode}
+        onClick={onAdd}
         style={{
           position: "absolute",
           top: "10px",
@@ -105,7 +139,10 @@ function JamMedia() {
         defaultViewport={{ x: 0, y: 0, zoom: 1.5 }}
         minZoom={0.5}
         maxZoom={2}
-        onInit={handleInit}
+        onInit={(instance) => {
+          handleInit();
+          setReactFlowInstance(instance);
+        }}
       >
         <Background />
         <Controls />
