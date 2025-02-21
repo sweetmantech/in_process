@@ -4,6 +4,7 @@ import * as fabric from "fabric";
 const useJam = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [canvas, setCanvas] = useState<fabric.Canvas | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (canvasRef.current) {
@@ -28,8 +29,36 @@ const useJam = () => {
     }
   }, [canvasRef]);
 
+  const updateCanvasSize = () => {
+    if (canvas && canvasRef.current && containerRef.current) {
+      const containerWidth = containerRef.current.offsetWidth;
+      canvasRef.current.width = containerWidth;
+      canvasRef.current.height = 300;
+      canvas.setDimensions({
+        width: containerWidth,
+        height: 300,
+      });
+      canvas.renderAll();
+    }
+  };
+
+  useEffect(() => {
+    if (canvas) {
+      updateCanvasSize();
+      const handleResize = () => {
+        updateCanvasSize();
+      };
+      window.addEventListener("resize", handleResize);
+      return () => {
+        window.removeEventListener("resize", handleResize);
+      };
+    }
+    // eslint-disable-next-line
+  }, [canvas]);
+
   return {
     canvasRef,
+    containerRef,
     canvas,
   };
 };

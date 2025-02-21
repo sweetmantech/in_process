@@ -9,7 +9,7 @@ const createControls = (canvas: fabric.Canvas): CustomControls => {
   ) => {
     ctx.save();
     ctx.beginPath();
-    ctx.arc(left, top, 4, 0, 2 * Math.PI);
+    ctx.arc(left, top, 5, 0, 2 * Math.PI);
     ctx.fillStyle = "#ffffff";
     ctx.strokeStyle = "#333333";
     ctx.lineWidth = 1;
@@ -42,12 +42,10 @@ const createControls = (canvas: fabric.Canvas): CustomControls => {
     const dy = end.y - start.y;
     const perpX = -dy;
     const perpY = dx;
-
     // Normalize the perpendicular vector and apply offset
     const length = Math.sqrt(perpX * perpX + perpY * perpY) || 1;
     const controlX = midX + (perpX / length) * curveOffset;
     const controlY = midY + (perpY / length) * curveOffset;
-
     // Update control point
     path.path[1][1] = controlX;
     path.path[1][2] = controlY;
