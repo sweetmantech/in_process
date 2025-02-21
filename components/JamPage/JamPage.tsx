@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import * as fabric from "fabric";
+import BgNoiseWrapper from "../ui/texture-wrapper";
 
 const JamPage = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -60,14 +61,16 @@ const JamPage = () => {
   }, [canvasRef]);
 
   return (
-    <div className="w-screen h-screen flex justify-center items-center pt-20">
-      <canvas
-        width="800"
-        height="600"
-        ref={canvasRef}
-        className="border"
-      ></canvas>
-    </div>
+    <main className="w-screen h-screen flex justify-center items-center bg-gradientTopRightLight">
+      <BgNoiseWrapper url="/egg-shell-noise.png">
+        <canvas
+          width="800"
+          height="600"
+          ref={canvasRef}
+          className="border-grey-700 border-[2px] rounded-md"
+        ></canvas>
+      </BgNoiseWrapper>
+    </main>
   );
 };
 
