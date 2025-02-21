@@ -1,66 +1,212 @@
-import { useEffect, useRef, useState } from "react";
-import * as fabric from "fabric";
+import { useState, useCallback } from "react";
+import {
+  Node,
+  Edge,
+  NodeChange,
+  EdgeChange,
+  applyNodeChanges,
+  applyEdgeChanges,
+  Connection,
+  addEdge,
+  MarkerType,
+} from "@xyflow/react";
 
-const useJam = () => {
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const [canvas, setCanvas] = useState<fabric.Canvas | null>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (canvasRef.current) {
-      const fabricCanvas = new fabric.Canvas(canvasRef.current);
-      fabricCanvas.on("mouse:dblclick", function (options) {
-        if (options.target && options.target.type === "group") {
-          const group = options.target as fabric.Group;
-          const textbox = group.item(1) as fabric.Textbox;
-          if (textbox) {
-            fabricCanvas.setActiveObject(textbox);
-            textbox.enterEditing();
-            textbox.selectAll();
-          }
-        }
-      });
-
-      setCanvas(fabricCanvas);
-      return () => {
-        fabricCanvas.dispose();
-        fabricCanvas.off();
-      };
-    }
-  }, [canvasRef]);
-
-  const updateCanvasSize = () => {
-    if (canvas && canvasRef.current && containerRef.current) {
-      const containerWidth = containerRef.current.offsetWidth;
-      canvasRef.current.width = containerWidth;
-      canvasRef.current.height = 300;
-      canvas.setDimensions({
-        width: containerWidth,
-        height: 300,
-      });
-      canvas.renderAll();
-    }
-  };
-
-  useEffect(() => {
-    if (canvas) {
-      updateCanvasSize();
-      const handleResize = () => {
-        updateCanvasSize();
-      };
-      window.addEventListener("resize", handleResize);
-      return () => {
-        window.removeEventListener("resize", handleResize);
-      };
-    }
-    // eslint-disable-next-line
-  }, [canvas]);
-
-  return {
-    canvasRef,
-    containerRef,
-    canvas,
-  };
+const nodeDefaults = {
+  style: {
+    width: 50,
+    height: 18,
+    fontSize: 7,
+  },
 };
 
-export default useJam;
+const edgeDefaults = {
+  type: "custom",
+  style: {
+    strokeWidth: 1,
+    stroke: "#1a192b",
+  },
+  markerEnd: {
+    type: MarkerType.Arrow,
+    width: 10,
+    height: 10,
+    color: "#1a192b",
+  },
+};
+
+const initialNodes = [
+  {
+    id: "1",
+    data: {
+      label: "Hello",
+      isEditing: false,
+    },
+    position: { x: 0, y: 0 },
+    ...nodeDefaults,
+  },
+  {
+    id: "2",
+    data: {
+      label: "World",
+      isEditing: false,
+    },
+    position: { x: 100, y: 100 },
+    ...nodeDefaults,
+  },
+];
+
+const initialEdges = [
+  {
+    id: "1-2",
+    source: "1",
+    target: "2",
+    label: "to the",
+    data: { isEditing: false },
+    type: "custom",
+    style: edgeDefaults.style,
+    markerEnd: edgeDefaults.markerEnd,
+  },
+];
+
+export function useJam() {
+  const [nodes, setNodes] = useState<Node[]>(initialNodes);
+  const [edges, setEdges] = useState<Edge[]>(initialEdges);
+
+  const onNodesChange = useCallback(
+    (changes: NodeChange[]) =>
+      setNodes((nds) => applyNodeChanges(changes, nds)),
+    [],
+  );
+
+  const onEdgesChange = useCallback(
+    (changes: EdgeChange[]) =>
+      setEdges((eds) => applyEdgeChanges(changes, eds)),
+    [],
+  );
+
+  const addNode = useCallback(() => {
+    const newNode = {
+      id: `${nodes.length + 1}`,
+      data: {
+        label: `Node ${nodes.length + 1}`,
+        isEditing: false,
+      },
+      position: {
+        x: 100 + nodes.length * 50,
+        y: 100 + nodes.length * 50,
+      },
+      ...nodeDefaults,
+    };
+    setNodes((nds) => [...nds, newNode]);
+  }, [nodes.length]);
+
+  const onNodeDoubleClick = useCallback(
+    (event: React.MouseEvent, node: Node) => {
+      setNodes((nds) =>
+        nds.map((n) => {
+          if (n.id === node.id) {
+            return {
+              ...n,
+              data: {
+                ...n.data,
+                isEditing: true,
+              },
+            };
+          }
+          return n;
+        }),
+      );
+    },
+    [],
+  );
+
+  const onNodeLabelChange = useCallback((nodeId: string, newLabel: string) => {
+    setNodes((nds) =>
+      nds.map((n) => {
+        if (n.id === nodeId) {
+          return {
+            ...n,
+            data: {
+              ...n.data,
+              label: newLabel,
+              isEditing: false,
+            },
+          };
+        }
+        return n;
+      }),
+    );
+  }, []);
+
+  const onEdgeDoubleClick = useCallback(
+    (event: React.MouseEvent, edge: Edge) => {
+      setEdges((eds) =>
+        eds.map((e) => {
+          if (e.id === edge.id) {
+            return {
+              ...e,
+              data: {
+                ...e.data,
+                isEditing: true,
+              },
+            };
+          }
+          return e;
+        }),
+      );
+    },
+    [],
+  );
+
+  const onEdgeLabelChange = useCallback((edgeId: string, newLabel: string) => {
+    setEdges((eds) =>
+      eds.map((e) => {
+        if (e.id === edgeId) {
+          return {
+            ...e,
+            label: newLabel,
+            data: {
+              ...e.data,
+              isEditing: false,
+            },
+          };
+        }
+        return e;
+      }),
+    );
+  }, []);
+
+  const onConnect = useCallback((connection: Connection) => {
+    setEdges((eds) =>
+      addEdge(
+        {
+          ...connection,
+          data: { isEditing: false },
+          type: "custom",
+          style: edgeDefaults.style,
+          markerEnd: edgeDefaults.markerEnd,
+          label: "new edge",
+        },
+        eds,
+      ),
+    );
+  }, []);
+
+  const onEdgeDelete = useCallback((edge: Edge) => {
+    setEdges((eds) => eds.filter((e) => e.id !== edge.id));
+  }, []);
+
+  return {
+    nodes,
+    edges,
+    onNodesChange,
+    onEdgesChange,
+    addNode,
+    onNodeDoubleClick,
+    onNodeLabelChange,
+    onEdgeDoubleClick,
+    onEdgeLabelChange,
+    onConnect,
+    onEdgeDelete,
+    setNodes,
+  };
+}

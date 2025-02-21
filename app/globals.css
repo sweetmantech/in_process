@@ -7,6 +7,15 @@
   src: url("/fonts/LondrinaSolid-Regular.ttf") format("truetype");
 }
 
+.react-flow__panel.react-flow__attribution {
+  display: none !important;
+}
+
+.react-flow__node {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
 @layer base {
   :root {
     --background: 0 0% 100%;
