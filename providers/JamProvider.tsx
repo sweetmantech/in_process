@@ -1,4 +1,4 @@
-import useJam from "@/hooks/jam/useJam";
+import { useJam } from "@/hooks/jam/useJam";
 import { createContext, useMemo, useContext } from "react";
 
 const JamContext = createContext<ReturnType<typeof useJam>>(

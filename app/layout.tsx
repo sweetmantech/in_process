@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import "@xyflow/react/dist/style.css";
 import "./globals.css";
 import { Providers } from "@/providers/Providers";
 import LoginButton from "@/components/LoginButton";

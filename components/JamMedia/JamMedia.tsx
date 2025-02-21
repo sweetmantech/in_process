@@ -1,52 +1,117 @@
+import {
+  ReactFlow,
+  Controls,
+  Background,
+  NodeTypes,
+  EdgeTypes,
+  Edge,
+} from "@xyflow/react";
+import CustomNode from "./CustomNode";
+import CustomEdge from "./CustomEdge";
+import { useCallback, useRef } from "react";
 import { useJamProvider } from "@/providers/JamProvider";
-import { Plus, GitCommit } from "lucide-react";
-import addStep from "@/lib/jam/addStep";
-import addLine from "@/lib/jam/addLine";
-import { useState } from "react";
+const nodeTypes: NodeTypes = {
+  default: CustomNode,
+};
 
-const JamMedia = () => {
-  const { canvasRef, canvas, containerRef } = useJamProvider();
-  const [tool, setTool] = useState<"square" | "line">("square");
+const edgeTypes: EdgeTypes = {
+  custom: CustomEdge,
+};
 
-  const handleToolClick = (selectedTool: "square" | "line") => {
-    if (!canvas) return;
-    // Clean up existing event listeners
-    canvas.off("mouse:down");
-    canvas.off("mouse:move");
-    canvas.off("mouse:up");
-    setTool(selectedTool);
-    if (selectedTool === "line") {
-      addLine(canvas);
-    }
-    if (selectedTool === "square") {
-      addStep(canvas, { width: 60, height: 50 });
-    }
-  };
+function JamMedia() {
+  const {
+    nodes,
+    edges,
+    onNodesChange,
+    onEdgesChange,
+    addNode,
+    onNodeDoubleClick,
+    onNodeLabelChange,
+    onEdgeDoubleClick,
+    onEdgeLabelChange,
+    onConnect,
+    onEdgeDelete,
+  } = useJamProvider();
+
+  const handleInit = useCallback(() => {
+    // Add label change handlers to window for components to access
+    window.onNodeLabelChange = onNodeLabelChange;
+    window.onEdgeLabelChange = onEdgeLabelChange;
+  }, [onNodeLabelChange, onEdgeLabelChange]);
+
+  // Handle keyboard events for edge deletion
+  const edgeToDelete = useRef<string | null>(null);
+
+  const onEdgeClick = useCallback((event: React.MouseEvent, edge: Edge) => {
+    edgeToDelete.current = edge.id;
+  }, []);
+
+  const onPaneClick = useCallback(() => {
+    edgeToDelete.current = null;
+  }, []);
+
+  const onKeyDown = useCallback(
+    (event: React.KeyboardEvent) => {
+      if (event.key === "Delete" || event.key === "Backspace") {
+        if (edgeToDelete.current) {
+          const edge = edges.find((e) => e.id === edgeToDelete.current);
+          if (edge) {
+            onEdgeDelete(edge);
+          }
+          edgeToDelete.current = null;
+        }
+      }
+    },
+    [edges, onEdgeDelete],
+  );
 
   return (
-    <div ref={containerRef} className="w-full flex flex-col items-center">
-      <div className="flex gap-2 mb-2">
-        <button
-          type="button"
-          onClick={() => handleToolClick("square")}
-          className={`shadow-lg bg-white rounded-md p-1 ${tool === "square" ? "ring-2 ring-blue-500" : ""}`}
-        >
-          <Plus className="size-4" />
-        </button>
-        <button
-          type="button"
-          onClick={() => handleToolClick("line")}
-          className={`shadow-lg bg-white rounded-md p-1 ${tool === "line" ? "ring-2 ring-blue-500" : ""}`}
-        >
-          <GitCommit className="size-4" />
-        </button>
-      </div>
-      <canvas
-        ref={canvasRef}
-        className="w-full h-[300px] border-grey-700 border-[2px] rounded-md"
-      ></canvas>
+    <div
+      style={{ height: "400px", width: "100%" }}
+      tabIndex={0}
+      onKeyDown={onKeyDown}
+    >
+      <button
+        onClick={addNode}
+        style={{
+          position: "absolute",
+          top: "10px",
+          left: "10px",
+          zIndex: 4,
+          padding: "8px 16px",
+          background: "#1a192b",
+          color: "white",
+          border: "none",
+          borderRadius: "4px",
+          cursor: "pointer",
+        }}
+      >
+        Add Node
+      </button>
+      <ReactFlow
+        nodes={nodes}
+        onNodesChange={onNodesChange}
+        edges={edges}
+        onEdgesChange={onEdgesChange}
+        onNodeDoubleClick={onNodeDoubleClick}
+        onEdgeDoubleClick={onEdgeDoubleClick}
+        onConnect={onConnect}
+        onEdgeClick={onEdgeClick}
+        onPaneClick={onPaneClick}
+        nodeTypes={nodeTypes}
+        edgeTypes={edgeTypes}
+        fitView
+        className="border border-gray-700"
+        defaultViewport={{ x: 0, y: 0, zoom: 1.5 }}
+        minZoom={0.5}
+        maxZoom={2}
+        onInit={handleInit}
+      >
+        <Background />
+        <Controls />
+      </ReactFlow>
     </div>
   );
-};
+}
 
 export default JamMedia;
