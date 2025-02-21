@@ -27,17 +27,13 @@ export const createLine = (
     lockScalingY: true,
     lockRotation: true,
     selectable: true,
-    controls: createControls(canvas),
   }) as CustomPath;
 
-  // Remove all default controls
-  if (line.controls) {
-    Object.keys(line.controls).forEach((key) => {
-      if (key !== "start" && key !== "end") {
-        delete line.controls[key];
-      }
-    });
-  }
+  // First remove all default controls
+  line.controls = {};
+
+  // Then set our custom controls
+  line.controls = createControls(canvas);
 
   return line;
 };

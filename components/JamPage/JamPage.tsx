@@ -10,6 +10,13 @@ const JamPage = () => {
   const [tool, setTool] = useState<"square" | "line">("square");
 
   const handleToolClick = (selectedTool: "square" | "line") => {
+    if (!canvas) return;
+
+    // Clean up existing event listeners
+    canvas.off("mouse:down");
+    canvas.off("mouse:move");
+    canvas.off("mouse:up");
+
     setTool(selectedTool);
     if (selectedTool === "line") {
       addLine(canvas);
