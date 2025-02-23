@@ -1,206 +1,95 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import {
   Node,
-  Edge,
   NodeChange,
-  EdgeChange,
   applyNodeChanges,
-  applyEdgeChanges,
-  Connection,
-  addEdge,
-  MarkerType,
+  ReactFlowInstance,
 } from "@xyflow/react";
-
-const nodeDefaults = {
-  style: {
-    width: 50,
-    height: 18,
-    fontSize: 7,
-  },
-};
-
-const edgeDefaults = {
-  type: "custom",
-  style: {
-    strokeWidth: 1,
-    stroke: "#1a192b",
-  },
-  markerEnd: {
-    type: MarkerType.Arrow,
-    width: 10,
-    height: 10,
-    color: "#1a192b",
-  },
-};
-
-const initialNodes = [
-  {
-    id: "1",
-    data: {
-      label: "Hello",
-      isEditing: false,
-    },
-    position: { x: 0, y: 0 },
-    ...nodeDefaults,
-  },
-  {
-    id: "2",
-    data: {
-      label: "World",
-      isEditing: false,
-    },
-    position: { x: 100, y: 100 },
-    ...nodeDefaults,
-  },
-];
-
-const initialEdges = [
-  {
-    id: "1-2",
-    source: "1",
-    target: "2",
-    label: "to the",
-    data: { isEditing: false },
-    type: "custom",
-    style: edgeDefaults.style,
-    markerEnd: edgeDefaults.markerEnd,
-  },
-];
+import { initialNodes } from "@/lib/jam/consts";
+import {
+  createNewNode,
+  toggleNodeEditing,
+  updateNodeLabel,
+} from "@/lib/jam/operations";
+import domtoimage from "dom-to-image";
+import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
+import { uploadFile } from "@/lib/arweave/uploadFile";
+import { useEdgeOperations } from "./useEdgeOperations";
 
 export function useJam() {
   const [nodes, setNodes] = useState<Node[]>(initialNodes);
-  const [edges, setEdges] = useState<Edge[]>(initialEdges);
+  const reactFlowWrapper = useRef<HTMLDivElement>(null);
+  const [reactFlowInstance, setReactFlowInstance] =
+    useState<ReactFlowInstance | null>(null);
+  const { setFileUploading, setImageUri } = useZoraCreateProvider();
+  const {
+    edgeToDelete,
+    onEdgesChange,
+    onEdgeDoubleClick,
+    onEdgeLabelChange,
+    onConnect,
+    onEdgeDelete,
+    onEdgeClick,
+    onPaneClick,
+    edges,
+  } = useEdgeOperations();
 
-  const onNodesChange = useCallback(
-    (changes: NodeChange[]) =>
-      setNodes((nds) => applyNodeChanges(changes, nds)),
-    [],
-  );
+  const onNodesChange = (changes: NodeChange[]) =>
+    setNodes((nds) => applyNodeChanges(changes, nds));
 
-  const onEdgesChange = useCallback(
-    (changes: EdgeChange[]) =>
-      setEdges((eds) => applyEdgeChanges(changes, eds)),
-    [],
-  );
+  const onNodeDoubleClick = (event: React.MouseEvent, node: Node) => {
+    setNodes((nds) => toggleNodeEditing(nds, node.id));
+  };
 
-  const addNode = useCallback(() => {
-    const newNode = {
-      id: `${nodes.length + 1}`,
-      data: {
-        label: `Node ${nodes.length + 1}`,
-        isEditing: false,
-      },
-      position: {
-        x: 100 + nodes.length * 50,
-        y: 100 + nodes.length * 50,
-      },
-      ...nodeDefaults,
-    };
-    setNodes((nds) => [...nds, newNode]);
-  }, [nodes.length]);
+  const onNodeLabelChange = (nodeId: string, newLabel: string) => {
+    setNodes((nds) => updateNodeLabel(nds, nodeId, newLabel));
+  };
 
-  const onNodeDoubleClick = useCallback(
-    (event: React.MouseEvent, node: Node) => {
-      setNodes((nds) =>
-        nds.map((n) => {
-          if (n.id === node.id) {
-            return {
-              ...n,
-              data: {
-                ...n.data,
-                isEditing: true,
-              },
-            };
-          }
-          return n;
-        }),
-      );
+  const onAdd = useCallback(() => {
+    if (!reactFlowInstance || !reactFlowWrapper.current) return;
+    const { x, y, zoom } = reactFlowInstance.getViewport();
+    const centerX =
+      -x / zoom + reactFlowWrapper.current.clientWidth / (2 * zoom);
+    const centerY =
+      -y / zoom + reactFlowWrapper.current.clientHeight / (2 * zoom);
+    setNodes((nodes) => nodes.concat(createNewNode(centerX, centerY)));
+  }, [reactFlowInstance]);
+
+  const onCrop = async () => {
+    if (!reactFlowWrapper.current) return;
+    setFileUploading(true);
+    const blob = await domtoimage.toBlob(reactFlowWrapper.current);
+    const uri = await uploadFile(
+      new File([blob], "image.png", { type: "image/png" }),
+    );
+    setImageUri(uri);
+    setFileUploading(false);
+  };
+
+  const onKeyDown = useCallback(
+    (event: React.KeyboardEvent) => {
+      if (
+        (event.key === "Delete" || event.key === "Backspace") &&
+        edgeToDelete.current
+      ) {
+        const edge = edges.find((e) => e.id === edgeToDelete.current);
+        if (edge) onEdgeDelete(edge);
+        edgeToDelete.current = null;
+      }
     },
-    [],
+    [edges, onEdgeDelete, edgeToDelete],
   );
 
-  const onNodeLabelChange = useCallback((nodeId: string, newLabel: string) => {
-    setNodes((nds) =>
-      nds.map((n) => {
-        if (n.id === nodeId) {
-          return {
-            ...n,
-            data: {
-              ...n.data,
-              label: newLabel,
-              isEditing: false,
-            },
-          };
-        }
-        return n;
-      }),
-    );
-  }, []);
-
-  const onEdgeDoubleClick = useCallback(
-    (event: React.MouseEvent, edge: Edge) => {
-      setEdges((eds) =>
-        eds.map((e) => {
-          if (e.id === edge.id) {
-            return {
-              ...e,
-              data: {
-                ...e.data,
-                isEditing: true,
-              },
-            };
-          }
-          return e;
-        }),
-      );
-    },
-    [],
-  );
-
-  const onEdgeLabelChange = useCallback((edgeId: string, newLabel: string) => {
-    setEdges((eds) =>
-      eds.map((e) => {
-        if (e.id === edgeId) {
-          return {
-            ...e,
-            label: newLabel,
-            data: {
-              ...e.data,
-              isEditing: false,
-            },
-          };
-        }
-        return e;
-      }),
-    );
-  }, []);
-
-  const onConnect = useCallback((connection: Connection) => {
-    setEdges((eds) =>
-      addEdge(
-        {
-          ...connection,
-          data: { isEditing: false },
-          type: "custom",
-          style: edgeDefaults.style,
-          markerEnd: edgeDefaults.markerEnd,
-          label: "new edge",
-        },
-        eds,
-      ),
-    );
-  }, []);
-
-  const onEdgeDelete = useCallback((edge: Edge) => {
-    setEdges((eds) => eds.filter((e) => e.id !== edge.id));
-  }, []);
+  const onInit = useCallback(() => {
+    window.onNodeLabelChange = onNodeLabelChange;
+    window.onEdgeLabelChange = onEdgeLabelChange;
+  }, [onNodeLabelChange, onEdgeLabelChange]);
 
   return {
     nodes,
     edges,
     onNodesChange,
     onEdgesChange,
-    addNode,
     onNodeDoubleClick,
     onNodeLabelChange,
     onEdgeDoubleClick,
@@ -208,5 +97,13 @@ export function useJam() {
     onConnect,
     onEdgeDelete,
     setNodes,
+    setReactFlowInstance,
+    reactFlowWrapper,
+    onKeyDown,
+    onAdd,
+    onEdgeClick,
+    onPaneClick,
+    onCrop,
+    onInit,
   };
 }

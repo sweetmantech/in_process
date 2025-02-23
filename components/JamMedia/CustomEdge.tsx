@@ -1,3 +1,4 @@
+import { CustomData } from "@/types/jam";
 import {
   BaseEdge,
   EdgeLabelRenderer,
@@ -6,16 +7,6 @@ import {
 } from "@xyflow/react";
 import { XIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-
-interface CustomData {
-  isEditing: boolean;
-}
-
-declare global {
-  interface Window {
-    onEdgeLabelChange: (edgeId: string, newLabel: string) => void;
-  }
-}
 
 const CustomEdge = ({
   id,
@@ -91,10 +82,10 @@ const CustomEdge = ({
               value={editValue}
               onChange={(e) => setEditValue(e.target.value)}
               onKeyDown={onKeyDown}
-              className="text-[7px] bg-white outline-none text-center w-[40px] border border-gray-300 rounded px-1"
+              className="text-[6px] bg-white outline-none text-center w-[40px] border border-gray-300 rounded px-1"
             />
           ) : (
-            <div className="text-[7px] px-2 py-1 bg-white border border-gray-200 rounded min-w-[20px] text-center">
+            <div className="text-[6px] px-1 bg-white border border-gray-200 rounded min-w-[20px] text-center">
               {label || "new edge"}
             </div>
           )}
