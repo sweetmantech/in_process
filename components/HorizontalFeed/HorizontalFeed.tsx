@@ -6,6 +6,7 @@ import Slider from "../Slider";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Swiper } from "swiper/types";
 import { Collection } from "@/types/token";
+import { useFeedHeight } from "@/hooks/useFeedHeight";
 
 interface HorizontalFeedProps {
   feeds: Collection[];
@@ -16,11 +17,15 @@ const HorizontalFeed: FC<HorizontalFeedProps> = ({
   feeds,
   shouldCollect = false,
 }) => {
-  const [hoveredEvent, setHoveredEvent] = useState<number | null>(null);
   const [swiper, setSwiper] = useState<Swiper | null>(null);
+  const { handleMouseMove, getHeight, isHovered } = useFeedHeight(feeds.length);
 
   return (
-    <div className="relative w-full">
+    <div
+      className="relative w-full"
+      onMouseMove={handleMouseMove}
+      onMouseLeave={() => handleMouseMove({ clientX: null } as any)}
+    >
       <div className="bg-gray-300 w-full h-0.5 absolute left-0 bottom-1/2" />
       <button className="absolute bottom-1/3 z-[2] rounded-full bg-black text-white p-1">
         <ArrowLeft className="size-6" onClick={() => swiper?.slidePrev()} />
@@ -46,9 +51,7 @@ const HorizontalFeed: FC<HorizontalFeedProps> = ({
           <Feed
             key={i}
             feed={feed}
-            onHover={() => setHoveredEvent(i)}
-            onLeave={() => setHoveredEvent(null)}
-            hovered={hoveredEvent === i}
+            hovered={isHovered(i)}
             shouldCollect={shouldCollect}
             step={
               (new Date(feeds[i === 0 ? 0 : i - 1].released_at).getTime() -
@@ -58,6 +61,7 @@ const HorizontalFeed: FC<HorizontalFeedProps> = ({
               60 /
               24
             }
+            height={getHeight(i)}
           />
         ))}
       </Slider>
