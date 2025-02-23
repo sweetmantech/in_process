@@ -1,0 +1,5 @@
+1. React components should only contain HTML code.  
+    - All JavaScript code should be in Hooks & Libs.
+2. All files should be less than 100 lines of code.
+3. Props of new components should be 0 if possible.
+4. Hooks parameters should be 0 if possible. - Variables should be set as close to functions as possible.

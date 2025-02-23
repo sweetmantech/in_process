@@ -1,24 +1,7 @@
+import useRandomColor from "@/hooks/useRandomColor";
+import { CustomData } from "@/types/jam";
 import { Handle, Position, NodeProps } from "@xyflow/react";
 import { useState, useEffect, useRef, memo } from "react";
-
-interface CustomData {
-  label: string;
-  isEditing: boolean;
-  color: string;
-}
-
-const useRandomColor = () => {
-  const [color, setColor] = useState("rgb(0, 0, 0)");
-
-  useEffect(() => {
-    const r = Math.floor(Math.random() * 256);
-    const g = Math.floor(Math.random() * 256);
-    const b = Math.floor(Math.random() * 256);
-    setColor(`rgb(${r}, ${g}, ${b})`);
-  }, []);
-
-  return color;
-};
 
 const CustomNode = memo(({ id, data, isConnectable }: NodeProps) => {
   const nodeData = data as unknown as CustomData;
@@ -42,14 +25,9 @@ const CustomNode = memo(({ id, data, isConnectable }: NodeProps) => {
 
   return (
     <div
-      className="size-full rounded-sm flex items-center justify-center"
+      className="size-full rounded-sm flex items-center justify-center min-w-[55px] min-h-[22px] top-0 left-0 -translate-x-[10px] -translate-y-[11px]"
       style={{
-        backgroundColor: color, // Using the specific color you provided
-        minWidth: "50px",
-        minHeight: "22px",
-        top: 0,
-        left: 0,
-        transform: `translate(-10px, -11px)`,
+        backgroundColor: color,
       }}
     >
       <Handle

@@ -10,16 +10,16 @@ import JamProvider from "./JamProvider";
 
 export function Providers({ children }: { children: ReactNode }) {
   return (
-    <JamProvider>
-      <WagmiProvider>
-        <CrossmintProvider>
-          <PrivyProvider>
-            <UserProvider>
-              <ZoraCreateProvider>{children}</ZoraCreateProvider>
-            </UserProvider>
-          </PrivyProvider>
-        </CrossmintProvider>
-      </WagmiProvider>
-    </JamProvider>
+    <WagmiProvider>
+      <CrossmintProvider>
+        <PrivyProvider>
+          <UserProvider>
+            <ZoraCreateProvider>
+              <JamProvider>{children}</JamProvider>
+            </ZoraCreateProvider>
+          </UserProvider>
+        </PrivyProvider>
+      </CrossmintProvider>
+    </WagmiProvider>
   );
 }
