@@ -12,14 +12,14 @@ export default function LandingPage() {
   >("horizontal");
 
   return (
-    <div className="isolate min-h-screen overflow-hidden bg-white bg-gradientTopRightLight pb-8 sm:pb-12 md:pb-0">
+    <div className="isolate min-h-screen overflow-hidden bg-white bg-gradientTopRightLight">
       <BgNoiseWrapper url="/egg-shell-noise.png">
-        <div className="max-w-4xl mx-auto relative pt-12 overflow-hidden min-h-screen flex flex-col">
+        <div className="mx-10 relative overflow-hidden min-h-screen flex flex-col">
           <LayoutToggle
             selectedLayout={selectedLayout}
             setSelectedLayout={setSelectedLayout}
           />
-          <FadeIn className="w-full grow flex items-center justify-center pb-20">
+          <FadeIn className="w-full grow flex items-center justify-center">
             <Feed layout={selectedLayout} />
           </FadeIn>
         </div>
@@ -27,4 +27,5 @@ export default function LandingPage() {
     </div>
   );
 }
+
 LandingPage.theme = "light";
