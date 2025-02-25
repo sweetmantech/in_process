@@ -12,7 +12,7 @@ interface FeedHoverProps {
 
 const FeedHover: FC<FeedHoverProps> = ({ isLoading, data, name }) => {
   return (
-    <div className="bg-white shadow-lg rounded-lg p-2 md:p-4 transition-opacity duration-200 ease-out">
+    <div className="-translate-x-1/2 mb-1 bg-white shadow-lg rounded-lg p-2 md:p-4 transition-opacity duration-200 ease-out">
       <div className="w-[60px] md:w-[150px] aspect-[1/1] overflow-hidden relative">
         {isLoading ? (
           <Skeleton className="size-full" />

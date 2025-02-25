@@ -30,7 +30,7 @@ export default function LayoutToggle({
   setSelectedLayout,
 }: LayoutToggleProps) {
   return (
-    <div className="w-full flex justify-end pt-10">
+    <div className="w-fit absolute top-24 right-10 z-10">
       <div className="flex rounded-sm border-black border-[2px] overflow-hidden">
         {layouts.map((option) => (
           <button
