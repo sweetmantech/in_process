@@ -12,7 +12,7 @@ const Feed = ({ layout = "horizontal" }: FeedProps) => {
 
   if (error)
     return <p className="text-center text-red-500 py-4">Failed to load feed</p>;
-  if (isLoading) return <Skeleton className="w-full w-full h-20" />;
+  if (isLoading) return <Skeleton className="w-full h-20" />;
   if (layout === "horizontal")
     return (
       <HorizontalFeedAnimationProvider totalFeeds={data?.length || 0}>
