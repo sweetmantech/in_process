@@ -1,18 +1,16 @@
 "use client";
 
 import { useMemo } from "react";
-import { useSpiralAnimation } from "../../hooks/useSpiralAnimation";
 import { SpiralPath } from "./SpiralPath";
 import { SpiralText } from "./SpiralText";
 import { SPIRAL_POINTS } from "../../lib/consts";
-import { Collection } from "@/types/token";
+import { useSpiralAnimationProvider } from "@/providers/SpiralAnimationProvider";
 
 interface FeedsProps {
-  feeds: Collection[];
   className?: string;
 }
 
-export default function SpiralFeeds({ feeds, className = "" }: FeedsProps) {
+export default function SpiralFeeds({ className = "" }: FeedsProps) {
   const viewBox = useMemo(() => {
     const minX = Math.min(...SPIRAL_POINTS.map((p) => p[0]));
     const maxX = Math.max(...SPIRAL_POINTS.map((p) => p[0]));
@@ -23,14 +21,7 @@ export default function SpiralFeeds({ feeds, className = "" }: FeedsProps) {
     return `${minX - padding} ${minY - padding} ${maxX - minX + 2 * padding} ${maxY - minY + 2 * padding}`;
   }, []);
 
-  const textPoints = useSpiralAnimation(
-    {
-      points: SPIRAL_POINTS,
-      spacing: 500,
-      baseSpeed: 0.5,
-    },
-    feeds,
-  );
+  const { textPoints } = useSpiralAnimationProvider();
 
   return (
     <svg
