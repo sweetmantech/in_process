@@ -17,7 +17,7 @@ const ArtSlider = ({ feeds }: ArtSliderProps) => {
         },
         direction: "vertical",
       }}
-      className="w-full max-h-[600px] !overflow-hidden"
+      className="w-full max-h-[1000px] !overflow-hidden"
     >
       {feeds.map((feed, i) => (
         <SliderFeed feed={feed} key={i} />

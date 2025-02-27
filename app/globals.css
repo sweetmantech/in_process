@@ -12,6 +12,16 @@
   src: url("/fonts/TestFoundersGroteskText-Light.otf") format("truetype");
 }
 
+@font-face {
+  font-family: "TestFoundersGroteskText-Medium";
+  src: url("/fonts/TestFoundersGroteskText-Medium.otf") format("truetype");
+}
+
+@font-face {
+  font-family: "TestTiemposText-Regular";
+  src: url("/fonts/TestTiemposText-Regular.otf") format("truetype");
+}
+
 .react-flow__panel.react-flow__attribution {
   display: none !important;
 }
