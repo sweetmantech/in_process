@@ -1,18 +1,18 @@
 "use client";
 
 import { useMemo } from "react";
+import { useSpiralAnimation } from "@/hooks/useSpiralAnimation";
 import { SpiralPath } from "./SpiralPath";
 import { SpiralText } from "./SpiralText";
 import { SPIRAL_POINTS } from "../../lib/consts";
 import { Collection } from "@/types/token";
-import { useSpiralAnimation } from "@/hooks/useSpiralAnimation";
 
 interface FeedsProps {
   feeds: Collection[];
   className?: string;
 }
 
-export default function SpiralFeeds({ className = "", feeds }: FeedsProps) {
+export default function SpiralFeeds({ feeds, className = "" }: FeedsProps) {
   const viewBox = useMemo(() => {
     const minX = Math.min(...SPIRAL_POINTS.map((p) => p[0]));
     const maxX = Math.max(...SPIRAL_POINTS.map((p) => p[0]));
