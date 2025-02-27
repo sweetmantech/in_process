@@ -17,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="font-nounish antialiased bg-tan">
+      <body className="bg-tan">
         <Providers>
           <Logo className="fixed left-10 top-10 z-10" />
           <LoginButton className="fixed right-10 top-8 z-10" />

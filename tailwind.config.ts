@@ -42,6 +42,8 @@ module.exports = {
       fontFamily: {
         nounish: ["LondrinaSolid-Regular", "sans-serif"],
         "grotesk-light": ["TestFoundersGroteskText-Light", "sans-serif"],
+        "grotesk-medium": ["TestFoundersGroteskText-Medium", "sans-serif"],
+        "tiempos": ["TestTiemposText-Regular", "sans-serif"],
       },
       borderRadius: {
         lg: "var(--radius)",

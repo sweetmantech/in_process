@@ -1,5 +1,4 @@
 "use client";
-import { flexRender } from "@tanstack/react-table";
 import {
   ChevronLeft,
   ChevronRight,
@@ -8,14 +7,7 @@ import {
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { Collection } from "@/types/token";
 import useFeedTable from "@/hooks/useFeedTable";
 import { useRouter } from "next/navigation";
@@ -29,30 +21,23 @@ interface FeedTableProps {
 export default function FeedTable({ feeds }: FeedTableProps) {
   const table = useFeedTable(feeds);
   const { push } = useRouter();
-
+  const fontFamilies = [
+    "font-grotesk-medium",
+    "font-tiempos",
+    "font-grotesk-light",
+  ];
   return (
     <div className="w-full">
-      <div className="rounded-md bg-white">
+      <div className="rounded-md">
         <Table>
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id}>
-                    {flexRender(
-                      header.column.columnDef.header,
-                      header.getContext(),
-                    )}
-                  </TableHead>
-                ))}
-              </TableRow>
-            ))}
-          </TableHeader>
           <TableBody>
             {table.getRowModel().rows.map((row) => (
-              <TableRow key={row.id}>
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
+              <TableRow key={row.id} className="!border-none">
+                {row.getVisibleCells().map((cell, i) => (
+                  <TableCell
+                    key={cell.id}
+                    className={`!py-4 !border-none ${fontFamilies[i]}`}
+                  >
                     <button
                       onClick={() => {
                         if (cell.id.includes("creator"))
@@ -108,7 +93,7 @@ export default function FeedTable({ feeds }: FeedTableProps) {
             <ChevronsRight className="h-4 w-4" />
           </Button>
         </div>
-        <span className="flex items-center gap-1 text-sm">
+        <span className="flex items-center gap-1 text-sm font-grotesk-light">
           <div>Page</div>
           <strong>
             {table.getState().pagination.pageIndex + 1} of{" "}
