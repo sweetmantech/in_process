@@ -4,6 +4,8 @@ import "./globals.css";
 import { Providers } from "@/providers/Providers";
 import LoginButton from "@/components/LoginButton";
 import Logo from "@/components/Logo";
+import Footer from "@/components/Footer";
+import BgNoiseWrapper from "@/components/ui/texture-wrapper";
 
 export const metadata: Metadata = {
   title: "In Process",
@@ -21,7 +23,12 @@ export default function RootLayout({
         <Providers>
           <Logo className="fixed left-10 top-10 z-10" />
           <LoginButton className="fixed right-10 top-8 z-10" />
-          {children}
+          <div className="isolate min-h-screen overflow-hidden">
+            <BgNoiseWrapper>
+              {children}
+              <Footer />
+            </BgNoiseWrapper>
+          </div>
         </Providers>
       </body>
     </html>
