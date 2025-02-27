@@ -3,17 +3,22 @@ import { Skeleton } from "../ui/skeleton";
 import FeedTable from "../FeedTable";
 import SpiralFeeds from "../SprialFeeds";
 
-interface FeedProps {
-  layout: "horizontal" | "vertical";
-}
-const Feed = ({ layout = "horizontal" }: FeedProps) => {
+const Feed = () => {
   const { error, isLoading, data } = useLatestFeed();
 
   if (error)
     return <p className="text-center text-red-500 py-4">Failed to load feed</p>;
   if (isLoading) return <Skeleton className="w-full h-20" />;
-  if (layout === "horizontal") return <SpiralFeeds feeds={data || []} />;
-  return <FeedTable feeds={data || []} />;
+  return (
+    <div className="pt-20">
+      <SpiralFeeds feeds={data || []} />
+      <div className="w-full grid grid-cols-12 pb-6">
+        <div className="col-span-9">
+          <FeedTable feeds={data || []} />
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default Feed;
