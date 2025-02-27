@@ -11,6 +11,7 @@ const SliderFeed = ({ feed }: SliderFeedProps) => {
 
   return (
     <div className="aspect-video overflow-hidden relative flex justify-center items-center rounded-md">
+      {/* eslint-disable-next-line */}
       <img
         src={getFetchableUrl(data?.image) || "/images/placeholder.png"}
         className="object-cover w-full"

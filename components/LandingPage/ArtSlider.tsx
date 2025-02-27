@@ -1,7 +1,5 @@
 import { Collection } from "@/types/token";
 import Slider from "../Slider";
-import { useState } from "react";
-import { Swiper } from "swiper/types";
 import SliderFeed from "./SliderFeed";
 
 interface ArtSliderProps {
@@ -9,8 +7,6 @@ interface ArtSliderProps {
 }
 
 const ArtSlider = ({ feeds }: ArtSliderProps) => {
-  const [swiper, setSwiper] = useState<Swiper | null>(null);
-
   return (
     <Slider
       sliderProps={{
@@ -18,9 +14,6 @@ const ArtSlider = ({ feeds }: ArtSliderProps) => {
         grabCursor: true,
         mousewheel: {
           sensitivity: 1,
-        },
-        onSwiper(swiper) {
-          setSwiper(swiper);
         },
         direction: "vertical",
       }}
