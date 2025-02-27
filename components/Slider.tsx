@@ -12,11 +12,25 @@ interface ISlider {
   sliderProps: SwiperProps;
   className?: string;
   slideClassName?: string;
+  style?: any;
 }
 
-function Slider({ children, sliderProps, className, slideClassName }: ISlider) {
+function Slider({
+  children,
+  sliderProps,
+  className,
+  slideClassName,
+  style = {},
+}: ISlider) {
   return (
-    <Swiper {...sliderProps} className={className} spaceBetween={12}>
+    <Swiper
+      {...sliderProps}
+      className={className}
+      spaceBetween={12}
+      style={{
+        ...style,
+      }}
+    >
       {children.map((item, i) => (
         <SwiperSlide key={i} className={slideClassName ? slideClassName : ""}>
           {item}

@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
-import { useSpiralAnimation } from "../../hooks/useSpiralAnimation";
+import { useSpiralAnimation } from "@/hooks/useSpiralAnimation";
 import { SpiralPath } from "./SpiralPath";
 import { SpiralText } from "./SpiralText";
 import { SPIRAL_POINTS } from "../../lib/consts";
