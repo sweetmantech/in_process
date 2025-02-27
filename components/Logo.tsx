@@ -1,13 +1,13 @@
+import Image from "next/image";
+
 interface LogoProps {
   className?: string;
 }
 const Logo = ({ className = "" }: LogoProps) => {
   return (
-    <p
-      className={`text-xl font-bold leading-tight tracking-tighter md:text-5xl lg:leading-[1.1] ${className}`}
-    >
-      In Process
-    </p>
+    <div className={className}>
+      <Image src={"/logo.png"} alt="not found logo" width={128} height={29} />
+    </div>
   );
 };
 

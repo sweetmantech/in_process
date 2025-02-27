@@ -13,9 +13,9 @@ export function LoginButton({ className = "" }: LoginButtonProps) {
   return (
     <button
       onClick={authenticated ? logout : login}
-      className={`px-4 py-2 bg-black text-white rounded-lg hover:opacity-90 transition-opacity ${className}`}
+      className={`px-4 py-3 bg-red-dark text-white font-grotesk-light text-xl rounded-lg hover:opacity-90 transition-opacity ${className}`}
     >
-      {authenticated ? "Disconnect" : "Connect"}
+      {authenticated ? "Disconnect" : "Connect Wallet"}
     </button>
   );
 }

@@ -34,10 +34,14 @@ module.exports = {
         },
         tan: {
           DEFAULT: "#fdad00"
+        },
+        red: {
+          dark: "#810505"
         }
       },
       fontFamily: {
         nounish: ["LondrinaSolid-Regular", "sans-serif"],
+        "grotesk-light": ["TestFoundersGroteskText-Light", "sans-serif"],
       },
       borderRadius: {
         lg: "var(--radius)",
