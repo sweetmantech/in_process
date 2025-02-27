@@ -8,8 +8,8 @@ import { Collection } from "@/types/token";
 import { useSpiralAnimation } from "@/hooks/useSpiralAnimation";
 
 interface FeedsProps {
-  className?: string;
   feeds: Collection[];
+  className?: string;
 }
 
 export default function SpiralFeeds({ className = "", feeds }: FeedsProps) {
@@ -23,7 +23,7 @@ export default function SpiralFeeds({ className = "", feeds }: FeedsProps) {
     return `${minX - padding} ${minY - padding} ${maxX - minX + 2 * padding} ${maxY - minY + 2 * padding}`;
   }, []);
 
-  const { textPoints } = useSpiralAnimation(
+  const textPoints = useSpiralAnimation(
     {
       points: SPIRAL_POINTS,
       spacing: 500,

@@ -7,7 +7,7 @@ import truncateAddress from "@/lib/truncateAddress";
 export const useSpiralAnimation = (
   config: SpiralConfig,
   feeds: Collection[],
-) => {
+): TextPoint[] => {
   const [textPoints, setTextPoints] = useState<TextPoint[]>([]);
   const pathRef = useRef<SVGPathElement | null>(null);
   const animationFrameRef = useRef<number>();
@@ -108,7 +108,5 @@ export const useSpiralAnimation = (
     };
   }, [config, feeds, calculateRotation, pathData]);
 
-  return {
-    textPoints,
-  };
+  return textPoints;
 };
