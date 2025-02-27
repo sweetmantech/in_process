@@ -12,6 +12,7 @@ export const useSpiralAnimation = (
   const pathRef = useRef<SVGPathElement | null>(null);
   const animationFrameRef = useRef<number>();
   const offsetRef = useRef(0);
+  
   const pathData = useMemo(
     () => createPathData(config.points),
     [config.points],
