@@ -9,7 +9,7 @@ import { Address } from "viem";
 const ArtistPage = () => {
   const { artistAddress } = useParams();
   return (
-    <main className="isolate min-h-screen overflow-hidden bg-tan">
+    <main className="isolate min-h-screen overflow-hidden">
       <BgNoiseWrapper>
         <div className="mx-10 relative overflow-hidden min-h-screen flex flex-col">
           <EnsName
