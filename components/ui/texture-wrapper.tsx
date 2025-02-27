@@ -2,19 +2,12 @@ import React, { ReactNode } from "react";
 
 interface BackgroundWrapperProps {
   children: ReactNode;
-  url: string;
 }
 
-const BgNoiseWrapper: React.FC<BackgroundWrapperProps> = ({
-  children,
-  url,
-}) => {
+const BgNoiseWrapper: React.FC<BackgroundWrapperProps> = ({ children }) => {
   return (
     <div className="relative">
-      <div
-        className="pointer-events-none fixed inset-0 mix-blend-hard-light"
-        style={{ backgroundImage: `url('${url}')` }}
-      ></div>
+      <div className="pointer-events-none absolute size-full bg-cover bg-top bg-[url('/noise.png')]" />
       <div className="relative">{children}</div>
     </div>
   );

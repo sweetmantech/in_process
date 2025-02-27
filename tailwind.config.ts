@@ -32,6 +32,9 @@ module.exports = {
         background: {
           DEFAULT: "#f2e8cd",
         },
+        tan: {
+          DEFAULT: "#fdad00"
+        }
       },
       fontFamily: {
         nounish: ["LondrinaSolid-Regular", "sans-serif"],

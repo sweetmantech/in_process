@@ -9,8 +9,8 @@ import { Address } from "viem";
 const ArtistPage = () => {
   const { artistAddress } = useParams();
   return (
-    <main className="isolate min-h-screen overflow-hidden bg-white bg-gradientTopRightLight">
-      <BgNoiseWrapper url="/egg-shell-noise.png">
+    <main className="isolate min-h-screen overflow-hidden">
+      <BgNoiseWrapper>
         <div className="mx-10 relative overflow-hidden min-h-screen flex flex-col">
           <EnsName
             className="text-2xl md:text-6xl font-bold absolute top-[30vh] left-20"

@@ -15,7 +15,7 @@ export default function CreatePage() {
 
   return (
     <main className="w-full flex justify-center items-center bg-gradientTopRightLight">
-      <BgNoiseWrapper url="/egg-shell-noise.png">
+      <BgNoiseWrapper>
         {creating ? (
           <div className="flex flex-col gap-2 items-center justify-center min-h-screen">
             <Spinner />
