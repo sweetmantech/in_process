@@ -9,9 +9,10 @@ import { Collection } from "@/types/token";
 
 interface FeedsProps {
   feeds: Collection[];
+  className?: string;
 }
 
-export default function SpiralFeeds({ feeds }: FeedsProps) {
+export default function SpiralFeeds({ feeds, className = "" }: FeedsProps) {
   const viewBox = useMemo(() => {
     const minX = Math.min(...SPIRAL_POINTS.map((p) => p[0]));
     const maxX = Math.max(...SPIRAL_POINTS.map((p) => p[0]));
@@ -34,7 +35,7 @@ export default function SpiralFeeds({ feeds }: FeedsProps) {
   return (
     <svg
       viewBox={viewBox}
-      className="w-[90vw] h-[90vh]"
+      className={`w-[90vw] h-[90vh] ${className}`}
       style={{
         aspectRatio: "auto",
         maxWidth: "100%",
