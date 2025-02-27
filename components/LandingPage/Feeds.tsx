@@ -3,8 +3,6 @@ import { Skeleton } from "../ui/skeleton";
 import FeedTable from "../FeedTable";
 import SpiralFeeds from "../SprialFeeds";
 import ArtSlider from "./ArtSlider";
-import { SpiralAnimationProvider } from "@/providers/SpiralAnimationProvider";
-import { SPIRAL_POINTS } from "@/lib/consts";
 
 const Feeds = () => {
   const { error, isLoading, data } = useLatestFeed();
@@ -14,16 +12,7 @@ const Feeds = () => {
   if (isLoading) return <Skeleton className="w-full h-20" />;
   return (
     <div className="pt-20">
-      <SpiralAnimationProvider
-        config={{
-          points: SPIRAL_POINTS,
-          spacing: 500,
-          baseSpeed: 0.5,
-        }}
-        feeds={data || []}
-      >
-        <SpiralFeeds className="relative z-[2] pr-20" />
-      </SpiralAnimationProvider>
+      <SpiralFeeds className="relative z-[2] pr-20" feeds={data || []} />
       <div className="w-full grid grid-cols-12 pb-6 gap-6 relative z-[1]">
         <div className="col-span-9 pr-20">
           <FeedTable feeds={data || []} />
