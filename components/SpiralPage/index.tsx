@@ -1,3 +1,3 @@
 import SpiralPage from "./SpiralPage";
 
-export default SpiralPage
+export default SpiralPage;
