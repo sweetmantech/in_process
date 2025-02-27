@@ -7,6 +7,11 @@
   src: url("/fonts/LondrinaSolid-Regular.ttf") format("truetype");
 }
 
+@font-face {
+  font-family: "TestFoundersGroteskText-Light";
+  src: url("/fonts/TestFoundersGroteskText-Light.otf") format("truetype");
+}
+
 .react-flow__panel.react-flow__attribution {
   display: none !important;
 }
