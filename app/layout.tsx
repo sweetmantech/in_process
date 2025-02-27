@@ -17,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`font-nounish antialiased`}>
+      <body className="font-nounish antialiased bg-tan">
         <Providers>
           <Logo className="fixed left-6 top-4 z-10" />
           <LoginButton className="fixed top-4 right-6 z-10" />

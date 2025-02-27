@@ -6,8 +6,8 @@ import Feeds from "./Feeds";
 
 export default function LandingPage() {
   return (
-    <div className="isolate min-h-screen overflow-hidden bg-white bg-gradientTopRightLight">
-      <BgNoiseWrapper url="/egg-shell-noise.png">
+    <div className="isolate min-h-screen overflow-hidden">
+      <BgNoiseWrapper>
         <div className="mx-10 relative overflow-hidden min-h-screen flex flex-col">
           <FadeIn className="w-full grow flex-col flex items-center justify-center">
             <Feeds />
