@@ -10,4 +10,5 @@ export interface TextPoint {
   position: Point;
   rotation: number;
   text: string;
+  index: number;
 }

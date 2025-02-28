@@ -26,7 +26,7 @@ export default function SpiralFeeds({ feeds, className = "" }: FeedsProps) {
   const textPoints = useSpiralAnimation(
     {
       points: SPIRAL_POINTS,
-      spacing: 500,
+      spacing: 600,
       baseSpeed: 0.5,
     },
     feeds,
