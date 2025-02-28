@@ -9,7 +9,7 @@ interface SpiralTextProps {
 
 export const SpiralText = ({
   textPoints,
-  fontSize = 24,
+  fontSize = 16,
   fontWeight = "bold",
   color = "black",
 }: SpiralTextProps) => {
@@ -22,6 +22,7 @@ export const SpiralText = ({
           y={point.position[1]}
           fontSize={fontSize}
           fontWeight={fontWeight}
+          fontFamily="TestTiemposText-Regular"
           textAnchor="middle"
           dominantBaseline="middle"
           fill={color}
