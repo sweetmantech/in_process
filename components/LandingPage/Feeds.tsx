@@ -18,7 +18,7 @@ const Feeds = () => {
           <FeedTable feeds={data || []} />
         </div>
         <div className="col-span-5 relative">
-          <div className="absolute bottom-0 flex flex-col gap-6">
+          <div className="w-full absolute bottom-0 flex flex-col gap-6">
             <ArtSlider feeds={data || []} />
           </div>
         </div>
