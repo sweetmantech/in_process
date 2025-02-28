@@ -19,12 +19,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="bg-[#eddcb4]">
-      <body className="bg-cover bg-[url('/noise.png')] bg-center">
+      <body className="bg-cover bg-[url('/noise.png')] bg-center min-h-sreen">
         <Providers>
           <Logo className="fixed left-10 top-10 z-10" />
           <LoginButton className="fixed right-10 top-8 z-10" />
           <BgNoiseWrapper>
-            {children}
+            <div className="relative min-h-screen">{children}</div>
             <Footer />
           </BgNoiseWrapper>
         </Providers>

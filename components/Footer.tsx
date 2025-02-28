@@ -2,7 +2,7 @@ import Image from "next/image";
 
 const Footer = () => {
   return (
-    <main className="w-screen flex justify-between items-center pl-10 pr-14 pt-24 pb-16">
+    <main className="w-screen flex justify-between items-center pl-10 pr-14 pt-24 pb-16 relative z-[10]">
       <div className="flex items-center">
         <Image
           src="/footer_logo.png"

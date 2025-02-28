@@ -11,7 +11,7 @@ const BgNoiseWrapper: React.FC<BackgroundWrapperProps> = ({ children }) => {
   const [loaded, setLoaded] = useState(false);
 
   return (
-    <div className="relative min-h-screen w-full overflow-hidden">
+    <div className="relative w-full overflow-hidden">
       <div
         className={`pointer-events-none absolute size-full overflow-hidden
         ${loaded ? "bg-tan" : "bg-none"}`}
@@ -25,7 +25,7 @@ const BgNoiseWrapper: React.FC<BackgroundWrapperProps> = ({ children }) => {
           blurDataURL="/noise.png"
         />
       </div>
-      <div className="relative">{children}</div>
+      {children}
     </div>
   );
 };
