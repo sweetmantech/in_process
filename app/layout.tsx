@@ -18,17 +18,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className="bg-tan">
+    <html lang="en" className="bg-[#eddcb4]">
+      <body className="bg-cover bg-[url('/noise.png')] bg-center">
         <Providers>
           <Logo className="fixed left-10 top-10 z-10" />
           <LoginButton className="fixed right-10 top-8 z-10" />
-          <div className="isolate min-h-screen overflow-hidden">
-            <BgNoiseWrapper>
-              {children}
-              <Footer />
-            </BgNoiseWrapper>
-          </div>
+          <BgNoiseWrapper>
+            {children}
+            <Footer />
+          </BgNoiseWrapper>
         </Providers>
       </body>
     </html>
