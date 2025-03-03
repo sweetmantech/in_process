@@ -25,7 +25,7 @@ const HorizontalFeed: FC<HorizontalFeedProps> = ({
 
   return (
     <div
-      className="relative w-full h-screen flex items-end pb-[30vh]"
+      className="relative size-full flex items-center"
       onMouseMove={handleMouseMove}
       onMouseLeave={() => handleMouseMove({ clientX: null } as any)}
     >
