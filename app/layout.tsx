@@ -5,7 +5,6 @@ import { Providers } from "@/providers/Providers";
 import LoginButton from "@/components/LoginButton";
 import Logo from "@/components/Logo";
 import Footer from "@/components/Footer";
-import BgNoiseWrapper from "@/components/ui/texture-wrapper";
 
 export const metadata: Metadata = {
   title: "In Process",
@@ -18,15 +17,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="bg-[#eddcb4]">
-      <body className="bg-cover bg-[url('/noise.png')] bg-center min-h-sreen">
+    <html lang="en" className="bg-[url('/bg.png')] bg-cover">
+      <body className="min-h-sreen !overflow-x-hidden w-screen">
         <Providers>
           <Logo className="fixed left-10 top-10 z-10" />
           <LoginButton className="fixed right-10 top-8 z-10" />
-          <BgNoiseWrapper>
-            <div className="relative min-h-screen">{children}</div>
-            <Footer />
-          </BgNoiseWrapper>
+          <div className="relative min-h-screen">{children}</div>
+          <Footer />
         </Providers>
       </body>
     </html>
