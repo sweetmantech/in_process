@@ -17,7 +17,7 @@ const ArtSlider = ({ feeds }: ArtSliderProps) => {
           sensitivity: 1,
         },
         autoplay: {
-          delay: 1000,
+          delay: 4000,
           disableOnInteraction: false,
         },
         direction: "vertical",

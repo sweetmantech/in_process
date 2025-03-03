@@ -21,7 +21,7 @@ export function useLatestFeed() {
     queryKey: ["latestFeed", artistAddress],
     queryFn: () => fetchLatestFeed(artistAddress),
     staleTime: 1000 * 60 * 5,
-    refetchInterval: 3000,
+    refetchInterval: 4000,
     refetchOnMount: true,
   });
 }
