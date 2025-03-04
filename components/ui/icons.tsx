@@ -730,6 +730,23 @@ const DiamondIcon = (props: SVGProps<SVGSVGElement>) => (
     />
   </svg>
 );
+
+const ArrowRight = (props: SVGProps<SVGSVGElement>) => (
+  <svg
+    width="13"
+    height="32"
+    viewBox="0 0 13 32"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M0.722657 1.13525L12.2229 15.5106C12.5151 15.8758 12.5151 16.3947 12.2229 16.7599L0.722656 31.1353"
+      stroke="#1B1504"
+      stroke-linecap="round"
+    />
+  </svg>
+);
 export {
   OpenAIIcon,
   FramerIcon,
@@ -743,4 +760,5 @@ export {
   FarcasterIcon,
   TikTokIcon,
   DiamondIcon,
+  ArrowRight,
 };
