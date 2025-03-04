@@ -3,9 +3,6 @@
 import { Button } from "@/components/ui/button";
 import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
 import { useAccount } from "wagmi";
-import { useRouter } from "next/navigation";
-import { getShortNetworkName } from "@/lib/zora/zoraToViem";
-import { CHAIN } from "@/lib/consts";
 import { usePrivy } from "@privy-io/react-auth";
 
 const CreateButton = () => {
@@ -19,14 +16,14 @@ const CreateButton = () => {
     creating,
   } = useZoraCreateProvider();
   const { address } = useAccount();
-  const router = useRouter();
   const { login } = usePrivy();
 
-  const canCreate =
+  const canCreate = Boolean(
     !creating &&
-    address &&
-    name &&
-    (imageUri || animationUri || textInputRef?.current?.value);
+      address &&
+      name &&
+      (imageUri || animationUri || textInputRef?.current?.value),
+  );
 
   const handleCreate = async () => {
     try {
@@ -35,15 +32,7 @@ const CreateButton = () => {
         return;
       }
       const uri = await uploadTextRefAsImage();
-      const result = await create(uri);
-      if (result?.contractAddress && CHAIN) {
-        const shortNetworkName = getShortNetworkName(CHAIN.name.toLowerCase());
-        if (!shortNetworkName) {
-          console.error("Unknown network:", CHAIN.name);
-          return;
-        }
-        router.push(`/collect/${shortNetworkName}:${result.contractAddress}`);
-      }
+      await create(uri);
     } catch (error) {
       console.error("Error creating:", error);
     }

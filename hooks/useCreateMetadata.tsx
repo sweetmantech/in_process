@@ -17,7 +17,6 @@ const useCreateMetadata = () => {
   const [imageUri, setImageUri] = useState<string>("");
   const [mimeType, setMimeType] = useState<string>("");
   const [animationUri, setAnimationUri] = useState<string>("");
-  const [textInputActive, setTextInputActive] = useState(false);
   const textInputRef = useRef() as RefObject<HTMLTextAreaElement>;
   const fileUpload = useFileUpload({
     setName,
@@ -28,7 +27,7 @@ const useCreateMetadata = () => {
   });
 
   const uploadTextRefAsImage = async () => {
-    if (!textInputActive || !textInputRef.current) return "";
+    if (!createModeActive || !textInputRef.current) return "";
     fileUpload.setFileUploading(true);
     const blob = await domtoimage.toBlob(textInputRef.current);
     const fileName = "image.png";
@@ -42,7 +41,7 @@ const useCreateMetadata = () => {
 
   const reset = () => {
     if (textInputRef.current) textInputRef.current.value = "";
-    setTextInputActive(false);
+    setCreateModeActive(false);
     setName("");
     setLink("");
     setDescription("");
@@ -77,8 +76,6 @@ const useCreateMetadata = () => {
     setName,
     setIsTimedSale,
     reset,
-    setTextInputActive,
-    textInputActive,
     textInputRef,
     ...fileUpload,
     uploadTextRefAsImage,

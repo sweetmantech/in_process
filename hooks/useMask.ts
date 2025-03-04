@@ -1,7 +1,6 @@
-import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
 import { useEffect, useId, useRef, useState } from "react";
 
-export const useMask = () => {
+export const useMask = (createModeActive: boolean) => {
   const inputRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
@@ -10,7 +9,6 @@ export const useMask = () => {
     Array<{ x: number; y: number; width: number; height: number }>
   >([]);
   const MASK_PADDING = 20;
-  const { createModeActive } = useZoraCreateProvider();
 
   useEffect(() => {
     const updateMasks = () => {
