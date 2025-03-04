@@ -2,7 +2,6 @@ import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
 import { useRef } from "react";
 import NoFileSelected from "./NoFileSelected";
 import ResetButton from "./ResetButton";
-import TextInput from "./TextInput";
 import MediaUploaded from "./MediaUploaded";
 
 const MetadataCreation = () => {
@@ -24,8 +23,7 @@ const MetadataCreation = () => {
   };
 
   return (
-    <div className="w-[300px] aspect-[1/1] relative border border-grey-300 rounded-md overflow-hidden bg-white">
-      <TextInput />
+    <div className="size-full relative overflow-hidden bg-[url('/sky.png')] bg-cover">
       <input
         ref={fileInputRef}
         id="media"

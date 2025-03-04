@@ -9,7 +9,7 @@ interface MediaUploadedProps {
   handleImageClick: () => void;
 }
 const Container = ({ children }: { children: React.ReactNode }) => (
-  <div className="absolute size-full left-0 top-0 flex justify-center items-center p-3">
+  <div className="size-full flex justify-center items-center p-3">
     {children}
   </div>
 );
@@ -47,7 +47,7 @@ const MediaUploaded = ({ handleImageClick }: MediaUploadedProps) => {
 
   if (imageUri) {
     return (
-      <div className="absolute size-full left-0 top-0">
+      <div className="size-full">
         <Image
           src={blurImageUrl || getFetchableUrl(imageUri) || ""}
           alt="Image Preview"
