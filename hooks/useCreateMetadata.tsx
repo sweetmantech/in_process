@@ -5,6 +5,7 @@ import domtoimage from "dom-to-image";
 import { uploadFile } from "@/lib/arweave/uploadFile";
 
 const useCreateMetadata = () => {
+  const [createModeActive, setCreateModeActive] = useState(false);
   const [link, setLink] = useState<string>("");
   const [name, setName] = useState<string>("this is time when...");
   const [priceUnit, setPriceUnit] = useState<"eth" | "usd" | "base" | "usdc">(
@@ -89,6 +90,8 @@ const useCreateMetadata = () => {
     setPriceUnit,
     price,
     setPrice,
+    createModeActive,
+    setCreateModeActive,
   };
 };
 

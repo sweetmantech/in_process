@@ -3,6 +3,7 @@ import { useRef } from "react";
 import NoFileSelected from "./NoFileSelected";
 import ResetButton from "./ResetButton";
 import MediaUploaded from "./MediaUploaded";
+import TextInput from "./TextInput";
 
 const MetadataCreation = () => {
   const {
@@ -11,8 +12,8 @@ const MetadataCreation = () => {
     reset,
     textInputActive,
     fileUpload,
-    error,
     fileUploading,
+    createModeActive,
   } = useZoraCreateProvider();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -23,23 +24,28 @@ const MetadataCreation = () => {
   };
 
   return (
-    <div className="size-full relative overflow-hidden bg-[url('/sky.png')] bg-cover">
-      <input
-        ref={fileInputRef}
-        id="media"
-        type="file"
-        className="hidden"
-        onChange={fileUpload}
-      />
-      {selected ? (
-        <>
-          <ResetButton onClick={reset} />
-          <MediaUploaded handleImageClick={handleImageClick} />
-        </>
+    <div className="size-full relative bg-[url('/sky.png')] bg-cover">
+      {createModeActive ? (
+        <TextInput />
       ) : (
-        <NoFileSelected onClick={handleImageClick} />
+        <>
+          <input
+            ref={fileInputRef}
+            id="media"
+            type="file"
+            className="hidden"
+            onChange={fileUpload}
+          />
+          {selected ? (
+            <>
+              <ResetButton onClick={reset} />
+              <MediaUploaded handleImageClick={handleImageClick} />
+            </>
+          ) : (
+            <NoFileSelected onClick={handleImageClick} />
+          )}
+        </>
       )}
-      {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
     </div>
   );
 };
