@@ -39,11 +39,6 @@ const useFileUpload = ({
       const mimeType = file.type;
       const isImage = mimeType.includes("image");
 
-      if (isImage) {
-        const fileNameWithoutExtension = file.name.replace(/\.[^/.]+$/, "");
-        setName(fileNameWithoutExtension);
-      }
-
       const uri = await uploadFile(file);
       if (isImage) {
         setImageUri(uri);

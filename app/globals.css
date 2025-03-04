@@ -32,6 +32,11 @@
   src: url("/fonts/Spectral-Italic.ttf") format("truetype");
 }
 
+@font-face {
+  font-family: "Spectral-Regular";
+  src: url("/fonts/Spectral-Regular.ttf") format("truetype");
+}
+
 .react-flow__panel.react-flow__attribution {
   display: none !important;
 }

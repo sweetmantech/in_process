@@ -28,12 +28,15 @@ module.exports = {
         grey: {
           DEFAULT: "#949494",
           light: "#f6f6f6",
+          primary: "#605F5C",
+          secondary: "#888888"
         },
         background: {
           DEFAULT: "#f2e8cd",
         },
         tan: {
-          DEFAULT: "#fdad00"
+          DEFAULT: "#fdad00",
+          primary: "#FFF9EA"
         },
         red: {
           dark: "#810505"
@@ -45,7 +48,8 @@ module.exports = {
         "grotesk-medium": ["TestFoundersGroteskText-Medium", "sans-serif"],
         "tiempos": ["TestTiemposText-Regular", "sans-serif"],
         "archivo": ["Archivo-Regular", "sans-serif"],
-        "spectral-italic": ["Spectral-Italic", "sans-serif"]
+        "spectral-italic": ["Spectral-Italic", "sans-serif"],
+        "spectral": ["Spectral-Regular", "sans-serif"]
       },
       borderRadius: {
         lg: "var(--radius)",
