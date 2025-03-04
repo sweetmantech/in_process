@@ -51,9 +51,9 @@ const CreateButton = () => {
     <Button
       onClick={handleCreate}
       disabled={!canCreate}
-      className="bg-white text-black p-3 transform hover:scale-105 transition-transform duration-150 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+      className="!font-archivo bg-black text-tan-primary w-full px-3 py-6 !text-lg !rounded-sm transform hover:scale-105 transition-transform duration-150 disabled:opacity-1 disabled:cursor-not-allowed"
     >
-      Create
+      Collect
     </Button>
   );
 };
