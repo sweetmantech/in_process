@@ -3,11 +3,11 @@
 import { FC, useState } from "react";
 import Feed from "./Feed";
 import Slider from "../Slider";
-import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Swiper } from "swiper/types";
 import { Collection } from "@/types/token";
 import { useHorizontalFeedAnimationProvider } from "@/providers/HorizontalFeedAnimationProvider";
 import { useStepCalculation } from "@/hooks/useStepCalculation";
+import { ArrowRight } from "../ui/icons";
 
 interface HorizontalFeedProps {
   feeds: Collection[];
@@ -18,7 +18,6 @@ const HorizontalFeed: FC<HorizontalFeedProps> = ({ feeds }) => {
   const { getHeight, isHovered, handleMouseMove } =
     useHorizontalFeedAnimationProvider();
   const { calculateStep } = useStepCalculation();
-
   return (
     <div
       className="grow size-full flex items-center"
@@ -27,11 +26,19 @@ const HorizontalFeed: FC<HorizontalFeedProps> = ({ feeds }) => {
     >
       <div className="relative w-full">
         <div className="bg-black w-full h-[0.5px] absolute left-0 bottom-1/2" />
-        <button className="absolute bottom-1/3 z-[2] rounded-full bg-black text-white p-1">
-          <ArrowLeft className="size-6" onClick={() => swiper?.slidePrev()} />
+        <button
+          className="absolute bottom-[44px] left-[2px] z-[2] text-black"
+          type="button"
+          onClick={() => swiper?.slidePrev()}
+        >
+          <ArrowRight className="rotate-[-180deg]" />
         </button>
-        <button className="absolute bottom-1/3 right-0 z-[2] rounded-full bg-black text-white p-1">
-          <ArrowRight className="size-6" onClick={() => swiper?.slideNext()} />
+        <button
+          className="absolute bottom-[40px] right-[-6px] z-[2] text-black p-1"
+          type="button"
+          onClick={() => swiper?.slideNext()}
+        >
+          <ArrowRight />
         </button>
         <Slider
           sliderProps={{
