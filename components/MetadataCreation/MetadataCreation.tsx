@@ -10,21 +10,24 @@ const MetadataCreation = () => {
     imageUri,
     animationUri,
     reset,
-    textInputActive,
     fileUpload,
     fileUploading,
     createModeActive,
+    createdContract,
   } = useZoraCreateProvider();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const selected = imageUri || animationUri || textInputActive || fileUploading;
+  const selected =
+    imageUri || animationUri || createModeActive || fileUploading;
 
   const handleImageClick = () => {
     fileInputRef.current?.click();
   };
 
   return (
-    <div className="size-full relative bg-[url('/sky.png')] bg-cover">
+    <div
+      className={`size-full relative bg-[url('/sky.png')] bg-cover ${createdContract && "pointer-events-none"}`}
+    >
       {createModeActive ? (
         <TextInput />
       ) : (
@@ -38,7 +41,7 @@ const MetadataCreation = () => {
           />
           {selected ? (
             <>
-              <ResetButton onClick={reset} />
+              {!createdContract && <ResetButton onClick={reset} />}
               <MediaUploaded handleImageClick={handleImageClick} />
             </>
           ) : (

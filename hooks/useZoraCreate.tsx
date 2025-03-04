@@ -8,6 +8,7 @@ import { Address } from "viem";
 import useZoraCreateParameters from "./useZoraCreateParameters";
 import { getContractAddressFromReceipt } from "@/lib/protocolSdk/create/1155-create-helper";
 import { getPublicClient } from "@/lib/viem/publicClient";
+import { useMask } from "./useMask";
 
 export default function useZoraCreate() {
   const { address } = useAccount();
@@ -17,10 +18,12 @@ export default function useZoraCreate() {
   const params = useParams();
   const chainId = Number(params.chainId) || CHAIN_ID;
   const collection = params.collection as Address | undefined;
+  const [createdContract, setCreatedContract] = useState("");
   const { fetchParameters, createMetadata } = useZoraCreateParameters(
     chainId,
     collection,
   );
+  const mask = useMask(createMetadata.createModeActive);
 
   const create = async (uri: string) => {
     try {
@@ -43,7 +46,7 @@ export default function useZoraCreate() {
       const receipt = await publicClient.waitForTransactionReceipt({ hash });
       const contractAddress = getContractAddressFromReceipt(receipt);
       setCreating(false);
-      createMetadata.reset();
+      setCreatedContract(contractAddress);
       return { contractAddress };
     } catch (err) {
       setCreating(false);
@@ -52,5 +55,5 @@ export default function useZoraCreate() {
     }
   };
 
-  return { create, creating, ...createMetadata };
+  return { createdContract, create, creating, ...createMetadata, ...mask };
 }
