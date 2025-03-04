@@ -1,6 +1,11 @@
+"use client";
+
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const Footer = () => {
+  const { push } = useRouter();
+
   return (
     <main className="w-screen flex justify-between items-center pl-10 pr-14 pt-24 pb-16 relative z-[10]">
       <div className="flex items-center">
@@ -15,7 +20,9 @@ const Footer = () => {
       <div className="font-grotesk-medium text-lg">
         <p>write</p>
         <p>collect</p>
-        <p>manifesto</p>
+        <button type="button" onClick={() => push("/manifesto")}>
+          manifesto
+        </button>
       </div>
     </main>
   );
