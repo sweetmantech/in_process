@@ -44,6 +44,7 @@ module.exports = {
         "grotesk-light": ["TestFoundersGroteskText-Light", "sans-serif"],
         "grotesk-medium": ["TestFoundersGroteskText-Medium", "sans-serif"],
         "tiempos": ["TestTiemposText-Regular", "sans-serif"],
+        "archivo": ["Archivo-Regular", "sans-serif"],
       },
       borderRadius: {
         lg: "var(--radius)",

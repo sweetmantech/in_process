@@ -3,7 +3,7 @@ import { useMetadata } from "./useMetadata";
 import { Collection } from "@/types/token";
 import { getShortNetworkName } from "@/lib/zora/zoraToViem";
 
-export const useFeed = (feed: Collection, shouldCollect: boolean) => {
+export const useFeed = (feed: Collection) => {
   const { push } = useRouter();
   const { isLoading, data } = useMetadata(feed.contractURI);
 
@@ -15,14 +15,11 @@ export const useFeed = (feed: Collection, shouldCollect: boolean) => {
       }
       return;
     }
-    if (shouldCollect) {
-      const shortNetworkName = getShortNetworkName(
-        feed.chain.replaceAll("_", " "),
-      );
-      push(`/collect/${shortNetworkName}:${feed.newContract}/1`);
-      return;
-    }
-    push(`/${feed.creator}`);
+    const shortNetworkName = getShortNetworkName(
+      feed.chain.replaceAll("_", " "),
+    );
+    push(`/collect/${shortNetworkName}:${feed.newContract}/1`);
+    return;
   };
 
   return {

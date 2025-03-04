@@ -22,6 +22,11 @@
   src: url("/fonts/TestTiemposText-Regular.otf") format("truetype");
 }
 
+@font-face {
+  font-family: "Archivo-Regular";
+  src: url("/fonts/Archivo-Regular.ttf") format("truetype");
+}
+
 .react-flow__panel.react-flow__attribution {
   display: none !important;
 }

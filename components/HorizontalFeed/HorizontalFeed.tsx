@@ -11,13 +11,9 @@ import { useStepCalculation } from "@/hooks/useStepCalculation";
 
 interface HorizontalFeedProps {
   feeds: Collection[];
-  shouldCollect?: boolean;
 }
 
-const HorizontalFeed: FC<HorizontalFeedProps> = ({
-  feeds,
-  shouldCollect = false,
-}) => {
+const HorizontalFeed: FC<HorizontalFeedProps> = ({ feeds }) => {
   const [swiper, setSwiper] = useState<Swiper | null>(null);
   const { getHeight, isHovered, handleMouseMove } =
     useHorizontalFeedAnimationProvider();
@@ -30,7 +26,7 @@ const HorizontalFeed: FC<HorizontalFeedProps> = ({
       onMouseLeave={() => handleMouseMove({ clientX: null } as any)}
     >
       <div className="relative w-full">
-        <div className="bg-gray-300 w-full h-0.5 absolute left-0 bottom-1/2" />
+        <div className="bg-black w-full h-[0.5px] absolute left-0 bottom-1/2" />
         <button className="absolute bottom-1/3 z-[2] rounded-full bg-black text-white p-1">
           <ArrowLeft className="size-6" onClick={() => swiper?.slidePrev()} />
         </button>
@@ -56,7 +52,6 @@ const HorizontalFeed: FC<HorizontalFeedProps> = ({
               key={i}
               feed={feed}
               hovered={isHovered(i)}
-              shouldCollect={shouldCollect}
               step={calculateStep(i, feeds)}
               height={getHeight(i)}
             />
