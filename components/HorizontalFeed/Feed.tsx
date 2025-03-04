@@ -2,6 +2,7 @@ import { FC } from "react";
 import { Collection } from "@/types/token";
 import FeedHover from "./FeedHover";
 import { useFeed } from "@/hooks/useFeed";
+import { DiamondIcon } from "../ui/icons";
 
 interface FeedProps {
   feed: Collection;
@@ -26,7 +27,11 @@ const Feed: FC<FeedProps> = ({ feed, hovered, step, height }) => {
           className="relative z-10 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-opacity-75 transition-transform hover:scale-110"
           onClick={handleClick}
         >
-          <div className="size-2 bg-black rotate-[45deg]" />
+          {hovered ? (
+            <DiamondIcon className="absolute left-[-12px] top-[-19px]" />
+          ) : (
+            <div className="size-2 bg-black rotate-[45deg]" />
+          )}
           <div
             className="w-[0.5px] bg-black -bottom-6 left-[4px] absolute transition-all duration-200 ease-out"
             style={{
@@ -36,17 +41,22 @@ const Feed: FC<FeedProps> = ({ feed, hovered, step, height }) => {
             <div className="relative size-full">
               {hovered && (
                 <div className="absolute bottom-full">
-                  <FeedHover
-                    isLoading={isLoading}
-                    data={data}
-                    name={feed.name}
-                  />
+                  <FeedHover isLoading={isLoading} data={data} />
                 </div>
               )}
             </div>
           </div>
         </button>
-        <p className="text-xs text-center pt-6 font-archivo">{formattedDate}</p>
+        {hovered && (
+          <p className="font-spectral-italic pt-2 relative translate-y-6">
+            {feed.name}
+          </p>
+        )}
+        <p
+          className={`text-xs text-center font-archivo ${hovered ? "translate-y-6" : "pt-6"}`}
+        >
+          {formattedDate}
+        </p>
       </fieldset>
     </div>
   );
