@@ -53,7 +53,7 @@ const ArtistPage = () => {
           />
         )}
       </div>
-      <div className="grow flex items-center pt-20">
+      <div className="grow flex flex-col pt-20">
         <Feed />
       </div>
     </div>

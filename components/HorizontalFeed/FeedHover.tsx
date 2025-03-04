@@ -7,13 +7,12 @@ import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 interface FeedHoverProps {
   isLoading: boolean;
   data: Metadata | undefined;
-  name: string;
 }
 
-const FeedHover: FC<FeedHoverProps> = ({ isLoading, data, name }) => {
+const FeedHover: FC<FeedHoverProps> = ({ isLoading, data }) => {
   return (
-    <div className="-translate-x-1/2 mb-1 bg-white shadow-lg rounded-lg p-2 md:p-4 transition-opacity duration-200 ease-out">
-      <div className="w-[60px] md:w-[150px] aspect-[1/1] overflow-hidden relative">
+    <div className="-translate-x-1/2 border border-black shadow-lg transition-opacity duration-200 ease-out">
+      <div className="w-[150px] md:w-[360px] aspect-[360/248] overflow-hidden relative">
         {isLoading ? (
           <Skeleton className="size-full" />
         ) : (
@@ -28,13 +27,6 @@ const FeedHover: FC<FeedHoverProps> = ({ isLoading, data, name }) => {
           />
         )}
       </div>
-      <h3 className="font-semibold text-sm text-center mt-1">
-        {isLoading ? (
-          <Skeleton className="h-4 w-full rounded-xs" />
-        ) : (
-          data?.name || name
-        )}
-      </h3>
     </div>
   );
 };

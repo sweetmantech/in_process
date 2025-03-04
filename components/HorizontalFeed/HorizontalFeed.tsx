@@ -21,7 +21,7 @@ const HorizontalFeed: FC<HorizontalFeedProps> = ({ feeds }) => {
 
   return (
     <div
-      className="relative size-full flex items-center"
+      className="grow size-full flex items-center"
       onMouseMove={handleMouseMove}
       onMouseLeave={() => handleMouseMove({ clientX: null } as any)}
     >
