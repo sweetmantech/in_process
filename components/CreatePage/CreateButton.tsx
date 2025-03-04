@@ -16,12 +16,14 @@ const CreateButton = () => {
     animationUri,
     textInputRef,
     uploadTextRefAsImage,
+    creating,
   } = useZoraCreateProvider();
   const { address } = useAccount();
   const router = useRouter();
   const { login } = usePrivy();
 
   const canCreate =
+    !creating &&
     address &&
     name &&
     (imageUri || animationUri || textInputRef?.current?.value);
@@ -53,7 +55,7 @@ const CreateButton = () => {
       disabled={!canCreate}
       className="!font-archivo bg-black text-tan-primary w-full px-3 py-6 !text-lg !rounded-sm transform hover:scale-105 transition-transform duration-150 disabled:opacity-1 disabled:cursor-not-allowed"
     >
-      Collect
+      {creating ? "Collecting..." : "Collect"}
     </Button>
   );
 };
