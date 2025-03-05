@@ -5,6 +5,7 @@ import { Providers } from "@/providers/Providers";
 import LoginButton from "@/components/LoginButton";
 import Logo from "@/components/Logo";
 import Footer from "@/components/Footer";
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
   title: "In Process",
@@ -25,6 +26,7 @@ export default function RootLayout({
           <div className="grow relative flex flex-col">{children}</div>
           <Footer />
         </Providers>
+        <Toaster />
       </body>
     </html>
   );
