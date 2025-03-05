@@ -55,5 +55,12 @@ export default function useZoraCreate() {
     }
   };
 
-  return { createdContract, create, creating, ...createMetadata, ...mask };
+  return {
+    createdContract,
+    setCreatedContract,
+    create,
+    creating,
+    ...createMetadata,
+    ...mask,
+  };
 }

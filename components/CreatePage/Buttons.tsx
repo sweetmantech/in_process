@@ -5,7 +5,8 @@ import Image from "next/image";
 import { toast } from "sonner";
 
 const Buttons = () => {
-  const { createdContract } = useZoraCreateProvider();
+  const { createdContract, setCreatedContract, reset } =
+    useZoraCreateProvider();
 
   const share = async () => {
     const shortNetworkName = getShortNetworkName(CHAIN.name.toLowerCase());
@@ -14,6 +15,12 @@ const Buttons = () => {
     );
     toast.success("copied!");
   };
+
+  const toggle = () => {
+    reset();
+    setCreatedContract("");
+  };
+
   return (
     <div className="space-y-2 pt-3 relative">
       <div className="absolute w-1/2 aspect-[1/1] -right-10 bottom-10">
@@ -35,6 +42,7 @@ const Buttons = () => {
       <button
         type="button"
         className="w-full py-2 font-archivo text-black border border-black rounded-sm relative"
+        onClick={toggle}
       >
         Create
       </button>
