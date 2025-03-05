@@ -38,10 +38,10 @@ const CommentSection = () => {
         {sortedComments.slice(0, visibleComments).map((comment, i) => (
           <div key={i} className="rounded flex items-end justify-between">
             <div>
-              <p className="text-lg font-spectral tracking-[-1px]">
+              <p className="text-base font-spectral tracking-[-1px]">
                 {comment.comment}
               </p>
-              <p className="text-md font-archivo">
+              <p className="text-base font-archivo-medium">
                 {comment.sender.slice(0, 6)}...{comment.sender.slice(-4)}
               </p>
             </div>

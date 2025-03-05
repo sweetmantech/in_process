@@ -23,7 +23,7 @@ export default function CommentButton() {
     <>
       <button
         onClick={mintComment}
-        className="py-3 bg-black font-grotesk-medium text-lg w-full text-tan-secondary"
+        className="py-3 bg-black font-archivo text-xl w-full text-tan-secondary"
         disabled={isLoading}
       >
         {isLoading ? "Collecting..." : "Collect"}

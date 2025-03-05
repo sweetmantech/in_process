@@ -5,7 +5,7 @@ const CreatedMoment = () => {
     <div className="pl-20 h-fit">
       <div className="flex items-end gap-3 w-full w-fit">
         <div className="w-full">
-          <p className="font-archivo text-4xl font-bold">moment created</p>
+          <p className="font-archivo-medium text-5xl">moment created</p>
           <Buttons />
         </div>
       </div>

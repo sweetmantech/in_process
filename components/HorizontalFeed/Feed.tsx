@@ -21,7 +21,7 @@ const Feed: FC<FeedProps> = ({ feed, hovered, step, height }) => {
         paddingLeft: `${16 + step * 10}px`,
       }}
     >
-      <fieldset className="flex flex-col items-center mt-10">
+      <fieldset className="flex flex-col items-center mt-[54px]">
         <button
           data-feed-button
           className="relative z-10 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-opacity-75 transition-transform hover:scale-110"
@@ -48,12 +48,12 @@ const Feed: FC<FeedProps> = ({ feed, hovered, step, height }) => {
           </div>
         </button>
         {hovered && (
-          <p className="font-spectral-italic pt-2 relative translate-y-6">
+          <p className="font-spectral-italic text-xl pt-2 relative translate-y-6">
             {feed.name}
           </p>
         )}
         <p
-          className={`text-xs text-center font-archivo ${hovered ? "translate-y-6" : "pt-6"}`}
+          className={`text-center font-archivo ${hovered ? "translate-y-6 text-md" : "pt-8 text-sm"}`}
         >
           {formattedDate}
         </p>

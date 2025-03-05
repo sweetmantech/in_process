@@ -3,28 +3,18 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: "LondrinaSolid-Regular";
-  src: url("/fonts/LondrinaSolid-Regular.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: "TestFoundersGroteskText-Light";
-  src: url("/fonts/TestFoundersGroteskText-Light.otf") format("truetype");
-}
-
-@font-face {
-  font-family: "TestFoundersGroteskText-Medium";
-  src: url("/fonts/TestFoundersGroteskText-Medium.otf") format("truetype");
-}
-
-@font-face {
-  font-family: "TestTiemposText-Regular";
-  src: url("/fonts/TestTiemposText-Regular.otf") format("truetype");
-}
-
-@font-face {
   font-family: "Archivo-Regular";
   src: url("/fonts/Archivo-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Archivo-Medium";
+  src: url("/fonts/Archivo-Medium.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Archivo-Bold";
+  src: url("/fonts/Archivo-Bold.ttf") format("truetype");
 }
 
 @font-face {

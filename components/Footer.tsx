@@ -15,11 +15,11 @@ const Footer = () => {
           width={80}
           height={80}
         />
-        <p className="font-grotesk-medium text-lg">© XYZ Partners</p>
+        <p className="font-archivo-bold text-md">© XYZ Partners</p>
       </div>
-      <div className="font-grotesk-medium text-lg">
+      <div className="font-archivo-bold text-md">
         <p>write</p>
-        <p>collect</p>
+        <p>create</p>
         <button type="button" onClick={() => push("/manifesto")}>
           manifesto
         </button>

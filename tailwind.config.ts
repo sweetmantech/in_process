@@ -46,10 +46,9 @@ module.exports = {
       },
       fontFamily: {
         nounish: ["LondrinaSolid-Regular", "sans-serif"],
-        "grotesk-light": ["TestFoundersGroteskText-Light", "sans-serif"],
-        "grotesk-medium": ["TestFoundersGroteskText-Medium", "sans-serif"],
-        "tiempos": ["TestTiemposText-Regular", "sans-serif"],
         "archivo": ["Archivo-Regular", "sans-serif"],
+        "archivo-medium": ["Archivo-Medium", "sans-serif"],
+        "archivo-bold": ["Archivo-Medium", "sans-serif"],
         "spectral-italic": ["Spectral-Italic", "sans-serif"],
         "spectral": ["Spectral-Regular", "sans-serif"]
       },

@@ -33,7 +33,7 @@ const CollectModal = () => {
       <DialogTrigger asChild onClick={handleCollect}>
         <button
           type="button"
-          className="w-full bg-black py-3 rounded-md h-fit text-tan-primary font-archivo"
+          className="w-full bg-black py-3 rounded-md h-fit text-tan-primary font-archivo text-2xl"
         >
           Collect
         </button>
@@ -45,14 +45,14 @@ const CollectModal = () => {
           height={44}
           alt="not found sparkle"
         />
-        <p className="font-grotesk-medium text-2xl">
+        <p className="font-archivo-medium text-2xl pt-2">
           collect sky piece for 0.001
         </p>
-        <Label className="font-grotesk-medium text-lg text-left w-full mt-4">
+        <Label className="font-archivo text-lg text-left w-full mt-4">
           comment
         </Label>
         <textarea
-          className="bg-tan-secondary w-full p-3 font-grotesk-light"
+          className="bg-tan-secondary w-full p-3 font-grotesk-light !border-none !outline-none !ring-0"
           rows={6}
           value={comment}
           onChange={handleCommentChange}

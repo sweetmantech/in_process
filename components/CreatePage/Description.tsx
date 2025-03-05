@@ -7,7 +7,7 @@ const Description = () => {
 
   return (
     <div className="flex flex-col items-start w-full gap-2">
-      <Label htmlFor="description" className="font-archivo text-lg">
+      <Label htmlFor="description" className="font-archivo text-md">
         description
       </Label>
       <textarea

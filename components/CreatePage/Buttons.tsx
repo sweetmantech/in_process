@@ -34,17 +34,17 @@ const Buttons = () => {
       </div>
       <button
         type="button"
-        className="w-full py-2 bg-black font-archivo text-tan-primary rounded-sm relative"
+        className="w-full py-2 bg-black font-archivo text-tan-primary rounded-sm relative text-2xl"
         onClick={share}
       >
-        Share
+        share
       </button>
       <button
         type="button"
-        className="w-full py-2 font-archivo text-black border border-black rounded-sm relative"
+        className="w-full py-2 font-archivo text-black border border-black rounded-sm relative text-2xl"
         onClick={toggle}
       >
-        Create
+        create
       </button>
     </div>
   );
