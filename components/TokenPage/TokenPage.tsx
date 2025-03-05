@@ -1,9 +1,7 @@
 "use client";
 
-import LoginButton from "@/components/LoginButton";
 import Token from "@/components/Token";
 import { CHAIN_ID, COLLECTION_ADDRESS } from "@/lib/consts";
-import { usePrivy } from "@privy-io/react-auth";
 import { Address } from "viem";
 import { TokenProvider } from "@/providers/TokenProvider";
 import { getTokensOfContract } from "@/lib/viem/getTokensOfContract";
@@ -19,7 +17,6 @@ const TokenPage = ({
   address?: Address;
   tokenId: Address;
 }) => {
-  const { authenticated } = usePrivy();
   const { data: tokens = [], isLoading } = useQuery({
     queryKey: ["tokens", chainId, address],
     queryFn: () => getTokensOfContract(chainId, address),
@@ -29,7 +26,6 @@ const TokenPage = ({
 
   return (
     <main className="w-screen pt-24 mt-10 px-10">
-      <div className="mb-8">{!authenticated && <LoginButton />}</div>
       {isLoading ? (
         <div className="space-y-2">
           <Skeleton className="h-14 w-1/3" />
