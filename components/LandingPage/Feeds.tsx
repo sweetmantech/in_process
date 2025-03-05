@@ -14,10 +14,10 @@ const Feeds = () => {
     <div className="pt-20">
       <SpiralFeeds className="relative z-[2] pr-20" feeds={data || []} />
       <div className="w-full grid grid-cols-12 pb-6 gap-10 relative z-[1]">
-        <div className="col-span-7">
+        <div className="col-span-8">
           <FeedTable feeds={data || []} />
         </div>
-        <div className="col-span-5 relative">
+        <div className="col-span-4 relative">
           <div className="w-full absolute bottom-0 flex flex-col gap-6">
             <ArtSlider feeds={data || []} />
           </div>

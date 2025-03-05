@@ -13,6 +13,7 @@ import useFeedTable from "@/hooks/useFeedTable";
 import { useRouter } from "next/navigation";
 import EnsName from "../EnsName";
 import { Address } from "viem";
+import DescriptionCell from "./DescriptionCell";
 
 interface FeedTableProps {
   feeds: Collection[];
@@ -23,6 +24,7 @@ export default function FeedTable({ feeds }: FeedTableProps) {
   const { push } = useRouter();
   const fontFamilies = [
     "font-grotesk-medium",
+    "font-tiempos",
     "font-tiempos",
     "font-grotesk-light",
   ];
@@ -48,7 +50,13 @@ export default function FeedTable({ feeds }: FeedTableProps) {
                       {cell.id.includes("creator") ? (
                         <EnsName address={cell.getValue() as Address} />
                       ) : (
-                        (cell.getValue() as string)
+                        <>
+                          {cell.id.includes("uri") ? (
+                            <DescriptionCell uri={cell.getValue() as string} />
+                          ) : (
+                            (cell.getValue() as string)
+                          )}
+                        </>
                       )}
                     </button>
                   </TableCell>
