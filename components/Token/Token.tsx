@@ -5,11 +5,11 @@ import { useTokenProvider } from "@/providers/TokenProvider";
 import { useMetadata } from "@/hooks/useMetadata";
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import Image from "next/image";
+import CollectModal from "./CollectModal";
 
 const Token = () => {
   const { token } = useTokenProvider();
   const { data: metadata } = useMetadata(token.token.tokenURI);
-
   return (
     <>
       {metadata && (
@@ -40,12 +40,7 @@ const Token = () => {
               unoptimized
             />
           </div>
-          <button
-            type="button"
-            className="w-full bg-black py-3 rounded-md h-fit text-tan-primary font-archivo"
-          >
-            Collect
-          </button>
+          <CollectModal />
         </>
       )}
     </>

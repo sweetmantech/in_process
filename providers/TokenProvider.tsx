@@ -1,12 +1,23 @@
 import { useComments } from "@/hooks/useComments";
 import useWriteComment from "@/hooks/useWriteComment";
 import { TokenInfo } from "@/types/token";
-import { createContext, useContext, ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  ReactNode,
+  useState,
+  Dispatch,
+  SetStateAction,
+} from "react";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const TokenContext = createContext<
   | (ReturnType<typeof useWriteComment> &
-      ReturnType<typeof useComments> & { token: TokenInfo })
+      ReturnType<typeof useComments> & {
+        token: TokenInfo;
+        isOpenCommentModal: boolean;
+        setIsOpenCommentModal: Dispatch<SetStateAction<boolean>>;
+      })
   | undefined
 >(undefined);
 
@@ -21,6 +32,7 @@ export function TokenProvider({
 }) {
   const writeComment = useWriteComment();
   const comments = useComments(token.token.contract.address, tokenId);
+  const [isOpenCommentModal, setIsOpenCommentModal] = useState(false);
 
   return (
     <TokenContext.Provider
@@ -28,6 +40,8 @@ export function TokenProvider({
         token,
         ...comments,
         ...writeComment,
+        isOpenCommentModal,
+        setIsOpenCommentModal,
       }}
     >
       {children}
