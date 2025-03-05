@@ -36,7 +36,9 @@ module.exports = {
         },
         tan: {
           DEFAULT: "#fdad00",
-          primary: "#FFF9EA"
+          primary: "#FFF9EA",
+          secondary: "#E9DCBB",
+          "opacity-300": "#b7934633"
         },
         red: {
           dark: "#810505"
