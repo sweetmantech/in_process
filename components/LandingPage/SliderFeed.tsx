@@ -12,13 +12,14 @@ const SliderFeed = ({ feed }: SliderFeedProps) => {
   const { data, isLoading } = useMetadata(feed.contractURI);
 
   return (
-    <div className="w-full aspect-video overflow-hidden relative flex justify-center items-center rounded-md">
+    <div className="w-full aspect-video overflow-hidden relative rounded-md">
       {isLoading ? (
         <Skeleton className="size-full" />
       ) : (
         <Image
           src={getFetchableUrl(data?.image) || "/images/placeholder.png"}
-          className="object-cover w-full"
+          objectFit="cover"
+          objectPosition="top left"
           layout="fill"
           alt="not found"
           blurDataURL={
