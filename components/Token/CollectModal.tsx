@@ -4,22 +4,33 @@ import Image from "next/image";
 import { Label } from "../ui/label";
 import { useTokenProvider } from "@/providers/TokenProvider";
 import CommentButton from "../CommentButton/CommentButton";
+import { MouseEvent } from "react";
 
 const CollectModal = () => {
   const { authenticated, login } = usePrivy();
-  const { comment, handleCommentChange } = useTokenProvider();
+  const {
+    comment,
+    handleCommentChange,
+    isOpenCommentModal,
+    setIsOpenCommentModal,
+  } = useTokenProvider();
+
+  const handleCollect = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (!authenticated) {
+      login();
+      return;
+    }
+    setIsOpenCommentModal(true);
+    return;
+  };
 
   return (
-    <Dialog>
-      <DialogTrigger
-        asChild
-        onClick={(e) => {
-          if (!authenticated) {
-            e.preventDefault();
-            login();
-          }
-        }}
-      >
+    <Dialog
+      open={isOpenCommentModal}
+      onOpenChange={() => setIsOpenCommentModal(!isOpenCommentModal)}
+    >
+      <DialogTrigger asChild onClick={handleCollect}>
         <button
           type="button"
           className="w-full bg-black py-3 rounded-md h-fit text-tan-primary font-archivo"

@@ -18,7 +18,8 @@ const useZoraMintComment = () => {
   const { writeContractAsync } = useWriteContract();
   const { address } = useAccount();
   const [isLoading, setIsLoading] = useState(false);
-  const { token, comment, addComment, setComment } = useTokenProvider();
+  const { token, comment, addComment, setComment, setIsOpenCommentModal } =
+    useTokenProvider();
   const { email, isPrepared } = useUserProvider();
   const { order } = useCrossmintCheckout();
 
@@ -64,6 +65,7 @@ const useZoraMintComment = () => {
         timestamp: new Date().getTime(),
       } as any);
       setComment("");
+      setIsOpenCommentModal(false);
       setIsLoading(false);
       return receipt;
     } catch (error) {

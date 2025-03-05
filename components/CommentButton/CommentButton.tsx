@@ -26,7 +26,7 @@ export default function CommentButton() {
         className="py-3 bg-black font-grotesk-medium text-lg w-full text-tan-secondary"
         disabled={isLoading}
       >
-        {isLoading ? "Minting..." : "Leave a Comment"}
+        {isLoading ? "Collecting..." : "Collect"}
       </button>
 
       {isOpenCrossmint && (
