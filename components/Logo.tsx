@@ -12,8 +12,8 @@ const Logo = ({ className = "" }: LogoProps) => {
   return (
     <button className={className} type="button" onClick={() => push("/")}>
       <Image
-        src="/logo.png"
-        blurDataURL="/logo.svg"
+        src="/logo.svg"
+        blurDataURL="/logo.png"
         alt="not found logo"
         width={128}
         height={29}
