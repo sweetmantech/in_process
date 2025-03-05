@@ -8,10 +8,12 @@ import {
 import { Collection } from "@/types/token";
 import { Address } from "viem";
 import { useEffect, useState } from "react";
+import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 
 type DataItem = {
   creator: Address;
   name: string;
+  uri: string;
   released_date: string;
 };
 const columnHelper = createColumnHelper<DataItem>();
@@ -23,6 +25,10 @@ const columns = [
   }),
   columnHelper.accessor("name", {
     header: "Art Name",
+    cell: (info) => info.getValue(),
+  }),
+  columnHelper.accessor("uri", {
+    header: "URI",
     cell: (info) => info.getValue(),
   }),
   columnHelper.accessor("released_date", {
@@ -41,6 +47,7 @@ export default function useFeedTable(feeds: Collection[]) {
           creator: feed.creator,
           name: feed.name,
           released_date: new Date(feed.released_at).toLocaleString(),
+          uri: getFetchableUrl(feed.contractURI) as string,
         })),
       );
   }, [feeds]);
