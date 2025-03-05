@@ -7,17 +7,12 @@ import Description from "./Description";
 import Price from "./Price";
 import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
 import MaskLines from "./MaskLines";
-import Buttons from "./Buttons";
+import CreatedMoment from "./CreatedMoment";
+import Moment from "./Moment";
 
 export default function CreatePage() {
-  const {
-    createModeActive,
-    createdContract,
-    name,
-    description,
-    inputRef,
-    titleRef,
-  } = useZoraCreateProvider();
+  const { createModeActive, createdContract, name, description, inputRef } =
+    useZoraCreateProvider();
 
   return (
     <main className="w-screen grow">
@@ -25,27 +20,7 @@ export default function CreatePage() {
         <div className="w-full">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10 pb-20 mt-4 relative min-h-[500px]">
             {createModeActive && !createdContract && <MaskLines />}
-            <div className="pl-20 h-fit">
-              <div
-                ref={titleRef}
-                className={`flex items-end gap-3 ${createdContract ? "w-full" : "w-fit"}`}
-              >
-                <div className="w-full">
-                  <p className="font-archivo text-4xl font-bold">
-                    {createdContract ? "moment created" : "new moment"}
-                  </p>
-                  {createdContract && <Buttons />}
-                </div>
-                {createModeActive && !createdContract && (
-                  <>
-                    <div className="size-2 rotate-[45deg] bg-black translate-y-[-8px]" />
-                    <p className="font-grotesk-light text-xl tracking-[-1px]">
-                      create
-                    </p>
-                  </>
-                )}
-              </div>
-            </div>
+            {createdContract ? <CreatedMoment /> : <Moment />}
             <div className="flex flex-col items-center gap-5">
               <MetadataCreation />
             </div>
