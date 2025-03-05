@@ -23,11 +23,12 @@ export default function FeedTable({ feeds }: FeedTableProps) {
   const table = useFeedTable(feeds);
   const { push } = useRouter();
   const fontFamilies = [
-    "font-grotesk-medium",
-    "font-tiempos",
-    "font-tiempos",
-    "font-grotesk-light",
+    "font-archivo",
+    "font-spectral-italic",
+    "font-spectral-italic",
+    "font-archivo",
   ];
+  const fontSizes = ["text-xl", "text-lg", "text-lg", "text-md"];
   return (
     <div className="w-full">
       <div className="rounded-md">
@@ -38,7 +39,7 @@ export default function FeedTable({ feeds }: FeedTableProps) {
                 {row.getVisibleCells().map((cell, i) => (
                   <TableCell
                     key={cell.id}
-                    className={`!py-4 !border-none ${fontFamilies[i]}`}
+                    className={`py-3 border-none ${fontFamilies[i]} ${fontSizes[i]}`}
                   >
                     <button
                       onClick={() => {
@@ -48,7 +49,10 @@ export default function FeedTable({ feeds }: FeedTableProps) {
                       type="button"
                     >
                       {cell.id.includes("creator") ? (
-                        <EnsName address={cell.getValue() as Address} />
+                        <EnsName
+                          address={cell.getValue() as Address}
+                          className="!text-xl !font-archivo-medium"
+                        />
                       ) : (
                         <>
                           {cell.id.includes("uri") ? (

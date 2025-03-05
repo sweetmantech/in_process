@@ -22,13 +22,11 @@ const ArtistPage = () => {
   return (
     <div className="w-screen grow flex flex-col pt-[20vh]">
       <div className="px-10">
-        <p className="text-5xl font-grotesk-medium tracking-[-1px]">
+        <p className="text-5xl font-archivo-medium tracking-[-1px]">
           {data?.displayName || truncateAddress(artistAddress as Address)}
         </p>
-        <p className="text-lg font-grotesk-light tracking-[-1px] pt-4">
-          {data?.description || ""}
-        </p>
-        <div className="flex gap-2 items-center pt-2">
+        <p className="text-xl font-spectral pt-4">{data?.description || ""}</p>
+        <div className="flex gap-2 items-center pt-6">
           {data?.socialAccounts.instagram && (
             <Social
               link={`https://instagram.com/${data.socialAccounts.instagram.username}`}

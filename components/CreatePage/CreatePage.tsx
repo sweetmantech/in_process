@@ -28,7 +28,7 @@ export default function CreatePage() {
               <div className="w-full space-y-3" ref={inputRef}>
                 {createdContract ? (
                   <>
-                    <p className="font-archivo text-4xl">{name}</p>
+                    <p className="font-archivo-medium text-4xl">{name}</p>
                     <p className="font-spectral text-xl">{description}</p>
                   </>
                 ) : (

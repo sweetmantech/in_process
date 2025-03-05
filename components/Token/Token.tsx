@@ -15,13 +15,13 @@ const Token = () => {
       {metadata && (
         <>
           <div>
-            <h3 className="text-4xl font-archivo">{metadata.name}</h3>
+            <h3 className="text-5xl font-archivo">{metadata.name}</h3>
             <h3 className="text-xl font-spectral pt-4">
               {metadata.description}
             </h3>
             <div className="space-y-2 mt-4">
-              <p className="font-archivo text-xl">moment collection price</p>
-              <p className="font-archivo text-lg border border-black rounded-md text-center bg-tan-secondary">
+              <p className="font-archivo text-lg">moment collection price</p>
+              <p className="font-archivo text-base border border-black rounded-md text-center bg-tan-secondary">
                 0.001 eth
               </p>
             </div>

@@ -9,10 +9,10 @@ const ManifestoPage = () => {
         <Image src="/artwork.png" layout="fill" alt="not found artwork" />
       </div>
       <div className="relative w-1/3">
-        <p className="font-grotesk-medium text-3xl tracking-[-1px]">
+        <p className="font-archivo-medium text-[48px] tracking-[-1px]">
           in process manifesto
         </p>
-        <p className="font-grotesk-light text-md tracking-[-1px] pt-4">
+        <p className="font-spectral text-md tracking-[-1px] pt-4">
           {`Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras elementum urna vel libero suscipit, at sagittis lorem dignissim. Morbi dapibus velit lectus, ac aliquet lorem placerat non. Nam dictum ipsum vel porttitor placerat. Nunc suscipit elementum urna ut luctus. Donec odio est, laoreet quis condimentum vitae, auctor et sapien. Praesent at odio sit amet sem aliquam rhoncus ut sed tellus. Etiam consectetur porttitor dapibus. Nulla id metus vel lectus lacinia lobortis. Cras ornare pellentesque sodales. Ut nec arcu purus. Vivamus tempus, enim ut scelerisque sollicitudin, eros tellus lacinia ipsum, vel vestibulum lacus arcu a justo. Aenean accumsan at odio quis blandit. Vestibulum feugiat et ipsum ut mattis. Ut eu lectus turpis. In hac habitasse platea dictumst. Praesent et mollis justo, quis condimentum metus.
 
 Quisque eget eleifend est, nec viverra nisi. Maecenas consequat rhoncus rhoncus. Sed sit amet sem in sapien viverra suscipit. Vestibulum nec nunc quis ipsum pretium ultricies at at elit. Duis suscipit ante id ultrices tincidunt. Pellentesque nisl urna, lobortis at leo in, vulputate laoreet enim. Mauris vitae quam vel orci convallis consectetur. Sed porta mi eu bibendum blandit. Aenean at velit sed metus scelerisque ullamcorper sit amet sed mi. Integer a mattis erat, non eleifend ipsum. Etiam lacinia massa tellus, quis faucibus turpis vehicula sed. Nam consectetur tempor tellus, a lacinia enim euismod faucibus. Fusce arcu purus, cursus vel elementum sit amet, fringilla ac ligula. Ut euismod mi eu fermentum laoreet. Nunc placerat, lectus eu aliquet auctor, felis sapien faucibus nisi, sit amet consequat justo sem ac sapien. Quisque euismod faucibus eros quis consectetur.`}

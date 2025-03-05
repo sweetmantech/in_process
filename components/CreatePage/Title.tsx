@@ -13,7 +13,7 @@ const Title = () => {
 
   return (
     <div className="flex flex-col items-start w-full gap-2">
-      <Label htmlFor="title" className="font-archivo text-lg">
+      <Label htmlFor="title" className="font-archivo text-md">
         prompt
       </Label>
       <Select

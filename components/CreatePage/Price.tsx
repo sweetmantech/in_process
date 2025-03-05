@@ -19,7 +19,7 @@ export default function Price() {
 
   return (
     <div className="w-full space-y-2">
-      <Label htmlFor="price" className="font-archivo text-lg">
+      <Label htmlFor="price" className="font-archivo text-md">
         price
       </Label>
       <div className="flex overflow-hidden border border-grey-secondary">
@@ -28,7 +28,7 @@ export default function Price() {
           type="number"
           value={price}
           onChange={(e) => setPrice(parseFloat(e.target.value))}
-          className="flex-grow !font-archivo !rounded-[0px] !border-none bg-white focus-visible:ring-0 focus-visible:ring-offset-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+          className="flex-grow !font-medium !rounded-[0px] !border-none bg-white focus-visible:ring-0 focus-visible:ring-offset-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
           step="0.01"
         />
         <div className="bg-white">

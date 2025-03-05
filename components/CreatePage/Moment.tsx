@@ -7,7 +7,7 @@ const Moment = () => {
     <div className="pl-20 h-fit">
       <div ref={titleRef} className="flex items-end gap-3 w-fit">
         <div className="w-full">
-          <p className="font-archivo text-4xl font-bold">new moment</p>
+          <p className="font-archivo-medium text-5xl">new moment</p>
         </div>
         {createModeActive && (
           <>
