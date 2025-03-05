@@ -1,72 +1,65 @@
-import { formatTimeAgo } from "@/lib/formatTimeAgo";
 import { useTokenProvider } from "@/providers/TokenProvider";
-import { useCollectionProvider } from "@/providers/CollectionProvider";
+import CommentsContainer from "./CommentsContainer";
+import { Skeleton } from "../ui/skeleton";
 
 const CommentSection = () => {
   const { visibleComments, comments, loading, error, showMoreComments } =
     useTokenProvider();
-  const { styling } = useCollectionProvider();
 
   const sortedComments = [...comments].sort(
     (a, b) => b.timestamp - a.timestamp,
   );
 
+  if (loading)
+    return (
+      <CommentsContainer>
+        <Skeleton className="w-full h-[300px]" />
+      </CommentsContainer>
+    );
+  if (error)
+    return (
+      <CommentsContainer>
+        <p className="font-archivo text-xl text-red">Error loading comments</p>
+      </CommentsContainer>
+    );
+  if (comments.length === 0)
+    return (
+      <CommentsContainer>
+        <p className="font-archivo">no comments yet</p>
+        <p className="font-spectral-italic tracking-[-1px]">
+          collect and be first
+        </p>
+      </CommentsContainer>
+    );
+
   return (
-    <div className="mt-4">
-      <h4 className="text-lg font-semibold mb-2">Comments:</h4>
-      {loading ? (
-        <p>Loading comments...</p>
-      ) : error ? (
-        <p className="text-red-500">Error loading comments</p>
-      ) : comments.length === 0 ? (
-        <p>No comments yet</p>
-      ) : (
-        <div className="space-y-2">
-          {sortedComments.slice(0, visibleComments).map((comment, i) => (
-            <div
-              key={i}
-              className="p-2 rounded"
-              style={{
-                backgroundColor: styling?.theme?.color?.background || "#f3f4f6",
-                border: `1px solid ${styling?.theme?.color?.text}33`,
-              }}
-            >
-              <p
-                className={`text-sm`}
-                style={{ color: styling?.theme?.color?.text }}
-              >
+    <CommentsContainer>
+      <div className="space-y-2">
+        {sortedComments.slice(0, visibleComments).map((comment, i) => (
+          <div key={i} className="rounded flex items-end justify-between">
+            <div>
+              <p className="text-lg font-spectral tracking-[-1px]">
                 {comment.comment}
               </p>
-              <div className="flex justify-between items-center mt-1">
-                <p
-                  className="text-xs"
-                  style={{ color: `${styling?.theme?.color?.accentText}` }}
-                >
-                  By: {comment.sender.slice(0, 6)}...{comment.sender.slice(-4)}
-                </p>
-                <p
-                  className="text-xs"
-                  style={{ color: `${styling?.theme?.color?.text}99` }}
-                >
-                  {formatTimeAgo(comment.timestamp)}
-                </p>
-              </div>
+              <p className="text-md font-archivo">
+                {comment.sender.slice(0, 6)}...{comment.sender.slice(-4)}
+              </p>
             </div>
-          ))}
-          {sortedComments.length > visibleComments && (
-            <button
-              onClick={showMoreComments}
-              className="w-full py-2 mt-2 text-sm"
-              style={{
-                color: styling?.theme?.color?.accentText,
-              }}
-            >
-              View More Comments
-            </button>
-          )}
-        </div>
+            <p className="text-sm font-archivo">
+              {new Date(comment.timestamp).toLocaleString()}
+            </p>
+          </div>
+        ))}
+      </div>
+      {sortedComments.length > visibleComments && (
+        <button
+          onClick={showMoreComments}
+          className="w-full py-2 mt-4 text-sm bg-black text-tan-primary font-archivo"
+        >
+          View More Comments
+        </button>
       )}
-    </div>
+    </CommentsContainer>
   );
 };
 

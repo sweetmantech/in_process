@@ -62,7 +62,7 @@ export function useComments(
             a.timestamp - b.timestamp,
         )
         .filter(
-          (e) => e.collection.toLowerCase() === tokenContract.toLowerCase(),
+          (e) => e.tokenContract.toLowerCase() === tokenContract.toLowerCase(),
         );
       setComments(allComments);
     }
