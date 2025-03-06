@@ -18,7 +18,9 @@ const Footer = () => {
         <p className="font-archivo-bold text-md">© XYZ Partners</p>
       </div>
       <div className="font-archivo-bold text-md">
-        <p>write</p>
+        <button type="button" onClick={() => push("/create")}>
+          write
+        </button>
         <p>create</p>
         <button type="button" onClick={() => push("/manifesto")}>
           manifesto
