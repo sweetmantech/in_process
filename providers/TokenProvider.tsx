@@ -1,4 +1,5 @@
 import { useComments } from "@/hooks/useComments";
+import useTokenSaleConfig from "@/hooks/useTokenSaleConfig";
 import useWriteComment from "@/hooks/useWriteComment";
 import { TokenInfo } from "@/types/token";
 import {
@@ -17,6 +18,7 @@ const TokenContext = createContext<
         token: TokenInfo;
         isOpenCommentModal: boolean;
         setIsOpenCommentModal: Dispatch<SetStateAction<boolean>>;
+        saleConfig: ReturnType<typeof useTokenSaleConfig>;
       })
   | undefined
 >(undefined);
@@ -32,6 +34,7 @@ export function TokenProvider({
 }) {
   const writeComment = useWriteComment();
   const comments = useComments(token.token.contract.address, tokenId);
+  const saleConfig = useTokenSaleConfig(token.token.contract.address, tokenId);
   const [isOpenCommentModal, setIsOpenCommentModal] = useState(false);
 
   return (
@@ -40,6 +43,7 @@ export function TokenProvider({
         token,
         ...comments,
         ...writeComment,
+        saleConfig,
         isOpenCommentModal,
         setIsOpenCommentModal,
       }}

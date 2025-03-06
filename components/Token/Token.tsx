@@ -6,9 +6,12 @@ import { useMetadata } from "@/hooks/useMetadata";
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import Image from "next/image";
 import CollectModal from "./CollectModal";
+import { Skeleton } from "../ui/skeleton";
+import { formatEther } from "viem";
 
 const Token = () => {
-  const { token } = useTokenProvider();
+  const { token, saleConfig } = useTokenProvider();
+  const { data, isLoading } = saleConfig;
   const { data: metadata } = useMetadata(token.token.tokenURI);
   return (
     <>
@@ -21,9 +24,13 @@ const Token = () => {
             </h3>
             <div className="space-y-2 mt-4">
               <p className="font-archivo text-lg">moment collection price</p>
-              <p className="font-archivo text-base border border-black rounded-md text-center bg-tan-secondary">
-                0.001 eth
-              </p>
+              {isLoading ? (
+                <Skeleton className="w-full h-6" />
+              ) : (
+                <p className="font-archivo text-base border border-black rounded-md text-center bg-tan-secondary">
+                  {formatEther(BigInt(data?.pricePerToken || 0))} eth
+                </p>
+              )}
             </div>
             <CommentSection />
           </div>
