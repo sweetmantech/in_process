@@ -28,7 +28,10 @@ export default function FeedTable({ feeds }: FeedTableProps) {
         <Table>
           <TableBody>
             {table.getRowModel().rows.map((row) => (
-              <TableRow key={row.id} className="!border-none">
+              <TableRow
+                key={row.id}
+                className="!border-none hover:!bg-transparent"
+              >
                 {row.getVisibleCells().map((cell, i) => (
                   <TableCell
                     key={cell.id}
