@@ -7,6 +7,8 @@ import { useRouter } from "next/navigation";
 import EnsName from "../EnsName";
 import { Address } from "viem";
 import DescriptionCell from "./DescriptionCell";
+import { getShortNetworkName } from "@/lib/zora/zoraToViem";
+import { CHAIN } from "@/lib/consts";
 
 interface FeedTableProps {
   feeds: Collection[];
@@ -22,43 +24,42 @@ export default function FeedTable({ feeds }: FeedTableProps) {
     "font-archivo",
   ];
   const fontSizes = ["text-xl", "text-lg", "text-lg", "text-md"];
+
+  const handleClick = (index: number) => {
+    const shortNetworkName = getShortNetworkName(CHAIN.name.toLowerCase());
+    push(`/collect/${shortNetworkName}:${feeds[index].newContract}/1`);
+  };
+
   return (
     <div className="w-full">
       <div className="rounded-md overflow-auto max-h-[88vh] no-scrollbar">
         <Table>
           <TableBody>
-            {table.getRowModel().rows.map((row) => (
+            {table.getRowModel().rows.map((row, i) => (
               <TableRow
                 key={row.id}
                 className="!border-none hover:!bg-transparent"
+                onClick={() => handleClick(i)}
               >
                 {row.getVisibleCells().map((cell, i) => (
                   <TableCell
                     key={cell.id}
-                    className={`py-3 border-none ${fontFamilies[i]} ${fontSizes[i]}`}
+                    className={`py-3 border-none cursor-pointer ${fontFamilies[i]} ${fontSizes[i]}`}
                   >
-                    <button
-                      onClick={() => {
-                        if (cell.id.includes("creator"))
-                          push(`/${cell.getValue()}`);
-                      }}
-                      type="button"
-                    >
-                      {cell.id.includes("creator") ? (
-                        <EnsName
-                          address={cell.getValue() as Address}
-                          className="!text-xl !font-archivo-medium"
-                        />
-                      ) : (
-                        <>
-                          {cell.id.includes("uri") ? (
-                            <DescriptionCell uri={cell.getValue() as string} />
-                          ) : (
-                            (cell.getValue() as string)
-                          )}
-                        </>
-                      )}
-                    </button>
+                    {cell.id.includes("creator") ? (
+                      <EnsName
+                        address={cell.getValue() as Address}
+                        className="!text-xl !font-archivo-medium"
+                      />
+                    ) : (
+                      <>
+                        {cell.id.includes("uri") ? (
+                          <DescriptionCell uri={cell.getValue() as string} />
+                        ) : (
+                          (cell.getValue() as string)
+                        )}
+                      </>
+                    )}
                   </TableCell>
                 ))}
               </TableRow>
