@@ -22,6 +22,7 @@ const useZoraCreateParameters = (
       createMetadata.isTimedSale
         ? "ZoraTimedSaleStrategy"
         : "ZoraFixedPriceSaleStrategy",
+      createMetadata.price,
     );
 
     let newParameters;

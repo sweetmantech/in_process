@@ -11,7 +11,7 @@ const useCreateMetadata = () => {
   const [priceUnit, setPriceUnit] = useState<"eth" | "usd" | "base" | "usdc">(
     "eth",
   );
-  const [price, setPrice] = useState(0.01);
+  const [price, setPrice] = useState("0.01");
   const [description, setDescription] = useState<string>("");
   const [isTimedSale, setIsTimedSale] = useState<boolean>(false);
   const [imageUri, setImageUri] = useState<string>("");

@@ -25,9 +25,9 @@ export default function Price() {
       <div className="flex overflow-hidden border border-grey-secondary">
         <Input
           id="price"
-          type="number"
+          type="text"
           value={price}
-          onChange={(e) => setPrice(parseFloat(e.target.value))}
+          onChange={(e) => setPrice(e.target.value)}
           className="flex-grow !font-medium !rounded-[0px] !border-none bg-white focus-visible:ring-0 focus-visible:ring-offset-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
           step="0.01"
         />
