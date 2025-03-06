@@ -7,6 +7,7 @@ import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import Image from "next/image";
 import CollectModal from "./CollectModal";
 import { Skeleton } from "../ui/skeleton";
+import { formatEther } from "viem";
 
 const Token = () => {
   const { token, saleConfig } = useTokenProvider();
@@ -27,7 +28,7 @@ const Token = () => {
                 <Skeleton className="w-full h-6" />
               ) : (
                 <p className="font-archivo text-base border border-black rounded-md text-center bg-tan-secondary">
-                  {data?.pricePerToken} eth
+                  {formatEther(BigInt(data?.pricePerToken || 0))} eth
                 </p>
               )}
             </div>
