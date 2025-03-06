@@ -23,7 +23,7 @@ const ArtSlider = ({ feeds }: ArtSliderProps) => {
         direction: "vertical",
         modules: [Autoplay],
       }}
-      className="w-full max-h-[1000px] !overflow-hidden"
+      className="w-full max-h-[100vh] !overflow-hidden"
     >
       {feeds.slice(0, 10).map((feed, i) => (
         <SliderFeed feed={feed} key={i} />

@@ -56,10 +56,9 @@ export default function useFeedTable(feeds: Collection[]) {
     data: tableData,
     columns,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
     initialState: {
       pagination: {
-        pageSize: 15,
+        pageSize: tableData.length,
       },
     },
   });
