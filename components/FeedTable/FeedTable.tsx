@@ -24,7 +24,7 @@ export default function FeedTable({ feeds }: FeedTableProps) {
   const fontSizes = ["text-xl", "text-lg", "text-lg", "text-md"];
   return (
     <div className="w-full">
-      <div className="rounded-md overflow-auto max-h-[600px] no-scrollbar">
+      <div className="rounded-md overflow-auto max-h-[88vh] no-scrollbar">
         <Table>
           <TableBody>
             {table.getRowModel().rows.map((row) => (
