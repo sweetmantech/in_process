@@ -9,7 +9,7 @@ import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
   title: "In Process",
-  description: "Imagined by LATASHÁ"
+  description: "Imagined by LATASHÁ",
 };
 
 export default function RootLayout({
