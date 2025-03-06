@@ -16,11 +16,11 @@ export function LoginButton({ className = "" }: LoginButtonProps) {
   return (
     <button
       onClick={authenticated ? logout : login}
-      className={`px-4 py-3 bg-red-dark text-white font-grotesk-light text-xl rounded-lg hover:opacity-90 transition-opacity ${className}`}
+      className={`px-4 py-3 bg-red-dark text-white font-archivo lowercase text-xl rounded-lg hover:opacity-90 transition-opacity ${className}`}
     >
       {authenticated
         ? `${truncateAddress(connectedWallet as string)}`
-        : "Connect Wallet"}
+        : "connect wallet"}
     </button>
   );
 }
