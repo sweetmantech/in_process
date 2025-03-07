@@ -21,6 +21,8 @@ const TokenContext = createContext<
         setIsOpenCommentModal: Dispatch<SetStateAction<boolean>>;
         saleConfig: ReturnType<typeof useTokenSaleConfig>;
         metadata: ReturnType<typeof useMetadata>;
+        collected: boolean;
+        setCollected: Dispatch<SetStateAction<boolean>>;
       })
   | undefined
 >(undefined);
@@ -39,6 +41,7 @@ export function TokenProvider({
   const saleConfig = useTokenSaleConfig(token.token.contract.address, tokenId);
   const [isOpenCommentModal, setIsOpenCommentModal] = useState(false);
   const metadata = useMetadata(token.token.tokenURI);
+  const [collected, setCollected] = useState(false);
 
   return (
     <TokenContext.Provider
@@ -50,6 +53,8 @@ export function TokenProvider({
         isOpenCommentModal,
         setIsOpenCommentModal,
         metadata,
+        collected,
+        setCollected,
       }}
     >
       {children}
