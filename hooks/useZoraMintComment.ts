@@ -31,6 +31,7 @@ const useZoraMintComment = () => {
     setComment,
     setIsOpenCommentModal,
     saleConfig,
+    setCollected,
   } = useTokenProvider();
   const { data: sale } = saleConfig;
   const { email, isPrepared } = useUserProvider();
@@ -82,6 +83,7 @@ const useZoraMintComment = () => {
       } as any);
       setComment("");
       setIsOpenCommentModal(false);
+      setCollected(true);
       setIsLoading(false);
       return receipt;
     } catch (error) {
