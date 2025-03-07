@@ -3,9 +3,11 @@ import { RefObject, useRef, useState } from "react";
 import useFileUpload from "./useFileUpload";
 import domtoimage from "dom-to-image";
 import { uploadFile } from "@/lib/arweave/uploadFile";
+import { useSearchParams } from "next/navigation";
 
 const useCreateMetadata = () => {
-  const [createModeActive, setCreateModeActive] = useState(false);
+  const searchParams = useSearchParams();
+  const createModeActive = Boolean(searchParams.get("writing_mode"));
   const [link, setLink] = useState<string>("");
   const [name, setName] = useState<string>("this is time when...");
   const [priceUnit, setPriceUnit] = useState<"eth" | "usd" | "base" | "usdc">(
@@ -41,7 +43,6 @@ const useCreateMetadata = () => {
 
   const reset = () => {
     if (textInputRef.current) textInputRef.current.value = "";
-    setCreateModeActive(false);
     setName("");
     setLink("");
     setDescription("");
@@ -88,7 +89,6 @@ const useCreateMetadata = () => {
     price,
     setPrice,
     createModeActive,
-    setCreateModeActive,
   };
 };
 

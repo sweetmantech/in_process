@@ -17,11 +17,16 @@ const Footer = () => {
         />
         <p className="font-archivo-bold text-md">© XYZ Partners</p>
       </div>
-      <div className="font-archivo-bold text-md">
-        <button type="button" onClick={() => push("/create")}>
+      <div className="flex flex-col items-end font-archivo-bold text-md">
+        <button
+          type="button"
+          onClick={() => push("/create?writing_mode=enabled")}
+        >
           write
         </button>
-        <p>create</p>
+        <button type="button" onClick={() => push("/create")}>
+          create
+        </button>
         <button type="button" onClick={() => push("/manifesto")}>
           manifesto
         </button>

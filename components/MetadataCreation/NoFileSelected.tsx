@@ -1,9 +1,8 @@
-import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const NoFileSelected = ({ onClick }: { onClick: () => void }) => {
-  const { setCreateModeActive } = useZoraCreateProvider();
-
+  const { push } = useRouter();
   return (
     <div className="size-full flex flex-col items-center justify-center gap-6">
       <button type="button" onClick={onClick}>
@@ -20,7 +19,7 @@ const NoFileSelected = ({ onClick }: { onClick: () => void }) => {
       <button
         className="border border-black py-1 px-12 font-archivo text-xl"
         type="button"
-        onClick={() => setCreateModeActive(true)}
+        onClick={() => push("/create?writing_mode=enabled")}
       >
         Create
       </button>
