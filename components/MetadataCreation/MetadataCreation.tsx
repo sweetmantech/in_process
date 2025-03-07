@@ -36,7 +36,7 @@ const MetadataCreation = () => {
             ref={fileInputRef}
             id="media"
             type="file"
-            className="hidden"
+            className={selected ? "hidden" : "size-full absolute opacity-0"}
             onChange={fileUpload}
           />
           {selected ? (
