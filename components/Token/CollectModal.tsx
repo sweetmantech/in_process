@@ -1,10 +1,18 @@
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { usePrivy } from "@privy-io/react-auth";
 import Image from "next/image";
 import { Label } from "../ui/label";
 import { useTokenProvider } from "@/providers/TokenProvider";
 import CommentButton from "../CommentButton/CommentButton";
 import { MouseEvent } from "react";
+import { Skeleton } from "../ui/skeleton";
+import { formatEther } from "viem";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 
 const CollectModal = () => {
   const { authenticated, login } = usePrivy();
@@ -13,7 +21,11 @@ const CollectModal = () => {
     handleCommentChange,
     isOpenCommentModal,
     setIsOpenCommentModal,
+    saleConfig,
+    metadata,
   } = useTokenProvider();
+  const { data, isLoading } = saleConfig;
+  const { data: meta } = metadata;
 
   const handleCollect = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -38,16 +50,24 @@ const CollectModal = () => {
           Collect
         </button>
       </DialogTrigger>
-      <DialogContent className="max-w-md !rounded-[0px] !bg-white border-none py-10 px-8 flex flex-col items-center !gap-0 shadow-lg overflow-hidden bg-transparent">
+      <DialogContent className="max-w-2xl !rounded-[0px] !bg-white border-none py-10 px-8 flex flex-col items-center !gap-0 shadow-lg overflow-hidden bg-transparent">
+        <VisuallyHidden>
+          <DialogTitle>Collect</DialogTitle>
+        </VisuallyHidden>
         <Image
           src={"/sparkle.png"}
           width={44}
           height={44}
           alt="not found sparkle"
         />
-        <p className="font-archivo-medium text-2xl pt-2">
-          collect sky piece for 0.001
-        </p>
+        <section className="font-archivo-medium text-xl pt-2 flex items-center gap-2">
+          collect {meta?.name || ""} for{" "}
+          {isLoading ? (
+            <Skeleton className="h-5 w-10 rounded-none" />
+          ) : (
+            <>{formatEther(BigInt(data?.pricePerToken || 0))} eth</>
+          )}
+        </section>
         <Label className="font-archivo text-lg text-left w-full mt-4">
           comment
         </Label>
