@@ -1,11 +1,15 @@
+import useConnectedWallet from "@/hooks/useConnectedWallet";
 import { CHAIN } from "@/lib/consts";
 import { getShortNetworkName } from "@/lib/zora/zoraToViem";
 import { useTokenProvider } from "@/providers/TokenProvider";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 const Buttons = () => {
-  const { token } = useTokenProvider();
+  const { token, setCollected } = useTokenProvider();
+  const { push } = useRouter();
+  const { connectedWallet } = useConnectedWallet();
 
   const share = async () => {
     const shortNetworkName = getShortNetworkName(CHAIN.name.toLowerCase());
@@ -15,7 +19,10 @@ const Buttons = () => {
     toast.success("copied!");
   };
 
-  const visit = () => {};
+  const visit = () => {
+    setCollected(true);
+    push(`/${connectedWallet}`);
+  };
 
   return (
     <div className="space-y-2 pt-3 relative">
