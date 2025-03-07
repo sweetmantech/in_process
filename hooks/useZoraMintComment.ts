@@ -6,7 +6,13 @@ import {
   zoraCreatorFixedPriceSaleStrategyAddress,
 } from "@zoralabs/protocol-deployments";
 import { CHAIN } from "@/lib/consts";
-import { Address, encodeAbiParameters, parseAbiParameters } from "viem";
+import {
+  Address,
+  encodeAbiParameters,
+  formatEther,
+  parseAbiParameters,
+  parseEther,
+} from "viem";
 import { useTokenProvider } from "@/providers/TokenProvider";
 import { useUserProvider } from "@/providers/UserProvider";
 import { useCrossmintCheckout } from "@crossmint/client-sdk-react-ui";
@@ -18,21 +24,31 @@ const useZoraMintComment = () => {
   const { writeContractAsync } = useWriteContract();
   const { address } = useAccount();
   const [isLoading, setIsLoading] = useState(false);
-  const { token, comment, addComment, setComment, setIsOpenCommentModal } =
-    useTokenProvider();
+  const {
+    token,
+    comment,
+    addComment,
+    setComment,
+    setIsOpenCommentModal,
+    saleConfig,
+  } = useTokenProvider();
+  const { data: sale } = saleConfig;
   const { email, isPrepared } = useUserProvider();
   const { order } = useCrossmintCheckout();
 
   const mintComment = async () => {
     try {
       if (!isPrepared()) return;
+      if (!sale) return;
       setIsLoading(true);
       if (!publicClient || !address || email) {
         setIsOpenCrossmint(true);
         setIsLoading(false);
         return;
       }
-      const hasBalanceToMint = balance > 0.000000111000000001;
+      const mintAmount = parseEther("0.000000111") + BigInt(sale.pricePerToken);
+
+      const hasBalanceToMint = balance > Number(formatEther(mintAmount));
       if (!hasBalanceToMint) {
         setIsLoading(false);
         setIsOpenCrossmint(true);
@@ -55,7 +71,7 @@ const useZoraMintComment = () => {
           [],
           minterArguments,
         ],
-        value: BigInt(111000000001),
+        value: mintAmount,
       });
 
       const receipt = await publicClient.waitForTransactionReceipt({ hash });
