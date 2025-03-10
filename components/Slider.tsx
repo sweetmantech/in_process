@@ -27,7 +27,6 @@ function Slider({
     <Swiper
       {...sliderProps}
       className={className}
-      spaceBetween={12}
       style={{
         ...style,
       }}

@@ -23,7 +23,12 @@ export default function FeedTable({ feeds }: FeedTableProps) {
     "font-spectral-italic",
     "font-archivo",
   ];
-  const fontSizes = ["text-xl", "text-lg", "text-lg", "text-md"];
+  const fontSizes = [
+    "text-sm md:text-xl",
+    "text-sm md:text-lg",
+    "text-sm md:text-lg",
+    "text-sm md:text-md",
+  ];
 
   const handleClick = (index: number) => {
     const shortNetworkName = getShortNetworkName(CHAIN.name.toLowerCase());
@@ -32,7 +37,7 @@ export default function FeedTable({ feeds }: FeedTableProps) {
 
   return (
     <div className="w-full">
-      <div className="rounded-md overflow-auto max-h-[88vh] no-scrollbar">
+      <div className="rounded-md overflow-auto md:max-h-[88vh] no-scrollbar">
         <Table>
           <TableBody>
             {table.getRowModel().rows.map((row, i) => (
@@ -44,12 +49,12 @@ export default function FeedTable({ feeds }: FeedTableProps) {
                 {row.getVisibleCells().map((cell, i) => (
                   <TableCell
                     key={cell.id}
-                    className={`py-3 border-none cursor-pointer ${fontFamilies[i]} ${fontSizes[i]}`}
+                    className={`md:py-3 border-none cursor-pointer ${fontFamilies[i]} ${fontSizes[i]}`}
                   >
                     {cell.id.includes("creator") ? (
                       <EnsName
                         address={cell.getValue() as Address}
-                        className="!text-xl !font-archivo-medium"
+                        className="!font-archivo-medium"
                       />
                     ) : (
                       <>

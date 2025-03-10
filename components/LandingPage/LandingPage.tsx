@@ -4,7 +4,7 @@ import Feeds from "./Feeds";
 
 export default function LandingPage() {
   return (
-    <div className="mx-10 relative">
+    <div className="px-2 md:px-10 relative">
       <Feeds />
     </div>
   );
