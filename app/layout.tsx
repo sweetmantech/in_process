@@ -23,8 +23,8 @@ export default function RootLayout({
       <body className="min-h-screen flex flex-col !overflow-x-hidden w-screen">
         <Suspense>
           <Providers>
-            <Logo className="fixed left-10 top-10 z-10" />
-            <LoginButton className="fixed right-10 top-8 z-10" />
+            <Logo className="fixed left-2 md:left-10 top-4 md:top-10 z-10" />
+            <LoginButton className="fixed right-2 md:right-10 top-2 md:top-8 z-10" />
             <div className="grow relative flex flex-col">{children}</div>
             <Footer />
           </Providers>
