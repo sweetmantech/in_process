@@ -12,7 +12,7 @@ const SliderFeed = ({ feed }: SliderFeedProps) => {
   const { data, isLoading } = useMetadata(feed.contractURI);
 
   return (
-    <div className="w-full aspect-video overflow-hidden relative rounded-md">
+    <div className="w-full h-[200px] md:h-auto aspect-video overflow-hidden relative rounded-md">
       {isLoading ? (
         <Skeleton className="size-full" />
       ) : (
