@@ -13,7 +13,7 @@ const Feeds = () => {
     return <p className="text-center text-red-500 py-4">Failed to load feed</p>;
   if (isLoading) return <Skeleton className="w-full h-20" />;
   return (
-    <div className="pt-24 md:pt-20">
+    <div className="pt-16 md:pt-20">
       {!isMobile && (
         <div className="hidden md:block">
           <SpiralFeeds className="relative z-[2] pr-20" feeds={data || []} />
