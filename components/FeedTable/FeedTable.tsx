@@ -7,8 +7,6 @@ import { useRouter } from "next/navigation";
 import EnsName from "../EnsName";
 import { Address } from "viem";
 import DescriptionCell from "./DescriptionCell";
-import { getShortNetworkName } from "@/lib/zora/zoraToViem";
-import { CHAIN } from "@/lib/consts";
 
 interface FeedTableProps {
   feeds: Collection[];
@@ -31,8 +29,7 @@ export default function FeedTable({ feeds }: FeedTableProps) {
   ];
 
   const handleClick = (index: number) => {
-    const shortNetworkName = getShortNetworkName(CHAIN.name.toLowerCase());
-    push(`/collect/${shortNetworkName}:${feeds[index].newContract}/1`);
+    push(`/${feeds[index].creator}`);
   };
 
   return (
