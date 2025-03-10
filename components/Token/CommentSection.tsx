@@ -34,7 +34,7 @@ const CommentSection = () => {
 
   return (
     <CommentsContainer>
-      <div className="space-y-2">
+      <div className="space-y-1 md:space-y-2">
         {sortedComments.slice(0, visibleComments).map((comment, i) => (
           <div key={i} className="rounded flex items-end justify-between">
             <div>
