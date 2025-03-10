@@ -45,7 +45,7 @@ const CommentSection = () => {
                 {comment.sender.slice(0, 6)}...{comment.sender.slice(-4)}
               </p>
             </div>
-            <p className="text-sm font-archivo">
+            <p className="text-sm font-archivo lowercase">
               {new Date(comment.timestamp).toLocaleString()}
             </p>
           </div>

@@ -23,7 +23,7 @@ const NoFileSelected = ({ onClick }: { onClick: () => void }) => {
         type="button"
         onClick={() => push("/create?writing_mode=enabled")}
       >
-        Create
+        create
       </button>
     </>
   );

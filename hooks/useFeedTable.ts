@@ -46,7 +46,9 @@ export default function useFeedTable(feeds: Collection[]) {
         feeds.map((feed: Collection) => ({
           creator: feed.creator,
           name: feed.name,
-          released_date: new Date(feed.released_at).toLocaleString(),
+          released_date: new Date(feed.released_at)
+            .toLocaleString()
+            .toLowerCase(),
           uri: getFetchableUrl(feed.contractURI) as string,
         })),
       );
