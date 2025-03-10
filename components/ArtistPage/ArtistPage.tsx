@@ -20,13 +20,15 @@ const ArtistPage = () => {
   if (isLoading) return <Skeleton />;
 
   return (
-    <div className="w-screen grow flex flex-col pt-[20vh]">
-      <div className="px-10">
-        <p className="text-5xl font-archivo-medium tracking-[-1px]">
+    <div className="w-screen grow flex flex-col pt-16 md:pt-[20vh]">
+      <div className="px-2 md:px-10">
+        <p className="text-4xl md:text-5xl font-archivo-medium tracking-[-1px]">
           {data?.displayName || truncateAddress(artistAddress as Address)}
         </p>
-        <p className="text-xl font-spectral pt-4">{data?.description || ""}</p>
-        <div className="flex gap-2 items-center pt-6">
+        <p className="text-lg md:text-xl font-spectral pt-2 md:pt-4">
+          {data?.description || ""}
+        </p>
+        <div className="flex gap-2 items-center pt-2 md:pt-6">
           {data?.socialAccounts.instagram && (
             <Social
               link={`https://instagram.com/${data.socialAccounts.instagram.username}`}
@@ -53,7 +55,7 @@ const ArtistPage = () => {
           )}
         </div>
       </div>
-      <div className="grow flex flex-col pt-20 mr-10">
+      <div className="md:grow flex flex-col px-2 md:px-0 md:pt-20 md:mr-10">
         <Feed />
       </div>
     </div>
