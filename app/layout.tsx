@@ -20,7 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="bg-[url('/bg.png')] bg-cover">
-      <body className="min-h-screen flex flex-col !overflow-x-hidden w-screen">
+      <body className="min-h-screen flex flex-col !overflow-x-hidden w-screen !lowercase">
         <Suspense>
           <Providers>
             <Logo className="fixed left-2 md:left-10 top-4 md:top-10 z-10" />

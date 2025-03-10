@@ -47,7 +47,7 @@ const CollectModal = () => {
           type="button"
           className="w-full bg-black py-3 rounded-md h-fit text-tan-primary font-archivo text-2xl"
         >
-          Collect
+          collect
         </button>
       </DialogTrigger>
       <DialogContent className="max-w-2xl !rounded-[0px] !bg-white border-none py-10 px-8 flex flex-col items-center !gap-0 shadow-lg overflow-hidden bg-transparent">

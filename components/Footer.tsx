@@ -35,7 +35,7 @@ const Footer = () => {
             />
           )}
         </div>
-        <p className="font-archivo-bold text-md">© XYZ Partners</p>
+        <p className="font-archivo-bold text-md !capitalize">© XYZ Partners</p>
       </div>
       <div className="flex flex-col items-end font-archivo-bold text-md">
         <button

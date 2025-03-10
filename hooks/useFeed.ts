@@ -26,6 +26,6 @@ export const useFeed = (feed: Collection) => {
     isLoading,
     data,
     handleClick,
-    formattedDate: new Date(feed.released_at).toLocaleString(),
+    formattedDate: new Date(feed.released_at).toLocaleString().toLowerCase(),
   };
 };

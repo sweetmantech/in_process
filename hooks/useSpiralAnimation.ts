@@ -72,7 +72,7 @@ export const useSpiralAnimation = (
 
     let lastPointX = 0;
     for (let i = 0; i < wordsPerLoop; i++) {
-      const word = `${truncateAddress(feedsChunk[i].creator)} - ${new Date(feedsChunk[i].released_at).toLocaleString()}`;
+      const word = `${truncateAddress(feedsChunk[i].creator)} - ${new Date(feedsChunk[i].released_at).toLocaleString().toLowerCase()}`;
       const letters = word.split("");
       const spacing = config.spacing / letters.length;
 
