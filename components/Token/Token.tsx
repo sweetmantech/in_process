@@ -6,16 +6,23 @@ import Image from "next/image";
 import CollectModal from "./CollectModal";
 import MetaAndComments from "./MetaAndComments";
 import MomentCollected from "./MomentCollected";
+import useIsMobile from "@/hooks/useIsMobile";
+import CommentSection from "./CommentSection";
 
 const Token = () => {
   const { metadata, collected } = useTokenProvider();
   const { data: meta } = metadata;
+  const isMobile = useIsMobile();
 
   return (
     <>
       {meta && (
         <>
-          {collected ? <MomentCollected /> : <MetaAndComments />}
+          {collected ? (
+            <MomentCollected />
+          ) : (
+            <MetaAndComments commentsHidden={isMobile} />
+          )}
           <div className="relative w-full aspect-[1/1]">
             <Image
               src={getFetchableUrl(meta.image) || "/images/placeholder.png"}
@@ -30,6 +37,7 @@ const Token = () => {
             />
           </div>
           {collected ? <MetaAndComments priceHidden /> : <CollectModal />}
+          {!collected && isMobile && <CommentSection />}
         </>
       )}
     </>
