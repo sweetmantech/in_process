@@ -4,9 +4,13 @@ import FeedTable from "../FeedTable";
 import SpiralFeeds from "../SprialFeeds";
 import ArtSlider from "./ArtSlider";
 import LatestFeeds from "./LatestFeeds";
+import { HorizontalFeedAnimationProvider } from "@/providers/HorizontalFeedAnimationProvider";
+import HorizontalFeed from "../HorizontalFeed";
+import useIsMobile from "@/hooks/useIsMobile";
 
 const Feeds = () => {
   const { error, isLoading, data } = useLatestFeed();
+  const isMobile = useIsMobile();
 
   if (error)
     return <p className="text-center text-red-500 py-4">Failed to load feed</p>;
@@ -28,6 +32,11 @@ const Feeds = () => {
             <ArtSlider feeds={data || []} />
           </div>
         </div>
+        {isMobile && (
+          <HorizontalFeedAnimationProvider totalFeeds={data?.length || 0}>
+            <HorizontalFeed feeds={data || []} />
+          </HorizontalFeedAnimationProvider>
+        )}
       </div>
     </div>
   );

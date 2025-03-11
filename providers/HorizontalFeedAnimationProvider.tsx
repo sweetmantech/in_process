@@ -1,14 +1,9 @@
-import { createContext, useContext, ReactNode } from "react";
+import { createContext, useContext, ReactNode, useMemo } from "react";
 import { useHorizontalFeedAnimation } from "@/hooks/useHorizontalFeedAnimation";
 
-interface HorizontalFeedAnimationContextType {
-  getHeight: (index: number) => number;
-  isHovered: (index: number) => boolean;
-  handleMouseMove: (e: React.MouseEvent) => void;
-}
-
-const HorizontalFeedAnimationContext =
-  createContext<HorizontalFeedAnimationContextType | null>(null);
+const HorizontalFeedAnimationContext = createContext<ReturnType<
+  typeof useHorizontalFeedAnimation
+> | null>(null);
 
 export function HorizontalFeedAnimationProvider({
   children,
@@ -17,13 +12,17 @@ export function HorizontalFeedAnimationProvider({
   children: ReactNode;
   totalFeeds: number;
 }) {
-  const { getHeight, isHovered, handleMouseMove } =
-    useHorizontalFeedAnimation(totalFeeds);
+  const horizontalFeedAnimation = useHorizontalFeedAnimation(totalFeeds);
+
+  const value = useMemo(
+    () => ({
+      ...horizontalFeedAnimation,
+    }),
+    [horizontalFeedAnimation],
+  );
 
   return (
-    <HorizontalFeedAnimationContext.Provider
-      value={{ getHeight, isHovered, handleMouseMove }}
-    >
+    <HorizontalFeedAnimationContext.Provider value={value}>
       {children}
     </HorizontalFeedAnimationContext.Provider>
   );

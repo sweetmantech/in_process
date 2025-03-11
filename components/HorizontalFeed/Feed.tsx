@@ -48,12 +48,12 @@ const Feed: FC<FeedProps> = ({ feed, hovered, step, height }) => {
           </div>
         </button>
         {hovered && (
-          <p className="font-spectral-italic text-xl pt-2 relative translate-y-6">
+          <p className="font-spectral-italic text-sm md:text-xl pt-2 relative translate-y-6">
             {feed.name}
           </p>
         )}
         <p
-          className={`text-center font-archivo ${hovered ? "translate-y-6 text-md" : "pt-8 text-sm"}`}
+          className={`text-center font-archivo ${hovered ? "translate-y-6 text-sm md:text-md" : "opacity-0 pt-8 text-xs md:text-sm"}`}
         >
           {formattedDate}
         </p>
