@@ -1,9 +1,5 @@
-import { useState, useCallback } from "react";
-
-const NEIGHBOR_RANGE = 5;
-const MAX_HEIGHT = 200;
-const MIN_HEIGHT = 60;
-const HEIGHT_DECREMENT = 28;
+import { useState, useCallback, Dispatch, SetStateAction } from "react";
+import useIsMobile from "./useIsMobile";
 
 interface UseHorizontalFeedAnimationReturn {
   nearestIndex: number | null;
@@ -11,6 +7,8 @@ interface UseHorizontalFeedAnimationReturn {
   handleMouseMove: (e: React.MouseEvent) => void;
   getHeight: (index: number) => number;
   isHovered: (index: number) => boolean;
+  activeIndex: number;
+  setActiveIndex: Dispatch<SetStateAction<number>>;
 }
 
 interface NearestButton {
@@ -21,9 +19,17 @@ interface NearestButton {
 export const useHorizontalFeedAnimation = (
   totalFeeds: number,
 ): UseHorizontalFeedAnimationReturn => {
+  const isMobile = useIsMobile();
+
+  const NEIGHBOR_RANGE = isMobile ? 0 : 5;
+  const MAX_HEIGHT = isMobile ? 80 : 200;
+  const MIN_HEIGHT = isMobile ? 0 : 60;
+  const HEIGHT_DECREMENT = 28;
+
   const [nearestIndex, setNearestIndex] = useState<number | null>(null);
   const [neighborIndexes, setNeighborIndexes] = useState<number[]>([]);
   const [mouseX, setMouseX] = useState<number | null>(null);
+  const [activeIndex, setActiveIndex] = useState<number>(0);
 
   const getNeighborIndexes = useCallback(
     (centerIndex: number) => {
@@ -83,6 +89,8 @@ export const useHorizontalFeedAnimation = (
 
   const getHeight = useCallback(
     (index: number): number => {
+      if (isMobile) return activeIndex === index ? MAX_HEIGHT : MIN_HEIGHT;
+
       if (nearestIndex === null) return MIN_HEIGHT;
       if (index === nearestIndex) return MAX_HEIGHT;
 
@@ -92,13 +100,15 @@ export const useHorizontalFeedAnimation = (
       }
       return MIN_HEIGHT;
     },
-    [nearestIndex],
+    [nearestIndex, isMobile, activeIndex],
   );
 
   const isHovered = useCallback(
-    (index: number): boolean =>
-      nearestIndex !== null && mouseX !== null && index === nearestIndex,
-    [nearestIndex, mouseX],
+    (index: number): boolean => {
+      if (isMobile) return activeIndex === index;
+      return nearestIndex !== null && mouseX !== null && index === nearestIndex;
+    },
+    [nearestIndex, mouseX, activeIndex, isMobile],
   );
 
   return {
@@ -107,5 +117,7 @@ export const useHorizontalFeedAnimation = (
     handleMouseMove,
     getHeight,
     isHovered,
+    activeIndex,
+    setActiveIndex,
   };
 };

@@ -8,7 +8,7 @@ interface LatestFeedsProps {
 
 const LatestFeeds = ({ feeds }: LatestFeedsProps) => {
   return (
-    <div className="pt-4 block md:hidden">
+    <div className="pt-4 block md:hidden w-full">
       <div className="flex justify-center">
         <Image
           src="/star.svg"
