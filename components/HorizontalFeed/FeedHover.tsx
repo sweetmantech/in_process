@@ -21,7 +21,7 @@ const FeedHover: FC<FeedHoverProps> = ({ isLoading, data }) => {
             alt={data?.name || ""}
             layout="fill"
             objectFit="cover"
-            objectPosition="center"
+            objectPosition="left top"
             blurDataURL={data?.image}
             unoptimized
           />
