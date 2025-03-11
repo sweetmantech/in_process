@@ -4,8 +4,9 @@ import { useMemo } from "react";
 import { useSpiralAnimation } from "@/hooks/useSpiralAnimation";
 import { SpiralPath } from "./SpiralPath";
 import { SpiralText } from "./SpiralText";
-import { SPIRAL_POINTS } from "../../lib/consts";
+import { MOBILE_SPIRAL_POINTS, SPIRAL_POINTS } from "../../lib/consts";
 import { Collection } from "@/types/token";
+import useIsMobile from "@/hooks/useIsMobile";
 
 interface FeedsProps {
   feeds: Collection[];
@@ -13,20 +14,23 @@ interface FeedsProps {
 }
 
 export default function SpiralFeeds({ feeds, className = "" }: FeedsProps) {
+  const isMobile = useIsMobile();
+
   const viewBox = useMemo(() => {
-    const minX = Math.min(...SPIRAL_POINTS.map((p) => p[0]));
-    const maxX = Math.max(...SPIRAL_POINTS.map((p) => p[0]));
-    const minY = Math.min(...SPIRAL_POINTS.map((p) => p[1]));
-    const maxY = Math.max(...SPIRAL_POINTS.map((p) => p[1]));
+    const points = isMobile ? MOBILE_SPIRAL_POINTS : SPIRAL_POINTS;
+    const minX = Math.min(...points.map((p) => p[0]));
+    const maxX = Math.max(...points.map((p) => p[0]));
+    const minY = Math.min(...points.map((p) => p[1]));
+    const maxY = Math.max(...points.map((p) => p[1]));
     const padding = 20;
 
     return `${minX - padding} ${minY - padding} ${maxX - minX + 2 * padding} ${maxY - minY + 2 * padding}`;
-  }, []);
+  }, [isMobile]);
 
   const textPoints = useSpiralAnimation(
     {
-      points: SPIRAL_POINTS,
-      spacing: 600,
+      points: isMobile ? MOBILE_SPIRAL_POINTS : SPIRAL_POINTS,
+      spacing: isMobile ? 300 : 600,
       baseSpeed: 0.5,
     },
     feeds,
@@ -35,7 +39,7 @@ export default function SpiralFeeds({ feeds, className = "" }: FeedsProps) {
   return (
     <svg
       viewBox={viewBox}
-      className={`w-[90vw] h-[90vh] ${className}`}
+      className={`w-screen md:w-[90vw] md:h-[90vh] ${className}`}
       style={{
         aspectRatio: "auto",
         maxWidth: "100%",
@@ -45,8 +49,8 @@ export default function SpiralFeeds({ feeds, className = "" }: FeedsProps) {
       }}
       preserveAspectRatio="xMidYMid meet"
     >
-      <SpiralPath points={SPIRAL_POINTS} />
-      <SpiralText textPoints={textPoints} />
+      <SpiralPath points={isMobile ? MOBILE_SPIRAL_POINTS : SPIRAL_POINTS} />
+      <SpiralText textPoints={textPoints} fontSize={isMobile ? 12 : 16} />
     </svg>
   );
 }
