@@ -3,6 +3,7 @@ import { Skeleton } from "../ui/skeleton";
 import FeedTable from "../FeedTable";
 import SpiralFeeds from "../SprialFeeds";
 import ArtSlider from "./ArtSlider";
+import LatestFeeds from "./LatestFeeds";
 
 const Feeds = () => {
   const { error, isLoading, data } = useLatestFeed();
@@ -18,12 +19,10 @@ const Feeds = () => {
       </p>
       <SpiralFeeds className="relative z-[2] md:pr-20" feeds={data || []} />
       <div className="w-full space-y-4 md:grid md:grid-cols-12 pb-6 gap-10 relative z-[1]">
-        <div className="block md:hidden col-span-12 w-full">
-          <ArtSlider feeds={data || []} />
-        </div>
-        <div className="w-full md:col-span-8">
+        <div className="w-full hidden md:block md:col-span-8">
           <FeedTable feeds={data || []} />
         </div>
+        <LatestFeeds feeds={data?.slice(0, 3) || []} />
         <div className="hidden md:block col-span-4 relative">
           <div className="w-full absolute bottom-0 flex flex-col gap-6">
             <ArtSlider feeds={data || []} />
