@@ -55,16 +55,19 @@ export function useComments(
   };
 
   useEffect(() => {
-    if (events && crossmintMintComments) {
-      const allComments = [...events, ...crossmintMintComments]
+    if (crossmintMintComments) {
+      let allComments = [...crossmintMintComments];
+      if (events) allComments = allComments.concat(events);
+
+      const filtered = allComments
         .sort(
           (a: MintCommentEvent, b: MintCommentEvent) =>
             a.timestamp - b.timestamp,
         )
         .filter(
-          (e) => e.tokenContract.toLowerCase() === tokenContract.toLowerCase(),
+          (e) => e?.collection?.toLowerCase() === tokenContract.toLowerCase(),
         );
-      setComments(allComments);
+      setComments(filtered);
     }
   }, [events, crossmintMintComments]);
 
