@@ -44,7 +44,7 @@ export interface MintCommentEvent {
   blockNumber: number;
   chain: string;
   chainId: number;
-  tokenContract: Address;
+  collection: Address;
   comment: string;
   quantity: string;
   sender: Address;
