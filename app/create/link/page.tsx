@@ -1,11 +1,11 @@
 "use client";
 
-import WritingPage from "@/components/WritingPage";
+import LinkPage from "@/components/LinkPage";
 import { ZoraCreateProvider } from "@/providers/ZoraCreateProvider";
 
 const Linking = () => (
   <ZoraCreateProvider>
-    <WritingPage />
+    <LinkPage />
   </ZoraCreateProvider>
 );
 
