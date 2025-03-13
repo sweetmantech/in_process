@@ -37,7 +37,9 @@ const useLinkPreview = ({ link, setImageUri }: useLinkPreviewProps) => {
   useEffect(() => {
     if (data) {
       setImageUri(data.images?.[0]);
+      return;
     }
+    setImageUri("");
   }, [data]);
 };
 

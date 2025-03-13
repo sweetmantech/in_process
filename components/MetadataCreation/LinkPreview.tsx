@@ -8,13 +8,13 @@ const LinkPreview = () => {
 
   return (
     <div
-      className={`size-full flex flex-col relative border border-grey-400 bg-white px-16 py-4 ${createdContract && "pointer-events-none"}`}
+      className={`size-full flex flex-col relative border border-grey-400 bg-white px-12 py-4 ${createdContract && "pointer-events-none"}`}
     >
       <p className="text-center font-archivo">
         Paste any link from the internet
       </p>
       {imageUri && (
-        <div className="grow relative w-full">
+        <div className="mt-2 grow relative w-full">
           <Image
             src={getFetchableUrl(imageUri) || ""}
             alt="not found image"

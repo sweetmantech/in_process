@@ -12,7 +12,7 @@ const LinkInput = () => {
         id="link"
         value={link}
         onChange={(e) => setLink(e.target.value)}
-        className="text-center !border-none py-4 !bg-transparent text-lg !ring-0 !ring-offset-0 !outline-none !text-red-dark"
+        className="text-center !border-none py-4 !bg-transparent !font-spectral !text-md !ring-0 !ring-offset-0 !outline-none !text-red-dark"
         disabled={fileUploading}
       />
     </div>
