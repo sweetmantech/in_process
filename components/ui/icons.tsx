@@ -718,14 +718,11 @@ const DiamondIcon = (props: SVGProps<SVGSVGElement>) => (
     width="33"
     height="45"
     viewBox="0 0 33 45"
-    fill="none"
     xmlns="http://www.w3.org/2000/svg"
     {...props}
   >
     <path
       d="M16.5475 1.25195C15.8631 18.042 8.86534 22.4806 1.22656 22.5694C17.7295 23.4177 16.3971 35.391 16.5446 43.7891C16.8978 30.7267 19.2064 23.1547 31.9961 22.5694C18.0375 21.2288 16.9984 9.8199 16.5475 1.25195Z"
-      fill="#1B1504"
-      stroke="#1B1504"
       stroke-linejoin="round"
     />
   </svg>

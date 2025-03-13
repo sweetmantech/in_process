@@ -28,12 +28,16 @@ const Feed: FC<FeedProps> = ({ feed, hovered, step, height }) => {
           onClick={handleClick}
         >
           {hovered ? (
-            <DiamondIcon className="absolute left-[-12px] top-[-19px]" />
+            <DiamondIcon
+              className="absolute left-[-12px] top-[-19px]"
+              stroke="#810505"
+              fill="#810505"
+            />
           ) : (
             <div className="size-2 bg-black rotate-[45deg]" />
           )}
           <div
-            className="w-[0.5px] bg-black -bottom-6 left-[4px] absolute transition-all duration-200 ease-out"
+            className={`w-[0.5px] bg-black -bottom-6 left-[4px] absolute transition-all duration-200 ease-out ${hovered && "bg-red-dark"}`}
             style={{
               height: `${height}px`,
             }}
