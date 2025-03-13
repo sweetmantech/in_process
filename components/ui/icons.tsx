@@ -779,6 +779,38 @@ const LinkIcon = (props: SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
+const GridIcon = (props: SVGProps<SVGSVGElement>) => (
+  <svg
+    width="40"
+    height="26"
+    viewBox="0 0 40 26"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <rect x="0.648438" y="15.8369" width="9.5" height="9.5" />
+    <rect x="0.648438" y="1.33691" width="9.5" height="9.5" />
+    <rect x="15.1484" y="15.8369" width="9.5" height="9.5" />
+    <rect x="15.1484" y="1.33691" width="9.5" height="9.5" />
+    <rect x="29.6484" y="15.8369" width="9.5" height="9.5" />
+    <rect x="29.6484" y="1.33691" width="9.5" height="9.5" />
+  </svg>
+);
+
+const TimeLineIcon = (props: SVGProps<SVGSVGElement>) => (
+  <svg
+    width="32"
+    height="22"
+    viewBox="0 0 32 22"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path d="M5.94531 11.9219L5.94531 20.1719" stroke-linecap="round" />
+    <path d="M26.0703 11.9219L26.0703 20.1719" stroke-linecap="round" />
+    <path d="M16.0938 1.47559L16.0938 21.1918" stroke-linecap="round" />
+    <path d="M0.695312 16.0469H31.4843" stroke-linecap="round" />
+  </svg>
+);
+
 export {
   OpenAIIcon,
   FramerIcon,
@@ -794,4 +826,6 @@ export {
   DiamondIcon,
   ArrowRight,
   LinkIcon,
+  GridIcon,
+  TimeLineIcon,
 };

@@ -13,14 +13,18 @@ import {
   TikTokIcon,
   TwitterIcon,
 } from "../ui/icons";
+import AltToggle from "./AltToggle";
+import { useState } from "react";
 
 const ArtistPage = () => {
   const { artistAddress } = useParams();
   const { isLoading, data } = useArtistProfile();
-  if (isLoading) return <Skeleton />;
+  const [alt, setAlt] = useState<"timeline" | "grid">("timeline");
 
+  if (isLoading) return <Skeleton />;
   return (
-    <div className="w-screen grow flex flex-col pt-16 md:pt-[20vh]">
+    <div className="w-screen grow flex flex-col pt-16 md:pt-[20vh] relative">
+      <AltToggle alt={alt} setAlt={setAlt} />
       <div className="px-2 md:px-10">
         <p className="text-4xl md:text-5xl font-archivo-medium tracking-[-1px]">
           {data?.displayName || truncateAddress(artistAddress as Address)}
