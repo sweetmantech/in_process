@@ -31,17 +31,18 @@ module.exports = {
           primary: "#605F5C",
           secondary: "#888888"
         },
+        red: {
+          dark: "#810505"
+        },
         background: {
           DEFAULT: "#f2e8cd",
+          dark: "#E2CFB7"
         },
         tan: {
           DEFAULT: "#fdad00",
           primary: "#FFF9EA",
           secondary: "#E9DCBB",
           "opacity-300": "#b7934633"
-        },
-        red: {
-          dark: "#810505"
         }
       },
       fontFamily: {

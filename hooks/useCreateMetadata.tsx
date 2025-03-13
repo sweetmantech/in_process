@@ -3,6 +3,7 @@ import { RefObject, useRef, useState } from "react";
 import useFileUpload from "./useFileUpload";
 import domtoimage from "dom-to-image";
 import { uploadFile } from "@/lib/arweave/uploadFile";
+import useLinkPreview from "./useLinkPreview";
 
 const useCreateMetadata = () => {
   const [link, setLink] = useState<string>("");
@@ -23,6 +24,10 @@ const useCreateMetadata = () => {
     setAnimationUri,
     setMimeType,
     animationUri,
+  });
+  useLinkPreview({
+    link,
+    setImageUri,
   });
 
   const uploadTextRefAsImage = async () => {

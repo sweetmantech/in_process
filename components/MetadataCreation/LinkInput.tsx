@@ -1,19 +1,18 @@
 import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { LinkIcon } from "../ui/icons";
 
 const LinkInput = () => {
   const { link, setLink, fileUploading } = useZoraCreateProvider();
 
   return (
-    <div className="flex flex-col items-start w-full gap-2">
-      <Label htmlFor="link">Link</Label>
+    <div className="mt-4 flex bg-background-dark items-center px-4">
+      <LinkIcon />
       <Input
         id="link"
         value={link}
         onChange={(e) => setLink(e.target.value)}
-        className="border border-black py-4 text-lg !ring-0 !outline-0 disabled:text-gray-400 disabled:bg-gray-200"
-        placeholder="Link"
+        className="text-center !border-none py-4 !bg-transparent !font-spectral !text-md !ring-0 !ring-offset-0 !outline-none !text-red-dark"
         disabled={fileUploading}
       />
     </div>

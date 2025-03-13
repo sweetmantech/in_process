@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 interface LinkPreview {
   siteName: string;
@@ -8,6 +8,11 @@ interface LinkPreview {
   url: string;
   images: string[];
   favicons: string[];
+}
+
+interface useLinkPreviewProps {
+  setImageUri: Dispatch<SetStateAction<string>>;
+  link: string;
 }
 
 async function fetchLinkPreview(link: string): Promise<LinkPreview> {
@@ -20,9 +25,8 @@ async function fetchLinkPreview(link: string): Promise<LinkPreview> {
   return data;
 }
 
-const useLinkPreview = () => {
-  const [link, setLink] = useState<string>("");
-  const fetchQuery = useQuery({
+const useLinkPreview = ({ link, setImageUri }: useLinkPreviewProps) => {
+  const { data } = useQuery({
     queryKey: ["artist_profile", link],
     queryFn: () => fetchLinkPreview(link),
     staleTime: 1000 * 60 * 5,
@@ -30,11 +34,13 @@ const useLinkPreview = () => {
     refetchOnMount: true,
   });
 
-  return {
-    link,
-    setLink,
-    fetchQuery,
-  };
+  useEffect(() => {
+    if (data) {
+      setImageUri(data.images?.[0]);
+      return;
+    }
+    setImageUri("");
+  }, [data]);
 };
 
 export default useLinkPreview;
