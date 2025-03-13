@@ -9,6 +9,8 @@ const Moment = () => {
         <div className="w-full">
           <p className="font-archivo-medium text-5xl">new moment</p>
         </div>
+        <div className="size-2 rotate-[45deg] bg-black translate-y-[-8px]" />
+        <p className="font-grotesk-light text-xl tracking-[-1px]">create</p>
       </div>
     </div>
   );

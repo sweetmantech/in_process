@@ -23,7 +23,7 @@ export default function useZoraCreate() {
     chainId,
     collection,
   );
-  const mask = useMask(createMetadata.createModeActive);
+  const mask = useMask();
 
   const create = async (uri: string) => {
     try {
