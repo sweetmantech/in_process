@@ -1,37 +1,39 @@
-import useLinkPreview from "@/hooks/useLinkPreview";
-import Image from "next/image";
-import { Skeleton } from "../ui/skeleton";
+"use client";
 
-const LinkPage = () => {
-  const { fetchQuery, link, setLink } = useLinkPreview();
-  const { isLoading, data } = fetchQuery;
+import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
+import CreatedMoment from "../CreatedMoment/CreatedMoment";
+import Moment from "./Moment";
+import CreateForm from "../CreateForm";
+import LinkPreview from "../MetadataCreation/LinkPreview";
 
-  if (isLoading) return <Skeleton className="w-[300px] aspect-[1/1]" />;
+export default function LinkPage() {
+  const { createdContract, name, description, inputRef } =
+    useZoraCreateProvider();
 
   return (
-    <main className="w-screen h-screen flex flex-col gap-6 items-center justify-center">
-      <input
-        type="text"
-        value={link}
-        onChange={(e) => setLink(e.target.value)}
-      />
-      {data && (
-        <>
-          <div className="w-[300px] aspect-[1/1] relative">
-            <Image
-              src={data?.images?.[0] || ""}
-              alt="not found preview image"
-              layout="fill"
-              objectFit="cover"
-              objectPosition="center"
-            />
+    <main className="w-screen grow">
+      <div className="flex flex-col items-center justify-center pt-[200px]">
+        <div className="w-full">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 pb-20 mt-4 relative min-h-[500px]">
+            {createdContract ? <CreatedMoment /> : <Moment />}
+            <div className="flex flex-col items-center gap-5">
+              <LinkPreview />
+            </div>
+            <div className="w-full pr-20">
+              <div className="w-full space-y-3" ref={inputRef}>
+                {createdContract ? (
+                  <>
+                    <p className="font-archivo-medium text-4xl">{name}</p>
+                    <p className="font-spectral text-xl">{description}</p>
+                  </>
+                ) : (
+                  <CreateForm />
+                )}
+              </div>
+            </div>
           </div>
-          <p>{data.title}</p>
-          <p>{data.description}</p>
-        </>
-      )}
+        </div>
+      </div>
     </main>
   );
-};
-
-export default LinkPage;
+}

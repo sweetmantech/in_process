@@ -747,6 +747,38 @@ const ArrowRight = (props: SVGProps<SVGSVGElement>) => (
     />
   </svg>
 );
+
+const LinkIcon = (props: SVGProps<SVGSVGElement>) => (
+  <svg
+    width="20"
+    height="21"
+    viewBox="0 0 20 21"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <rect
+      x="0.871169"
+      y="4.66064"
+      width="4.9361"
+      height="8.20058"
+      rx="1.5"
+      transform="rotate(-45 0.871169 4.66064)"
+      stroke="#810505"
+    />
+    <rect
+      x="9.71492"
+      y="13.5073"
+      width="4.9361"
+      height="8.20058"
+      rx="1.5"
+      transform="rotate(-45 9.71492 13.5073)"
+      stroke="#810505"
+    />
+    <line x1="7.08012" y1="7.37838" x2="12.737" y2="13.0352" stroke="#810505" />
+  </svg>
+);
+
 export {
   OpenAIIcon,
   FramerIcon,
@@ -761,4 +793,5 @@ export {
   TikTokIcon,
   DiamondIcon,
   ArrowRight,
+  LinkIcon,
 };
