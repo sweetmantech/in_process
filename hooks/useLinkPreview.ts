@@ -14,6 +14,8 @@ interface useLinkPreviewProps {
   setImageUri: Dispatch<SetStateAction<string>>;
   link: string;
   setFileUploading: Dispatch<SetStateAction<boolean>>;
+  setName: Dispatch<SetStateAction<string>>;
+  setDescription: Dispatch<SetStateAction<string>>;
 }
 
 async function fetchLinkPreview(link: string): Promise<LinkPreview> {
@@ -30,6 +32,8 @@ const useLinkPreview = ({
   link,
   setImageUri,
   setFileUploading,
+  setName,
+  setDescription,
 }: useLinkPreviewProps) => {
   const { data } = useQuery({
     queryKey: ["link_preview", link],
@@ -43,6 +47,8 @@ const useLinkPreview = ({
     const uploadImage = async () => {
       if (!data) return;
       if (data.images?.[0]) {
+        setName(data.title);
+        setDescription(data.description);
         setFileUploading(true);
         const response = await fetch(
           `/api/arweave/url?url=${encodeURIComponent(data.images?.[0])}`,

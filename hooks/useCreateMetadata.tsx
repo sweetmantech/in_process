@@ -29,6 +29,8 @@ const useCreateMetadata = () => {
     link,
     setImageUri,
     setFileUploading: fileUpload.setFileUploading,
+    setName,
+    setDescription,
   });
 
   const uploadTextRefAsImage = async () => {
