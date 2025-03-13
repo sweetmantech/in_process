@@ -8,23 +8,35 @@ const LinkPreview = () => {
 
   return (
     <div
-      className={`size-full flex flex-col relative border border-grey-400 bg-white px-12 py-4 ${createdContract && "pointer-events-none"}`}
+      className={`size-full flex flex-col relative border border-grey-400 px-12 py-4 ${createdContract ? "pointer-events-none" : "bg-white"}`}
     >
-      <p className="text-center font-archivo">
-        Paste any link from the internet
-      </p>
-      {imageUri && (
-        <div className="mt-2 grow relative w-full">
-          <Image
-            src={getFetchableUrl(imageUri) || ""}
-            alt="not found image"
-            layout="fill"
-            objectFit="cover"
-            objectPosition="center"
-          />
-        </div>
+      {createdContract ? (
+        <Image
+          src={getFetchableUrl(imageUri) || ""}
+          alt="not found image"
+          objectFit="cover"
+          objectPosition="center"
+          layout="fill"
+        />
+      ) : (
+        <>
+          <p className="text-center font-archivo">
+            Paste any link from the internet
+          </p>
+          {imageUri && (
+            <div className="mt-2 grow relative w-full">
+              <Image
+                src={getFetchableUrl(imageUri) || ""}
+                alt="not found image"
+                layout="fill"
+                objectFit="cover"
+                objectPosition="center"
+              />
+            </div>
+          )}
+          <LinkInput />
+        </>
       )}
-      <LinkInput />
     </div>
   );
 };
