@@ -59,8 +59,10 @@ const ArtistPage = () => {
           )}
         </div>
       </div>
-      <div className="md:grow flex flex-col px-2 md:px-0 md:pt-20 md:mr-10">
-        <Feed />
+      <div
+        className={`md:grow flex flex-col px-2 md:px-0 ${alt === "timeline" && "md:pt-20 md:mr-10"}`}
+      >
+        <Feed alt={alt} />
       </div>
     </div>
   );
