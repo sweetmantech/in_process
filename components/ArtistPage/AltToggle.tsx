@@ -7,7 +7,7 @@ interface AltToggleProps {
 }
 const AltToggle = ({ alt, setAlt }: AltToggleProps) => {
   return (
-    <div className="grid grid-cols-2 absolute top-[15vh] right-20 border-[1px] border-black rounded-sm overflow-hidden z-[1000]">
+    <div className="grid grid-cols-2 border-[1px] border-black rounded-sm overflow-hidden z-[1000]">
       <button
         type="button"
         className={`col-span-1 flex items-center justify-center p-2 ${alt === "timeline" ? "bg-black" : "bg-[#E5D19ECC]"}`}
