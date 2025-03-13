@@ -17,9 +17,18 @@ const Feed = ({ alt }: FeedProps) => {
   if (isLoading) return <Skeleton className="w-full h-20" />;
   if (error)
     return <p className="text-center text-red-500 py-4">Failed to load feed</p>;
-  if (alt === "grid") return <GridFeed feeds={data || []} />;
 
-  if (isMobile) return <VerticalFeed feeds={data || []} />;
+  if (alt === "grid")
+    return (
+      <>
+        {isMobile ? (
+          <VerticalFeed feeds={data || []} />
+        ) : (
+          <GridFeed feeds={data || []} />
+        )}
+      </>
+    );
+
   return (
     <HorizontalFeedAnimationProvider totalFeeds={data?.length || 0}>
       <HorizontalFeed feeds={data || []} />
