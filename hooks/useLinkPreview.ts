@@ -13,6 +13,7 @@ interface LinkPreview {
 interface useLinkPreviewProps {
   setImageUri: Dispatch<SetStateAction<string>>;
   link: string;
+  setFileUploading: Dispatch<SetStateAction<boolean>>;
 }
 
 async function fetchLinkPreview(link: string): Promise<LinkPreview> {
@@ -25,9 +26,13 @@ async function fetchLinkPreview(link: string): Promise<LinkPreview> {
   return data;
 }
 
-const useLinkPreview = ({ link, setImageUri }: useLinkPreviewProps) => {
+const useLinkPreview = ({
+  link,
+  setImageUri,
+  setFileUploading,
+}: useLinkPreviewProps) => {
   const { data } = useQuery({
-    queryKey: ["artist_profile", link],
+    queryKey: ["link_preview", link],
     queryFn: () => fetchLinkPreview(link),
     staleTime: 1000 * 60 * 5,
     enabled: !!link,
@@ -35,10 +40,20 @@ const useLinkPreview = ({ link, setImageUri }: useLinkPreviewProps) => {
   });
 
   useEffect(() => {
-    if (data) {
-      setImageUri(data.images?.[0]);
+    const uploadImage = async () => {
+      if (!data) return;
+      if (data.images?.[0]) {
+        setFileUploading(true);
+        const response = await fetch(
+          `/api/arweave/url?url=${encodeURIComponent(data.images?.[0])}`,
+        );
+        const uri = await response.json();
+        setImageUri(uri);
+        setFileUploading(false);
+      }
       return;
-    }
+    };
+    uploadImage();
     setImageUri("");
   }, [data]);
 };
