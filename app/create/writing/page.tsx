@@ -1,11 +1,12 @@
 "use client";
 
-import CreatePage from "@/components/CreatePage/CreatePage";
+import WritingPage from "@/components/WritingPage";
 import { ZoraCreateProvider } from "@/providers/ZoraCreateProvider";
-const Create = () => (
+
+const Writing = () => (
   <ZoraCreateProvider>
-    <CreatePage />
+    <WritingPage />
   </ZoraCreateProvider>
 );
 
-export default Create;
+export default Writing;

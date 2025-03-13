@@ -38,10 +38,7 @@ const Footer = () => {
         <p className="font-archivo-bold text-md !uppercase">© TOPIA</p>
       </div>
       <div className="flex flex-col items-end font-archivo-bold text-md">
-        <button
-          type="button"
-          onClick={() => push("/create?writing_mode=enabled")}
-        >
+        <button type="button" onClick={() => push("/create/writing")}>
           write
         </button>
         <button type="button" onClick={() => push("/create")}>

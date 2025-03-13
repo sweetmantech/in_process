@@ -3,11 +3,8 @@ import { RefObject, useRef, useState } from "react";
 import useFileUpload from "./useFileUpload";
 import domtoimage from "dom-to-image";
 import { uploadFile } from "@/lib/arweave/uploadFile";
-import { useSearchParams } from "next/navigation";
 
 const useCreateMetadata = () => {
-  const searchParams = useSearchParams();
-  const createModeActive = Boolean(searchParams.get("writing_mode"));
   const [link, setLink] = useState<string>("");
   const [name, setName] = useState<string>("this is time when...");
   const [priceUnit, setPriceUnit] = useState<"eth" | "usd" | "base" | "usdc">(
@@ -29,7 +26,7 @@ const useCreateMetadata = () => {
   });
 
   const uploadTextRefAsImage = async () => {
-    if (!createModeActive || !textInputRef.current) return "";
+    if (!textInputRef.current) return "";
     fileUpload.setFileUploading(true);
     const blob = await domtoimage.toBlob(textInputRef.current);
     const fileName = "image.png";
@@ -88,7 +85,6 @@ const useCreateMetadata = () => {
     setPriceUnit,
     price,
     setPrice,
-    createModeActive,
   };
 };
 

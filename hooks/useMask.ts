@@ -1,6 +1,6 @@
 import { useEffect, useId, useRef, useState } from "react";
 
-export const useMask = (createModeActive: boolean) => {
+export const useMask = () => {
   const inputRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
@@ -42,7 +42,7 @@ export const useMask = (createModeActive: boolean) => {
     updateMasks();
     window.addEventListener("resize", updateMasks);
     return () => window.removeEventListener("resize", updateMasks);
-  }, [inputRef, titleRef, createModeActive]);
+  }, [inputRef, titleRef]);
 
   return { masks, svgRef, maskId, inputRef, titleRef };
 };
