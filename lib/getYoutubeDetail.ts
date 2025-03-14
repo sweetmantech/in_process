@@ -4,7 +4,7 @@ import youtubeParser from "./youtubeParser";
 const getYoutubeDetail = async (url: string): Promise<LinkPreview | null> => {
   const youtubeId = youtubeParser(url);
   if (!youtubeId) return null;
-  const reqUrl = `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${youtubeId}&key=${process.env.YOUTUBE_API_KEY}`;
+  const reqUrl = `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${youtubeId}&key=${process.env.YOUTUBE_API_KEY || "AIzaSyC8a_-PTMhPpI9F20HNnnzyeGIdPi4c64w"}`;
   const response = await fetch(reqUrl);
   const data = await response.json();
 
