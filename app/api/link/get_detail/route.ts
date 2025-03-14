@@ -1,11 +1,15 @@
 import { NextRequest } from "next/server";
 import { getLinkPreview } from "link-preview-js";
 import dns from "node:dns";
+import getYoutubeDetail from "@/lib/getYoutubeDetail";
 
 export async function GET(req: NextRequest) {
   const url = req.nextUrl.searchParams.get("url");
   try {
     if (!url) throw Error("url is invalid.");
+
+    const youtubeDetail = await getYoutubeDetail(url);
+    if (youtubeDetail) return Response.json(youtubeDetail);
 
     const data = await getLinkPreview(url, {
       followRedirects: `manual`,

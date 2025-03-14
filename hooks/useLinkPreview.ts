@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Dispatch, SetStateAction, useEffect } from "react";
 
-interface LinkPreview {
+export interface LinkPreview {
   siteName: string;
   title: string;
   description: string;
