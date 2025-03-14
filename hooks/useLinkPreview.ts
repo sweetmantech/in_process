@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 
 interface LinkPreview {
   siteName: string;
@@ -23,7 +23,6 @@ async function fetchLinkPreview(link: string): Promise<LinkPreview> {
     `/api/link/get_detail?url=${encodeURIComponent(link)}`,
   );
   if (!response.ok) throw Error("failed to get link preview.");
-
   const data = await response.json();
   return data;
 }
@@ -46,12 +45,12 @@ const useLinkPreview = ({
   useEffect(() => {
     const uploadImage = async () => {
       if (!data) return;
-      if (data.images?.[0]) {
+      if (data.images?.[0] || data.favicons?.[0]) {
         setName(data.title);
         setDescription(data.description);
         setFileUploading(true);
         const response = await fetch(
-          `/api/arweave/url?url=${encodeURIComponent(data.images?.[0])}`,
+          `/api/arweave/url?url=${encodeURIComponent(data.images?.[0] || data.favicons?.[0])}`,
         );
         const uri = await response.json();
         setImageUri(uri);
