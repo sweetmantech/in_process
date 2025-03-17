@@ -13,6 +13,7 @@ const OgFooter = ({ ensName }: OgFooterProps) => {
       <p
         style={{
           fontSize: 24,
+          fontFamily: "Archivo",
         }}
       >
         {ensName}
@@ -20,6 +21,8 @@ const OgFooter = ({ ensName }: OgFooterProps) => {
       <p
         style={{
           fontSize: 20,
+          fontFamily: "Spectral",
+          paddingBottom: 8,
         }}
       >
         inprocess.myco.wtf
