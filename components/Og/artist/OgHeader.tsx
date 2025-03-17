@@ -1,6 +1,9 @@
 import OgImage from "../OgImage";
 
-const OgHeader = () => {
+interface OgHeaderProps {
+  ensAvatar: string;
+}
+const OgHeader = ({ ensAvatar }: OgHeaderProps) => {
   return (
     <div
       style={{
@@ -10,12 +13,7 @@ const OgHeader = () => {
         paddingBottom: 32,
       }}
     >
-      <OgImage
-        src="https://arweave.net/YvMzS0KHm7IFbZrb3C1pQzRaVvorLZR6eYJEpb3Vl7Q"
-        width={80}
-        height={80}
-        borderRadius={40}
-      />
+      <OgImage src={ensAvatar} width={80} height={80} borderRadius={40} />
       <div
         style={{
           display: "flex",

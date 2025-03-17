@@ -1,6 +1,7 @@
 import { mainnet } from "viem/chains";
 import { getPublicClient } from "./publicClient";
 import { Address } from "viem";
+import truncateAddress from "../truncateAddress";
 
 const getEnsName = async (address: Address): Promise<string> => {
   try {
@@ -12,7 +13,7 @@ const getEnsName = async (address: Address): Promise<string> => {
     return ensName as string;
   } catch (error) {
     console.error(error);
-    return "";
+    return truncateAddress(address);
   }
 };
 
