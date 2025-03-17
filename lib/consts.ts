@@ -15,7 +15,7 @@ export const IS_TESTNET =
   process.env.NEXT_PUBLIC_IS_TESTNET === "true" ? true : false;
 
 export const FIXED_PRICE_SALE_STRATEGY_ADDRESS =
-  "0xd34872BE0cdb6b09d45FCa067B07f04a1A9aE1aE";
+  "0x2994762aA0E4C750c51f333C10d81961faEBE785";
 
 // Wagmi
 export const CHAIN = IS_TESTNET ? baseSepolia : base;
