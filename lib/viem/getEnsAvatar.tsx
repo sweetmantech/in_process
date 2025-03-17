@@ -1,10 +1,13 @@
 import { mainnet } from "viem/chains";
-import { getPublicClient } from "./publicClient";
 import { normalize } from "viem/ens";
+import { createPublicClient, http, PublicClient } from "viem";
 
 const getEnsAvatar = async (ensName: string): Promise<string> => {
   try {
-    const publicClient = getPublicClient(mainnet.id);
+    const publicClient = createPublicClient({
+      chain: mainnet,
+      transport: http(),
+    }) as PublicClient;
     const ensAvatar = await publicClient.getEnsAvatar({
       name: normalize(ensName),
     });
