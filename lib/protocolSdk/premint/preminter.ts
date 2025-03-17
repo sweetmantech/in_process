@@ -4,11 +4,11 @@ import {
   zoraCreator1155ImplABI,
   zoraCreator1155PremintExecutorImplABI,
   zoraCreator1155PremintExecutorImplAddress,
-  zoraCreatorFixedPriceSaleStrategyAddress,
   premintTypedDataDefinition,
   ContractCreationConfig,
   PremintConfigForVersion,
 } from "@zoralabs/protocol-deployments";
+import { zoraCreatorFixedPriceSaleStrategyAddress } from "../consts";
 import {
   recoverTypedDataAddress,
   Hex,
