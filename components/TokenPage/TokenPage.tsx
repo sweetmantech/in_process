@@ -7,6 +7,7 @@ import { TokenProvider } from "@/providers/TokenProvider";
 import { getTokensOfContract } from "@/lib/viem/getTokensOfContract";
 import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "../ui/skeleton";
+import { ZoraMintCommentProvider } from "@/providers/ZoraMintCommentProvider";
 
 const TokenPage = ({
   chainId = CHAIN_ID,
@@ -41,7 +42,9 @@ const TokenPage = ({
               token={token}
               tokenId={token?.token?.tokenId}
             >
-              <Token />
+              <ZoraMintCommentProvider>
+                <Token />
+              </ZoraMintCommentProvider>
             </TokenProvider>
           )}
         </div>

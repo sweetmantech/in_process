@@ -50,6 +50,7 @@ const useZoraMintComment = () => {
       if (!hasBalanceToMint) {
         setIsLoading(false);
         setIsOpenCrossmint(true);
+        setIsOpenCommentModal(false);
         return;
       }
       const minterArguments = encodeAbiParameters(

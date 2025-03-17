@@ -1,9 +1,9 @@
-import { IS_TESTNET, CHAIN_ID } from "@/lib/consts";
+import { CHAIN_ID } from "@/lib/consts";
 import { zoraCreatorFixedPriceSaleStrategyAddress } from "@/lib/protocolSdk/consts";
 import { useTokenProvider } from "@/providers/TokenProvider";
 import { useUserProvider } from "@/providers/UserProvider";
 import { CrossmintEmbeddedCheckout } from "@crossmint/client-sdk-react-ui";
-import { Address } from "viem";
+import { Address, formatEther } from "viem";
 import { useAccount } from "wagmi";
 
 interface CrossmintModalProps {
@@ -11,12 +11,13 @@ interface CrossmintModalProps {
 }
 
 export default function CrossmintModal({ onClose }: CrossmintModalProps) {
-  const { comment, token } = useTokenProvider();
+  const { comment, token, saleConfig } = useTokenProvider();
   const { address } = useAccount();
   const { email } = useUserProvider();
+  const { data: sale } = saleConfig;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
       <div className="bg-white p-6 rounded-lg relative">
         <button
           onClick={onClose}
@@ -24,31 +25,32 @@ export default function CrossmintModal({ onClose }: CrossmintModalProps) {
         >
           ✕
         </button>
-        <CrossmintEmbeddedCheckout
-          lineItems={{
-            collectionLocator: "crossmint:4b386283-a16d-44a6-afcc-c44244643ecf",
-            callData: {
-              quantity: 1,
-              priceFixedSaleStrategy:
-                zoraCreatorFixedPriceSaleStrategyAddress[CHAIN_ID],
-              tokenContract: token.token.contract.address,
-              tokenId: token.token.tokenId,
-              comment,
-              totalPrice: IS_TESTNET
-                ? "0.000000111000000001"
-                : "0.000111000000000001",
-            },
-          }}
-          payment={{
-            crypto: { enabled: true },
-            fiat: { enabled: true },
-          }}
-          recipient={
-            address
-              ? { walletAddress: address as Address }
-              : { email: email || "" }
-          }
-        />
+        {sale && (
+          <CrossmintEmbeddedCheckout
+            lineItems={{
+              collectionLocator:
+                "crossmint:4b386283-a16d-44a6-afcc-c44244643ecf",
+              callData: {
+                quantity: 1,
+                priceFixedSaleStrategy:
+                  zoraCreatorFixedPriceSaleStrategyAddress[CHAIN_ID],
+                tokenContract: token.token.contract.address,
+                tokenId: token.token.tokenId,
+                comment,
+                totalPrice: formatEther(BigInt(sale?.pricePerToken || 0)),
+              },
+            }}
+            payment={{
+              crypto: { enabled: true },
+              fiat: { enabled: true },
+            }}
+            recipient={
+              address
+                ? { walletAddress: address as Address }
+                : { email: email || "" }
+            }
+          />
+        )}
       </div>
     </div>
   );
