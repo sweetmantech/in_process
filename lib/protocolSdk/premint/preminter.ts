@@ -8,7 +8,7 @@ import {
   ContractCreationConfig,
   PremintConfigForVersion,
 } from "@zoralabs/protocol-deployments";
-import { zoraCreatorFixedPriceSaleStrategyAddress } from "../consts";
+import { zoraCreatorFixedPriceSaleStrategyAddress } from "../constants";
 import {
   recoverTypedDataAddress,
   Hex,

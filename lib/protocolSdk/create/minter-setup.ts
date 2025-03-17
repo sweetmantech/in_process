@@ -18,7 +18,7 @@ import {
   TimedSaleParamsType,
 } from "./types";
 import { Concrete } from "../utils";
-import { zoraCreatorFixedPriceSaleStrategyAddress } from "../consts";
+import { zoraCreatorFixedPriceSaleStrategyAddress } from "../constants";
 
 const PERMISSION_BITS = {
   MINTER: BigInt(2) ** BigInt(2),

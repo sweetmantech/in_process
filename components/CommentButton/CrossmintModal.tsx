@@ -1,5 +1,5 @@
 import { CHAIN_ID } from "@/lib/consts";
-import { zoraCreatorFixedPriceSaleStrategyAddress } from "@/lib/protocolSdk/consts";
+import { zoraCreatorFixedPriceSaleStrategyAddress } from "@/lib/protocolSdk/constants";
 import { useTokenProvider } from "@/providers/TokenProvider";
 import { useUserProvider } from "@/providers/UserProvider";
 import { CrossmintEmbeddedCheckout } from "@crossmint/client-sdk-react-ui";
