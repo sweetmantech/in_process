@@ -19,7 +19,6 @@ const useCreateMetadata = () => {
   const [animationUri, setAnimationUri] = useState<string>("");
   const textInputRef = useRef() as RefObject<HTMLTextAreaElement>;
   const fileUpload = useFileUpload({
-    setName,
     setImageUri,
     setAnimationUri,
     setMimeType,
@@ -28,9 +27,10 @@ const useCreateMetadata = () => {
   useLinkPreview({
     link,
     setImageUri,
-    setFileUploading: fileUpload.setFileUploading,
+    setMimeType,
     setName,
     setDescription,
+    setFileUploading: fileUpload.setFileUploading,
   });
 
   const uploadTextRefAsImage = async () => {
@@ -42,6 +42,7 @@ const useCreateMetadata = () => {
     const textImage = new File([blob], fileName, { type: fileType });
     const uri = await uploadFile(textImage);
     setImageUri(uri);
+    setMimeType("image/png");
     fileUpload.setFileUploading(false);
     return uri;
   };
@@ -65,7 +66,7 @@ const useCreateMetadata = () => {
       animation_url: animationUri,
       content: {
         mime: mimeType,
-        uri: animationUri,
+        uri: animationUri || textRefUri || imageUri,
       },
     });
 

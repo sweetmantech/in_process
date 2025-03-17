@@ -11,7 +11,10 @@ export async function GET(req: NextRequest) {
     const { blob, type } = await getBlob(url);
     const file = new File([blob], "uploadedFile", { type });
     const uri = await uploadPfpToArweave(file);
-    return Response.json(uri);
+    return Response.json({
+      uri,
+      type,
+    });
   } catch (e: any) {
     console.log(e);
     const message = e?.message ?? "failed to upload image";

@@ -3,7 +3,6 @@ import { uploadFile } from "@/lib/arweave/uploadFile";
 import { Dispatch, SetStateAction, useState } from "react";
 
 interface useFileUploadProps {
-  setName: Dispatch<SetStateAction<string>>;
   setImageUri: Dispatch<SetStateAction<string>>;
   setAnimationUri: Dispatch<SetStateAction<string>>;
   setMimeType: Dispatch<SetStateAction<string>>;
@@ -11,7 +10,6 @@ interface useFileUploadProps {
 }
 
 const useFileUpload = ({
-  setName,
   setImageUri,
   setAnimationUri,
   setMimeType,
