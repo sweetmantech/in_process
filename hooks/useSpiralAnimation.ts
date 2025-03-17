@@ -61,11 +61,14 @@ export const useSpiralAnimation = (
     const wordsPerLoop = Math.floor(totalLength / config.spacing);
     const offset = offsetRef.current * (config.baseSpeed * speedMultiplier);
 
-    let feedsChunk = feeds.slice(chunkStart, chunkStart + wordsPerLoop);
+    let loopFeeds = feeds;
+    if (wordsPerLoop > feeds.length)
+      loopFeeds = Array.from({ length: wordsPerLoop }, () => feeds).flat();
+    let feedsChunk = loopFeeds.slice(chunkStart, chunkStart + wordsPerLoop);
     if (feedsChunk.length < wordsPerLoop) {
       feedsChunk = [
         ...feedsChunk,
-        ...feeds.slice(0, wordsPerLoop - feedsChunk.length),
+        ...loopFeeds.slice(0, wordsPerLoop - feedsChunk.length),
       ];
     }
     const newPoints: TextPoint[] = [];
