@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import useBalance from "./useBalance";
 import { useAccount, usePublicClient, useWriteContract } from "wagmi";
 import { zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
-import { zoraCreatorFixedPriceSaleStrategyAddress } from "@/lib/protocolSdk/consts";
+import { zoraCreatorFixedPriceSaleStrategyAddress } from "@/lib/protocolSdk/constants";
 import { CHAIN } from "@/lib/consts";
 import {
   Address,
