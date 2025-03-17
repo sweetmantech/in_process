@@ -32,7 +32,7 @@ export async function GET(req: NextRequest) {
     ),
     {
       width: 500,
-      height: 175,
+      height: 180,
     },
   );
 }
