@@ -6,9 +6,11 @@ import getEnsAvatar from "./viem/getEnsAvatar";
 const getArtistInfo = async (address: Address) => {
   try {
     const ensName = await getEnsName(address);
-    const ensAvatar = await getEnsAvatar(ensName);
+    let ensAvatar =
+      "https://arweave.net/pL9S3YoTvLqZdSFZLHtJf4UQ1HmCWVv7fSID1kLMlxg";
+    if (ensName) ensAvatar = await getEnsAvatar(ensName);
     return {
-      ensName,
+      ensName: ensName || truncateAddress(address),
       ensAvatar,
     };
   } catch (error) {
