@@ -1,11 +1,11 @@
 import { Metadata, NextPage } from "next";
 import ArtistPage from "@/components/ArtistPage";
 
-export const generateMetadata = ({
+export async function generateMetadata({
   params,
 }: {
   params: { artistAddress: string };
-}): Metadata => {
+}): Promise<Metadata> {
   const artistAddress = params.artistAddress;
   return {
     title: "In Process",
@@ -18,7 +18,7 @@ export const generateMetadata = ({
       ],
     },
   };
-};
+}
 
 const Artist: NextPage = () => <ArtistPage />;
 
