@@ -1,9 +1,7 @@
 import { Address } from "viem";
 import { getPublicClient } from "@/lib/viem/publicClient";
-import {
-  CHAIN_ID,
-  zoraCreatorFixedPriceSaleStrategyAddress,
-} from "@/lib/consts";
+import { CHAIN_ID } from "@/lib/consts";
+import { zoraCreatorFixedPriceSaleStrategyAddress } from "@/lib/protocolSdk/consts";
 import { zoraCreatorFixedPriceSaleStrategyABI } from "@zoralabs/protocol-deployments";
 import { useQuery } from "@tanstack/react-query";
 
