@@ -3,7 +3,6 @@ import {
   erc20MinterAddress as erc20MinterAddresses,
   zoraCreator1155ImplABI,
   zoraCreatorFixedPriceSaleStrategyABI,
-  zoraCreatorFixedPriceSaleStrategyAddress,
   zoraCreatorMerkleMinterStrategyABI,
   zoraCreatorMerkleMinterStrategyAddress,
   zoraTimedSaleStrategyABI,
@@ -19,6 +18,7 @@ import {
   TimedSaleParamsType,
 } from "./types";
 import { Concrete } from "../utils";
+import { zoraCreatorFixedPriceSaleStrategyAddress } from "@/lib/consts";
 
 const PERMISSION_BITS = {
   MINTER: BigInt(2) ** BigInt(2),

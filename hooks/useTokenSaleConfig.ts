@@ -1,6 +1,9 @@
 import { Address } from "viem";
 import { getPublicClient } from "@/lib/viem/publicClient";
-import { CHAIN_ID, FIXED_PRICE_SALE_STRATEGY_ADDRESS } from "@/lib/consts";
+import {
+  CHAIN_ID,
+  zoraCreatorFixedPriceSaleStrategyAddress,
+} from "@/lib/consts";
 import { zoraCreatorFixedPriceSaleStrategyABI } from "@zoralabs/protocol-deployments";
 import { useQuery } from "@tanstack/react-query";
 
@@ -17,7 +20,7 @@ async function fetchSaleConfig(
 ): Promise<SaleConfig> {
   const publicClient: any = getPublicClient(CHAIN_ID);
   const data = await publicClient.readContract({
-    address: FIXED_PRICE_SALE_STRATEGY_ADDRESS,
+    address: zoraCreatorFixedPriceSaleStrategyAddress[CHAIN_ID],
     abi: zoraCreatorFixedPriceSaleStrategyABI,
     functionName: "sale",
     args: [tokenContract, tokenId],

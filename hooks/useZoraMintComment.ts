@@ -11,7 +11,6 @@ import {
   encodeAbiParameters,
   formatEther,
   parseAbiParameters,
-  parseEther,
 } from "viem";
 import { useTokenProvider } from "@/providers/TokenProvider";
 import { useUserProvider } from "@/providers/UserProvider";
@@ -47,9 +46,9 @@ const useZoraMintComment = () => {
         setIsLoading(false);
         return;
       }
-      const mintAmount = parseEther("0.000000111") + BigInt(sale.pricePerToken);
 
-      const hasBalanceToMint = balance > Number(formatEther(mintAmount));
+      const hasBalanceToMint =
+        balance > Number(formatEther(BigInt(sale.pricePerToken)));
       if (!hasBalanceToMint) {
         setIsLoading(false);
         setIsOpenCrossmint(true);
@@ -72,7 +71,7 @@ const useZoraMintComment = () => {
           [],
           minterArguments,
         ],
-        value: mintAmount,
+        value: BigInt(sale.pricePerToken),
       });
 
       const receipt = await publicClient.waitForTransactionReceipt({ hash });
