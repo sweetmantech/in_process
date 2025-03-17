@@ -1,12 +1,12 @@
 import { Metadata, NextPage } from "next";
 import ArtistPage from "@/components/ArtistPage";
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { artistAddress: string };
-}): Promise<Metadata> {
-  const artistAddress = params.artistAddress;
+type Props = {
+  params: Promise<{ artistAddress: string }>;
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { artistAddress } = await params;
   return {
     title: "In Process",
     description: "Imagined by LATASHÁ",
