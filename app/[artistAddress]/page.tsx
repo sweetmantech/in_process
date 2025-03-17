@@ -1,7 +1,7 @@
 import { Metadata, NextPage } from "next";
 import ArtistPage from "@/components/ArtistPage";
 
-export const metadata = ({
+export const generateMetadata = ({
   params,
 }: {
   params: { artistAddress: string };
