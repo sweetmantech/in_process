@@ -1,4 +1,8 @@
-import { FIXED_PRICE_SALE_STRATEGY_ADDRESS, IS_TESTNET } from "@/lib/consts";
+import {
+  zoraCreatorFixedPriceSaleStrategyAddress,
+  IS_TESTNET,
+  CHAIN_ID,
+} from "@/lib/consts";
 import { useTokenProvider } from "@/providers/TokenProvider";
 import { useUserProvider } from "@/providers/UserProvider";
 import { CrossmintEmbeddedCheckout } from "@crossmint/client-sdk-react-ui";
@@ -28,7 +32,8 @@ export default function CrossmintModal({ onClose }: CrossmintModalProps) {
             collectionLocator: "crossmint:4b386283-a16d-44a6-afcc-c44244643ecf",
             callData: {
               quantity: 1,
-              priceFixedSaleStrategy: FIXED_PRICE_SALE_STRATEGY_ADDRESS,
+              priceFixedSaleStrategy:
+                zoraCreatorFixedPriceSaleStrategyAddress[CHAIN_ID],
               tokenContract: token.token.contract.address,
               tokenId: token.token.tokenId,
               comment,
