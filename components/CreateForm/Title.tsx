@@ -3,7 +3,7 @@ import { Label } from "@/components/ui/label";
 import { ComboboxInput } from "../ui/combobox-input";
 
 const promptOptions = [
-  { label: "this is time when...", value: "this is time when " },
+  { label: "this is the time when...", value: "this is the time when " },
   { label: "today i...", value: "today i " },
   { label: "yesterday i...", value: "yesterday i " },
   { label: "i...", value: "i " },
