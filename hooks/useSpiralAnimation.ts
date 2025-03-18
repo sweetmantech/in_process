@@ -3,6 +3,7 @@ import { SpiralConfig, TextPoint } from "@/types/spiral";
 import { createPathData } from "@/lib/utils/spiralPath";
 import { Collection } from "@/types/token";
 import truncateAddress from "@/lib/truncateAddress";
+import useIsMobile from "./useIsMobile";
 
 export const useSpiralAnimation = (
   config: SpiralConfig,
@@ -12,6 +13,7 @@ export const useSpiralAnimation = (
   const pathRef = useRef<SVGPathElement | null>(null);
   const animationFrameRef = useRef<number>();
   const offsetRef = useRef(0);
+  const isMobile = useIsMobile();
 
   const pathData = useMemo(
     () => createPathData(config.points),
@@ -100,7 +102,7 @@ export const useSpiralAnimation = (
           text: letters[j],
           index: i,
           fontFamily,
-          fontSize: 20,
+          fontSize: isMobile ? 10 : 20,
         });
       }
     }
