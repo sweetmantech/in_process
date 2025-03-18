@@ -32,7 +32,7 @@ export function useSpiralAnimation(feeds: Collection[]): SpiralAnimationConfig {
     const adjustedSpeed = baseSpeed * contentFactor;
 
     // Calculate spacing between items and add extra padding for loop transition
-    const spacerWidth = 15;
+    const spacerWidth = isMobile ? 10 : 15;
     const loopPadding = 20; // Extra padding to prevent overlap during loop
 
     return {
@@ -41,7 +41,7 @@ export function useSpiralAnimation(feeds: Collection[]): SpiralAnimationConfig {
       loopPadding,
       frameRate: 15, // fps
     };
-  }, [contentLength]);
+  }, [contentLength, isMobile]);
 
   useEffect(() => {
     const interval = setInterval(() => {

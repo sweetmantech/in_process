@@ -18,10 +18,10 @@ export default function SpiralFeeds({ feeds }: FeedsProps) {
   const isMobile = useIsMobile();
 
   return (
-    <svg viewBox={viewBox} className="relative z-[20]">
+    <svg viewBox={viewBox} className="relative z-[20] cursor-pointer">
       <SpiralPath
         id="curve"
-        points={points as Point[]} // Ensure points are of type Point[]
+        points={points as Point[]}
       />
       <text>
         {/* Original text path */}
@@ -39,7 +39,10 @@ export default function SpiralFeeds({ feeds }: FeedsProps) {
 
       {/* Duplicate text path for seamless looping */}
       <text>
-        <textPath xlinkHref="#curve" startOffset={`${offset - 106}%`}>
+        <textPath
+          xlinkHref="#curve"
+          startOffset={`${offset - (isMobile ? 370 : 106)}%`}
+        >
           {feeds.map((feed, index) => (
             <React.Fragment key={index}>
               {index > 0 && generateSpacer(animationConfig.spacerWidth)}
