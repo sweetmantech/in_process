@@ -127,7 +127,7 @@ export const useSpiralAnimation = (
         cancelAnimationFrame(animationFrameRef.current);
       }
     };
-  }, [config, feeds, pathData, animationFrameRef.current]);
+  }, [config, feeds, pathData]);
 
   return textPoints;
 };
