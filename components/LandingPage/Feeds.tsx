@@ -1,5 +1,4 @@
 import { useLatestFeed } from "@/hooks/useLatestFeed";
-import { Skeleton } from "../ui/skeleton";
 import FeedTable from "../FeedTable";
 import SpiralFeeds from "../SprialFeeds";
 import ArtSlider from "./ArtSlider";
@@ -7,6 +6,7 @@ import LatestFeeds from "./LatestFeeds";
 import { HorizontalFeedAnimationProvider } from "@/providers/HorizontalFeedAnimationProvider";
 import HorizontalFeed from "../HorizontalFeed";
 import useIsMobile from "@/hooks/useIsMobile";
+import Loading from "../Loading";
 
 const Feeds = () => {
   const { error, isLoading, data } = useLatestFeed();
@@ -14,7 +14,12 @@ const Feeds = () => {
 
   if (error)
     return <p className="text-center text-red-500 py-4">Failed to load feed</p>;
-  if (isLoading) return <Skeleton className="w-full h-20" />;
+  if (isLoading)
+    return (
+      <div className="grow flex justify-center items-center overflow-hidden">
+        <Loading className="w-[200px] aspect-[1/1] md:w-[400px]" />
+      </div>
+    );
   return (
     <div className="pt-16 md:pt-20">
       <p className="font-archivo text-2xl px-4 pt-6 pb-4 block md:hidden">
