@@ -1,5 +1,6 @@
 import { Metadata, NextPage } from "next";
 import ArtistPage from "@/components/ArtistPage";
+import { VERCEL_OG } from "../api/og/artist/route";
 
 type Props = {
   params: Promise<{ artistAddress: string }>;
@@ -13,9 +14,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: "In Process",
       description: "Imagined by LATASHÁ",
-      images: [
-        `https://in-process-seven.vercel.app/api/og/artist?artistAddress=${artistAddress}`,
-      ],
+      images: [`${VERCEL_OG}/api/og/artist?artistAddress=${artistAddress}`],
     },
   };
 }
