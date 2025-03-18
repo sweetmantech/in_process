@@ -8,7 +8,7 @@ import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
 
-export const VERCEL_OG = "https://in-process-seven.vercel.app";
+const VERCEL_OG = "https://in-process-seven.vercel.app";
 
 const archivoFont = fetch(
   new URL(`${VERCEL_OG}/fonts/Archivo-Regular.ttf`, import.meta.url),
