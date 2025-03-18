@@ -11,4 +11,6 @@ export interface TextPoint {
   rotation: number;
   text: string;
   index: number;
+  fontFamily: string;
+  fontSize: number;
 }

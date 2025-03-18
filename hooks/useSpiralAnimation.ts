@@ -12,7 +12,6 @@ export const useSpiralAnimation = (
   const pathRef = useRef<SVGPathElement | null>(null);
   const animationFrameRef = useRef<number>();
   const offsetRef = useRef(0);
-  const [chunkStart, setChunkStart] = useState(0);
 
   const pathData = useMemo(
     () => createPathData(config.points),
@@ -64,7 +63,7 @@ export const useSpiralAnimation = (
     let loopFeeds = feeds;
     if (wordsPerLoop > feeds.length)
       loopFeeds = Array.from({ length: wordsPerLoop }, () => feeds).flat();
-    let feedsChunk = loopFeeds.slice(chunkStart, chunkStart + wordsPerLoop);
+    let feedsChunk = loopFeeds.slice(0, wordsPerLoop);
     if (feedsChunk.length < wordsPerLoop) {
       feedsChunk = [
         ...feedsChunk,
@@ -73,9 +72,13 @@ export const useSpiralAnimation = (
     }
     const newPoints: TextPoint[] = [];
 
-    let lastPointX = 0;
     for (let i = 0; i < wordsPerLoop; i++) {
-      const word = `${truncateAddress(feedsChunk[i].creator)} - ${new Date(feedsChunk[i].released_at).toLocaleString().toLowerCase()}`;
+      const artistAddress = truncateAddress(feedsChunk[i].creator);
+      const releasedDate = new Date(feedsChunk[i].released_at)
+        .toLocaleString()
+        .toLowerCase();
+      const artName = feedsChunk[i].name;
+      const word = `${artistAddress} - ${artName} - ${releasedDate}`;
       const letters = word.split("");
       const spacing = config.spacing / letters.length;
 
@@ -84,18 +87,22 @@ export const useSpiralAnimation = (
           (i * config.spacing + j * spacing + offset) % totalLength;
         const point = path.getPointAtLength(distance);
         const rotation = calculateRotation(path, distance, totalLength);
-        if (i === wordsPerLoop - 1 && j === 0) lastPointX = point.x;
+        let fontFamily = "Archivo-Regular";
+        if (j < artistAddress.length) fontFamily = "Archivo-Bold";
+        if (
+          j >= artistAddress.length &&
+          j <= artistAddress.length + 3 + artName.length + 3
+        )
+          fontFamily = "Spectral-Italic";
         newPoints.push({
           position: [point.x, point.y],
           rotation,
           text: letters[j],
-          index: chunkStart + i,
+          index: i,
+          fontFamily,
+          fontSize: 20,
         });
       }
-    }
-    if (animationFrameRef.current) {
-      cancelAnimationFrame(animationFrameRef.current);
-      setChunkStart((chunkStart + 1) % feeds.length);
     }
     setTextPoints(newPoints);
   };
@@ -120,7 +127,7 @@ export const useSpiralAnimation = (
         cancelAnimationFrame(animationFrameRef.current);
       }
     };
-  }, [config, feeds, pathData, chunkStart, animationFrameRef.current]);
+  }, [config, feeds, pathData, animationFrameRef.current]);
 
   return textPoints;
 };

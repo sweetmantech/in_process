@@ -30,7 +30,7 @@ export default function SpiralFeeds({ feeds, className = "" }: FeedsProps) {
   const textPoints = useSpiralAnimation(
     {
       points: isMobile ? MOBILE_SPIRAL_POINTS : SPIRAL_POINTS,
-      spacing: isMobile ? 300 : 600,
+      spacing: isMobile ? 300 : 1000,
       baseSpeed: 0.5,
     },
     feeds,
@@ -50,7 +50,7 @@ export default function SpiralFeeds({ feeds, className = "" }: FeedsProps) {
       preserveAspectRatio="xMidYMid meet"
     >
       <SpiralPath points={isMobile ? MOBILE_SPIRAL_POINTS : SPIRAL_POINTS} />
-      <SpiralText textPoints={textPoints} fontSize={isMobile ? 12 : 16} />
+      <SpiralText textPoints={textPoints} />
     </svg>
   );
 }
