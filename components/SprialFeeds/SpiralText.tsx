@@ -2,15 +2,11 @@ import { TextPoint } from "@/types/spiral";
 
 interface SpiralTextProps {
   textPoints: TextPoint[];
-  fontSize?: number;
-  fontWeight?: string;
   color?: string;
 }
 
 export const SpiralText = ({
   textPoints,
-  fontSize = 16,
-  fontWeight = "bold",
   color = "black",
 }: SpiralTextProps) => {
   return (
@@ -20,9 +16,8 @@ export const SpiralText = ({
           key={index}
           x={point.position[0]}
           y={point.position[1]}
-          fontSize={fontSize}
-          fontWeight={fontWeight}
-          fontFamily="TestTiemposText-Regular"
+          fontSize={point.fontSize}
+          fontFamily={point.fontFamily}
           textAnchor="middle"
           dominantBaseline="middle"
           fill={color}
