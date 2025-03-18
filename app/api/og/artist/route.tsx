@@ -8,18 +8,14 @@ import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
 
+const VERCEL_OG = "https://in-process-seven.vercel.app";
+
 const archivoFont = fetch(
-  new URL(
-    "https://inprocess.myco.wtf/fonts/Archivo-Regular.ttf",
-    import.meta.url,
-  ),
+  new URL(`${VERCEL_OG}/fonts/Archivo-Regular.ttf`, import.meta.url),
 ).then((res) => res.arrayBuffer());
 
 const spectralFont = fetch(
-  new URL(
-    "https://inprocess.myco.wtf/fonts/Spectral-Regular.ttf",
-    import.meta.url,
-  ),
+  new URL(`${VERCEL_OG}/fonts/Spectral-Regular.ttf`, import.meta.url),
 ).then((res) => res.arrayBuffer());
 
 export async function GET(req: NextRequest) {
@@ -27,7 +23,7 @@ export async function GET(req: NextRequest) {
   const artistAddress: any = queryParams.get("artistAddress");
 
   const tokens = await fetch(
-    `https://inprocess.myco.wtf/api/dune/latest?artistAddress=${artistAddress}`,
+    `${VERCEL_OG}/api/dune/latest?artistAddress=${artistAddress}`,
   ).then((res) => res.json());
   const contractURIs = tokens
     .slice(0, 4)
