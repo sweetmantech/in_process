@@ -1,4 +1,5 @@
 import getSetupContractEvents from "@/lib/dune/getSetupContractEvents";
+import { getUris } from "@/lib/viem/getUris";
 import { DuneDecodedEvent } from "@/types/dune";
 import { NextRequest } from "next/server";
 
@@ -25,7 +26,8 @@ export async function GET(req: NextRequest) {
         return data;
       },
     );
-    return Response.json(formattedEvents);
+    const eventsWithLatestUris = await getUris(formattedEvents);
+    return Response.json(eventsWithLatestUris);
   } catch (e: any) {
     console.log(e);
     const message = e?.message ?? "failed to get Dune transactions";
