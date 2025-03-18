@@ -1,10 +1,12 @@
 import { mainnet } from "viem/chains";
-import { getPublicClient } from "./publicClient";
-import { Address } from "viem";
+import { Address, createPublicClient, http, PublicClient } from "viem";
 
 const getEnsName = async (address: Address): Promise<string> => {
   try {
-    const publicClient = getPublicClient(mainnet.id);
+    const publicClient = createPublicClient({
+      chain: mainnet,
+      transport: http(),
+    }) as PublicClient;
     const ensName = await publicClient.getEnsName({
       address,
     });

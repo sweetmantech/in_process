@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server";
 import OgFooter from "@/components/Og/artist/OgFooter";
 import OgHeader from "@/components/Og/artist/OgHeader";
+import getArtistInfo from "@/lib/getArtistInfo";
 
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
@@ -10,6 +11,7 @@ export async function GET(req: NextRequest) {
   const artistAddress: any = queryParams.get("artistAddress");
 
   const { ImageResponse } = await import("@vercel/og");
+  const artistInfo = await getArtistInfo(artistAddress);
 
   return new ImageResponse(
     (
@@ -26,8 +28,8 @@ export async function GET(req: NextRequest) {
           backgroundPosition: "center",
         }}
       >
-        <OgHeader />
-        <OgFooter address={artistAddress} />
+        <OgHeader ensAvatar={artistInfo.ensAvatar} />
+        <OgFooter ensName={artistInfo.ensName} />
       </div>
     ),
     {

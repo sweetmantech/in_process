@@ -1,10 +1,7 @@
-import truncateAddress from "@/lib/truncateAddress";
-import { Address } from "viem";
-
 interface OgFooterProps {
-  address: Address;
+  ensName: string;
 }
-const OgFooter = ({ address }: OgFooterProps) => {
+const OgFooter = ({ ensName }: OgFooterProps) => {
   return (
     <div
       style={{
@@ -18,7 +15,7 @@ const OgFooter = ({ address }: OgFooterProps) => {
           fontSize: 24,
         }}
       >
-        {truncateAddress(address)}
+        {ensName}
       </p>
       <p
         style={{
