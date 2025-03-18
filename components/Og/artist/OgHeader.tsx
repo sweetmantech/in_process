@@ -1,9 +1,12 @@
+import { TokenMetadata } from "@/types/token";
 import OgImage from "../OgImage";
+import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 
 interface OgHeaderProps {
   ensAvatar: string;
+  metadata: TokenMetadata[];
 }
-const OgHeader = ({ ensAvatar }: OgHeaderProps) => {
+const OgHeader = ({ ensAvatar, metadata }: OgHeaderProps) => {
   return (
     <div
       style={{
@@ -20,30 +23,15 @@ const OgHeader = ({ ensAvatar }: OgHeaderProps) => {
           gap: 8,
         }}
       >
-        <OgImage
-          src="https://arweave.net/K0BvmxnKilp4TF9TQAwHxMQ0RBwVDOVbe43XqjBpt4Y"
-          width={70}
-          height={70}
-          borderRadius={0}
-        />
-        <OgImage
-          src="https://arweave.net/-Kzgp5WMPd6RG6S9X4WO4Atflrc0kWIsQl18GtF1YOA"
-          width={70}
-          height={70}
-          borderRadius={0}
-        />
-        <OgImage
-          src="https://arweave.net/2o5wuRDeetKzSKRwLkydUydRnbk7pVNf3YKwdxBSYnQ"
-          width={70}
-          height={70}
-          borderRadius={0}
-        />
-        <OgImage
-          src="https://arweave.net/hFrZBu1Be1VcBryUMCJTTj8AWcFg8AvqoVs9RATez7c"
-          width={70}
-          height={70}
-          borderRadius={0}
-        />
+        {metadata.map((data: TokenMetadata, index: number) => (
+          <OgImage
+            src={getFetchableUrl(data.image) || ""}
+            width={70}
+            height={70}
+            borderRadius={0}
+            key={index}
+          />
+        ))}
       </div>
       <OgImage
         src="https://arweave.net/LrL9js9l9tT-6S06N1MtE02nCMX5gmVzGUbEVjTplo0"

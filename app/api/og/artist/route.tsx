@@ -2,6 +2,8 @@ import { NextRequest } from "next/server";
 import OgFooter from "@/components/Og/artist/OgFooter";
 import OgHeader from "@/components/Og/artist/OgHeader";
 import getArtistInfo from "@/lib/getArtistInfo";
+import { Collection } from "@/types/token";
+import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
@@ -23,6 +25,19 @@ const spectralFont = fetch(
 export async function GET(req: NextRequest) {
   const queryParams = req.nextUrl.searchParams;
   const artistAddress: any = queryParams.get("artistAddress");
+
+  const tokens = await fetch(
+    `https://inprocess.myco.wtf/api/dune/latest?artistAddress=${artistAddress}`,
+  ).then((res) => res.json());
+  const contractURIs = tokens
+    .slice(0, 4)
+    .map((token: Collection) => token.contractURI);
+  const metadataPromise = contractURIs.map(async (contractURI: string) => {
+    return await fetch(getFetchableUrl(contractURI) || "").then((res) =>
+      res.json(),
+    );
+  });
+  const metadata = await Promise.all(metadataPromise);
 
   const { ImageResponse } = await import("@vercel/og");
   const artistInfo = await getArtistInfo(artistAddress);
@@ -46,7 +61,7 @@ export async function GET(req: NextRequest) {
           backgroundPosition: "center",
         }}
       >
-        <OgHeader ensAvatar={artistInfo.ensAvatar} />
+        <OgHeader ensAvatar={artistInfo.ensAvatar} metadata={metadata} />
         <OgFooter ensName={artistInfo.ensName} />
       </div>
     ),
