@@ -7,6 +7,8 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { tokenId, collection } = await params;
+  // eslint-disable-next-line
+  const [_, address] = collection.split("%3A");
 
   return {
     title: "In Process",
@@ -15,7 +17,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: "In Process",
       description: "Imagined by LATASHÁ",
       images: [
-        `https://in-process-seven.vercel.app/api/og/token?collection=${collection}&tokenId=${tokenId}`,
+        `https://in-process-seven.vercel.app/api/og/token?collection=${address}&tokenId=${tokenId}`,
       ],
     },
   };
