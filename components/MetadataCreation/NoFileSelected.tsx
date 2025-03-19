@@ -19,7 +19,7 @@ const NoFileSelected = ({ onClick }: { onClick: () => void }) => {
         </p>
       </div>
       <button
-        className="absolute left-1/2 -translate-x-1/2 bottom-8 border border-black py-1 px-12 font-archivo text-xl"
+        className="hover:bg-background-light absolute left-1/2 -translate-x-1/2 bottom-8 border border-black py-1 px-12 font-archivo text-xl"
         type="button"
         onClick={() => push("/create/writing")}
       >

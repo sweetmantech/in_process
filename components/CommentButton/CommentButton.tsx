@@ -6,14 +6,13 @@ export default function CommentButton() {
   const { mintComment, isLoading } = useZoraMintCommentProvider();
 
   return (
-    <>
-      <button
-        onClick={mintComment}
-        className="py-3 bg-black font-archivo text-xl w-full text-tan-secondary"
-        disabled={isLoading}
-      >
-        {isLoading ? "collecting..." : "collect"}
-      </button>
-    </>
+    <button
+      onClick={mintComment}
+      type="button"
+      className="py-3 bg-black hover:bg-grey-moss-300 font-archivo text-xl w-full text-tan-secondary"
+      disabled={isLoading}
+    >
+      {isLoading ? "collecting..." : "collect"}
+    </button>
   );
 }
