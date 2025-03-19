@@ -1,26 +1,23 @@
 import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
 import { Label } from "@/components/ui/label";
-import { ComboboxInput } from "../ui/combobox-input";
+import { Input } from "../ui/input";
+import usePrompt from "@/hooks/uesPrompt";
 
-const promptOptions = [
-  { label: "this is the time when...", value: "this is the time when " },
-  { label: "today i...", value: "today i " },
-  { label: "yesterday i...", value: "yesterday i " },
-  { label: "i...", value: "i " },
-  { label: "write anything", value: "write anything " },
-];
 const Title = () => {
   const { name, setName, fileUploading } = useZoraCreateProvider();
+  const { placeholder, onActive } = usePrompt();
 
   return (
     <div className="flex flex-col items-start w-full gap-2">
       <Label htmlFor="title" className="font-archivo text-md">
         prompt
       </Label>
-      <ComboboxInput
-        onChange={(value) => setName(value)}
-        options={promptOptions}
+      <Input
         value={name}
+        onChange={(e) => setName(e.target.value)}
+        placeholder={placeholder}
+        onFocus={onActive}
+        className="!ring-0 !ring-offset-0 bg-white border-grey border rounded-[0px]"
         disabled={fileUploading}
       />
     </div>

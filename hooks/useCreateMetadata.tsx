@@ -7,7 +7,7 @@ import useLinkPreview from "./useLinkPreview";
 
 const useCreateMetadata = () => {
   const [link, setLink] = useState<string>("");
-  const [name, setName] = useState<string>("this is the time when...");
+  const [name, setName] = useState<string>("");
   const [priceUnit, setPriceUnit] = useState<"eth" | "usd" | "base" | "usdc">(
     "eth",
   );
