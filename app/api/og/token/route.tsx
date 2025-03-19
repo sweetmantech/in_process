@@ -27,6 +27,10 @@ export async function GET(req: NextRequest) {
   if (!tokenId || !collection)
     throw Error("collection or tokenId should be provided.");
 
+  const comments = await fetch(
+    `${VERCEL_OG}/api/dune/mint_comments?tokenContract=${collection}&tokenId=${tokenId}`,
+  ).then((res) => res.json());
+
   const owner = await getOwner(collection);
   const artistInfo = await getArtistInfo(owner as Address);
 
@@ -65,7 +69,7 @@ export async function GET(req: NextRequest) {
           <OgHeader
             ensAvatar={artistInfo.ensAvatar}
             ensName={artistInfo.ensName}
-            comments={1}
+            comments={comments.length}
           />
           <OgFooter />
         </div>
