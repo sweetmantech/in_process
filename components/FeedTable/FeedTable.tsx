@@ -40,7 +40,7 @@ export default function FeedTable({ feeds }: FeedTableProps) {
             {table.getRowModel().rows.map((row, i) => (
               <TableRow
                 key={row.id}
-                className="!border-none hover:!bg-transparent"
+                className="!border-transparent hover:!bg-transparent hover:!text-red-dark hover:!border-red-dark hover:!border-b"
                 onClick={() => handleClick(i)}
               >
                 {row.getVisibleCells().map((cell, i) => (
