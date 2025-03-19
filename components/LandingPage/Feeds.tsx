@@ -26,7 +26,7 @@ const Feeds = () => {
         today 31 artists have <br />
         shared their moments
       </p>
-      <SpiralFeeds className="relative z-[2] md:pr-20" feeds={data || []} />
+      <SpiralFeeds feeds={data || []} />
       <div className="w-full space-y-4 md:grid md:grid-cols-12 pb-6 gap-10 relative z-[1]">
         <div className="w-full hidden md:block md:col-span-8">
           <FeedTable feeds={data || []} />
