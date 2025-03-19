@@ -29,14 +29,17 @@ module.exports = {
           DEFAULT: "#949494",
           light: "#f6f6f6",
           primary: "#605F5C",
-          secondary: "#888888"
+          secondary: "#888888",
+          "moss-300": "#605F5C"
         },
         red: {
-          dark: "#810505"
+          dark: "#810505",
+          DEFAULT: "#AA2E2E"
         },
         background: {
           DEFAULT: "#f2e8cd",
-          dark: "#E2CFB7"
+          dark: "#E2CFB7",
+          light: "#eee9dc"
         },
         tan: {
           DEFAULT: "#fdad00",

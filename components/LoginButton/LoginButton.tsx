@@ -15,8 +15,9 @@ export function LoginButton({ className = "" }: LoginButtonProps) {
 
   return (
     <button
+      type="button"
       onClick={authenticated ? logout : login}
-      className={`px-3 py-2 bg-red-dark text-white font-archivo lowercase text-sm md:text-base rounded-xs md:rounded-sm hover:opacity-90 transition-opacity ${className}`}
+      className={`px-3 py-2 bg-red-dark hover:bg-red hover:shadow-[0px_1px_1px_1px_#0000002e] text-white font-archivo lowercase text-sm md:text-base rounded-xs md:rounded-sm ${className}`}
     >
       {authenticated
         ? `${truncateAddress(connectedWallet as string)}`

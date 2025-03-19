@@ -64,7 +64,7 @@ const CollectModal = () => {
         <DialogTrigger asChild onClick={handleCollect}>
           <button
             type="button"
-            className="w-full bg-black py-3 rounded-md h-fit text-tan-primary font-archivo text-2xl"
+            className="w-full bg-black hover:bg-grey-moss-300 py-3 rounded-md h-fit text-tan-primary font-archivo text-2xl"
           >
             collect
           </button>
