@@ -1,6 +1,10 @@
 import OgBackground from "@/components/Og/token/OgBackground";
 import OgFooter from "@/components/Og/token/OgFooter";
 import OgHeader from "@/components/Og/token/OgHeader";
+import getArtistInfo from "@/lib/getArtistInfo";
+import getOwner from "@/lib/zora/getOwner";
+import { Address } from "viem";
+import { NextRequest } from "next/server";
 
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
@@ -15,7 +19,17 @@ const spectralFont = fetch(
   new URL(`${VERCEL_OG}/fonts/Spectral-Regular.ttf`, import.meta.url),
 ).then((res) => res.arrayBuffer());
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+  const queryParams = req.nextUrl.searchParams;
+  const collection: any = queryParams.get("collection");
+  const tokenId: any = queryParams.get("tokenId");
+
+  if (!tokenId || !collection)
+    throw Error("collection or tokenId should be provided.");
+
+  const owner = await getOwner(collection);
+  const artistInfo = await getArtistInfo(owner as Address);
+
   const { ImageResponse } = await import("@vercel/og");
 
   const [archivoFontData, spectralFontData] = await Promise.all([
@@ -49,7 +63,8 @@ export async function GET() {
           }}
         >
           <OgHeader
-            ensAvatar="https://arweave.net/YvMzS0KHm7IFbZrb3C1pQzRaVvorLZR6eYJEpb3Vl7Q"
+            ensAvatar={artistInfo.ensAvatar}
+            ensName={artistInfo.ensName}
             comments={1}
           />
           <OgFooter />
