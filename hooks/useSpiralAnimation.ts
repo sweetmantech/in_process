@@ -20,33 +20,26 @@ export function useSpiralAnimation(feeds: Collection[]): SpiralAnimationConfig {
   const isMobile = useIsMobile();
   const [offset, setOffset] = useState(0);
 
-  // Calculate total content length for dynamic speed adjustment
   const contentLength = useMemo(() => getContentLength(feeds), [feeds]);
 
-  // Animation settings based on content
   const animationConfig = useMemo(() => {
-    // Adjust speed based on content length (slower for more content)
-    // This creates a consistent visual flow regardless of content amount
     const baseSpeed = 0.15;
     const contentFactor = Math.min(1, 100 / (contentLength || 100));
     const adjustedSpeed = baseSpeed * contentFactor;
-
-    // Calculate spacing between items and add extra padding for loop transition
     const spacerWidth = isMobile ? 10 : 15;
-    const loopPadding = 20; // Extra padding to prevent overlap during loop
+    const loopPadding = 20;
 
     return {
       stepSize: adjustedSpeed,
       spacerWidth,
       loopPadding,
-      frameRate: 15, // fps
+      frameRate: 15,
     };
   }, [contentLength, isMobile]);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setOffset((prev) => {
-        // Full loop in 0-100 range (now incrementing for left-to-right flow)
         if (prev >= 100) return 0;
         return prev + animationConfig.stepSize;
       });

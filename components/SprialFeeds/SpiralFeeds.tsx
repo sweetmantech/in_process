@@ -22,29 +22,24 @@ export default function SpiralFeeds({ feeds }: FeedsProps) {
     position: { x: number; y: number };
   } | null>(null);
 
-  // Debounced mouse move handler
   const handleMouseMove = useCallback(
     (event: React.MouseEvent, feed: Collection) => {
       const svgElement = event.currentTarget.closest("svg");
       if (!svgElement) return;
 
-      // Get SVG's CTM (Current Transformation Matrix)
       const pt = svgElement.createSVGPoint();
       const ctm = (event.currentTarget as SVGGraphicsElement).getScreenCTM();
 
       if (!ctm) return;
 
-      // Transform mouse coordinates to SVG space
       pt.x = event.clientX;
       pt.y = event.clientY;
       const svgPoint = pt.matrixTransform(ctm.inverse());
 
-      // Clear any existing timeout
       if ((event.currentTarget as any)._timeout) {
         clearTimeout((event.currentTarget as any)._timeout);
       }
 
-      // Set new timeout
       (event.currentTarget as any)._timeout = setTimeout(() => {
         setHoveredFeed({
           feed,
@@ -53,7 +48,7 @@ export default function SpiralFeeds({ feeds }: FeedsProps) {
             y: svgPoint.y,
           },
         });
-      }, 50); // 50ms delay
+      }, 50);
     },
     [],
   );
@@ -61,7 +56,7 @@ export default function SpiralFeeds({ feeds }: FeedsProps) {
   const handleMouseLeave = useCallback(() => {
     setTimeout(() => {
       setHoveredFeed(null);
-    }, 50); // 50ms delay
+    }, 50);
   }, []);
 
   return (
