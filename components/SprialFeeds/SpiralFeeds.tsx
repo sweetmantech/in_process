@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useCallback } from "react";
+import React from "react";
 import { SpiralPath } from "./SpiralPath";
 import { Collection } from "@/types/token";
 import { useSpiralAnimation } from "@/hooks/useSpiralAnimation";
@@ -8,6 +8,7 @@ import { generateSpacer, formatFeedText } from "@/lib/spiralUtils";
 import { Point } from "@/types/spiral";
 import useIsMobile from "@/hooks/useIsMobile";
 import { FeedTooltip } from "./FeedTooltip";
+import useSpiralMouseOver from "@/hooks/useSpiralMouseOver";
 
 interface FeedsProps {
   feeds: Collection[];
@@ -17,47 +18,8 @@ export default function SpiralFeeds({ feeds }: FeedsProps) {
   const { offset, viewBox, animationConfig, points } =
     useSpiralAnimation(feeds);
   const isMobile = useIsMobile();
-  const [hoveredFeed, setHoveredFeed] = useState<{
-    feed: Collection;
-    position: { x: number; y: number };
-  } | null>(null);
-
-  const handleMouseMove = useCallback(
-    (event: React.MouseEvent, feed: Collection) => {
-      const svgElement = event.currentTarget.closest("svg");
-      if (!svgElement) return;
-
-      const pt = svgElement.createSVGPoint();
-      const ctm = (event.currentTarget as SVGGraphicsElement).getScreenCTM();
-
-      if (!ctm) return;
-
-      pt.x = event.clientX;
-      pt.y = event.clientY;
-      const svgPoint = pt.matrixTransform(ctm.inverse());
-
-      if ((event.currentTarget as any)._timeout) {
-        clearTimeout((event.currentTarget as any)._timeout);
-      }
-
-      (event.currentTarget as any)._timeout = setTimeout(() => {
-        setHoveredFeed({
-          feed,
-          position: {
-            x: svgPoint.x,
-            y: svgPoint.y,
-          },
-        });
-      }, 50);
-    },
-    [],
-  );
-
-  const handleMouseLeave = useCallback(() => {
-    setTimeout(() => {
-      setHoveredFeed(null);
-    }, 50);
-  }, []);
+  const { handleMouseLeave, handleMouseMove, hoveredFeed } =
+    useSpiralMouseOver();
 
   return (
     <div className="relative">
