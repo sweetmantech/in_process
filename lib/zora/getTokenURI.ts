@@ -10,21 +10,21 @@ const abi = [
     stateMutability: "view",
   },
 ];
-const getTokenURI = (collection: Address, tokenId: number) => {
+const getTokenURI = async (collection: Address, tokenId: number) => {
   try {
     const publicClient = createPublicClient({
       chain: base,
       transport: http(),
     }) as PublicClient;
 
-    const uri = publicClient.readContract({
+    const uri: any = publicClient.readContract({
       address: collection,
       abi,
-      functionName: "tokenURI",
+      functionName: "uri",
       args: [tokenId],
     });
 
-    return uri;
+    return uri as string;
   } catch (error) {
     console.error(error);
     return "";
