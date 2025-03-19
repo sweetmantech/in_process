@@ -3,8 +3,9 @@ import OgImage from "../OgImage";
 interface OgHeaderProps {
   ensAvatar: string;
   comments: number;
+  ensName: string;
 }
-const OgHeader = ({ ensAvatar, comments }: OgHeaderProps) => {
+const OgHeader = ({ ensAvatar, comments, ensName }: OgHeaderProps) => {
   return (
     <div
       style={{
@@ -21,7 +22,7 @@ const OgHeader = ({ ensAvatar, comments }: OgHeaderProps) => {
           gap: 12,
         }}
       >
-        <OgImage src={ensAvatar} width={50} height={50} borderRadius={25} />
+        <OgImage src={ensAvatar} width={50} height={50} borderRadius={50} />
         <p
           style={{
             fontFamily: "Spectral",
@@ -30,7 +31,7 @@ const OgHeader = ({ ensAvatar, comments }: OgHeaderProps) => {
             color: "white",
           }}
         >
-          @sweets
+          @{ensName}
         </p>
       </div>
       <div
