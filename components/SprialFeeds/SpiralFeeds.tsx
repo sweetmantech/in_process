@@ -19,12 +19,8 @@ export default function SpiralFeeds({ feeds }: FeedsProps) {
 
   return (
     <svg viewBox={viewBox} className="relative z-[20] cursor-pointer">
-      <SpiralPath
-        id="curve"
-        points={points as Point[]}
-      />
+      <SpiralPath id="curve" points={points as Point[]} />
       <text>
-        {/* Original text path */}
         <textPath xlinkHref="#curve" startOffset={`${offset}%`}>
           {feeds.map((feed, index) => (
             <React.Fragment key={index}>
@@ -32,12 +28,10 @@ export default function SpiralFeeds({ feeds }: FeedsProps) {
               {formatFeedText(feed, isMobile ? 14 : 20)}
             </React.Fragment>
           ))}
-          {/* Add extra padding at the end for loop transition */}
           {generateSpacer(animationConfig.loopPadding)}
         </textPath>
       </text>
 
-      {/* Duplicate text path for seamless looping */}
       <text>
         <textPath
           xlinkHref="#curve"
@@ -49,7 +43,6 @@ export default function SpiralFeeds({ feeds }: FeedsProps) {
               {formatFeedText(feed, isMobile ? 14 : 20)}
             </React.Fragment>
           ))}
-          {/* Add extra padding at the end for loop transition */}
           {generateSpacer(animationConfig.loopPadding)}
         </textPath>
       </text>
