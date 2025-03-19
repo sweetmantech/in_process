@@ -7,10 +7,13 @@ import { HorizontalFeedAnimationProvider } from "@/providers/HorizontalFeedAnima
 import HorizontalFeed from "../HorizontalFeed";
 import useIsMobile from "@/hooks/useIsMobile";
 import Loading from "../Loading";
+import { Button } from "../ui/button";
+import { useRouter } from "next/navigation";
 
 const Feeds = () => {
   const { error, isLoading, data } = useLatestFeed();
   const isMobile = useIsMobile();
+  const { push } = useRouter();
 
   if (error)
     return <p className="text-center text-red-500 py-4">Failed to load feed</p>;
@@ -22,10 +25,16 @@ const Feeds = () => {
     );
   return (
     <div className="pt-16 md:pt-20">
-      <p className="font-archivo text-2xl px-4 pt-6 pb-4 block md:hidden">
+      <p className="font-archivo text-2xl md:text-5xl px-4 md:px-0 pt-6 pb-4 md:pt-12">
         today 31 artists have <br />
         shared their moments
       </p>
+      <Button
+        className="bg-black text-white font-archivo text-xl px-8 rounded-sm hidden md:flex"
+        onClick={() => push("/create")}
+      >
+        create
+      </Button>
       <SpiralFeeds feeds={data || []} />
       <div className="w-full space-y-4 md:grid md:grid-cols-12 pb-6 gap-10 relative z-[1]">
         <div className="w-full hidden md:block md:col-span-8">
