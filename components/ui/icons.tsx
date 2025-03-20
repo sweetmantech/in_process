@@ -778,8 +778,8 @@ const LinkIcon = (props: SVGProps<SVGSVGElement>) => (
 
 const GridIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg
-    width="40"
-    height="26"
+    width="25"
+    height="16.25"
     viewBox="0 0 40 26"
     xmlns="http://www.w3.org/2000/svg"
     {...props}
@@ -795,8 +795,8 @@ const GridIcon = (props: SVGProps<SVGSVGElement>) => (
 
 const TimeLineIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg
-    width="32"
-    height="22"
+    width="20"
+    height="13.75"
     viewBox="0 0 32 22"
     xmlns="http://www.w3.org/2000/svg"
     {...props}
