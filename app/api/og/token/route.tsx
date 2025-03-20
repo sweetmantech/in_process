@@ -37,10 +37,9 @@ export async function GET(req: NextRequest) {
   const artistInfo = await getArtistInfo(owner as Address);
 
   const uri = await getTokenURI(collection as Address, parseInt(tokenId, 10));
-  const metadata = await fetch(`${getFetchableUrl(uri as string)}`).then(
-    (res) => res.json(),
-  );
-
+  const metadata = await fetch(
+    `${VERCEL_OG}/api/metadata?uri=${encodeURIComponent(uri)}`,
+  ).then((res) => res.json());
   const { ImageResponse } = await import("@vercel/og");
 
   const [archivoFontData, spectralFontData] = await Promise.all([
