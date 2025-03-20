@@ -10,7 +10,7 @@ const ArtistPage = () => {
 
   return (
     <div className="w-screen grow flex flex-col pt-16 md:pt-[20vh] relative">
-      <div className="flex justify-between px-2 md:px-10 items-end pb-2">
+      <div className="flex justify-between px-2 md:px-10 items-start pb-2">
         <ArtistProfile />
         <AltToggle alt={alt} setAlt={setAlt} />
       </div>
