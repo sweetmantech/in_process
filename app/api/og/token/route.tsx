@@ -61,7 +61,7 @@ export async function GET(req: NextRequest) {
           alignItems: "center",
         }}
       >
-        <OgBackground backgroundUrl={metadata.image} />
+        <OgBackground backgroundUrl={getFetchableUrl(metadata.image) || ""} />
         <div
           style={{
             position: "relative",
