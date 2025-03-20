@@ -9,6 +9,7 @@ import { Point } from "@/types/spiral";
 import useIsMobile from "@/hooks/useIsMobile";
 import { FeedTooltip } from "./FeedTooltip";
 import useSpiralMouseOver from "@/hooks/useSpiralMouseOver";
+import { useRouter } from "next/navigation";
 
 interface FeedsProps {
   feeds: Collection[];
@@ -20,6 +21,7 @@ export default function SpiralFeeds({ feeds }: FeedsProps) {
   const isMobile = useIsMobile();
   const { handleMouseLeave, handleMouseMove, hoveredFeed } =
     useSpiralMouseOver();
+  const { push } = useRouter();
 
   return (
     <div className="relative">
@@ -33,6 +35,7 @@ export default function SpiralFeeds({ feeds }: FeedsProps) {
                 <tspan
                   onMouseMove={(e) => handleMouseMove(e, feed)}
                   onMouseLeave={handleMouseLeave}
+                  onClick={() => push(`/${feed.creator}`)}
                 >
                   {formatFeedText(feed, isMobile ? 14 : 20)}
                 </tspan>
@@ -53,6 +56,7 @@ export default function SpiralFeeds({ feeds }: FeedsProps) {
                 <tspan
                   onMouseMove={(e) => handleMouseMove(e, feed)}
                   onMouseLeave={handleMouseLeave}
+                  onClick={() => push(`/${feed.creator}`)}
                 >
                   {formatFeedText(feed, isMobile ? 14 : 20)}
                 </tspan>
