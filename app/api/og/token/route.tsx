@@ -5,6 +5,8 @@ import getArtistInfo from "@/lib/getArtistInfo";
 import getOwner from "@/lib/zora/getOwner";
 import { Address } from "viem";
 import { NextRequest } from "next/server";
+import getTokenURI from "@/lib/zora/getTokenURI";
+import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
@@ -34,6 +36,11 @@ export async function GET(req: NextRequest) {
   const owner = await getOwner(collection);
   const artistInfo = await getArtistInfo(owner as Address);
 
+  const uri = await getTokenURI(collection as Address, parseInt(tokenId, 10));
+  const metadata = await fetch(`${getFetchableUrl(uri as string)}`).then(
+    (res) => res.json(),
+  );
+
   const { ImageResponse } = await import("@vercel/og");
 
   const [archivoFontData, spectralFontData] = await Promise.all([
@@ -54,7 +61,7 @@ export async function GET(req: NextRequest) {
           alignItems: "center",
         }}
       >
-        <OgBackground backgroundUrl="https://arweave.net/v4oi_743N_ZlPiPbHyGyy9nhqyZsE_lLhzeHrmEHUG0" />
+        <OgBackground backgroundUrl={metadata.image} />
         <div
           style={{
             position: "relative",
