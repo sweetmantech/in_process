@@ -33,7 +33,7 @@ const ArtSlider = ({ feeds }: ArtSliderProps) => {
         slidesOffsetAfter: 5,
       }}
       slideClassName="!h-fit md:!h-auto"
-      className="pointer-events-none w-full h-[630px] md:h-auto md:max-h-[100vh] !overflow-hidden"
+      className="w-full h-[630px] md:h-auto md:max-h-[100vh] !overflow-hidden"
     >
       {feeds.slice(0, 10).map((feed, i) => (
         <SliderFeed feed={feed} key={i} />
