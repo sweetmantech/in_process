@@ -30,7 +30,7 @@ const Feeds = () => {
         shared their moments
       </p>
       <Button
-        className="bg-black text-white font-archivo text-xl px-8 rounded-sm hidden md:flex"
+        className="bg-black hover:bg-grey-moss-300 text-white font-archivo text-xl px-8 rounded-sm hidden md:flex"
         onClick={() => push("/create")}
       >
         create
