@@ -9,6 +9,7 @@ import useIsMobile from "@/hooks/useIsMobile";
 import Loading from "../Loading";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
+import getArtistsCounts from "@/lib/getArtistsCount";
 
 const Feeds = () => {
   const { error, isLoading, data } = useLatestFeed();
@@ -26,7 +27,7 @@ const Feeds = () => {
   return (
     <div className="pt-16 md:pt-20">
       <p className="font-archivo text-2xl md:text-5xl px-4 md:px-0 pt-6 pb-4 md:pt-12">
-        today 31 artists have <br />
+        today {getArtistsCounts(data || [])} artists have <br />
         shared their moments
       </p>
       <Button
