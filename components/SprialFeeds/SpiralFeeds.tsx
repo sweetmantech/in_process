@@ -29,28 +29,7 @@ export default function SpiralFeeds({ feeds }: FeedsProps) {
         <SpiralPath id="curve" points={points as Point[]} />
         <text>
           <textPath xlinkHref="#curve" startOffset={`${offset}%`}>
-            {feeds.map((feed, index) => (
-              <React.Fragment key={index}>
-                {index > 0 && generateSpacer(animationConfig.spacerWidth)}
-                <tspan
-                  onMouseMove={(e) => handleMouseMove(e, feed)}
-                  onMouseLeave={handleMouseLeave}
-                  onClick={() => push(`/${feed.creator}`)}
-                >
-                  {formatFeedText(feed, isMobile ? 14 : 20)}
-                </tspan>
-              </React.Fragment>
-            ))}
-            {generateSpacer(animationConfig.loopPadding)}
-          </textPath>
-        </text>
-
-        <text>
-          <textPath
-            xlinkHref="#curve"
-            startOffset={`${offset - (isMobile ? 370 : 106)}%`}
-          >
-            {feeds.map((feed, index) => (
+            {[...feeds, ...feeds].map((feed, index) => (
               <React.Fragment key={index}>
                 {index > 0 && generateSpacer(animationConfig.spacerWidth)}
                 <tspan

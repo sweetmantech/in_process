@@ -18,7 +18,7 @@ interface SpiralAnimationConfig {
 
 export function useSpiralAnimation(feeds: Collection[]): SpiralAnimationConfig {
   const isMobile = useIsMobile();
-  const [offset, setOffset] = useState(0);
+  const [offset, setOffset] = useState(-50);
 
   const contentLength = useMemo(() => getContentLength(feeds), [feeds]);
 
