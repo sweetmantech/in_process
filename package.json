@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@ardrive/turbo-sdk": "^1.22.1",
+    "@coinbase/coinbase-sdk": "^0.21.0",
     "@crossmint/client-sdk-react-ui": "^1.14.4",
     "@privy-io/react-auth": "^2.4.2",
     "@radix-ui/react-dialog": "^1.1.6",
