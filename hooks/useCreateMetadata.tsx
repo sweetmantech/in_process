@@ -19,6 +19,7 @@ const useCreateMetadata = () => {
   const [animationUri, setAnimationUri] = useState<string>("");
   const textInputRef = useRef() as RefObject<HTMLTextAreaElement>;
   const fileUpload = useFileUpload({
+    setName,
     setImageUri,
     setAnimationUri,
     setMimeType,
@@ -33,6 +34,7 @@ const useCreateMetadata = () => {
     setFileUploading: fileUpload.setFileUploading,
   });
 
+  console.log("ziad", name)
   const uploadTextRefAsImage = async () => {
     if (!textInputRef.current) return "";
     fileUpload.setFileUploading(true);
@@ -41,6 +43,7 @@ const useCreateMetadata = () => {
     const fileType = "image/png";
     const textImage = new File([blob], fileName, { type: fileType });
     const uri = await uploadFile(textImage);
+    setName(`${textInputRef.current.value.slice(0, 10)}...`)
     setImageUri(uri);
     setMimeType("image/png");
     fileUpload.setFileUploading(false);

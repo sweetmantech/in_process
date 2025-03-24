@@ -3,6 +3,7 @@ import { uploadFile } from "@/lib/arweave/uploadFile";
 import { Dispatch, SetStateAction, useState } from "react";
 
 interface useFileUploadProps {
+  setName: Dispatch<SetStateAction<string>>;
   setImageUri: Dispatch<SetStateAction<string>>;
   setAnimationUri: Dispatch<SetStateAction<string>>;
   setMimeType: Dispatch<SetStateAction<string>>;
@@ -10,6 +11,7 @@ interface useFileUploadProps {
 }
 
 const useFileUpload = ({
+  setName,
   setImageUri,
   setAnimationUri,
   setMimeType,
@@ -24,7 +26,7 @@ const useFileUpload = ({
     setLoading(true);
 
     try {
-      const file = event.target.files[0];
+      const file: File = event.target.files[0];
       if (!file) {
         throw new Error();
       }
@@ -42,9 +44,11 @@ const useFileUpload = ({
         setImageUri(uri);
         setBlurImageUrl(URL.createObjectURL(file));
         if (!animationUri) {
+          setName(file.name)
           setMimeType(mimeType);
         }
       } else {
+        setName(file.name)
         setAnimationUri(uri);
         setMimeType(mimeType);
       }
