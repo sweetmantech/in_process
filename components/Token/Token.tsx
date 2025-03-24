@@ -18,26 +18,30 @@ const Token = () => {
     <>
       {meta && (
         <>
-          {collected ? (
-            <MomentCollected />
-          ) : (
-            <MetaAndComments commentsHidden={isMobile} />
-          )}
-          <div className="relative w-full aspect-[1/1]">
-            <Image
-              src={getFetchableUrl(meta.image) || "/images/placeholder.png"}
-              alt="Token Image."
-              layout="fill"
-              objectFit="cover"
-              objectPosition="center"
-              blurDataURL={
-                getFetchableUrl(meta.image) || "/images/placeholder.png"
-              }
-              unoptimized
-            />
+          <div className="grow flex flex-col md:flex-row gap-4 md:gap-10">
+            {collected ? (
+              <MomentCollected />
+            ) : (
+              <MetaAndComments commentsHidden={isMobile} />
+            )}
+            <div className="relative w-full aspect-[1/1] h-fit">
+              <Image
+                src={getFetchableUrl(meta.image) || "/images/placeholder.png"}
+                alt="Token Image."
+                layout="fill"
+                objectFit="cover"
+                objectPosition="center"
+                blurDataURL={
+                  getFetchableUrl(meta.image) || "/images/placeholder.png"
+                }
+                unoptimized
+              />
+            </div>
           </div>
-          {collected ? <MetaAndComments priceHidden /> : <CollectModal />}
-          {!collected && isMobile && <CommentSection />}
+          <div className="md:!min-w-[420px]">
+            {collected ? <MetaAndComments priceHidden /> : <CollectModal />}
+            {!collected && isMobile && <CommentSection />}
+          </div>
         </>
       )}
     </>
