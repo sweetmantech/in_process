@@ -9,7 +9,7 @@ export type SaleConfig = {
   saleStart: string;
   saleEnd: string;
   maxTokensPerAddress: string;
-  pricePerToken: string;
+  pricePerToken: bigint;
   fundsRecipient: Address;
 };
 async function fetchSaleConfig(
