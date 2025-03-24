@@ -6,7 +6,7 @@ const TextCreation = () => {
 
   return (
     <div
-      className={`size-full relative bg-[url('/sky.png')] bg-cover ${createdContract && "pointer-events-none"}`}
+      className={`w-full md:max-w-[450px] xl:max-w-[500px] aspect-[576/700] size-full relative bg-[url('/sky.png')] bg-cover ${createdContract && "pointer-events-none"}`}
     >
       <TextInput />
     </div>
