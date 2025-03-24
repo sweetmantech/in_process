@@ -11,14 +11,16 @@ export default function CreatePage() {
 
   return (
     <main className="w-screen grow">
-      <div className="flex flex-col items-center justify-center pt-[200px]">
+      <div className="flex flex-col items-center justify-center pt-[120px] md:pt-[200px]">
         <div className="w-full">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 pb-20 mt-4 relative min-h-[500px]">
-            {createdContract ? <CreatedMoment /> : <Moment />}
-            <div className="flex flex-col items-center gap-5">
-              <MetadataCreation />
+          <div className="px-3 md:px-10 flex flex-col md:flex-row gap-10 pb-20 relative">
+            <div className="grow flex flex-col md:flex-row gap-4">
+              {createdContract ? <CreatedMoment /> : <Moment />}
+              <div className="grow w-full flex justify-center">
+                <MetadataCreation />
+              </div>
             </div>
-            <div className="w-full pr-20">
+            <div className="w-full md:!min-w-[420px] md:!w-[420px]">
               <div className="w-full space-y-3" ref={inputRef}>
                 {createdContract ? (
                   <>
