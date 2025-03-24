@@ -20,7 +20,3 @@ export async function GET() {
     return Response.json({ message }, { status: 500 });
   }
 }
-
-export const dynamic = "force-dynamic";
-export const fetchCache = "force-no-store";
-export const revalidate = 0;
