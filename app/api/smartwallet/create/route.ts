@@ -2,13 +2,7 @@ import { generatePrivateKey, privateKeyToAccount } from "viem/accounts";
 import { createSmartWallet } from "@coinbase/coinbase-sdk";
 import { Coinbase } from "@coinbase/coinbase-sdk";
 
-const apiKeyName = "ziaddev"
-const apiKeyPrivateKey = "atYqsjPrel1R9rgkbGl2U4aa19FUXxeqFKJJDmJptenLXEgnwz76sWpG"
-
-Coinbase.configure({
-  apiKeyName,
-  privateKey: apiKeyPrivateKey
-})
+Coinbase.configure(JSON.parse(process.env.COINBASE_CONFIGURATION as string));
 
 export async function GET() {
   try {
