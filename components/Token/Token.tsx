@@ -24,7 +24,7 @@ const Token = () => {
             ) : (
               <MetaAndComments commentsHidden={isMobile} />
             )}
-            <div className="relative w-full aspect-[1/1] h-fit">
+            <div className="relative w-full aspect-video h-fit">
               <Image
                 src={getFetchableUrl(meta.image) || "/images/placeholder.png"}
                 alt="Token Image."
