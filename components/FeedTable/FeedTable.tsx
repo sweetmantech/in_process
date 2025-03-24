@@ -15,15 +15,9 @@ interface FeedTableProps {
 export default function FeedTable({ feeds }: FeedTableProps) {
   const table = useFeedTable(feeds);
   const { push } = useRouter();
-  const fontFamilies = [
-    "font-archivo",
-    "font-spectral-italic",
-    "font-spectral-italic",
-    "font-archivo",
-  ];
+  const fontFamilies = ["font-archivo", "font-spectral-italic", "font-archivo"];
   const fontSizes = [
     "text-sm md:text-xl",
-    "text-sm md:text-lg",
     "text-sm md:text-lg",
     "text-sm md:text-md",
   ];
