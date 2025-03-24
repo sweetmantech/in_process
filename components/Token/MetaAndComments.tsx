@@ -35,7 +35,9 @@ const MetaAndComments = ({
               <Skeleton className="w-full h-6" />
             ) : (
               <p className="w-2/3 md:w-full font-archivo text-sm md:text-base border border-black rounded-md text-center bg-tan-secondary">
-                {formatEther(BigInt(data?.pricePerToken || 0))} eth
+                {data?.pricePerToken === BigInt(0)
+                  ? "free"
+                  : `${formatEther(BigInt(data?.pricePerToken || 0))} eth`}
               </p>
             )}
           </div>
