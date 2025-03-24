@@ -4,7 +4,8 @@ import { Input } from "../ui/input";
 import usePrompt from "@/hooks/uesPrompt";
 
 const Description = () => {
-  const { description, setDescription, fileUploading } = useZoraCreateProvider();
+  const { description, setDescription, fileUploading } =
+    useZoraCreateProvider();
   const { placeholder, onActive } = usePrompt();
 
   return (

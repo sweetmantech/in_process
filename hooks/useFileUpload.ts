@@ -39,16 +39,17 @@ const useFileUpload = ({
       const mimeType = file.type;
       const isImage = mimeType.includes("image");
 
+      const fileNameWithoutExtension = file.name.replace(/\.[^/.]+$/, "");
+      setName(fileNameWithoutExtension);
+
       const uri = await uploadFile(file);
       if (isImage) {
         setImageUri(uri);
         setBlurImageUrl(URL.createObjectURL(file));
         if (!animationUri) {
-          setName(file.name)
           setMimeType(mimeType);
         }
       } else {
-        setName(file.name)
         setAnimationUri(uri);
         setMimeType(mimeType);
       }
