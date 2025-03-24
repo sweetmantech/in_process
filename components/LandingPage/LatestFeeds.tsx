@@ -21,7 +21,7 @@ const LatestFeeds = ({ feeds }: LatestFeedsProps) => {
       {feeds.map((ele, i) => (
         <div className="flex items-start justify-between p-4" key={i}>
           <div>
-            <p className="font-spectral text-base">{ele.name}</p>
+            <p className="font-spectral text-base">{`${ele.name.slice(0, 10)} ${ele.name.length > 10 && "..."}`}</p>
             <p className="font-archivo text-[11px]">
               {new Date(ele.released_at).toLocaleString()}
             </p>

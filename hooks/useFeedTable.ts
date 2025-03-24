@@ -1,7 +1,6 @@
 import {
   useReactTable,
   getCoreRowModel,
-  getPaginationRowModel,
   createColumnHelper,
 } from "@tanstack/react-table";
 
@@ -12,7 +11,6 @@ import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 
 type DataItem = {
   creator: Address;
-  name: string;
   uri: string;
   released_date: string;
 };
@@ -21,10 +19,6 @@ const columnHelper = createColumnHelper<DataItem>();
 const columns = [
   columnHelper.accessor("creator", {
     header: "Artist",
-    cell: (info) => info.getValue(),
-  }),
-  columnHelper.accessor("name", {
-    header: "Art Name",
     cell: (info) => info.getValue(),
   }),
   columnHelper.accessor("uri", {
@@ -45,7 +39,6 @@ export default function useFeedTable(feeds: Collection[]) {
       setTableData(
         feeds.map((feed: Collection) => ({
           creator: feed.creator,
-          name: feed.name,
           released_date: new Date(feed.released_at)
             .toLocaleString()
             .toLowerCase(),

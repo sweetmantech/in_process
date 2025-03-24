@@ -6,10 +6,15 @@ interface DescriptionCellProps {
 }
 const DescriptionCell = ({ uri }: DescriptionCellProps) => {
   const { isLoading, data } = useMetadata(uri);
-
   if (isLoading) return <Skeleton className="h-4 w-12" />;
 
-  return <p>{data?.description || ""}</p>;
+  return (
+    <p>
+      {data?.description
+        ? `${data.description.slice(0, 60)} ${data.description.length > 60 && "..."}`
+        : ""}
+    </p>
+  );
 };
 
 export default DescriptionCell;
