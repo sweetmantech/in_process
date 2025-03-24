@@ -23,13 +23,13 @@ const MetadataCreation = () => {
 
   return (
     <div
-      className={`size-full relative bg-[url('/sky.png')] bg-cover ${createdContract && "pointer-events-none"}`}
+      className={`w-full md:max-w-[450px] xl:max-w-[500px] aspect-[576/700] relative bg-[url('/sky.png')] bg-cover ${createdContract && "pointer-events-none"}`}
     >
       <input
         ref={fileInputRef}
         id="media"
         type="file"
-        className={selected ? "hidden" : "size-full absolute opacity-0"}
+        className={selected ? "hidden" : "z-2 size-full absolute opacity-0"}
         onChange={fileUpload}
       />
       {selected ? (
