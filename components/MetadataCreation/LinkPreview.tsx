@@ -8,7 +8,7 @@ const LinkPreview = () => {
 
   return (
     <div
-      className={`w-full md:max-w-[450px] xl:max-w-[500px] aspect-[576/700] size-full flex flex-col relative border border-grey-400 px-12 py-4 ${createdContract ? "pointer-events-none" : "bg-white"}`}
+      className={`w-full md:max-w-[450px] xl:max-w-[500px] aspect-[576/700] flex flex-col relative border border-grey-400 px-12 py-4 ${createdContract ? "pointer-events-none" : "bg-white"}`}
     >
       {createdContract ? (
         <Image
