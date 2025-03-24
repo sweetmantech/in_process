@@ -35,7 +35,7 @@ const TokenPage = () => {
             <Loading className="w-[200px] aspect-[1/1] md:w-[300px] mt-20" />
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-10">
+          <div className="flex flex-col md:flex-row gap-4 md:gap-10">
             {token && (
               <TokenProvider
                 key={token?.token?.tokenId}
