@@ -43,7 +43,7 @@ const CreateButton = () => {
       disabled={!canCreate}
       className="md:!mt-6 !font-archivo bg-black hover:bg-grey-moss-300 text-tan-primary w-full px-3 py-6 md:h-[60px] !text-xl !rounded-sm transform transition-transform duration-150 disabled:opacity-1 disabled:!cursor-not-allowed disabled:!pointer-events-auto"
     >
-      {creating ? "collecting..." : "collect"}
+      {creating ? "creating..." : "create"}
     </Button>
   );
 };
