@@ -36,6 +36,10 @@ export const MINT_COMMENT_EVENT_SIGNATURE = encodeEventTopics({
 export const CROSSMINT_SIGNER_ADDRESS =
   "0xa105C311fA72b8Fb78c992EcbDb8b02Ea5bd394d";
 
+export const BLOCKLISTS = [
+  "0x323e8bcb41ae2454c3f4899e094c599aab6b84bc",
+  "0x51027631b9def86e088c33368ec4e3a4be0ad264",
+];
 export const SPIRAL_POINTS: Point[] = [
   [14, 123],
   [48, 115],
