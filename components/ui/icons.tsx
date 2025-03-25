@@ -740,7 +740,7 @@ const ArrowRight = (props: SVGProps<SVGSVGElement>) => (
     <path
       d="M0.722657 1.13525L12.2229 15.5106C12.5151 15.8758 12.5151 16.3947 12.2229 16.7599L0.722656 31.1353"
       stroke="#1B1504"
-      stroke-linecap="round"
+      strokeLinecap="round"
     />
   </svg>
 );
@@ -801,10 +801,10 @@ const TimeLineIcon = (props: SVGProps<SVGSVGElement>) => (
     xmlns="http://www.w3.org/2000/svg"
     {...props}
   >
-    <path d="M5.94531 11.9219L5.94531 20.1719" stroke-linecap="round" />
-    <path d="M26.0703 11.9219L26.0703 20.1719" stroke-linecap="round" />
-    <path d="M16.0938 1.47559L16.0938 21.1918" stroke-linecap="round" />
-    <path d="M0.695312 16.0469H31.4843" stroke-linecap="round" />
+    <path d="M5.94531 11.9219L5.94531 20.1719" strokeLinecap="round" />
+    <path d="M26.0703 11.9219L26.0703 20.1719" strokeLinecap="round" />
+    <path d="M16.0938 1.47559L16.0938 21.1918" strokeLinecap="round" />
+    <path d="M0.695312 16.0469H31.4843" strokeLinecap="round" />
   </svg>
 );
 

@@ -30,13 +30,12 @@ const SliderFeed = ({ feed }: SliderFeedProps) => {
       ) : (
         <Image
           src={getFetchableUrl(data?.image) || "/images/placeholder.png"}
-          objectFit="cover"
-          objectPosition="top left"
+          alt={data?.name || ""}
           layout="fill"
-          alt="not found"
-          blurDataURL={
-            getFetchableUrl(data?.image) || "/images/placeholder.png"
-          }
+          objectFit="cover"
+          objectPosition="left top"
+          blurDataURL={data?.image}
+          unoptimized
         />
       )}
     </button>

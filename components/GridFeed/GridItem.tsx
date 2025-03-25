@@ -17,11 +17,13 @@ const GridItem = ({ feed }: GridItemProps) => {
         <Loading className="size-full bg-tan-secondary border border-grey" />
       ) : (
         <Image
+          src={getFetchableUrl(data?.image) || "/images/placeholder.png"}
+          alt={data?.name || ""}
           layout="fill"
-          src={getFetchableUrl(data?.image) || ""}
-          alt="not found image"
           objectFit="cover"
           objectPosition="left top"
+          blurDataURL={data?.image}
+          unoptimized
         />
       )}
     </div>
