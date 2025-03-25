@@ -12,17 +12,23 @@ const useZoraCreateParameters = (
   const publicClient = usePublicClient();
   const { address } = useAccount();
   const createMetadata = useCreateMetadata();
+  const createMetadataa = {
+    name: "healing album image",
+    isTimedSale: false,
+    price: "0"
+  }
 
   const fetchParameters = async (textRefUri: string) => {
     if (!publicClient) return;
     const creatorClient = createCreatorClient({ chainId, publicClient });
-    const cc0MusicArweaveUri = await createMetadata.getUri(textRefUri);
-    if (!createMetadata.name) return;
+    // const cc0MusicArweaveUri = await createMetadata.getUri(textRefUri);
+    const cc0MusicArweaveUri = "ar://jGDzJlJGRrBrm9aZ9NiMJx5yTQ4Dysih7i-kc4-ARYk"
+    // if (!createMetadata.name) return;
     const salesConfig = getSalesConfig(
-      createMetadata.isTimedSale
+      createMetadataa.isTimedSale
         ? "ZoraTimedSaleStrategy"
         : "ZoraFixedPriceSaleStrategy",
-      createMetadata.price,
+        createMetadataa.price,
     );
 
     let newParameters;
