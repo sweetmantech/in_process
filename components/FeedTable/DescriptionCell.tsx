@@ -11,7 +11,7 @@ const DescriptionCell = ({ uri }: DescriptionCellProps) => {
   return (
     <p>
       {data?.description
-        ? `${data.description.slice(0, 60)} ${data.description.length > 60 && "..."}`
+        ? `${data.description.slice(0, 60)} ${data.description.length > 60 ? "..." : ""}`
         : ""}
     </p>
   );
