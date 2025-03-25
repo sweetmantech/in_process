@@ -8,13 +8,13 @@ import HorizontalFeed from "../HorizontalFeed";
 import useIsMobile from "@/hooks/useIsMobile";
 import Loading from "../Loading";
 import { Button } from "../ui/button";
-import { useRouter } from "next/navigation";
 import getArtistsCounts from "@/lib/getArtistsCount";
+import useCreateRedirect from "@/hooks/useCreateRedirect";
 
 const Feeds = () => {
   const { error, isLoading, data } = useLatestFeed();
   const isMobile = useIsMobile();
-  const { push } = useRouter();
+  const { handleCreate } = useCreateRedirect();
 
   if (error)
     return <p className="text-center text-red-500 py-4">Failed to load feed</p>;
@@ -32,7 +32,7 @@ const Feeds = () => {
       </p>
       <Button
         className="bg-black hover:bg-grey-moss-300 text-white font-archivo text-xl px-8 rounded-sm hidden md:flex"
-        onClick={() => push("/create")}
+        onClick={handleCreate}
       >
         create
       </Button>
