@@ -2,8 +2,8 @@
 
 import { Button } from "@/components/ui/button";
 import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
-import { useAccount } from "wagmi";
 import { usePrivy } from "@privy-io/react-auth";
+import useConnectedWallet from "@/hooks/useConnectedWallet";
 
 const CreateButton = () => {
   const {
@@ -15,7 +15,7 @@ const CreateButton = () => {
     uploadTextRefAsImage,
     creating,
   } = useZoraCreateProvider();
-  const { address } = useAccount();
+  const { connectedWallet } = useConnectedWallet();
   const { login } = usePrivy();
 
   const canCreate = Boolean(
@@ -26,7 +26,7 @@ const CreateButton = () => {
 
   const handleCreate = async () => {
     try {
-      if (!address) {
+      if (!connectedWallet) {
         login();
         return;
       }
