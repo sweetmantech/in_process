@@ -1,4 +1,5 @@
-import { CHAIN_ID, SETUP_NEW_CONTRACT_EVENT_SIGNATURE } from "@/lib/consts";
+import { CHAIN_ID } from "@/lib/consts";
+import { SETUP_NEW_CONTRACT_EVENT_SIGNATURE } from "../events";
 import { FACTORY_ADDRESSES } from "@/lib/protocolSdk/create/factory-addresses";
 import { DuneDecodedEvent } from "@/types/dune";
 

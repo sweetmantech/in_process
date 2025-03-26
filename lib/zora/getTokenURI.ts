@@ -1,5 +1,5 @@
-import { Address, createPublicClient, http, PublicClient } from "viem";
-import { CHAIN } from "../consts";
+import { Address } from "viem";
+import { publicClient } from "../viem/publicClient";
 
 const abi = [
   {
@@ -12,11 +12,6 @@ const abi = [
 ];
 const getTokenURI = async (collection: Address, tokenId: number) => {
   try {
-    const publicClient = createPublicClient({
-      chain: CHAIN,
-      transport: http(),
-    }) as PublicClient;
-
     const uri: any = publicClient.readContract({
       address: collection,
       abi,
