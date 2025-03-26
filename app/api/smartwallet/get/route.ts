@@ -3,6 +3,7 @@ import getSmartWallet from "@/lib/getSmartWallet";
 export async function GET() {
   try {
     const smartWallet = await getSmartWallet();
+    console.log("ziad", smartWallet?.address);
     if (!smartWallet) throw new Error();
     return Response.json({
       smartWalletAddress: smartWallet.address,
