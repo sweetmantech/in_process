@@ -12,7 +12,7 @@ import { useMask } from "./useMask";
 import useBalance from "./useBalance";
 
 const createOnSmartWallet = async (parameters: any) => {
-  const response = await fetch(`/api/smartwallet/collection/create`, {
+  const response = await fetch(`/api/smartwallet/sendUserOperation`, {
     method: "POST",
     headers: {
       "content-type": "application/json",
