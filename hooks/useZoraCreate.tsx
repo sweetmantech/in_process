@@ -7,7 +7,7 @@ import { useParams } from "next/navigation";
 import { Address } from "viem";
 import useZoraCreateParameters from "./useZoraCreateParameters";
 import { getContractAddressFromReceipt } from "@/lib/protocolSdk/create/1155-create-helper";
-import { getPublicClient } from "@/lib/viem/publicClient";
+import { publicClient } from "@/lib/viem/publicClient";
 import { useMask } from "./useMask";
 import useBalance from "./useBalance";
 
@@ -22,7 +22,7 @@ const createOnSmartWallet = async (parameters: any) => {
     }),
   });
   const data = await response.json();
-  return data;
+  return data.transactionHash;
 };
 
 export default function useZoraCreate() {
@@ -44,30 +44,23 @@ export default function useZoraCreate() {
   const create = async (uri: string) => {
     try {
       setCreating(true);
-      console.log('ziad aa')
       if (!address) {
         throw new Error("No wallet connected");
       }
+      await switchChainAsync({ chainId });
       const parameters = await fetchParameters(uri);
-
       if (!parameters) {
         throw new Error("Parameters not ready");
       }
 
-      console.log('ziad', parameters)
+      let hash: Address | null = null;
 
-      if (balance === 0) {
-        const data = await createOnSmartWallet(parameters);
-        console.log("ziad", data);
-        return;
-      }
-      await switchChainAsync({ chainId });
-
-      const hash = await writeContractAsync({
-        ...parameters,
-      });
-
-      const publicClient = getPublicClient();
+      if (balance === 0) hash = await createOnSmartWallet(parameters);
+      else
+        hash = await writeContractAsync({
+          ...parameters,
+        });
+      if (!hash) throw Error();
       const receipt = await publicClient.waitForTransactionReceipt({ hash });
       const contractAddress = getContractAddressFromReceipt(receipt);
       setCreating(false);
