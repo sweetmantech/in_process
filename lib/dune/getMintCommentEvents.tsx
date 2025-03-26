@@ -1,4 +1,5 @@
-import { CHAIN_ID, MINT_COMMENT_EVENT_SIGNATURE } from "@/lib/consts";
+import { CHAIN_ID } from "@/lib/consts";
+import { MINT_COMMENT_EVENT_SIGNATURE } from "../events";
 import { DuneDecodedEvent } from "@/types/dune";
 
 const getMintCommentEvents = async (
