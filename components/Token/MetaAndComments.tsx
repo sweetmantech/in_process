@@ -20,7 +20,7 @@ const MetaAndComments = ({
   if (!meta) return <Fragment />;
 
   return (
-    <div>
+    <div className="w-full md:max-w-[400px] h-fit">
       <h3 className="text-4xl md:text-5xl font-archivo">{meta.name}</h3>
       <h3 className="text-base md:text-xl font-spectral pt-2 md:pt-4">
         {meta.description}

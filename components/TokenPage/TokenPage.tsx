@@ -29,13 +29,13 @@ const TokenPage = () => {
 
   return (
     <CollectionProvider chainId={viemChain.id} address={address as Address}>
-      <main className="w-screen pt-12 md:pt-24 mt-10 px-2 md:px-10">
+      <main className="w-screen grow">
         {isLoading ? (
           <div className="size-full flex justify-center">
             <Loading className="w-[200px] aspect-[1/1] md:w-[300px] mt-20" />
           </div>
         ) : (
-          <div className="flex flex-col md:flex-row gap-4 md:gap-10">
+          <div className="flex flex-col items-center justify-center pt-[120px] md:pt-[180px]">
             {token && (
               <TokenProvider
                 key={token?.token?.tokenId}
