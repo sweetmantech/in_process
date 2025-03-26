@@ -1,7 +1,4 @@
-import { Coinbase } from "@coinbase/coinbase-sdk";
 import getSmartWallet from "@/lib/getSmartWallet";
-
-Coinbase.configure(JSON.parse(process.env.COINBASE_CONFIGURATION as string));
 
 export async function GET() {
   try {
