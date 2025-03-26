@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useAccount, useSwitchChain, useWriteContract } from "wagmi";
+import { useSwitchChain, useWriteContract } from "wagmi";
 import { CHAIN_ID } from "@/lib/consts";
 import { useParams } from "next/navigation";
 import { Address } from "viem";
