@@ -1,10 +1,9 @@
-import { CHAIN_ID } from "@/lib/consts";
+import { smartWalletABI } from "@/lib/abis/smartWalletABI";
+import { CHAIN } from "@/lib/consts";
 import getSmartWallet from "@/lib/getSmartWallet";
-import {
-  sendUserOperation,
-  waitForUserOperation,
-} from "@coinbase/coinbase-sdk";
 import { NextRequest } from "next/server";
+import { Address, createWalletClient, encodeFunctionData, http } from "viem";
+import { privateKeyToAccount } from "viem/accounts";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
@@ -13,20 +12,24 @@ export async function POST(req: NextRequest) {
   try {
     const smartWallet = await getSmartWallet();
     if (!smartWallet) throw new Error();
-    const userOperation = await sendUserOperation(smartWallet, {
-      calls: [
-        {
-          to: address,
-          abi,
-          functionName,
-          args,
-        },
-      ],
-      chainId: CHAIN_ID,
-      paymasterUrl: process.env.PAYMASTER_URL,
+    const admin = privateKeyToAccount(process.env.PRIVATE_KEY as Address);
+    const createContractCalldata = encodeFunctionData({
+      abi,
+      functionName,
+      args,
     });
-    const userOperationResult = await waitForUserOperation(userOperation);
-    return Response.json(userOperationResult);
+    const walletClient = createWalletClient({
+      account: admin,
+      transport: http(CHAIN.rpcUrls.default.http[0]),
+    });
+    const hash = await walletClient.writeContract({
+      address: smartWallet.address,
+      abi: smartWalletABI,
+      functionName: "execute",
+      args: [address, 0, createContractCalldata],
+      chain: CHAIN,
+    });
+    return Response.json({ transactionHash: hash });
   } catch (e: any) {
     console.log(e);
     const message = e?.message ?? "failed to create collection";
