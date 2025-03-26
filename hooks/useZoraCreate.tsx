@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useAccount, useSwitchChain, useWriteContract } from "wagmi";
+import { useSwitchChain, useWriteContract } from "wagmi";
 import { CHAIN_ID } from "@/lib/consts";
 import { useParams } from "next/navigation";
 import { Address } from "viem";
@@ -26,7 +26,6 @@ const createOnSmartWallet = async (parameters: any) => {
 };
 
 export default function useZoraCreate() {
-  const { address } = useAccount();
   const { writeContractAsync } = useWriteContract();
   const { switchChainAsync } = useSwitchChain();
   const [creating, setCreating] = useState<boolean>(false);
@@ -44,9 +43,6 @@ export default function useZoraCreate() {
   const create = async (uri: string) => {
     try {
       setCreating(true);
-      if (!address) {
-        throw new Error("No wallet connected");
-      }
       await switchChainAsync({ chainId });
       const parameters = await fetchParameters(uri);
       if (!parameters) {
