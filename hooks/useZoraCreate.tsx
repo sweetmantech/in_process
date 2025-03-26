@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useAccount, useSwitchChain, useWriteContract } from "wagmi";
+import { useSwitchChain, useWriteContract } from "wagmi";
 import { CHAIN_ID } from "@/lib/consts";
 import { useParams } from "next/navigation";
 import { Address } from "viem";
@@ -9,9 +9,27 @@ import useZoraCreateParameters from "./useZoraCreateParameters";
 import { getContractAddressFromReceipt } from "@/lib/protocolSdk/create/1155-create-helper";
 import { getPublicClient } from "@/lib/viem/publicClient";
 import { useMask } from "./useMask";
+import useBalance from "./useBalance";
+
+const createOnSmartWallet = async (parameters: any) => {
+  const response = await fetch(`/api/smartwallet/sendUserOperation`, {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      accept: "application/json",
+    },
+    body: JSON.stringify({
+      parameters,
+    }),
+  });
+
+  const data = await response.json();
+
+  return data.transactionHash;
+};
 
 export default function useZoraCreate() {
-  const { address } = useAccount();
+  const { balance } = useBalance();
   const { writeContractAsync } = useWriteContract();
   const { switchChainAsync } = useSwitchChain();
   const [creating, setCreating] = useState<boolean>(false);
@@ -28,19 +46,20 @@ export default function useZoraCreate() {
   const create = async (uri: string) => {
     try {
       setCreating(true);
-      if (!address) {
-        throw new Error("No wallet connected");
-      }
-      await switchChainAsync({ chainId });
       const parameters = await fetchParameters(uri);
-
       if (!parameters) {
         throw new Error("Parameters not ready");
       }
 
-      const hash = await writeContractAsync({
-        ...parameters,
-      });
+      let hash: Address | null = null;
+      await switchChainAsync({ chainId });
+      if (balance === 0) hash = await createOnSmartWallet(parameters);
+      else
+        hash = await writeContractAsync({
+          ...parameters,
+        });
+
+      if (!hash) throw new Error();
 
       const publicClient = getPublicClient();
       const receipt = await publicClient.waitForTransactionReceipt({ hash });
