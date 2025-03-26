@@ -54,7 +54,6 @@ export default function useZoraCreate() {
       }
 
       let hash: Address | null = null;
-
       if (balance === 0) hash = await createOnSmartWallet(parameters);
       else
         hash = await writeContractAsync({
