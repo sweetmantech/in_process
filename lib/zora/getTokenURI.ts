@@ -1,5 +1,5 @@
 import { Address, createPublicClient, http, PublicClient } from "viem";
-import { CHAIN } from "../consts";
+import { base } from "viem/chains";
 
 const abi = [
   {
@@ -13,7 +13,7 @@ const abi = [
 const getTokenURI = async (collection: Address, tokenId: number) => {
   try {
     const publicClient = createPublicClient({
-      chain: CHAIN,
+      chain: base,
       transport: http(),
     }) as PublicClient;
 
