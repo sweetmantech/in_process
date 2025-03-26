@@ -1,4 +1,4 @@
-import { BLOCKLISTS } from "@/lib/consts";
+import { BLOCKLISTS, IS_TESTNET } from "@/lib/consts";
 import getSetupContractEvents from "@/lib/dune/getSetupContractEvents";
 import { getUris } from "@/lib/viem/getUris";
 import { DuneDecodedEvent } from "@/types/dune";
@@ -29,7 +29,9 @@ export async function GET(req: NextRequest) {
     );
     const eventsWithLatestUris = await getUris(formattedEvents);
     return Response.json(
-      eventsWithLatestUris.filter((feed) => !BLOCKLISTS.includes(feed.creator)),
+      eventsWithLatestUris.filter(
+        (feed) => !IS_TESTNET && !BLOCKLISTS.includes(feed.creator),
+      ),
     );
   } catch (e: any) {
     console.log(e);

@@ -24,7 +24,6 @@ export async function POST(req: NextRequest) {
       functionName,
       args,
     });
-    const adminWallet = process.env.PRIVATE_KEY as Address;
     const admin = privateKeyToAccount(process.env.PRIVATE_KEY as Address);
     const walletClient = createWalletClient({
       account: admin,
@@ -50,10 +49,7 @@ export async function POST(req: NextRequest) {
       paymasterUrl: process.env.PAYMASTER_URL,
     });
     const userOperationResult = await waitForUserOperation(userOperation);
-    return Response.json({
-      ...userOperationResult,
-      adminWallet,
-    });
+    return Response.json(userOperationResult);
   } catch (e: any) {
     console.log(e);
     const message = e?.message ?? "failed to create collection.";
