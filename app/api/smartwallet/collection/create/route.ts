@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
     return Response.json(userOperationResult);
   } catch (e: any) {
     console.log(e);
-    const message = e?.message ?? "failed to upload image";
+    const message = e?.message ?? "failed to create collection";
     return Response.json({ message }, { status: 500 });
   }
 }
