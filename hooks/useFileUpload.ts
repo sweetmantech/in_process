@@ -52,9 +52,9 @@ const useFileUpload = ({
           setMimeType(mimeType);
         }
       } else {
+        setAnimationUri(uri);
+        setMimeType(mimeType);
         if (mimeType.includes("video")) {
-          setAnimationUri(uri);
-          setMimeType(mimeType);
           const frameBase64: any = await captureFirstImageFroVideo(
             URL.createObjectURL(file),
           );
