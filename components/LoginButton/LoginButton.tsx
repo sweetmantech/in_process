@@ -8,16 +8,14 @@ interface LoginButtonProps {
   className?: string;
 }
 export function LoginButton({ className = "" }: LoginButtonProps) {
-  const { login, ready, logout, authenticated, user, linkWallet } = usePrivy();
+  const { login, ready, logout } = usePrivy();
   const { connectedWallet } = useConnectedWallet();
 
   if (!ready) return null;
 
   const handleClick = async () => {
     if (!connectedWallet) {
-      if (authenticated && user?.linkedAccounts?.[0]?.type === "wallet")
-        linkWallet();
-      else login();
+      login();
       return;
     }
     logout();
