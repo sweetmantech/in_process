@@ -67,8 +67,7 @@ export function useComments(
         .filter(
           (e) =>
             e?.collection?.toLowerCase() === tokenContract.toLowerCase() ||
-            e?.tokenContract?.toLocaleLowerCase() ===
-              tokenContract.toLocaleLowerCase(),
+            e?.tokenContract?.toLowerCase() === tokenContract.toLowerCase(),
         );
       setComments(filtered);
     }
