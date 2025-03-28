@@ -32,10 +32,9 @@ export async function GET(req: NextRequest) {
   ).then((res) => res.json());
 
   const metadata = await fetch(
-    `https://in-process-git-techengme-myc-1456-093c80-sweetmantechs-projects.vercel.app/api/token/metadata?collection=${collection}&tokenId=${tokenId}`,
+    `${VERCEL_OG}/api/token/metadata?collection=${collection}&tokenId=${tokenId}`,
   ).then((res) => res.json());
 
-  console.log('ziad here', metadata)
   const artistInfo = await getArtistInfo(metadata.owner as Address);
   const { ImageResponse } = await import("@vercel/og");
   const [archivoFontData, spectralFontData] = await Promise.all([
