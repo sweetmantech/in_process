@@ -3,14 +3,15 @@ import { useEffect } from "react";
 
 const useConnectedWallet = () => {
   const { wallets, ready } = useWallets();
-  const { logout } = usePrivy();
+  const { logout, authenticated } = usePrivy();
   const privyWallet = wallets?.find(
     (wallet) => wallet.walletClientType === "privy",
   );
   const externalWallet = wallets?.find(
     (wallet) => wallet.walletClientType !== "privy",
   );
-  const wallet = privyWallet || externalWallet;
+  const wallet =
+    authenticated && ready ? privyWallet || externalWallet : undefined;
   const connectedWallet = wallet?.address;
 
   useEffect(() => {

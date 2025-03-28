@@ -8,7 +8,7 @@ interface LoginButtonProps {
   className?: string;
 }
 export function LoginButton({ className = "" }: LoginButtonProps) {
-  const { login, logout, ready } = usePrivy();
+  const { login, ready, logout } = usePrivy();
   const { connectedWallet } = useConnectedWallet();
 
   if (!ready) return null;
