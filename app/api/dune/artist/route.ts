@@ -1,5 +1,6 @@
 import { BLOCKLISTS, IS_TESTNET } from "@/lib/consts";
-import getSetupContractEvents from "@/lib/dune/getSetupContractEvents";
+import getArtistCreatedContractEvents from "@/lib/dune/getArtistCreatedContractEvents";
+import getArtistSmartWalletCreatedEvents from "@/lib/dune/getArtistSmartWalletCreatedEvents";
 import { getUris } from "@/lib/viem/getUris";
 import { DuneDecodedEvent } from "@/types/dune";
 import { NextRequest } from "next/server";
@@ -7,11 +8,17 @@ import { NextRequest } from "next/server";
 export async function GET(req: NextRequest) {
   const artistAddress = req.nextUrl.searchParams.get("artistAddress");
   try {
-    const transactions: DuneDecodedEvent[] = await getSetupContractEvents(
-      artistAddress as string,
-    );
-    const formattedEvents = transactions.map(
-      (transaction: DuneDecodedEvent) => {
+    const createdEvents: DuneDecodedEvent[] =
+      await getArtistCreatedContractEvents(artistAddress as string);
+    const smartWalletEvents: DuneDecodedEvent[] =
+      await getArtistSmartWalletCreatedEvents();
+
+    const formattedEvents = [...createdEvents, ...smartWalletEvents]
+      .sort(
+        (a: DuneDecodedEvent, b: DuneDecodedEvent) =>
+          new Date(b.block_time).getTime() - new Date(a.block_time).getTime(),
+      )
+      .map((transaction: DuneDecodedEvent) => {
         const setUpEvent = transaction.logs.find(
           (log) => log?.decoded?.name === "SetupNewContract",
         );
@@ -25,8 +32,8 @@ export async function GET(req: NextRequest) {
         });
         data.released_at = new Date(transaction.block_time).getTime();
         return data;
-      },
-    );
+      })
+      .filter((ele) => ele.defaultAdmin === artistAddress);
     const eventsWithLatestUris = await getUris(formattedEvents);
     return Response.json(
       eventsWithLatestUris.filter(

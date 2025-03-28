@@ -2,24 +2,24 @@ import { Collection } from "@/types/token";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 
-async function fetchLatestFeed(
+async function fetchArtistFeeds(
   artistAddress: string | string[] | undefined,
 ): Promise<Collection[]> {
   const response = await fetch(
-    `/api/dune/latest?artistAddress=${artistAddress || ""}`,
+    `/api/dune/artist?artistAddress=${artistAddress || ""}`,
   );
   if (!response.ok) {
-    throw new Error("Failed to fetch latest");
+    throw new Error("Failed to fetch artist feeds");
   }
   const data = await response.json();
   return data;
 }
 
-export function useLatestFeed() {
+export function useArtistFeeds() {
   const { artistAddress } = useParams();
   return useQuery({
-    queryKey: ["latestFeed", artistAddress],
-    queryFn: () => fetchLatestFeed(artistAddress),
+    queryKey: ["artistFeeds", artistAddress],
+    queryFn: () => fetchArtistFeeds(artistAddress),
     staleTime: 1000 * 60 * 5,
     refetchInterval: 4000,
     refetchOnMount: true,
