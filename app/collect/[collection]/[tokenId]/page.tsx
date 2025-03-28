@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   ).then((res) => res.json());
 
   const title = "In Process";
-  const description = data.metadata.description || "Imagined by LATASHÁ";
+  const description = data.metadata?.description || "Imagined by LATASHÁ";
 
   return {
     title,

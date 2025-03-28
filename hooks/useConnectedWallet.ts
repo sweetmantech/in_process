@@ -1,29 +1,24 @@
 import { usePrivy, useWallets } from "@privy-io/react-auth";
-import { useMemo } from "react";
+import { useEffect } from "react";
 
 const useConnectedWallet = () => {
-  const { wallets } = useWallets();
-  const { ready, authenticated, user } = usePrivy();
-  const isLoggedByEmail = Boolean(user?.email?.address);
-  const isAuthenticated = ready && authenticated;
+  const { wallets, ready } = useWallets();
+  const { logout } = usePrivy();
   const privyWallet = wallets?.find(
     (wallet) => wallet.walletClientType === "privy",
   );
-  const externalWallets = useMemo(
-    () => wallets?.filter((wallet) => wallet.walletClientType !== "privy"),
-    [wallets],
+  const externalWallet = wallets?.find(
+    (wallet) => wallet.walletClientType !== "privy",
   );
-  const externalWallet = externalWallets?.length ? externalWallets[0] : null;
-  const wallet = isAuthenticated
-    ? isLoggedByEmail
-      ? privyWallet
-      : externalWallet
-    : null;
+  const wallet = privyWallet || externalWallet;
   const connectedWallet = wallet?.address;
+
+  useEffect(() => {
+    if (ready && !wallets.length) logout();
+  }, [ready, wallets]);
 
   return {
     connectedWallet,
-    externalWallet,
     wallet,
   };
 };
