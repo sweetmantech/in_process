@@ -1,4 +1,4 @@
-const captureFirstImageFromVideo = async (videoUrl: string) => {
+const captureImageFromVideo = async (videoUrl: string) => {
   const canvas = document.createElement("canvas");
   const context = canvas.getContext("2d");
   const video = document.createElement("video");
@@ -35,4 +35,4 @@ const captureFirstImageFromVideo = async (videoUrl: string) => {
   });
 };
 
-export default captureFirstImageFromVideo;
+export default captureImageFromVideo;
