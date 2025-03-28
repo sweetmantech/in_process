@@ -1,11 +1,10 @@
 import { CHAIN_ID } from "../consts";
 import { DuneDecodedEvent } from "@/types/dune";
-import mintCommentEventTopics from "./mintCommentEventTopics";
 import getSmartWallet from "../getSmartWallet";
+import { MINT_COMMENT_EVENT_SIGNATURE } from "../events";
 
 const getSmartWalletMintCommentEvents = async (
   tokenContract: string,
-  tokenId: string,
 ): Promise<DuneDecodedEvent[]> => {
   const smartWallet = await getSmartWallet();
   if (!smartWallet) return [];
@@ -16,10 +15,8 @@ const getSmartWalletMintCommentEvents = async (
   const params: any = {
     decode: "true",
     chain_ids: `${CHAIN_ID}`,
-    topic0: mintCommentEventTopics({
-      tokenContract,
-      tokenId,
-    }),
+    topic0: MINT_COMMENT_EVENT_SIGNATURE,
+    log_address: tokenContract,
   };
 
   const urlSearchParams = new URLSearchParams(params);
