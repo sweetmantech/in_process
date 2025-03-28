@@ -1,5 +1,5 @@
 import { BLOCKLISTS, IS_TESTNET } from "@/lib/consts";
-import getSetupContractEvents from "@/lib/dune/getSetupContractEvents";
+import getArtistCreatedContractEvents from "@/lib/dune/getArtistCreatedContractEvents";
 import { getUris } from "@/lib/viem/getUris";
 import { DuneDecodedEvent } from "@/types/dune";
 import { NextRequest } from "next/server";
@@ -7,9 +7,10 @@ import { NextRequest } from "next/server";
 export async function GET(req: NextRequest) {
   const artistAddress = req.nextUrl.searchParams.get("artistAddress");
   try {
-    const transactions: DuneDecodedEvent[] = await getSetupContractEvents(
+    const createdEvents: DuneDecodedEvent[] = await getArtistCreatedContractEvents(
       artistAddress as string,
     );
+
     const formattedEvents = transactions.map(
       (transaction: DuneDecodedEvent) => {
         const setUpEvent = transaction.logs.find(
