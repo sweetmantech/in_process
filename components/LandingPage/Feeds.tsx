@@ -1,4 +1,3 @@
-import { useLatestFeed } from "@/hooks/useLatestFeed";
 import FeedTable from "../FeedTable";
 import SpiralFeeds from "../SprialFeeds";
 import ArtSlider from "./ArtSlider";
@@ -10,9 +9,10 @@ import Loading from "../Loading";
 import { Button } from "../ui/button";
 import getArtistsCounts from "@/lib/getArtistsCount";
 import { useRouter } from "next/navigation";
+import { useCreatedFeed } from "@/hooks/useCreatedFeed";
 
 const Feeds = () => {
-  const { error, isLoading, data } = useLatestFeed();
+  const { error, isLoading, data } = useCreatedFeed();
   const isMobile = useIsMobile();
   const { push } = useRouter();
 
