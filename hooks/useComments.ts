@@ -65,7 +65,10 @@ export function useComments(
             a.timestamp - b.timestamp,
         )
         .filter(
-          (e) => e?.collection?.toLowerCase() === tokenContract.toLowerCase(),
+          (e) =>
+            e?.collection?.toLowerCase() === tokenContract.toLowerCase() ||
+            e?.tokenContract?.toLocaleLowerCase() ===
+              tokenContract.toLocaleLowerCase(),
         );
       setComments(filtered);
     }
