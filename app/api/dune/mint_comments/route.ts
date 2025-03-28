@@ -1,4 +1,5 @@
-import getMintCommentEvents from "@/lib/dune/getMintCommentEvents";
+import getSmartWalletMintCommentEvents from "@/lib/dune/getSmartWalletMintCommentEvents";
+import getTokenContractMintCommentEvents from "@/lib/dune/getTokenContractMintCommentEvents";
 import { DuneDecodedEvent } from "@/types/dune";
 import { NextRequest } from "next/server";
 
@@ -7,10 +8,14 @@ export async function GET(req: NextRequest) {
   const tokenId = req.nextUrl.searchParams.get("tokenId");
 
   try {
-    const transactions: DuneDecodedEvent[] = await getMintCommentEvents(
-      tokenContract as string,
-    );
-    const formattedEvents = transactions.map(
+    const tokenContractEvents: DuneDecodedEvent[] =
+      await getTokenContractMintCommentEvents(tokenContract as string);
+    const smartWalletEvents: DuneDecodedEvent[] =
+      await getSmartWalletMintCommentEvents(
+        tokenContract as string,
+        tokenId as string,
+      );
+    const formattedEvents = [...tokenContractEvents, ...smartWalletEvents].map(
       (transaction: DuneDecodedEvent) => {
         const mintCommentEvent = transaction.logs.find(
           (log) => log?.decoded?.name === "MintComment",
