@@ -17,8 +17,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     (res) => res.json(),
   );
 
-  const title = metadata.name || "In Process";
+  const title = "In Process";
   const description = metadata.description || "Imagined by LATASHÁ";
+
   return {
     title,
     description,
