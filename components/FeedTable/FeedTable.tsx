@@ -23,7 +23,7 @@ export default function FeedTable({ feeds }: FeedTableProps) {
   ];
 
   const handleClick = (index: number) => {
-    push(`/${feeds[index].creator}`);
+    push(`/${feeds[index].defaultAdmin}`);
   };
 
   return (

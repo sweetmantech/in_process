@@ -38,7 +38,7 @@ export default function useFeedTable(feeds: Collection[]) {
     if (feeds.length)
       setTableData(
         feeds.map((feed: Collection) => ({
-          creator: feed.creator,
+          creator: feed.defaultAdmin,
           released_date: new Date(feed.released_at)
             .toLocaleString()
             .toLowerCase(),

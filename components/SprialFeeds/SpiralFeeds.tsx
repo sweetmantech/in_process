@@ -35,7 +35,7 @@ export default function SpiralFeeds({ feeds }: FeedsProps) {
                 <tspan
                   onMouseMove={(e) => handleMouseMove(e, feed)}
                   onMouseLeave={handleMouseLeave}
-                  onClick={() => push(`/${feed.creator}`)}
+                  onClick={() => push(`/${feed.defaultAdmin}`)}
                 >
                   {formatFeedText(feed, isMobile ? 14 : 20)}
                 </tspan>

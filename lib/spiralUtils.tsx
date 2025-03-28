@@ -4,7 +4,7 @@ import truncateAddress from "./truncateAddress";
 
 export const getContentLength = (feeds: Collection[]): number => {
   return feeds.reduce((acc, feed) => {
-    const feedText = `${truncateAddress(feed.creator)} - ${feed.name} - ${new Date(feed.released_at).toLocaleString()}`;
+    const feedText = `${truncateAddress(feed.defaultAdmin)} - ${feed.name} - ${new Date(feed.released_at).toLocaleString()}`;
     return acc + feedText.length;
   }, 0);
 };
@@ -29,7 +29,7 @@ export const formatFeedText = (
 ): React.ReactElement => (
   <>
     <tspan style={{ fontFamily: "Archivo-Bold", fontSize, letterSpacing: 2 }}>
-      {truncateAddress(feed.creator)}
+      {truncateAddress(feed.defaultAdmin)}
     </tspan>
     <tspan> - </tspan>
     <tspan
