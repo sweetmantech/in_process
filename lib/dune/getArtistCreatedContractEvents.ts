@@ -14,7 +14,7 @@ const getArtistCreatedContractEvents = async (
     decode: "true",
     chain_ids: `${CHAIN_ID}`,
     topic0: SETUP_NEW_CONTRACT_EVENT_SIGNATURE,
-    to: FACTORY_ADDRESSES[CHAIN_ID]
+    to: FACTORY_ADDRESSES[CHAIN_ID],
   };
 
   const urlSearchParams = new URLSearchParams(params);

@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 async function fetchCreatedFeed(): Promise<Collection[]> {
   const response = await fetch("/api/dune/created");
   if (!response.ok) {
-    throw new Error("Failed to fetch latest");
+    throw new Error("Failed to fetch create feeds");
   }
   const data = await response.json();
   return data;

@@ -9,7 +9,7 @@ async function fetchArtistFeeds(
     `/api/dune/artist?artistAddress=${artistAddress || ""}`,
   );
   if (!response.ok) {
-    throw new Error("Failed to fetch latest");
+    throw new Error("Failed to fetch artist feeds");
   }
   const data = await response.json();
   return data;
