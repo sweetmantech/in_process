@@ -5,7 +5,7 @@ import { Account, Address, Hex, SimulateContractParameters } from "viem";
 export type NewContractParams = {
   name: string;
   uri: string;
-  defaultAdmin?: Address;
+  creator?: Address;
 };
 
 export type SaleStartAndEnd = {

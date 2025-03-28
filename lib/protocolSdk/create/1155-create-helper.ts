@@ -111,7 +111,7 @@ export function makeCreateContractAndTokenCall({
         royaltyBPS: royaltyBPS || ROYALTY_BPS_DEFAULT,
         royaltyRecipient: fundsRecipient || accountAddress,
       },
-      contract.defaultAdmin || accountAddress,
+      contract.creator || accountAddress,
       tokenSetupActions,
     ],
   });
