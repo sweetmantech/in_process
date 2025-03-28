@@ -1,6 +1,7 @@
 import { TokenMetadata } from "@/types/token";
 import OgImage from "../OgImage";
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
+import React from "react";
 
 interface OgHeaderProps {
   ensAvatar: string;
@@ -25,7 +26,12 @@ const OgHeader = ({ ensAvatar, metadata }: OgHeaderProps) => {
       >
         {metadata.map((data: TokenMetadata, index: number) => (
           <OgImage
-            src={getFetchableUrl(data.image) || ""}
+            src={
+              getFetchableUrl(
+                data.image ||
+                  `https://in-process-seven.vercel.app/images/placeholder.png`,
+              ) || ""
+            }
             width={70}
             height={70}
             borderRadius={0}
