@@ -25,7 +25,6 @@ export async function GET(req: NextRequest) {
   const tokens = await fetch(
     `${VERCEL_OG}/api/dune/latest?artistAddress=${artistAddress}`,
   ).then((res) => res.json());
-  console.log("ziad", tokens);
   const contractURIs = tokens
     .slice(0, 4)
     .map((token: Collection) => token.contractURI);
