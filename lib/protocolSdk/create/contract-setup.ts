@@ -40,7 +40,7 @@ export async function getDeterministicContractAddress({
       account,
       contract.uri,
       contract.name,
-      contract.creator || account,
+      contract.defaultAdmin || account,
       setupActions,
     ],
   });
