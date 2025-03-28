@@ -1,6 +1,8 @@
 import { MAX_FILE_SIZE, ONE_MB } from "@/lib/consts";
 import { uploadFile } from "@/lib/arweave/uploadFile";
 import { Dispatch, SetStateAction, useState } from "react";
+import captureImageFromVideo from "@/lib/captureImageFromVideo";
+import base64ToFile from "@/lib/base64ToFile";
 
 interface useFileUploadProps {
   setName: Dispatch<SetStateAction<string>>;
@@ -52,6 +54,14 @@ const useFileUpload = ({
       } else {
         setAnimationUri(uri);
         setMimeType(mimeType);
+        if (mimeType.includes("video")) {
+          const frameBase64: any = await captureImageFromVideo(
+            URL.createObjectURL(file),
+          );
+          const imageFile = base64ToFile(frameBase64 as string, file.name);
+          const imageUri = await uploadFile(imageFile);
+          setImageUri(imageUri);
+        }
       }
     } catch (err: any) {
       console.error(err);
