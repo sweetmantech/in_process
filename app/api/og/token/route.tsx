@@ -35,7 +35,6 @@ export async function GET(req: NextRequest) {
 
   const owner = await getOwner(collection);
   const artistInfo = await getArtistInfo(owner as Address);
-
   const uri = await getTokenURI(collection as Address, parseInt(tokenId, 10));
   const metadata = await fetch(
     `${VERCEL_OG}/api/metadata?uri=${encodeURIComponent(uri)}`,
