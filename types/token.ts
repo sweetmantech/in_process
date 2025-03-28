@@ -44,11 +44,12 @@ export interface MintCommentEvent {
   blockNumber: number;
   chain: string;
   chainId: number;
-  collection: Address;
   comment: string;
   quantity: string;
   sender: Address;
   timestamp: number;
   tokenId: string;
   transactionHash: string;
+  tokenContract?: string;
+  collection?: Address;
 }
