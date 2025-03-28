@@ -52,14 +52,16 @@ const useFileUpload = ({
           setMimeType(mimeType);
         }
       } else {
-        const frameBase64: any = await captureFirstImageFroVideo(
-          URL.createObjectURL(file),
-        );
-        const imageFile = base64ToFile(frameBase64 as string, file.name);
-        const imageUri = await uploadFile(imageFile);
-        setAnimationUri(uri);
-        setImageUri(imageUri);
-        setMimeType(mimeType);
+        if (mimeType.includes("video")) {
+          setAnimationUri(uri);
+          setMimeType(mimeType);
+          const frameBase64: any = await captureFirstImageFroVideo(
+            URL.createObjectURL(file),
+          );
+          const imageFile = base64ToFile(frameBase64 as string, file.name);
+          const imageUri = await uploadFile(imageFile);
+          setImageUri(imageUri);
+        }
       }
     } catch (err: any) {
       console.error(err);
