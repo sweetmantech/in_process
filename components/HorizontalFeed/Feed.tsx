@@ -3,6 +3,7 @@ import { Collection } from "@/types/token";
 import FeedHover from "./FeedHover";
 import { useFeed } from "@/hooks/useFeed";
 import { DiamondIcon } from "../ui/icons";
+import truncated from "@/lib/truncated";
 
 interface FeedProps {
   feed: Collection;
@@ -53,7 +54,7 @@ const Feed: FC<FeedProps> = ({ feed, hovered, step, height }) => {
         </button>
         {hovered && (
           <p className="font-spectral-italic text-sm md:text-xl pt-2 relative translate-y-6">
-            {`${new String(data?.description || feed.name).slice(0, 20)} ${new String(data?.description || feed.name).length > 20 ? "..." : ""}`}
+            {truncated(data?.description || feed.name)}
           </p>
         )}
         <p
