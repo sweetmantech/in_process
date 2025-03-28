@@ -2,10 +2,8 @@ import OgBackground from "@/components/Og/token/OgBackground";
 import OgFooter from "@/components/Og/token/OgFooter";
 import OgHeader from "@/components/Og/token/OgHeader";
 import getArtistInfo from "@/lib/getArtistInfo";
-import getOwner from "@/lib/zora/getOwner";
 import { Address } from "viem";
 import { NextRequest } from "next/server";
-import getTokenURI from "@/lib/zora/getTokenURI";
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 
 export const runtime = "edge";
@@ -33,15 +31,12 @@ export async function GET(req: NextRequest) {
     `${VERCEL_OG}/api/dune/mint_comments?tokenContract=${collection}&tokenId=${tokenId}`,
   ).then((res) => res.json());
 
-  const owner = await getOwner(collection);
-  const artistInfo = await getArtistInfo(owner as Address);
-
-  const uri = await getTokenURI(collection as Address, parseInt(tokenId, 10));
   const metadata = await fetch(
-    `${VERCEL_OG}/api/metadata?uri=${encodeURIComponent(uri)}`,
+    `${VERCEL_OG}/api/token/metadata?collection=${collection}&tokenId=${tokenId}`,
   ).then((res) => res.json());
-  const { ImageResponse } = await import("@vercel/og");
 
+  const artistInfo = await getArtistInfo(metadata.owner as Address);
+  const { ImageResponse } = await import("@vercel/og");
   const [archivoFontData, spectralFontData] = await Promise.all([
     archivoFont,
     spectralFont,
@@ -60,7 +55,13 @@ export async function GET(req: NextRequest) {
           alignItems: "center",
         }}
       >
-        <OgBackground backgroundUrl={getFetchableUrl(metadata.image) || ""} />
+        <OgBackground
+          backgroundUrl={
+            getFetchableUrl(
+              metadata.metadata.image || `${VERCEL_OG}/images/placeholder.png`,
+            ) || ""
+          }
+        />
         <div
           style={{
             position: "relative",

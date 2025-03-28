@@ -3,11 +3,17 @@ import { getPublicClient } from "../viem/publicClient";
 
 const abi = [
   {
-    type: "function",
     inputs: [],
     name: "owner",
-    outputs: [{ name: "", internalType: "address", type: "address" }],
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
     stateMutability: "view",
+    type: "function",
   },
 ];
 const getOwner = async (collection: Address) => {

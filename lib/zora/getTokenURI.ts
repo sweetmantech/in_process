@@ -1,6 +1,5 @@
 import { Address } from "viem";
 import { getPublicClient } from "../viem/publicClient";
-
 const abi = [
   {
     type: "function",
@@ -17,7 +16,7 @@ const getTokenURI = async (collection: Address, tokenId: number) => {
       address: collection,
       abi,
       functionName: "uri",
-      args: [tokenId],
+      args: [BigInt(tokenId)],
     });
 
     return uri as string;
