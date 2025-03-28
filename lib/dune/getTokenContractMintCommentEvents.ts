@@ -1,8 +1,8 @@
-import { MINT_COMMENT_EVENT_SIGNATURE } from "@/lib/events";
 import { CHAIN_ID } from "../consts";
 import { DuneDecodedEvent } from "@/types/dune";
+import { MINT_COMMENT_EVENT_SIGNATURE } from "../events";
 
-const getMintCommentEvents = async (
+const getTokenContractMintCommentEvents = async (
   tokenContract: string,
 ): Promise<DuneDecodedEvent[]> => {
   const options = {
@@ -28,4 +28,4 @@ const getMintCommentEvents = async (
   return transactions;
 };
 
-export default getMintCommentEvents;
+export default getTokenContractMintCommentEvents;
