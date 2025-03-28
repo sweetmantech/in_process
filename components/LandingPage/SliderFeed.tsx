@@ -14,7 +14,7 @@ const SliderFeed = ({ feed }: SliderFeedProps) => {
   const { push } = useRouter();
 
   const handleClick = () => {
-    push(`/${feed.creator}`);
+    push(`/${feed.defaultAdmin}`);
   };
 
   return (

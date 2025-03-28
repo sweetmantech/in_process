@@ -26,7 +26,7 @@ const Feed = ({ feed }: { feed: Collection }) => {
             </p>
           </div>
           <p className="font-archivo text-sm">
-            {truncateAddress(feed.creator)}
+            {truncateAddress(feed.defaultAdmin)}
           </p>
         </>
       )}

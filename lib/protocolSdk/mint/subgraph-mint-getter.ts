@@ -377,7 +377,7 @@ function parseTokenInfo({
     tokenURI: token.uri,
     tokenId: token.tokenId ? BigInt(token.tokenId) : undefined,
     mintType: token.tokenStandard === "ERC721" ? "721" : "1155",
-    creator: token.creator,
+    creator: token.defaultAdmin,
     totalMinted: BigInt(token.totalMinted),
     maxSupply: BigInt(token.maxSupply),
     contractVersion: token.contract.contractVersion,

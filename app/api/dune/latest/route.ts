@@ -30,7 +30,7 @@ export async function GET(req: NextRequest) {
     const eventsWithLatestUris = await getUris(formattedEvents);
     return Response.json(
       eventsWithLatestUris.filter(
-        (feed) => IS_TESTNET || !BLOCKLISTS.includes(feed.creator),
+        (feed) => IS_TESTNET || !BLOCKLISTS.includes(feed.defaultAdmin),
       ),
     );
   } catch (e: any) {

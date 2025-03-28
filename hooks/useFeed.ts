@@ -12,7 +12,7 @@ export const useFeed = (feed: Collection) => {
 
   const handleClick = () => {
     if (isHomePage) {
-      push(`/${feed.creator}`);
+      push(`/${feed.defaultAdmin}`);
       return;
     }
     if (data?.external_url) {
