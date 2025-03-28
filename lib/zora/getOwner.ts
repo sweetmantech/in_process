@@ -1,5 +1,5 @@
-import { Address, createPublicClient, http, PublicClient } from "viem";
-import { base } from "viem/chains";
+import { Address } from "viem";
+import { getPublicClient } from "../viem/publicClient";
 
 const abi = [
   {
@@ -10,14 +10,10 @@ const abi = [
     stateMutability: "view",
   },
 ];
-const getOwner = (collection: Address) => {
+const getOwner = async (collection: Address) => {
   try {
-    const publicClient = createPublicClient({
-      chain: base,
-      transport: http(),
-    }) as PublicClient;
-
-    const owner = publicClient.readContract({
+    const publicClient = getPublicClient();
+    const owner = await publicClient.readContract({
       address: collection,
       abi,
       functionName: "owner",

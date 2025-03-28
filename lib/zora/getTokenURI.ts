@@ -13,7 +13,7 @@ const abi = [
 const getTokenURI = async (collection: Address, tokenId: number) => {
   try {
     const publicClient = getPublicClient();
-    const uri: any = publicClient.readContract({
+    const uri: any = await publicClient.readContract({
       address: collection,
       abi,
       functionName: "uri",
