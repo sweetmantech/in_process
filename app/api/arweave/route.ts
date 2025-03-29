@@ -24,6 +24,7 @@ export async function POST(request: NextRequest) {
   }
 
   const file = new File([fileBuffer], "uploadedFile");
+  console.log("ziad", file.size);
   const arweaveURI = await uploadToArweave(file);
   return Response.json(arweaveURI, { status: 200 });
 }

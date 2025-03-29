@@ -1,32 +1,13 @@
-import axios from "axios";
+import { upload } from "@vercel/blob/client";
 
 export const uploadFile = async (file: File): Promise<string> => {
   try {
-    const fileStreamFactory = (file: File): ReadableStream => {
-      return new ReadableStream({
-        async start(controller) {
-          try {
-            const buffer = await file.arrayBuffer();
-            const uint8Array = new Uint8Array(buffer);
-            controller.enqueue(uint8Array);
-            controller.close();
-          } catch (error) {
-            console.error("Error reading file:", error);
-          }
-        },
-      });
-    };
-
-    const fileStream = fileStreamFactory(file);
-
-    const res = await axios.post("/api/arweave", fileStream, {
-      headers: {
-        "Content-Type": "application/octet-stream",
-      },
+    const newBlob = await upload(file.name, file, {
+      access: "public",
+      handleUploadUrl: "/api/arweave/vercel-blob",
     });
-    const arweaveURI = res.data;
-
-    return arweaveURI;
+    console.log("ziad", newBlob);
+    return "";
   } catch (error) {
     console.error(error);
     return "";
