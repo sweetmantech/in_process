@@ -4,7 +4,7 @@ export const uploadFile = async (file: File): Promise<string> => {
   try {
     const newBlob = await upload(file.name, file, {
       access: "public",
-      handleUploadUrl: "/api/arweave/vercel-blob",
+      handleUploadUrl: "/api/vercel-blob",
     });
     console.log("ziad", newBlob);
     return "";
