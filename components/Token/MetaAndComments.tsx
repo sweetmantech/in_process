@@ -23,7 +23,7 @@ const MetaAndComments = ({
   return (
     <div className="w-full md:max-w-[400px] h-fit">
       <h3 className="text-4xl md:text-5xl font-spectral pt-2 md:pt-4">
-        {truncated(meta.description || meta.name)}
+        {truncated(meta.name)}
       </h3>
       {!priceHidden && (
         <>
