@@ -35,8 +35,8 @@ const useProfile = () => {
 
   useEffect(() => {
     if (data) {
-      setUserName(data.username);
-      setBio(data.bio);
+      setUserName(data.username || "Your username");
+      setBio(data.bio || "Your bio");
     }
   }, [data]);
 
