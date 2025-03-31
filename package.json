@@ -32,7 +32,6 @@
     "@xyflow/react": "^12.4.3",
     "@zoralabs/protocol-deployments": "^0.3.8",
     "abitype": "^1.0.8",
-    "arbundles": "^0.11.2",
     "arweave": "^1.15.5",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
