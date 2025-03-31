@@ -43,10 +43,10 @@ export default function useZoraCreate() {
   );
   const mask = useMask();
 
-  const create = async (uri: string) => {
+  const create = async () => {
     try {
       setCreating(true);
-      const parameters = await fetchParameters(uri);
+      const parameters = await fetchParameters();
       if (!parameters) {
         throw new Error("Parameters not ready");
       }

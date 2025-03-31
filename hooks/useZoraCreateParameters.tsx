@@ -14,10 +14,10 @@ const useZoraCreateParameters = (
   const { connectedWallet } = useConnectedWallet();
   const createMetadata = useCreateMetadata();
 
-  const fetchParameters = async (textRefUri: string) => {
+  const fetchParameters = async () => {
     if (!publicClient || !connectedWallet) return;
     const creatorClient = createCreatorClient({ chainId, publicClient });
-    const cc0MusicArweaveUri = await createMetadata.getUri(textRefUri);
+    const cc0MusicArweaveUri = await createMetadata.getUri();
     if (!createMetadata.name) return;
     const salesConfig = getSalesConfig(
       createMetadata.isTimedSale
