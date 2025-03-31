@@ -2,6 +2,7 @@ import { uploadFile } from "@/lib/arweave/uploadFile";
 import { Dispatch, SetStateAction, useState } from "react";
 import captureImageFromVideo from "@/lib/captureImageFromVideo";
 import base64ToFile from "@/lib/base64ToFile";
+import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
 
 interface useFileUploadProps {
   setName: Dispatch<SetStateAction<string>>;
@@ -38,7 +39,7 @@ const useFileUpload = ({
       const fileNameWithoutExtension = file.name.replace(/\.[^/.]+$/, "");
       setName(fileNameWithoutExtension);
 
-      const uri = await uploadFile(file);
+      const uri = await clientUploadToArweave(file);
       if (!uri) {
         setLoading(false);
         return;

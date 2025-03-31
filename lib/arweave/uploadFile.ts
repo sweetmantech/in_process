@@ -1,13 +1,11 @@
-import { upload } from "@vercel/blob/client";
-
 export const uploadFile = async (file: File): Promise<string> => {
   try {
-    const newBlob = await upload(file.name, file, {
-      access: "public",
-      handleUploadUrl: "/api/vercel-blob",
-    });
-    console.log("ziad", newBlob);
-    return "";
+    const data = new FormData();
+    data.set("file", file);
+    const res = await fetch("/api/arweave", { method: "POST", body: data });
+    const arweaveURI = await res.json();
+
+    return arweaveURI;
   } catch (error) {
     console.error(error);
     return "";
