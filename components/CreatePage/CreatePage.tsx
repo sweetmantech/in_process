@@ -7,7 +7,7 @@ import Moment from "./Moment";
 import CreateForm from "../CreateForm";
 
 export default function CreatePage() {
-  const { createdContract, description, inputRef } = useZoraCreateProvider();
+  const { createdContract, name, inputRef } = useZoraCreateProvider();
 
   return (
     <main className="w-screen grow">
@@ -24,9 +24,7 @@ export default function CreatePage() {
               <div className="w-full space-y-3" ref={inputRef}>
                 {createdContract ? (
                   <>
-                    <p className="font-archivo-medium text-4xl">
-                      {description}
-                    </p>
+                    <p className="font-archivo-medium text-4xl">{name}</p>
                   </>
                 ) : (
                   <CreateForm />

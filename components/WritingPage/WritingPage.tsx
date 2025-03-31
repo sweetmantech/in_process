@@ -26,7 +26,7 @@ export default function WritingPage() {
               <div className="w-full space-y-3" ref={inputRef}>
                 {createdContract ? (
                   <>
-                    <p className="font-spectral text-xl">{name}</p>
+                    <p className="font-archivo-medium text-4xl">{name}</p>
                   </>
                 ) : (
                   <CreateForm />
