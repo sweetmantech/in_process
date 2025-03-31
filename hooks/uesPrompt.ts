@@ -13,7 +13,7 @@ let timer: NodeJS.Timeout | string | number | undefined = undefined;
 const usePrompt = () => {
   const [prompt, setPrompt] = useState(0);
   const [placeholder, setPlaceholder] = useState(promptOptions[0].label);
-  const { description, setDescription } = useZoraCreateProvider();
+  const { name, setName } = useZoraCreateProvider();
 
   const rotatePrompt = () => {
     clearInterval(timer);
@@ -30,13 +30,13 @@ const usePrompt = () => {
 
   const onActive = () => {
     clearInterval(timer);
-    if (description) return;
-    setDescription(promptOptions[prompt].value);
+    if (name) return;
+    setName(promptOptions[prompt].value);
   };
 
   useEffect(() => {
-    if (!description) rotatePrompt();
-  }, [description]);
+    if (!name) rotatePrompt();
+  }, [name]);
 
   return {
     placeholder,
