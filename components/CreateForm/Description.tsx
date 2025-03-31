@@ -4,7 +4,7 @@ import { Input } from "../ui/input";
 import usePrompt from "@/hooks/uesPrompt";
 
 const Description = () => {
-  const { description, setDescription, fileUploading } =
+  const { description, setDescription, fileUploading, creating } =
     useZoraCreateProvider();
   const { placeholder, onActive } = usePrompt();
 
@@ -19,7 +19,7 @@ const Description = () => {
         placeholder={placeholder}
         onFocus={onActive}
         className="!ring-0 !ring-offset-0 bg-white border-grey border rounded-[0px]"
-        disabled={fileUploading}
+        disabled={Boolean(fileUploading || creating)}
       />
     </div>
   );

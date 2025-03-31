@@ -39,7 +39,7 @@
     "cmdk": "1.0.0",
     "crypto": "^1.0.1",
     "crypto-browserify": "^3.12.1",
-    "dom-to-image": "^2.6.0",
+    "dom-to-image-more": "^3.5.0",
     "fabric": "^6.6.1",
     "framer-motion": "^11.11.17",
     "link-preview-js": "^3.0.14",

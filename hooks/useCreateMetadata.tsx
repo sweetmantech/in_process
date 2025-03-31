@@ -1,7 +1,7 @@
 import { uploadJson } from "@/lib/arweave/uploadJson";
 import { RefObject, useRef, useState } from "react";
 import useFileUpload from "./useFileUpload";
-import domtoimage from "dom-to-image";
+import domtoimage from "dom-to-image-more";
 import { uploadFile } from "@/lib/arweave/uploadFile";
 import useLinkPreview from "./useLinkPreview";
 
@@ -17,7 +17,8 @@ const useCreateMetadata = () => {
   const [imageUri, setImageUri] = useState<string>("");
   const [mimeType, setMimeType] = useState<string>("");
   const [animationUri, setAnimationUri] = useState<string>("");
-  const textInputRef = useRef() as RefObject<HTMLTextAreaElement>;
+  const writingRef = useRef() as RefObject<HTMLDivElement>;
+  const [writingText, setWritingText] = useState<string>("");
   const fileUpload = useFileUpload({
     setName,
     setImageUri,
@@ -35,22 +36,20 @@ const useCreateMetadata = () => {
   });
 
   const uploadTextRefAsImage = async () => {
-    if (!textInputRef.current) return "";
-    fileUpload.setFileUploading(true);
-    const blob = await domtoimage.toBlob(textInputRef.current);
+    if (!writingRef.current) return null;
+    const blob = await domtoimage.toBlob(writingRef.current);
     const fileName = "image.png";
     const fileType = "image/png";
     const textImage = new File([blob], fileName, { type: fileType });
     const uri = await uploadFile(textImage);
-    setName(`${textInputRef.current.value.slice(0, 10)}...`);
-    setImageUri(uri);
-    setMimeType("image/png");
-    fileUpload.setFileUploading(false);
-    return uri;
+    return {
+      uri,
+      mimeType: fileType,
+    };
   };
 
   const reset = () => {
-    if (textInputRef.current) textInputRef.current.value = "";
+    setWritingText("");
     setName("");
     setLink("");
     setDescription("");
@@ -59,18 +58,21 @@ const useCreateMetadata = () => {
     setAnimationUri("");
   };
 
-  const getUri = async (textRefUri: string) =>
-    await uploadJson({
+  const getUri = async () => {
+    const metadataOfWriting = await uploadTextRefAsImage();
+
+    return uploadJson({
       name,
       description,
       external_url: link,
-      image: textRefUri || imageUri,
+      image: metadataOfWriting?.uri || imageUri,
       animation_url: animationUri,
       content: {
-        mime: mimeType,
-        uri: animationUri || textRefUri || imageUri,
+        mime: metadataOfWriting?.mimeType || mimeType,
+        uri: animationUri || metadataOfWriting?.uri || imageUri,
       },
     });
+  };
 
   return {
     animationUri,
@@ -85,7 +87,7 @@ const useCreateMetadata = () => {
     setName,
     setIsTimedSale,
     reset,
-    textInputRef,
+    writingRef,
     ...fileUpload,
     uploadTextRefAsImage,
     setDescription,
@@ -96,6 +98,8 @@ const useCreateMetadata = () => {
     setPriceUnit,
     price,
     setPrice,
+    writingText,
+    setWritingText,
   };
 };
 

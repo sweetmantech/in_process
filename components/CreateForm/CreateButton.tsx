@@ -6,22 +6,13 @@ import { usePrivy } from "@privy-io/react-auth";
 import useConnectedWallet from "@/hooks/useConnectedWallet";
 
 const CreateButton = () => {
-  const {
-    create,
-    name,
-    imageUri,
-    animationUri,
-    textInputRef,
-    uploadTextRefAsImage,
-    creating,
-  } = useZoraCreateProvider();
+  const { create, name, imageUri, animationUri, writingText, creating } =
+    useZoraCreateProvider();
   const { connectedWallet } = useConnectedWallet();
   const { login } = usePrivy();
 
   const canCreate = Boolean(
-    !creating &&
-      name &&
-      (imageUri || animationUri || textInputRef?.current?.value),
+    !creating && name && (imageUri || animationUri || writingText),
   );
 
   const handleCreate = async () => {
@@ -30,8 +21,7 @@ const CreateButton = () => {
         login();
         return;
       }
-      const uri = await uploadTextRefAsImage();
-      await create(uri);
+      await create();
     } catch (error) {
       console.error("Error creating:", error);
     }
