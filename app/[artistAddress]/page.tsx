@@ -1,5 +1,6 @@
 import { Metadata, NextPage } from "next";
 import ArtistPage from "@/components/ArtistPage";
+import ProfileProvider from "@/providers/ProfileProvider";
 
 type Props = {
   params: Promise<{ artistAddress: string }>;
@@ -20,6 +21,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-const Artist: NextPage = () => <ArtistPage />;
+const Artist: NextPage = () => (
+  <ProfileProvider>
+    <ArtistPage />
+  </ProfileProvider>
+);
 
 export default Artist;

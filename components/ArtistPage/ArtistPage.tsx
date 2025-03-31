@@ -4,13 +4,17 @@ import Feed from "./Feed";
 import AltToggle from "./AltToggle";
 import { useState } from "react";
 import ArtistProfile from "./ArtistProfile";
+import { useProfileProvider } from "@/providers/ProfileProvider";
+import EditingStatus from "./EditingStatus";
 
 const ArtistPage = () => {
   const [alt, setAlt] = useState<"timeline" | "grid">("timeline");
+  const { isEditing } = useProfileProvider();
 
   return (
     <div className="w-screen grow flex flex-col pt-16 md:pt-[20vh] relative">
-      <div className="flex justify-between px-2 md:px-10 items-start pb-2">
+      <div className="relative flex justify-between px-2 md:px-10 items-start pb-2">
+        {isEditing && <EditingStatus />}
         <ArtistProfile />
         <AltToggle alt={alt} setAlt={setAlt} />
       </div>
