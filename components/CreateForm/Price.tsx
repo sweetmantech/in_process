@@ -15,7 +15,8 @@ import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
 const currencies = ["eth", "usd", "base", "usdc"];
 
 export default function Price() {
-  const { price, setPrice, priceUnit, setPriceUnit } = useZoraCreateProvider();
+  const { price, setPrice, priceUnit, setPriceUnit, fileUploading, creating } =
+    useZoraCreateProvider();
 
   return (
     <div className="w-full space-y-2">
@@ -30,6 +31,7 @@ export default function Price() {
           onChange={(e) => setPrice(e.target.value)}
           className="flex-grow !font-medium !rounded-[0px] !border-none bg-white focus-visible:ring-0 focus-visible:ring-offset-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
           step="0.01"
+          disabled={Boolean(fileUploading || creating)}
         />
         <div className="bg-white">
           <div className="w-[1px] h-6 bg-grey-secondary my-2" />
@@ -37,6 +39,7 @@ export default function Price() {
         <Select
           value={priceUnit}
           onValueChange={(value) => setPriceUnit(value as any)}
+          disabled={Boolean(fileUploading || creating)}
         >
           <SelectTrigger className="!border-none !font-archivo w-[80px] !px-2 !py-0 !h-10 !rounded-[0px] bg-white focus:ring-0 focus:ring-offset-0">
             <SelectValue />
