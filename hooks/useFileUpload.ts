@@ -39,7 +39,7 @@ const useFileUpload = ({
       const fileNameWithoutExtension = file.name.replace(/\.[^/.]+$/, "");
       setName(fileNameWithoutExtension);
 
-      const uri = await clientUploadToArweave(file);
+      const uri = await uploadFile(file);
       if (!uri) {
         setLoading(false);
         return;

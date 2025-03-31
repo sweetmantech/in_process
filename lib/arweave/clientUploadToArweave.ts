@@ -10,19 +10,26 @@ const clientUploadToArweave = async (file: File): Promise<string | null> => {
     );
     const arweave = Arweave.init({});
 
-
-    const transaction = await arweave.createTransaction({
-        data: Buffer.from('Some data', 'utf8')
+        //  create a wallet-to-wallet transaction sending 10.5AR to the target address
+    let transaction = await arweave.createTransaction({
+      target: '1seRanklLU_1VTGkEk7P0xAwMJfA7owA1JHW5KyZKlY',
+      quantity: arweave.ar.arToWinston('10.5')
     }, ARWEAVE_KEY);
 
+    // you must sign the transaction with your key before posting
     await arweave.transactions.sign(transaction, ARWEAVE_KEY);
-    const uploader = await arweave.transactions.getUploader(transaction);
 
-    while (!uploader.isComplete) {
-        await uploader.uploadChunk();
-        console.log(`${uploader.pctComplete}% complete, ${uploader.uploadedChunks}/${uploader.totalChunks}`);
-    }
-    console.log('ziad', transaction)
+    // post the transaction
+    const response = await arweave.transactions.post(transaction);
+    console.log('ziad', response)
+    // await arweave.transactions.sign(transaction, ARWEAVE_KEY);
+    // const uploader = await arweave.transactions.getUploader(transaction);
+
+    // while (!uploader.isComplete) {
+    //     await uploader.uploadChunk();
+    //     console.log(`${uploader.pctComplete}% complete, ${uploader.uploadedChunks}/${uploader.totalChunks}`);
+    // }
+    // console.log('ziad', transaction)
     
     // let transaction = await arweave.createTransaction({
     //     data: '<html><head><meta charset="UTF-8"><title>Hello world!</title></head><body></body></html>'
