@@ -1,11 +1,21 @@
-import getZoraProfile from "@/lib/zora/getZoraProfile";
+import getTag from "@/lib/stack/getTag";
 import { NextRequest } from "next/server";
 import { Address } from "viem";
 
 export async function GET(req: NextRequest) {
   try {
     const walletAddress = req.nextUrl.searchParams.get("walletAddress");
-    const profile = await getZoraProfile(walletAddress as Address);
+    const tags: any = await getTag(walletAddress as Address, "profile");
+    let profile = {
+      username: "",
+      bio: "",
+    };
+    if (tags?.tagData) {
+      profile = {
+        ...profile,
+        ...tags?.tagData,
+      };
+    }
     return Response.json(profile);
   } catch (e: any) {
     console.log(e);

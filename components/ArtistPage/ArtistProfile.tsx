@@ -1,12 +1,9 @@
-import truncateAddress from "@/lib/truncateAddress";
-import { Address } from "viem";
 import { EditIcon } from "../ui/icons";
-import { useParams } from "next/navigation";
 import { useProfileProvider } from "@/providers/ProfileProvider";
 import SocialAccounts from "./SocialAccounts";
+import { Skeleton } from "../ui/skeleton";
 
 const ArtistProfile = () => {
-  const { artistAddress } = useParams();
   const {
     canEdit,
     isEditing,
@@ -15,6 +12,7 @@ const ArtistProfile = () => {
     bio,
     setUserName,
     setBio,
+    isLoading,
   } = useProfileProvider();
 
   return (
@@ -28,7 +26,7 @@ const ArtistProfile = () => {
           />
         ) : (
           <p className="text-xl md:text-5xl font-archivo-medium tracking-[-1px]">
-            {username || truncateAddress(artistAddress as Address)}
+            {isLoading ? <Skeleton className="w-[150px] h-12" /> : username}
           </p>
         )}
         {canEdit && !isEditing && (
@@ -49,7 +47,7 @@ const ArtistProfile = () => {
         />
       ) : (
         <p className="text-lg md:text-xl font-spectral pt-2 md:pt-4">
-          {bio || ""}
+          {isLoading ? <Skeleton className="w-[200px] h-8" /> : bio}
         </p>
       )}
       <SocialAccounts />
