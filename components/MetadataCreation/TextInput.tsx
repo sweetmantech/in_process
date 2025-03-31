@@ -2,14 +2,8 @@ import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
 import { ChangeEvent } from "react";
 
 const TextInput = () => {
-  const {
-    writingRef,
-    fileUploading,
-    setName,
-    setWritingText,
-    writingText,
-    creating,
-  } = useZoraCreateProvider();
+  const { writingRef, fileUploading, setWritingText, writingText, creating } =
+    useZoraCreateProvider();
 
   return (
     <div className="overflow-hidden size-full !font-spectral shadow-lg bg-white disabled:cursor-not-allowed relative">
@@ -18,9 +12,6 @@ const TextInput = () => {
         value={writingText}
         disabled={Boolean(fileUploading || creating)}
         onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
-          setName(
-            `${e.target.value.slice(0, 10)}${e.target.value.length > 10 ? "..." : ""}`,
-          );
           setWritingText(e.target.value);
         }}
       />

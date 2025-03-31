@@ -20,7 +20,7 @@ const useCreateMetadata = () => {
   const writingRef = useRef() as RefObject<HTMLDivElement>;
   const [writingText, setWritingText] = useState<string>("");
   const fileUpload = useFileUpload({
-    setName,
+    setDescription,
     setImageUri,
     setAnimationUri,
     setMimeType,
@@ -63,7 +63,7 @@ const useCreateMetadata = () => {
 
     return uploadJson({
       name,
-      description,
+      description: writingText || description,
       external_url: link,
       image: metadataOfWriting?.uri || imageUri,
       animation_url: animationUri,

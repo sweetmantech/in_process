@@ -3,19 +3,18 @@ import { Label } from "@/components/ui/label";
 import { Input } from "../ui/input";
 import usePrompt from "@/hooks/uesPrompt";
 
-const Description = () => {
-  const { description, setDescription, fileUploading, creating } =
-    useZoraCreateProvider();
+const Prompt = () => {
+  const { name, setName, fileUploading, creating } = useZoraCreateProvider();
   const { placeholder, onActive } = usePrompt();
 
   return (
     <div className="flex flex-col items-start w-full gap-2">
       <Label htmlFor="title" className="font-archivo text-md">
-        description
+        prompt
       </Label>
       <Input
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
+        value={name}
+        onChange={(e) => setName(e.target.value)}
         placeholder={placeholder}
         onFocus={onActive}
         className="!ring-0 !ring-offset-0 bg-white border-grey border rounded-[0px]"
@@ -25,4 +24,4 @@ const Description = () => {
   );
 };
 
-export default Description;
+export default Prompt;
