@@ -3,6 +3,7 @@ import useConnectedWallet from "./useConnectedWallet";
 import { useEffect, useState } from "react";
 import { useArtistProfile } from "./useArtistProfile";
 import { Address } from "viem";
+import truncateAddress from "@/lib/truncateAddress";
 
 const saveIndentify = async (
   artistAddress: Address,
@@ -35,8 +36,8 @@ const useProfile = () => {
 
   useEffect(() => {
     if (data) {
-      setUserName(data.username || "Your username");
-      setBio(data.bio || "Your bio");
+      setUserName(data.username || truncateAddress(artistAddress as string));
+      setBio(data.bio);
     }
   }, [data]);
 
