@@ -20,7 +20,6 @@ const useCreateMetadata = () => {
   const writingRef = useRef() as RefObject<HTMLDivElement>;
   const [writingText, setWritingText] = useState<string>("");
   const fileUpload = useFileUpload({
-    setDescription,
     setImageUri,
     setAnimationUri,
     setMimeType,
