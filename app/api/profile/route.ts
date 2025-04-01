@@ -28,10 +28,11 @@ export async function GET(req: NextRequest) {
         };
       } else {
         const ensName = await getEnsName(walletAddress as Address);
-        profile = {
-          ...profile,
-          username: ensName,
-        };
+        if (ensName)
+          profile = {
+            ...profile,
+            username: ensName,
+          };
       }
     }
     return Response.json(profile);
