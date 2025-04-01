@@ -17,12 +17,12 @@ const ArtistProfile = () => {
 
   return (
     <div className="relative">
-      <div className="flex gap-6 items-center">
+      <div className="flex gap-3 md:gap-6 items-center">
         {isEditing ? (
           <input
             value={username}
             onChange={(e) => setUserName(e.target.value)}
-            className="!max-w-[200px] text-4xl p-3 bg-tan-400 outline-none ring-0 font-archivo-medium"
+            className="max-w-[120px] md:!max-w-[200px] text-xl md:text-4xl p-1 md:p-3 bg-tan-400 outline-none ring-0 font-archivo-medium"
           />
         ) : (
           <p className="text-xl md:text-5xl font-archivo-medium tracking-[-1px]">
@@ -35,7 +35,7 @@ const ArtistProfile = () => {
             className="border-[1px] border-black rounded-md p-1 bg-tan-400"
             onClick={toggleEditing}
           >
-            <EditIcon />
+            <EditIcon width={20} height={20} />
           </button>
         )}
       </div>
@@ -43,7 +43,7 @@ const ArtistProfile = () => {
         <input
           value={bio}
           onChange={(e) => setBio(e.target.value)}
-          className="min-w-[250px] outline-none ring-0 p-2 font-spectral text-xl mt-2 md:mt-4 bg-tan-400"
+          className="max-w-[150px] md:max-w-auto md:min-w-[250px] outline-none ring-0 p-1 md:p-2 font-spectral text-lg md:text-xl mt-2 md:mt-4 bg-tan-400"
         />
       ) : (
         <p className="text-lg md:text-xl font-spectral pt-2 md:pt-4">

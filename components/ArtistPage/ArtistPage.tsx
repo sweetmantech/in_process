@@ -13,10 +13,12 @@ const ArtistPage = () => {
 
   return (
     <div className="w-screen grow flex flex-col pt-16 md:pt-[20vh] relative">
-      <div className="relative flex justify-between px-2 md:px-10 items-start pb-2">
+      <div className="relative">
         {isEditing && <EditingStatus />}
-        <ArtistProfile />
-        <AltToggle alt={alt} setAlt={setAlt} />
+        <div className="flex justify-between px-2 md:px-10 items-start pb-2">
+          <ArtistProfile />
+          <AltToggle alt={alt} setAlt={setAlt} />
+        </div>
       </div>
       <div
         className={`md:grow flex flex-col px-2 md:px-0 ${alt === "timeline" && "md:pt-20 md:mr-10"}`}
