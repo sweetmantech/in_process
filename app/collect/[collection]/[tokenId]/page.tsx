@@ -25,6 +25,23 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         `https://in-process-seven.vercel.app/api/og/token?collection=${address}&tokenId=${tokenId}`,
       ],
     },
+    other: {
+      "fc:frame": JSON.stringify({
+        version: "next",
+        imageUrl: `https://in-process-seven.vercel.app/api/og/token?collection=${address}&tokenId=${tokenId}`,
+        button: {
+          title: "Collect",
+          action: {
+            type: "launch_frame",
+            name: "In Process",
+            url: `https://inprocess.myco.wtf/collect/${collection}/1`,
+            iconImageUrl: `https://in-process-seven.vercel.app/api/og/token?collection=${address}&tokenId=${tokenId}`,
+            splashImageUrl: `https://in-process-seven.vercel.app/api/og/token?collection=${address}&tokenId=${tokenId}`,
+            splashBackgroundColor: "#FFFFFF",
+          },
+        },
+      }),
+    },
   };
 }
 
