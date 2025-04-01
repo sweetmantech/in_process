@@ -821,7 +821,7 @@ const EditIcon = (props: SVGProps<SVGSVGElement>) => (
       d="M6.10547 24.2244L11.418 22.9744L23.0341 11.3583C23.5222 10.8701 23.5222 10.0787 23.0341 9.59053L20.7393 7.29581C20.2512 6.80765 19.4597 6.80765 18.9716 7.29581L7.35547 18.9119L6.10547 24.2244Z"
       stroke="#1B1504"
       stroke-width="1.5"
-      stroke-linecap="round"
+      strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
