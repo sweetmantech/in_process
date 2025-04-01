@@ -1,6 +1,8 @@
 import getTag from "@/lib/stack/getTag";
 import { NextRequest } from "next/server";
 import { Address } from "viem";
+import getEnsName from "@/lib/viem/getEnsName";
+import getZoraProfile from "@/lib/zora/getZoraProfile";
 
 export async function GET(req: NextRequest) {
   try {
@@ -10,11 +12,27 @@ export async function GET(req: NextRequest) {
       username: "",
       bio: "",
     };
+
     if (tags?.tagData) {
       profile = {
         ...profile,
         ...tags?.tagData,
       };
+    } else {
+      const zora = await getZoraProfile(walletAddress as Address);
+      if (zora) {
+        profile = {
+          ...profile,
+          username: zora.displayName,
+          bio: zora.description,
+        };
+      } else {
+        const ensName = await getEnsName(walletAddress as Address);
+        profile = {
+          ...profile,
+          username: ensName,
+        };
+      }
     }
     return Response.json(profile);
   } catch (e: any) {
