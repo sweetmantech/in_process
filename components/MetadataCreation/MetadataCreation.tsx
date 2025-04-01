@@ -20,6 +20,10 @@ const MetadataCreation = () => {
   const handleImageClick = () => {
     fileInputRef.current?.click();
   };
+  const handleReset = () => {
+    reset();
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
 
   return (
     <div
@@ -34,11 +38,11 @@ const MetadataCreation = () => {
       />
       {selected ? (
         <>
-          {!createdContract && <ResetButton onClick={reset} />}
+          {!createdContract && <ResetButton onClick={handleReset} />}
           <MediaUploaded handleImageClick={handleImageClick} />
         </>
       ) : (
-        <NoFileSelected onClick={handleImageClick} />
+        <NoFileSelected />
       )}
     </div>
   );
