@@ -12,11 +12,11 @@ async function fetchArtistProfile(artistAddress: Address): Promise<Profile> {
   return data;
 }
 
-export function useArtistProfile() {
+export function useArtistProfile(address?: Address) {
   const { artistAddress } = useParams();
   return useQuery({
-    queryKey: ["artist_profile", artistAddress],
-    queryFn: () => fetchArtistProfile(artistAddress as Address),
+    queryKey: ["artist_profile", address || artistAddress],
+    queryFn: () => fetchArtistProfile(address || (artistAddress as Address)),
     staleTime: 1000 * 60 * 5,
     enabled: !!artistAddress,
     refetchOnMount: true,
