@@ -42,7 +42,10 @@ const CommentSection = () => {
               <p className="text-base font-spectral tracking-[-1px]">
                 {comment.comment}
               </p>
-              <ArtistName address={comment.sender} className="text-base font-archivo-medium"/>
+              <ArtistName
+                address={comment.sender}
+                className="text-base font-archivo-medium"
+              />
             </div>
             <p className="text-sm font-archivo lowercase">
               {new Date(comment.timestamp).toLocaleString()}
