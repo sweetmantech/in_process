@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "prettier:fix": "npx prettier --write app components hooks lib providers types",
-    "format": "yarn run prettier:fix & yarn lint"
+    "format": "pnpm run prettier:fix & pnpm lint"
   },
   "dependencies": {
     "@ardrive/turbo-sdk": "^1.22.1",
