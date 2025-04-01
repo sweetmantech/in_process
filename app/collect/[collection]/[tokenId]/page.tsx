@@ -4,7 +4,6 @@ import { Metadata, NextPage } from "next";
 type Props = {
   params: Promise<{ collection: string; tokenId: string }>;
 };
-
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { tokenId, collection } = await params;
   // eslint-disable-next-line
