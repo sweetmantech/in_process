@@ -1,4 +1,5 @@
 import TokenPage from "@/components/TokenPage";
+import { VERCEL_OG } from "@/lib/consts";
 import { Metadata, NextPage } from "next";
 
 type Props = {
@@ -10,10 +11,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   // eslint-disable-next-line
   const [_, address] = collection.split("%3A");
   const data = await fetch(
-    `https://in-process-seven.vercel.app/api/token/metadata?collection=${address}&tokenId=${tokenId}`,
+    `${VERCEL_OG}/api/token/metadata?collection=${address}&tokenId=${tokenId}`,
   ).then((res) => res.json());
 
-  const title = "In Process";
+  const title = data.metadata?.name || "In Process";
   const description = data.metadata?.description || "Imagined by LATASHÁ";
 
   return {
@@ -23,7 +24,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title,
       description,
       images: [
-        `https://in-process-seven.vercel.app/api/og/token?collection=${address}&tokenId=${tokenId}`,
+        `${VERCEL_OG}/api/og/token?collection=${address}&tokenId=${tokenId}`,
       ],
     },
   };
