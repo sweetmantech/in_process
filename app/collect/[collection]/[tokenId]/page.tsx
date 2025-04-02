@@ -21,10 +21,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const frame = {
     version: "next",
-    image: {
-      src: `${VERCEL_OG}/api/og/token?collection=${address}&tokenId=${tokenId}`,
-      aspectRatio: "1.91:1",
-    },
+    imageUrl: `${VERCEL_OG}/api/og/token?collection=${address}&tokenId=${tokenId}`,
+    aspectRatio: "1.91:1",
     button: {
       title: "Collect",
       action: {
