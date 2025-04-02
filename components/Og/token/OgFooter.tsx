@@ -6,7 +6,7 @@ const OgFooter = () => {
       style={{
         display: "flex",
         justifyContent: "flex-end",
-        paddingTop: 150,
+        paddingTop: 160,
       }}
     >
       <OgImage
