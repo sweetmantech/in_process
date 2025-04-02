@@ -1,6 +1,7 @@
 import { useTokenProvider } from "@/providers/TokenProvider";
 import CommentsContainer from "./CommentsContainer";
 import { Skeleton } from "../ui/skeleton";
+import ArtistName from "../ArtistName";
 
 const CommentSection = () => {
   const { visibleComments, comments, loading, error, showMoreComments } =
@@ -41,9 +42,10 @@ const CommentSection = () => {
               <p className="text-base font-spectral tracking-[-1px]">
                 {comment.comment}
               </p>
-              <p className="text-base font-archivo-medium">
-                {comment.sender.slice(0, 6)}...{comment.sender.slice(-4)}
-              </p>
+              <ArtistName
+                address={comment.sender}
+                className="text-base font-archivo-medium"
+              />
             </div>
             <p className="text-sm font-archivo lowercase">
               {new Date(comment.timestamp).toLocaleString()}

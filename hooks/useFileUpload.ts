@@ -5,7 +5,6 @@ import captureImageFromVideo from "@/lib/captureImageFromVideo";
 import base64ToFile from "@/lib/base64ToFile";
 
 interface useFileUploadProps {
-  setDescription: Dispatch<SetStateAction<string>>;
   setImageUri: Dispatch<SetStateAction<string>>;
   setAnimationUri: Dispatch<SetStateAction<string>>;
   setMimeType: Dispatch<SetStateAction<string>>;
@@ -13,7 +12,6 @@ interface useFileUploadProps {
 }
 
 const useFileUpload = ({
-  setDescription,
   setImageUri,
   setAnimationUri,
   setMimeType,
@@ -40,9 +38,6 @@ const useFileUpload = ({
 
       const mimeType = file.type;
       const isImage = mimeType.includes("image");
-
-      const fileNameWithoutExtension = file.name.replace(/\.[^/.]+$/, "");
-      setDescription(fileNameWithoutExtension);
 
       const uri = await uploadFile(file);
       if (isImage) {

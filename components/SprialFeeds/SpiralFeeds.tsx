@@ -4,12 +4,11 @@ import React from "react";
 import { SpiralPath } from "./SpiralPath";
 import { Collection } from "@/types/token";
 import { useSpiralAnimation } from "@/hooks/useSpiralAnimation";
-import { generateSpacer, formatFeedText } from "@/lib/spiralUtils";
+import { generateSpacer } from "@/lib/spiralUtils";
 import { Point } from "@/types/spiral";
-import useIsMobile from "@/hooks/useIsMobile";
 import { FeedTooltip } from "./FeedTooltip";
 import useSpiralMouseOver from "@/hooks/useSpiralMouseOver";
-import { useRouter } from "next/navigation";
+import Feed from "./Feed";
 
 interface FeedsProps {
   feeds: Collection[];
@@ -18,10 +17,8 @@ interface FeedsProps {
 export default function SpiralFeeds({ feeds }: FeedsProps) {
   const { offset, viewBox, animationConfig, points } =
     useSpiralAnimation(feeds);
-  const isMobile = useIsMobile();
   const { handleMouseLeave, handleMouseMove, hoveredFeed } =
     useSpiralMouseOver();
-  const { push } = useRouter();
 
   return (
     <div className="relative">
@@ -30,16 +27,14 @@ export default function SpiralFeeds({ feeds }: FeedsProps) {
         <text>
           <textPath xlinkHref="#curve" startOffset={`${offset}%`}>
             {[...feeds, ...feeds].map((feed, index) => (
-              <React.Fragment key={index}>
-                {index > 0 && generateSpacer(animationConfig.spacerWidth)}
-                <tspan
-                  onMouseMove={(e) => handleMouseMove(e, feed)}
-                  onMouseLeave={handleMouseLeave}
-                  onClick={() => push(`/${feed.defaultAdmin}`)}
-                >
-                  {formatFeedText(feed, isMobile ? 14 : 20)}
-                </tspan>
-              </React.Fragment>
+              <Feed
+                feed={feed}
+                index={index}
+                handleMouseLeave={handleMouseLeave}
+                handleMouseMove={handleMouseMove}
+                spacerWidth={animationConfig.spacerWidth}
+                key={index}
+              />
             ))}
             {generateSpacer(animationConfig.loopPadding)}
           </textPath>

@@ -16,7 +16,7 @@ const TextInput = () => {
         }}
       />
       <div
-        className="p-2 md:p-4 absolute z-[1] left-0 top-0 bg-white"
+        className="p-2 md:p-4 absolute z-[1] left-0 top-0 bg-white w-full h-full border border-white"
         ref={writingRef}
         dangerouslySetInnerHTML={{
           __html: writingText.replaceAll("\n", "<br/>"),

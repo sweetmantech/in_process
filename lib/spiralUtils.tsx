@@ -24,12 +24,13 @@ export const generateSpacer = (width: number): React.ReactElement => (
 );
 
 export const formatFeedText = (
+  username: string,
   feed: Collection,
   fontSize: number,
 ): React.ReactElement => (
   <>
     <tspan style={{ fontFamily: "Archivo-Bold", fontSize, letterSpacing: 2 }}>
-      {truncateAddress(feed.defaultAdmin)}
+      {username || truncateAddress(feed.defaultAdmin)}
     </tspan>
     <tspan> - </tspan>
     <tspan

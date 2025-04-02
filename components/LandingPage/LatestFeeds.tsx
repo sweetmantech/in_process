@@ -1,7 +1,7 @@
-import truncateAddress from "@/lib/truncateAddress";
 import { Collection } from "@/types/token";
 import Image from "next/image";
 import truncated from "@/lib/truncated";
+import ArtistName from "../ArtistName";
 
 interface LatestFeedsProps {
   feeds: Collection[];
@@ -18,9 +18,10 @@ const Feed = ({ feed }: { feed: Collection }) => {
           {new Date(feed.released_at).toLocaleString()}
         </p>
       </div>
-      <p className="font-archivo text-sm">
-        {truncateAddress(feed.defaultAdmin)}
-      </p>
+      <ArtistName
+        className="font-archivo text-sm"
+        address={feed.defaultAdmin}
+      />
     </div>
   );
 };
