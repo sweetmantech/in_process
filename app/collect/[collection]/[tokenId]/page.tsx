@@ -1,5 +1,5 @@
 import TokenPage from "@/components/TokenPage";
-import { VERCEL_OG } from "@/lib/consts";
+import { APP_URL, VERCEL_OG } from "@/lib/consts";
 import { Metadata, NextPage } from "next";
 
 type Props = {
@@ -28,10 +28,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       action: {
         type: "launch_frame",
         name: "In Process",
-        url: `https://in-process-git-techengme-myc-1475-d22a01-sweetmantechs-projects.vercel.app/collect/${collection}/${tokenId}`,
+        url: `${APP_URL}/collect/${collection}/${tokenId}`,
         iconImageUrl: `${VERCEL_OG}/api/og/token?collection=${address}&tokenId=${tokenId}`,
         splashImageUrl: `${VERCEL_OG}/desktop_footer_logo.png`,
-        splashBackgroundColor: "#f7f7f7",
+        splashBackgroundColor: "#e9ccbb",
       },
     },
   };
