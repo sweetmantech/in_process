@@ -6,6 +6,7 @@ import { WagmiProvider } from "./WagmiProvider";
 import { ZoraCreateProvider } from "./ZoraCreateProvider";
 import UserProvider from "./UserProvider";
 import { CrossmintProvider } from "./CrossmintProvider";
+import FrameProvider from "./FrameProvider";
 
 export function Providers({ children }: { children: ReactNode }) {
   return (
@@ -13,7 +14,9 @@ export function Providers({ children }: { children: ReactNode }) {
       <CrossmintProvider>
         <PrivyProvider>
           <UserProvider>
-            <ZoraCreateProvider>{children}</ZoraCreateProvider>
+            <ZoraCreateProvider>
+              <FrameProvider>{children}</FrameProvider>
+            </ZoraCreateProvider>
           </UserProvider>
         </PrivyProvider>
       </CrossmintProvider>
