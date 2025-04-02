@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       action: {
         type: "launch_frame",
         name: title.slice(0, 32),
-        url: `${VERCEL_OG}/collect/${collection}/${tokenId}`,
+        url: `https://in-process-git-techengme-myc-1475-d22a01-sweetmantechs-projects.vercel.app/collect/${collection}/${tokenId}`,
         iconImageUrl: `${VERCEL_OG}/api/og/token?collection=${address}&tokenId=${tokenId}`,
         splashImageUrl: `${VERCEL_OG}/desktop_footer_logo.png`,
         splashBackgroundColor: "#f7f7f7",
