@@ -1,29 +1,13 @@
 import TokenPage from "@/components/TokenPage";
-import { VERCEL_OG } from "@/lib/consts";
+import { APP_URL, VERCEL_OG } from "@/lib/consts";
 import { Metadata, NextPage } from "next";
-import { getFrameMetadata } from "@coinbase/onchainkit/frame";
-
-const frameMetadata = (collection: string, tokenId: string) => {
-  // eslint-disable-next-line
-  const [_, address] = collection.split("%3A");
-  return getFrameMetadata({
-    buttons: [
-      {
-        action: "link",
-        label: "Collect",
-        target: `https://inprocess.myco.wtf/collect/${collection}/1`,
-      },
-    ],
-    image: {
-      src: `${VERCEL_OG}/api/og/token?collection=${address}&tokenId=${tokenId}`,
-      aspectRatio: "1.91:1",
-    },
-  });
-};
 
 type Props = {
   params: Promise<{ collection: string; tokenId: string }>;
 };
+
+export const revalidate = 300;
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { tokenId, collection } = await params;
   // eslint-disable-next-line
@@ -34,6 +18,23 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const title = data.metadata?.name || "In Process";
   const description = data.metadata?.description || "Imagined by LATASHÁ";
+
+  const frame = {
+    version: "next",
+    imageUrl: `${VERCEL_OG}/api/og/token?collection=${address}&tokenId=${tokenId}`,
+    aspectRatio: "3:2",
+    button: {
+      title: "Collect",
+      action: {
+        type: "launch_frame",
+        name: "In Process",
+        url: `${APP_URL}/collect/${collection}/${tokenId}`,
+        iconImageUrl: `${VERCEL_OG}/api/og/token?collection=${address}&tokenId=${tokenId}`,
+        splashImageUrl: `${VERCEL_OG}/desktop_footer_logo.png`,
+        splashBackgroundColor: "#e9ccbb",
+      },
+    },
+  };
 
   return {
     title,
@@ -46,7 +47,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       ],
     },
     other: {
-      ...frameMetadata(collection, tokenId),
+      "fc:frame": JSON.stringify(frame),
     },
   };
 }
