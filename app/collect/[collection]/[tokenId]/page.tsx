@@ -29,6 +29,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         type: "launch_frame",
         name: title.slice(0, 32),
         url: `${VERCEL_OG}/collect/${collection}/${tokenId}`,
+        iconImageUrl: `${VERCEL_OG}/api/og/token?collection=${address}&tokenId=${tokenId}`,
         splashImageUrl: `${VERCEL_OG}/desktop_footer_logo.png`,
         splashBackgroundColor: "#f7f7f7",
       },
