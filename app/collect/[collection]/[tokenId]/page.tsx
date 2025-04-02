@@ -13,7 +13,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     `https://in-process-seven.vercel.app/api/token/metadata?collection=${address}&tokenId=${tokenId}`,
   ).then((res) => res.json());
 
-  const title = data.metadata?.name || "In Process";
+  const title = "In Process";
   const description = data.metadata?.description || "Imagined by LATASHÁ";
 
   return {
