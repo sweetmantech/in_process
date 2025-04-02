@@ -29,6 +29,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       "fc:frame": JSON.stringify({
         version: "next",
         imageUrl: `https://in-process-seven.vercel.app/api/og/token?collection=${address}&tokenId=${tokenId}`,
+        aspectRatio: "3:2",
+        name: title,
         button: {
           title: "Collect",
           action: {
