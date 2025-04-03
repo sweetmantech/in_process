@@ -106,6 +106,7 @@ export const useHorizontalFeedAnimation = (
   const isHovered = useCallback(
     (index: number): boolean => {
       if (isMobile) return activeIndex === index;
+      if (nearestIndex === null && index === 0) return true;
       return nearestIndex !== null && mouseX !== null && index === nearestIndex;
     },
     [nearestIndex, mouseX, activeIndex, isMobile],
