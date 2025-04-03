@@ -32,7 +32,13 @@ const HorizontalFeed: FC<HorizontalFeedProps> = ({ feeds }) => {
       onMouseLeave={() => handleMouseMove({ clientX: null } as any)}
       ref={containerRef}
     >
-      <div className="relative w-fit" ref={timelineRef}>
+      <div
+        className="relative w-fit"
+        ref={timelineRef}
+        style={{
+          maxWidth: containerRef.current?.offsetWidth,
+        }}
+      >
         <div className="bg-black w-full h-[0.5px] absolute left-0 bottom-[68px] md:bottom-1/2" />
         <Controls />
         <Slider
