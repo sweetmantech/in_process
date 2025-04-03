@@ -1,5 +1,5 @@
 import { usePrivy, useWallets } from "@privy-io/react-auth";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 
 const useConnectedWallet = () => {
   const { wallets, ready } = useWallets();
