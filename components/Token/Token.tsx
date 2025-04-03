@@ -33,8 +33,8 @@ const Token = () => {
                     }
                     alt="Token Image."
                     layout="fill"
-                    objectFit="cover"
-                    objectPosition="center"
+                    objectFit="contain"
+                    objectPosition="top center"
                     blurDataURL={
                       getFetchableUrl(meta.image) || "/images/placeholder.png"
                     }

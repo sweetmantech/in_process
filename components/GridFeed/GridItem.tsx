@@ -12,7 +12,7 @@ const GridItem = ({ feed }: GridItemProps) => {
   const { data, isLoading } = useMetadata(feed.contractURI);
 
   return (
-    <div className="col-span-1 aspect-video w-full overflow-hidden relative">
+    <div className="col-span-1 aspect-video w-full overflow-hidden relative bg-tan-400 rounded-md">
       {isLoading ? (
         <Loading className="size-full bg-tan-secondary border border-grey" />
       ) : (
@@ -20,8 +20,8 @@ const GridItem = ({ feed }: GridItemProps) => {
           src={getFetchableUrl(data?.image) || "/images/placeholder.png"}
           alt={data?.name || ""}
           layout="fill"
-          objectFit="cover"
-          objectPosition="left top"
+          objectFit="contain"
+          objectPosition="center"
           blurDataURL={data?.image}
           unoptimized
         />
