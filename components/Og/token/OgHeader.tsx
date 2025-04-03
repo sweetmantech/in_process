@@ -13,7 +13,7 @@ const OgHeader = ({ ensAvatar, comments, ensName }: OgHeaderProps) => {
         justifyContent: "space-between",
         width: "100%",
         paddingBottom: 32,
-        paddingTop: 16
+        paddingTop: 16,
       }}
     >
       <div
