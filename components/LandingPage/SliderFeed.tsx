@@ -19,7 +19,7 @@ const SliderFeed = ({ feed }: SliderFeedProps) => {
 
   return (
     <button
-      className="w-full h-[200px] md:h-auto aspect-video overflow-hidden relative rounded-md"
+      className="w-full h-[200px] md:h-auto aspect-video overflow-hidden relative rounded-md bg-tan-400"
       type="button"
       onClick={handleClick}
     >
@@ -32,8 +32,8 @@ const SliderFeed = ({ feed }: SliderFeedProps) => {
           src={getFetchableUrl(data?.image) || "/images/placeholder.png"}
           alt={data?.name || ""}
           layout="fill"
-          objectFit="cover"
-          objectPosition="left top"
+          objectFit="contain"
+          objectPosition="center"
           blurDataURL={data?.image}
           unoptimized
         />

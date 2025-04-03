@@ -17,13 +17,13 @@ const SliderFeed = ({ feed }: SliderFeedProps) => {
         <Skeleton className="size-full" />
       ) : (
         <div className="gap-2 flex flex-col size-full">
-          <div className="grow overflow-hidden w-full relative rounded-[0px]">
+          <div className="grow overflow-hidden w-full relative rounded-[0px] bg-tan-400">
             <Image
               src={getFetchableUrl(data?.image) || "/images/placeholder.png"}
               alt={feed?.name || ""}
               layout="fill"
-              objectFit="cover"
-              objectPosition="left top"
+              objectFit="contain"
+              objectPosition="center"
               blurDataURL={data?.image}
               unoptimized
             />
