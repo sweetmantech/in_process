@@ -55,7 +55,7 @@ const HorizontalFeed: FC<HorizontalFeedProps> = ({ feeds }) => {
               setActiveIndex(swiper.activeIndex + 1);
             },
           }}
-          className="w-full !overflow-visible my-4"
+          className="w-full !overflow-visible my-4 !pl-24"
           slideClassName="!w-fit !m-0"
         >
           {feeds.map((feed: Collection, i) => (
