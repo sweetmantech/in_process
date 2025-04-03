@@ -7,7 +7,7 @@ import { farcasterFrame } from "@farcaster/frame-wagmi-connector";
 
 const queryClient = new QueryClient();
 
-const config = createConfig({
+export const config = createConfig({
   chains: [CHAIN],
   connectors: [
     farcasterFrame(),
