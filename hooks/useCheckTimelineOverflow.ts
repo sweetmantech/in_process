@@ -8,7 +8,9 @@ const useCheckTimelineOverflow = () => {
   useEffect(() => {
     const container = containerRef.current;
     const timeline = timelineRef.current;
+
     if (!container || !timeline) return;
+
     const observer = new ResizeObserver(() => {
       if (container.offsetWidth > timeline.offsetWidth) {
         setTimelineOverflowed(false);
@@ -21,7 +23,7 @@ const useCheckTimelineOverflow = () => {
     return () => {
       observer.disconnect();
     };
-  }, []);
+  }, [containerRef, timelineRef]);
 
   return {
     timelineOverflowed,

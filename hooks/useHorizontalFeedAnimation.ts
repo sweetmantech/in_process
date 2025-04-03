@@ -49,7 +49,6 @@ export const useHorizontalFeedAnimation = (
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [eventTriggered, setEventTriggered] = useState<boolean>(false);
   const [feedEnded, setFeedEnded] = useState<boolean>(false);
-
   const checkTimelineOverflow = useCheckTimelineOverflow();
 
   const getNeighborIndexes = useCallback(
