@@ -15,7 +15,7 @@ interface HorizontalFeedProps {
 
 const HorizontalFeed: FC<HorizontalFeedProps> = ({ feeds }) => {
   const [swiper, setSwiper] = useState<Swiper | null>(null);
-  const { getHeight, isHovered, handleMouseMove, setActiveIndex } =
+  const { activeIndex, getHeight, isHovered, handleMouseMove, setActiveIndex } =
     useHorizontalFeedAnimationProvider();
   const { calculateStep } = useStepCalculation();
 
@@ -25,15 +25,17 @@ const HorizontalFeed: FC<HorizontalFeedProps> = ({ feeds }) => {
       onMouseMove={handleMouseMove}
       onMouseLeave={() => handleMouseMove({ clientX: null } as any)}
     >
-      <div className="relative w-full">
+      <div className="relative w-fit">
         <div className="bg-black w-full h-[0.5px] absolute left-0 bottom-[68px] md:bottom-1/2" />
-        <button
-          className="absolute bottom-[53px] md:bottom-[58px] left-0 md:left-[2px] z-[2] text-black"
-          type="button"
-          onClick={() => swiper?.slidePrev()}
-        >
-          <ArrowRight className="rotate-[-180deg]" />
-        </button>
+        {activeIndex > 1 && (
+          <button
+            className="absolute bottom-[53px] md:bottom-[58px] left-0 md:left-[2px] z-[2] text-black"
+            type="button"
+            onClick={() => swiper?.slidePrev()}
+          >
+            <ArrowRight className="rotate-[-180deg]" />
+          </button>
+        )}
         <button
           className="absolute bottom-[49px] md:bottom-[54px] right-[-4px] md:right-[-6px] z-[2] text-black p-1"
           type="button"

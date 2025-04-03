@@ -9,6 +9,7 @@ interface UseHorizontalFeedAnimationReturn {
   isHovered: (index: number) => boolean;
   activeIndex: number;
   setActiveIndex: Dispatch<SetStateAction<number>>;
+  setEventTriggered: Dispatch<SetStateAction<boolean>>;
 }
 
 interface NearestButton {
@@ -26,10 +27,11 @@ export const useHorizontalFeedAnimation = (
   const MIN_HEIGHT = isMobile ? 0 : 60;
   const HEIGHT_DECREMENT = 28;
 
-  const [nearestIndex, setNearestIndex] = useState<number | null>(null);
+  const [nearestIndex, setNearestIndex] = useState<number | null>(0);
   const [neighborIndexes, setNeighborIndexes] = useState<number[]>([]);
   const [mouseX, setMouseX] = useState<number | null>(null);
   const [activeIndex, setActiveIndex] = useState<number>(0);
+  const [eventTriggered, setEventTriggered] = useState<boolean>(false);
 
   const getNeighborIndexes = useCallback(
     (centerIndex: number) => {
@@ -77,6 +79,7 @@ export const useHorizontalFeedAnimation = (
         setMouseX(null);
         return;
       }
+      setEventTriggered(true);
       setMouseX(currentMouseX);
       const nearest = findNearestButtonIndex(currentMouseX);
       if (nearest.index !== nearestIndex) {
@@ -106,7 +109,13 @@ export const useHorizontalFeedAnimation = (
   const isHovered = useCallback(
     (index: number): boolean => {
       if (isMobile) return activeIndex === index;
-      if (nearestIndex === null && index === 0) return true;
+      if (
+        mouseX === null &&
+        nearestIndex === 1 &&
+        !eventTriggered &&
+        index === 0
+      )
+        return true;
       return nearestIndex !== null && mouseX !== null && index === nearestIndex;
     },
     [nearestIndex, mouseX, activeIndex, isMobile],
@@ -120,5 +129,6 @@ export const useHorizontalFeedAnimation = (
     isHovered,
     activeIndex,
     setActiveIndex,
+    setEventTriggered,
   };
 };
