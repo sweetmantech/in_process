@@ -1,22 +1,28 @@
 "use client";
 
-import { FC, useState } from "react";
+import { FC } from "react";
 import Feed from "./Feed";
 import Slider from "../Slider";
-import { Swiper } from "swiper/types";
 import { Collection } from "@/types/token";
 import { useHorizontalFeedAnimationProvider } from "@/providers/HorizontalFeedAnimationProvider";
 import { useStepCalculation } from "@/hooks/useStepCalculation";
-import { ArrowRight } from "../ui/icons";
+import Controls from "./Controls";
 
 interface HorizontalFeedProps {
   feeds: Collection[];
 }
 
 const HorizontalFeed: FC<HorizontalFeedProps> = ({ feeds }) => {
-  const [swiper, setSwiper] = useState<Swiper | null>(null);
-  const { activeIndex, getHeight, isHovered, handleMouseMove, setActiveIndex } =
-    useHorizontalFeedAnimationProvider();
+  const {
+    getHeight,
+    isHovered,
+    handleMouseMove,
+    setActiveIndex,
+    setFeedEnded,
+    setSwiper,
+    containerRef,
+    timelineRef,
+  } = useHorizontalFeedAnimationProvider();
   const { calculateStep } = useStepCalculation();
 
   return (
@@ -24,25 +30,11 @@ const HorizontalFeed: FC<HorizontalFeedProps> = ({ feeds }) => {
       className="pt-[120px] pb-[20px] md:py-0 md:grow md:size-full flex items-center overflow-hidden md:overflow-visible"
       onMouseMove={handleMouseMove}
       onMouseLeave={() => handleMouseMove({ clientX: null } as any)}
+      ref={containerRef}
     >
-      <div className="relative w-fit">
+      <div className="relative w-fit" ref={timelineRef}>
         <div className="bg-black w-full h-[0.5px] absolute left-0 bottom-[68px] md:bottom-1/2" />
-        {activeIndex > 1 && (
-          <button
-            className="absolute bottom-[53px] md:bottom-[58px] left-0 md:left-[2px] z-[2] text-black"
-            type="button"
-            onClick={() => swiper?.slidePrev()}
-          >
-            <ArrowRight className="rotate-[-180deg]" />
-          </button>
-        )}
-        <button
-          className="absolute bottom-[49px] md:bottom-[54px] right-[-4px] md:right-[-6px] z-[2] text-black p-1"
-          type="button"
-          onClick={() => swiper?.slideNext()}
-        >
-          <ArrowRight />
-        </button>
+        <Controls />
         <Slider
           sliderProps={{
             slidesPerView: "auto",
@@ -52,9 +44,12 @@ const HorizontalFeed: FC<HorizontalFeedProps> = ({ feeds }) => {
             },
             onSwiper(swiper) {
               setSwiper(swiper);
+              if (swiper.isEnd) setFeedEnded(true);
             },
             onSlideChange(swiper) {
               setActiveIndex(swiper.activeIndex + 1);
+              if (swiper.isEnd) setFeedEnded(true);
+              else setFeedEnded(false);
             },
           }}
           className="w-full !overflow-visible my-4 !pl-24"

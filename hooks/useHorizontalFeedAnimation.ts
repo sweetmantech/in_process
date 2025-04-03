@@ -1,5 +1,13 @@
-import { useState, useCallback, Dispatch, SetStateAction } from "react";
+import {
+  useState,
+  useCallback,
+  Dispatch,
+  SetStateAction,
+  RefObject,
+} from "react";
 import useIsMobile from "./useIsMobile";
+import { Swiper } from "swiper/types";
+import useCheckTimelineOverflow from "./useCheckTimelineOverflow";
 
 interface UseHorizontalFeedAnimationReturn {
   nearestIndex: number | null;
@@ -8,8 +16,15 @@ interface UseHorizontalFeedAnimationReturn {
   getHeight: (index: number) => number;
   isHovered: (index: number) => boolean;
   activeIndex: number;
+  feedEnded: boolean;
   setActiveIndex: Dispatch<SetStateAction<number>>;
   setEventTriggered: Dispatch<SetStateAction<boolean>>;
+  setFeedEnded: Dispatch<SetStateAction<boolean>>;
+  swiper: Swiper | null;
+  setSwiper: Dispatch<SetStateAction<Swiper | null>>;
+  timelineOverflowed: boolean;
+  containerRef: RefObject<HTMLDivElement>;
+  timelineRef: RefObject<HTMLDivElement>;
 }
 
 interface NearestButton {
@@ -27,11 +42,15 @@ export const useHorizontalFeedAnimation = (
   const MIN_HEIGHT = isMobile ? 0 : 60;
   const HEIGHT_DECREMENT = 28;
 
+  const [swiper, setSwiper] = useState<Swiper | null>(null);
   const [nearestIndex, setNearestIndex] = useState<number | null>(0);
   const [neighborIndexes, setNeighborIndexes] = useState<number[]>([]);
   const [mouseX, setMouseX] = useState<number | null>(null);
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [eventTriggered, setEventTriggered] = useState<boolean>(false);
+  const [feedEnded, setFeedEnded] = useState<boolean>(false);
+
+  const checkTimelineOverflow = useCheckTimelineOverflow();
 
   const getNeighborIndexes = useCallback(
     (centerIndex: number) => {
@@ -111,7 +130,7 @@ export const useHorizontalFeedAnimation = (
       if (isMobile) return activeIndex === index;
       if (
         mouseX === null &&
-        nearestIndex === 1 &&
+        nearestIndex === 0 &&
         !eventTriggered &&
         index === 0
       )
@@ -130,5 +149,10 @@ export const useHorizontalFeedAnimation = (
     activeIndex,
     setActiveIndex,
     setEventTriggered,
+    setFeedEnded,
+    feedEnded,
+    swiper,
+    setSwiper,
+    ...checkTimelineOverflow,
   };
 };
