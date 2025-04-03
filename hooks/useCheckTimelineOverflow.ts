@@ -8,7 +8,6 @@ const useCheckTimelineOverflow = () => {
   useEffect(() => {
     const container = containerRef.current;
     const timeline = timelineRef.current;
-
     if (!container || !timeline) return;
 
     const observer = new ResizeObserver(() => {
