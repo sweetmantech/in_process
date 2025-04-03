@@ -50,12 +50,12 @@ const HorizontalFeed: FC<HorizontalFeedProps> = ({ feeds }) => {
             },
             onSwiper(swiper) {
               setSwiper(swiper);
-              if (swiper.isEnd) setFeedEnded(true);
             },
             onSlideChange(swiper) {
               setActiveIndex(swiper.activeIndex + 1);
-              if (swiper.isEnd) setFeedEnded(true);
-              else setFeedEnded(false);
+            },
+            onProgress(_, progress) {
+              setFeedEnded(progress === 1);
             },
           }}
           className="w-full !overflow-visible my-4 !pl-24"
