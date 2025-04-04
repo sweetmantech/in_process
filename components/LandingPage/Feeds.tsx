@@ -9,7 +9,6 @@ import Loading from "../Loading";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 import { useCreatedFeed } from "@/hooks/useCreatedFeed";
-import getTodayPosts from "@/lib/getTodayPosts";
 
 const Feeds = () => {
   const { error, isLoading, data } = useCreatedFeed();
@@ -27,7 +26,7 @@ const Feeds = () => {
   return (
     <div className="pt-16 md:pt-20">
       <p className="font-archivo text-2xl md:text-5xl px-4 md:px-0 pt-6 pb-4 md:pt-12">
-        today {getTodayPosts(data || [])} moments
+        {data?.length} moments
         <br />
         have been shared
       </p>
