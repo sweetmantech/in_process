@@ -7,6 +7,7 @@ import Logo from "@/components/Logo";
 import Footer from "@/components/Footer";
 import { Toaster } from "@/components/ui/sonner";
 import { Suspense } from "react";
+import OnboardingModalWrapper from '@/components/OnboardingModalWrapper';
 
 export const metadata: Metadata = {
   title: "In Process",
@@ -27,8 +28,9 @@ export default function RootLayout({
             <LoginButton className="fixed right-2 md:right-10 top-2 md:top-8 z-10" />
             <div className="grow relative flex flex-col">{children}</div>
             <Footer />
+            <OnboardingModalWrapper />
+            <Toaster />
           </Providers>
-          <Toaster />
         </Suspense>
       </body>
     </html>
