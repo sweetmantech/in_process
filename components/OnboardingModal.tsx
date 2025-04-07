@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { Address } from 'viem';
 
 interface OnboardingModalProps {
   isOpen: boolean;
@@ -48,8 +49,7 @@ export default function OnboardingModal({ isOpen, onClose }: OnboardingModalProp
 
   return (
     <div className="fixed inset-0 bg-[#FEFEFE] bg-opacity-80 flex items-center justify-center z-50">
-      <div className="bg-white p-8 max-w-[574px] h-[450px] w-full m-4 relative shadow-[rgba(27,21,4,0.09)_-1px_4px_64px_16px]" onClick={handleAdvance}>
-        {/* Close button */}
+      <div className="bg-white p-8 max-w-[574px] h-[450px] w-full m-4 relative shadow-[rgba(27,21,4,0.09)_-1px_4px_64px_16px]" onClick={isLastSlide ? undefined : handleAdvance}>
         <button 
           onClick={onClose}
           className="absolute right-4 top-4 p-1"
@@ -73,7 +73,8 @@ export default function OnboardingModal({ isOpen, onClose }: OnboardingModalProp
             {slides[currentSlide].subtitle}
           </p>
         </div>
-        {/* Stars decoration */}
+        
+        {/* Stars/image decoration */}
         <div className="flex justify-center mb-6">
           <Image
             src={`/${slides[currentSlide].img}`}

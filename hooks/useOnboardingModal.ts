@@ -2,32 +2,43 @@
 
 import { useState, useEffect } from 'react';
 import { usePrivy } from '@privy-io/react-auth';
+import { useArtistProfile } from './useArtistProfile';
+import { Address } from 'viem';
 
 export function useOnboardingModal() {
   const [isOpen, setIsOpen] = useState(false);
   const { ready, authenticated, user } = usePrivy();
+  
+  // Get the user's wallet address from Privy
+  const walletAddress = user?.wallet?.address as Address | undefined;
+  
+  // Fetch the artist profile using the wallet address
+  const { data: artistProfile, isLoading } = useArtistProfile(walletAddress);
 
   useEffect(() => {
+    if (!ready || !authenticated || isLoading) return;
 
-    if (!ready) return;
-
-    // Only proceed if user is authenticated
-    if (authenticated) {
-      const hasCompletedOnboarding = localStorage.getItem('hasCompletedOnboarding');
-      console.log('Checking onboarding status:', { hasCompletedOnboarding });
-      
-      if (!hasCompletedOnboarding) {
-        setIsOpen(true);
-      } else {
-        console.log('User has already completed onboarding');
-      }
+    // Check if the user has a username set in their artist profile
+    const hasUsername = Boolean(artistProfile?.username);
+    
+    if (!hasUsername) {
+      // Show modal if no username is set
+      setIsOpen(true);
+    } else {
+      // Hide modal if username exists
+      setIsOpen(false);
     }
-  }, [ready, authenticated, user]);
+    
+    console.log('Checking username status:', { 
+      walletAddress, 
+      hasUsername: hasUsername,
+      username: artistProfile?.username
+    });
+    
+  }, [ready, authenticated, user, walletAddress, artistProfile, isLoading]);
 
   const closeModal = () => {
-    console.log('Closing modal and marking as completed');
     setIsOpen(false);
-    localStorage.setItem('hasCompletedOnboarding', 'true');
   };
 
   return {
