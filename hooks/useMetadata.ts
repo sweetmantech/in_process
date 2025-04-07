@@ -9,6 +9,10 @@ async function fetchMetadata(uri: string): Promise<Metadata> {
       name: "",
       image: "",
       description: "",
+      content: {
+        mime: "",
+        uri: "",
+      },
     };
   }
   const data = await response.json();
