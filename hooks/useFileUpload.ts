@@ -3,6 +3,7 @@ import { uploadFile } from "@/lib/arweave/uploadFile";
 import { Dispatch, SetStateAction, useState } from "react";
 import captureImageFromVideo from "@/lib/captureImageFromVideo";
 import base64ToFile from "@/lib/base64ToFile";
+import domtoimage from "dom-to-image-more";
 
 interface useFileUploadProps {
   setImageUri: Dispatch<SetStateAction<string>>;
