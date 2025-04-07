@@ -2,11 +2,14 @@ import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Pause, Play } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
+import Image from "next/image";
+import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 
 interface AudioPlayerProps {
-  url: string;
+  audioUrl: string;
+  thumbnailUrl: string;
 }
-const AudioPlayer = ({ url }: AudioPlayerProps) => {
+const AudioPlayer = ({ audioUrl, thumbnailUrl }: AudioPlayerProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -40,8 +43,19 @@ const AudioPlayer = ({ url }: AudioPlayerProps) => {
 
   return (
     <div className="py-6 flex items-center justify-center bg-white rounded-lg shadow-lg overflow-hidden">
+      <div className="relative w-full h-3/4">
+        {thumbnailUrl && (
+          <Image
+            src={getFetchableUrl(thumbnailUrl) || ""}
+            alt="Audio cover"
+            layout="fill"
+            objectFit="cover"
+            objectPosition="center"
+          />
+        )}
+      </div>
       <div className="px-3 w-full">
-        <audio ref={audioRef} src={url} onTimeUpdate={handleTimeUpdate} />
+        <audio ref={audioRef} src={audioUrl} onTimeUpdate={handleTimeUpdate} />
         <div className="text-center">
           <Button
             variant="ghost"

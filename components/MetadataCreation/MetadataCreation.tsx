@@ -12,6 +12,7 @@ const MetadataCreation = () => {
     fileUpload,
     fileUploading,
     createdContract,
+    writingText,
   } = useZoraCreateProvider();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -27,7 +28,7 @@ const MetadataCreation = () => {
 
   return (
     <div
-      className={`w-full md:max-w-[450px] xl:max-w-[500px] aspect-[576/700] relative bg-[url('/sky.png')] bg-cover ${createdContract && "pointer-events-none"}`}
+      className={`w-full md:max-w-[450px] xl:max-w-[500px] aspect-[576/700] relative bg-[url('/sky.png')] bg-cover ${createdContract && writingText && "pointer-events-none"}`}
     >
       <input
         ref={fileInputRef}
@@ -35,6 +36,7 @@ const MetadataCreation = () => {
         type="file"
         className={selected ? "hidden" : "z-2 size-full absolute opacity-0"}
         onChange={fileUpload}
+        disabled={Boolean(createdContract)}
       />
       {selected ? (
         <>
