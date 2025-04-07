@@ -4,6 +4,7 @@ import AudioPlayer from "./AudioPlayer";
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import Image from "next/image";
 import React, { Fragment } from "react";
+import PdfViewer from "../Renderers/PdfViewer";
 
 interface MediaUploadedProps {
   handleImageClick: () => void;
@@ -23,6 +24,13 @@ const MediaUploaded = ({ handleImageClick }: MediaUploadedProps) => {
       </Container>
     );
   }
+
+  if (mimeType.includes("pdf"))
+    return (
+      <Container>
+        <PdfViewer fileUrl={getFetchableUrl(animationUri) || ""} />
+      </Container>
+    );
 
   if (mimeType.includes("audio")) {
     return (
