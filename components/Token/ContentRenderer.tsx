@@ -2,6 +2,7 @@ import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import { Metadata } from "@/types/token";
 import Image from "next/image";
 import PdfViewer from "../Renderers/PdfViewer";
+import VideoPlayer from "../Renderers/VideoPlayer";
 
 interface ContentRendererProps {
   metadata: Metadata;
@@ -13,6 +14,13 @@ const ContentRenderer = ({ metadata }: ContentRendererProps) => {
   if (mimeType.includes("pdf"))
     return (
       <PdfViewer fileUrl={getFetchableUrl(metadata.animation_url) || ""} />
+    );
+  if (mimeType.includes("video"))
+    return (
+      <VideoPlayer
+        mimeType={metadata.content.mime}
+        url={getFetchableUrl(metadata.animation_url) || ""}
+      />
     );
   return (
     <Image

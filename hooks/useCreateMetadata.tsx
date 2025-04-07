@@ -49,7 +49,7 @@ const useCreateMetadata = () => {
 
   const uploadPdfAsImage = async () => {
     const pdfs = document.getElementsByClassName("rpv-core__canvas-layer");
-    if (!pdfs) return null;
+    if (!pdfs.length) return null;
     const blob = await domtoimage.toBlob(pdfs[0]);
     const fileName = "image.png";
     const fileType = "image/png";
