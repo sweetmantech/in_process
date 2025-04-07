@@ -10,6 +10,7 @@ import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 import { useCreatedFeed } from "@/hooks/useCreatedFeed";
 import getTodayPosts from "@/lib/getTodayPosts";
+import OnboardingModalWrapper from "@/components/OnboardingModal/OnboardingModalWrapper";
 
 const Feeds = () => {
   const { error, isLoading, data } = useCreatedFeed();
@@ -54,6 +55,7 @@ const Feeds = () => {
           </HorizontalFeedAnimationProvider>
         )}
       </div>
+      <OnboardingModalWrapper />
     </div>
   );
 };
