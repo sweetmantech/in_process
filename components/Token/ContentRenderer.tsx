@@ -17,7 +17,12 @@ const ContentRenderer = ({ metadata }: ContentRendererProps) => {
       <PdfViewer fileUrl={getFetchableUrl(metadata.animation_url) || ""} />
     );
   if (mimeType.includes("audio")) {
-    return <AudioPlayer url={getFetchableUrl(metadata.animation_url) || ""} />;
+    return (
+      <AudioPlayer
+        thumbnailUrl={getFetchableUrl(metadata.image) || ""}
+        audioUrl={getFetchableUrl(metadata.animation_url) || ""}
+      />
+    );
   }
   if (mimeType.includes("video"))
     return (
