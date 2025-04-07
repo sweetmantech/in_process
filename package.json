@@ -28,6 +28,8 @@
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-tooltip": "^1.1.8",
     "@radix-ui/react-visually-hidden": "^1.1.2",
+    "@react-pdf-viewer/core": "3.6.0",
+    "@react-pdf-viewer/default-layout": "3.6.0",
     "@stackso/js-core": "^0.5.11",
     "@tanstack/react-query": "^5.66.0",
     "@tanstack/react-table": "^8.21.2",
@@ -36,6 +38,7 @@
     "@xyflow/react": "^12.4.3",
     "@zoralabs/protocol-deployments": "^0.3.8",
     "abitype": "^1.0.8",
+    "canvas": "2.11.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "1.0.0",
@@ -72,5 +75,29 @@
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
+  },
+  "pnpm": {
+    "ignoredBuiltDependencies": [
+      "bigint-buffer",
+      "bufferutil",
+      "canvas",
+      "keccak",
+      "protobufjs",
+      "secp256k1",
+      "sharp",
+      "tiny-secp256k1",
+      "utf-8-validate"
+    ],
+    "onlyBuiltDependencies": [
+      "bigint-buffer",
+      "bufferutil",
+      "canvas",
+      "keccak",
+      "protobufjs",
+      "secp256k1",
+      "sharp",
+      "tiny-secp256k1",
+      "utf-8-validate"
+    ]
   }
 }
