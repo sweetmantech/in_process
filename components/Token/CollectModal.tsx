@@ -4,7 +4,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { usePrivy } from "@privy-io/react-auth";
 import Image from "next/image";
 import { Label } from "../ui/label";
 import { useTokenProvider } from "@/providers/TokenProvider";
@@ -15,6 +14,7 @@ import { formatEther } from "viem";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import dynamic from "next/dynamic";
 import { useZoraMintCommentProvider } from "@/providers/ZoraMintCommentProvider";
+import { useUserProvider } from "@/providers/UserProvider";
 
 const CrossmintModal = dynamic(
   () => import("../CommentButton/CrossmintModal"),
@@ -31,7 +31,6 @@ const CrossmintModal = dynamic(
 );
 
 const CollectModal = () => {
-  const { authenticated, login } = usePrivy();
   const {
     comment,
     handleCommentChange,
@@ -44,13 +43,11 @@ const CollectModal = () => {
   const { data, isLoading } = saleConfig;
   const { data: meta } = metadata;
   const { setIsOpenCrossmint, isOpenCrossmint } = useZoraMintCommentProvider();
+  const { isPrepared } = useUserProvider();
 
   const handleCollect = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if (!authenticated) {
-      login();
-      return;
-    }
+    if (!isPrepared()) return;
     setIsOpenCommentModal(true);
     return;
   };
