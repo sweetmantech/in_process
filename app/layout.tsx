@@ -27,8 +27,8 @@ export default function RootLayout({
             <LoginButton className="fixed right-2 md:right-10 top-2 md:top-8 z-10" />
             <div className="grow relative flex flex-col">{children}</div>
             <Footer />
-            <Toaster />
           </Providers>
+            <Toaster />
         </Suspense>
       </body>
     </html>
