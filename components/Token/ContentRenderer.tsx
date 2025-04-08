@@ -10,7 +10,7 @@ interface ContentRendererProps {
 }
 
 const ContentRenderer = ({ metadata }: ContentRendererProps) => {
-  const mimeType = metadata.content.mime;
+  const mimeType = metadata?.content?.mime || "";
 
   if (mimeType.includes("pdf"))
     return (
