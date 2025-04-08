@@ -7,6 +7,7 @@ import { slides } from './OnboardingModalContent';
 import { useAccount } from 'wagmi';
 import { SlideContent } from './SlideContent';
 import { NavigationDots } from './NavigationDots';
+import { useRouter } from 'next/navigation';
 
 interface OnboardingModalProps {
   isOpen: boolean;
@@ -17,6 +18,7 @@ export default function OnboardingModal({ isOpen, onClose }: OnboardingModalProp
   const { address: wagmiAddress, isConnected, connector } = useAccount();
   const [currentSlide, setCurrentSlide] = useState(0);
   const isLastSlide = currentSlide === slides.length - 1;
+  const router = useRouter();
 
   useEffect(() => {
     if (isOpen) {
@@ -27,6 +29,12 @@ export default function OnboardingModal({ isOpen, onClose }: OnboardingModalProp
   const handleAdvance = () => {
     if (isLastSlide) return;
     setCurrentSlide(prev => prev + 1);
+  };
+
+  const handleStart = () => {
+    if (wagmiAddress) {
+      router.push(`/${wagmiAddress}`);
+    }
   };
 
   if (!isOpen) return null;
@@ -53,7 +61,7 @@ export default function OnboardingModal({ isOpen, onClose }: OnboardingModalProp
         <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex justify-center gap-3">
           {isLastSlide ? (
             <Button 
-              onClick={onClose} 
+              onClick={handleStart} 
               className="px-8 py-2 text-md bg-black hover:bg-grey-moss-300 text-white rounded-sm"
             >
               start
