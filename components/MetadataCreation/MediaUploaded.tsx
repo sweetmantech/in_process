@@ -44,10 +44,7 @@ const MediaUploaded = ({ handleImageClick }: MediaUploadedProps) => {
   if (mimeType.includes("video")) {
     return (
       <Container>
-        <VideoPlayer
-          url={getFetchableUrl(animationUri) || ""}
-          mimeType={mimeType}
-        />
+        <VideoPlayer url={getFetchableUrl(animationUri) || ""} />
       </Container>
     );
   }

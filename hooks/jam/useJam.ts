@@ -13,8 +13,8 @@ import {
 } from "@/lib/jam/operations";
 import domtoimage from "dom-to-image";
 import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
-import { uploadFile } from "@/lib/arweave/uploadFile";
 import { useEdgeOperations } from "./useEdgeOperations";
+import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
 
 export function useJam() {
   const [nodes, setNodes] = useState<Node[]>(initialNodes);
@@ -59,7 +59,7 @@ export function useJam() {
     if (!reactFlowWrapper.current) return;
     setFileUploading(true);
     const blob = await domtoimage.toBlob(reactFlowWrapper.current);
-    const uri = await uploadFile(
+    const uri = await clientUploadToArweave(
       new File([blob], "image.png", { type: "image/png" }),
     );
     setImageUri(uri);

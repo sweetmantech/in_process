@@ -1,7 +1,7 @@
 import { Readable } from "node:stream";
 import turboClient from "./client";
 
-const uploadPfpToArweave = async (file: File): Promise<string | null> => {
+const uploadToArweave = async (file: File): Promise<string | null> => {
   try {
     const fileSize = file.size;
     const buffer = await file.arrayBuffer();
@@ -42,4 +42,4 @@ const uploadPfpToArweave = async (file: File): Promise<string | null> => {
   }
 };
 
-export default uploadPfpToArweave;
+export default uploadToArweave;
