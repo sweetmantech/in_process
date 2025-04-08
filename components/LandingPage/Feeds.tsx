@@ -9,6 +9,7 @@ import Loading from "../Loading";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 import { useCreatedFeed } from "@/hooks/useCreatedFeed";
+import OnboardingModalWrapper from "../OnboardingModal/OnboardingModalWrapper";
 
 const Feeds = () => {
   const { error, isLoading, data } = useCreatedFeed();
@@ -53,6 +54,7 @@ const Feeds = () => {
           </HorizontalFeedAnimationProvider>
         )}
       </div>
+      <OnboardingModalWrapper />
     </div>
   );
 };
