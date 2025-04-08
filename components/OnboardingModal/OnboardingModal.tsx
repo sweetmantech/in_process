@@ -5,7 +5,6 @@ import Image from 'next/image';
 import { Button } from '../ui/button';
 import { slides } from './OnboardingModalContent';
 import { useAccount } from 'wagmi';
-import { useOnboardingAddress } from '@/hooks/useOnboardingAddress';
 import { SlideContent } from './SlideContent';
 import { NavigationDots } from './NavigationDots';
 
@@ -16,7 +15,6 @@ interface OnboardingModalProps {
 
 export default function OnboardingModal({ isOpen, onClose }: OnboardingModalProps) {
   const { address: wagmiAddress, isConnected, connector } = useAccount();
-  const { handleStart } = useOnboardingAddress();
   const [currentSlide, setCurrentSlide] = useState(0);
   const isLastSlide = currentSlide === slides.length - 1;
 
@@ -55,10 +53,7 @@ export default function OnboardingModal({ isOpen, onClose }: OnboardingModalProp
         <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex justify-center gap-3">
           {isLastSlide ? (
             <Button 
-              onClick={async () => {
-                const success = await handleStart();
-                if (success) onClose();
-              }} 
+              onClick={onClose} 
               className="px-8 py-2 text-md bg-black hover:bg-grey-moss-300 text-white rounded-sm"
             >
               start
