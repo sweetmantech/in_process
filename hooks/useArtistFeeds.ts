@@ -1,10 +1,10 @@
-import { Collection } from "@/types/token";
+import { Token } from "@/types/token";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 
 async function fetchArtistFeeds(
   artistAddress: string | string[] | undefined,
-): Promise<Collection[]> {
+): Promise<Token[]> {
   const response = await fetch(
     `/api/dune/artist?artistAddress=${artistAddress || ""}`,
   );
@@ -20,7 +20,6 @@ export function useArtistFeeds() {
   return useQuery({
     queryKey: ["artistFeeds", artistAddress],
     queryFn: () => fetchArtistFeeds(artistAddress),
-    staleTime: 1000 * 60 * 5,
     refetchInterval: 4000,
     refetchOnMount: true,
   });
