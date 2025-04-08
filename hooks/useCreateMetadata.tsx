@@ -47,6 +47,17 @@ const useCreateMetadata = () => {
     };
   };
 
+  const uploadPdfAsImage = async () => {
+    const pdfs = document.getElementsByClassName("rpv-core__canvas-layer");
+    if (!pdfs.length) return null;
+    const blob = await domtoimage.toBlob(pdfs[0]);
+    const fileName = "image.png";
+    const fileType = "image/png";
+    const pdfImage = new File([blob], fileName, { type: fileType });
+    const imageUri = await uploadFile(pdfImage);
+    return imageUri;
+  };
+
   const reset = () => {
     setWritingText("");
     setName("");
@@ -58,13 +69,14 @@ const useCreateMetadata = () => {
   };
 
   const getUri = async () => {
+    const pdfImageUri = await uploadPdfAsImage();
     const metadataOfWriting = await uploadTextRefAsImage();
 
     return uploadJson({
       name,
       description: writingText || description,
       external_url: link,
-      image: metadataOfWriting?.uri || imageUri,
+      image: pdfImageUri || metadataOfWriting?.uri || imageUri,
       animation_url: animationUri,
       content: {
         mime: metadataOfWriting?.mimeType || mimeType,

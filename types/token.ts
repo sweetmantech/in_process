@@ -26,6 +26,11 @@ export interface Metadata {
   name: string;
   description: string;
   external_url?: string;
+  content: {
+    mime: string;
+    uri: string;
+  };
+  animation_url?: string;
 }
 
 export interface Collection {

@@ -1,13 +1,15 @@
-import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
 import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Pause, Play } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
-import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import Image from "next/image";
+import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 
-const AudioPlayer = ({ onClick }: { onClick: () => void }) => {
-  const { imageUri, animationUri, createdContract } = useZoraCreateProvider();
+interface AudioPlayerProps {
+  audioUrl: string;
+  thumbnailUrl: string;
+}
+const AudioPlayer = ({ audioUrl, thumbnailUrl }: AudioPlayerProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -40,34 +42,20 @@ const AudioPlayer = ({ onClick }: { onClick: () => void }) => {
   };
 
   return (
-    <div className="size-full bg-white rounded-lg shadow-lg overflow-hidden flex-col flex justify-center items-center">
-      <div className="relative w-full h-3/4" onClick={onClick}>
-        {imageUri ? (
+    <div className="py-6 flex items-center justify-center bg-white rounded-lg shadow-lg overflow-hidden">
+      <div className="relative w-full h-3/4">
+        {thumbnailUrl && (
           <Image
-            src={getFetchableUrl(imageUri) || ""}
+            src={getFetchableUrl(thumbnailUrl) || ""}
             alt="Audio cover"
             layout="fill"
             objectFit="cover"
             objectPosition="center"
           />
-        ) : (
-          <>
-            {!createdContract && (
-              <div className="size-full flex justify-center items-center">
-                <button className="border border-gray-200 rounded-md px-3 py-2 shadow-md">
-                  Upload Audio Cover
-                </button>
-              </div>
-            )}
-          </>
         )}
       </div>
-      <div className="p-1 w-full">
-        <audio
-          ref={audioRef}
-          src={getFetchableUrl(animationUri) || ""}
-          onTimeUpdate={handleTimeUpdate}
-        />
+      <div className="px-3 w-full">
+        <audio ref={audioRef} src={audioUrl} onTimeUpdate={handleTimeUpdate} />
         <div className="text-center">
           <Button
             variant="ghost"
