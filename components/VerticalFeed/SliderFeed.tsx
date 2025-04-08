@@ -1,8 +1,7 @@
 import { useMetadata } from "@/hooks/useMetadata";
-import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import { Collection } from "@/types/token";
 import { Skeleton } from "../ui/skeleton";
-import Image from "next/image";
+import ContentRenderer from "../Token/ContentRenderer";
 
 interface SliderFeedProps {
   feed: Collection;
@@ -13,20 +12,12 @@ const SliderFeed = ({ feed }: SliderFeedProps) => {
 
   return (
     <div className="w-full h-[250px] md:h-auto overflow-hidden relative">
-      {isLoading ? (
+      {isLoading || !data ? (
         <Skeleton className="size-full" />
       ) : (
         <div className="gap-2 flex flex-col size-full">
           <div className="grow overflow-hidden w-full relative rounded-[0px] bg-tan-400">
-            <Image
-              src={getFetchableUrl(data?.image) || "/images/placeholder.png"}
-              alt={feed?.name || ""}
-              layout="fill"
-              objectFit="contain"
-              objectPosition="center"
-              blurDataURL={data?.image}
-              unoptimized
-            />
+            <ContentRenderer metadata={data} />
           </div>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 pl-2">
