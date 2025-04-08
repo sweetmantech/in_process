@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import useBalance from "./useBalance";
-import { useWriteContract } from "wagmi";
+import { useAccount, useWriteContract } from "wagmi";
 import { zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
 import { zoraCreatorFixedPriceSaleStrategyAddress } from "@/lib/protocolSdk/constants";
 import { CHAIN } from "@/lib/consts";
@@ -15,6 +15,7 @@ import { useUserProvider } from "@/providers/UserProvider";
 import { useCrossmintCheckout } from "@crossmint/client-sdk-react-ui";
 import useConnectedWallet from "./useConnectedWallet";
 import { getPublicClient } from "@/lib/viem/publicClient";
+import { useFrameProvider } from "@/providers/FrameProvider";
 
 const mintOnSmartWallet = async (parameters: any) => {
   const response = await fetch(`/api/smartwallet/sendUserOperation`, {
@@ -38,6 +39,8 @@ const useZoraMintComment = () => {
   const { balance } = useBalance();
   const { writeContractAsync } = useWriteContract();
   const { connectedWallet } = useConnectedWallet();
+  const { address } = useAccount();
+  const { context } = useFrameProvider();
   const [isLoading, setIsLoading] = useState(false);
   const {
     token,
@@ -57,10 +60,12 @@ const useZoraMintComment = () => {
       if (!isPrepared()) return;
       if (!sale) return;
       setIsLoading(true);
+      const minter = context ? address : connectedWallet;
+
       const publicClient = getPublicClient();
       const minterArguments = encodeAbiParameters(
         parseAbiParameters("address, string"),
-        [connectedWallet as Address, comment],
+        [minter as Address, comment],
       );
 
       let hash: Address | null = null;
@@ -89,7 +94,7 @@ const useZoraMintComment = () => {
         }
         hash = await writeContractAsync({
           address: token.token.contract.address,
-          account: connectedWallet as Address,
+          account: minter as Address,
           abi: zoraCreator1155ImplABI,
           functionName: "mint",
           args: [
@@ -106,7 +111,7 @@ const useZoraMintComment = () => {
       if (!hash) throw new Error();
       const receipt = await publicClient.waitForTransactionReceipt({ hash });
       addComment({
-        sender: connectedWallet as Address,
+        sender: minter as Address,
         comment,
         timestamp: new Date().getTime(),
       } as any);

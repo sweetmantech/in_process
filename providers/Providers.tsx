@@ -13,11 +13,11 @@ export function Providers({ children }: { children: ReactNode }) {
     <WagmiProvider>
       <CrossmintProvider>
         <PrivyProvider>
-          <UserProvider>
-            <ZoraCreateProvider>
-              <FrameProvider>{children}</FrameProvider>
-            </ZoraCreateProvider>
-          </UserProvider>
+          <FrameProvider>
+            <UserProvider>
+              <ZoraCreateProvider>{children}</ZoraCreateProvider>
+            </UserProvider>
+          </FrameProvider>
         </PrivyProvider>
       </CrossmintProvider>
     </WagmiProvider>
