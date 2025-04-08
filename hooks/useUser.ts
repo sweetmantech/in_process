@@ -1,20 +1,25 @@
-import { usePrivy, useWallets } from "@privy-io/react-auth";
-import { useMemo } from "react";
+import { usePrivy } from "@privy-io/react-auth";
+import useConnectedWallet from "./useConnectedWallet";
+import { useFrameProvider } from "@/providers/FrameProvider";
+import { useAccount, useConnect } from "wagmi";
+import { config } from "@/providers/WagmiProvider";
 
 const useUser = () => {
-  const { user, authenticated, login, ready } = usePrivy();
-  const { wallets } = useWallets();
-  const privyWallet = wallets?.find(
-    (wallet) => wallet.walletClientType === "privy",
-  );
-  const socialWallet = privyWallet?.address;
-  const externalWallets = useMemo(
-    () => wallets?.find((wallet) => wallet.walletClientType !== "privy"),
-    [wallets],
-  );
+  const { user, login } = usePrivy();
+  const { connectedWallet } = useConnectedWallet();
+  const { context } = useFrameProvider();
+  const { isConnected } = useAccount();
+  const { connect } = useConnect();
 
   const isPrepared = () => {
-    if (!(authenticated && ready)) {
+    if (context) {
+      if (!isConnected) {
+        connect({ connector: config.connectors[0] });
+        return false;
+      }
+      return true;
+    }
+    if (!connectedWallet) {
       login();
       return false;
     }
@@ -23,7 +28,6 @@ const useUser = () => {
 
   return {
     email: user?.email?.address,
-    connectedWallet: socialWallet || externalWallets?.address || null,
     isPrepared,
   };
 };
