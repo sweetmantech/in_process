@@ -9,7 +9,6 @@ import Loading from "../Loading";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 import { useCreatedFeed } from "@/hooks/useCreatedFeed";
-import getTodayPosts from "@/lib/getTodayPosts";
 import OnboardingModalWrapper from "../OnboardingModal/OnboardingModalWrapper";
 
 const Feeds = () => {
