@@ -1,37 +1,34 @@
-import {
-  TurboFactory,
-} from '@ardrive/turbo-sdk/web';
-import { ReadableStream } from 'web-streams-polyfill';
+import Arweave from "arweave";
 
-TurboFactory.setLogLevel('debug');
+const arweave = Arweave.init({});
 
-const clientUploadToArweave = async (file: File): Promise<string | null> => {
-  try {
-    const ARWEAVE_KEY = JSON.parse(
-      Buffer.from(process.env.NEXT_PUBLIC_ARWEAVE_KEY as string, "base64").toString(),
+const clientUploadToArweave = async (file: File): Promise<string> => {
+  const ARWEAVE_KEY = JSON.parse(
+    Buffer.from(
+      process.env.NEXT_PUBLIC_ARWEAVE_KEY as string,
+      "base64",
+    ).toString(),
+  );
+  const buffer = await file.arrayBuffer();
+
+  const transaction = await arweave.createTransaction(
+    {
+      data: buffer,
+    },
+    ARWEAVE_KEY,
+  );
+  transaction.addTag("Content-Type", file.type);
+  await arweave.transactions.sign(transaction, ARWEAVE_KEY);
+  const uploader = await arweave.transactions.getUploader(transaction);
+
+  while (!uploader.isComplete) {
+    console.log(
+      `${uploader.pctComplete}% complete, ${uploader.uploadedChunks}/${uploader.totalChunks}`,
     );
-    
-    const turboClient: any = TurboFactory.authenticated({
-      privateKey: ARWEAVE_KEY,
-    });
-    const buffer = await file.arrayBuffer();
-    const upload = await turboClient.uploadFile({
-      fileStreamFactory: () =>
-        new ReadableStream({
-          start(controller) {
-            controller.enqueue(buffer);
-            controller.close();
-          },
-        }),
-      fileSizeFactory: () => file.size,
-    });
-
-    console.log('ziad', `Upload successful! ${JSON.stringify(upload, null, 2)}`)
-    return "";
-  } catch (error) {
-    console.error("Error uploading to Arweave:", error);
-    return null;
+    await uploader.uploadChunk();
   }
+
+  return `ar://${transaction.id}`;
 };
 
 export default clientUploadToArweave;

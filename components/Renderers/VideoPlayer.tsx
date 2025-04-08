@@ -1,11 +1,10 @@
 interface VideoPlayerProps {
-  mimeType: string;
   url: string;
 }
-const VideoPlayer = ({ url, mimeType }: VideoPlayerProps) => {
+const VideoPlayer = ({ url }: VideoPlayerProps) => {
   return (
     <video controls className="w-full rounded-md">
-      <source src={url} type={mimeType} />
+      <source src={url} />
       Your browser does not support the video element.
     </video>
   );

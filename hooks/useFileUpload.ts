@@ -33,8 +33,7 @@ const useFileUpload = ({
 
       const mimeType = file.type;
       const isImage = mimeType.includes("image");
-
-      const uri = await uploadFile(file);
+      const uri = await clientUploadToArweave(file);
       if (isImage) {
         setImageUri(uri);
         setBlurImageUrl(URL.createObjectURL(file));
@@ -49,7 +48,7 @@ const useFileUpload = ({
             URL.createObjectURL(file),
           );
           const imageFile = base64ToFile(frameBase64 as string, file.name);
-          const imageUri = await uploadFile(imageFile);
+          const imageUri = await clientUploadToArweave(imageFile);
           setImageUri(imageUri);
         }
       }

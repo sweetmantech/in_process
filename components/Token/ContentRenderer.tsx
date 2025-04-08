@@ -12,6 +12,7 @@ interface ContentRendererProps {
 const ContentRenderer = ({ metadata }: ContentRendererProps) => {
   const mimeType = metadata.content.mime;
 
+  return <VideoPlayer url={getFetchableUrl(metadata.animation_url) || ""} />;
   if (mimeType.includes("pdf"))
     return (
       <PdfViewer fileUrl={getFetchableUrl(metadata.animation_url) || ""} />
@@ -25,19 +26,7 @@ const ContentRenderer = ({ metadata }: ContentRendererProps) => {
     );
   }
   if (mimeType.includes("video"))
-    return (
-      <VideoPlayer
-        mimeType={metadata.content.mime}
-        url={getFetchableUrl(metadata.animation_url) || ""}
-      />
-    );
-  if (mimeType.includes("video"))
-    return (
-      <VideoPlayer
-        mimeType={metadata.content.mime}
-        url={getFetchableUrl(metadata.animation_url) || ""}
-      />
-    );
+    return <VideoPlayer url={getFetchableUrl(metadata.animation_url) || ""} />;
   return (
     <Image
       src={getFetchableUrl(metadata.image) || "/images/placeholder.png"}
