@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import useBalance from "./useBalance";
-import { useAccount, useWriteContract } from "wagmi";
+import { useAccount, useSwitchChain, useWriteContract } from "wagmi";
 import { zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
 import { zoraCreatorFixedPriceSaleStrategyAddress } from "@/lib/protocolSdk/constants";
-import { CHAIN } from "@/lib/consts";
+import { CHAIN, CHAIN_ID } from "@/lib/consts";
 import {
   Address,
   encodeAbiParameters,
@@ -42,6 +42,7 @@ const useZoraMintComment = () => {
   const { address } = useAccount();
   const { context } = useFrameProvider();
   const [isLoading, setIsLoading] = useState(false);
+  const { switchChainAsync } = useSwitchChain();
   const {
     token,
     comment,
@@ -59,6 +60,7 @@ const useZoraMintComment = () => {
     try {
       if (!isPrepared()) return;
       if (!sale) return;
+      switchChainAsync({ chainId: CHAIN_ID });
       setIsLoading(true);
       const minter = context ? address : connectedWallet;
 
