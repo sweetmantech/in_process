@@ -32,7 +32,7 @@ export async function getTokens(feeds: CollectionExtended[]): Promise<Token[]> {
         const returnValues: ExtendedCollectionWithTokenId[] = [];
         const calls = collections.map((c: CollectionExtended) => {
           const subCalls = [];
-          for (let i = 1; i < c.nextTokenId; i++) {
+          for (let i = c.nextTokenId - 1; (i = 1); i--) {
             returnValues.push({
               ...c,
               tokenId: i,
