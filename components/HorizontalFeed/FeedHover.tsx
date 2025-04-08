@@ -1,12 +1,11 @@
 import { FC } from "react";
 import { Skeleton } from "../ui/skeleton";
-import Image from "next/image";
 import { Metadata } from "@/types/token";
-import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
+import ContentRenderer from "../Token/ContentRenderer";
 
 interface FeedHoverProps {
   isLoading: boolean;
-  data: Metadata | undefined;
+  data: Metadata;
 }
 
 const FeedHover: FC<FeedHoverProps> = ({ isLoading, data }) => {
@@ -16,15 +15,7 @@ const FeedHover: FC<FeedHoverProps> = ({ isLoading, data }) => {
         {isLoading ? (
           <Skeleton className="size-full" />
         ) : (
-          <Image
-            src={getFetchableUrl(data?.image) || "/images/placeholder.png"}
-            alt={data?.name || ""}
-            layout="fill"
-            objectFit="contain"
-            objectPosition="cover"
-            blurDataURL={data?.image}
-            unoptimized
-          />
+          <ContentRenderer metadata={data} />
         )}
       </div>
     </div>
