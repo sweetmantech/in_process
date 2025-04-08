@@ -1,11 +1,11 @@
-import { Collection } from "@/types/token";
+import { Token } from "@/types/token";
 import Slider from "../Slider";
 import SliderFeed from "./SliderFeed";
 import { Autoplay } from "swiper/modules";
 import useIsMobile from "@/hooks/useIsMobile";
 
 interface ArtSliderProps {
-  feeds: Collection[];
+  feeds: Token[];
 }
 
 const ArtSlider = ({ feeds }: ArtSliderProps) => {

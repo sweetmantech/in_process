@@ -1,12 +1,13 @@
 import { FC } from "react";
-import { Collection } from "@/types/token";
+import { Token } from "@/types/token";
 import FeedHover from "./FeedHover";
 import { useFeed } from "@/hooks/useFeed";
 import { DiamondIcon } from "../ui/icons";
 import truncated from "@/lib/truncated";
+import { useMetadata } from "@/hooks/useMetadata";
 
 interface FeedProps {
-  feed: Collection;
+  feed: Token;
   hovered: boolean;
   step: number;
   height: number;
@@ -14,6 +15,7 @@ interface FeedProps {
 
 const Feed: FC<FeedProps> = ({ feed, hovered, step, height }) => {
   const { isLoading, data, handleClick, formattedDate } = useFeed(feed);
+  const { data: metadata } = useMetadata(feed.uri);
 
   return (
     <div
@@ -54,7 +56,7 @@ const Feed: FC<FeedProps> = ({ feed, hovered, step, height }) => {
         </button>
         {hovered && (
           <p className="font-spectral-italic text-sm md:text-xl pt-2 relative translate-y-6">
-            {truncated(feed.name)}
+            {truncated(metadata?.name || "")}
           </p>
         )}
         <p

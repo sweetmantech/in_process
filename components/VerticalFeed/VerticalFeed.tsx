@@ -1,11 +1,11 @@
-import { Collection } from "@/types/token";
+import { Token } from "@/types/token";
 import Slider from "../Slider";
 import { Autoplay } from "swiper/modules";
 import useIsMobile from "@/hooks/useIsMobile";
 import SliderFeed from "./SliderFeed";
 
 interface VerticalFeedProps {
-  feeds: Collection[];
+  feeds: Token[];
 }
 
 const VerticalFeed = ({ feeds }: VerticalFeedProps) => {

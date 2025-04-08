@@ -1,8 +1,8 @@
-import { Collection } from "@/types/token";
+import { Token } from "@/types/token";
 import GridItem from "./GridItem";
 
 interface GridFeedProps {
-  feeds: Collection[];
+  feeds: Token[];
 }
 
 const GridFeed = ({ feeds }: GridFeedProps) => {

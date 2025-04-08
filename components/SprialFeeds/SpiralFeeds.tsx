@@ -2,7 +2,7 @@
 
 import React from "react";
 import { SpiralPath } from "./SpiralPath";
-import { Collection } from "@/types/token";
+import { Token } from "@/types/token";
 import { useSpiralAnimation } from "@/hooks/useSpiralAnimation";
 import { generateSpacer } from "@/lib/spiralUtils";
 import { Point } from "@/types/spiral";
@@ -11,7 +11,7 @@ import useSpiralMouseOver from "@/hooks/useSpiralMouseOver";
 import Feed from "./Feed";
 
 interface FeedsProps {
-  feeds: Collection[];
+  feeds: Token[];
 }
 
 export default function SpiralFeeds({ feeds }: FeedsProps) {

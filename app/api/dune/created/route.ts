@@ -2,40 +2,25 @@ import { BLOCKLISTS, IS_TESTNET } from "@/lib/consts";
 import getCreatedContractEvents from "@/lib/dune/getCreatedContractEvents";
 import getFormattedCollections from "@/lib/dune/getFormattedCollections";
 import getSmartWalletCreatedContractEvents from "@/lib/dune/getSmartWalletCreatedContractEvents";
-import { getUris } from "@/lib/viem/getUris";
+import { getTokens } from "@/lib/viem/getTokens";
 import { DuneDecodedEvent } from "@/types/dune";
-import { Collection } from "@/types/token";
-import getCreatedTokenEvents from "@/lib/dune/getCreatedTokenEvents";
+import getNextTokenIds from "@/lib/viem/getNextTokenIds";
 
 export async function GET() {
   try {
     const createdEvents: DuneDecodedEvent[] = await getCreatedContractEvents();
     const smartWalletCreatedEvents: DuneDecodedEvent[] =
       await getSmartWalletCreatedContractEvents();
-    const collections = getFormattedCollections([...createdEvents, ...smartWalletCreatedEvents])
-    const promise = collections.map(async (collection: Collection) => {
-      const createdEvents = await getCreatedTokenEvents(collection.newContract)
-      const formattedEvents = createdEvents.map((transaction: DuneDecodedEvent) => {
-        const setUpEvent = transaction.logs.find(
-          (log) => log?.decoded?.name === "SetupNewToken",
-        );
-        if (!setUpEvent) return;
-        const data: any = {
-          chainId: transaction.chain_id,
-          chain: transaction.chain,
-        };
-        setUpEvent?.decoded?.inputs.forEach((input) => {
-          data[`${input.name}`] = input.value;
-        });
-        data.released_at = new Date(transaction.block_time).getTime();
-        return data;
-      });
-      return formattedEvents
-    })
-    const data = await Promise.all(promise)
-    // const eventsWithLatestUris = await getUris(collections);
+    const collections = getFormattedCollections([
+      ...createdEvents,
+      ...smartWalletCreatedEvents,
+    ]);
+    const collectionsWithTokenIds = await getNextTokenIds(collections);
+    const tokens = await getTokens(collectionsWithTokenIds);
     return Response.json(
-      data,
+      tokens.filter(
+        (token) => !BLOCKLISTS.includes(token.creator) || IS_TESTNET,
+      ),
     );
   } catch (e: any) {
     console.log(e);

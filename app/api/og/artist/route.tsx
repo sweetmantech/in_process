@@ -2,7 +2,7 @@ import { NextRequest } from "next/server";
 import OgFooter from "@/components/Og/artist/OgFooter";
 import OgHeader from "@/components/Og/artist/OgHeader";
 import getArtistInfo from "@/lib/getArtistInfo";
-import { Collection } from "@/types/token";
+import { Token } from "@/types/token";
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 
 export const runtime = "edge";
@@ -25,13 +25,9 @@ export async function GET(req: NextRequest) {
   const tokens = await fetch(
     `${VERCEL_OG}/api/dune/artist?artistAddress=${artistAddress}`,
   ).then((res) => res.json());
-  const contractURIs = tokens
-    .slice(0, 4)
-    .map((token: Collection) => token.contractURI);
-  const metadataPromise = contractURIs.map(async (contractURI: string) => {
-    return await fetch(getFetchableUrl(contractURI) || "").then((res) =>
-      res.json(),
-    );
+  const uris = tokens.slice(0, 4).map((token: Token) => token.uri);
+  const metadataPromise = uris.map(async (uri: string) => {
+    return await fetch(getFetchableUrl(uri) || "").then((res) => res.json());
   });
   const metadata = await Promise.all(metadataPromise);
 

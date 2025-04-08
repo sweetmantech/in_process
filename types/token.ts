@@ -45,6 +45,16 @@ export interface Collection {
   chainId: number;
 }
 
+export interface Token {
+  collectionAddress: Address;
+  creator: Address;
+  released_at: number;
+  chainId: number;
+  chain: string;
+  tokenId: number;
+  uri: string;
+}
+
 export interface MintCommentEvent {
   blockNumber: number;
   chain: string;

@@ -1,7 +1,9 @@
 import { BLOCKLISTS, IS_TESTNET } from "@/lib/consts";
 import getArtistCreatedContractEvents from "@/lib/dune/getArtistCreatedContractEvents";
 import getArtistSmartWalletCreatedEvents from "@/lib/dune/getArtistSmartWalletCreatedEvents";
-import { getUris } from "@/lib/viem/getUris";
+import getFormattedCollections from "@/lib/dune/getFormattedCollections";
+import getNextTokenIds from "@/lib/viem/getNextTokenIds";
+import { getTokens } from "@/lib/viem/getTokens";
 import { DuneDecodedEvent } from "@/types/dune";
 import { NextRequest } from "next/server";
 
@@ -12,32 +14,15 @@ export async function GET(req: NextRequest) {
       await getArtistCreatedContractEvents(artistAddress as string);
     const smartWalletEvents: DuneDecodedEvent[] =
       await getArtistSmartWalletCreatedEvents();
-
-    const formattedEvents = [...createdEvents, ...smartWalletEvents]
-      .sort(
-        (a: DuneDecodedEvent, b: DuneDecodedEvent) =>
-          new Date(b.block_time).getTime() - new Date(a.block_time).getTime(),
-      )
-      .map((transaction: DuneDecodedEvent) => {
-        const setUpEvent = transaction.logs.find(
-          (log) => log?.decoded?.name === "SetupNewContract",
-        );
-        if (!setUpEvent) return;
-        const data: any = {
-          chainId: transaction.chain_id,
-          chain: transaction.chain,
-        };
-        setUpEvent?.decoded?.inputs.forEach((input) => {
-          data[`${input.name}`] = input.value;
-        });
-        data.released_at = new Date(transaction.block_time).getTime();
-        return data;
-      })
-      .filter((ele) => ele.defaultAdmin === artistAddress);
-    const eventsWithLatestUris = await getUris(formattedEvents);
+    const collections = getFormattedCollections([
+      ...createdEvents,
+      ...smartWalletEvents,
+    ]);
+    const collectionsWithTokenIds = await getNextTokenIds(collections);
+    const eventsWithLatestUris = await getTokens(collectionsWithTokenIds);
     return Response.json(
       eventsWithLatestUris.filter(
-        (feed) => IS_TESTNET || !BLOCKLISTS.includes(feed.defaultAdmin),
+        (feed) => IS_TESTNET || !BLOCKLISTS.includes(feed.creator),
       ),
     );
   } catch (e: any) {

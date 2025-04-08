@@ -3,13 +3,13 @@
 import { FC } from "react";
 import Feed from "./Feed";
 import Slider from "../Slider";
-import { Collection } from "@/types/token";
+import { Token } from "@/types/token";
 import { useHorizontalFeedAnimationProvider } from "@/providers/HorizontalFeedAnimationProvider";
 import { useStepCalculation } from "@/hooks/useStepCalculation";
 import Controls from "./Controls";
 
 interface HorizontalFeedProps {
-  feeds: Collection[];
+  feeds: Token[];
 }
 
 const HorizontalFeed: FC<HorizontalFeedProps> = ({ feeds }) => {
@@ -61,7 +61,7 @@ const HorizontalFeed: FC<HorizontalFeedProps> = ({ feeds }) => {
           className="w-full !overflow-visible my-4 !pl-24"
           slideClassName="!w-fit !m-0"
         >
-          {feeds.map((feed: Collection, i) => (
+          {feeds.map((feed: Token, i) => (
             <Feed
               key={i}
               feed={feed}

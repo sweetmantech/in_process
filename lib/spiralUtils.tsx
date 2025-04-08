@@ -1,10 +1,11 @@
 import React from "react";
-import { Collection } from "@/types/token";
+import { Metadata, Token } from "@/types/token";
 import truncateAddress from "./truncateAddress";
+import { Address } from "viem";
 
-export const getContentLength = (feeds: Collection[]): number => {
+export const getContentLength = (feeds: Token[]): number => {
   return feeds.reduce((acc, feed) => {
-    const feedText = `${truncateAddress(feed.defaultAdmin)} - ${feed.name} - ${new Date(feed.released_at).toLocaleString()}`;
+    const feedText = `${truncateAddress(feed.creator)} - ${new Date(feed.released_at).toLocaleString()}`;
     return acc + feedText.length;
   }, 0);
 };
@@ -25,24 +26,26 @@ export const generateSpacer = (width: number): React.ReactElement => (
 
 export const formatFeedText = (
   username: string,
-  feed: Collection,
+  metadata: Metadata,
+  creator: Address,
+  releasedAt: number,
   fontSize: number,
 ): React.ReactElement => (
   <>
     <tspan style={{ fontFamily: "Archivo-Bold", fontSize, letterSpacing: 2 }}>
-      {username || truncateAddress(feed.defaultAdmin)}
+      {username || truncateAddress(creator)}
     </tspan>
     <tspan> - </tspan>
     <tspan
       style={{ fontFamily: "Spectral-Regular", fontSize, letterSpacing: 2 }}
     >
-      {feed.name}
+      {metadata.name}
     </tspan>
     <tspan> - </tspan>
     <tspan
       style={{ fontFamily: "Archivo-Regular", fontSize, letterSpacing: 2 }}
     >
-      {new Date(feed.released_at).toLocaleString().toLowerCase()}
+      {new Date(releasedAt).toLocaleString().toLowerCase()}
     </tspan>
   </>
 );

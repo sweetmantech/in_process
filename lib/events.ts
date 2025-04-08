@@ -1,7 +1,7 @@
 import {
   zoraCreator1155FactoryImplABI,
   zoraCreatorFixedPriceSaleStrategyABI,
-  zoraCreator1155ImplABI
+  zoraCreator1155ImplABI,
 } from "@zoralabs/protocol-deployments";
 import { encodeEventTopics } from "viem";
 

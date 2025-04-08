@@ -1,14 +1,14 @@
 import { useMetadata } from "@/hooks/useMetadata";
-import { Collection } from "@/types/token";
+import { Token } from "@/types/token";
 import { Skeleton } from "../ui/skeleton";
 import ContentRenderer from "../Token/ContentRenderer";
 
 interface SliderFeedProps {
-  feed: Collection;
+  feed: Token;
 }
 
 const SliderFeed = ({ feed }: SliderFeedProps) => {
-  const { data, isLoading } = useMetadata(feed.contractURI);
+  const { data, isLoading } = useMetadata(feed.uri);
 
   return (
     <div className="w-full h-[250px] md:h-auto overflow-hidden relative">
@@ -22,7 +22,7 @@ const SliderFeed = ({ feed }: SliderFeedProps) => {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 pl-2">
               <div className="rotate-[45deg] w-[9px] aspect-[1/1] bg-black" />
-              <p className="font-spectral text-sm">{feed?.name}</p>
+              <p className="font-spectral text-sm">{data?.name}</p>
             </div>
             <p className="font-archivo text-sm lowercase">
               {new Date(feed.released_at).toLocaleString()}

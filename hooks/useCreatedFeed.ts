@@ -1,7 +1,7 @@
-import { Collection } from "@/types/token";
+import { Token } from "@/types/token";
 import { useQuery } from "@tanstack/react-query";
 
-async function fetchCreatedFeed(): Promise<Collection[]> {
+async function fetchCreatedFeed(): Promise<Token[]> {
   const response = await fetch("/api/dune/created");
   if (!response.ok) {
     throw new Error("Failed to fetch create feeds");
@@ -15,7 +15,7 @@ export function useCreatedFeed() {
     queryKey: ["created"],
     queryFn: () => fetchCreatedFeed(),
     staleTime: 1000 * 60 * 5,
-    refetchInterval: 4000,
+    // refetchInterval: 4000,
     refetchOnMount: true,
   });
 }

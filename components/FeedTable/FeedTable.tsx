@@ -1,7 +1,7 @@
 "use client";
 
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { Collection } from "@/types/token";
+import { Token } from "@/types/token";
 import useFeedTable from "@/hooks/useFeedTable";
 import { useRouter } from "next/navigation";
 import { Address } from "viem";
@@ -9,7 +9,7 @@ import DescriptionCell from "./DescriptionCell";
 import ArtistName from "../ArtistName";
 
 interface FeedTableProps {
-  feeds: Collection[];
+  feeds: Token[];
 }
 
 export default function FeedTable({ feeds }: FeedTableProps) {
@@ -23,7 +23,7 @@ export default function FeedTable({ feeds }: FeedTableProps) {
   ];
 
   const handleClick = (index: number) => {
-    push(`/${feeds[index].defaultAdmin}`);
+    push(`/${feeds[index].creator}`);
   };
 
   return (
