@@ -16,6 +16,7 @@ import { useCrossmintCheckout } from "@crossmint/client-sdk-react-ui";
 import useConnectedWallet from "./useConnectedWallet";
 import { getPublicClient } from "@/lib/viem/publicClient";
 import { useFrameProvider } from "@/providers/FrameProvider";
+import { toast } from "sonner";
 
 const mintOnSmartWallet = async (parameters: any) => {
   const response = await fetch(`/api/smartwallet/sendUserOperation`, {
@@ -120,6 +121,7 @@ const useZoraMintComment = () => {
       setComment("");
       setIsOpenCommentModal(false);
       setCollected(true);
+      toast.success("collected!");
       setIsLoading(false);
       return receipt;
     } catch (error) {
