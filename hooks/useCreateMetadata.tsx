@@ -2,8 +2,8 @@ import { uploadJson } from "@/lib/arweave/uploadJson";
 import { RefObject, useRef, useState } from "react";
 import useFileUpload from "./useFileUpload";
 import domtoimage from "dom-to-image-more";
-import { uploadFile } from "@/lib/arweave/uploadFile";
 import useLinkPreview from "./useLinkPreview";
+import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
 
 const useCreateMetadata = () => {
   const [link, setLink] = useState<string>("");
@@ -40,7 +40,7 @@ const useCreateMetadata = () => {
     const fileName = "image.png";
     const fileType = "image/png";
     const textImage = new File([blob], fileName, { type: fileType });
-    const uri = await uploadFile(textImage);
+    const uri = await clientUploadToArweave(textImage);
     return {
       uri,
       mimeType: fileType,
@@ -54,7 +54,7 @@ const useCreateMetadata = () => {
     const fileName = "image.png";
     const fileType = "image/png";
     const pdfImage = new File([blob], fileName, { type: fileType });
-    const imageUri = await uploadFile(pdfImage);
+    const imageUri = await clientUploadToArweave(pdfImage);
     return imageUri;
   };
 

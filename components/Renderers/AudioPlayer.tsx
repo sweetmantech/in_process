@@ -42,7 +42,7 @@ const AudioPlayer = ({ audioUrl, thumbnailUrl }: AudioPlayerProps) => {
   };
 
   return (
-    <div className="py-6 flex items-center justify-center bg-white rounded-lg shadow-lg overflow-hidden">
+    <div className="py-6 flex-col flex items-center justify-center bg-white rounded-lg shadow-lg overflow-hidden">
       <div className="relative w-full h-3/4">
         {thumbnailUrl && (
           <Image
