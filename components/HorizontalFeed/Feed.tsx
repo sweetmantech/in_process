@@ -44,7 +44,7 @@ const Feed: FC<FeedProps> = ({ feed, hovered, step, height }) => {
             }}
           >
             <div className="relative size-full">
-              {hovered && (
+              {hovered && data && (
                 <div className="absolute bottom-full">
                   <FeedHover isLoading={isLoading} data={data} />
                 </div>
