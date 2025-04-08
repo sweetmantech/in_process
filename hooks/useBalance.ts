@@ -1,23 +1,28 @@
 import { useEffect, useState } from "react";
 import { formatEther, Address } from "viem";
-import { usePublicClient } from "wagmi";
+import { useAccount, usePublicClient } from "wagmi";
 import useConnectedWallet from "./useConnectedWallet";
+import { useFrameProvider } from "@/providers/FrameProvider";
 
 const useBalance = () => {
   const publicClient = usePublicClient();
   const [balance, setBalance] = useState(0);
   const { connectedWallet } = useConnectedWallet();
+  const { address } = useAccount();
+  const { context } = useFrameProvider();
 
   useEffect(() => {
     const getBalance = async () => {
-      if (!publicClient || !connectedWallet) return;
+      if (!publicClient) return;
+      const connectedAddress = context ? address : connectedWallet;
+      if (connectedAddress) return;
       const data = await publicClient.getBalance({
-        address: connectedWallet as Address,
+        address: connectedAddress as Address,
       });
       setBalance(parseFloat(formatEther(data)));
     };
     getBalance();
-  }, [publicClient, connectedWallet]);
+  }, [publicClient, connectedWallet, context, address]);
 
   return {
     balance,
