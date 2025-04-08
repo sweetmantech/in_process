@@ -4,6 +4,8 @@ import AudioPlayer from "./AudioPlayer";
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import Image from "next/image";
 import React, { Fragment } from "react";
+import PdfViewer from "../Renderers/PdfViewer";
+import VideoPlayer from "../Renderers/VideoPlayer";
 
 interface MediaUploadedProps {
   handleImageClick: () => void;
@@ -24,6 +26,13 @@ const MediaUploaded = ({ handleImageClick }: MediaUploadedProps) => {
     );
   }
 
+  if (mimeType.includes("pdf"))
+    return (
+      <Container>
+        <PdfViewer fileUrl={getFetchableUrl(animationUri) || ""} />
+      </Container>
+    );
+
   if (mimeType.includes("audio")) {
     return (
       <Container>
@@ -35,10 +44,10 @@ const MediaUploaded = ({ handleImageClick }: MediaUploadedProps) => {
   if (mimeType.includes("video")) {
     return (
       <Container>
-        <video controls className="w-full rounded-md">
-          <source src={getFetchableUrl(animationUri) || ""} type={mimeType} />
-          Your browser does not support the video element.
-        </video>
+        <VideoPlayer
+          url={getFetchableUrl(animationUri) || ""}
+          mimeType={mimeType}
+        />
       </Container>
     );
   }

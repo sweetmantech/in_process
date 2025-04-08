@@ -5,7 +5,6 @@ import base64ToFile from "@/lib/base64ToFile";
 import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
 
 interface useFileUploadProps {
-  setName: Dispatch<SetStateAction<string>>;
   setImageUri: Dispatch<SetStateAction<string>>;
   setAnimationUri: Dispatch<SetStateAction<string>>;
   setMimeType: Dispatch<SetStateAction<string>>;
@@ -13,7 +12,6 @@ interface useFileUploadProps {
 }
 
 const useFileUpload = ({
-  setName,
   setImageUri,
   setAnimationUri,
   setMimeType,
@@ -36,14 +34,7 @@ const useFileUpload = ({
       const mimeType = file.type;
       const isImage = mimeType.includes("image");
 
-      const fileNameWithoutExtension = file.name.replace(/\.[^/.]+$/, "");
-      setName(fileNameWithoutExtension);
-
-      const uri = await clientUploadToArweave(file);
-      if (!uri) {
-        setLoading(false);
-        return;
-      }
+      const uri = await uploadFile(file);
       if (isImage) {
         setImageUri(uri);
         setBlurImageUrl(URL.createObjectURL(file));

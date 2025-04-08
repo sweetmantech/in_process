@@ -54,7 +54,7 @@ const Feed: FC<FeedProps> = ({ feed, hovered, step, height }) => {
         </button>
         {hovered && (
           <p className="font-spectral-italic text-sm md:text-xl pt-2 relative translate-y-6">
-            {truncated(data?.description || feed.name)}
+            {truncated(feed.name)}
           </p>
         )}
         <p

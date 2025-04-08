@@ -12,7 +12,7 @@ interface FeedHoverProps {
 const FeedHover: FC<FeedHoverProps> = ({ isLoading, data }) => {
   return (
     <div className="-translate-x-1/2 border border-red-dark shadow-lg transition-opacity duration-200 ease-out">
-      <div className="w-[150px] md:w-[360px] aspect-[360/248] overflow-hidden relative">
+      <div className="w-[150px] md:w-[360px] aspect-[360/248] overflow-hidden relative bg-tan-400">
         {isLoading ? (
           <Skeleton className="size-full" />
         ) : (
@@ -20,8 +20,8 @@ const FeedHover: FC<FeedHoverProps> = ({ isLoading, data }) => {
             src={getFetchableUrl(data?.image) || "/images/placeholder.png"}
             alt={data?.name || ""}
             layout="fill"
-            objectFit="cover"
-            objectPosition="left top"
+            objectFit="contain"
+            objectPosition="cover"
             blurDataURL={data?.image}
             unoptimized
           />

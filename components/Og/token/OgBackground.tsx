@@ -11,7 +11,7 @@ const OgBackground = ({ backgroundUrl }: OgBackgroundProps) => {
         zIndex: 1,
         width: "100%",
         height: "100%",
-        alignItems: "center",
+        alignItems: "flex-start",
         justifyContent: "center",
       }}
     >

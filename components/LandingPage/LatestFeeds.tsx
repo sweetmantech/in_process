@@ -1,35 +1,27 @@
-import { useMetadata } from "@/hooks/useMetadata";
-import truncateAddress from "@/lib/truncateAddress";
 import { Collection } from "@/types/token";
 import Image from "next/image";
-import { Skeleton } from "../ui/skeleton";
 import truncated from "@/lib/truncated";
+import ArtistName from "../ArtistName";
 
 interface LatestFeedsProps {
   feeds: Collection[];
 }
 
 const Feed = ({ feed }: { feed: Collection }) => {
-  const { isLoading, data } = useMetadata(feed.contractURI);
-  const title = data?.description || feed.name;
+  const title = feed.name;
 
   return (
     <div className="flex items-start justify-between p-4">
-      {isLoading ? (
-        <Skeleton className="size-20" />
-      ) : (
-        <>
-          <div>
-            <p className="font-spectral text-base">{truncated(title)}</p>
-            <p className="font-archivo text-[11px]">
-              {new Date(feed.released_at).toLocaleString()}
-            </p>
-          </div>
-          <p className="font-archivo text-sm">
-            {truncateAddress(feed.defaultAdmin)}
-          </p>
-        </>
-      )}
+      <div>
+        <p className="font-spectral text-base">{truncated(title)}</p>
+        <p className="font-archivo text-[11px]">
+          {new Date(feed.released_at).toLocaleString()}
+        </p>
+      </div>
+      <ArtistName
+        className="font-archivo text-sm"
+        address={feed.defaultAdmin}
+      />
     </div>
   );
 };

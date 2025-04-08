@@ -7,7 +7,6 @@ import HorizontalFeed from "../HorizontalFeed";
 import useIsMobile from "@/hooks/useIsMobile";
 import Loading from "../Loading";
 import { Button } from "../ui/button";
-import getArtistsCounts from "@/lib/getArtistsCount";
 import { useRouter } from "next/navigation";
 import { useCreatedFeed } from "@/hooks/useCreatedFeed";
 
@@ -27,8 +26,9 @@ const Feeds = () => {
   return (
     <div className="pt-16 md:pt-20">
       <p className="font-archivo text-2xl md:text-5xl px-4 md:px-0 pt-6 pb-4 md:pt-12">
-        today {getArtistsCounts(data || [])} artists have <br />
-        shared their moments
+        {data?.length} moments
+        <br />
+        have been shared
       </p>
       <Button
         className="bg-black hover:bg-grey-moss-300 text-white font-archivo text-xl px-8 rounded-sm hidden md:flex"

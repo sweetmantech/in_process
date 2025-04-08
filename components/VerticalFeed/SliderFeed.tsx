@@ -17,13 +17,13 @@ const SliderFeed = ({ feed }: SliderFeedProps) => {
         <Skeleton className="size-full" />
       ) : (
         <div className="gap-2 flex flex-col size-full">
-          <div className="grow overflow-hidden w-full relative rounded-[0px]">
+          <div className="grow overflow-hidden w-full relative rounded-[0px] bg-tan-400">
             <Image
               src={getFetchableUrl(data?.image) || "/images/placeholder.png"}
-              alt={data?.name || ""}
+              alt={feed?.name || ""}
               layout="fill"
-              objectFit="cover"
-              objectPosition="left top"
+              objectFit="contain"
+              objectPosition="center"
               blurDataURL={data?.image}
               unoptimized
             />
@@ -31,7 +31,7 @@ const SliderFeed = ({ feed }: SliderFeedProps) => {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 pl-2">
               <div className="rotate-[45deg] w-[9px] aspect-[1/1] bg-black" />
-              <p className="font-spectral text-sm">{data?.name}</p>
+              <p className="font-spectral text-sm">{feed?.name}</p>
             </div>
             <p className="font-archivo text-sm lowercase">
               {new Date(feed.released_at).toLocaleString()}

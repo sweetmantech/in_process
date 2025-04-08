@@ -723,7 +723,7 @@ const DiamondIcon = (props: SVGProps<SVGSVGElement>) => (
   >
     <path
       d="M16.5475 1.25195C15.8631 18.042 8.86534 22.4806 1.22656 22.5694C17.7295 23.4177 16.3971 35.391 16.5446 43.7891C16.8978 30.7267 19.2064 23.1547 31.9961 22.5694C18.0375 21.2288 16.9984 9.8199 16.5475 1.25195Z"
-      stroke-linejoin="round"
+      strokeLinejoin="round"
     />
   </svg>
 );
@@ -808,6 +808,31 @@ const TimeLineIcon = (props: SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
+const EditIcon = (props: SVGProps<SVGSVGElement>) => (
+  <svg
+    width="31"
+    height="31"
+    viewBox="0 0 31 31"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M6.10547 24.2244L11.418 22.9744L23.0341 11.3583C23.5222 10.8701 23.5222 10.0787 23.0341 9.59053L20.7393 7.29581C20.2512 6.80765 19.4597 6.80765 18.9716 7.29581L7.35547 18.9119L6.10547 24.2244Z"
+      stroke="#1B1504"
+      stroke-width="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M24.2305 24.2266H17.3555"
+      stroke="#1B1504"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
 export {
   OpenAIIcon,
   FramerIcon,
@@ -825,4 +850,5 @@ export {
   LinkIcon,
   GridIcon,
   TimeLineIcon,
+  EditIcon,
 };

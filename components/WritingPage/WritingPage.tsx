@@ -8,7 +8,7 @@ import MaskLines from "./MaskLines";
 import CreateForm from "../CreateForm";
 
 export default function WritingPage() {
-  const { createdContract, description, inputRef } = useZoraCreateProvider();
+  const { createdContract, name, inputRef } = useZoraCreateProvider();
 
   return (
     <main className="w-screen grow">
@@ -26,7 +26,7 @@ export default function WritingPage() {
               <div className="w-full space-y-3" ref={inputRef}>
                 {createdContract ? (
                   <>
-                    <p className="font-spectral text-xl">{description}</p>
+                    <p className="font-archivo-medium text-4xl">{name}</p>
                   </>
                 ) : (
                   <CreateForm />

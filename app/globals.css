@@ -114,3 +114,16 @@
     scrollbar-width: none;
   }
 }
+
+.rpv-default-layout__sidebar-tabs {
+  display: none !important;
+}
+
+.rpv-toolbar__center,
+.rpv-toolbar__right {
+  display: none !important;
+}
+
+.rpv-toolbar__left > .rpv-toolbar__item:first-child {
+  display: none !important;
+}

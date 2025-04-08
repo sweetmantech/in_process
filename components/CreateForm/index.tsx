@@ -1,10 +1,10 @@
 import CreateButton from "./CreateButton";
 import Price from "./Price";
-import Description from "./Description";
+import Prompt from "./Prompt";
 
 const CreateForm = () => (
   <>
-    <Description />
+    <Prompt />
     <Price />
     <CreateButton />
   </>

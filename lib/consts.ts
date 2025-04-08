@@ -1,6 +1,8 @@
 export const COLLECTION_ADDRESS = "0xf0b2ab81056c8e2fdc40e46e32fae895f809c90d";
 export const MINT_FEE_RECIPIENT = "0xcfBf34d385EA2d5Eb947063b67eA226dcDA3DC38";
 
+export const VERCEL_OG = "https://in-process-seven.vercel.app";
+export const APP_URL = "https://inprocess.myco.wtf";
 export const NULL_DATA =
   "0x0000000000000000000000000000000000000000000000000000000000000000";
 

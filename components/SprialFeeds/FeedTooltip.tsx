@@ -29,7 +29,7 @@ export const FeedTooltip: React.FC<FeedTooltipProps> = ({
         visibility: isVisible ? "visible" : "hidden",
       }}
     >
-      <div className="w-[200px] aspect-[1/1] relative">
+      <div className="w-[200px] aspect-[1/1] relative bg-tan-400">
         {isLoading ? (
           <Loading className="size-full" />
         ) : (
@@ -37,7 +37,7 @@ export const FeedTooltip: React.FC<FeedTooltipProps> = ({
             src={getFetchableUrl(data?.image) || ""}
             alt="not found image"
             layout="fill"
-            objectFit="left top"
+            objectFit="contain"
             objectPosition="center"
           />
         )}
