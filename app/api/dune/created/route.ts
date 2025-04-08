@@ -18,9 +18,7 @@ export async function GET() {
     const collectionsWithTokenIds = await getNextTokenIds(collections);
     const tokens = await getTokens(collectionsWithTokenIds);
     return Response.json(
-      tokens.filter(
-        (token) => !BLOCKLISTS.includes(token.creator) || IS_TESTNET,
-      ),
+      tokens.filter((c) => !BLOCKLISTS.includes(c.creator) || IS_TESTNET),
     );
   } catch (e: any) {
     console.log(e);

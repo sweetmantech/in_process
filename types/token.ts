@@ -26,7 +26,7 @@ export interface Metadata {
   name: string;
   description: string;
   external_url?: string;
-  content: {
+  content?: {
     mime: string;
     uri: string;
   };

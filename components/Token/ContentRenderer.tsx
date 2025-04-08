@@ -10,7 +10,7 @@ interface ContentRendererProps {
 }
 
 const ContentRenderer = ({ metadata }: ContentRendererProps) => {
-  const mimeType = metadata.content.mime;
+  const mimeType = metadata?.content?.mime || "";
 
   if (mimeType.includes("pdf"))
     return (
@@ -27,14 +27,14 @@ const ContentRenderer = ({ metadata }: ContentRendererProps) => {
   if (mimeType.includes("video"))
     return (
       <VideoPlayer
-        mimeType={metadata.content.mime}
+        mimeType={mimeType}
         url={getFetchableUrl(metadata.animation_url) || ""}
       />
     );
   if (mimeType.includes("video"))
     return (
       <VideoPlayer
-        mimeType={metadata.content.mime}
+        mimeType={mimeType}
         url={getFetchableUrl(metadata.animation_url) || ""}
       />
     );
