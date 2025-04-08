@@ -1,22 +1,23 @@
 import { BLOCKLISTS, IS_TESTNET } from "@/lib/consts";
 import getCreatedContractEvents from "@/lib/dune/getCreatedContractEvents";
+import getFormattedCollections from "@/lib/dune/getFormattedCollections";
 import getSmartWalletCreatedContractEvents from "@/lib/dune/getSmartWalletCreatedContractEvents";
 import { getUris } from "@/lib/viem/getUris";
 import { DuneDecodedEvent } from "@/types/dune";
+import { Collection } from "@/types/token";
+import getCreatedTokenEvents from "@/lib/dune/getCreatedTokenEvents";
 
 export async function GET() {
   try {
     const createdEvents: DuneDecodedEvent[] = await getCreatedContractEvents();
     const smartWalletCreatedEvents: DuneDecodedEvent[] =
       await getSmartWalletCreatedContractEvents();
-    const formattedEvents = [...createdEvents, ...smartWalletCreatedEvents]
-      .sort(
-        (a: DuneDecodedEvent, b: DuneDecodedEvent) =>
-          new Date(b.block_time).getTime() - new Date(a.block_time).getTime(),
-      )
-      .map((transaction: DuneDecodedEvent) => {
+    const collections = getFormattedCollections([...createdEvents, ...smartWalletCreatedEvents])
+    const promise = collections.map(async (collection: Collection) => {
+      const createdEvents = await getCreatedTokenEvents(collection.newContract)
+      const formattedEvents = createdEvents.map((transaction: DuneDecodedEvent) => {
         const setUpEvent = transaction.logs.find(
-          (log) => log?.decoded?.name === "SetupNewContract",
+          (log) => log?.decoded?.name === "SetupNewToken",
         );
         if (!setUpEvent) return;
         const data: any = {
@@ -29,11 +30,12 @@ export async function GET() {
         data.released_at = new Date(transaction.block_time).getTime();
         return data;
       });
-    const eventsWithLatestUris = await getUris(formattedEvents);
+      return formattedEvents
+    })
+    const data = await Promise.all(promise)
+    // const eventsWithLatestUris = await getUris(collections);
     return Response.json(
-      eventsWithLatestUris.filter(
-        (feed) => IS_TESTNET || !BLOCKLISTS.includes(feed.defaultAdmin),
-      ),
+      data,
     );
   } catch (e: any) {
     console.log(e);
