@@ -15,7 +15,7 @@ const useBalance = () => {
     const getBalance = async () => {
       if (!publicClient) return;
       const connectedAddress = context ? address : connectedWallet;
-      if (connectedAddress) return;
+      if (!connectedAddress) return;
       const data = await publicClient.getBalance({
         address: connectedAddress as Address,
       });
