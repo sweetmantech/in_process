@@ -12,7 +12,6 @@ interface ContentRendererProps {
 const ContentRenderer = ({ metadata }: ContentRendererProps) => {
   const mimeType = metadata.content.mime;
 
-  return <VideoPlayer url={getFetchableUrl(metadata.animation_url) || ""} />;
   if (mimeType.includes("pdf"))
     return (
       <PdfViewer fileUrl={getFetchableUrl(metadata.animation_url) || ""} />
