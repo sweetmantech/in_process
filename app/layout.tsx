@@ -28,7 +28,7 @@ export default function RootLayout({
             <div className="grow relative flex flex-col">{children}</div>
             <Footer />
           </Providers>
-            <Toaster />
+          <Toaster />
         </Suspense>
       </body>
     </html>
