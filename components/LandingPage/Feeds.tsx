@@ -9,11 +9,7 @@ import Loading from "../Loading";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 import { useCreatedFeed } from "@/hooks/useCreatedFeed";
-<<<<<<< HEAD
 import OnboardingModalWrapper from "../OnboardingModal/OnboardingModalWrapper";
-=======
-import OnboardingModalWrapper from "@/components/OnboardingModal/OnboardingModalWrapper";
->>>>>>> e4ff8c4 (fix merge conflicts)
 
 const Feeds = () => {
   const { error, isLoading, data } = useCreatedFeed();
