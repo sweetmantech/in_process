@@ -27,11 +27,12 @@ const HorizontalFeed: FC<HorizontalFeedProps> = ({ feeds }) => {
 
   return (
     <div
-      className="pt-[120px] pb-[20px] md:py-0 md:grow md:size-full flex items-center overflow-hidden md:overflow-visible"
+      className="relative pt-[120px] pb-[20px] md:py-0 md:grow md:size-full flex justify-center items-center overflow-hidden md:overflow-visible"
       onMouseMove={handleMouseMove}
       onMouseLeave={() => handleMouseMove({ clientX: null } as any)}
       ref={containerRef}
     >
+      <div className="bg-black w-full h-[0.5px] absolute left-0 bottom-[68px] md:bottom-1/2" />
       <div
         className="relative w-fit"
         ref={timelineRef}
@@ -39,7 +40,6 @@ const HorizontalFeed: FC<HorizontalFeedProps> = ({ feeds }) => {
           maxWidth: containerRef.current?.offsetWidth,
         }}
       >
-        <div className="bg-black w-full h-[0.5px] absolute left-0 bottom-[68px] md:bottom-1/2" />
         <Controls />
         <Slider
           sliderProps={{
@@ -58,7 +58,7 @@ const HorizontalFeed: FC<HorizontalFeedProps> = ({ feeds }) => {
               setFeedEnded(progress === 1);
             },
           }}
-          className="w-full !overflow-visible my-4 !pl-24"
+          className="w-full !overflow-visible my-4"
           slideClassName="!w-fit !m-0"
         >
           {feeds.map((feed: Collection, i) => (
