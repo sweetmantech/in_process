@@ -42,14 +42,14 @@ const AudioPlayer = ({ audioUrl, thumbnailUrl }: AudioPlayerProps) => {
   };
 
   return (
-    <div className="py-6 flex-col flex items-center justify-center bg-white rounded-lg shadow-lg overflow-hidden">
+    <div className="py-6 size-full flex-col flex items-center justify-center bg-white rounded-lg shadow-lg overflow-hidden">
       <div className="relative w-full h-3/4">
         {thumbnailUrl && (
           <Image
             src={getFetchableUrl(thumbnailUrl) || ""}
             alt="Audio cover"
             layout="fill"
-            objectFit="cover"
+            objectFit="contain"
             objectPosition="center"
           />
         )}
