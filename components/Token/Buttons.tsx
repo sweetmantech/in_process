@@ -14,7 +14,7 @@ const Buttons = () => {
   const share = async () => {
     const shortNetworkName = getShortNetworkName(CHAIN.name.toLowerCase());
     await navigator.clipboard.writeText(
-      `https://inprocess.myco.wtf/collect/${shortNetworkName}:${token.token.contract.address}/1`,
+      `https://inprocess.myco.wtf/collect/${shortNetworkName}:${token.token.contract.address}/${token.token.tokenId}`,
     );
     toast.success("copied!");
   };
