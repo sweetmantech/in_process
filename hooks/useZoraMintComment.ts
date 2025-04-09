@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import useBalance from "./useBalance";
-import { useAccount, usePublicClient, useWriteContract } from "wagmi";
+import { useAccount, useSwitchChain, useWriteContract } from "wagmi";
 import { zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
 import { zoraCreatorFixedPriceSaleStrategyAddress } from "@/lib/protocolSdk/constants";
-import { CHAIN } from "@/lib/consts";
+import { CHAIN, CHAIN_ID } from "@/lib/consts";
 import {
   Address,
   encodeAbiParameters,
@@ -13,14 +13,37 @@ import {
 import { useTokenProvider } from "@/providers/TokenProvider";
 import { useUserProvider } from "@/providers/UserProvider";
 import { useCrossmintCheckout } from "@crossmint/client-sdk-react-ui";
+import useConnectedWallet from "./useConnectedWallet";
+import { getPublicClient } from "@/lib/viem/publicClient";
+import { useFrameProvider } from "@/providers/FrameProvider";
+import { toast } from "sonner";
+
+const mintOnSmartWallet = async (parameters: any) => {
+  const response = await fetch(`/api/smartwallet/sendUserOperation`, {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      accept: "application/json",
+    },
+    body: JSON.stringify({
+      parameters,
+    }),
+  });
+
+  const data = await response.json();
+
+  return data.transactionHash;
+};
 
 const useZoraMintComment = () => {
   const [isOpenCrossmint, setIsOpenCrossmint] = useState(false);
   const { balance } = useBalance();
-  const publicClient = usePublicClient();
   const { writeContractAsync } = useWriteContract();
+  const { connectedWallet } = useConnectedWallet();
   const { address } = useAccount();
+  const { context } = useFrameProvider();
   const [isLoading, setIsLoading] = useState(false);
+  const { switchChainAsync } = useSwitchChain();
   const {
     token,
     comment,
@@ -31,57 +54,74 @@ const useZoraMintComment = () => {
     setCollected,
   } = useTokenProvider();
   const { data: sale } = saleConfig;
-  const { email, isPrepared } = useUserProvider();
+  const { isPrepared } = useUserProvider();
   const { order } = useCrossmintCheckout();
 
   const mintComment = async () => {
     try {
       if (!isPrepared()) return;
       if (!sale) return;
+      switchChainAsync({ chainId: CHAIN_ID });
       setIsLoading(true);
-      if (!publicClient || !address || email) {
-        setIsOpenCrossmint(true);
-        setIsLoading(false);
-        return;
-      }
+      const minter = context ? address : connectedWallet;
 
-      const hasBalanceToMint =
-        balance > Number(formatEther(BigInt(sale.pricePerToken)));
-      if (!hasBalanceToMint) {
-        setIsLoading(false);
-        setIsOpenCrossmint(true);
-        setIsOpenCommentModal(false);
-        return;
-      }
+      const publicClient = getPublicClient();
       const minterArguments = encodeAbiParameters(
         parseAbiParameters("address, string"),
-        [address, comment],
+        [minter as Address, comment],
       );
 
-      const hash = await writeContractAsync({
-        address: token.token.contract.address,
-        account: address,
-        abi: zoraCreator1155ImplABI,
-        functionName: "mint",
-        args: [
-          zoraCreatorFixedPriceSaleStrategyAddress[CHAIN.id],
-          BigInt(token.token.tokenId),
-          BigInt(1),
-          [],
-          minterArguments,
-        ],
-        value: BigInt(sale.pricePerToken),
-      });
+      let hash: Address | null = null;
 
+      if (sale.pricePerToken === BigInt(0)) {
+        hash = await mintOnSmartWallet({
+          address: token.token.contract.address,
+          abi: zoraCreator1155ImplABI,
+          functionName: "mint",
+          args: [
+            zoraCreatorFixedPriceSaleStrategyAddress[CHAIN.id],
+            token.token.tokenId,
+            1,
+            [],
+            minterArguments,
+          ],
+        });
+      } else {
+        const hasBalanceToMint =
+          balance > Number(formatEther(BigInt(sale.pricePerToken)));
+        if (!hasBalanceToMint) {
+          setIsLoading(false);
+          setIsOpenCrossmint(true);
+          setIsOpenCommentModal(false);
+          return;
+        }
+        hash = await writeContractAsync({
+          address: token.token.contract.address,
+          account: minter as Address,
+          abi: zoraCreator1155ImplABI,
+          functionName: "mint",
+          args: [
+            zoraCreatorFixedPriceSaleStrategyAddress[CHAIN.id],
+            BigInt(token.token.tokenId),
+            BigInt(1),
+            [],
+            minterArguments,
+          ],
+          value: BigInt(sale.pricePerToken),
+        });
+      }
+
+      if (!hash) throw new Error();
       const receipt = await publicClient.waitForTransactionReceipt({ hash });
       addComment({
-        sender: address,
+        sender: minter as Address,
         comment,
         timestamp: new Date().getTime(),
       } as any);
       setComment("");
       setIsOpenCommentModal(false);
       setCollected(true);
+      toast.success("collected!");
       setIsLoading(false);
       return receipt;
     } catch (error) {

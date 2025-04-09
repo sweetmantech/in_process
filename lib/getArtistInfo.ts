@@ -7,7 +7,7 @@ const getArtistInfo = async (address: Address) => {
   try {
     const ensName = await getEnsName(address);
     let ensAvatar =
-      "https://arweave.net/pL9S3YoTvLqZdSFZLHtJf4UQ1HmCWVv7fSID1kLMlxg";
+      "https://arweave.net/aoRbQVsNJnSdhkwDErFT1Zb0gDJ-M6SBEU0gouifnqo";
     if (ensName) ensAvatar = await getEnsAvatar(ensName);
     return {
       ensName: ensName || truncateAddress(address),
@@ -18,7 +18,7 @@ const getArtistInfo = async (address: Address) => {
     return {
       ensName: truncateAddress(address),
       ensAvatar:
-        "https://arweave.net/pL9S3YoTvLqZdSFZLHtJf4UQ1HmCWVv7fSID1kLMlxg",
+        "https://arweave.net/aoRbQVsNJnSdhkwDErFT1Zb0gDJ-M6SBEU0gouifnqo",
     };
   }
 };

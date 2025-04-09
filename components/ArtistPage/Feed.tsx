@@ -1,5 +1,5 @@
 import HorizontalFeed from "../HorizontalFeed";
-import { useLatestFeed } from "@/hooks/useLatestFeed";
+import { useArtistFeeds } from "@/hooks/useArtistFeeds";
 import { HorizontalFeedAnimationProvider } from "@/providers/HorizontalFeedAnimationProvider";
 import useIsMobile from "@/hooks/useIsMobile";
 import VerticalFeed from "../VerticalFeed";
@@ -11,7 +11,7 @@ interface FeedProps {
 }
 
 const Feed = ({ alt }: FeedProps) => {
-  const { isLoading, data, error } = useLatestFeed();
+  const { isLoading, data, error } = useArtistFeeds();
   const isMobile = useIsMobile();
 
   if (isLoading)

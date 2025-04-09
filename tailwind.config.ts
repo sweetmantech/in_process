@@ -45,7 +45,8 @@ module.exports = {
           DEFAULT: "#fdad00",
           primary: "#FFF9EA",
           secondary: "#E9DCBB",
-          "opacity-300": "#b7934633"
+          "opacity-300": "#b7934633",
+          "400": "#D4C5A0"
         }
       },
       fontFamily: {

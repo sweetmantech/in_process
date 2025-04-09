@@ -23,7 +23,7 @@ export async function GET(req: NextRequest) {
   const artistAddress: any = queryParams.get("artistAddress");
 
   const tokens = await fetch(
-    `${VERCEL_OG}/api/dune/latest?artistAddress=${artistAddress}`,
+    `${VERCEL_OG}/api/dune/artist?artistAddress=${artistAddress}`,
   ).then((res) => res.json());
   const contractURIs = tokens
     .slice(0, 4)

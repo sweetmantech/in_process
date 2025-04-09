@@ -4,7 +4,7 @@ import truncateAddress from "./truncateAddress";
 
 export const getContentLength = (feeds: Collection[]): number => {
   return feeds.reduce((acc, feed) => {
-    const feedText = `${truncateAddress(feed.creator)} - ${feed.name} - ${new Date(feed.released_at).toLocaleString()}`;
+    const feedText = `${truncateAddress(feed.defaultAdmin)} - ${feed.name} - ${new Date(feed.released_at).toLocaleString()}`;
     return acc + feedText.length;
   }, 0);
 };
@@ -24,12 +24,13 @@ export const generateSpacer = (width: number): React.ReactElement => (
 );
 
 export const formatFeedText = (
+  username: string,
   feed: Collection,
   fontSize: number,
 ): React.ReactElement => (
   <>
     <tspan style={{ fontFamily: "Archivo-Bold", fontSize, letterSpacing: 2 }}>
-      {truncateAddress(feed.creator)}
+      {username || truncateAddress(feed.defaultAdmin)}
     </tspan>
     <tspan> - </tspan>
     <tspan

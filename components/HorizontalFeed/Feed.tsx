@@ -3,6 +3,7 @@ import { Collection } from "@/types/token";
 import FeedHover from "./FeedHover";
 import { useFeed } from "@/hooks/useFeed";
 import { DiamondIcon } from "../ui/icons";
+import truncated from "@/lib/truncated";
 
 interface FeedProps {
   feed: Collection;
@@ -43,7 +44,7 @@ const Feed: FC<FeedProps> = ({ feed, hovered, step, height }) => {
             }}
           >
             <div className="relative size-full">
-              {hovered && (
+              {hovered && data && (
                 <div className="absolute bottom-full">
                   <FeedHover isLoading={isLoading} data={data} />
                 </div>
@@ -53,7 +54,7 @@ const Feed: FC<FeedProps> = ({ feed, hovered, step, height }) => {
         </button>
         {hovered && (
           <p className="font-spectral-italic text-sm md:text-xl pt-2 relative translate-y-6">
-            {feed.name}
+            {truncated(feed.name)}
           </p>
         )}
         <p

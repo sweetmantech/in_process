@@ -26,6 +26,11 @@ export interface Metadata {
   name: string;
   description: string;
   external_url?: string;
+  content: {
+    mime: string;
+    uri: string;
+  };
+  animation_url?: string;
 }
 
 export interface Collection {
@@ -44,11 +49,12 @@ export interface MintCommentEvent {
   blockNumber: number;
   chain: string;
   chainId: number;
-  collection: Address;
   comment: string;
   quantity: string;
   sender: Address;
   timestamp: number;
   tokenId: string;
   transactionHash: string;
+  tokenContract?: string;
+  collection?: Address;
 }

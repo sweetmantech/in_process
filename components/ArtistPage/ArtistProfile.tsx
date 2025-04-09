@@ -1,56 +1,56 @@
-import truncateAddress from "@/lib/truncateAddress";
-import { Address } from "viem";
-import Social from "./Social";
-import {
-  FarcasterIcon,
-  InstagramIcon,
-  TikTokIcon,
-  TwitterIcon,
-} from "../ui/icons";
-import { useParams } from "next/navigation";
-import { useArtistProfile } from "@/hooks/useArtistProfile";
+import { EditIcon } from "../ui/icons";
+import { useProfileProvider } from "@/providers/ProfileProvider";
+import SocialAccounts from "./SocialAccounts";
 import { Skeleton } from "../ui/skeleton";
 
 const ArtistProfile = () => {
-  const { artistAddress } = useParams();
-  const { data, isLoading } = useArtistProfile();
-
-  if (isLoading) return <Skeleton />;
+  const {
+    canEdit,
+    isEditing,
+    toggleEditing,
+    username,
+    bio,
+    setUserName,
+    setBio,
+    isLoading,
+  } = useProfileProvider();
 
   return (
-    <div>
-      <p className="text-xl md:text-5xl font-archivo-medium tracking-[-1px]">
-        {data?.displayName || truncateAddress(artistAddress as Address)}
-      </p>
-      <p className="text-lg md:text-xl font-spectral pt-2 md:pt-4">
-        {data?.description || ""}
-      </p>
-      <div className="flex gap-2 items-center pt-2 md:pt-6">
-        {data?.socialAccounts.instagram && (
-          <Social
-            link={`https://instagram.com/${data.socialAccounts.instagram.username}`}
-            icon={<InstagramIcon />}
+    <div className="relative">
+      <div className="flex gap-3 md:gap-6 items-center">
+        {isEditing ? (
+          <input
+            value={username}
+            onChange={(e) => setUserName(e.target.value)}
+            className="max-w-[120px] md:!max-w-[200px] text-xl md:text-4xl p-1 md:p-3 bg-tan-400 outline-none ring-0 font-archivo-medium"
           />
+        ) : (
+          <p className="text-xl md:text-5xl font-archivo-medium tracking-[-1px]">
+            {isLoading ? <Skeleton className="w-[150px] h-12" /> : username}
+          </p>
         )}
-        {data?.socialAccounts.twitter && (
-          <Social
-            link={`https://x.com/@${data.socialAccounts.twitter.username}`}
-            icon={<TwitterIcon />}
-          />
-        )}
-        {data?.socialAccounts.farcaster && (
-          <Social
-            link={`https://warpcast.com/${data.socialAccounts.farcaster.username}`}
-            icon={<FarcasterIcon />}
-          />
-        )}
-        {data?.socialAccounts.tiktok && (
-          <Social
-            link={`https://tiktok.com/${data.socialAccounts.tiktok.username}`}
-            icon={<TikTokIcon />}
-          />
+        {canEdit && !isEditing && (
+          <button
+            type="button"
+            className="border-[1px] border-black rounded-md p-1 bg-tan-400"
+            onClick={toggleEditing}
+          >
+            <EditIcon width={20} height={20} />
+          </button>
         )}
       </div>
+      {isEditing ? (
+        <input
+          value={bio}
+          onChange={(e) => setBio(e.target.value)}
+          className="max-w-[150px] md:max-w-auto md:min-w-[250px] outline-none ring-0 p-1 md:p-2 font-spectral text-lg md:text-xl mt-2 md:mt-4 bg-tan-400"
+        />
+      ) : (
+        <p className="text-lg md:text-xl font-spectral pt-2 md:pt-4">
+          {isLoading ? <Skeleton className="w-[200px] h-8" /> : bio}
+        </p>
+      )}
+      <SocialAccounts />
     </div>
   );
 };

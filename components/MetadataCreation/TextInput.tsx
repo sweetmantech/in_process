@@ -2,19 +2,27 @@ import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
 import { ChangeEvent } from "react";
 
 const TextInput = () => {
-  const { textInputRef, fileUploading, setName } = useZoraCreateProvider();
+  const { writingRef, fileUploading, setWritingText, writingText, creating } =
+    useZoraCreateProvider();
 
   return (
-    <textarea
-      className="size-full !font-spectral shadow-lg p-4 !outline-none bg-white p-2 disabled:cursor-not-allowed"
-      ref={textInputRef}
-      disabled={Boolean(fileUploading)}
-      onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
-        setName(
-          `${e.target.value.slice(0, 10)}${e.target.value.length > 10 ? "..." : ""}`,
-        )
-      }
-    />
+    <div className="overflow-hidden size-full !font-spectral shadow-lg bg-white disabled:cursor-not-allowed relative">
+      <textarea
+        className="relative z-[2] size-full !outline-none p-2 md:p-4 bg-white"
+        value={writingText}
+        disabled={Boolean(fileUploading || creating)}
+        onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
+          setWritingText(e.target.value);
+        }}
+      />
+      <div
+        className="p-2 md:p-4 absolute z-[1] left-0 top-0 bg-white w-full h-full border border-white"
+        ref={writingRef}
+        dangerouslySetInnerHTML={{
+          __html: writingText.replaceAll("\n", "<br/>"),
+        }}
+      />
+    </div>
   );
 };
 

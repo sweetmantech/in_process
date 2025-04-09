@@ -4,9 +4,9 @@ import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { Collection } from "@/types/token";
 import useFeedTable from "@/hooks/useFeedTable";
 import { useRouter } from "next/navigation";
-import EnsName from "../EnsName";
 import { Address } from "viem";
 import DescriptionCell from "./DescriptionCell";
+import ArtistName from "../ArtistName";
 
 interface FeedTableProps {
   feeds: Collection[];
@@ -23,7 +23,7 @@ export default function FeedTable({ feeds }: FeedTableProps) {
   ];
 
   const handleClick = (index: number) => {
-    push(`/${feeds[index].creator}`);
+    push(`/${feeds[index].defaultAdmin}`);
   };
 
   return (
@@ -43,7 +43,7 @@ export default function FeedTable({ feeds }: FeedTableProps) {
                     className={`md:py-3 border-none cursor-pointer ${fontFamilies[i]} ${fontSizes[i]}`}
                   >
                     {cell.id.includes("creator") ? (
-                      <EnsName
+                      <ArtistName
                         address={cell.getValue() as Address}
                         className="!font-archivo-medium"
                       />

@@ -3,12 +3,14 @@ import { ReactNode } from "react";
 import { coinbaseWallet } from "wagmi/connectors";
 import { createConfig, http, WagmiProvider as WProvider } from "wagmi";
 import { CHAIN } from "@/lib/consts";
+import { farcasterFrame } from "@farcaster/frame-wagmi-connector";
 
 const queryClient = new QueryClient();
 
-const config = createConfig({
+export const config = createConfig({
   chains: [CHAIN],
   connectors: [
+    farcasterFrame(),
     coinbaseWallet({
       appName: "myco.wtf",
       preference: "smartWalletOnly",

@@ -1,22 +1,23 @@
 import { createCreatorClient } from "@/lib/protocolSdk";
 import { Address } from "viem";
 import { CHAIN_ID, REFERRAL_RECIPIENT } from "@/lib/consts";
-import { useAccount, usePublicClient } from "wagmi";
+import { usePublicClient } from "wagmi";
 import getSalesConfig from "@/lib/zora/getSalesConfig";
 import useCreateMetadata from "@/hooks/useCreateMetadata";
+import useConnectedWallet from "./useConnectedWallet";
 
 const useZoraCreateParameters = (
   chainId: number = CHAIN_ID,
   collection?: Address,
 ) => {
   const publicClient = usePublicClient();
-  const { address } = useAccount();
+  const { connectedWallet } = useConnectedWallet();
   const createMetadata = useCreateMetadata();
 
-  const fetchParameters = async (textRefUri: string) => {
-    if (!publicClient) return;
+  const fetchParameters = async () => {
+    if (!publicClient || !connectedWallet) return;
     const creatorClient = createCreatorClient({ chainId, publicClient });
-    const cc0MusicArweaveUri = await createMetadata.getUri(textRefUri);
+    const cc0MusicArweaveUri = await createMetadata.getUri();
     if (!createMetadata.name) return;
     const salesConfig = getSalesConfig(
       createMetadata.isTimedSale
@@ -35,7 +36,7 @@ const useZoraCreateParameters = (
             createReferral: REFERRAL_RECIPIENT,
             salesConfig,
           },
-          account: address as Address,
+          account: connectedWallet as Address,
         });
       newParameters = existingParameters;
     } else {
@@ -50,7 +51,7 @@ const useZoraCreateParameters = (
             createReferral: REFERRAL_RECIPIENT,
             salesConfig,
           },
-          account: address as Address,
+          account: connectedWallet as Address,
         });
       newParameters = {
         ...newContractParameters,
