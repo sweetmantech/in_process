@@ -1,5 +1,5 @@
-import Image from 'next/image';
-import { slides } from './OnboardingModalContent';
+import Image from "next/image";
+import { slides } from "./OnboardingModalContent";
 
 interface SlideContentProps {
   currentSlide: number;
@@ -8,9 +8,7 @@ interface SlideContentProps {
 export const SlideContent = ({ currentSlide }: SlideContentProps) => (
   <>
     <div className="text-center mb-12">
-      <h2 className="text-[32px] mb-2 pt-8">
-        {slides[currentSlide].title}
-      </h2>
+      <h2 className="text-[32px] mb-2 pt-8">{slides[currentSlide].title}</h2>
       <p className="text-xl font-spectral-italic tracking-[-5%] text-gray-600">
         {slides[currentSlide].subtitle}
       </p>
@@ -27,4 +25,4 @@ export const SlideContent = ({ currentSlide }: SlideContentProps) => (
       />
     </div>
   </>
-); 
+);

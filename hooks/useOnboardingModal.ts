@@ -1,16 +1,16 @@
 "use client";
 
-import { useState, useEffect } from 'react';
-import { usePrivy } from '@privy-io/react-auth';
-import { useArtistProfile } from './useArtistProfile';
-import { Address } from 'viem';
+import { useState, useEffect } from "react";
+import { usePrivy } from "@privy-io/react-auth";
+import { useArtistProfile } from "./useArtistProfile";
+import { Address } from "viem";
 
 export function useOnboardingModal() {
   const [isOpen, setIsOpen] = useState(false);
   const { ready, authenticated, user } = usePrivy();
-  
+
   const walletAddress = user?.wallet?.address as Address | undefined;
-  
+
   const { data: artistProfile, isLoading } = useArtistProfile(walletAddress);
 
   useEffect(() => {
@@ -27,6 +27,6 @@ export function useOnboardingModal() {
   return {
     isOpen,
     closeModal,
-    resetCurrentSlide: () => setIsOpen(true)
+    resetCurrentSlide: () => setIsOpen(true),
   };
-} 
+}

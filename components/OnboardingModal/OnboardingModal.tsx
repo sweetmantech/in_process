@@ -14,7 +14,10 @@ interface OnboardingModalProps {
   onClose: () => void;
 }
 
-export default function OnboardingModal({ isOpen, onClose }: OnboardingModalProps) {
+export default function OnboardingModal({
+  isOpen,
+  onClose,
+}: OnboardingModalProps) {
   const { address: wagmiAddress, isConnected, connector } = useAccount();
   const [currentSlide, setCurrentSlide] = useState(0);
   const isLastSlide = currentSlide === slides.length - 1;
@@ -37,12 +40,18 @@ export default function OnboardingModal({ isOpen, onClose }: OnboardingModalProp
     }
   };
 
+  const handleStart = () => {
+    if (wagmiAddress) {
+      router.push(`/${wagmiAddress}`);
+    }
+  };
+
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 bg-[#FEFEFE] bg-opacity-80 flex items-center justify-center z-50">
-      <div 
-        className="bg-white p-8 max-w-[574px] h-[450px] w-full m-4 relative shadow-[rgba(27,21,4,0.09)_-1px_4px_64px_16px]" 
+      <div
+        className="bg-white p-8 max-w-[574px] h-[450px] w-full m-4 relative shadow-[rgba(27,21,4,0.09)_-1px_4px_64px_16px]"
         onClick={isLastSlide ? undefined : handleAdvance}
       >
         <button onClick={onClose} className="absolute right-4 top-4 p-1">
@@ -55,9 +64,9 @@ export default function OnboardingModal({ isOpen, onClose }: OnboardingModalProp
             unoptimized
           />
         </button>
-        
+
         <SlideContent currentSlide={currentSlide} />
-        
+
         <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex justify-center gap-3">
           {isLastSlide ? (
             <Button 
@@ -67,13 +76,13 @@ export default function OnboardingModal({ isOpen, onClose }: OnboardingModalProp
               start
             </Button>
           ) : (
-            <NavigationDots 
-              currentSlide={currentSlide} 
-              onSlideChange={setCurrentSlide} 
+            <NavigationDots
+              currentSlide={currentSlide}
+              onSlideChange={setCurrentSlide}
             />
           )}
         </div>
       </div>
     </div>
   );
-} 
+}
