@@ -40,12 +40,6 @@ export default function OnboardingModal({
     }
   };
 
-  const handleStart = () => {
-    if (wagmiAddress) {
-      router.push(`/${wagmiAddress}`);
-    }
-  };
-
   if (!isOpen) return null;
 
   return (
