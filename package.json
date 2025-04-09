@@ -13,7 +13,7 @@
   "dependencies": {
     "@ardrive/turbo-sdk": "^1.22.1",
     "@coinbase/coinbase-sdk": "^0.21.0",
-    "@crossmint/client-sdk-react-ui": "^1.14.4",
+    "@crossmint/client-sdk-react-ui": "^1.17.0",
     "@farcaster/frame-sdk": "^0.0.31",
     "@farcaster/frame-wagmi-connector": "^0.0.19",
     "@lottiefiles/dotlottie-react": "^0.13.3",
