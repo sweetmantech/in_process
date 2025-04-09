@@ -1,5 +1,5 @@
 import useConnectedWallet from "@/hooks/useConnectedWallet";
-import { CHAIN } from "@/lib/consts";
+import { CHAIN, PROD_URL } from "@/lib/consts";
 import { getShortNetworkName } from "@/lib/zora/zoraToViem";
 import { useTokenProvider } from "@/providers/TokenProvider";
 import Image from "next/image";
@@ -14,7 +14,7 @@ const Buttons = () => {
   const share = async () => {
     const shortNetworkName = getShortNetworkName(CHAIN.name.toLowerCase());
     await navigator.clipboard.writeText(
-      `https://inprocess.myco.wtf/collect/${shortNetworkName}:${token.token.contract.address}/${token.token.tokenId}`,
+      `${PROD_URL}/collect/${shortNetworkName}:${token.token.contract.address}/${token.token.tokenId}`,
     );
     toast.success("copied!");
   };
