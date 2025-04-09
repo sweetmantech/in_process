@@ -5,13 +5,18 @@ import Image from "next/image";
 import { toast } from "sonner";
 
 const Buttons = () => {
-  const { createdContract, setCreatedContract, reset } =
-    useZoraCreateProvider();
+  const {
+    createdContract,
+    setCreatedContract,
+    reset,
+    setCreatedTokenId,
+    createdTokenId,
+  } = useZoraCreateProvider();
 
   const share = async () => {
     const shortNetworkName = getShortNetworkName(CHAIN.name.toLowerCase());
     await navigator.clipboard.writeText(
-      `https://inprocess.myco.wtf/collect/${shortNetworkName}:${createdContract}/1`,
+      `https://inprocess.myco.wtf/collect/${shortNetworkName}:${createdContract}/${createdTokenId}`,
     );
     toast.success("copied!");
   };
@@ -19,6 +24,7 @@ const Buttons = () => {
   const toggle = () => {
     reset();
     setCreatedContract("");
+    setCreatedTokenId("");
   };
 
   return (
