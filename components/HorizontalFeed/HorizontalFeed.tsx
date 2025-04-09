@@ -32,7 +32,7 @@ const HorizontalFeed: FC<HorizontalFeedProps> = ({ feeds }) => {
       onMouseLeave={() => handleMouseMove({ clientX: null } as any)}
       ref={containerRef}
     >
-      <div className="bg-black w-full h-[0.5px] absolute left-0 bottom-[68px] md:bottom-1/2" />
+      <div className="bg-black w-full h-[0.5px] absolute left-0 bottom-[89px] md:bottom-1/2" />
       <div
         className="relative w-fit"
         ref={timelineRef}
