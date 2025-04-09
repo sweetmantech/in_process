@@ -1,4 +1,4 @@
-import { CHAIN } from "@/lib/consts";
+import { CHAIN, PROD_URL } from "@/lib/consts";
 import { getShortNetworkName } from "@/lib/zora/zoraToViem";
 import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
 import Image from "next/image";
@@ -16,7 +16,7 @@ const Buttons = () => {
   const share = async () => {
     const shortNetworkName = getShortNetworkName(CHAIN.name.toLowerCase());
     await navigator.clipboard.writeText(
-      `https://inprocess.myco.wtf/collect/${shortNetworkName}:${createdContract}/${createdTokenId}`,
+      `${PROD_URL}/collect/${shortNetworkName}:${createdContract}/${createdTokenId}`,
     );
     toast.success("copied!");
   };
