@@ -10,6 +10,7 @@ const abi = [
     stateMutability: "view",
   },
 ];
+
 const getTokenURI = async (collection: Address, tokenId: number) => {
   try {
     const publicClient = createPublicClient({
