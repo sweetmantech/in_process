@@ -36,7 +36,7 @@ const Feed = ({ alt }: FeedProps) => {
 
   return (
     <HorizontalFeedAnimationProvider totalFeeds={data?.length || 0}>
-      <HorizontalFeed feeds={data || []} />
+      <HorizontalFeed feeds={[]} />
     </HorizontalFeedAnimationProvider>
   );
 };

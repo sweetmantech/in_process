@@ -8,6 +8,7 @@ import DescriptionCell from "./DescriptionCell";
 import ArtistName from "../ArtistName";
 import { useFeedProvider } from "@/providers/FeedProvider";
 import FetchMoreInspector from "../FetchMoreInspector";
+import Loading from "../Loading";
 
 export default function FeedTable() {
   const { feeds, fetchMore, hasMoreT } = useFeedProvider();
@@ -62,7 +63,9 @@ export default function FeedTable() {
         </Table>
         {hasMoreT && (
           <div className="flex justify-center">
-            <FetchMoreInspector fetchMore={fetchMore} />
+            <FetchMoreInspector fetchMore={fetchMore}>
+              <Loading className="size-14" />
+            </FetchMoreInspector>
           </div>
         )}
       </div>

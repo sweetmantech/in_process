@@ -1,7 +1,7 @@
-import { Collection } from "@/types/token";
+import { Token } from "@/types/token";
 
 export const useStepCalculation = () => {
-  const calculateStep = (currentIndex: number, feeds: Collection[]): number => {
+  const calculateStep = (currentIndex: number, feeds: Token[]): number => {
     if (currentIndex === 0) return 0;
 
     const MS_PER_DAY = 1000 * 60 * 60 * 24;

@@ -1,14 +1,14 @@
 import { useInView } from "react-intersection-observer";
-import Loading from "../Loading";
 import { useEffect } from "react";
 
 interface FetchMoreInspectorProps {
   fetchMore: () => void;
   className?: string;
+  children?: React.ReactNode;
 }
 const FetchMoreInspector = ({
   fetchMore,
-  className = "",
+  children,
 }: FetchMoreInspectorProps) => {
   const [ref, inView] = useInView();
 
@@ -17,11 +17,7 @@ const FetchMoreInspector = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inView]);
 
-  return (
-    <div ref={ref}>
-      <Loading className={`size-8 ${className}`} />
-    </div>
-  );
+  return <div ref={ref}>{children || null}</div>;
 };
 
 export default FetchMoreInspector;
