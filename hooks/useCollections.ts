@@ -1,7 +1,7 @@
 import { Collection } from "@/types/token";
 import { useQuery } from "@tanstack/react-query";
 
-async function fetchCreatedFeed(): Promise<Collection[]> {
+async function fetchCollections(): Promise<Collection[]> {
   const response = await fetch("/api/dune/collections");
   if (!response.ok) {
     throw new Error("Failed to fetch create feeds");
@@ -10,12 +10,11 @@ async function fetchCreatedFeed(): Promise<Collection[]> {
   return data;
 }
 
-export function useCreatedFeed() {
+export function useCollections() {
   return useQuery({
     queryKey: ["created"],
-    queryFn: () => fetchCreatedFeed(),
+    queryFn: () => fetchCollections(),
     staleTime: 1000 * 60 * 5,
-    refetchInterval: 4000,
     refetchOnMount: true,
   });
 }

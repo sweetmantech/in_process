@@ -4,10 +4,11 @@ import {
   createColumnHelper,
 } from "@tanstack/react-table";
 
-import { Collection } from "@/types/token";
+import { Collection, Token } from "@/types/token";
 import { Address } from "viem";
 import { useEffect, useState } from "react";
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
+import { useFeedProvider } from "@/providers/FeedProvider";
 
 type DataItem = {
   creator: Address;
@@ -31,18 +32,19 @@ const columns = [
   }),
 ];
 
-export default function useFeedTable(feeds: Collection[]) {
+export default function useFeedTable() {
+  const { feeds } = useFeedProvider();
   const [tableData, setTableData] = useState<DataItem[]>([]);
 
   useEffect(() => {
     if (feeds.length)
       setTableData(
-        feeds.map((feed: Collection) => ({
-          creator: feed.defaultAdmin,
+        feeds.map((feed: Token) => ({
+          creator: feed.creator,
           released_date: new Date(feed.released_at)
             .toLocaleString()
             .toLowerCase(),
-          uri: getFetchableUrl(feed.contractURI) as string,
+          uri: getFetchableUrl(feed.uri) as string,
         })),
       );
   }, [feeds]);
