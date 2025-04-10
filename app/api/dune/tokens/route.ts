@@ -13,32 +13,36 @@ export async function POST(req: NextRequest) {
 
   try {
     const collectionsAndNextTokenIds = await getNextTokenIds(collections);
-    collectionsAndNextTokenIds.map(async (c: CollectionAndNextTokenId) => {
-      const tokens = [
-        {
-          tokenId: 1,
+    const promise = collectionsAndNextTokenIds.map(
+      async (c: CollectionAndNextTokenId) => {
+        const tokens = [
+          {
+            tokenId: 1,
+            collection: c.newContract,
+            creator: c.creator,
+            chain: c.chain,
+            chainId: c.chainId,
+            released_at: c.released_at,
+          },
+        ];
+        if (c.nextTokenId < 2) return tokens;
+        const events: DuneDecodedEvent[] = await getCreatedTokenEvents(
+          c.newContract,
+        );
+        const formattedEvents = getFormattedTokens(events);
+        const newCreatedTokens = formattedEvents.map((e) => ({
           collection: c.newContract,
-          creator: c.creator,
+          tokenId: e.tokenId,
+          creator: e.sender,
           chain: c.chain,
           chainId: c.chainId,
-          released_at: c.released_at,
-        },
-      ];
-      if (c.nextTokenId < 2) return tokens;
-      const events: DuneDecodedEvent[] = await getCreatedTokenEvents(
-        c.newContract,
-      );
-      const formattedEvents = getFormattedTokens(events);
-      formattedEvents.map((e) => ({
-        collection: c.newContract,
-        tokenId: e.tokenId,
-        creator: e.sender,
-        chain: c.chain,
-        chainId: c.chainId,
-        released_at: e.released_at,
-      }));
-    });
-    return Response.json([]);
+          released_at: e.released_at,
+        }));
+        return [...tokens, ...newCreatedTokens];
+      },
+    );
+    const tokens = await Promise.all(promise);
+    return Response.json(tokens.flat());
   } catch (e: any) {
     console.log(e);
     const message = e?.message ?? "failed to get Dune transactions";
