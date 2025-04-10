@@ -1,13 +1,4 @@
 import React from "react";
-import { Token } from "@/types/token";
-import truncateAddress from "./truncateAddress";
-
-export const getContentLength = (feeds: Token[]): number => {
-  return feeds.reduce((acc, feed) => {
-    const feedText = `${truncateAddress(feed.creator)} - ${feed.creator} - ${new Date(feed.released_at).toLocaleString()}`;
-    return acc + feedText.length;
-  }, 0);
-};
 
 export const calculateViewBox = (points: number[][]): string => {
   const minX = Math.min(...points.map((p) => p[0]));
