@@ -30,7 +30,7 @@ export function WarpcastButton({ className = "" }: WarpcastButtonProps) {
     >
       {isConnected
         ? `${context?.user.displayName || truncateAddress(address as string)}`
-        : "connect wallet"}
+        : "sign in"}
     </button>
   );
 }

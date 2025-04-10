@@ -28,6 +28,8 @@ import { constructCreate1155TokenCalls } from "./token-setup";
 import { makeOnchainPrepareMintFromCreate } from "./mint-from-create";
 import { IContractGetter } from "./contract-getter";
 import { getFactoryAddress } from "./factory-addresses";
+import { getPublicClient } from "@/lib/viem/publicClient";
+import { CHAIN_ID } from "@/lib/consts";
 
 // Default royalty bps
 const ROYALTY_BPS_DEFAULT = 1000;
@@ -175,7 +177,6 @@ export class Create1155Client {
       getAdditionalSetupActions,
       publicClient: this.publicClient,
       chainId: this.chainId,
-      contractGetter: this.contractGetter,
     });
   }
 }
@@ -258,14 +259,27 @@ async function createNew1155Token({
   getAdditionalSetupActions,
   token,
   chainId,
-  contractGetter,
 }: CreateNew1155TokenParams & {
   publicClient: Pick<PublicClient, "readContract">;
   chainId: number;
-  contractGetter: IContractGetter;
 }): Promise<CreateNew1155TokenReturn> {
-  const { nextTokenId, contractVersion, mintFee, name } =
-    await contractGetter.getContractInfo({ contractAddress, retries: 5 });
+  const publicClient = getPublicClient(CHAIN_ID);
+  const calls = ["nextTokenId", "contractVersion", "mintFee", "name"].map(
+    (fname: string) => ({
+      address: contractAddress,
+      abi: zoraCreator1155ImplABI,
+      functionName: fname,
+    }),
+  );
+  const returnValues = await publicClient.multicall({
+    contracts: calls as any,
+  });
+  const [nextTokenIdValue, contractVersionValue, mintFeeValue, nameValue] =
+    returnValues as any;
+  const nextTokenId = nextTokenIdValue.result;
+  const contractVersion = contractVersionValue.result;
+  const mintFee = mintFeeValue.result;
+  const name = nameValue.result;
 
   const {
     minter,

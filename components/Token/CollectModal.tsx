@@ -81,7 +81,11 @@ const CollectModal = () => {
             {isLoading ? (
               <Skeleton className="h-5 w-10 rounded-none" />
             ) : (
-              <>{formatEther(BigInt(data?.pricePerToken || 0))} eth</>
+              <>
+                {data?.pricePerToken === BigInt(0)
+                  ? "free"
+                  : `${formatEther(BigInt(data?.pricePerToken || 0))} eth`}
+              </>
             )}
           </section>
           <Label className="font-archivo text-lg text-left w-full mt-4">

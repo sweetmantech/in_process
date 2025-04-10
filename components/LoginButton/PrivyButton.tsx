@@ -31,7 +31,7 @@ export function PrivyButton({ className = "" }: PrivyButtonProps) {
     >
       {connectedWallet
         ? `${data?.username || truncateAddress(connectedWallet as string)}`
-        : "connect wallet"}
+        : "sign in"}
     </button>
   );
 }

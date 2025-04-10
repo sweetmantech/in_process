@@ -30,6 +30,7 @@ export const MAX_FILE_SIZE = 5 * ONE_MB;
 export const CROSSMINT_SIGNER_ADDRESS =
   "0xa105C311fA72b8Fb78c992EcbDb8b02Ea5bd394d";
 
+export const PROD_URL = "https://inprocess.fun";
 export const BLOCKLISTS = [
   "0x323e8bcb41ae2454c3f4899e094c599aab6b84bc",
   "0x51027631b9def86e088c33368ec4e3a4be0ad264",
