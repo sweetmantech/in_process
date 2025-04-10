@@ -23,7 +23,7 @@ export function useSpiralAnimation(): SpiralAnimationConfig {
     const baseSpeed = 0.2;
     const contentFactor = 0.2;
     const adjustedSpeed = baseSpeed * contentFactor;
-    const spacerWidth = isMobile ? 10 : 15;
+    const spacerWidth = 3;
     const loopPadding = 20;
 
     return {
