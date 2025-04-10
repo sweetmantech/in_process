@@ -1,6 +1,25 @@
+import delay from "@/lib/delay";
 import { Collection, Token } from "@/types/token";
 import { useCallback, useEffect, useState } from "react";
 
+const fetchTokens = async (collectionAddresses: Collection[]) => {
+  while (1) {
+    const response = await fetch("/api/dune/tokens", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        collections: collectionAddresses,
+      }),
+    });
+    if (response.ok) {
+      const data = await response.json();
+      return data;
+    }
+    await delay(1000);
+  }
+};
 const useFeeds = () => {
   const offset = 10;
   const [feeds, setFeeds] = useState<Token[]>([]);
@@ -27,18 +46,8 @@ const useFeeds = () => {
       setHasMoreT(false);
       return;
     }
-    const response = await fetch("/api/dune/tokens", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({
-        collections: collectionAddresses,
-      }),
-    });
-    const data = await response.json();
-    console.log("ziad", data);
-    setFeeds([...feeds, ...data]);
+    const tokens = await fetchTokens(collectionAddresses);
+    setFeeds([...feeds, ...tokens]);
     setCollectionsIndex(collectionsIndex + offset);
   }, [collections, collectionsIndex]);
 
