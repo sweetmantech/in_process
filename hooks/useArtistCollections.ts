@@ -2,26 +2,25 @@ import { Collection } from "@/types/token";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 
-async function fetchArtistFeeds(
+async function fetchArtistCollections(
   artistAddress: string | string[] | undefined,
 ): Promise<Collection[]> {
   const response = await fetch(
-    `/api/dune/artist?artistAddress=${artistAddress || ""}`,
+    `/api/dune/artist/collections?artistAddress=${artistAddress || ""}`,
   );
   if (!response.ok) {
-    throw new Error("Failed to fetch artist feeds");
+    throw new Error("Failed to fetch artist collections");
   }
   const data = await response.json();
   return data;
 }
 
-export function useArtistFeeds() {
+export function useArtistCollections() {
   const { artistAddress } = useParams();
   return useQuery({
-    queryKey: ["artistFeeds", artistAddress],
-    queryFn: () => fetchArtistFeeds(artistAddress),
+    queryKey: ["artistCollections", artistAddress],
+    queryFn: () => fetchArtistCollections(artistAddress),
     staleTime: 1000 * 60 * 5,
-    refetchInterval: 4000,
     refetchOnMount: true,
   });
 }

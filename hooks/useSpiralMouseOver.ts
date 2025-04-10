@@ -1,14 +1,14 @@
-import { Collection } from "@/types/token";
+import { Token } from "@/types/token";
 import { useState, useCallback } from "react";
 
 const useSpiralMouseOver = () => {
   const [hoveredFeed, setHoveredFeed] = useState<{
-    feed: Collection;
+    feed: Token;
     position: { x: number; y: number };
   } | null>(null);
 
   const handleMouseMove = useCallback(
-    (event: React.MouseEvent, feed: Collection) => {
+    (event: React.MouseEvent, feed: Token) => {
       const svgElement = event.currentTarget.closest("svg");
       if (!svgElement) return;
 

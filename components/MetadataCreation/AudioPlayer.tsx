@@ -47,8 +47,9 @@ const AudioPlayer = ({ onClick }: { onClick: () => void }) => {
             src={getFetchableUrl(imageUri) || ""}
             alt="Audio cover"
             layout="fill"
-            objectFit="cover"
+            objectFit="contain"
             objectPosition="center"
+            unoptimized
           />
         ) : (
           <>

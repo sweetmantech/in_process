@@ -1,13 +1,4 @@
 import React from "react";
-import { Collection } from "@/types/token";
-import truncateAddress from "./truncateAddress";
-
-export const getContentLength = (feeds: Collection[]): number => {
-  return feeds.reduce((acc, feed) => {
-    const feedText = `${truncateAddress(feed.defaultAdmin)} - ${feed.name} - ${new Date(feed.released_at).toLocaleString()}`;
-    return acc + feedText.length;
-  }, 0);
-};
 
 export const calculateViewBox = (points: number[][]): string => {
   const minX = Math.min(...points.map((p) => p[0]));
@@ -24,25 +15,26 @@ export const generateSpacer = (width: number): React.ReactElement => (
 );
 
 export const formatFeedText = (
-  username: string,
-  feed: Collection,
+  creator: string,
+  name: string,
+  released_at: number,
   fontSize: number,
 ): React.ReactElement => (
   <>
     <tspan style={{ fontFamily: "Archivo-Bold", fontSize, letterSpacing: 2 }}>
-      {username || truncateAddress(feed.defaultAdmin)}
+      {creator}
     </tspan>
     <tspan> - </tspan>
     <tspan
       style={{ fontFamily: "Spectral-Regular", fontSize, letterSpacing: 2 }}
     >
-      {feed.name}
+      {name}
     </tspan>
     <tspan> - </tspan>
     <tspan
       style={{ fontFamily: "Archivo-Regular", fontSize, letterSpacing: 2 }}
     >
-      {new Date(feed.released_at).toLocaleString().toLowerCase()}
+      {new Date(released_at).toLocaleString().toLowerCase()}
     </tspan>
   </>
 );

@@ -1,7 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
-import { Collection } from "@/types/token";
 import useIsMobile from "./useIsMobile";
-import { calculateViewBox, getContentLength } from "@/lib/spiralUtils";
+import { calculateViewBox } from "@/lib/spiralUtils";
 import { MOBILE_SPIRAL_POINTS, SPIRAL_POINTS } from "@/lib/consts";
 
 interface SpiralAnimationConfig {
@@ -16,17 +15,15 @@ interface SpiralAnimationConfig {
   points: number[][];
 }
 
-export function useSpiralAnimation(feeds: Collection[]): SpiralAnimationConfig {
+export function useSpiralAnimation(): SpiralAnimationConfig {
   const isMobile = useIsMobile();
   const [offset, setOffset] = useState(-50);
 
-  const contentLength = useMemo(() => getContentLength(feeds), [feeds]);
-
   const animationConfig = useMemo(() => {
-    const baseSpeed = 0.15;
-    const contentFactor = Math.min(1, 100 / (contentLength || 100));
+    const baseSpeed = 0.2;
+    const contentFactor = 0.2;
     const adjustedSpeed = baseSpeed * contentFactor;
-    const spacerWidth = isMobile ? 10 : 15;
+    const spacerWidth = 3;
     const loopPadding = 20;
 
     return {
@@ -35,7 +32,7 @@ export function useSpiralAnimation(feeds: Collection[]): SpiralAnimationConfig {
       loopPadding,
       frameRate: 15,
     };
-  }, [contentLength, isMobile]);
+  }, [isMobile]);
 
   useEffect(() => {
     const interval = setInterval(() => {

@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 import useIsMobile from "@/hooks/useIsMobile";
 import { formatFeedText, generateSpacer } from "@/lib/spiralUtils";
-import { Collection } from "@/types/token";
+import { Token } from "@/types/token";
 import { useRouter } from "next/navigation";
 import { useInView } from "react-intersection-observer";
+import { useMetadata } from "@/hooks/useMetadata";
+import truncateAddress from "@/lib/truncateAddress";
 
 interface FeedProps {
-  feed: Collection;
+  feed: Token;
   index: number;
-  handleMouseMove: (event: React.MouseEvent, feed: Collection) => void;
+  handleMouseMove: (event: React.MouseEvent, feed: Token) => void;
   handleMouseLeave: () => void;
   spacerWidth: number;
 }
@@ -24,6 +26,7 @@ const Feed = ({
   const [ref, inView] = useInView();
   const [intialized, setInitialized] = useState(false);
   const [username, setUserName] = useState("");
+  const { data } = useMetadata(feed.uri);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -31,7 +34,7 @@ const Feed = ({
       if (inView) {
         setInitialized(true);
         const response = await fetch(
-          `/api/profile?walletAddress=${feed.defaultAdmin}`,
+          `/api/profile?walletAddress=${feed.creator}`,
         );
         const data = await response.json();
         setUserName(data.username);
@@ -49,10 +52,19 @@ const Feed = ({
       <tspan
         onMouseMove={(e) => handleMouseMove(e, feed)}
         onMouseLeave={handleMouseLeave}
-        onClick={() => push(`/${feed.defaultAdmin}`)}
+        onClick={() => push(`/${feed.creator}`)}
         ref={ref}
       >
-        {formatFeedText(username, feed, isMobile ? 14 : 20)}
+        <tspan fill="#810505" fontSize={28}>
+          ⟡
+        </tspan>{" "}
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        {formatFeedText(
+          username || truncateAddress(feed.creator),
+          data?.name || "",
+          feed.released_at,
+          isMobile ? 14 : 20,
+        )}
       </tspan>
     </React.Fragment>
   );

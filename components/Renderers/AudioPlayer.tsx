@@ -51,6 +51,7 @@ const AudioPlayer = ({ audioUrl, thumbnailUrl }: AudioPlayerProps) => {
             layout="fill"
             objectFit="contain"
             objectPosition="center"
+            unoptimized
           />
         )}
       </div>

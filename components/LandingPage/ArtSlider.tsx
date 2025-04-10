@@ -1,22 +1,18 @@
-import { Collection } from "@/types/token";
 import Slider from "../Slider";
 import SliderFeed from "./SliderFeed";
 import { Autoplay } from "swiper/modules";
 import useIsMobile from "@/hooks/useIsMobile";
+import { useFeedProvider } from "@/providers/FeedProvider";
 
-interface ArtSliderProps {
-  feeds: Collection[];
-}
-
-const ArtSlider = ({ feeds }: ArtSliderProps) => {
+const ArtSlider = () => {
   const isMobile = useIsMobile();
+  const { feeds } = useFeedProvider();
 
   return (
     <Slider
       sliderProps={{
         slidesPerView: isMobile ? 3 : "auto",
         spaceBetween: 10,
-        grabCursor: true,
         mousewheel: {
           sensitivity: 1,
         },
@@ -31,9 +27,10 @@ const ArtSlider = ({ feeds }: ArtSliderProps) => {
         loop: true,
         slidesOffsetBefore: 5,
         slidesOffsetAfter: 5,
+        draggable: false,
       }}
       slideClassName="!h-fit md:!h-auto"
-      className="w-full h-[630px] md:h-auto md:max-h-[100vh] !overflow-hidden"
+      className="w-full h-[630px] md:h-auto md:max-h-[100vh] !overflow-hidden !pointer-events-none"
     >
       {feeds.slice(0, 10).map((feed, i) => (
         <SliderFeed feed={feed} key={i} />

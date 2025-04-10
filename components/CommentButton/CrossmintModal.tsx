@@ -1,4 +1,4 @@
-import { CHAIN_ID } from "@/lib/consts";
+import { CHAIN_ID, CROSSMINT_COLLECTION_ID } from "@/lib/consts";
 import { zoraCreatorFixedPriceSaleStrategyAddress } from "@/lib/protocolSdk/constants";
 import { useTokenProvider } from "@/providers/TokenProvider";
 import { useUserProvider } from "@/providers/UserProvider";
@@ -28,8 +28,7 @@ export default function CrossmintModal({ onClose }: CrossmintModalProps) {
         {sale && (
           <CrossmintEmbeddedCheckout
             lineItems={{
-              collectionLocator:
-                "crossmint:4b386283-a16d-44a6-afcc-c44244643ecf",
+              collectionLocator: CROSSMINT_COLLECTION_ID,
               callData: {
                 quantity: 1,
                 priceFixedSaleStrategy:
@@ -41,7 +40,7 @@ export default function CrossmintModal({ onClose }: CrossmintModalProps) {
               },
             }}
             payment={{
-              crypto: { enabled: true },
+              crypto: { enabled: false },
               fiat: { enabled: true },
             }}
             recipient={
