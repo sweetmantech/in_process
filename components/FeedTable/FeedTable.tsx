@@ -1,19 +1,18 @@
 "use client";
 
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { Collection } from "@/types/token";
 import useFeedTable from "@/hooks/useFeedTable";
 import { useRouter } from "next/navigation";
 import { Address } from "viem";
 import DescriptionCell from "./DescriptionCell";
 import ArtistName from "../ArtistName";
+import { useFeedProvider } from "@/providers/FeedProvider";
+import FetchMoreInspector from "../FetchMoreInspector";
+import Loading from "../Loading";
 
-interface FeedTableProps {
-  feeds: Collection[];
-}
-
-export default function FeedTable({ feeds }: FeedTableProps) {
-  const table = useFeedTable(feeds);
+export default function FeedTable() {
+  const { feeds, fetchMore, hasMoreT } = useFeedProvider();
+  const table = useFeedTable();
   const { push } = useRouter();
   const fontFamilies = ["font-archivo", "font-spectral-italic", "font-archivo"];
   const fontSizes = [
@@ -23,7 +22,7 @@ export default function FeedTable({ feeds }: FeedTableProps) {
   ];
 
   const handleClick = (index: number) => {
-    push(`/${feeds[index].defaultAdmin}`);
+    push(`/${feeds[index].creator}`);
   };
 
   return (
@@ -62,6 +61,13 @@ export default function FeedTable({ feeds }: FeedTableProps) {
             ))}
           </TableBody>
         </Table>
+        {hasMoreT && (
+          <div className="flex justify-center">
+            <FetchMoreInspector fetchMore={fetchMore}>
+              <Loading className="size-14" />
+            </FetchMoreInspector>
+          </div>
+        )}
       </div>
     </div>
   );

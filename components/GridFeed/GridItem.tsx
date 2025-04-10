@@ -1,14 +1,14 @@
 import { useMetadata } from "@/hooks/useMetadata";
-import { Collection } from "@/types/token";
+import { Token } from "@/types/token";
 import Loading from "../Loading";
 import ContentRenderer from "../Token/ContentRenderer";
 
 interface GridItemProps {
-  feed: Collection;
+  feed: Token;
 }
 
 const GridItem = ({ feed }: GridItemProps) => {
-  const { data, isLoading } = useMetadata(feed.contractURI);
+  const { data, isLoading } = useMetadata(feed.uri);
 
   return (
     <div className="col-span-1 aspect-video w-full overflow-hidden relative bg-tan-400 rounded-md">

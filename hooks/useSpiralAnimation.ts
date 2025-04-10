@@ -1,8 +1,8 @@
 import { useState, useEffect, useMemo } from "react";
-import { Collection } from "@/types/token";
 import useIsMobile from "./useIsMobile";
 import { calculateViewBox, getContentLength } from "@/lib/spiralUtils";
 import { MOBILE_SPIRAL_POINTS, SPIRAL_POINTS } from "@/lib/consts";
+import { useFeedProvider } from "@/providers/FeedProvider";
 
 interface SpiralAnimationConfig {
   offset: number;
@@ -16,7 +16,8 @@ interface SpiralAnimationConfig {
   points: number[][];
 }
 
-export function useSpiralAnimation(feeds: Collection[]): SpiralAnimationConfig {
+export function useSpiralAnimation(): SpiralAnimationConfig {
+  const { feeds } = useFeedProvider();
   const isMobile = useIsMobile();
   const [offset, setOffset] = useState(-50);
 

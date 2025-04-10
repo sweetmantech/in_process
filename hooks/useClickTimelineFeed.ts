@@ -1,18 +1,18 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useMetadata } from "./useMetadata";
-import { Collection } from "@/types/token";
+import { Token } from "@/types/token";
 import { getShortNetworkName } from "@/lib/zora/zoraToViem";
 
-export const useFeed = (feed: Collection) => {
+export const useClickTimelineFeed = (feed: Token) => {
   const { push } = useRouter();
   const pathname = usePathname();
   const isHomePage = pathname === "/";
 
-  const { isLoading, data } = useMetadata(feed.contractURI);
+  const { isLoading, data } = useMetadata(feed.uri);
 
   const handleClick = () => {
     if (isHomePage) {
-      push(`/${feed.defaultAdmin}`);
+      push(`/${feed.creator}`);
       return;
     }
     if (data?.external_url) {
@@ -25,7 +25,7 @@ export const useFeed = (feed: Collection) => {
     const shortNetworkName = getShortNetworkName(
       feed.chain.replaceAll("_", " "),
     );
-    push(`/collect/${shortNetworkName}:${feed.newContract}/1`);
+    push(`/collect/${shortNetworkName}:${feed.collection}/${feed.tokenId}`);
     return;
   };
 
