@@ -8,11 +8,11 @@ import useIsMobile from "@/hooks/useIsMobile";
 import Loading from "../Loading";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
-import { useCreatedFeed } from "@/hooks/useCreatedFeed";
+import { useCollections } from "@/hooks/useCollections";
 import OnboardingModalWrapper from "../OnboardingModal/OnboardingModalWrapper";
 
 const Feeds = () => {
-  const { error, isLoading, data } = useCreatedFeed();
+  const { error, isLoading, data } = useCollections();
   const isMobile = useIsMobile();
   const { push } = useRouter();
 
@@ -40,7 +40,7 @@ const Feeds = () => {
       <SpiralFeeds feeds={data || []} />
       <div className="w-full space-y-4 md:grid md:grid-cols-12 pb-6 gap-10 relative z-[1]">
         <div className="w-full hidden md:block md:col-span-8">
-          <FeedTable feeds={data || []} />
+          <FeedTable />
         </div>
         <LatestFeeds feeds={data?.slice(0, 3) || []} />
         <div className="hidden md:block col-span-4 relative">
