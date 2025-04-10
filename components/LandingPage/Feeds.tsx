@@ -42,10 +42,10 @@ const Feeds = () => {
         <div className="w-full hidden md:block md:col-span-8">
           <FeedTable />
         </div>
-        <LatestFeeds feeds={data?.slice(0, 3) || []} />
+        <LatestFeeds />
         <div className="hidden md:block col-span-4 relative">
           <div className="w-full absolute bottom-0 flex flex-col gap-6">
-            <ArtSlider feeds={data || []} />
+            <ArtSlider />
           </div>
         </div>
         {isMobile && (

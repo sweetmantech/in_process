@@ -1,15 +1,12 @@
-import { Collection } from "@/types/token";
 import Slider from "../Slider";
 import SliderFeed from "./SliderFeed";
 import { Autoplay } from "swiper/modules";
 import useIsMobile from "@/hooks/useIsMobile";
+import { useFeedProvider } from "@/providers/FeedProvider";
 
-interface ArtSliderProps {
-  feeds: Collection[];
-}
-
-const ArtSlider = ({ feeds }: ArtSliderProps) => {
+const ArtSlider = () => {
   const isMobile = useIsMobile();
+  const { feeds } = useFeedProvider();
 
   return (
     <Slider
