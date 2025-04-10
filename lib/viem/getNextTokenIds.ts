@@ -3,8 +3,8 @@ import { zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
 import { Collection } from "@/types/token";
 
 export type CollectionAndNextTokenId = Collection & {
-  nextTokenId: number
-}
+  nextTokenId: number;
+};
 
 const getNextTokenIds = async (collections: Collection[]) => {
   const groupedFeedByNetwork = collections.reduce(

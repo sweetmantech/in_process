@@ -1,27 +1,43 @@
-import getNextTokenIds, { CollectionAndNextTokenId } from "@/lib/viem/getNextTokenIds";
+import getCreatedTokenEvents from "@/lib/dune/getCreatedTokenEvents";
+import getFormattedTokens from "@/lib/dune/getFormattedTokens";
+import getNextTokenIds, {
+  CollectionAndNextTokenId,
+} from "@/lib/viem/getNextTokenIds";
+import { DuneDecodedEvent } from "@/types/dune";
 import { Collection } from "@/types/token";
 import { NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {
-    const body = await req.json();
-    const collections: Collection[] = body.collections
+  const body = await req.json();
+  const collections: Collection[] = body.collections;
 
   try {
-    const collectionsAndNextTokenIds = await getNextTokenIds(collections)
+    const collectionsAndNextTokenIds = await getNextTokenIds(collections);
     collectionsAndNextTokenIds.map(async (c: CollectionAndNextTokenId) => {
-        const tokens = [{
-            tokenId: 1,
-            collection: c.newContract,
-            creator: c.creator,
-
-        }]
-        if (c.nextTokenId < 2) {
-            return [{
-                tokenId: 1,
-                nextTokenId:
-            }]
-        }
-    })
+      const tokens = [
+        {
+          tokenId: 1,
+          collection: c.newContract,
+          creator: c.creator,
+          chain: c.chain,
+          chainId: c.chainId,
+          released_at: c.released_at,
+        },
+      ];
+      if (c.nextTokenId < 2) return tokens;
+      const events: DuneDecodedEvent[] = await getCreatedTokenEvents(
+        c.newContract,
+      );
+      const formattedEvents = getFormattedTokens(events);
+      formattedEvents.map((e) => ({
+        collection: c.newContract,
+        tokenId: e.tokenId,
+        creator: e.sender,
+        chain: c.chain,
+        chainId: c.chainId,
+        released_at: e.released_at,
+      }));
+    });
     return Response.json([]);
   } catch (e: any) {
     console.log(e);
