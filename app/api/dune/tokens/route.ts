@@ -3,6 +3,7 @@ import getFormattedTokens from "@/lib/dune/getFormattedTokens";
 import getNextTokenIds, {
   CollectionAndNextTokenId,
 } from "@/lib/viem/getNextTokenIds";
+import { getTokenUris } from "@/lib/viem/getTokenUris";
 import { DuneDecodedEvent } from "@/types/dune";
 import { Collection } from "@/types/token";
 import { NextRequest } from "next/server";
@@ -23,6 +24,7 @@ export async function POST(req: NextRequest) {
             chain: c.chain,
             chainId: c.chainId,
             released_at: c.released_at,
+            uri: "",
           },
         ];
         if (c.nextTokenId < 2) return tokens;
@@ -37,6 +39,7 @@ export async function POST(req: NextRequest) {
           chain: c.chain,
           chainId: c.chainId,
           released_at: e.released_at,
+          uri: "",
         }));
         return [...tokens, ...newCreatedTokens];
       },
@@ -48,7 +51,8 @@ export async function POST(req: NextRequest) {
         (a, b) =>
           new Date(b.released_at).getTime() - new Date(a.released_at).getTime(),
       );
-    return Response.json(sortedTokens);
+    const tokensAndUris = await getTokenUris(sortedTokens);
+    return Response.json(tokensAndUris);
   } catch (e: any) {
     console.log(e);
     const message = e?.message ?? "failed to get Dune transactions";

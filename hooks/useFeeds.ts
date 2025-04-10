@@ -18,13 +18,11 @@ const useFeeds = () => {
   }, []);
 
   const fetchMore = useCallback(async () => {
-    console.log("ziad call 1", collectionsIndex, collections.length);
     if (!collections.length) return;
     const collectionAddresses = collections.slice(
       collectionsIndex,
       collectionsIndex + offset,
     );
-    console.log("ziad call 2", collectionsIndex, collectionAddresses);
     if (!collectionAddresses.length) {
       setHasMoreT(false);
       return;
