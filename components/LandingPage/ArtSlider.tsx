@@ -28,6 +28,7 @@ const ArtSlider = () => {
         loop: true,
         slidesOffsetBefore: 5,
         slidesOffsetAfter: 5,
+        draggable: false,
       }}
       slideClassName="!h-fit md:!h-auto"
       className="w-full h-[630px] md:h-auto md:max-h-[100vh] !overflow-hidden"
