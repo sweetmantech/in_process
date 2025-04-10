@@ -31,7 +31,7 @@ export default function OnboardingModal({
 
   const handleAdvance = () => {
     if (isLastSlide) {
-      router.push(`/${wagmiAddress}`);
+      router.push(`/${wagmiAddress}?editing=true`);
       return;
     }
     setCurrentSlide(prev => prev + 1);

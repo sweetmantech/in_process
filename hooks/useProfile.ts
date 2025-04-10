@@ -1,4 +1,4 @@
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import useConnectedWallet from "./useConnectedWallet";
 import { useEffect, useState } from "react";
 import { useArtistProfile } from "./useArtistProfile";
@@ -26,11 +26,14 @@ const useProfile = () => {
   const [username, setUserName] = useState<string>("");
   const [bio, setBio] = useState<string>("");
   const { artistAddress } = useParams();
+  const searchParams = useSearchParams();
   const canEdit =
     connectedWallet?.toLowerCase() ===
       new String((artistAddress as string) || "").toLowerCase() &&
     Boolean(connectedWallet);
-  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [isEditing, setIsEditing] = useState<boolean>(
+    searchParams.get('editing') === 'true' && canEdit
+  );
 
   const toggleEditing = () => setIsEditing(!isEditing);
 
@@ -39,7 +42,13 @@ const useProfile = () => {
       setUserName(data.username || truncateAddress(artistAddress as string));
       setBio(data.bio);
     }
-  }, [data]);
+  }, [data, artistAddress]);
+
+  useEffect(() => {
+    if (searchParams.get('editing') === 'true' && canEdit) {
+      setIsEditing(true);
+    }
+  }, [canEdit, searchParams, artistAddress]);
 
   const save = async () => {
     saveIndentify(artistAddress as Address, username, bio);
