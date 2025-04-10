@@ -1,19 +1,20 @@
 import { FC } from "react";
-import { Collection } from "@/types/token";
+import { Token } from "@/types/token";
 import FeedHover from "./FeedHover";
-import { useFeed } from "@/hooks/useFeed";
+import { useClickTimelineFeed } from "@/hooks/useClickTimelineFeed";
 import { DiamondIcon } from "../ui/icons";
 import truncated from "@/lib/truncated";
 
 interface FeedProps {
-  feed: Collection;
+  feed: Token;
   hovered: boolean;
   step: number;
   height: number;
 }
 
 const Feed: FC<FeedProps> = ({ feed, hovered, step, height }) => {
-  const { isLoading, data, handleClick, formattedDate } = useFeed(feed);
+  const { isLoading, data, handleClick, formattedDate } =
+    useClickTimelineFeed(feed);
 
   return (
     <div
@@ -54,7 +55,7 @@ const Feed: FC<FeedProps> = ({ feed, hovered, step, height }) => {
         </button>
         {hovered && (
           <p className="font-spectral-italic text-sm md:text-xl pt-2 relative translate-y-6">
-            {truncated(feed.name)}
+            {truncated(data?.name || "")}
           </p>
         )}
         <p

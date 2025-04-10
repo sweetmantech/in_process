@@ -3,16 +3,21 @@
 import { FC } from "react";
 import Feed from "./Feed";
 import Slider from "../Slider";
-import { Collection } from "@/types/token";
+import { Token } from "@/types/token";
 import { useHorizontalFeedAnimationProvider } from "@/providers/HorizontalFeedAnimationProvider";
 import { useStepCalculation } from "@/hooks/useStepCalculation";
 import Controls from "./Controls";
+import FetchMoreInspector from "../FetchMoreInspector";
 
 interface HorizontalFeedProps {
-  feeds: Collection[];
+  feeds: Token[];
+  fetchMore?: () => void;
 }
 
-const HorizontalFeed: FC<HorizontalFeedProps> = ({ feeds }) => {
+const HorizontalFeed: FC<HorizontalFeedProps> = ({
+  feeds,
+  fetchMore = () => {},
+}) => {
   const {
     getHeight,
     isHovered,
@@ -61,14 +66,20 @@ const HorizontalFeed: FC<HorizontalFeedProps> = ({ feeds }) => {
           className="w-full !overflow-visible my-4"
           slideClassName="!w-fit !m-0"
         >
-          {feeds.map((feed: Collection, i) => (
-            <Feed
-              key={i}
-              feed={feed}
-              hovered={isHovered(i)}
-              step={calculateStep(i, feeds)}
-              height={getHeight(i)}
-            />
+          {Array.from({ length: feeds.length + 1 }).map((_, i) => (
+            <>
+              {i < feeds.length ? (
+                <Feed
+                  key={i}
+                  feed={feeds[i]}
+                  hovered={isHovered(i)}
+                  step={calculateStep(i, feeds)}
+                  height={getHeight(i)}
+                />
+              ) : (
+                <FetchMoreInspector fetchMore={fetchMore} />
+              )}
+            </>
           ))}
         </Slider>
       </div>

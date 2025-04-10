@@ -2,9 +2,9 @@ import FeedTable from "../FeedTable";
 import SpiralFeeds from "../SprialFeeds";
 import ArtSlider from "./ArtSlider";
 import LatestFeeds from "./LatestFeeds";
-// import { HorizontalFeedAnimationProvider } from "@/providers/HorizontalFeedAnimationProvider";
-// import HorizontalFeed from "../HorizontalFeed";
-// import useIsMobile from "@/hooks/useIsMobile";
+import { HorizontalFeedAnimationProvider } from "@/providers/HorizontalFeedAnimationProvider";
+import HorizontalFeed from "../HorizontalFeed";
+import useIsMobile from "@/hooks/useIsMobile";
 import Loading from "../Loading";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
@@ -12,8 +12,8 @@ import OnboardingModalWrapper from "../OnboardingModal/OnboardingModalWrapper";
 import { useFeedProvider } from "@/providers/FeedProvider";
 
 const Feeds = () => {
-  const { feeds, collections } = useFeedProvider();
-  // const isMobile = useIsMobile();
+  const { feeds, collections, fetchMore } = useFeedProvider();
+  const isMobile = useIsMobile();
   const { push } = useRouter();
 
   if (!feeds.length)
@@ -46,11 +46,11 @@ const Feeds = () => {
             <ArtSlider />
           </div>
         </div>
-        {/* {isMobile && (
-          <HorizontalFeedAnimationProvider totalFeeds={data?.length || 0}>
-            <HorizontalFeed feeds={data || []} />
+        {isMobile && (
+          <HorizontalFeedAnimationProvider totalFeeds={feeds?.length || 0}>
+            <HorizontalFeed feeds={feeds || []} fetchMore={fetchMore} />
           </HorizontalFeedAnimationProvider>
-        )} */}
+        )}
       </div>
       <OnboardingModalWrapper />
     </div>

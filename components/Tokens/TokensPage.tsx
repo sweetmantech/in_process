@@ -2,6 +2,7 @@
 
 import { useFeedProvider } from "@/providers/FeedProvider";
 import FetchMoreInspector from "../FetchMoreInspector";
+import Loading from "../Loading";
 
 const TokensPage = () => {
   const { feeds, fetchMore, hasMoreT } = useFeedProvider();
@@ -21,7 +22,9 @@ const TokensPage = () => {
         ))}
         <div className="w-full flex justify-center">
           {hasMoreT && (
-            <FetchMoreInspector fetchMore={fetchMore} className="size-10" />
+            <FetchMoreInspector fetchMore={fetchMore}>
+              <Loading className="size-10" />
+            </FetchMoreInspector>
           )}
         </div>
       </div>
