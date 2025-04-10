@@ -1,12 +1,19 @@
 import useFeeds from "@/hooks/useFeeds";
+import { Collection } from "@/types/token";
 import { createContext, useMemo, useContext } from "react";
 
 const FeedContext = createContext<ReturnType<typeof useFeeds>>(
   {} as ReturnType<typeof useFeeds>,
 );
 
-const FeedProvider = ({ children }: { children: React.ReactNode }) => {
-  const feeds = useFeeds();
+const FeedProvider = ({
+  children,
+  collections,
+}: {
+  children: React.ReactNode;
+  collections: Collection[];
+}) => {
+  const feeds = useFeeds(collections);
 
   const value = useMemo(
     () => ({

@@ -20,21 +20,11 @@ const fetchTokens = async (collectionAddresses: Collection[]) => {
     await delay(1000);
   }
 };
-const useFeeds = () => {
+const useFeeds = (collections: Collection[]) => {
   const offset = 10;
   const [feeds, setFeeds] = useState<Token[]>([]);
   const [hasMoreT, setHasMoreT] = useState<boolean>(true);
-  const [collections, setCollections] = useState<Collection[]>([]);
   const [collectionsIndex, setCollectionsIndex] = useState<number>(0);
-
-  useEffect(() => {
-    const init = async () => {
-      const response = await fetch("/api/dune/collections");
-      const data = await response.json();
-      setCollections(data);
-    };
-    init();
-  }, []);
 
   const fetchMore = useCallback(async () => {
     if (!collections.length) return;

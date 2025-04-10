@@ -17,7 +17,11 @@ const FetchMoreInspector = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inView]);
 
-  return <div ref={ref}>{children || null}</div>;
+  return (
+    <div ref={ref} className="min-w-[10px] min-h-[10px]">
+      {children || null}
+    </div>
+  );
 };
 
 export default FetchMoreInspector;
