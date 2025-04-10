@@ -49,6 +49,7 @@ const AudioPlayer = ({ onClick }: { onClick: () => void }) => {
             layout="fill"
             objectFit="contain"
             objectPosition="center"
+            unoptimized
           />
         ) : (
           <>
