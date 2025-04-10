@@ -42,7 +42,13 @@ export async function POST(req: NextRequest) {
       },
     );
     const tokens = await Promise.all(promise);
-    return Response.json(tokens.flat());
+    const sortedTokens = tokens
+      .flat()
+      .sort(
+        (a, b) =>
+          new Date(b.released_at).getTime() - new Date(a.released_at).getTime(),
+      );
+    return Response.json(sortedTokens);
   } catch (e: any) {
     console.log(e);
     const message = e?.message ?? "failed to get Dune transactions";
