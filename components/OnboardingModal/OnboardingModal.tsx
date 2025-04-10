@@ -42,15 +42,11 @@ export default function OnboardingModal({
   return (
     <div className="fixed inset-0 bg-[#FEFEFE] bg-opacity-80 flex items-center justify-center z-50">
       <div
-        className={`bg-white p-8 max-w-[574px] h-[450px] w-full m-4 relative shadow-[rgba(27,21,4,0.09)_-1px_4px_64px_16px] ${isLastSlide ? 'cursor-pointer' : ''}`}
+        className={`bg-white p-8 max-w-[574px] h-[450px] w-full m-4 relative shadow-[rgba(27,21,4,0.09)_-1px_4px_64px_16px]`}
         onClick={handleAdvance}
       >
         <button 
-          onClick={(e) => {
-            e.stopPropagation();
-            onClose();
-          }} 
-          className="absolute right-4 top-4 p-1"
+          onClick={onClose} className="absolute right-4 top-4 p-1"
         >
           <Image
             src="/images/close-icon.svg"
@@ -67,11 +63,7 @@ export default function OnboardingModal({
         <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex justify-center gap-3">
           {isLastSlide ? (
             <Button 
-              onClick={(e) => {
-                e.stopPropagation();
-                handleAdvance();
-              }} 
-              className="px-8 py-2 text-md bg-black hover:bg-grey-moss-300 text-white rounded-sm"
+              onClick={handleAdvance} className="px-8 py-2 text-md bg-black hover:bg-grey-moss-300 text-white rounded-sm"
             >
               start
             </Button>
