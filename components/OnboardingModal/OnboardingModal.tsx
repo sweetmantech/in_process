@@ -30,14 +30,11 @@ export default function OnboardingModal({
   }, [isOpen, wagmiAddress, isConnected, connector]);
 
   const handleAdvance = () => {
-    if (isLastSlide) return;
-    setCurrentSlide(prev => prev + 1);
-  };
-
-  const handleStart = () => {
-    if (wagmiAddress) {
+    if (isLastSlide) {
       router.push(`/${wagmiAddress}`);
+      return;
     }
+    setCurrentSlide(prev => prev + 1);
   };
 
   if (!isOpen) return null;
@@ -46,7 +43,7 @@ export default function OnboardingModal({
     <div className="fixed inset-0 bg-[#FEFEFE] bg-opacity-80 flex items-center justify-center z-50">
       <div
         className={`bg-white p-8 max-w-[574px] h-[450px] w-full m-4 relative shadow-[rgba(27,21,4,0.09)_-1px_4px_64px_16px] ${isLastSlide ? 'cursor-pointer' : ''}`}
-        onClick={isLastSlide ? handleStart : handleAdvance}
+        onClick={handleAdvance}
       >
         <button 
           onClick={(e) => {
@@ -72,7 +69,7 @@ export default function OnboardingModal({
             <Button 
               onClick={(e) => {
                 e.stopPropagation();
-                handleStart();
+                handleAdvance();
               }} 
               className="px-8 py-2 text-md bg-black hover:bg-grey-moss-300 text-white rounded-sm"
             >
