@@ -2,23 +2,21 @@ import FeedTable from "../FeedTable";
 import SpiralFeeds from "../SprialFeeds";
 import ArtSlider from "./ArtSlider";
 import LatestFeeds from "./LatestFeeds";
-import { HorizontalFeedAnimationProvider } from "@/providers/HorizontalFeedAnimationProvider";
-import HorizontalFeed from "../HorizontalFeed";
-import useIsMobile from "@/hooks/useIsMobile";
+// import { HorizontalFeedAnimationProvider } from "@/providers/HorizontalFeedAnimationProvider";
+// import HorizontalFeed from "../HorizontalFeed";
+// import useIsMobile from "@/hooks/useIsMobile";
 import Loading from "../Loading";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
-import { useCollections } from "@/hooks/useCollections";
 import OnboardingModalWrapper from "../OnboardingModal/OnboardingModalWrapper";
+import { useFeedProvider } from "@/providers/FeedProvider";
 
 const Feeds = () => {
-  const { error, isLoading, data } = useCollections();
-  const isMobile = useIsMobile();
+  const { feeds, collections } = useFeedProvider();
+  // const isMobile = useIsMobile();
   const { push } = useRouter();
 
-  if (error)
-    return <p className="text-center text-red-500 py-4">Failed to load feed</p>;
-  if (isLoading)
+  if (!feeds.length)
     return (
       <div className="grow flex justify-center items-center overflow-hidden">
         <Loading className="w-[200px] aspect-[1/1] md:w-[400px]" />
@@ -27,7 +25,7 @@ const Feeds = () => {
   return (
     <div className="pt-16 md:pt-20">
       <p className="font-archivo text-2xl md:text-5xl px-4 md:px-0 pt-6 pb-4 md:pt-12">
-        {data?.length} moments
+        {collections?.length} moments
         <br />
         have been shared
       </p>
@@ -37,7 +35,7 @@ const Feeds = () => {
       >
         create
       </Button>
-      <SpiralFeeds feeds={data || []} />
+      <SpiralFeeds />
       <div className="w-full space-y-4 md:grid md:grid-cols-12 pb-6 gap-10 relative z-[1]">
         <div className="w-full hidden md:block md:col-span-8">
           <FeedTable />
@@ -48,11 +46,11 @@ const Feeds = () => {
             <ArtSlider />
           </div>
         </div>
-        {isMobile && (
+        {/* {isMobile && (
           <HorizontalFeedAnimationProvider totalFeeds={data?.length || 0}>
             <HorizontalFeed feeds={data || []} />
           </HorizontalFeedAnimationProvider>
-        )}
+        )} */}
       </div>
       <OnboardingModalWrapper />
     </div>

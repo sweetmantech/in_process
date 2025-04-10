@@ -1,12 +1,12 @@
 import React from "react";
-import { Collection } from "@/types/token";
+import { Token } from "@/types/token";
 import { useMetadata } from "@/hooks/useMetadata";
 import Loading from "../Loading";
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import Image from "next/image";
 
 interface FeedTooltipProps {
-  feed: Collection | null;
+  feed: Token | null;
   position: { x: number; y: number } | null;
   isVisible: boolean;
 }
@@ -18,7 +18,7 @@ export const FeedTooltip: React.FC<FeedTooltipProps> = ({
 }) => {
   if (!isVisible || !position || !feed) return null;
   // eslint-disable-next-line
-  const { isLoading, data } = useMetadata(feed.contractURI);
+  const { isLoading, data } = useMetadata(feed.uri);
 
   return (
     <div
