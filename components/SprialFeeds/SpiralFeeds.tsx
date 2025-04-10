@@ -2,23 +2,19 @@
 
 import React from "react";
 import { SpiralPath } from "./SpiralPath";
-import { Collection } from "@/types/token";
 import { useSpiralAnimation } from "@/hooks/useSpiralAnimation";
 import { generateSpacer } from "@/lib/spiralUtils";
 import { Point } from "@/types/spiral";
 import { FeedTooltip } from "./FeedTooltip";
 import useSpiralMouseOver from "@/hooks/useSpiralMouseOver";
 import Feed from "./Feed";
+import { useFeedProvider } from "@/providers/FeedProvider";
 
-interface FeedsProps {
-  feeds: Collection[];
-}
-
-export default function SpiralFeeds({ feeds }: FeedsProps) {
-  const { offset, viewBox, animationConfig, points } =
-    useSpiralAnimation(feeds);
+export default function SpiralFeeds() {
+  const { offset, viewBox, animationConfig, points } = useSpiralAnimation();
   const { handleMouseLeave, handleMouseMove, hoveredFeed } =
     useSpiralMouseOver();
+  const { feeds } = useFeedProvider();
 
   return (
     <div className="relative">

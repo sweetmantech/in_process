@@ -64,6 +64,7 @@ const useFeeds = () => {
     fetchMore,
     feeds,
     collectionsIndex,
+    collections,
   };
 };
 
