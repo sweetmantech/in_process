@@ -46,7 +46,7 @@ const useFeeds = (collections: Collection[]) => {
       setFeeds([]);
       await fetchMore();
     };
-    init();
+    if (collections.length) init();
   }, [collections]);
 
   return {

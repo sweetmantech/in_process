@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useSwitchChain, useWriteContract } from "wagmi";
 import { CHAIN_ID } from "@/lib/consts";
 import { useParams } from "next/navigation";
 import { Address } from "viem";
@@ -14,6 +13,7 @@ import { getPublicClient } from "@/lib/viem/publicClient";
 import { useMask } from "./useMask";
 import useBalance from "./useBalance";
 import { useUserProvider } from "@/providers/UserProvider";
+import useSignTransaction from "./useSignTransaction";
 
 const createOnSmartWallet = async (parameters: any) => {
   const response = await fetch(`/api/smartwallet/sendUserOperation`, {
@@ -34,8 +34,6 @@ const createOnSmartWallet = async (parameters: any) => {
 
 export default function useZoraCreate() {
   const { balance } = useBalance();
-  const { writeContractAsync } = useWriteContract();
-  const { switchChainAsync } = useSwitchChain();
   const [creating, setCreating] = useState<boolean>(false);
   const params = useParams();
   const chainId = Number(params.chainId) || CHAIN_ID;
@@ -48,6 +46,7 @@ export default function useZoraCreate() {
   );
   const mask = useMask();
   const { isPrepared } = useUserProvider();
+  const { signTransaction } = useSignTransaction();
 
   const create = async () => {
     try {
@@ -57,14 +56,17 @@ export default function useZoraCreate() {
       if (!parameters) {
         throw new Error("Parameters not ready");
       }
-
+      const { address, account, args, abi, functionName } = parameters;
       let hash: Address | null = null;
-      await switchChainAsync({ chainId });
       if (balance === 0) hash = await createOnSmartWallet(parameters);
       else
-        hash = await writeContractAsync({
-          ...parameters,
-        });
+        hash = await signTransaction(
+          address,
+          account as Address,
+          abi,
+          functionName,
+          args,
+        );
 
       if (!hash) throw new Error();
 
