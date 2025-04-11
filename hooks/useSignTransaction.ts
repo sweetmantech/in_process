@@ -32,7 +32,7 @@ const useSignTransaction = () => {
       return hash;
     }
 
-    if (!wallet) return zeroAddress;
+    if (!wallet) throw new Error("No wallet connected for transaction signing");
     await wallet.switchChain(CHAIN_ID);
     const provider = await wallet.getEthereumProvider();
     const client = createWalletClient({
