@@ -15,7 +15,9 @@ export async function GET(req: NextRequest) {
       ...createdEvents,
       ...smartWalletEvents,
     ]);
-    return Response.json(formattedEvents);
+    return Response.json(
+      formattedEvents.filter((e) => e.defaultAdmin === artistAddress),
+    );
   } catch (e: any) {
     console.log(e);
     const message = e?.message ?? "failed to get Dune transactions";
