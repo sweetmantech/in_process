@@ -30,9 +30,6 @@ const ArtSlider = () => {
         sliderProps={{
           slidesPerView: isMobile ? 3 : "auto",
           spaceBetween: 10,
-          mousewheel: {
-            sensitivity: 1,
-          },
           autoplay: {
             delay: 4000,
             disableOnInteraction: false,
@@ -48,9 +45,10 @@ const ArtSlider = () => {
           onSwiper(swiper) {
             setSwiper(swiper);
           },
+          allowTouchMove: false,
         }}
         slideClassName="!h-fit md:!h-auto"
-        className="w-full h-[630px] md:h-auto md:max-h-[100vh] !overflow-hidden !pointer-events-none"
+        className="w-full h-[630px] md:h-auto md:max-h-[100vh] !overflow-hidden"
       >
         {feeds.slice(0, 10).map((feed, i) => (
           <SliderFeed feed={feed} key={i} />
