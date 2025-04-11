@@ -9,10 +9,10 @@ import Loading from "../Loading";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 import OnboardingModalWrapper from "../OnboardingModal/OnboardingModalWrapper";
-import { useFeedProvider } from "@/providers/FeedProvider";
+import { useInProcessFeedProvider } from "@/providers/InProcessFeedProvider";
 
 const Feeds = () => {
-  const { feeds, collections, fetchMore } = useFeedProvider();
+  const { feeds, collections, fetchMore } = useInProcessFeedProvider();
   const isMobile = useIsMobile();
   const { push } = useRouter();
 

@@ -2,14 +2,14 @@ import Slider from "../Slider";
 import SliderFeed from "./SliderFeed";
 import { Autoplay } from "swiper/modules";
 import useIsMobile from "@/hooks/useIsMobile";
-import { useFeedProvider } from "@/providers/FeedProvider";
+import { useInProcessFeedProvider } from "@/providers/InProcessFeedProvider";
 import { ArrowRight } from "../ui/icons";
 import { useState } from "react";
 import { Swiper } from "swiper/types";
 
 const ArtSlider = () => {
   const isMobile = useIsMobile();
-  const { feeds } = useFeedProvider();
+  const { feeds } = useInProcessFeedProvider();
   const [swiper, setSwiper] = useState<Swiper | null>(null);
 
   return (

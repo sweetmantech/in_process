@@ -8,7 +8,7 @@ import { Collection, Token } from "@/types/token";
 import { Address } from "viem";
 import { useEffect, useState } from "react";
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
-import { useFeedProvider } from "@/providers/FeedProvider";
+import { useInProcessFeedProvider } from "@/providers/InProcessFeedProvider";
 
 type DataItem = {
   creator: Address;
@@ -33,7 +33,7 @@ const columns = [
 ];
 
 export default function useFeedTable() {
-  const { feeds } = useFeedProvider();
+  const { feeds } = useInProcessFeedProvider();
   const [tableData, setTableData] = useState<DataItem[]>([]);
 
   useEffect(() => {

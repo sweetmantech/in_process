@@ -4,8 +4,8 @@ import useIsMobile from "@/hooks/useIsMobile";
 import VerticalFeed from "../VerticalFeed";
 import GridFeed from "../GridFeed";
 import Loading from "../Loading";
-import { useFeedProvider } from "@/providers/FeedProvider";
 import FetchMoreInspector from "../FetchMoreInspector";
+import { useArtistFeedProvider } from "@/providers/ArtistFeedProvider";
 
 interface FeedProps {
   alt: "timeline" | "grid";
@@ -13,7 +13,7 @@ interface FeedProps {
 
 const Feed = ({ alt }: FeedProps) => {
   const isMobile = useIsMobile();
-  const { feeds, fetchMore } = useFeedProvider();
+  const { feeds, fetchMore } = useArtistFeedProvider();
 
   if (!feeds.length)
     return (

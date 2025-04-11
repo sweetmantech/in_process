@@ -7,6 +7,7 @@ import { ZoraCreateProvider } from "./ZoraCreateProvider";
 import UserProvider from "./UserProvider";
 import { CrossmintProvider } from "./CrossmintProvider";
 import FrameProvider from "./FrameProvider";
+import InProcessFeedProvider from "./InProcessFeedProvider";
 
 export function Providers({ children }: { children: ReactNode }) {
   return (
@@ -15,7 +16,9 @@ export function Providers({ children }: { children: ReactNode }) {
         <PrivyProvider>
           <FrameProvider>
             <UserProvider>
-              <ZoraCreateProvider>{children}</ZoraCreateProvider>
+              <ZoraCreateProvider>
+                <InProcessFeedProvider>{children}</InProcessFeedProvider>
+              </ZoraCreateProvider>
             </UserProvider>
           </FrameProvider>
         </PrivyProvider>

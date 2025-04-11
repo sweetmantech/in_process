@@ -6,12 +6,12 @@ import { useRouter } from "next/navigation";
 import { Address } from "viem";
 import DescriptionCell from "./DescriptionCell";
 import ArtistName from "../ArtistName";
-import { useFeedProvider } from "@/providers/FeedProvider";
+import { useInProcessFeedProvider } from "@/providers/InProcessFeedProvider";
 import FetchMoreInspector from "../FetchMoreInspector";
 import Loading from "../Loading";
 
 export default function FeedTable() {
-  const { feeds, fetchMore, hasMoreT } = useFeedProvider();
+  const { feeds, fetchMore, hasMoreT } = useInProcessFeedProvider();
   const table = useFeedTable();
   const { push } = useRouter();
   const fontFamilies = ["font-archivo", "font-spectral-italic", "font-archivo"];

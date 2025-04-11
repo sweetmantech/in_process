@@ -2,7 +2,7 @@ import { Token } from "@/types/token";
 import Image from "next/image";
 import truncated from "@/lib/truncated";
 import ArtistName from "../ArtistName";
-import { useFeedProvider } from "@/providers/FeedProvider";
+import { useInProcessFeedProvider } from "@/providers/InProcessFeedProvider";
 import { useMetadata } from "@/hooks/useMetadata";
 
 const Feed = ({ feed }: { feed: Token }) => {
@@ -20,7 +20,7 @@ const Feed = ({ feed }: { feed: Token }) => {
   );
 };
 const LatestFeeds = () => {
-  const { feeds } = useFeedProvider();
+  const { feeds } = useInProcessFeedProvider();
   return (
     <div className="pt-4 block md:hidden w-full">
       <div className="flex justify-center">

@@ -1,6 +1,6 @@
 "use client";
 
-import { useFeedProvider } from "@/providers/FeedProvider";
+import { useInProcessFeedProvider } from "@/providers/InProcessFeedProvider";
 import Image from "next/image";
 import FeedItem from "./FeedItem";
 import useConnectedWallet from "@/hooks/useConnectedWallet";
@@ -9,7 +9,7 @@ import { useAccount } from "wagmi";
 import { useFrameProvider } from "@/providers/FrameProvider";
 
 const OnBoardingPage = () => {
-  const { feeds } = useFeedProvider();
+  const { feeds } = useInProcessFeedProvider();
   const { connectedWallet } = useConnectedWallet();
   const { address } = useAccount();
   const { context } = useFrameProvider();

@@ -1,11 +1,11 @@
 "use client";
 
-import { useFeedProvider } from "@/providers/FeedProvider";
+import { useInProcessFeedProvider } from "@/providers/InProcessFeedProvider";
 import FetchMoreInspector from "../FetchMoreInspector";
 import Loading from "../Loading";
 
 const TokensPage = () => {
-  const { feeds, fetchMore, hasMoreT } = useFeedProvider();
+  const { feeds, fetchMore, hasMoreT } = useInProcessFeedProvider();
 
   return (
     <div className="w-screen h-screen flex justify-center items-center">
