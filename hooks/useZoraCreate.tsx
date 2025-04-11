@@ -13,6 +13,7 @@ import {
 import { getPublicClient } from "@/lib/viem/publicClient";
 import { useMask } from "./useMask";
 import useBalance from "./useBalance";
+import { useUserProvider } from "@/providers/UserProvider";
 
 const createOnSmartWallet = async (parameters: any) => {
   const response = await fetch(`/api/smartwallet/sendUserOperation`, {
@@ -46,9 +47,11 @@ export default function useZoraCreate() {
     collection,
   );
   const mask = useMask();
+  const { isPrepared } = useUserProvider();
 
   const create = async () => {
     try {
+      if (!isPrepared()) return;
       setCreating(true);
       const parameters = await fetchParameters();
       if (!parameters) {
@@ -71,6 +74,7 @@ export default function useZoraCreate() {
         const contractAddress = getContractAddressFromReceipt(receipt);
         setCreatedContract(contractAddress);
         setCreatedTokenId("1");
+        setCreating(false);
         return { contractAddress, tokenId: 1 };
       }
       const tokenId = getTokenIdFromCreateReceipt(receipt);
