@@ -7,7 +7,7 @@ const TextInput = () => {
   return (
     <div className="overflow-hidden size-full !font-spectral shadow-lg bg-white disabled:cursor-not-allowed relative">
       <textarea
-        className="relative z-[2] size-full !outline-none p-2 md:p-4 bg-white"
+        className="relative z-[2] size-full !outline-none p-2 md:p-4 bg-gray-200"
         value={writingText}
         disabled={Boolean(fileUploading || creating)}
         onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -15,7 +15,7 @@ const TextInput = () => {
         }}
       />
       <div
-        className="p-2 md:p-4 absolute z-[1] left-0 top-0 bg-white w-full h-full border border-white flex items-center"
+        className="p-2 md:p-4 absolute z-[1] left-0 top-0 bg-white w-full h-full border border-white flex items-center bg-gray-200"
         ref={writingRef}
       >
         <div
