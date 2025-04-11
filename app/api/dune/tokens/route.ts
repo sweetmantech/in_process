@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
           {
             tokenId: 1,
             collection: c.newContract,
-            creator: c.creator,
+            creator: c.defaultAdmin,
             chain: c.chain,
             chainId: c.chainId,
             released_at: c.released_at,
