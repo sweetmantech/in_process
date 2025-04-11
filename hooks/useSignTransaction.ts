@@ -47,6 +47,7 @@ const useSignTransaction = () => {
       args,
       account,
       chain: CHAIN,
+      value,
     });
     return hash;
   };
