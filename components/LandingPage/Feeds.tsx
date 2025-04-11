@@ -36,7 +36,7 @@ const Feeds = () => {
         create
       </Button>
       <SpiralFeeds />
-      <div className="w-full space-y-4 md:grid md:grid-cols-12 pb-6 gap-10 relative z-[1]">
+      <div className="w-full space-y-4 md:grid md:grid-cols-12 pb-6 gap-10 relative z-30">
         <div className="w-full hidden md:block md:col-span-8">
           <FeedTable />
         </div>
