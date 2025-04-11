@@ -14,17 +14,17 @@ const ArtSlider = () => {
 
   return (
     <div className="relative">
-      <button className="absolute top-4 left-1/2 -translate-x-1/2 z-10 bg-gray-400 px-4 rounded-md">
-        <ArrowRight
-          className="rotate-[-90deg] size-6"
-          onClick={() => swiper?.slidePrev()}
-        />
+      <button
+        className="absolute top-4 left-1/2 -translate-x-1/2 z-10 bg-gray-400 px-4 rounded-md"
+        onClick={() => swiper?.slidePrev()}
+      >
+        <ArrowRight className="rotate-[-90deg] size-6" />
       </button>
-      <button className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 bg-gray-400 px-4 rounded-md">
-        <ArrowRight
-          className="rotate-[-270deg] size-6"
-          onClick={() => swiper?.slideNext()}
-        />
+      <button
+        className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 bg-gray-400 px-4 rounded-md"
+        onClick={() => swiper?.slideNext()}
+      >
+        <ArrowRight className="rotate-[-270deg] size-6" />
       </button>
       <Slider
         sliderProps={{
