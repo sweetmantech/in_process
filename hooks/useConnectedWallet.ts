@@ -17,7 +17,6 @@ const useConnectedWallet = () => {
   useEffect(() => {
     if (ready && !wallets.length) logout();
   }, [ready, wallets]);
-
   return {
     connectedWallet,
     wallet,
