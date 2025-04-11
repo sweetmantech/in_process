@@ -17,7 +17,7 @@ const ArtSlider = () => {
       <button className="absolute top-4 left-1/2 -translate-x-1/2 z-10 bg-gray-400 px-4 rounded-md">
         <ArrowRight
           className="rotate-[-90deg] size-6"
-          onClick={() => swiper?.slideNext()}
+          onClick={() => swiper?.slidePrev()}
         />
       </button>
       <button className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 bg-gray-400 px-4 rounded-md">
