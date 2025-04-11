@@ -1,25 +1,17 @@
 import useConnectedWallet from "./useConnectedWallet";
-import { Address, createWalletClient, custom } from "viem";
+import { createWalletClient, custom, WriteContractParameters } from "viem";
 import { CHAIN_ID } from "@/lib/consts";
 import getViemNetwork from "@/lib/viem/getViemNetwork";
 import { useFrameProvider } from "@/providers/FrameProvider";
 import { useSwitchChain, useWriteContract } from "wagmi";
 
-type Parameters = {
-  address: Address;
-  account: Address;
-  abi: any;
-  functionName: string;
-  args: any;
-  value: any;
-};
 const useSignTransaction = () => {
   const { wallet } = useConnectedWallet();
   const { context } = useFrameProvider();
   const { writeContractAsync } = useWriteContract();
   const { switchChainAsync } = useSwitchChain();
 
-  const signTransaction = async (parameters: Parameters) => {
+  const signTransaction = async (parameters: WriteContractParameters) => {
     const { account } = parameters;
     if (context) {
       await switchChainAsync({ chainId: CHAIN_ID });
@@ -27,7 +19,8 @@ const useSignTransaction = () => {
       return hash;
     }
 
-    if (!wallet) throw new Error("No wallet connected for transaction signing");
+    if (!wallet || !account)
+      throw new Error("No wallet connected for transaction signing");
     await wallet.switchChain(CHAIN_ID);
     const provider = await wallet.getEthereumProvider();
     const client = createWalletClient({

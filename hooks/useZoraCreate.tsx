@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { CHAIN_ID } from "@/lib/consts";
+import { CHAIN, CHAIN_ID } from "@/lib/consts";
 import { useParams } from "next/navigation";
 import { Address } from "viem";
 import useZoraCreateParameters from "./useZoraCreateParameters";
@@ -66,7 +66,7 @@ export default function useZoraCreate() {
           abi,
           functionName,
           args,
-          value: BigInt(0),
+          chain: CHAIN,
         });
 
       if (!hash) throw new Error();

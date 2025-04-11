@@ -97,7 +97,7 @@ const useZoraMintComment = () => {
         hash = await signTransaction({
           address: token.token.contract.address,
           account: minter as Address,
-          abi: zoraCreator1155ImplABI,
+          abi: zoraCreator1155ImplABI as any,
           functionName: "mint",
           args: [
             zoraCreatorFixedPriceSaleStrategyAddress[CHAIN.id],
@@ -107,6 +107,7 @@ const useZoraMintComment = () => {
             minterArguments,
           ],
           value: BigInt(sale.pricePerToken),
+          chain: CHAIN,
         });
       }
 
