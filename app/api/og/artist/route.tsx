@@ -22,12 +22,12 @@ export async function GET(req: NextRequest) {
   const queryParams = req.nextUrl.searchParams;
   const artistAddress: any = queryParams.get("artistAddress");
 
-  const tokens = await fetch(
-    `${VERCEL_OG}/api/dune/artist?artistAddress=${artistAddress}`,
+  const collections = await fetch(
+    `${VERCEL_OG}/api/dune/artist/collections?artistAddress=${artistAddress}`,
   ).then((res) => res.json());
-  const contractURIs = tokens
+  const contractURIs = collections
     .slice(0, 4)
-    .map((token: Collection) => token.contractURI);
+    .map((c: Collection) => c.contractURI);
   const metadataPromise = contractURIs.map(async (contractURI: string) => {
     return await fetch(getFetchableUrl(contractURI) || "").then((res) =>
       res.json(),
