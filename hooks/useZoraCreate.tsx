@@ -57,7 +57,6 @@ export default function useZoraCreate() {
         throw new Error("Parameters not ready");
       }
       const { address, account, args, abi, functionName } = parameters;
-      setCreating(false);
       let hash: Address | null = null;
       if (balance === 0) hash = await createOnSmartWallet(parameters);
       else
