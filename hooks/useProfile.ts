@@ -42,7 +42,7 @@ const useProfile = () => {
       setUserName(data.username || truncateAddress(artistAddress as string));
       setBio(data.bio);
     }
-  }, [data, artistAddress]);
+  }, [data]);
 
   useEffect(() => {
     if (searchParams.get('editing') === 'true' && canEdit) {
