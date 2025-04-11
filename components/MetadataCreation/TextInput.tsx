@@ -21,7 +21,6 @@ const TextInput = () => {
       >
         <div
           className="w-full max-h-full overflow-hidden"
-          ref={writingRef}
           dangerouslySetInnerHTML={{
             __html: writingText.replaceAll("\n", "<br/>"),
           }}
