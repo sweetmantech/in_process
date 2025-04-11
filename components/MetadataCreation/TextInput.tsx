@@ -1,6 +1,5 @@
 import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
 import { ChangeEvent } from "react";
-
 const TextInput = () => {
   const { writingRef, fileUploading, setWritingText, writingText, creating } =
     useZoraCreateProvider();
@@ -21,7 +20,6 @@ const TextInput = () => {
       >
         <div
           className="w-full max-h-full overflow-hidden"
-          ref={writingRef}
           dangerouslySetInnerHTML={{
             __html: writingText.replaceAll("\n", "<br/>"),
           }}
