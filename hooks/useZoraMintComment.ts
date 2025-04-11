@@ -94,20 +94,21 @@ const useZoraMintComment = () => {
           setIsOpenCommentModal(false);
           return;
         }
-        hash = await signTransaction(
-          token.token.contract.address,
-          minter as Address,
-          zoraCreator1155ImplABI,
-          "mint",
-          [
+        hash = await signTransaction({
+          address: token.token.contract.address,
+          account: minter as Address,
+          abi: zoraCreator1155ImplABI as any,
+          functionName: "mint",
+          args: [
             zoraCreatorFixedPriceSaleStrategyAddress[CHAIN.id],
             BigInt(token.token.tokenId),
             BigInt(1),
             [],
             minterArguments,
           ],
-          BigInt(sale.pricePerToken),
-        );
+          value: BigInt(sale.pricePerToken),
+          chain: CHAIN,
+        });
       }
 
       if (!hash) throw new Error();

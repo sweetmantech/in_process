@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { CHAIN_ID } from "@/lib/consts";
+import { CHAIN, CHAIN_ID } from "@/lib/consts";
 import { useParams } from "next/navigation";
 import { Address } from "viem";
 import useZoraCreateParameters from "./useZoraCreateParameters";
@@ -60,13 +60,14 @@ export default function useZoraCreate() {
       let hash: Address | null = null;
       if (balance === 0) hash = await createOnSmartWallet(parameters);
       else
-        hash = await signTransaction(
+        hash = await signTransaction({
           address,
-          account as Address,
+          account: account as Address,
           abi,
           functionName,
           args,
-        );
+          chain: CHAIN,
+        });
 
       if (!hash) throw new Error();
 
