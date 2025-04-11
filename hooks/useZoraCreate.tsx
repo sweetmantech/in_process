@@ -60,13 +60,14 @@ export default function useZoraCreate() {
       let hash: Address | null = null;
       if (balance === 0) hash = await createOnSmartWallet(parameters);
       else
-        hash = await signTransaction(
+        hash = await signTransaction({
           address,
-          account as Address,
+          account: account as Address,
           abi,
           functionName,
           args,
-        );
+          value: BigInt(0),
+        });
 
       if (!hash) throw new Error();
 
