@@ -1,9 +1,17 @@
 import { Address } from "viem";
 import { getPublicClient } from "@/lib/viem/publicClient";
-import { CHAIN_ID } from "@/lib/consts";
-import { zoraCreatorFixedPriceSaleStrategyAddress } from "@/lib/protocolSdk/constants";
-import { zoraCreatorFixedPriceSaleStrategyABI } from "@zoralabs/protocol-deployments";
+import { CHAIN_ID, PERMISSION_BIT_MINTER } from "@/lib/consts";
+import {
+  erc20MinterAddresses,
+  zoraCreatorFixedPriceSaleStrategyAddress,
+} from "@/lib/protocolSdk/constants";
+import {
+  erc20MinterABI,
+  zoraCreator1155ImplABI,
+  zoraCreatorFixedPriceSaleStrategyABI,
+} from "@zoralabs/protocol-deployments";
 import { useQuery } from "@tanstack/react-query";
+import { MintType } from "@/types/zora";
 
 export type SaleConfig = {
   saleStart: string;
@@ -11,12 +19,32 @@ export type SaleConfig = {
   maxTokensPerAddress: string;
   pricePerToken: bigint;
   fundsRecipient: Address;
+  type: string;
 };
 async function fetchSaleConfig(
   tokenContract: Address,
   tokenId: string,
 ): Promise<SaleConfig> {
   const publicClient: any = getPublicClient(CHAIN_ID);
+  const permissions = await publicClient.readContract({
+    address: tokenContract,
+    abi: zoraCreator1155ImplABI,
+    functionName: "permissions",
+    args: [tokenId, erc20MinterAddresses[CHAIN_ID]],
+  });
+  if (permissions === BigInt(PERMISSION_BIT_MINTER)) {
+    const data = await publicClient.readContract({
+      address: erc20MinterAddresses[CHAIN_ID],
+      abi: erc20MinterABI,
+      functionName: "sale",
+      args: [tokenContract, tokenId],
+    });
+
+    return {
+      ...data,
+      type: MintType.ZoraErc20Mint,
+    };
+  }
   const data = await publicClient.readContract({
     address: zoraCreatorFixedPriceSaleStrategyAddress[CHAIN_ID],
     abi: zoraCreatorFixedPriceSaleStrategyABI,
@@ -24,7 +52,10 @@ async function fetchSaleConfig(
     args: [tokenContract, tokenId],
   });
 
-  return data;
+  return {
+    ...data,
+    type: MintType.ZoraFixedPriceMint,
+  };
 }
 
 const useTokenSaleConfig = (tokenContract: Address, tokenId: string) => {

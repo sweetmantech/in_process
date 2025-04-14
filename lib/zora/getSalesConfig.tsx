@@ -5,6 +5,7 @@ import {
 } from "@/lib/protocolSdk";
 import { maxUint64, parseEther, parseUnits } from "viem";
 import { USDC_ADDRESS } from "../consts";
+import { MintType } from "@/types/zora";
 
 const getSalesConfig = (saleStrategy: string, price: string) => {
   const timedSaleConfig = {
@@ -25,11 +26,11 @@ const getSalesConfig = (saleStrategy: string, price: string) => {
   } as FixedPriceParamsType;
 
   switch (saleStrategy) {
-    case "ZoraTimedSaleStrategy":
+    case MintType.ZoraTimedMint:
       return timedSaleConfig;
-    case "ZoraFixedPriceSaleStrategy":
+    case MintType.ZoraFixedPriceMint:
       return fixedPriceSaleConfig;
-    case "ZoraErc20MintSaleStrategy":
+    case MintType.ZoraErc20Mint:
       return erc20MintSaleConfig;
     default:
       return erc20MintSaleConfig;
