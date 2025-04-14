@@ -25,9 +25,7 @@ const useZoraCreateParameters = (
     const creator = context ? address : connectedWallet;
 
     const creatorClient = createCreatorClient({ chainId, publicClient });
-    // const cc0MusicArweaveUri = await createMetadata.getUri();
-    const cc0MusicArweaveUri =
-      "https://arweave.net/HJyjA6aHELuOhgLN0mmtY0H--cmSz305szLAch53lqM";
+    const cc0MusicArweaveUri = await createMetadata.getUri();
     if (!createMetadata.name) return;
     const salesConfig = getSalesConfig(
       getSaleConfigType(pathname),
