@@ -4,10 +4,10 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Button } from '../ui/button';
 import { slides } from './OnboardingModalContent';
-import { useAccount } from 'wagmi';
 import { SlideContent } from './SlideContent';
 import { NavigationDots } from './NavigationDots';
 import { useRouter } from 'next/navigation';
+import useConnectedWallet from '@/hooks/useConnectedWallet';
 
 interface OnboardingModalProps {
   isOpen: boolean;
@@ -18,7 +18,7 @@ export default function OnboardingModal({
   isOpen,
   onClose,
 }: OnboardingModalProps) {
-  const { address: wagmiAddress, isConnected, connector } = useAccount();
+  const { connectedWallet } = useConnectedWallet();
   const [currentSlide, setCurrentSlide] = useState(0);
   const isLastSlide = currentSlide === slides.length - 1;
   const router = useRouter();
@@ -27,11 +27,11 @@ export default function OnboardingModal({
     if (isOpen) {
       setCurrentSlide(0);
     }
-  }, [isOpen, wagmiAddress, isConnected, connector]);
+  }, [isOpen, connectedWallet]);
 
   const handleAdvance = () => {
     if (isLastSlide) {
-      router.push(`/${wagmiAddress}?editing=true`);
+      router.push(`/${connectedWallet}?editing=true`);
       return;
     }
     setCurrentSlide(prev => prev + 1);

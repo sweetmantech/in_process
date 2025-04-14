@@ -31,9 +31,7 @@ const useProfile = () => {
     connectedWallet?.toLowerCase() ===
       new String((artistAddress as string) || "").toLowerCase() &&
     Boolean(connectedWallet);
-  const [isEditing, setIsEditing] = useState<boolean>(
-    searchParams.get('editing') === 'true' && canEdit
-  );
+  const [isEditing, setIsEditing] = useState<boolean>(false);
 
   const toggleEditing = () => setIsEditing(!isEditing);
 
@@ -42,11 +40,13 @@ const useProfile = () => {
       setUserName(data.username || truncateAddress(artistAddress as string));
       setBio(data.bio);
     }
-  }, [data]);
+  }, [data, artistAddress]);
 
   useEffect(() => {
     if (searchParams.get('editing') === 'true' && canEdit) {
       setIsEditing(true);
+    } else {
+      setIsEditing(false);
     }
   }, [canEdit, searchParams, artistAddress]);
 
