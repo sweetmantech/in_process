@@ -8,10 +8,8 @@ import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
 const useCreateMetadata = () => {
   const [link, setLink] = useState<string>("");
   const [name, setName] = useState<string>("");
-  const [priceUnit, setPriceUnit] = useState<"eth" | "usd" | "base" | "usdc">(
-    "eth",
-  );
-  const [price, setPrice] = useState("0.01");
+  const [priceUnit, setPriceUnit] = useState<string>("usdc");
+  const [price, setPrice] = useState("0");
   const [description, setDescription] = useState<string>("");
   const [isTimedSale, setIsTimedSale] = useState<boolean>(false);
   const [imageUri, setImageUri] = useState<string>("");

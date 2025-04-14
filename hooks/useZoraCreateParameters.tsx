@@ -6,6 +6,7 @@ import getSalesConfig from "@/lib/zora/getSalesConfig";
 import useCreateMetadata from "@/hooks/useCreateMetadata";
 import useConnectedWallet from "./useConnectedWallet";
 import { useFrameProvider } from "@/providers/FrameProvider";
+import getSaleConfigType from "@/lib/getSaleConfigType";
 
 const useZoraCreateParameters = (
   chainId: number = CHAIN_ID,
@@ -25,9 +26,7 @@ const useZoraCreateParameters = (
     const cc0MusicArweaveUri = await createMetadata.getUri();
     if (!createMetadata.name) return;
     const salesConfig = getSalesConfig(
-      createMetadata.isTimedSale
-        ? "ZoraTimedSaleStrategy"
-        : "ZoraFixedPriceSaleStrategy",
+      getSaleConfigType("erc20Mint"),
       createMetadata.price,
     );
 
