@@ -3,7 +3,7 @@ import useBalance from "./useBalance";
 import { useAccount } from "wagmi";
 import { zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
 import { zoraCreatorFixedPriceSaleStrategyAddress } from "@/lib/protocolSdk/constants";
-import { CHAIN } from "@/lib/consts";
+import { CHAIN, CHAIN_ID } from "@/lib/consts";
 import { Address, encodeAbiParameters, parseAbiParameters } from "viem";
 import { useTokenProvider } from "@/providers/TokenProvider";
 import { useUserProvider } from "@/providers/UserProvider";
@@ -63,8 +63,7 @@ const useZoraMintComment = () => {
       if (!sale) return;
       setIsLoading(true);
       const account = context ? address : connectedWallet;
-
-      const publicClient = getPublicClient();
+      const publicClient = getPublicClient(CHAIN_ID);
       const minterArguments = encodeAbiParameters(
         parseAbiParameters("address, string"),
         [account as Address, comment],
@@ -86,7 +85,11 @@ const useZoraMintComment = () => {
           ],
         });
       } else {
-        const hasEnoughAmount = hasSufficiency(sale, balances);
+        const hasEnoughAmount = await hasSufficiency(
+          account as Address,
+          sale,
+          balances,
+        );
         if (!hasEnoughAmount) {
           setIsLoading(false);
           setIsOpenCrossmint(true);
