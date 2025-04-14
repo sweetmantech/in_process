@@ -10,11 +10,12 @@ import { useTokenProvider } from "@/providers/TokenProvider";
 import CommentButton from "../CommentButton/CommentButton";
 import { MouseEvent, Suspense } from "react";
 import { Skeleton } from "../ui/skeleton";
-import { formatEther } from "viem";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import dynamic from "next/dynamic";
 import { useZoraMintCommentProvider } from "@/providers/ZoraMintCommentProvider";
 import { useUserProvider } from "@/providers/UserProvider";
+import getPrice from "@/lib/getPrice";
+import getPriceUnit from "@/lib/getPriceUnit";
 
 const CrossmintModal = dynamic(
   () => import("../CommentButton/CrossmintModal"),
@@ -84,7 +85,7 @@ const CollectModal = () => {
               <>
                 {data?.pricePerToken === BigInt(0)
                   ? "free"
-                  : `${formatEther(BigInt(data?.pricePerToken || 0))} eth`}
+                  : `${getPrice(data?.pricePerToken || 0, data?.type)} ${getPriceUnit(data?.type)}`}
               </>
             )}
           </section>

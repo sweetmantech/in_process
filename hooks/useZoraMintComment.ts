@@ -4,12 +4,7 @@ import { useAccount } from "wagmi";
 import { zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
 import { zoraCreatorFixedPriceSaleStrategyAddress } from "@/lib/protocolSdk/constants";
 import { CHAIN } from "@/lib/consts";
-import {
-  Address,
-  encodeAbiParameters,
-  formatEther,
-  parseAbiParameters,
-} from "viem";
+import { Address, encodeAbiParameters, parseAbiParameters } from "viem";
 import { useTokenProvider } from "@/providers/TokenProvider";
 import { useUserProvider } from "@/providers/UserProvider";
 import { useCrossmintCheckout } from "@crossmint/client-sdk-react-ui";
@@ -18,7 +13,10 @@ import { getPublicClient } from "@/lib/viem/publicClient";
 import { useFrameProvider } from "@/providers/FrameProvider";
 import { toast } from "sonner";
 import useSignTransaction from "./useSignTransaction";
-import getMinter from "@/lib/getMinter";
+import hasSufficiency from "@/lib/hasSufficiency";
+import { MintType } from "@/types/zora";
+import useUsdc from "./useUsdc";
+import getCollectRequest from "@/lib/getCollectRequest";
 
 const mintOnSmartWallet = async (parameters: any) => {
   const response = await fetch(`/api/smartwallet/sendUserOperation`, {
@@ -39,7 +37,8 @@ const mintOnSmartWallet = async (parameters: any) => {
 
 const useZoraMintComment = () => {
   const [isOpenCrossmint, setIsOpenCrossmint] = useState(false);
-  const { balance } = useBalance();
+  const balances = useBalance();
+  const { hasAllowance, approve } = useUsdc();
   const { connectedWallet } = useConnectedWallet();
   const { address } = useAccount();
   const { context } = useFrameProvider();
@@ -71,7 +70,6 @@ const useZoraMintComment = () => {
         [account as Address, comment],
       );
 
-      console.log("ziad", minterArguments);
       let hash: Address | null = null;
 
       if (sale.pricePerToken === BigInt(0)) {
@@ -88,28 +86,30 @@ const useZoraMintComment = () => {
           ],
         });
       } else {
-        const hasBalanceToMint =
-          balance > Number(formatEther(BigInt(sale.pricePerToken)));
-        if (!hasBalanceToMint) {
+        const hasEnoughAmount = hasSufficiency(sale, balances);
+        if (!hasEnoughAmount) {
           setIsLoading(false);
           setIsOpenCrossmint(true);
           setIsOpenCommentModal(false);
           return;
         }
-        hash = await signTransaction({
-          address: token.token.contract.address,
-          account: account as Address,
-          abi: zoraCreator1155ImplABI as any,
-          functionName: "mint",
-          args: [
-            getMinter(sale.type),
-            BigInt(token.token.tokenId),
-            BigInt(1),
-            [],
-            minterArguments,
-          ],
-          chain: CHAIN,
-        });
+        if (sale.type === MintType.ZoraErc20Mint) {
+          const sufficientAllowance = await hasAllowance(sale);
+          if (!sufficientAllowance) {
+            toast.error(
+              `Insufficient allowance. please sign initial tx to grant max allowance`,
+            );
+            await approve();
+          }
+        }
+        const request = getCollectRequest(
+          token,
+          sale,
+          account as Address,
+          comment,
+        );
+        if (!request) throw new Error();
+        hash = await signTransaction(request);
       }
 
       if (!hash) throw new Error();

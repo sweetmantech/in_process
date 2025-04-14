@@ -1,13 +1,17 @@
 import { Address } from "viem";
 import { getPublicClient } from "@/lib/viem/publicClient";
 import { CHAIN_ID, PERMISSION_BIT_MINTER } from "@/lib/consts";
-import { erc20MinterAddresses, zoraCreatorFixedPriceSaleStrategyAddress } from "@/lib/protocolSdk/constants";
+import {
+  erc20MinterAddresses,
+  zoraCreatorFixedPriceSaleStrategyAddress,
+} from "@/lib/protocolSdk/constants";
 import {
   erc20MinterABI,
   zoraCreator1155ImplABI,
   zoraCreatorFixedPriceSaleStrategyABI,
 } from "@zoralabs/protocol-deployments";
 import { useQuery } from "@tanstack/react-query";
+import { MintType } from "@/types/zora";
 
 export type SaleConfig = {
   saleStart: string;
@@ -38,7 +42,7 @@ async function fetchSaleConfig(
 
     return {
       ...data,
-      type: "ZoraErc20Mint",
+      type: MintType.ZoraErc20Mint,
     };
   }
   const data = await publicClient.readContract({
@@ -50,7 +54,7 @@ async function fetchSaleConfig(
 
   return {
     ...data,
-    type: "ZoraFixedPriceMint",
+    type: MintType.ZoraFixedPriceMint,
   };
 }
 

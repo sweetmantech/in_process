@@ -1,9 +1,10 @@
 import { useTokenProvider } from "@/providers/TokenProvider";
 import { Fragment } from "react";
 import { Skeleton } from "../ui/skeleton";
-import { formatUnits } from "viem";
 import CommentSection from "./CommentSection";
 import truncated from "@/lib/truncated";
+import getPrice from "@/lib/getPrice";
+import getPriceUnit from "@/lib/getPriceUnit";
 
 interface MetaAndCommentsProps {
   priceHidden?: boolean;
@@ -37,7 +38,7 @@ const MetaAndComments = ({
               <p className="w-2/3 md:w-full font-archivo text-sm md:text-base border border-black rounded-md text-center bg-tan-secondary">
                 {data?.pricePerToken === BigInt(0)
                   ? "free"
-                  : `${formatUnits(BigInt(data?.pricePerToken || 0), data?.type === "ZoraErc20Mint" ? 6 : 18)} ${data?.type === "ZoraErc20Mint" ? "usdc" : "eth"}`}
+                  : `${getPrice(data?.pricePerToken || 0, data?.type)} ${getPriceUnit(data?.type || "")}`}
               </p>
             )}
           </div>
