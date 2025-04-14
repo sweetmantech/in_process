@@ -1,6 +1,6 @@
-const getSaleConfigType = (value: string) => {
-  if (value.includes("usdc")) return "ZoraErc20MintSaleStrategy";
-  if (value.includes("timed")) return "ZoraTimedSaleStrategy";
+const getSaleConfigType = (value: "erc20Mint" | "timed" | "fixedPrice") => {
+  if (value === "erc20Mint") return "ZoraErc20MintSaleStrategy";
+  if (value === "timed") return "ZoraTimedSaleStrategy";
   return "ZoraFixedPriceSaleStrategy";
 };
 

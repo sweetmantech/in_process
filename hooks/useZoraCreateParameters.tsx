@@ -6,7 +6,6 @@ import getSalesConfig from "@/lib/zora/getSalesConfig";
 import useCreateMetadata from "@/hooks/useCreateMetadata";
 import useConnectedWallet from "./useConnectedWallet";
 import { useFrameProvider } from "@/providers/FrameProvider";
-import { usePathname } from "next/navigation";
 import getSaleConfigType from "@/lib/getSaleConfigType";
 
 const useZoraCreateParameters = (
@@ -18,7 +17,6 @@ const useZoraCreateParameters = (
   const { address } = useAccount();
   const createMetadata = useCreateMetadata();
   const { context } = useFrameProvider();
-  const pathname = usePathname();
 
   const fetchParameters = async () => {
     if (!publicClient) return;
@@ -28,7 +26,7 @@ const useZoraCreateParameters = (
     const cc0MusicArweaveUri = await createMetadata.getUri();
     if (!createMetadata.name) return;
     const salesConfig = getSalesConfig(
-      getSaleConfigType(pathname),
+      getSaleConfigType("erc20Mint"),
       createMetadata.price,
     );
 
