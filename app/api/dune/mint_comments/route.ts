@@ -1,4 +1,5 @@
 import getCrossmintCommentEvents from "@/lib/dune/getCrossmintCommentEvents";
+import getErc20MintCommentsEvents from "@/lib/dune/getErc20MintCommentsEvents";
 import getSmartWalletMintCommentEvents from "@/lib/dune/getSmartWalletMintCommentEvents";
 import getTokenContractMintCommentEvents from "@/lib/dune/getTokenContractMintCommentEvents";
 import { DuneDecodedEvent } from "@/types/dune";
@@ -9,6 +10,8 @@ export async function GET(req: NextRequest) {
   const tokenId = req.nextUrl.searchParams.get("tokenId");
 
   try {
+    const erc20MinterEvents: DuneDecodedEvent[] =
+      await getErc20MintCommentsEvents(tokenContract as string);
     const tokenContractEvents: DuneDecodedEvent[] =
       await getTokenContractMintCommentEvents(tokenContract as string);
     const smartWalletEvents: DuneDecodedEvent[] =
@@ -17,6 +20,7 @@ export async function GET(req: NextRequest) {
       tokenContract as string,
     );
     const formattedEvents = [
+      ...erc20MinterEvents,
       ...tokenContractEvents,
       ...smartWalletEvents,
       ...crossmintEvents,
