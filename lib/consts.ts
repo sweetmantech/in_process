@@ -31,6 +31,10 @@ export const CROSSMINT_COLLECTION_ID = `crossmint:${IS_TESTNET ? "4b386283-a16d-
 export const CROSSMINT_SIGNER_ADDRESS =
   "0xa105C311fA72b8Fb78c992EcbDb8b02Ea5bd394d";
 
+export const USDC_ADDRESS = IS_TESTNET
+  ? "0xf7C041f1223fd7Ac1Dcd3d3Ce0fb98d05980399D"
+  : "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913";
+
 export const PROD_URL = "https://inprocess.fun";
 export const BLOCKLISTS = [
   "0x323e8bcb41ae2454c3f4899e094c599aab6b84bc",
