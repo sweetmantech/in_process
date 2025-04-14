@@ -1,7 +1,7 @@
 import { useTokenProvider } from "@/providers/TokenProvider";
 import { Fragment } from "react";
 import { Skeleton } from "../ui/skeleton";
-import { formatEther } from "viem";
+import { formatUnits } from "viem";
 import CommentSection from "./CommentSection";
 import truncated from "@/lib/truncated";
 
@@ -37,7 +37,7 @@ const MetaAndComments = ({
               <p className="w-2/3 md:w-full font-archivo text-sm md:text-base border border-black rounded-md text-center bg-tan-secondary">
                 {data?.pricePerToken === BigInt(0)
                   ? "free"
-                  : `${formatEther(BigInt(data?.pricePerToken || 0))} eth`}
+                  : `${formatUnits(BigInt(data?.pricePerToken || 0), data?.type === "ZoraErc20Mint" ? 6 : 18)} ${data?.type === "ZoraErc20Mint" ? "usdc" : "eth"}`}
               </p>
             )}
           </div>

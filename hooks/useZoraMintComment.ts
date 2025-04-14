@@ -18,6 +18,7 @@ import { getPublicClient } from "@/lib/viem/publicClient";
 import { useFrameProvider } from "@/providers/FrameProvider";
 import { toast } from "sonner";
 import useSignTransaction from "./useSignTransaction";
+import getMinter from "@/lib/getMinter";
 
 const mintOnSmartWallet = async (parameters: any) => {
   const response = await fetch(`/api/smartwallet/sendUserOperation`, {
@@ -62,14 +63,15 @@ const useZoraMintComment = () => {
       if (!isPrepared()) return;
       if (!sale) return;
       setIsLoading(true);
-      const minter = context ? address : connectedWallet;
+      const account = context ? address : connectedWallet;
 
       const publicClient = getPublicClient();
       const minterArguments = encodeAbiParameters(
         parseAbiParameters("address, string"),
-        [minter as Address, comment],
+        [account as Address, comment],
       );
 
+      console.log("ziad", minterArguments);
       let hash: Address | null = null;
 
       if (sale.pricePerToken === BigInt(0)) {
@@ -96,17 +98,16 @@ const useZoraMintComment = () => {
         }
         hash = await signTransaction({
           address: token.token.contract.address,
-          account: minter as Address,
+          account: account as Address,
           abi: zoraCreator1155ImplABI as any,
           functionName: "mint",
           args: [
-            zoraCreatorFixedPriceSaleStrategyAddress[CHAIN.id],
+            getMinter(sale.type),
             BigInt(token.token.tokenId),
             BigInt(1),
             [],
             minterArguments,
           ],
-          value: BigInt(sale.pricePerToken),
           chain: CHAIN,
         });
       }
@@ -114,7 +115,7 @@ const useZoraMintComment = () => {
       if (!hash) throw new Error();
       const receipt = await publicClient.waitForTransactionReceipt({ hash });
       addComment({
-        sender: minter as Address,
+        sender: account as Address,
         comment,
         timestamp: new Date().getTime(),
       } as any);
