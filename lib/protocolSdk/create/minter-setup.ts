@@ -18,8 +18,8 @@ import {
 } from "./types";
 import { Concrete } from "../utils";
 import {
-  zoraCreatorFixedPriceSaleStrategyAddress,
   erc20MinterAddresses,
+  zoraCreatorFixedPriceSaleStrategyAddress,
 } from "../constants";
 
 const PERMISSION_BITS = {
