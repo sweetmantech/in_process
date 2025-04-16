@@ -29,12 +29,13 @@ export const MAX_FILE_SIZE = 5 * ONE_MB;
 
 export const PERMISSION_BIT_MINTER = 4;
 
-export const CROSSMINT_COLLECTION_ID = `crossmint:${IS_TESTNET ? "4b386283-a16d-44a6-afcc-c44244643ecf" : "60073c68-5c30-462f-a9ba-81d44cfe02e2"}`;
+export const FIXED_PRICE_CROSSMINT_COLLECTION_ID = `crossmint:${IS_TESTNET ? "4b386283-a16d-44a6-afcc-c44244643ecf" : "60073c68-5c30-462f-a9ba-81d44cfe02e2"}`;
+export const ERC20_CROSSMINT_COLLECTION_ID = `crossmint:${IS_TESTNET ? "cbd4646a-dbbe-4818-a3c9-ba65ec5f9be0" : "60073c68-5c30-462f-a9ba-81d44cfe02e2"}`;
 export const CROSSMINT_SIGNER_ADDRESS =
   "0xa105C311fA72b8Fb78c992EcbDb8b02Ea5bd394d";
 
 export const USDC_ADDRESS = IS_TESTNET
-  ? "0xf7C041f1223fd7Ac1Dcd3d3Ce0fb98d05980399D"
+  ? "0x14196F08a4Fa0B66B7331bC40dd6bCd8A1dEeA9F"
   : "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913";
 
 export const PROD_URL = "https://inprocess.fun";
