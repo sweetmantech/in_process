@@ -37,7 +37,7 @@ export function useSpiralAnimation(): SpiralAnimationConfig {
   useEffect(() => {
     const interval = setInterval(() => {
       setOffset((prev) => {
-        if (prev >= 100) return 0;
+        if (prev >= 0) return -50;
         return prev + animationConfig.stepSize;
       });
     }, 1000 / animationConfig.frameRate);
