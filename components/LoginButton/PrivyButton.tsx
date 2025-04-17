@@ -5,6 +5,7 @@ import useConnectedWallet from "@/hooks/useConnectedWallet";
 import truncateAddress from "@/lib/truncateAddress";
 import { usePrivy } from "@privy-io/react-auth";
 import { Address } from "viem";
+import Image from "next/image";
 
 interface PrivyButtonProps {
   className?: string;
@@ -27,11 +28,21 @@ export function PrivyButton({ className = "" }: PrivyButtonProps) {
     <button
       type="button"
       onClick={handleClick}
-      className={`px-3 py-2 bg-red-dark hover:bg-red hover:shadow-[0px_1px_1px_1px_#0000002e] text-white font-archivo lowercase text-sm md:text-base rounded-xs md:rounded-sm ${className}`}
+      className={`flex items-center px-4 py-2 bg-[#4E4E4E] hover:bg-[#1B1504] hover:shadow-[0px_1px_1px_1px_#0000002e] text-white font-archivo lowercase text-sm md:text-base rounded-xs md:rounded-sm ${className}`}
     >
+      <div className={`w-2 h-2 rounded-full mr-2 ${connectedWallet ? 'bg-[#E0DDD8]' : 'border border-[#E0DDD8]'}`} />
       {connectedWallet
         ? `${data?.username || truncateAddress(connectedWallet as string)}`
         : "sign in"}
+      {connectedWallet && (
+        <Image
+          src="/images/down-arrow.svg"
+          alt="Menu"
+          width={16}
+          height={16}
+          className="ml-6"
+        />
+      )}
     </button>
   );
 }
