@@ -30,7 +30,7 @@ export const MAX_FILE_SIZE = 5 * ONE_MB;
 export const PERMISSION_BIT_MINTER = 4;
 
 export const FIXED_PRICE_CROSSMINT_COLLECTION_ID = `crossmint:${IS_TESTNET ? "4b386283-a16d-44a6-afcc-c44244643ecf" : "60073c68-5c30-462f-a9ba-81d44cfe02e2"}`;
-export const ERC20_CROSSMINT_COLLECTION_ID = `crossmint:${IS_TESTNET ? "cbd4646a-dbbe-4818-a3c9-ba65ec5f9be0" : "60073c68-5c30-462f-a9ba-81d44cfe02e2"}`;
+export const ERC20_CROSSMINT_COLLECTION_ID = `crossmint:${IS_TESTNET ? "cbd4646a-dbbe-4818-a3c9-ba65ec5f9be0" : "6b130435-9a57-45ef-a530-d97314d49b24"}`;
 export const CROSSMINT_SIGNER_ADDRESS =
   "0xa105C311fA72b8Fb78c992EcbDb8b02Ea5bd394d";
 
