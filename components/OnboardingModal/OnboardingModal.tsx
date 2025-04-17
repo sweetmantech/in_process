@@ -1,13 +1,13 @@
 "use client";
 
-import { useState, useEffect } from 'react';
-import Image from 'next/image';
-import { Button } from '../ui/button';
-import { slides } from './OnboardingModalContent';
-import { SlideContent } from './SlideContent';
-import { NavigationDots } from './NavigationDots';
-import { useRouter } from 'next/navigation';
-import useConnectedWallet from '@/hooks/useConnectedWallet';
+import { useState, useEffect } from "react";
+import Image from "next/image";
+import { Button } from "../ui/button";
+import { slides } from "./OnboardingModalContent";
+import { SlideContent } from "./SlideContent";
+import { NavigationDots } from "./NavigationDots";
+import { useRouter } from "next/navigation";
+import useConnectedWallet from "@/hooks/useConnectedWallet";
 
 interface OnboardingModalProps {
   isOpen: boolean;

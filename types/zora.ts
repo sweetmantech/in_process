@@ -33,3 +33,9 @@ export interface CollectionStyle {
     base: string;
   };
 }
+
+export enum MintType {
+  ZoraErc20Mint = "ZoraErc20Mint",
+  ZoraTimedMint = "ZoraTimed",
+  ZoraFixedPriceMint = "ZoraFixedPrice",
+}

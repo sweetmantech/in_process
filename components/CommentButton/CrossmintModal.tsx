@@ -1,9 +1,7 @@
-import { CHAIN_ID, CROSSMINT_COLLECTION_ID } from "@/lib/consts";
-import { zoraCreatorFixedPriceSaleStrategyAddress } from "@/lib/protocolSdk/constants";
-import { useTokenProvider } from "@/providers/TokenProvider";
+import useCrossmintCalldata from "@/hooks/useCrossmintCalldata";
 import { useUserProvider } from "@/providers/UserProvider";
 import { CrossmintEmbeddedCheckout } from "@crossmint/client-sdk-react-ui";
-import { Address, formatEther } from "viem";
+import { Address } from "viem";
 import { useAccount } from "wagmi";
 
 interface CrossmintModalProps {
@@ -11,10 +9,9 @@ interface CrossmintModalProps {
 }
 
 export default function CrossmintModal({ onClose }: CrossmintModalProps) {
-  const { comment, token, saleConfig } = useTokenProvider();
   const { address } = useAccount();
   const { email } = useUserProvider();
-  const { data: sale } = saleConfig;
+  const { callData, collectionLocator } = useCrossmintCalldata();
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
@@ -25,19 +22,11 @@ export default function CrossmintModal({ onClose }: CrossmintModalProps) {
         >
           ✕
         </button>
-        {sale && (
+        {collectionLocator && callData && (
           <CrossmintEmbeddedCheckout
             lineItems={{
-              collectionLocator: CROSSMINT_COLLECTION_ID,
-              callData: {
-                quantity: 1,
-                priceFixedSaleStrategy:
-                  zoraCreatorFixedPriceSaleStrategyAddress[CHAIN_ID],
-                tokenContract: token.token.contract.address,
-                tokenId: token.token.tokenId,
-                comment,
-                totalPrice: formatEther(BigInt(sale?.pricePerToken || 0)),
-              },
+              collectionLocator,
+              callData,
             }}
             payment={{
               crypto: { enabled: false },
