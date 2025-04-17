@@ -1,4 +1,4 @@
-import { CHAIN_ID } from "../consts";
+import { CHAIN_ID, CROSSMINT_SIGNER_ADDRESS } from "../consts";
 import { DuneDecodedEvent } from "@/types/dune";
 import getSmartWallet from "../getSmartWallet";
 import { MINT_COMMENT_EVENT_SIGNATURE } from "../events";
@@ -22,7 +22,7 @@ const getCrossmintCommentEvents = async (
   const urlSearchParams = new URLSearchParams(params);
 
   const response = await fetch(
-    `https://api.dune.com/api/echo/v1/transactions/evm/0xa105C311fA72b8Fb78c992EcbDb8b02Ea5bd394d?${urlSearchParams}`,
+    `https://api.dune.com/api/echo/v1/transactions/evm/${CROSSMINT_SIGNER_ADDRESS}?${urlSearchParams}`,
     options,
   );
   if (!response.ok) throw Error("failed to call Dune API.");
