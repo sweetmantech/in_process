@@ -30,7 +30,10 @@ module.exports = {
           light: "#f6f6f6",
           primary: "#605F5C",
           secondary: "#888888",
-          "moss-300": "#605F5C"
+          "moss-100": "#E0DDD8",
+          "moss-300": "#605F5C",
+          "moss-400": "#4E4E4E",
+          "moss-900": "#1B1504"
         },
         red: {
           dark: "#810505",
