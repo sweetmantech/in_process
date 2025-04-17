@@ -33,7 +33,7 @@ module.exports = {
           "moss-100": "#E0DDD8",
           "moss-300": "#605F5C",
           "moss-400": "#4E4E4E",
-          "moss900": "#1B1504"
+          "moss-900": "#1B1504"
         },
         red: {
           dark: "#810505",
