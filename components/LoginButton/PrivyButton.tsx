@@ -28,9 +28,9 @@ export function PrivyButton({ className = "" }: PrivyButtonProps) {
     <button
       type="button"
       onClick={handleClick}
-      className={`flex items-center px-4 py-2 bg-[#4E4E4E] hover:bg-[#1B1504] hover:shadow-[0px_1px_1px_1px_#0000002e] text-white font-archivo lowercase text-sm md:text-base rounded-xs md:rounded-sm ${className}`}
+      className={`flex items-center px-4 py-2 bg-grey-moss-400 hover:bg-grey-moss-900 hover:shadow-[0px_1px_1px_1px_#0000002e] text-white font-archivo lowercase text-sm md:text-base rounded-xs md:rounded-sm ${className}`}
     >
-      <div className={`w-2 h-2 rounded-full mr-2 ${connectedWallet ? 'bg-[#E0DDD8]' : 'border border-[#E0DDD8]'}`} />
+      <div className={`w-2 h-2 rounded-full mr-2 ${connectedWallet ? 'bg-grey-moss-100' : 'border border-grey-moss-100'}`} />
       {connectedWallet
         ? `${data?.username || truncateAddress(connectedWallet as string)}`
         : "sign in"}
