@@ -24,7 +24,7 @@ export const metadata: Metadata = {
           name: "In Process",
           url: APP_URL,
           splashImageUrl: `${APP_URL}/desktop_footer_logo.png`,
-          splashBackgroundColor: "#6330d0",
+          splashBackgroundColor: "#abaaa9",
         },
       },
     }),
