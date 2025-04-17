@@ -56,6 +56,7 @@ const getCollectRequest = (
       minterArguments,
     ],
     chain: CHAIN,
+    value: sale.pricePerToken,
   };
 };
 
