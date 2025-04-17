@@ -1,20 +1,25 @@
 "use client";
 
-import { useFeedProvider } from "@/providers/FeedProvider";
+import { useInProcessFeedProvider } from "@/providers/InProcessFeedProvider";
 import Image from "next/image";
 import FeedItem from "./FeedItem";
 import useConnectedWallet from "@/hooks/useConnectedWallet";
 import { redirect } from "next/navigation";
 import { useAccount } from "wagmi";
 import { useFrameProvider } from "@/providers/FrameProvider";
+import { useEffect } from "react";
 
 const OnBoardingPage = () => {
-  const { feeds } = useFeedProvider();
+  const { feeds } = useInProcessFeedProvider();
   const { connectedWallet } = useConnectedWallet();
   const { address } = useAccount();
   const { context } = useFrameProvider();
-  const signedWallet = context ? address : connectedWallet;
-  if (signedWallet) redirect("/");
+  const signedWalletAddress = context ? address : connectedWallet;
+
+  useEffect(() => {
+    if (signedWalletAddress) redirect("/");
+  }, [signedWalletAddress]);
+
   return (
     <div className="w-screen flex flex-col items-center pt-[200px]">
       <p className="font-archivo text-5xl">A Collective Onchain Timeline</p>

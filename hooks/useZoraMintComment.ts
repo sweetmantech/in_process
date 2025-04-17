@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import useBalance from "./useBalance";
-import { useAccount, useSwitchChain, useWriteContract } from "wagmi";
+import { useAccount } from "wagmi";
 import { zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
 import { zoraCreatorFixedPriceSaleStrategyAddress } from "@/lib/protocolSdk/constants";
-import { CHAIN, CHAIN_ID } from "@/lib/consts";
+import { CHAIN } from "@/lib/consts";
 import {
   Address,
   encodeAbiParameters,
@@ -17,6 +17,7 @@ import useConnectedWallet from "./useConnectedWallet";
 import { getPublicClient } from "@/lib/viem/publicClient";
 import { useFrameProvider } from "@/providers/FrameProvider";
 import { toast } from "sonner";
+import useSignTransaction from "./useSignTransaction";
 
 const mintOnSmartWallet = async (parameters: any) => {
   const response = await fetch(`/api/smartwallet/sendUserOperation`, {
@@ -38,12 +39,10 @@ const mintOnSmartWallet = async (parameters: any) => {
 const useZoraMintComment = () => {
   const [isOpenCrossmint, setIsOpenCrossmint] = useState(false);
   const { balance } = useBalance();
-  const { writeContractAsync } = useWriteContract();
   const { connectedWallet } = useConnectedWallet();
   const { address } = useAccount();
   const { context } = useFrameProvider();
   const [isLoading, setIsLoading] = useState(false);
-  const { switchChainAsync } = useSwitchChain();
   const {
     token,
     comment,
@@ -56,12 +55,12 @@ const useZoraMintComment = () => {
   const { data: sale } = saleConfig;
   const { isPrepared } = useUserProvider();
   const { order } = useCrossmintCheckout();
+  const { signTransaction } = useSignTransaction();
 
   const mintComment = async () => {
     try {
       if (!isPrepared()) return;
       if (!sale) return;
-      switchChainAsync({ chainId: CHAIN_ID });
       setIsLoading(true);
       const minter = context ? address : connectedWallet;
 
@@ -95,10 +94,10 @@ const useZoraMintComment = () => {
           setIsOpenCommentModal(false);
           return;
         }
-        hash = await writeContractAsync({
+        hash = await signTransaction({
           address: token.token.contract.address,
           account: minter as Address,
-          abi: zoraCreator1155ImplABI,
+          abi: zoraCreator1155ImplABI as any,
           functionName: "mint",
           args: [
             zoraCreatorFixedPriceSaleStrategyAddress[CHAIN.id],
@@ -108,6 +107,7 @@ const useZoraMintComment = () => {
             minterArguments,
           ],
           value: BigInt(sale.pricePerToken),
+          chain: CHAIN,
         });
       }
 

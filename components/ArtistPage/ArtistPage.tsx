@@ -6,11 +6,9 @@ import { useState } from "react";
 import ArtistProfile from "./ArtistProfile";
 import { useProfileProvider } from "@/providers/ProfileProvider";
 import EditingStatus from "./EditingStatus";
-import { useArtistCollections } from "@/hooks/useArtistCollections";
-import FeedProvider from "@/providers/FeedProvider";
+import ArtistFeedProvider from "@/providers/ArtistFeedProvider";
 
 const ArtistPage = () => {
-  const { data } = useArtistCollections();
   const [alt, setAlt] = useState<"timeline" | "grid">("timeline");
   const { isEditing } = useProfileProvider();
 
@@ -26,9 +24,9 @@ const ArtistPage = () => {
       <div
         className={`md:grow flex flex-col px-2 md:px-0 ${alt === "timeline" && "md:pt-20 md:px-10"}`}
       >
-        <FeedProvider collections={data || []}>
+        <ArtistFeedProvider>
           <Feed alt={alt} />
-        </FeedProvider>
+        </ArtistFeedProvider>
       </div>
     </div>
   );

@@ -8,13 +8,13 @@ import { Point } from "@/types/spiral";
 import { FeedTooltip } from "./FeedTooltip";
 import useSpiralMouseOver from "@/hooks/useSpiralMouseOver";
 import Feed from "./Feed";
-import { useFeedProvider } from "@/providers/FeedProvider";
+import { useInProcessFeedProvider } from "@/providers/InProcessFeedProvider";
 
 export default function SpiralFeeds() {
   const { offset, viewBox, animationConfig, points } = useSpiralAnimation();
   const { handleMouseLeave, handleMouseMove, hoveredFeed } =
     useSpiralMouseOver();
-  const { feeds } = useFeedProvider();
+  const { feeds } = useInProcessFeedProvider();
 
   return (
     <div className="relative">

@@ -2,11 +2,11 @@ import Slider from "../Slider";
 import { Autoplay } from "swiper/modules";
 import useIsMobile from "@/hooks/useIsMobile";
 import SliderFeed from "./SliderFeed";
-import { useFeedProvider } from "@/providers/FeedProvider";
+import { useArtistFeedProvider } from "@/providers/ArtistFeedProvider";
 
 const VerticalFeed = () => {
   const isMobile = useIsMobile();
-  const { feeds } = useFeedProvider();
+  const { feeds } = useArtistFeedProvider();
 
   return (
     <Slider

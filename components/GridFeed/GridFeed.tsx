@@ -1,8 +1,8 @@
+import { useArtistFeedProvider } from "@/providers/ArtistFeedProvider";
 import GridItem from "./GridItem";
-import { useFeedProvider } from "@/providers/FeedProvider";
 
 const GridFeed = () => {
-  const { feeds } = useFeedProvider();
+  const { feeds } = useArtistFeedProvider();
 
   return (
     <div className="w-full px-10 grid grid-cols-4 gap-4">
