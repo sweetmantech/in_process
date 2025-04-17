@@ -43,7 +43,7 @@ const useProfile = () => {
   }, [data, artistAddress]);
 
   useEffect(() => {
-    if (searchParams.get('editing') === 'true' && canEdit) {
+    if (searchParams.get("editing") === "true" && canEdit) {
       setIsEditing(true);
     } else {
       setIsEditing(false);

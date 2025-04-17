@@ -4,11 +4,14 @@ import useFileUpload from "./useFileUpload";
 import domtoimage from "dom-to-image-more";
 import useLinkPreview from "./useLinkPreview";
 import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
+import { usePathname } from "next/navigation";
 
 const useCreateMetadata = () => {
+  const pathname = usePathname();
+  const isUsdc = pathname.includes("/usdc");
   const [link, setLink] = useState<string>("");
   const [name, setName] = useState<string>("");
-  const [priceUnit, setPriceUnit] = useState<string>("usdc");
+  const [priceUnit, setPriceUnit] = useState<string>(isUsdc ? "usdc" : "eth");
   const [price, setPrice] = useState("0");
   const [description, setDescription] = useState<string>("");
   const [isTimedSale, setIsTimedSale] = useState<boolean>(false);
