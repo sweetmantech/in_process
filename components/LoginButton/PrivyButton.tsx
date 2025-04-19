@@ -6,7 +6,7 @@ import truncateAddress from "@/lib/truncateAddress";
 import { usePrivy } from "@privy-io/react-auth";
 import { Address } from "viem";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { DropdownMenu } from "./DropdownMenu";
 
 interface PrivyButtonProps {
@@ -18,12 +18,6 @@ export function PrivyButton({ className = "" }: PrivyButtonProps) {
   const { connectedWallet } = useConnectedWallet();
   const { data } = useArtistProfile(connectedWallet as Address);
   const [isOpen, setIsOpen] = useState(false);
-
-  useEffect(() => {
-    if (connectedWallet) {
-      setIsOpen(false);
-    }
-  }, [connectedWallet]);
 
   if (!ready) return null;
 
