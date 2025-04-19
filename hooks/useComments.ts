@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { Address } from "viem";
 import { MintCommentEvent } from "@/types/token";
 import { useQuery } from "@tanstack/react-query";
-import { useCrossmintProvider } from "@/providers/CrossmintProvider";
 
 async function fetchMintEvents(
   tokenContract: Address,
@@ -34,7 +33,6 @@ export function useComments(
 ): UseCommentsReturn {
   const [comments, setComments] = useState<MintCommentEvent[]>([]);
   const [visibleComments, setVisibleComments] = useState(3);
-  const { data: crossmintMintComments } = useCrossmintProvider();
   const {
     isLoading,
     data: events,
