@@ -24,6 +24,16 @@ const useAirdrop = () => {
     setWalletAddresses(temp);
   };
 
+  const removeAddress = (i: number) => {
+    if (walletAddresses.length === 1) {
+      setWalletAddresses([""]);
+      return;
+    }
+    const temp = [...walletAddresses];
+    temp.splice(i, 1);
+    setWalletAddresses(temp);
+  };
+
   const onAirdrop = async () => {
     try {
       if (!isPrepared()) return;
@@ -68,6 +78,7 @@ const useAirdrop = () => {
     onChangeAddress,
     loading,
     onAirdrop,
+    removeAddress,
   };
 };
 
