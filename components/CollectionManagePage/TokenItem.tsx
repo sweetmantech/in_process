@@ -1,18 +1,12 @@
 import { useMetadata } from "@/hooks/useMetadata";
-import { Collection } from "@/types/token";
+import { Token } from "@/types/token";
 import Image from "next/image";
-import truncateAddress from "@/lib/truncateAddress";
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
-import { getShortNetworkName } from "@/lib/zora/zoraToViem";
-import { useRouter } from "next/navigation";
 
-const CollectionItem = ({ c }: { c: Collection }) => {
-  const { data, isLoading } = useMetadata(c.contractURI);
-  const { push } = useRouter();
+const TokenItem = ({ t }: { t: Token }) => {
+  const { data, isLoading } = useMetadata(t.uri);
 
   const handleClick = () => {
-    const shortNetworkName = getShortNetworkName(c.chain.replaceAll("_", " "));
-    push(`/manage/${shortNetworkName}:${c.newContract}`);
     return;
   };
 
@@ -21,10 +15,10 @@ const CollectionItem = ({ c }: { c: Collection }) => {
     return (
       <button
         type="button"
-        className="col-span-1 w-full bg-grey-moss-300 rounded-lg overflow-hidden"
+        className="col-span-1 aspect-video h-fit bg-grey-moss-300 rounded-lg overflow-hidden"
         onClick={handleClick}
       >
-        <div className="w-full aspect-video overflow-hidden relative">
+        <div className="w-full h-2/3 overflow-hidden relative">
           <div className="absolute z-[10] bg-white/30 backdrop-blur-[4px] size-full left-0 top-0" />
           <Image
             src={getFetchableUrl(data.image) || "/images/placeholder.png"}
@@ -36,14 +30,14 @@ const CollectionItem = ({ c }: { c: Collection }) => {
             objectPosition="center center"
           />
         </div>
-        <div className="px-4 py-2">
+        <div className="h-1/3 px-4 py-2 flex gap-6 items-center">
           <p className="font-archivo text-white text-left">{data?.name}</p>
-          <p className="font-archivo text-white text-left">
-            {truncateAddress(c.newContract)}
+          <p className="font-archivo text-sm text-grey text-left bg-grey-moss-100 rounded-md px-2">
+            Token {t.tokenId}
           </p>
         </div>
       </button>
     );
 };
 
-export default CollectionItem;
+export default TokenItem;
