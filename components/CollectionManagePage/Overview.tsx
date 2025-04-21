@@ -1,4 +1,3 @@
-import useCollection from "@/hooks/useCollection";
 import { useMetadata } from "@/hooks/useMetadata";
 import ContentRenderer from "../Token/ContentRenderer";
 import { Fragment } from "react";
@@ -8,9 +7,8 @@ import { ArrowRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 const Overview = () => {
-  const { contractURI } = useCollection();
-  const { collection } = useTokensProvider();
-  const { data, isLoading } = useMetadata(contractURI);
+  const { collection, collectionURI } = useTokensProvider();
+  const { data, isLoading } = useMetadata(collectionURI);
   const { push } = useRouter();
 
   if (isLoading) return <Fragment />;

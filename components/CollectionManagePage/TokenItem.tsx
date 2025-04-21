@@ -2,11 +2,17 @@ import { useMetadata } from "@/hooks/useMetadata";
 import { Token } from "@/types/token";
 import Image from "next/image";
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
+import { useParams, useRouter } from "next/navigation";
 
 const TokenItem = ({ t }: { t: Token }) => {
   const { data, isLoading } = useMetadata(t.uri);
+  const { push } = useRouter();
+  const { collectionAddress } = useParams();
 
   const handleClick = () => {
+    push(
+      `/manage/${decodeURIComponent(collectionAddress as string)}/${t.tokenId}`,
+    );
     return;
   };
 
