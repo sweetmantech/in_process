@@ -1,11 +1,10 @@
 import { getPublicClient } from "@/lib/viem/publicClient";
-import { useTokensProvider } from "@/providers/TokensProvider";
 import { zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
 import { useEffect, useState } from "react";
+import { Address } from "viem";
 
-const useCollection = () => {
-  const { collection, chainId } = useTokensProvider();
-  const [contractURI, setContractURI] = useState<string>("");
+const useCollection = (collection: Address, chainId: number) => {
+  const [collectionURI, setCollectionURI] = useState<string>("");
 
   useEffect(() => {
     const init = async () => {
@@ -16,13 +15,13 @@ const useCollection = () => {
         functionName: "contractURI",
       });
 
-      setContractURI(uri as string);
+      setCollectionURI(uri as string);
     };
     if (collection && chainId) init();
   }, [collection, chainId]);
 
   return {
-    contractURI,
+    collectionURI,
   };
 };
 
