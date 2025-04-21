@@ -16,7 +16,9 @@ export async function GET(req: NextRequest) {
       ...smartWalletEvents,
     ]);
     return Response.json(
-      formattedEvents.filter((e) => e.defaultAdmin === artistAddress),
+      formattedEvents.filter(
+        (e) => e.defaultAdmin.toLowerCase() === artistAddress?.toLowerCase(),
+      ),
     );
   } catch (e: any) {
     console.log(e);

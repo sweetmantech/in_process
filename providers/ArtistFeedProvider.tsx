@@ -1,5 +1,4 @@
 import { useArtistCollections } from "@/hooks/useArtistCollections";
-import { useCollections } from "@/hooks/useCollections";
 import useFeeds from "@/hooks/useFeeds";
 import { createContext, useMemo, useContext } from "react";
 
