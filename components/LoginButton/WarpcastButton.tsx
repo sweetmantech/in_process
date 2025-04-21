@@ -33,7 +33,7 @@ export function WarpcastButton({ className = "" }: WarpcastButtonProps) {
         onClick={handleClick}
         className={`px-3 py-2 ${
           showDropdown
-            ? "bg-[#1C1C1C] rounded-t-xs md:rounded-t-sm rounded-b-none"
+            ? "bg-grey-moss-900 rounded-t-xs md:rounded-t-sm rounded-b-none"
             : "bg-grey-moss-400 hover:bg-grey-moss-900 hover:shadow-[0px_1px_1px_1px_#0000002e] rounded-xs md:rounded-sm"
         } text-white font-archivo lowercase text-sm md:text-base ${className}`}
       >
