@@ -29,7 +29,7 @@ const Overview = () => {
           {data.name}
         </div>
         <div className="w-full pt-4 px-10 flex flex-col md:flex-row items-center gap-2">
-          <div className="min-w-[250px]">
+          <div className="min-w-[200px] aspect-[1/1] relative">
             <ContentRenderer metadata={data} />
           </div>
           <div className="space-y-2">
