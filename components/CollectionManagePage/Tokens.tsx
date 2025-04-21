@@ -14,7 +14,7 @@ const Tokens = () => {
     );
   if (data)
     return (
-      <div className="grow w-full grid grid-cols-3 gap-4 px-10 pt-6">
+      <div className="grow w-full grid grid-cols-1 md:grid-cols-3 gap-4 px-4 md:px-10 pt-6">
         {data.map((t: Token, i: number) => (
           <TokenItem t={t} key={i} />
         ))}

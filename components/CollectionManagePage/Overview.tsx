@@ -16,8 +16,8 @@ const Overview = () => {
   if (isLoading) return <Fragment />;
   if (data)
     return (
-      <div className="pt-16">
-        <div className="px-10 flex gap-2 font-archivo items-center cursor-pointer">
+      <div className="pt-10 md:pt-16 px-4 md:px-10">
+        <div className="flex gap-1 md:gap-2 text-sm font-archivo items-center cursor-pointer">
           <button
             type="button"
             onClick={() => push("/manage")}
@@ -28,8 +28,8 @@ const Overview = () => {
           <ArrowRight className="size-4" />
           {data.name}
         </div>
-        <div className="w-full pt-4 px-10 flex flex-col md:flex-row items-center gap-2">
-          <div className="min-w-[200px] aspect-[1/1] relative">
+        <div className="w-full pt-4 flex flex-col md:flex-row items-center gap-2">
+          <div className="w-full md:w-fit md:min-w-[200px] aspect-[1/1] relative">
             <ContentRenderer metadata={data} />
           </div>
           <div className="space-y-2">

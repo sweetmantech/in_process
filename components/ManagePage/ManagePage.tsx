@@ -26,7 +26,7 @@ const ManagePage = () => {
   if (!loaded) return <Fragment />;
   if (!signedWallet) return <SignToInProcess />;
   return (
-    <div className="w-screen flex flex-col grow pt-16">
+    <div className="w-screen flex flex-col grow pt-10 md:pt-16">
       <Collections />
     </div>
   );

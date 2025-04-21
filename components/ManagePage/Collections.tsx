@@ -14,7 +14,7 @@ const Collections = () => {
     );
   if (data)
     return (
-      <div className="grow grid grid-cols-4 gap-6 px-10">
+      <div className="grow grid grid-cols-1 md:grid-cols-4 gap-6 px-4 md:px-10">
         {data.map((c: Collection, i) => (
           <CollectionItem c={c} key={i} />
         ))}
