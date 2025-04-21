@@ -1,4 +1,6 @@
+import useConnectedWallet from "@/hooks/useConnectedWallet";
 import useCrossmintCalldata from "@/hooks/useCrossmintCalldata";
+import { useFrameProvider } from "@/providers/FrameProvider";
 import { useUserProvider } from "@/providers/UserProvider";
 import { CrossmintEmbeddedCheckout } from "@crossmint/client-sdk-react-ui";
 import { Address } from "viem";
@@ -10,8 +12,11 @@ interface CrossmintModalProps {
 
 export default function CrossmintModal({ onClose }: CrossmintModalProps) {
   const { address } = useAccount();
+  const { connectedWallet } = useConnectedWallet();
   const { email } = useUserProvider();
   const { callData, collectionLocator } = useCrossmintCalldata();
+  const { context } = useFrameProvider();
+  const signedAddress = context ? address : connectedWallet;
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
@@ -22,7 +27,7 @@ export default function CrossmintModal({ onClose }: CrossmintModalProps) {
         >
           ✕
         </button>
-        {collectionLocator && callData && (
+        {collectionLocator && callData && (signedAddress || email) && (
           <CrossmintEmbeddedCheckout
             lineItems={{
               collectionLocator,
@@ -33,8 +38,8 @@ export default function CrossmintModal({ onClose }: CrossmintModalProps) {
               fiat: { enabled: true },
             }}
             recipient={
-              address
-                ? { walletAddress: address as Address }
+              signedAddress
+                ? { walletAddress: signedAddress as Address }
                 : { email: email || "" }
             }
           />
