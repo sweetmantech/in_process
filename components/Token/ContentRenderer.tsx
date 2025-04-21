@@ -25,17 +25,25 @@ const ContentRenderer = ({ metadata }: ContentRendererProps) => {
     );
   }
   if (mimeType.includes("video"))
-    return <VideoPlayer url={getFetchableUrl(metadata.animation_url) || ""} />;
+    return (
+      <div className="size-full flex justify-center items-center">
+        <VideoPlayer url={getFetchableUrl(metadata.animation_url) || ""} />
+      </div>
+    );
   return (
-    <Image
-      src={getFetchableUrl(metadata.image) || "/images/placeholder.png"}
-      alt="Token Image."
-      layout="fill"
-      objectFit="contain"
-      objectPosition="center"
-      blurDataURL={getFetchableUrl(metadata.image) || "/images/placeholder.png"}
-      unoptimized
-    />
+    <div className="grow relative size-full">
+      <Image
+        src={getFetchableUrl(metadata.image) || "/images/placeholder.png"}
+        alt="Token Image."
+        layout="fill"
+        objectFit="contain"
+        objectPosition="center"
+        blurDataURL={
+          getFetchableUrl(metadata.image) || "/images/placeholder.png"
+        }
+        unoptimized
+      />
+    </div>
   );
 };
 
