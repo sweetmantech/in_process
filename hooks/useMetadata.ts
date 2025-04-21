@@ -23,7 +23,7 @@ export function useMetadata(uri: string) {
     queryKey: ["metadata", uri],
     queryFn: () => fetchMetadata(uri),
     staleTime: 1000 * 60 * 5,
-    enabled: !!uri,
+    enabled: Boolean(uri),
     refetchOnMount: true,
   });
 }
