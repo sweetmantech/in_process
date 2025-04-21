@@ -2,18 +2,27 @@ import { useAirdropProvider } from "@/providers/AirdropProvider";
 import { Fragment } from "react";
 import { isAddress } from "viem";
 import AirdropButton from "./AirdropButton";
+import { X } from "lucide-react";
 
 const Airdrop = () => {
-  const { walletAddresses, onChangeAddress } = useAirdropProvider();
+  const { walletAddresses, onChangeAddress, removeAddress } =
+    useAirdropProvider();
 
   return (
     <div className="pt-4 px-4 md:px-10 w-full flex flex-col gap-2">
       {walletAddresses.map((wallet: string, i) => (
         <Fragment key={i}>
           {isAddress(wallet) ? (
-            <p className="font-archivo text-xs md:text-lg bg-grey-moss-300 w-fit text-white p-2 rounded-md">
-              {wallet}
-            </p>
+            <div className="bg-grey-moss-300 w-fit text-white p-2 rounded-md flex items-center gap-2">
+              <p className="font-archivo text-xs md:text-lg">{wallet}</p>
+              <button
+                onClick={() => removeAddress(i)}
+                type="button"
+                className="bg-white text-black rounded-full p-0.5 hover:bg-grey-moss-100"
+              >
+                <X className="size-5" />
+              </button>
+            </div>
           ) : (
             <input
               type="text"
