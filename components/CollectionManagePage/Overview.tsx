@@ -16,7 +16,7 @@ const Overview = () => {
   if (isLoading) return <Fragment />;
   if (data)
     return (
-      <div className="pt-16 px-4 md:px-10">
+      <div className="pt-10 md:pt-16 px-4 md:px-10">
         <div className="flex gap-1 md:gap-2 text-sm font-archivo items-center cursor-pointer">
           <button
             type="button"
