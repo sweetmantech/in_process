@@ -12,9 +12,13 @@ import { useEffect } from "react";
 const OnBoardingPage = () => {
   const { feeds } = useInProcessFeedProvider();
   const { connectedWallet } = useConnectedWallet();
-  const { address } = useAccount();
+  const { address, isConnected } = useAccount();
   const { context } = useFrameProvider();
-  const signedWalletAddress = context ? address : connectedWallet;
+  const signedWalletAddress = context
+    ? isConnected
+      ? address
+      : null
+    : connectedWallet;
 
   useEffect(() => {
     if (signedWalletAddress) redirect("/");
