@@ -7,7 +7,6 @@ import { useFrameProvider } from "@/providers/FrameProvider";
 import { config } from "@/providers/WagmiProvider";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
 import { DropdownMenu } from "./DropdownMenu";
-import sdk from "@farcaster/frame-sdk";
 
 interface WarpcastButtonProps {
   className?: string;
@@ -30,7 +29,6 @@ export function WarpcastButton({ className = "" }: WarpcastButtonProps) {
   const handleLogout = () => {
     setShowDropdown(false);
     disconnect({ connector: config.connectors[0] });
-    sdk.actions.close();
   };
 
   return (
