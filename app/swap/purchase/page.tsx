@@ -73,7 +73,12 @@ const Swap = () => {
       </p>
       <p className="font-archivo text-lg">token id: 1</p>
       <p className="font-archivo text-lg">price: 1 USDC</p>
-      {transactionLink && <p>Transaction: {transactionLink}</p>}
+      {transactionLink && (
+        <p className="font-archivo text-lg text-center">
+          Transaction: <br />
+          {transactionLink}
+        </p>
+      )}
       <input
         type="text"
         value={comment}
