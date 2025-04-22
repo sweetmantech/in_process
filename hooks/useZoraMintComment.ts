@@ -1,22 +1,18 @@
 import { useEffect, useState } from "react";
-import useBalance from "./useBalance";
 import { useAccount } from "wagmi";
 import { zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
 import { zoraCreatorFixedPriceSaleStrategyAddress } from "@/lib/protocolSdk/constants";
-import { CHAIN, CHAIN_ID } from "@/lib/consts";
+import { CHAIN } from "@/lib/consts";
 import { Address, encodeAbiParameters, parseAbiParameters } from "viem";
 import { useTokenProvider } from "@/providers/TokenProvider";
 import { useUserProvider } from "@/providers/UserProvider";
 import { useCrossmintCheckout } from "@crossmint/client-sdk-react-ui";
 import useConnectedWallet from "./useConnectedWallet";
-import { getPublicClient } from "@/lib/viem/publicClient";
 import { useFrameProvider } from "@/providers/FrameProvider";
 import { toast } from "sonner";
-import useSignTransaction from "./useSignTransaction";
-import hasSufficiency from "@/lib/hasSufficiency";
 import { MintType } from "@/types/zora";
-import useUsdc from "./useUsdc";
-import getCollectRequest from "@/lib/getCollectRequest";
+import useUsdcMint from "./useUsdcMint";
+import useNativeMint from "./useNativeMint";
 
 const mintOnSmartWallet = async (parameters: any) => {
   const response = await fetch(`/api/smartwallet/sendUserOperation`, {
@@ -37,8 +33,6 @@ const mintOnSmartWallet = async (parameters: any) => {
 
 const useZoraMintComment = () => {
   const [isOpenCrossmint, setIsOpenCrossmint] = useState(false);
-  const balances = useBalance();
-  const { hasAllowance, approve } = useUsdc();
   const { connectedWallet } = useConnectedWallet();
   const { address } = useAccount();
   const { context } = useFrameProvider();
@@ -55,15 +49,20 @@ const useZoraMintComment = () => {
   const { data: sale } = saleConfig;
   const { isPrepared } = useUserProvider();
   const { order } = useCrossmintCheckout();
-  const { signTransaction } = useSignTransaction();
+  const { mintWithUsdc } = useUsdcMint();
+  const { mintWithNativeToken } = useNativeMint();
 
+  const mintWithCrossmint = () => {
+    setIsLoading(false);
+    setIsOpenCrossmint(true);
+    setIsOpenCommentModal(false);
+  };
   const mintComment = async () => {
     try {
       if (!isPrepared()) return;
       if (!sale) return;
       setIsLoading(true);
       const account = context ? address : connectedWallet;
-      const publicClient = getPublicClient(CHAIN_ID);
       const minterArguments = encodeAbiParameters(
         parseAbiParameters("address, string"),
         [account as Address, comment],
@@ -85,38 +84,16 @@ const useZoraMintComment = () => {
           ],
         });
       } else {
-        const hasEnoughAmount = await hasSufficiency(
-          account as Address,
-          sale,
-          balances,
-        );
-        if (!hasEnoughAmount) {
-          setIsLoading(false);
-          setIsOpenCrossmint(true);
-          setIsOpenCommentModal(false);
+        let receipt = null;
+        if (sale.type === MintType.ZoraErc20Mint)
+          receipt = await mintWithUsdc(sale, token, comment);
+        else receipt = await mintWithNativeToken(sale, token, comment);
+
+        if (!Boolean(receipt)) {
+          mintWithCrossmint();
           return;
         }
-        if (sale.type === MintType.ZoraErc20Mint) {
-          const sufficientAllowance = await hasAllowance(sale);
-          if (!sufficientAllowance) {
-            toast.error(
-              `Insufficient allowance. please sign initial tx to grant max allowance`,
-            );
-            await approve();
-          }
-        }
-        const request = getCollectRequest(
-          token,
-          sale,
-          account as Address,
-          comment,
-        );
-        if (!request) throw new Error();
-        hash = await signTransaction(request);
       }
-
-      if (!hash) throw new Error();
-      const receipt = await publicClient.waitForTransactionReceipt({ hash });
       addComment({
         sender: account as Address,
         comment,
@@ -127,7 +104,6 @@ const useZoraMintComment = () => {
       setCollected(true);
       toast.success("collected!");
       setIsLoading(false);
-      return receipt;
     } catch (error) {
       console.error(error);
       setIsLoading(false);
