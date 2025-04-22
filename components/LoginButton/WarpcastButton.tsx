@@ -29,8 +29,8 @@ export function WarpcastButton({ className = "" }: WarpcastButtonProps) {
 
   const handleLogout = () => {
     setShowDropdown(false);
-    sdk.actions.close();
     disconnect({ connector: config.connectors[0] });
+    sdk.actions.close();
   };
 
   return (
