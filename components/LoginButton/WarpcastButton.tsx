@@ -1,12 +1,13 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import truncateAddress from "@/lib/truncateAddress";
 import { useFrameProvider } from "@/providers/FrameProvider";
 import { config } from "@/providers/WagmiProvider";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
 import { DropdownMenu } from "./DropdownMenu";
+import sdk from "@farcaster/frame-sdk";
 
 interface WarpcastButtonProps {
   className?: string;
@@ -26,10 +27,11 @@ export function WarpcastButton({ className = "" }: WarpcastButtonProps) {
     connect({ connector: config.connectors[0] });
   };
 
-  const handleLogout = useCallback(() => {
+  const handleLogout = () => {
     setShowDropdown(false);
+    sdk.actions.close();
     disconnect({ connector: config.connectors[0] });
-  }, [disconnect]);
+  };
 
   return (
     <div className="relative">
