@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import Image from "next/image";
 import truncateAddress from "@/lib/truncateAddress";
 import { useFrameProvider } from "@/providers/FrameProvider";
@@ -26,10 +26,10 @@ export function WarpcastButton({ className = "" }: WarpcastButtonProps) {
     connect({ connector: config.connectors[0] });
   };
 
-  const handleLogout = () => {
-    disconnect({ connector: config.connectors[0] });
+  const handleLogout = useCallback(() => {
     setShowDropdown(false);
-  };
+    disconnect({ connector: config.connectors[0] });
+  }, [disconnect]);
 
   return (
     <div className="relative">
