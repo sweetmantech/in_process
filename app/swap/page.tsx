@@ -3,7 +3,7 @@
 import useBalance from "@/hooks/useBalance";
 import { QUOTER_ADDRESSES, V3_CORE_FACTORY_ADDRESSES } from "@uniswap/sdk-core";
 import { computePoolAddress, FeeAmount } from "@uniswap/v3-sdk";
-import { Address, encodeFunctionData, parseEther, parseUnits } from "viem";
+import { Address, encodeFunctionData, parseUnits } from "viem";
 import {
   CHAIN,
   MULTICALL3_ADDRESS,
@@ -98,7 +98,7 @@ const Swap = () => {
       });
 
       const amountInMaximum = (result[0] as bigint) + (result[3] as bigint); // 1st: exact amount in 2nd: estimated gas fee
-      const ethBalance = parseEther(balances.ethBalance.toString());
+      const ethBalance = balances.ethBalance;
       if (ethBalance < amountInMaximum) {
         toast.error("insufficient amount");
         setLoading(false);

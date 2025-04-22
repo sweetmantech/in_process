@@ -1,7 +1,7 @@
 "use client";
 
 import useBalance from "@/hooks/useBalance";
-import { Address, parseEther, parseUnits } from "viem";
+import { Address, parseUnits } from "viem";
 import { CHAIN, CHAIN_ID, MULTICALL3_ADDRESS } from "@/lib/consts";
 import { getPublicClient } from "@/lib/viem/publicClient";
 import useSignedAddress from "@/hooks/useSignedAddress";
@@ -31,7 +31,7 @@ const Swap = () => {
         signedAddress as Address,
         usdcPrice,
       );
-      const ethBalance = parseEther(balances.ethBalance.toString());
+      const ethBalance = balances.ethBalance;
       if (ethBalance < amountInMaximum) {
         toast.error("insufficient amount");
         setLoading(false);
