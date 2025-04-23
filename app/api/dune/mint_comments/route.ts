@@ -1,3 +1,4 @@
+import { BLOCKLISTS } from "@/lib/consts";
 import getCrossmintCommentEvents from "@/lib/dune/getCrossmintCommentEvents";
 import getErc20MintCommentsEvents from "@/lib/dune/getErc20MintCommentsEvents";
 import getSmartWalletMintCommentEvents from "@/lib/dune/getSmartWalletMintCommentEvents";
@@ -48,7 +49,9 @@ export async function GET(req: NextRequest) {
     });
     return Response.json(
       tokenId
-        ? formattedEvents.filter((e) => e.tokenId === tokenId)
+        ? formattedEvents.filter(
+            (e) => e.tokenId === tokenId && !BLOCKLISTS.includes(e.sender),
+          )
         : formattedEvents,
     );
   } catch (e: any) {
