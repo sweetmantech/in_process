@@ -26,7 +26,7 @@ const ContentRenderer = ({ metadata }: ContentRendererProps) => {
   }
   if (mimeType.includes("video"))
     return (
-      <div className="size-full flex justify-center items-center">
+      <div className="size-full flex justify-center">
         <VideoPlayer url={getFetchableUrl(metadata.animation_url) || ""} />
       </div>
     );
