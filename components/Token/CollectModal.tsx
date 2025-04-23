@@ -16,6 +16,7 @@ import { useZoraMintCommentProvider } from "@/providers/ZoraMintCommentProvider"
 import { useUserProvider } from "@/providers/UserProvider";
 import getPrice from "@/lib/getPrice";
 import getPriceUnit from "@/lib/getPriceUnit";
+import truncated from "@/lib/truncated";
 
 const CrossmintModal = dynamic(
   () => import("../CommentButton/CrossmintModal"),
@@ -78,7 +79,7 @@ const CollectModal = () => {
             alt="not found sparkle"
           />
           <section className="font-archivo-medium text-xl pt-2 flex items-center gap-2">
-            collect {meta?.name || ""} for{" "}
+            collect {truncated(meta?.name || "")} for{" "}
             {isLoading ? (
               <Skeleton className="h-5 w-10 rounded-none" />
             ) : (
