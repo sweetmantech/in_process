@@ -72,7 +72,7 @@ export default function OnboardingModal({
           {isLastSlide ? (
             <Button
               onClick={handleAdvance}
-              className="px-16 py-2 text-md bg-black hover:bg-grey-moss-300 text-white rounded-sm"
+              className="px-16 py-2 h-12 text-md bg-grey-moss-900 hover:bg-grey-moss-300 text-[#FFF9EA] text-[22px] font-normal rounded-sm"
             >
               start
             </Button>
