@@ -71,8 +71,7 @@ const useUsdcMint = () => {
         account: signedAddress as Address,
         value: amountInMaximum,
         chain: CHAIN,
-        maxFeePerGas: gasEstimate,
-        maxPriorityFeePerGas: gasEstimate,
+        gasPrice: gasEstimate,
       });
       const receipt = await publicClient.waitForTransactionReceipt({ hash });
       return receipt;
