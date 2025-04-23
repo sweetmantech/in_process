@@ -10,7 +10,9 @@ const Feed = ({ feed }: { feed: Token }) => {
   return (
     <div className="flex items-start justify-between p-4">
       <div>
-        <p className="font-spectral text-base">{truncated(data?.name || "")}</p>
+        <p className="font-spectral-italic text-base">
+          {truncated(data?.name || "")}
+        </p>
         <p className="font-archivo text-[11px]">
           {new Date(feed.released_at).toLocaleString()}
         </p>
@@ -22,14 +24,14 @@ const Feed = ({ feed }: { feed: Token }) => {
 const LatestFeeds = () => {
   const { feeds } = useInProcessFeedProvider();
   return (
-    <div className="pt-4 block md:hidden w-full">
+    <div className="block md:hidden w-full">
       <div className="flex justify-center">
         <Image
-          src="/star.svg"
-          blurDataURL="/star.png"
-          width={23}
-          height={23}
-          alt="not found start"
+          src="/moon.svg"
+          blurDataURL="/moon.png"
+          width={39}
+          height={36}
+          alt="not found moon"
         />
       </div>
       {feeds.slice(0, 3).map((feed, i) => (

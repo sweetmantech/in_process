@@ -26,15 +26,17 @@ const Feeds = () => {
     );
   return (
     <div>
-      <p className="font-archivo text-2xl md:text-5xl px-4 md:px-0 pt-6 pb-4 md:pt-12">
+      <p className="text-center md:text-left font-archivo-medium text-2xl md:text-5xl px-4 md:px-0 pb-4 pt-12">
         artists are sharing moments
       </p>
-      <Button
-        className="bg-black hover:bg-grey-moss-300 text-white font-archivo text-xl px-8 rounded-sm hidden md:flex"
-        onClick={() => push("/create")}
-      >
-        create
-      </Button>
+      <div className="flex justify-center md:justify-start">
+        <Button
+          className="md:mt-2 bg-black hover:bg-grey-moss-300 text-tan-primary font-archivo text-xl md:text-2xl py-4 md:py-6 px-16 md:px-24 rounded-sm"
+          onClick={() => push("/create")}
+        >
+          create
+        </Button>
+      </div>
       <SpiralFeeds />
       <div className="w-full space-y-4 md:grid md:grid-cols-12 pb-6 gap-10 relative z-30 pt-20">
         <div

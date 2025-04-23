@@ -17,7 +17,7 @@ export default function SpiralFeeds() {
   const { feeds } = useInProcessFeedProvider();
 
   return (
-    <div className="relative">
+    <div className="relative mt-12">
       <svg viewBox={viewBox} className="relative z-[20] cursor-pointer">
         <SpiralPath id="curve" points={points as Point[]} />
         <text>
