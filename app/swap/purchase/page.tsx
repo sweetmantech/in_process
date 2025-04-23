@@ -27,7 +27,7 @@ const Swap = () => {
       setLoading(true);
       const collectionAddress = "0x1590252D59F9DB3af56860b864CB49C97eF35ba9";
       const usdcPrice = parseUnits(amount, USDC_TOKEN.decimals);
-      const { amountInMaximum, liquidity, gasEstimate } = await getPoolInfo(
+      const { amountInMaximum, liquidity } = await getPoolInfo(
         signedAddress as Address,
         usdcPrice,
       );
@@ -54,7 +54,6 @@ const Swap = () => {
         account: signedAddress as Address,
         value: amountInMaximum,
         chain: CHAIN,
-        gasPrice: gasEstimate,
       });
       const publicClient = getPublicClient(CHAIN_ID);
       await publicClient.waitForTransactionReceipt({ hash });
