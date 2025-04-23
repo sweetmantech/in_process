@@ -29,9 +29,9 @@ const Feed: FC<FeedProps> = ({ feed, hovered, step, height }) => {
           onClick={handleClick}
         >
           {hovered ? (
-            <div className="size-6 bg-grey-moss-400 rounded-full -translate-x-1/2 left-[4px] md:bottom-[-2px] absolute" />
+            <div className="size-6 bg-grey-moss-400 rounded-full -translate-x-1/2 left-[4px] md:bottom-[-2px] bottom-[0px] absolute" />
           ) : (
-            <div className="size-2 border border-grey-moss-900 bg-grey-moss-100 rounded-full md:bottom-[-2px] bottom-[-15px] absolute" />
+            <div className="size-2 border border-grey-moss-900 bg-grey-moss-100 rounded-full md:bottom-[-2px] bottom-[0px] absolute" />
           )}
           <div
             className="z-[-1] w-[0.5px] bg-black -bottom-6 left-[4px] absolute transition-all duration-200 ease-out"
