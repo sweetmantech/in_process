@@ -61,7 +61,14 @@ export function WarpcastButton({ className = "" }: WarpcastButtonProps) {
         </div>
       </button>
       {showDropdown && isConnected && (
-        <DropdownMenu onLogout={handleLogout} />
+        <DropdownMenu
+          onLogout={() => {
+            disconnect({
+              connector: config.connectors[0],
+            });
+            setShowDropdown(false);
+          }}
+        />
       )}
     </div>
   );

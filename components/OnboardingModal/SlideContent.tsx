@@ -7,7 +7,7 @@ interface SlideContentProps {
 
 export const SlideContent = ({ currentSlide }: SlideContentProps) => (
   <>
-    <div className="text-center mb-12">
+    <div className="text-center mb-4">
       <h2 className="text-[32px] mb-2 pt-8">{slides[currentSlide].title}</h2>
       <p className="text-xl font-spectral-italic tracking-[-5%] text-gray-600">
         {slides[currentSlide].subtitle}
@@ -17,8 +17,8 @@ export const SlideContent = ({ currentSlide }: SlideContentProps) => (
       <Image
         src={`/${slides[currentSlide].img}`}
         alt="Decorative images"
-        width={420}
-        height={141}
+        width={slides[currentSlide].width}
+        height={slides[currentSlide].height}
         className="object-contain"
         priority
         unoptimized

@@ -58,7 +58,8 @@ export default function useZoraCreate() {
       }
       const { address, account, args, abi, functionName } = parameters;
       let hash: Address | null = null;
-      if (ethBalance === 0) hash = await createOnSmartWallet(parameters);
+      if (ethBalance === BigInt(0))
+        hash = await createOnSmartWallet(parameters);
       else
         hash = await signTransaction({
           address,
