@@ -1,6 +1,8 @@
+import { BLOCKLISTS } from "@/lib/consts";
 import getCrossmintCommentEvents from "@/lib/dune/getCrossmintCommentEvents";
 import getErc20MintCommentsEvents from "@/lib/dune/getErc20MintCommentsEvents";
 import getSmartWalletMintCommentEvents from "@/lib/dune/getSmartWalletMintCommentEvents";
+import getSwapMintComments from "@/lib/dune/getSwapMintComments";
 import getTokenContractMintCommentEvents from "@/lib/dune/getTokenContractMintCommentEvents";
 import { DuneDecodedEvent } from "@/types/dune";
 import { NextRequest } from "next/server";
@@ -8,7 +10,6 @@ import { NextRequest } from "next/server";
 export async function GET(req: NextRequest) {
   const tokenContract = req.nextUrl.searchParams.get("tokenContract");
   const tokenId = req.nextUrl.searchParams.get("tokenId");
-
   try {
     const erc20MinterEvents: DuneDecodedEvent[] =
       await getErc20MintCommentsEvents(tokenContract as string);
@@ -16,6 +17,9 @@ export async function GET(req: NextRequest) {
       await getTokenContractMintCommentEvents(tokenContract as string);
     const smartWalletEvents: DuneDecodedEvent[] =
       await getSmartWalletMintCommentEvents(tokenContract as string);
+    const swapEvents: DuneDecodedEvent[] = await getSwapMintComments(
+      tokenContract as string,
+    );
     const crossmintEvents: DuneDecodedEvent[] = await getCrossmintCommentEvents(
       tokenContract as string,
     );
@@ -24,6 +28,7 @@ export async function GET(req: NextRequest) {
       ...tokenContractEvents,
       ...smartWalletEvents,
       ...crossmintEvents,
+      ...swapEvents,
     ].map((transaction: DuneDecodedEvent) => {
       const mintCommentEvent = transaction.logs.find(
         (log) => log?.decoded?.name === "MintComment",
@@ -43,7 +48,9 @@ export async function GET(req: NextRequest) {
     });
     return Response.json(
       tokenId
-        ? formattedEvents.filter((e) => e.tokenId === tokenId)
+        ? formattedEvents.filter(
+            (e) => e.tokenId === tokenId && !BLOCKLISTS.includes(e.sender),
+          )
         : formattedEvents,
     );
   } catch (e: any) {
