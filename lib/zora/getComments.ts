@@ -8,23 +8,50 @@ export const createFetchTokenDataQuery = (
   chain: string,
   limit: number
 ) => `
-  query TokenIdQuery(
-    $chainId: Int!
-    $collectionAddress: String!
-    $tokenId: String!
-  ) {
-    collectionOrToken(
-      chainId: 8453,
-      collectionAddress: "0x1590252D59F9DB3af56860b864CB49C97eF35ba9",
-      tokenId: "1"
+  query getData($after: String) {
+    tokens(
+      where: {collectionAddresses: "${collectionAddress}"}
+      networks: {network: ${network}, chain: ${chain}}
+      pagination: {limit: ${limit}, after: $after}
+      sort: {sortKey: MINTED, sortDirection: DESC}
     ) {
-      __typename
-      ...CollectionPanel_collectionOrToken
-      ...PostMedia_post
-      id
+      nodes {
+        token {
+          metadata
+          tokenId
+          mintInfo {
+            mintContext {
+              blockNumber
+              blockTimestamp
+              transactionHash
+            }
+            originatorAddress
+            toAddress
+          }
+        }
+      }
+      pageInfo {
+        endCursor
+        hasNextPage
+      }
     }
-  }
-`;
+    mintComments(
+      networks: {network: ${network}, chain: ${chain}}
+      where: {collectionAddress: "${collectionAddress}"}
+    ) {
+      comments {
+        tokenId
+        quantity
+        comment
+        fromAddress
+        transactionInfo {
+          blockNumber
+          blockTimestamp
+          transactionHash
+        }
+      }
+    }
+  }`;
 
 export const fetchTokenData = async (
   API_ENDPOINT: string,
