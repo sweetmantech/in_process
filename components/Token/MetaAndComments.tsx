@@ -28,7 +28,9 @@ const MetaAndComments = ({
           {truncated(meta.name)}
         </h3>
       )}
-      <p className="font-spectral">{meta.description}</p>
+      <p className="font-spectral">
+        {meta.description || (comments.length ? meta.name : "")}
+      </p>
       {!priceHidden && (
         <>
           <div className="space-y-1 md:space-y-2 mt-2 md:mt-4">

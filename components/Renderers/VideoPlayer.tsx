@@ -3,7 +3,7 @@ interface VideoPlayerProps {
 }
 const VideoPlayer = ({ url }: VideoPlayerProps) => {
   return (
-    <video controls className="w-full rounded-md">
+    <video controls className="rounded-md h-full">
       <source src={url} />
       Your browser does not support the video element.
     </video>
