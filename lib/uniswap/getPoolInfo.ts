@@ -56,7 +56,7 @@ const getPoolInfo = async (account: Address, swapAmount: bigint) => {
 
   const gasEstimate = result[3] as bigint;
 
-  const amountInMaximum = (result[0] as bigint) + gasEstimate;
+  const amountInMaximum = result[0] as bigint;
 
   return {
     tokenIn,

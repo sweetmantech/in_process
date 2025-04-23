@@ -48,7 +48,7 @@ const useUsdcMint = () => {
       return receipt;
     }
 
-    const { amountInMaximum, liquidity, gasEstimate } = await getPoolInfo(
+    const { amountInMaximum, liquidity } = await getPoolInfo(
       signedAddress as Address,
       usdcPrice,
     );
@@ -71,8 +71,6 @@ const useUsdcMint = () => {
         account: signedAddress as Address,
         value: amountInMaximum,
         chain: CHAIN,
-        maxFeePerGas: gasEstimate,
-        maxPriorityFeePerGas: gasEstimate,
       });
       const receipt = await publicClient.waitForTransactionReceipt({ hash });
       return receipt;
