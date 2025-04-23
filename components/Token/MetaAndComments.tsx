@@ -35,7 +35,7 @@ const MetaAndComments = ({
             {isLoading ? (
               <Skeleton className="w-full h-6" />
             ) : (
-              <p className="w-2/3 md:w-full font-archivo text-sm md:text-base border border-black rounded-md text-center bg-tan-secondary">
+              <p className="w-2/3 md:w-full font-archivo text-sm md:text-base border border-black rounded-md text-center bg-grey-moss-50">
                 {data?.pricePerToken === BigInt(0)
                   ? "free"
                   : `${getPrice(data?.pricePerToken || 0, data?.type)} ${getPriceUnit(data?.type || "")}`}
