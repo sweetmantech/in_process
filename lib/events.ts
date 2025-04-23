@@ -1,4 +1,5 @@
 import {
+  erc20MinterABI,
   zoraCreator1155FactoryImplABI,
   zoraCreator1155ImplABI,
   zoraCreatorFixedPriceSaleStrategyABI,
@@ -17,5 +18,10 @@ export const SETUP_NEW_TOKEN_EVENT_SIGNATURE = encodeEventTopics({
 
 export const MINT_COMMENT_EVENT_SIGNATURE = encodeEventTopics({
   abi: zoraCreatorFixedPriceSaleStrategyABI,
+  eventName: "MintComment",
+})[0];
+
+export const ERC20_MINT_COMMENT_EVENT_SIGNATURE = encodeEventTopics({
+  abi: erc20MinterABI,
   eventName: "MintComment",
 })[0];

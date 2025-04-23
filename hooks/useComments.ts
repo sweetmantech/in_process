@@ -9,7 +9,7 @@ async function fetchMintEvents(
   tokenId: string,
 ): Promise<MintCommentEvent[]> {
   const response = await fetch(
-    `/api/dune/mint_comments?tokenContract=${tokenContract}&tokenId=${tokenId}`,
+    `/api/zora/comments?tokenContract=${tokenContract}&tokenId=${tokenId}`,
   );
   if (!response.ok) {
     throw new Error("Failed to fetch mint events.");
