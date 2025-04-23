@@ -7,13 +7,16 @@ export async function GET(req: NextRequest) {
   const tokenContract = req.nextUrl.searchParams.get("tokenContract");
   const tokenId = req.nextUrl.searchParams.get("tokenId");
   const API_ENDPOINT = "https://api.zora.co/graphql/";
-    const IPFS_GATEWAY = "https://magic.decentralized-content.com/ipfs/";
+  const IPFS_GATEWAY = "https://magic.decentralized-content.com/ipfs/";
 
   await fetchTokenData(
     API_ENDPOINT,
     IPFS_GATEWAY,
+    tokenContract as string,
     CHAIN_ID,
-    "BASE_MAINNET"
+    "BASE_MAINNET",
+    100,
+    null
   )
   try {
     
