@@ -12,7 +12,7 @@ import OnboardingModalWrapper from "../OnboardingModal/OnboardingModalWrapper";
 import { useInProcessFeedProvider } from "@/providers/InProcessFeedProvider";
 
 const Feeds = () => {
-  const { feeds, collections, fetchMore } = useInProcessFeedProvider();
+  const { feeds, fetchMore } = useInProcessFeedProvider();
   const isMobile = useIsMobile();
   const { push } = useRouter();
 
@@ -23,11 +23,9 @@ const Feeds = () => {
       </div>
     );
   return (
-    <div className="pt-16 md:pt-20">
+    <div>
       <p className="font-archivo text-2xl md:text-5xl px-4 md:px-0 pt-6 pb-4 md:pt-12">
-        {collections?.length} moments
-        <br />
-        have been shared
+        artists are sharing moments
       </p>
       <Button
         className="bg-black hover:bg-grey-moss-300 text-white font-archivo text-xl px-8 rounded-sm hidden md:flex"
