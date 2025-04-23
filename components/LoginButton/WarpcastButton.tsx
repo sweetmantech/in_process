@@ -26,11 +26,6 @@ export function WarpcastButton({ className = "" }: WarpcastButtonProps) {
     connect({ connector: config.connectors[0] });
   };
 
-  const handleLogout = () => {
-    setShowDropdown(false);
-    disconnect({ connector: config.connectors[0] });
-  };
-
   return (
     <div className="relative">
       <button
