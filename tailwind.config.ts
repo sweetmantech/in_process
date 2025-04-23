@@ -59,6 +59,7 @@ module.exports = {
         "archivo-medium": ["Archivo-Medium", "sans-serif"],
         "archivo-bold": ["Archivo-Medium", "sans-serif"],
         "spectral-italic": ["Spectral-Italic", "sans-serif"],
+        "spectral-medium-italic": ["Spectral-MediumItalic", "sans-serif"],
         "spectral": ["Spectral-Regular", "sans-serif"]
       },
       borderRadius: {

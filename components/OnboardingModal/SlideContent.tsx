@@ -9,7 +9,7 @@ export const SlideContent = ({ currentSlide }: SlideContentProps) => (
   <>
     <div className="text-center mb-4">
       <h2 className="text-[32px] font-archivo-medium mb-2 pt-8 tracking-[-5%]">{slides[currentSlide].title}</h2>
-      <p className="text-xl font-spectral-italic tracking-[-5%] text-grey-moss-900 text-[24px] font-medium">
+      <p className="font-spectral-medium-italic tracking-[-5%] text-black text-[24px]">
         {slides[currentSlide].subtitle}
       </p>
     </div>

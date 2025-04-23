@@ -27,6 +27,11 @@
   src: url("/fonts/Spectral-Regular.ttf") format("truetype");
 }
 
+@font-face {
+  font-family: "Spectral-MediumItalic";
+  src: url("/fonts/Spectral-MediumItalic.ttf") format("truetype");
+}
+
 .react-flow__panel.react-flow__attribution {
   display: none !important;
 }
