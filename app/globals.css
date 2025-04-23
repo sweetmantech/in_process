@@ -27,6 +27,16 @@
   src: url("/fonts/Spectral-Regular.ttf") format("truetype");
 }
 
+@font-face {
+  font-family: "Spectral-Medium";
+  src: url("/fonts/Spectral-Medium.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Spectral-Bold";
+  src: url("/fonts/Spectral-Bold.ttf") format("truetype");
+}
+
 .react-flow__panel.react-flow__attribution {
   display: none !important;
 }

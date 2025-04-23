@@ -59,7 +59,9 @@ module.exports = {
         "archivo-medium": ["Archivo-Medium", "sans-serif"],
         "archivo-bold": ["Archivo-Medium", "sans-serif"],
         "spectral-italic": ["Spectral-Italic", "sans-serif"],
-        "spectral": ["Spectral-Regular", "sans-serif"]
+        "spectral": ["Spectral-Regular", "sans-serif"],
+        "spectral-medium": ["Spectral-Medium", "sans-serif"],
+        "spectral-bold": ["Spectral-bold", "sans-serif"],
       },
       borderRadius: {
         lg: "var(--radius)",

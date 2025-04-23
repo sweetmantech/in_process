@@ -4,22 +4,32 @@ import Image from "next/image";
 
 const ManifestoPage = () => {
   return (
-    <div className="px-3 md:px-10 pt-20 flex flex-col md:flex-row items-center grow w-full pb-[8%]">
-      <div className="w-1/3 aspect-[551/565] relative hidden md:block">
-        <Image src="/artwork.png" layout="fill" alt="not found artwork" />
+    <div className="px-4 md:px-0 pt-20 flex flex-col md:flex-row grow w-full pb-[8%] md:gap-16">
+      <div className="w-1/4 aspect-[510/1072] relative hidden md:block">
+        <Image
+          src="/left_circles.svg"
+          blurDataURL="/left_circles.png"
+          layout="fill"
+          alt="not found artwork"
+          objectFit="cover"
+          objectPosition="right"
+        />
       </div>
-      <div className="relative w-full md:w-1/3">
-        <p className="font-archivo-medium text-2xl md:text-5xl tracking-[-1px]">
-          in process manifesto
+      <div className="relative w-full md:w-2/4 text-grey-moss-900">
+        <p className="font-archivo text-2xl md:text-5xl tracking-[-1px]">
+          in process: a manifesto
         </p>
-        <pre className="font-spectral text-[9px] md:text-[16px] tracking-[-1px] pt-4 !normal-case">
-          {`IN PROCESS: A MANIFESTO
-THE TIMELINE WAS NEVER THEIRS. IT WAS ALWAYS OURS.
-They told us the artist needed the platform.
+        <p className="font-spectral-italic pt-6">
+          THE TIMELINE WAS NEVER THEIRS. IT WAS ALWAYS OURS.
+        </p>
+        <pre className="font-spectral text-[11px] md:text-[16px] tracking-[-1px] pt-4">
+          {`They told us the artist needed the platform.
 Like we were guests at a table built from our own bones.
 Like visibility was a favor, not a debt.
-Like without them, we would vanish—scattered notes, lost rhythms, blueprints erased before they were ever built.
+Like without them, we would vanish—scattered notes, lost rhythms, blueprints erased
+before they were ever built.
 They lied.
+
 Platforms have always needed us.
 The algorithm starves without our stories.
 The stream is silent without our sound.
@@ -29,6 +39,7 @@ Rewrite history in real time.
 Bury what doesn’t fit their metrics.
 And call it discovery.
 We refuse.
+
 This is a space for process. For lineage. For the drafts that built dynasties.
 For the blueprints they stole, repackaged, and resold.
 For the histories that deserve permanence, not expiration dates.
@@ -37,17 +48,13 @@ This is where the work lives.
 Where artists own their evolution.
 Where every sketch, verse, sound, and glitch is a timestamp in culture.
 Here, we own the timeline.
-Here, we document in real time, onchain, on our terms.
-Here, art doesn’t need permission.
-The world doesn’t move without the artist.
-And this time, we don’t ask. We take.
-IN PROCESS. ALWAYS.
-`}
+Here, we document in real time, onchain, on our terms.`}
         </pre>
-        <div className="absolute right-[-18%] top-[calc(100%+4px)] w-[12.5%] aspect-[72/91] hidden md:block">
+        <p className="font-spectral-bold pt-4 text-xl">ALWAYS IN PROCESS.</p>
+        <div className="absolute right-[100px] bottom-[-60px] w-[12.5%] aspect-[72/91] hidden md:block">
           <Image src="/sign2.png" alt="not found sign2" layout="fill" />
         </div>
-        <div className="absolute right-[-15%] top-[calc(100%+20px)] w-[52%] aspect-[294/259] hidden md:block">
+        <div className="absolute right-[100px] top-[calc(100%+20px)] w-[52%] aspect-[294/259] hidden md:block">
           <Image
             src="/sign0.png"
             alt="not found sign0"
@@ -55,6 +62,16 @@ IN PROCESS. ALWAYS.
             height={259}
           />
         </div>
+      </div>
+      <div className="w-1/4 aspect-[510/1072] relative hidden md:block">
+        <Image
+          src="/right_circles.svg"
+          blurDataURL="/right_circles.png"
+          layout="fill"
+          alt="not found artwork"
+          objectFit="cover"
+          objectPosition="left"
+        />
       </div>
     </div>
   );
