@@ -1,10 +1,20 @@
 
+import { CHAIN_ID } from "@/lib/consts";
+import { fetchTokenData } from "@/lib/zora/getComments";
 import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
   const tokenContract = req.nextUrl.searchParams.get("tokenContract");
   const tokenId = req.nextUrl.searchParams.get("tokenId");
+  const API_ENDPOINT = "https://api.zora.co/graphql/";
+    const IPFS_GATEWAY = "https://magic.decentralized-content.com/ipfs/";
 
+  await fetchTokenData(
+    API_ENDPOINT,
+    IPFS_GATEWAY,
+    CHAIN_ID,
+    "BASE_MAINNET"
+  )
   try {
     
     return Response.json(
