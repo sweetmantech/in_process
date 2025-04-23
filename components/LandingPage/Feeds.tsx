@@ -10,11 +10,13 @@ import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 import OnboardingModalWrapper from "../OnboardingModal/OnboardingModalWrapper";
 import { useInProcessFeedProvider } from "@/providers/InProcessFeedProvider";
+import { useMeasure } from "react-use";
 
 const Feeds = () => {
   const { feeds, fetchMore } = useInProcessFeedProvider();
   const isMobile = useIsMobile();
   const { push } = useRouter();
+  const [tableRef, { height }] = useMeasure();
 
   if (!feeds.length)
     return (
@@ -34,15 +36,21 @@ const Feeds = () => {
         create
       </Button>
       <SpiralFeeds />
-      <div className="w-full space-y-4 md:grid md:grid-cols-12 pb-6 gap-10 relative z-30">
-        <div className="w-full hidden md:block md:col-span-8">
+      <div className="w-full space-y-4 md:grid md:grid-cols-12 pb-6 gap-10 relative z-30 pt-20">
+        <div
+          className="w-full hidden md:block md:col-span-8 h-fit"
+          ref={tableRef as any}
+        >
           <FeedTable />
         </div>
         <LatestFeeds />
-        <div className="hidden md:block col-span-4 relative">
-          <div className="w-full absolute bottom-0 flex flex-col gap-6">
-            <ArtSlider />
-          </div>
+        <div
+          className="hidden md:block col-span-4 relative"
+          style={{
+            height,
+          }}
+        >
+          <ArtSlider />
         </div>
         {isMobile && (
           <HorizontalFeedAnimationProvider totalFeeds={feeds?.length || 0}>
