@@ -26,7 +26,7 @@ const ContentRenderer = ({ metadata }: ContentRendererProps) => {
   }
   if (mimeType.includes("video"))
     return (
-      <div className="size-full flex justify-center">
+      <div className="size-full flex justify-center items-center">
         <VideoPlayer url={getFetchableUrl(metadata.animation_url) || ""} />
       </div>
     );
@@ -37,7 +37,7 @@ const ContentRenderer = ({ metadata }: ContentRendererProps) => {
         alt="Token Image."
         layout="fill"
         objectFit="contain"
-        objectPosition="top center"
+        objectPosition="center"
         blurDataURL={
           getFetchableUrl(metadata.image) || "/images/placeholder.png"
         }

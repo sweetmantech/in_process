@@ -15,7 +15,7 @@ const MetaAndComments = ({
   priceHidden = false,
   commentsHidden = false,
 }: MetaAndCommentsProps) => {
-  const { saleConfig, metadata, comments } = useTokenProvider();
+  const { saleConfig, metadata } = useTokenProvider();
   const { data, isLoading } = saleConfig;
   const { data: meta } = metadata;
 
@@ -23,14 +23,9 @@ const MetaAndComments = ({
 
   return (
     <div className="w-full md:max-w-[400px] h-fit">
-      {!comments.length && (
-        <h3 className="text-2xl md:text-4xl font-spectral pb-2">
-          {truncated(meta.name)}
-        </h3>
-      )}
-      <p className="font-spectral">
-        {meta.description || (comments.length ? meta.name : "")}
-      </p>
+      <h3 className="text-4xl md:text-5xl font-spectral pt-2 md:pt-4">
+        {truncated(meta.name)}
+      </h3>
       {!priceHidden && (
         <>
           <div className="space-y-1 md:space-y-2 mt-2 md:mt-4">
