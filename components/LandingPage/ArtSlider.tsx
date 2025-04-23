@@ -13,7 +13,7 @@ const ArtSlider = () => {
   const [swiper, setSwiper] = useState<Swiper | null>(null);
 
   return (
-    <div className="relative">
+    <div className="relative h-full">
       <button
         className="absolute top-4 left-1/2 -translate-x-1/2 z-10 bg-gray-400 px-4 rounded-md"
         onClick={() => swiper?.slidePrev()}
@@ -48,7 +48,7 @@ const ArtSlider = () => {
           allowTouchMove: false,
         }}
         slideClassName="!h-fit md:!h-auto"
-        className="w-full h-[630px] md:h-auto md:max-h-[100vh] !overflow-hidden"
+        className="w-full h-full !overflow-hidden"
       >
         {feeds.slice(0, 10).map((feed, i) => (
           <SliderFeed feed={feed} key={i} />
