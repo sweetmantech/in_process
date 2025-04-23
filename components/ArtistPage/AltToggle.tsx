@@ -10,7 +10,7 @@ const AltToggle = ({ alt, setAlt }: AltToggleProps) => {
     <div className="md:-translate-y-full grid grid-cols-2 border-[1px] border-black rounded-sm overflow-hidden z-[1000]">
       <button
         type="button"
-        className={`col-span-1 flex items-center justify-center p-1.5 ${alt === "timeline" ? "bg-black" : "bg-[#E5D19ECC]"}`}
+        className={`col-span-1 flex items-center justify-center p-1.5 ${alt === "timeline" ? "bg-black" : "bg-transparent"}`}
         onClick={() => setAlt("timeline")}
       >
         <TimeLineIcon
@@ -20,7 +20,7 @@ const AltToggle = ({ alt, setAlt }: AltToggleProps) => {
       </button>
       <button
         type="button"
-        className={`col-span-1 flex items-center justify-center p-1.5 ${alt === "grid" ? "bg-black" : "bg-[#E5D19ECC]"}`}
+        className={`col-span-1 flex items-center justify-center p-1.5 ${alt === "grid" ? "bg-black" : "bg-transparent"}`}
         onClick={() => setAlt("grid")}
       >
         <GridIcon

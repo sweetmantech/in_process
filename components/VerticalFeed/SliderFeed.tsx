@@ -16,7 +16,7 @@ const SliderFeed = ({ feed }: SliderFeedProps) => {
         <Skeleton className="size-full" />
       ) : (
         <div className="gap-2 flex flex-col size-full">
-          <div className="grow overflow-hidden w-full relative rounded-[0px] bg-tan-400">
+          <div className="grow overflow-hidden w-full relative rounded-[0px] bg-grey-moss-100">
             <ContentRenderer metadata={data} />
           </div>
           <div className="flex items-center justify-between">
