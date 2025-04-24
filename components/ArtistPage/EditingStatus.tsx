@@ -5,23 +5,28 @@ const EditingStatus = () => {
   const { toggleEditing, save } = useProfileProvider();
 
   return (
-    <div className="relative mx-auto md:absolute z-[10000] md:left-1/2 md:left-1/2 md:-translate-x-1/2 bottom-full flex gap-2 items-center w-fit bg-tan-400 px-6 py-2 md:py-3 rounded-full mb-3 md:mb-0">
-      <p className="text-sm md:text-lg font-archivo">
-        You are in editing mode.
-      </p>
+    <div className="relative mx-auto md:absolute z-[10000] md:left-1/2 md:left-1/2 md:-translate-x-1/2 bottom-full flex gap-2 items-center w-fit bg-grey-moss-900 px-6 py-1 rounded-full mb-3 md:mb-0">
+      <div className="flex items-center gap-2">
+        <div className="w-4 h-4 border border-grey-moss-50 rounded-full flex items-center justify-center">
+          <div className="w-[6px] h-[6px] rounded-full bg-grey-moss-50" />
+        </div>
+        <p className="text-sm md:text-lg font-spectral-italic text-grey-moss-50">
+          editing your profile
+        </p>
+      </div>
       <button
         type="button"
-        className="bg-black text-white text-sm font-archivo px-3 py-1 rounded-full"
+        className="bg-grey-moss-100 text-grey-moss-900 text-sm font-archivo px-3 rounded-full"
         onClick={save}
       >
-        Save
+        save
       </button>
       <button
         type="button"
-        className="bg-black text-white rounded-full p-1"
+        className="bg-grey-moss-100 text-grey-moss-900 rounded-full p-0.5"
         onClick={toggleEditing}
       >
-        <X className="size-5" />
+        <X className="size-4" />
       </button>
     </div>
   );
