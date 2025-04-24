@@ -1,38 +1,18 @@
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-
-const NoFileSelected = () => {
-  const { push } = useRouter();
-  const handleClick = (e: any) => {
-    e.preventDefault();
-    push("/create/writing");
-  };
-  return (
-    <div className="size-full flex flex-col items-center justify-center gap-6 px-4">
-      <button
-        type="button"
-        className="relative w-1/2 aspect-[201/187] pointer-events-none"
-      >
-        <Image
-          src={"/upload-imagination.png"}
-          layout="fill"
-          alt="upload imagination"
-          objectFit="contain"
-          objectPosition="center"
-        />
-      </button>
-      <p className="font-archivo text-md text-center">
+const NoFileSelected = () => (
+  <div className="size-full px-10 pt-10 pointer-events-none">
+    <div className="flex flex-col justify-center items-center gap-2 w-full aspect-[1/1] rounded-full border border-grey-moss-400 relative overflow-hidden">
+      <div className="size-full absolute left-0 right-0 bg-grey-moss-100 opacity-[0.7]" />
+      <p className="font-archivo-medium text-lg z-[2]">
         drop an image, video, pdf, link, or embed
       </p>
       <button
-        className="relative hover:bg-background-light border border-black py-1 px-12 font-archivo text-xl"
         type="button"
-        onClick={handleClick}
+        className="bg-grey-moss-200 text-grey-moss-50 font-archivo-medium rounded-md px-4 py-2 z-[2]"
       >
-        create
+        choose media
       </button>
     </div>
-  );
-};
+  </div>
+);
 
 export default NoFileSelected;
