@@ -63,6 +63,7 @@ module.exports = {
         "spectral": ["Spectral-Regular", "sans-serif"],
         "spectral-medium": ["Spectral-Medium", "sans-serif"],
         "spectral-bold": ["Spectral-bold", "sans-serif"],
+        "spectral-medium-italic": ["Spectral-MediumItalic", "sans-serif"],
       },
       borderRadius: {
         lg: "var(--radius)",

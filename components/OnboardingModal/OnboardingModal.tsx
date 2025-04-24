@@ -6,6 +6,7 @@ import { Button } from "../ui/button";
 import { slides } from "./OnboardingModalContent";
 import { SlideContent } from "./SlideContent";
 import { NavigationDots } from "./NavigationDots";
+import { NavigationArrows } from "./NavigationArrows";
 import { useRouter } from "next/navigation";
 import useConnectedWallet from "@/hooks/useConnectedWallet";
 
@@ -37,6 +38,14 @@ export default function OnboardingModal({
     setCurrentSlide((prev) => prev + 1);
   };
 
+  const handlePrevious = () => {
+    setCurrentSlide((prev) => Math.max(0, prev - 1));
+  };
+
+  const handleNext = () => {
+    setCurrentSlide((prev) => Math.min(slides.length - 1, prev + 1));
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -57,12 +66,13 @@ export default function OnboardingModal({
         </button>
 
         <SlideContent currentSlide={currentSlide} />
+        <NavigationArrows onPrevious={handlePrevious} onNext={handleNext} currentSlide={currentSlide} />
 
         <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex justify-center gap-3">
           {isLastSlide ? (
             <Button
               onClick={handleAdvance}
-              className="px-8 py-2 text-md bg-black hover:bg-grey-moss-300 text-white rounded-sm"
+              className="px-16 py-2 h-12 text-md bg-grey-moss-900 hover:bg-grey-moss-300 text-[#FFF9EA] text-[22px] font-normal rounded-sm"
             >
               start
             </Button>
