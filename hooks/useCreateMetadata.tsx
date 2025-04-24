@@ -42,7 +42,7 @@ const useCreateMetadata = () => {
     setFileUploading: fileUpload.setFileUploading,
   });
 
-  const uploadPdfAsImage = async () => {
+  const uploadPdfImage = async () => {
     const pdfs = document.getElementsByClassName("rpv-core__canvas-layer");
     if (!pdfs.length) return null;
     const blob = await domtoimage.toBlob(pdfs[0]);
@@ -67,7 +67,7 @@ const useCreateMetadata = () => {
     let image: string | null = imageUri;
     let mime = mimeType;
     let animation = animationUri || imageUri;
-    const pdfImageUri = await uploadPdfAsImage();
+    const pdfImageUri = await uploadPdfImage();
     if (pdfImageUri) image = pdfImageUri;
     if (pathname === "/create/writing") {
       mime = "image/png";
