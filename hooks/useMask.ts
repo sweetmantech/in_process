@@ -42,7 +42,7 @@ export const useMask = () => {
     updateMasks();
     window.addEventListener("resize", updateMasks);
     return () => window.removeEventListener("resize", updateMasks);
-  }, [inputRef, titleRef]);
+  }, [inputRef, titleRef, svgRef.current]);
 
   return { masks, svgRef, maskId, inputRef, titleRef };
 };

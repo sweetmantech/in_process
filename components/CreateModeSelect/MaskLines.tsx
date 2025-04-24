@@ -2,17 +2,17 @@
 
 import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
 import { usePathname } from "next/navigation";
-import React, { Fragment } from "react";
+import React from "react";
 
 const MaskLines = () => {
   const { maskId, svgRef, masks, createdContract } = useZoraCreateProvider();
   const pathname = usePathname();
   const isWritingPage = pathname === "/create/writing";
 
-  if (!isWritingPage || createdContract) return <Fragment />;
-
   return (
-    <div className="hidden md:block absolute size-full pointer-events-none">
+    <div
+      className={`hidden md:block absolute size-full pointer-events-none ${(!isWritingPage || createdContract) && "opacity-0"}`}
+    >
       <div className="absolute inset-0 border-b border-b-grey-moss-200" />
       <div
         className="absolute inset-0"
