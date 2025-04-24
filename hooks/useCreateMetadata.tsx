@@ -86,7 +86,7 @@ const useCreateMetadata = () => {
       description,
       external_url: link.link,
       image,
-      animation_url: animationUri,
+      animation_url: animation,
       content: {
         mime,
         uri: animation,
