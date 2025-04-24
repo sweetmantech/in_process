@@ -83,7 +83,7 @@ const useCreateMetadata = () => {
     return uploadJson({
       name,
       description,
-      external_url: link,
+      external_url: link.link,
       image,
       animation_url: animationUri,
       content: {
