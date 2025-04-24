@@ -1,46 +1,50 @@
+"use client";
+
 import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
-import React from "react";
+import { usePathname } from "next/navigation";
+import React, { Fragment } from "react";
 
 const MaskLines = () => {
-  const { maskId, svgRef, masks } = useZoraCreateProvider();
+  const { maskId, svgRef, masks, createdContract } = useZoraCreateProvider();
+  const pathname = usePathname();
+  const isWritingPage = pathname === "/create/writing";
+
+  if (!isWritingPage || createdContract) return <Fragment />;
 
   return (
-    <>
-      <div className="absolute inset-0 pointer-events-none border-b border-b-[#605F5C]" />
+    <div className="hidden md:block absolute size-full pointer-events-none">
+      <div className="absolute inset-0 border-b border-b-grey-moss-200" />
       <div
-        className="absolute inset-0 pointer-events-none"
+        className="absolute inset-0"
         style={{
           backgroundImage: `repeating-linear-gradient(
                     to right,
                     transparent,
-                    transparent 24px,
-                    #605F5C 24px,
-                    #605F5C 25px
+                    transparent 19px,
+                    #999999 19px,
+                    #999999 20px
                   )`,
-          backgroundSize: "25px 100%",
+          backgroundSize: "20px 100%",
           maskImage: `url(#${maskId})`,
           WebkitMaskImage: `url(#${maskId})`,
         }}
       />
       <div
-        className="absolute inset-0 pointer-events-none"
+        className="absolute inset-0"
         style={{
           backgroundImage: `repeating-linear-gradient(
                     to bottom,
                     transparent,
-                    transparent 24px,
-                  #605F5C 24px,
-                  #605F5C 25px
+                    transparent 19px,
+                  #999999 19px,
+                  #999999 20px
                   )`,
-          backgroundSize: "100% 25px",
+          backgroundSize: "100% 20px",
           maskImage: `url(#${maskId})`,
           WebkitMaskImage: `url(#${maskId})`,
         }}
       />
-      <svg
-        ref={svgRef}
-        className="absolute inset-0 w-full h-full pointer-events-none"
-      >
+      <svg ref={svgRef} className="absolute inset-0 w-full h-full">
         <defs>
           <mask id={maskId}>
             <rect width="100%" height="100%" fill="white" />
@@ -58,7 +62,7 @@ const MaskLines = () => {
           </mask>
         </defs>
       </svg>
-    </>
+    </div>
   );
 };
 

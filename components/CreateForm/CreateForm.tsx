@@ -8,18 +8,20 @@ import Prompt from "./Prompt";
 const CreateForm = () => {
   const { createdContract, inputRef, name } = useZoraCreateProvider();
   return (
-    <div className="w-full space-y-3 col-span-1 pl-12" ref={inputRef}>
-      {createdContract ? (
-        <>
-          <p className="font-archivo-medium text-4xl">{name}</p>
-        </>
-      ) : (
-        <>
-          <Prompt />
-          <Price />
-          <CreateButton />
-        </>
-      )}
+    <div className="w-full col-span-1 md:pl-12">
+      <div ref={inputRef} className="space-y-3 h-fit pb-4">
+        {createdContract ? (
+          <>
+            <p className="font-archivo-medium text-4xl">{name}</p>
+          </>
+        ) : (
+          <>
+            <Prompt />
+            <Price />
+            <CreateButton />
+          </>
+        )}
+      </div>
     </div>
   );
 };
