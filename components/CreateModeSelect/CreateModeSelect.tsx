@@ -21,7 +21,7 @@ const CreateModeSelect = () => {
         <CreatedMoment />
       ) : (
         <div className="w-full lg:max-w-[250px] xl:max-w-[300px] h-fit">
-          <div ref={titleRef} className="flex flex-col gap-3">
+          <div ref={titleRef} className="flex flex-col gap-3 pb-3">
             <CTAButton isActive={isCreatePage} onClick={() => push("/create")}>
               new moment
             </CTAButton>

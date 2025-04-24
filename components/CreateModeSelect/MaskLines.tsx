@@ -1,3 +1,5 @@
+"use client";
+
 import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
 import React from "react";
 
@@ -5,19 +7,19 @@ const MaskLines = () => {
   const { maskId, svgRef, masks } = useZoraCreateProvider();
 
   return (
-    <>
-      <div className="absolute inset-0 pointer-events-none border-b border-b-[#605F5C]" />
+    <div className="hidden md:block absolute size-full">
+      <div className="absolute inset-0 pointer-events-none border-b border-b-grey-moss-200" />
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           backgroundImage: `repeating-linear-gradient(
                     to right,
                     transparent,
-                    transparent 24px,
-                    #605F5C 24px,
-                    #605F5C 25px
+                    transparent 19px,
+                    #999999 19px,
+                    #999999 20px
                   )`,
-          backgroundSize: "25px 100%",
+          backgroundSize: "20px 100%",
           maskImage: `url(#${maskId})`,
           WebkitMaskImage: `url(#${maskId})`,
         }}
@@ -28,11 +30,11 @@ const MaskLines = () => {
           backgroundImage: `repeating-linear-gradient(
                     to bottom,
                     transparent,
-                    transparent 24px,
-                  #605F5C 24px,
-                  #605F5C 25px
+                    transparent 19px,
+                  #999999 19px,
+                  #999999 20px
                   )`,
-          backgroundSize: "100% 25px",
+          backgroundSize: "100% 20px",
           maskImage: `url(#${maskId})`,
           WebkitMaskImage: `url(#${maskId})`,
         }}
@@ -58,7 +60,7 @@ const MaskLines = () => {
           </mask>
         </defs>
       </svg>
-    </>
+    </div>
   );
 };
 
