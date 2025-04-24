@@ -1,7 +1,6 @@
 import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
 import getBlob from "@/lib/getBlob";
 import { useQuery } from "@tanstack/react-query";
-import { url } from "inspector";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 export interface LinkPreview {
@@ -15,7 +14,6 @@ export interface LinkPreview {
 
 interface useLinkPreviewProps {
   setImageUri: Dispatch<SetStateAction<string>>;
-  link: string;
   setFileUploading: Dispatch<SetStateAction<boolean>>;
   setName: Dispatch<SetStateAction<string>>;
   setDescription: Dispatch<SetStateAction<string>>;
@@ -33,13 +31,14 @@ async function fetchLinkPreview(link: string): Promise<LinkPreview> {
 }
 
 const useLinkPreview = ({
-  link,
   setImageUri,
   setFileUploading,
   setName,
   setDescription,
   setMimeType,
 }: useLinkPreviewProps) => {
+  const [link, setLink] = useState<string>("");
+
   const { data } = useQuery({
     queryKey: ["link_preview", link],
     queryFn: () => fetchLinkPreview(link),
@@ -69,6 +68,11 @@ const useLinkPreview = ({
     uploadImage();
     setImageUri("");
   }, [data]);
+
+  return {
+    link,
+    setLink,
+  };
 };
 
 export default useLinkPreview;

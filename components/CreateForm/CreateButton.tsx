@@ -4,11 +4,18 @@ import { Button } from "@/components/ui/button";
 import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
 
 const CreateButton = () => {
-  const { create, name, imageUri, animationUri, writingText, creating } =
-    useZoraCreateProvider();
+  const {
+    create,
+    name,
+    imageUri,
+    animationUri,
+    writingText,
+    creating,
+    embedCode,
+  } = useZoraCreateProvider();
 
   const canCreate = Boolean(
-    !creating && name && (imageUri || animationUri || writingText),
+    !creating && name && (imageUri || animationUri || writingText || embedCode),
   );
 
   const handleCreate = async () => {
