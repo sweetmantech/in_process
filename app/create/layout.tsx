@@ -9,7 +9,7 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
       <main className="w-screen grow">
         <div className="w-full pt-12 md:pt-24 grid grid-cols-3 gap-6 px-3 md:px-10">
           <CreateModeSelect />
-          <div className="grow col-span-1 w-full flex justify-center">
+          <div className="w-full aspect-[571/692] relative bg-[url('/grid.svg')] bg-contain">
             {children}
           </div>
           <CreateForm />

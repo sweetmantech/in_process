@@ -32,6 +32,7 @@ module.exports = {
           secondary: "#888888",
           "moss-50": "#F5F5F5",
           "moss-100": "#E0DDD8",
+          "moss-200": "#999999",
           "moss-300": "#605F5C",
           "moss-400": "#4E4E4E",
           "moss-900": "#1B1504"

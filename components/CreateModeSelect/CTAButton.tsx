@@ -1,3 +1,4 @@
+import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
 import { ReactNode, useState } from "react";
 
 interface CTAButtonProps {
@@ -8,11 +9,13 @@ interface CTAButtonProps {
 
 const CTAButton = ({ children, onClick, isActive }: CTAButtonProps) => {
   const [hovered, setHovered] = useState<boolean>(false);
+  const { fileUploading } = useZoraCreateProvider();
 
   return (
     <button
       type="button"
       className={`flex items-center gap-4 w-fit font-archivo-medium 
+        disabled:cursor-not-allowed
         ${
           isActive
             ? "text-grey-moss-900 text-2xl xl:text-4xl"
@@ -21,6 +24,7 @@ const CTAButton = ({ children, onClick, isActive }: CTAButtonProps) => {
       onClick={onClick}
       onMouseOver={() => setHovered(true)}
       onMouseOut={() => setHovered(false)}
+      disabled={fileUploading}
     >
       <div
         className={`flex justify-center items-center w-[29px] rounded-full aspect-[1/1] 
