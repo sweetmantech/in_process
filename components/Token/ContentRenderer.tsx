@@ -30,6 +30,15 @@ const ContentRenderer = ({ metadata }: ContentRendererProps) => {
         <VideoPlayer url={getFetchableUrl(metadata.animation_url) || ""} />
       </div>
     );
+  if (mimeType.includes("html"))
+    return (
+      <div className="size-full flex justify-center">
+        <iframe
+          src={getFetchableUrl(metadata.animation_url) || ""}
+          className="w-full"
+        />
+      </div>
+    );
   return (
     <div className="grow relative size-full">
       <Image
