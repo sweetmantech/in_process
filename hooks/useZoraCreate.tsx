@@ -49,6 +49,7 @@ export default function useZoraCreate() {
   const { isPrepared } = useUserProvider();
   const { signTransaction } = useSignTransaction();
 
+  
   const create = async () => {
     try {
       if (!isPrepared()) return;
