@@ -27,6 +27,7 @@ const useCreateMetadata = () => {
   });
   const embed = useEmbedCode({
     setDescription,
+    setAnimationUri,
   });
   const fileUpload = useFileUpload({
     setImageUri,

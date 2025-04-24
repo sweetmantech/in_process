@@ -10,9 +10,13 @@ import domtoimage from "dom-to-image-more";
 
 interface useEmbedCodeProps {
   setDescription: Dispatch<SetStateAction<string>>;
+  setAnimationUri: Dispatch<SetStateAction<string>>;
 }
 
-const useEmbedCode = ({ setDescription }: useEmbedCodeProps) => {
+const useEmbedCode = ({
+  setDescription,
+  setAnimationUri,
+}: useEmbedCodeProps) => {
   const [embedCode, setEmbedCode] = useState("");
   const embedRef = useRef() as MutableRefObject<HTMLDivElement>;
 
@@ -39,6 +43,7 @@ const useEmbedCode = ({ setDescription }: useEmbedCodeProps) => {
     const fileType = "text/html";
     const textImage = new File([blob], fileName, { type: fileType });
     const uri = await clientUploadToArweave(textImage);
+    setAnimationUri(uri);
     return uri;
   };
 

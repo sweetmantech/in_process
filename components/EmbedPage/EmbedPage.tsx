@@ -2,9 +2,10 @@ import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
 import { X } from "lucide-react";
 import Image from "next/image";
 import isHtml from "is-html";
+import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 
 const EmbedPage = () => {
-  const { embedCode, embed, createdContract, embedRef } =
+  const { embedCode, embed, createdContract, embedRef, animationUri, name } =
     useZoraCreateProvider();
 
   if (createdContract)
@@ -15,6 +16,15 @@ const EmbedPage = () => {
             __html: embedCode,
           }}
         />
+        <div className="text-center py-4">
+          <a
+            className="font-spectral-italic hover:text-grey-moss-400"
+            href={getFetchableUrl(animationUri) || "#"}
+            target="_blank"
+          >
+            {name}
+          </a>
+        </div>
       </div>
     );
   return (
