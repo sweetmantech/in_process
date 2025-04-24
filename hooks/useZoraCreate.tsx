@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { CHAIN, CHAIN_ID } from "@/lib/consts";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { Address } from "viem";
 import useZoraCreateParameters from "./useZoraCreateParameters";
 import {
@@ -37,7 +37,8 @@ export default function useZoraCreate() {
   const [creating, setCreating] = useState<boolean>(false);
   const params = useParams();
   const chainId = Number(params.chainId) || CHAIN_ID;
-  const collection = params.collectionAddress as Address | undefined;
+  const searchParams = useSearchParams();
+  const collection = searchParams.get("collectionAddress") as Address;
   const [createdContract, setCreatedContract] = useState<string>("");
   const [createdTokenId, setCreatedTokenId] = useState<string>("");
   const { fetchParameters, createMetadata } = useZoraCreateParameters(
@@ -48,6 +49,7 @@ export default function useZoraCreate() {
   const { isPrepared } = useUserProvider();
   const { signTransaction } = useSignTransaction();
 
+  
   const create = async () => {
     try {
       if (!isPrepared()) return;
