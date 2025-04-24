@@ -5,11 +5,11 @@ import { usePathname } from "next/navigation";
 import React, { Fragment } from "react";
 
 const MaskLines = () => {
-  const { maskId, svgRef, masks } = useZoraCreateProvider();
+  const { maskId, svgRef, masks, createdContract } = useZoraCreateProvider();
   const pathname = usePathname();
   const isWritingPage = pathname === "/create/writing";
 
-  if (!isWritingPage) return <Fragment />;
+  if (!isWritingPage || createdContract) return <Fragment />;
 
   return (
     <div className="hidden md:block absolute size-full pointer-events-none">
