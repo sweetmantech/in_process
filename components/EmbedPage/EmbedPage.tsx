@@ -10,13 +10,13 @@ const EmbedPage = () => {
 
   if (createdContract)
     return (
-      <div className="size-full pointer-events-none cursor-not-allowed">
+      <div className="size-full">
         <div
           dangerouslySetInnerHTML={{
             __html: embedCode,
           }}
         />
-        <div className="text-center py-4">
+        <div className="text-center py-4 bg-white">
           <a
             className="font-spectral-italic hover:text-grey-moss-400"
             href={getFetchableUrl(animationUri) || "#"}
