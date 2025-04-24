@@ -1,40 +1,40 @@
 import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
 import LinkInput from "./LinkInput";
-import Image from "next/image";
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 
 const LinkPreview = () => {
-  const { createdContract, imageUri } = useZoraCreateProvider();
+  const { createdContract, imageUri, link } = useZoraCreateProvider();
 
   return (
-    <div
-      className={`w-full md:max-w-[450px] xl:max-w-[500px] aspect-[576/700] flex flex-col relative border border-grey-400 px-12 py-4 ${createdContract ? "pointer-events-none" : "bg-white"}`}
-    >
+    <div className={`bg-white ${createdContract ? "" : "m-4 py-6 px-4"}`}>
       {createdContract ? (
-        <Image
-          src={getFetchableUrl(imageUri) || ""}
-          alt="not found image"
-          objectFit="cover"
-          objectPosition="center"
-          layout="fill"
-        />
+        <>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={getFetchableUrl(imageUri) || ""} alt="not found image" />
+          <div className="text-center py-4">
+            <a
+              className="font-spectral-italic hover:text-grey-moss-400"
+              href={link}
+              target="_blank"
+            >
+              {link}
+            </a>
+          </div>
+        </>
       ) : (
         <>
           <p className="text-center font-archivo">
             Paste any link from the internet
           </p>
-          {imageUri && (
-            <div className="mt-2 grow relative w-full">
-              <Image
-                src={getFetchableUrl(imageUri) || ""}
-                alt="not found image"
-                layout="fill"
-                objectFit="cover"
-                objectPosition="center"
-              />
-            </div>
-          )}
           <LinkInput />
+          {imageUri && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={getFetchableUrl(imageUri) || ""}
+              alt="not found image"
+              className="pt-4"
+            />
+          )}
         </>
       )}
     </div>
