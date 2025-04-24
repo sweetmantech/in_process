@@ -1,33 +1,41 @@
 import { uploadJson } from "@/lib/arweave/uploadJson";
-import { RefObject, useRef, useState } from "react";
 import useFileUpload from "./useFileUpload";
 import domtoimage from "dom-to-image-more";
 import useLinkPreview from "./useLinkPreview";
 import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
+import useEmbedCode from "./useEmbedCode";
+import useWriting from "./useWriting";
+import useMetadataValues from "./useMetadataValues";
 import { usePathname } from "next/navigation";
 
 const useCreateMetadata = () => {
   const pathname = usePathname();
-  const isUsdc = pathname.includes("/usdc");
-  const [link, setLink] = useState<string>("");
-  const [name, setName] = useState<string>("");
-  const [priceUnit, setPriceUnit] = useState<string>(isUsdc ? "usdc" : "eth");
-  const [price, setPrice] = useState("0");
-  const [description, setDescription] = useState<string>("");
-  const [isTimedSale, setIsTimedSale] = useState<boolean>(false);
-  const [imageUri, setImageUri] = useState<string>("");
-  const [mimeType, setMimeType] = useState<string>("");
-  const [animationUri, setAnimationUri] = useState<string>("");
-  const writingRef = useRef() as RefObject<HTMLDivElement>;
-  const [writingText, setWritingText] = useState<string>("");
+  const metadataValues = useMetadataValues();
+  const {
+    setDescription,
+    setImageUri,
+    setAnimationUri,
+    setMimeType,
+    animationUri,
+    setName,
+    description,
+    imageUri,
+    mimeType,
+  } = metadataValues;
+  const writinig = useWriting({
+    setDescription,
+  });
+  const embed = useEmbedCode({
+    setDescription,
+    setAnimationUri,
+  });
   const fileUpload = useFileUpload({
     setImageUri,
     setAnimationUri,
     setMimeType,
     animationUri,
   });
-  useLinkPreview({
-    link,
+  const link = useLinkPreview({
     setImageUri,
     setMimeType,
     setName,
@@ -35,20 +43,7 @@ const useCreateMetadata = () => {
     setFileUploading: fileUpload.setFileUploading,
   });
 
-  const uploadTextRefAsImage = async () => {
-    if (!writingRef.current) return null;
-    const blob = await domtoimage.toBlob(writingRef.current);
-    const fileName = "image.png";
-    const fileType = "image/png";
-    const textImage = new File([blob], fileName, { type: fileType });
-    const uri = await clientUploadToArweave(textImage);
-    return {
-      uri,
-      mimeType: fileType,
-    };
-  };
-
-  const uploadPdfAsImage = async () => {
+  const uploadPdfImage = async () => {
     const pdfs = document.getElementsByClassName("rpv-core__canvas-layer");
     if (!pdfs.length) return null;
     const blob = await domtoimage.toBlob(pdfs[0]);
@@ -60,9 +55,9 @@ const useCreateMetadata = () => {
   };
 
   const reset = () => {
-    setWritingText("");
+    writinig.setWritingText("");
     setName("");
-    setLink("");
+    link.setLink("");
     setDescription("");
     setImageUri("");
     setMimeType("");
@@ -70,48 +65,42 @@ const useCreateMetadata = () => {
   };
 
   const getUri = async () => {
-    const pdfImageUri = await uploadPdfAsImage();
-    const metadataOfWriting = await uploadTextRefAsImage();
+    let image: string | null = imageUri;
+    let mime = mimeType;
+    let animation = animationUri || imageUri;
+    const pdfImageUri = await uploadPdfImage();
+    if (pdfImageUri) image = pdfImageUri;
+    if (pathname === "/create/writing") {
+      mime = "image/png";
+      image = await writinig.uploadWritingImage();
+    }
+    if (pathname === "/create/embed") {
+      mime = "text/html";
+      image = await embed.uploadEmbedImage();
+      animation = await embed.uploadEmbedCode();
+    }
 
     return uploadJson({
       name,
-      description: writingText || description,
+      description,
       external_url: link,
-      image: pdfImageUri || metadataOfWriting?.uri || imageUri,
+      image,
       animation_url: animationUri,
       content: {
-        mime: metadataOfWriting?.mimeType || mimeType,
-        uri: animationUri || metadataOfWriting?.uri || imageUri,
+        mime,
+        uri: animation,
       },
     });
   };
 
   return {
-    animationUri,
-    setAnimationUri,
-    getUri,
-    imageUri,
-    setImageUri,
-    mimeType,
-    setMimeType,
-    name,
-    isTimedSale,
-    setName,
-    setIsTimedSale,
     reset,
-    writingRef,
     ...fileUpload,
-    uploadTextRefAsImage,
-    setDescription,
-    description,
-    link,
-    setLink,
-    priceUnit,
-    setPriceUnit,
-    price,
-    setPrice,
-    writingText,
-    setWritingText,
+    ...embed,
+    ...link,
+    ...writinig,
+    ...metadataValues,
+    getUri,
   };
 };
 
