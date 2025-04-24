@@ -1,16 +1,21 @@
 "use client";
 
 import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
-import React from "react";
+import { usePathname } from "next/navigation";
+import React, { Fragment } from "react";
 
 const MaskLines = () => {
   const { maskId, svgRef, masks } = useZoraCreateProvider();
+  const pathname = usePathname();
+  const isWritingPage = pathname === "/create/writing";
+
+  if (!isWritingPage) return <Fragment />;
 
   return (
-    <div className="hidden md:block absolute size-full">
-      <div className="absolute inset-0 pointer-events-none border-b border-b-grey-moss-200" />
+    <div className="hidden md:block absolute size-full pointer-events-none">
+      <div className="absolute inset-0 border-b border-b-grey-moss-200" />
       <div
-        className="absolute inset-0 pointer-events-none"
+        className="absolute inset-0"
         style={{
           backgroundImage: `repeating-linear-gradient(
                     to right,
@@ -25,7 +30,7 @@ const MaskLines = () => {
         }}
       />
       <div
-        className="absolute inset-0 pointer-events-none"
+        className="absolute inset-0"
         style={{
           backgroundImage: `repeating-linear-gradient(
                     to bottom,
@@ -39,10 +44,7 @@ const MaskLines = () => {
           WebkitMaskImage: `url(#${maskId})`,
         }}
       />
-      <svg
-        ref={svgRef}
-        className="absolute inset-0 w-full h-full pointer-events-none"
-      >
+      <svg ref={svgRef} className="absolute inset-0 w-full h-full">
         <defs>
           <mask id={maskId}>
             <rect width="100%" height="100%" fill="white" />
