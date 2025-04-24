@@ -1,4 +1,7 @@
+import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
+import getBlob from "@/lib/getBlob";
 import { useQuery } from "@tanstack/react-query";
+import { url } from "inspector";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 export interface LinkPreview {
@@ -52,12 +55,13 @@ const useLinkPreview = ({
         setName(data.title);
         setDescription(data.description);
         setFileUploading(true);
-        const response = await fetch(
-          `/api/arweave/url?url=${encodeURIComponent(data.images?.[0] || data.favicons?.[0])}`,
+        const { blob, type } = await getBlob(
+          data.images?.[0] || data.favicons?.[0],
         );
-        const url = await response.json();
-        setImageUri(url.uri);
-        setMimeType(url.type);
+        const file = new File([blob], "uploadedFile", { type });
+        const uri = await clientUploadToArweave(file);
+        setImageUri(uri);
+        setMimeType(type);
         setFileUploading(false);
       }
       return;

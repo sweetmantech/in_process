@@ -28,6 +28,16 @@
 }
 
 @font-face {
+  font-family: "Spectral-Medium";
+  src: url("/fonts/Spectral-Medium.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Spectral-Bold";
+  src: url("/fonts/Spectral-Bold.ttf") format("truetype");
+}
+
+@font-face {
   font-family: "Spectral-MediumItalic";
   src: url("/fonts/Spectral-MediumItalic.ttf") format("truetype");
 }

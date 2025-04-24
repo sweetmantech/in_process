@@ -1,4 +1,4 @@
-import uploadPfpToArweave from "@/lib/arweave/uploadToArweave";
+import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
 import getBlob from "@/lib/getBlob";
 import { NextRequest } from "next/server";
 
@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
     }
     const { blob, type } = await getBlob(url);
     const file = new File([blob], "uploadedFile", { type });
-    const uri = await uploadPfpToArweave(file);
+    const uri = await clientUploadToArweave(file);
     return Response.json({
       uri,
       type,

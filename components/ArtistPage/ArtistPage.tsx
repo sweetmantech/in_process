@@ -13,7 +13,7 @@ const ArtistPage = () => {
   const { isEditing } = useProfileProvider();
 
   return (
-    <div className="w-screen grow flex flex-col pt-16 relative">
+    <div className="w-screen grow flex flex-col pt-24 relative">
       <div className="relative">
         {isEditing && <EditingStatus />}
         <div className="flex justify-between px-2 md:px-10 items-start pb-2">

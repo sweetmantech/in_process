@@ -110,7 +110,7 @@ export const useHorizontalFeedAnimation = (
 
   const getHeight = useCallback(
     (index: number): number => {
-      if (isMobile) return activeIndex === index ? MAX_HEIGHT : MIN_HEIGHT;
+      if (isMobile) return activeIndex - 1 === index ? MAX_HEIGHT : MIN_HEIGHT;
 
       if (nearestIndex === null) return MIN_HEIGHT;
       if (index === nearestIndex) return MAX_HEIGHT;
@@ -126,7 +126,7 @@ export const useHorizontalFeedAnimation = (
 
   const isHovered = useCallback(
     (index: number): boolean => {
-      if (isMobile) return activeIndex === index;
+      if (isMobile) return activeIndex - 1 === index;
       if (
         mouseX === null &&
         nearestIndex === 0 &&

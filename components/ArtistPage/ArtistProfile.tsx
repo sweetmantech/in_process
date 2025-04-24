@@ -22,7 +22,7 @@ const ArtistProfile = () => {
           <input
             value={username}
             onChange={(e) => setUserName(e.target.value)}
-            className="max-w-[120px] md:!max-w-[200px] text-xl md:text-4xl p-1 md:p-3 bg-tan-400 outline-none ring-0 font-archivo-medium"
+            className="max-w-[120px] md:!max-w-[200px] text-xl md:text-4xl p-1 md:p-3 bg-grey-moss-50 outline-none ring-0 font-archivo-medium"
           />
         ) : (
           <p className="text-xl md:text-5xl font-archivo-medium tracking-[-1px]">
@@ -32,7 +32,7 @@ const ArtistProfile = () => {
         {canEdit && !isEditing && (
           <button
             type="button"
-            className="border-[1px] border-black rounded-md p-1 bg-tan-400"
+            className="border border-grey-moss-900 rounded-xs p-1 bg-grey-moss-200"
             onClick={toggleEditing}
           >
             <EditIcon width={20} height={20} />
@@ -43,7 +43,7 @@ const ArtistProfile = () => {
         <input
           value={bio}
           onChange={(e) => setBio(e.target.value)}
-          className="max-w-[150px] md:max-w-auto md:min-w-[250px] outline-none ring-0 p-1 md:p-2 font-spectral text-lg md:text-xl mt-2 md:mt-4 bg-tan-400"
+          className="max-w-[150px] md:max-w-auto md:min-w-[250px] outline-none ring-0 p-1 md:p-2 font-spectral text-lg md:text-xl mt-2 md:mt-4 bg-grey-moss-50"
         />
       ) : (
         <p className="text-lg md:text-xl font-spectral pt-2 md:pt-4">

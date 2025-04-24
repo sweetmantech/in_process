@@ -32,6 +32,7 @@ module.exports = {
           secondary: "#888888",
           "moss-50": "#F5F5F5",
           "moss-100": "#E0DDD8",
+          "moss-200": "#999999",
           "moss-300": "#605F5C",
           "moss-400": "#4E4E4E",
           "moss-900": "#1B1504"
@@ -59,8 +60,10 @@ module.exports = {
         "archivo-medium": ["Archivo-Medium", "sans-serif"],
         "archivo-bold": ["Archivo-Medium", "sans-serif"],
         "spectral-italic": ["Spectral-Italic", "sans-serif"],
+        "spectral": ["Spectral-Regular", "sans-serif"],
+        "spectral-medium": ["Spectral-Medium", "sans-serif"],
+        "spectral-bold": ["Spectral-bold", "sans-serif"],
         "spectral-medium-italic": ["Spectral-MediumItalic", "sans-serif"],
-        "spectral": ["Spectral-Regular", "sans-serif"]
       },
       borderRadius: {
         lg: "var(--radius)",
