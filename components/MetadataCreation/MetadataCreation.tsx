@@ -1,5 +1,5 @@
 import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
-import { useRef } from "react";
+import { Fragment, useRef } from "react";
 import NoFileSelected from "./NoFileSelected";
 import ResetButton from "./ResetButton";
 import MediaUploaded from "./MediaUploaded";
@@ -12,29 +12,25 @@ const MetadataCreation = () => {
     fileUpload,
     fileUploading,
     createdContract,
-    writingText,
   } = useZoraCreateProvider();
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const selected = imageUri || animationUri || fileUploading;
 
-  const handleImageClick = () => {
-    fileInputRef.current?.click();
-  };
+  const handleImageClick = () => fileInputRef.current?.click();
+
   const handleReset = () => {
     reset();
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
   return (
-    <div
-      className={`w-full md:max-w-[450px] xl:max-w-[500px] aspect-[576/700] relative bg-[url('/sky.png')] bg-cover ${createdContract && writingText && "pointer-events-none"}`}
-    >
+    <Fragment>
       <input
         ref={fileInputRef}
         id="media"
         type="file"
-        className={selected ? "hidden" : "z-2 size-full absolute opacity-0"}
+        className={`cursor-pointer ${selected ? "hidden" : "z-2 size-full absolute opacity-0"}`}
         onChange={fileUpload}
         disabled={Boolean(createdContract)}
       />
@@ -46,7 +42,7 @@ const MetadataCreation = () => {
       ) : (
         <NoFileSelected />
       )}
-    </div>
+    </Fragment>
   );
 };
 

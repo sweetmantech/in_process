@@ -761,7 +761,7 @@ const LinkIcon = (props: SVGProps<SVGSVGElement>) => (
       height="8.20058"
       rx="1.5"
       transform="rotate(-45 0.871169 4.66064)"
-      stroke="#810505"
+      stroke="#1B1504"
     />
     <rect
       x="9.71492"
@@ -770,9 +770,9 @@ const LinkIcon = (props: SVGProps<SVGSVGElement>) => (
       height="8.20058"
       rx="1.5"
       transform="rotate(-45 9.71492 13.5073)"
-      stroke="#810505"
+      stroke="#1B1504"
     />
-    <line x1="7.08012" y1="7.37838" x2="12.737" y2="13.0352" stroke="#810505" />
+    <line x1="7.08012" y1="7.37838" x2="12.737" y2="13.0352" stroke="#1B1504" />
   </svg>
 );
 

@@ -10,8 +10,14 @@ import VideoPlayer from "../Renderers/VideoPlayer";
 interface MediaUploadedProps {
   handleImageClick: () => void;
 }
-const Container = ({ children }: { children: React.ReactNode }) => (
-  <div className="size-full flex justify-center items-center">{children}</div>
+const Container = ({
+  children,
+  className = "",
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) => (
+  <div className={`size-full flex justify-center ${className}`}>{children}</div>
 );
 
 const MediaUploaded = ({ handleImageClick }: MediaUploadedProps) => {
@@ -20,7 +26,7 @@ const MediaUploaded = ({ handleImageClick }: MediaUploadedProps) => {
 
   if (fileUploading) {
     return (
-      <Container>
+      <Container className="items-center">
         <Spinner />
       </Container>
     );
@@ -58,7 +64,7 @@ const MediaUploaded = ({ handleImageClick }: MediaUploadedProps) => {
           onClick={handleImageClick}
           blurDataURL={blurImageUrl}
           layout="fill"
-          objectFit="cover"
+          objectFit="contain"
           objectPosition="center"
         />
       </div>
