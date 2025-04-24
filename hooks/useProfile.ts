@@ -32,7 +32,7 @@ const useProfile = () => {
       new String((artistAddress as string) || "").toLowerCase() &&
     Boolean(connectedWallet);
   const [isEditing, setIsEditing] = useState<boolean>(false);
-
+  const [saving, setSaving] = useState<boolean>(false);
   const toggleEditing = () => setIsEditing(!isEditing);
 
   useEffect(() => {
@@ -51,8 +51,12 @@ const useProfile = () => {
   }, [canEdit, searchParams, artistAddress]);
 
   const save = async () => {
-    saveIndentify(artistAddress as Address, username, bio);
-    toggleEditing();
+    setSaving(true);
+    await saveIndentify(artistAddress as Address, username, bio);
+    setTimeout(() => {
+      toggleEditing();
+      setSaving(false);
+    }, 500);
   };
 
   return {
@@ -66,6 +70,8 @@ const useProfile = () => {
     socialAccounts,
     save,
     isLoading,
+    saving,
+    setSaving,
   };
 };
 
