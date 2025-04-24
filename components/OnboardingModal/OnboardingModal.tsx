@@ -66,7 +66,11 @@ export default function OnboardingModal({
         </button>
 
         <SlideContent currentSlide={currentSlide} />
-        <NavigationArrows onPrevious={handlePrevious} onNext={handleNext} currentSlide={currentSlide} />
+        <NavigationArrows
+          onPrevious={handlePrevious}
+          onNext={handleNext}
+          currentSlide={currentSlide}
+        />
 
         <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex justify-center gap-3">
           {isLastSlide ? (

@@ -7,12 +7,16 @@ interface NavigationArrowsProps {
   currentSlide: number;
 }
 
-export const NavigationArrows = ({ onPrevious, onNext, currentSlide }: NavigationArrowsProps) => (
+export const NavigationArrows = ({
+  onPrevious,
+  onNext,
+  currentSlide,
+}: NavigationArrowsProps) => (
   <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 flex justify-between px-4">
     <div>
       {currentSlide > 0 && (
-        <button 
-          className="p-2" 
+        <button
+          className="p-2"
           onClick={(e) => {
             e.stopPropagation();
             onPrevious();
@@ -30,8 +34,8 @@ export const NavigationArrows = ({ onPrevious, onNext, currentSlide }: Navigatio
     </div>
     <div>
       {currentSlide < slides.length - 1 && (
-        <button 
-          className="p-2" 
+        <button
+          className="p-2"
           onClick={(e) => {
             e.stopPropagation();
             onNext();
@@ -48,4 +52,4 @@ export const NavigationArrows = ({ onPrevious, onNext, currentSlide }: Navigatio
       )}
     </div>
   </div>
-); 
+);

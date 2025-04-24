@@ -21,6 +21,7 @@ const useCreateMetadata = () => {
     description,
     imageUri,
     mimeType,
+    name,
   } = metadataValues;
   const writinig = useWriting({
     setDescription,
