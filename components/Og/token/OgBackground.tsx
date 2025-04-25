@@ -15,10 +15,7 @@ const OgBackground = ({ backgroundUrl }: OgBackgroundProps) => {
       }}
     >
       {/* eslint-disable-next-line */}
-      <img
-        src={backgroundUrl}
-        height={400}
-      />
+      <img src={backgroundUrl} height={400} />
     </div>
   );
 };

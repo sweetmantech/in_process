@@ -29,7 +29,7 @@ const OgHeader = ({ ensAvatar, comments, username }: OgHeaderProps) => {
             fontFamily: "Spectral",
             lineHeight: "100%",
             fontSize: 24,
-            color: "white"
+            color: "white",
           }}
         >
           @{username}

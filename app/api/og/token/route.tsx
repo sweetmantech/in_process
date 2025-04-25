@@ -1,11 +1,10 @@
 import OgBackground from "@/components/Og/token/OgBackground";
 import OgFooter from "@/components/Og/token/OgFooter";
 import OgHeader from "@/components/Og/token/OgHeader";
-import getArtistInfo from "@/lib/getArtistInfo";
-import { Address } from "viem";
 import { NextRequest } from "next/server";
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import getUsername from "@/lib/getUsername";
+import getUserAvatar from "@/lib/getUserAvatar";
 
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
@@ -37,11 +36,11 @@ export async function GET(req: NextRequest) {
   ).then((res) => res.json());
 
   const username = await getUsername(metadata.owner);
-  // const artistInfo = await getArtistInfo(metadata.owner as Address);
+  const useravatar = await getUserAvatar(metadata.owner);
   const { ImageResponse } = await import("@vercel/og");
   const [archivoFontData, spectralFontData] = await Promise.all([
     archivoFont,
-    spectralFont
+    spectralFont,
   ]);
 
   return new ImageResponse(
@@ -75,7 +74,7 @@ export async function GET(req: NextRequest) {
           }}
         >
           <OgHeader
-            ensAvatar={"https://arweave.net/aoRbQVsNJnSdhkwDErFT1Zb0gDJ-M6SBEU0gouifnqo"}
+            ensAvatar={useravatar}
             username={username}
             comments={comments.length}
           />
