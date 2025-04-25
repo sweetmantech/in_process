@@ -8,7 +8,6 @@ const OgBackground = ({ backgroundUrl }: OgBackgroundProps) => {
       style={{
         position: "absolute",
         display: "flex",
-        zIndex: 1,
         width: "100%",
         height: "100%",
         alignItems: "flex-start",
