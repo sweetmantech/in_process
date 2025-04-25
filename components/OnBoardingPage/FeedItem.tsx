@@ -33,7 +33,7 @@ const FeedItem = ({ feed }: FeedItemProps) => {
           <p className="font-spectral-medium-italic text-lg">{data?.name}</p>
           <ArtistName className="font-archivo-medium" address={feed.creator} />
         </div>
-          <p className="font-archivo-mediumtext-[16px]">{new Date(feed.released_at).toLocaleString()}</p>
+          <p className="font-archivo-medium text-[16px]">{new Date(feed.released_at).toLocaleString()}</p>
       </div>
     </div>
   );
