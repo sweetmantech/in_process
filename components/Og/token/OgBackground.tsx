@@ -8,21 +8,14 @@ const OgBackground = ({ backgroundUrl }: OgBackgroundProps) => {
       style={{
         position: "absolute",
         display: "flex",
-        zIndex: 1,
         width: "100%",
         height: "100%",
-        alignItems: "flex-start",
+        alignItems: "center",
         justifyContent: "center",
       }}
     >
       {/* eslint-disable-next-line */}
-      <img
-        src={backgroundUrl}
-        style={{
-          objectFit: "cover",
-        }}
-        width={500}
-      />
+      <img src={backgroundUrl} height={400} />
     </div>
   );
 };
