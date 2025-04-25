@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
     return Response.json(ensAvatar);
   } catch (e: any) {
     console.log(e);
-    const message = e?.message ?? "failed to generate ens avatar.";
+    const message = e?.message ?? "failed to get ens avatar.";
     return Response.json({ message }, { status: 500 });
   }
 }
