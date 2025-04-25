@@ -1,10 +1,10 @@
 import OgBackground from "@/components/Og/token/OgBackground";
 import OgFooter from "@/components/Og/token/OgFooter";
 import OgHeader from "@/components/Og/token/OgHeader";
-import getArtistInfo from "@/lib/getArtistInfo";
-import { Address } from "viem";
 import { NextRequest } from "next/server";
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
+import getUsername from "@/lib/getUsername";
+import getUserAvatar from "@/lib/getUserAvatar";
 
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
@@ -35,7 +35,8 @@ export async function GET(req: NextRequest) {
     `${VERCEL_OG}/api/token/metadata?collection=${collection}&tokenId=${tokenId}`,
   ).then((res) => res.json());
 
-  const artistInfo = await getArtistInfo(metadata.owner as Address);
+  const username = await getUsername(metadata.owner);
+  const useravatar = await getUserAvatar(metadata.owner);
   const { ImageResponse } = await import("@vercel/og");
   const [archivoFontData, spectralFontData] = await Promise.all([
     archivoFont,
@@ -67,15 +68,14 @@ export async function GET(req: NextRequest) {
             position: "relative",
             display: "flex",
             flexDirection: "column",
-            zIndex: 2,
             width: "100%",
             height: "100%",
             padding: 12,
           }}
         >
           <OgHeader
-            ensAvatar={artistInfo.ensAvatar}
-            ensName={artistInfo.ensName}
+            ensAvatar={useravatar}
+            username={username}
             comments={comments.length}
           />
           <OgFooter />

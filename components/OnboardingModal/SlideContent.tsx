@@ -8,7 +8,9 @@ interface SlideContentProps {
 export const SlideContent = ({ currentSlide }: SlideContentProps) => (
   <>
     <div className="text-center mb-4">
-      <h2 className="text-[32px] font-archivo-medium mb-2 pt-8 tracking-[-5%]">{slides[currentSlide].title}</h2>
+      <h2 className="text-[32px] font-archivo-medium mb-2 pt-8 tracking-[-5%]">
+        {slides[currentSlide].title}
+      </h2>
       <p className="font-spectral-medium-italic tracking-[-5%] text-black text-[24px]">
         {slides[currentSlide].subtitle}
       </p>

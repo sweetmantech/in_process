@@ -1,9 +1,10 @@
 import { NextRequest } from "next/server";
 import OgFooter from "@/components/Og/artist/OgFooter";
 import OgHeader from "@/components/Og/artist/OgHeader";
-import getArtistInfo from "@/lib/getArtistInfo";
 import { Collection } from "@/types/token";
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
+import getUsername from "@/lib/getUsername";
+import getUserAvatar from "@/lib/getUserAvatar";
 
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
@@ -36,7 +37,8 @@ export async function GET(req: NextRequest) {
   const metadata = await Promise.all(metadataPromise);
 
   const { ImageResponse } = await import("@vercel/og");
-  const artistInfo = await getArtistInfo(artistAddress);
+  const username = await getUsername(artistAddress);
+  const useravatar = await getUserAvatar(artistAddress);
   const [archivoFontData, spectralFontData] = await Promise.all([
     archivoFont,
     spectralFont,
@@ -51,14 +53,13 @@ export async function GET(req: NextRequest) {
           padding: 12,
           display: "flex",
           flexDirection: "column",
-          background:
-            "url('https://arweave.net/gy-nRfHfMpRN7mFefZ8CO3UH0GdO_Pn2ff5LRhw7VTU')",
+          background: `url('${VERCEL_OG}/bg-gray.png')`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
       >
-        <OgHeader ensAvatar={artistInfo.ensAvatar} metadata={metadata} />
-        <OgFooter ensName={artistInfo.ensName} />
+        <OgHeader avatar={useravatar} metadata={metadata} />
+        <OgFooter username={username} />
       </div>
     ),
     {

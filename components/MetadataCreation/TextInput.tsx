@@ -2,7 +2,7 @@ import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
 import { ChangeEvent } from "react";
 
 const TextInput = () => {
-  const { writingRef, fileUploading, setWritingText, writingText, creating } =
+  const { writingRef, fileUploading, write, writingText, creating } =
     useZoraCreateProvider();
 
   return (
@@ -12,7 +12,7 @@ const TextInput = () => {
         value={writingText}
         disabled={Boolean(fileUploading || creating)}
         onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
-          setWritingText(e.target.value);
+          write(e.target.value);
         }}
       />
       <div
