@@ -13,7 +13,7 @@ import { useInProcessFeedProvider } from "@/providers/InProcessFeedProvider";
 import { useMeasure } from "react-use";
 
 const Feeds = () => {
-  const { feeds, fetchMore } = useInProcessFeedProvider();
+  const { feeds, collections, fetchMore } = useInProcessFeedProvider();
   const isMobile = useIsMobile();
   const { push } = useRouter();
   const [tableRef, { height }] = useMeasure();
@@ -27,7 +27,9 @@ const Feeds = () => {
   return (
     <div>
       <p className="text-center md:text-left font-archivo-medium text-2xl md:text-5xl px-4 md:px-0 pb-4 pt-12">
-        artists are sharing moments
+        {collections?.length} moments
+        <br />
+        have been shared
       </p>
       <div className="flex justify-center md:justify-start">
         <Button
