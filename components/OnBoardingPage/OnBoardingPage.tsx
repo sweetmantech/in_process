@@ -26,9 +26,9 @@ const OnBoardingPage = () => {
   }, [signedWalletAddress]);
 
   return (
-    <div className="w-screen flex flex-col items-center pt-[160px]">
-      <p className="font-archivo text-5xl">A Collective Onchain Timeline</p>
-      <p className="font-spectral-italic text-4xl pt-8">for artists</p>
+    <div className="w-screen flex flex-col items-center pt-12 md:pt-[160px]">
+      <p className="font-archivo text-3xl md:text-5xl">A Collective Onchain Timeline</p>
+      <p className="font-spectral-italic text-3xl md:text-4xl pt-8">for artists</p>
       <Image
         alt="not found ico"
         width={108}
