@@ -1,7 +1,7 @@
 interface OgFooterProps {
-  ensName: string;
+  username: string;
 }
-const OgFooter = ({ ensName }: OgFooterProps) => {
+const OgFooter = ({ username }: OgFooterProps) => {
   return (
     <div
       style={{
@@ -16,7 +16,7 @@ const OgFooter = ({ ensName }: OgFooterProps) => {
           fontFamily: "Archivo",
         }}
       >
-        {ensName}
+        {username}
       </p>
       <p
         style={{
@@ -25,7 +25,7 @@ const OgFooter = ({ ensName }: OgFooterProps) => {
           paddingBottom: 8,
         }}
       >
-        inprocess.myco.wtf
+        inprocess.fun
       </p>
     </div>
   );

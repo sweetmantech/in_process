@@ -4,10 +4,10 @@ import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import React from "react";
 
 interface OgHeaderProps {
-  ensAvatar: string;
+  avatar: string;
   metadata: TokenMetadata[];
 }
-const OgHeader = ({ ensAvatar, metadata }: OgHeaderProps) => {
+const OgHeader = ({ avatar, metadata }: OgHeaderProps) => {
   return (
     <div
       style={{
@@ -17,7 +17,7 @@ const OgHeader = ({ ensAvatar, metadata }: OgHeaderProps) => {
         paddingBottom: 32,
       }}
     >
-      <OgImage src={ensAvatar} width={80} height={80} borderRadius={40} />
+      <OgImage src={avatar} width={80} height={80} borderRadius={40} />
       <div
         style={{
           display: "flex",
