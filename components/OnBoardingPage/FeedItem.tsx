@@ -30,10 +30,10 @@ const FeedItem = ({ feed }: FeedItemProps) => {
       </div>
       <div className="mt-2">
         <div className="flex justify-between items-center">
-          <p className="font-spectral-medium-italic text-lg">{data?.name}</p>
-          <ArtistName className="font-archivo-medium" address={feed.creator} />
+          <p className="font-spectral-medium-italic text-sm md:text-lg">{data?.name}</p>
+          <ArtistName className="font-archivo-medium text-sm md:text-[16px]" address={feed.creator} />
         </div>
-          <p className="font-archivo-medium text-[16px]">{new Date(feed.released_at).toLocaleString()}</p>
+          <p className="font-archivo-medium text-xs md:text-[16px] mt-1 md:mt-0">{new Date(feed.released_at).toLocaleString()}</p>
       </div>
     </div>
   );
