@@ -14,7 +14,7 @@ const OgHeader = ({ avatar, metadata }: OgHeaderProps) => {
         display: "flex",
         justifyContent: "space-between",
         width: "100%",
-        paddingBottom: 32,
+        paddingBottom: 180,
       }}
     >
       <OgImage src={avatar} width={80} height={80} borderRadius={40} />

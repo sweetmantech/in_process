@@ -64,7 +64,7 @@ export async function GET(req: NextRequest) {
     ),
     {
       width: 500,
-      height: 180,
+      height: 333.3,
       fonts: [
         {
           name: "Archivo",
