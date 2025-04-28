@@ -15,7 +15,7 @@ const NoFileSelected = () => (
         choose media
       </button>
     </div>
-    <div className="flex justify-center py-2">
+    <div className="flex justify-center py-2 block md:hidden">
       <Image
         src="/moment.svg"
         blurDataURL="moment.png"
