@@ -1,8 +1,10 @@
+import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 
 const MobileSelect = () => {
+  const { titleRef } = useZoraCreateProvider();
   const [isOpenSelect, setIsOpenSelect] = useState<boolean>(false);
   const { push } = useRouter();
   const pathname = usePathname();
@@ -30,23 +32,8 @@ const MobileSelect = () => {
     setIsOpenSelect(false);
   };
   return (
-    <div className="relative w-full">
-      {!isOpenSelect && (
-        <button
-          type="button"
-          onClick={() => setIsOpenSelect(true)}
-          className="bg-[#605f5c33] flex justify-between items-center px-2 py-2 rounded-md border border-grey-moss-300 w-full"
-        >
-          <div className="flex items-center gap-2">
-            <div
-              className={`w-4 h-4 border border-grey-moss-400 rounded-full bg-grey-moss-400`}
-            />
-            <p className="font-archivo text-lg">new {selectedValue}</p>
-          </div>
-          <ChevronDown className="text-grey-moss-400" />
-        </button>
-      )}
-      {isOpenSelect && (
+    <div className="relative w-full" ref={titleRef}>
+      {isOpenSelect ? (
         <div className="absolute left-0 top-0 z-[999999999] w-full bg-white rounded-md border border-grey-moss-300 overflow-hidden p-2 flex flex-col gap-1">
           {values.map((value: string) => (
             <button
@@ -67,6 +54,20 @@ const MobileSelect = () => {
             </button>
           ))}
         </div>
+      ) : (
+        <button
+          type="button"
+          onClick={() => setIsOpenSelect(true)}
+          className="bg-[#605f5c33] flex justify-between items-center px-2 py-2 rounded-md border border-grey-moss-300 w-full"
+        >
+          <div className="flex items-center gap-2">
+            <div
+              className={`w-4 h-4 border border-grey-moss-400 rounded-full bg-grey-moss-400`}
+            />
+            <p className="font-archivo text-lg">new {selectedValue}</p>
+          </div>
+          <ChevronDown className="text-grey-moss-400" />
+        </button>
       )}
     </div>
   );

@@ -11,7 +11,7 @@ const MaskLines = () => {
 
   return (
     <div
-      className={`hidden md:block absolute size-full pointer-events-none ${(!isWritingPage || createdContract) && "opacity-0"}`}
+      className={`absolute size-full pointer-events-none ${(!isWritingPage || createdContract) && "opacity-0"}`}
     >
       <div className="absolute inset-0 border-b border-b-grey-moss-200" />
       <div
