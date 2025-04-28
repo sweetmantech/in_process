@@ -43,8 +43,18 @@ const EmbedPage = () => {
         >
           {embedCode}
         </div>
-        <div className="relative z-[4] bg-white grow flex flex-col gap-4 py-4 px-8 overflow-hidden">
-          <p className="font-archivo-medium text-center">past embed code</p>
+        <div className="relative z-[4] bg-white grow flex flex-col gap-4 py-4 px-2 md:px-8 overflow-hidden rounded-2xl">
+          <div className="flex flex-col items-center">
+            <Image
+              src={"/flower.svg"}
+              blurDataURL="/flower.png"
+              alt="not found flower"
+              width={69}
+              height={66}
+              className="block md:hidden"
+            />
+            <p className="font-archivo-medium text-center">past embed code</p>
+          </div>
           <textarea
             className="bg-grey-moss-50 w-full grow !outline-none !ring-0 p-2 font-spectral"
             value={embedCode}
@@ -71,6 +81,7 @@ const EmbedPage = () => {
         src={"/flower.svg"}
         blurDataURL="/flower.png"
         alt="not found flower"
+        className="hidden md:block"
         width={193}
         height={183}
       />
