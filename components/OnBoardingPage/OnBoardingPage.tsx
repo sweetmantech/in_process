@@ -39,7 +39,7 @@ const OnBoardingPage = () => {
         blurDataURL="/brand.png"
         className="mt-16"
       />
-      <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-4 px-4 md:px-10">
+      <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-4 px-4 md:px-10">
         {feeds.slice(0, 3).map((feed, i) => (
           <FeedItem key={i} feed={feed} />
         ))}
