@@ -8,7 +8,7 @@ const LinkPreview = () => {
 
   return (
     <div
-      className={`bg-white rounded-2xl ${createdContract ? "" : "m-4 py-6 px-4"}`}
+      className={`bg-white rounded-2xl overflow-hidden ${createdContract ? "" : "m-4 py-6 px-4"}`}
     >
       {createdContract ? (
         <>
