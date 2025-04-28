@@ -8,30 +8,52 @@ import useSignedAddress from "./useSignedAddress";
 import { CHAIN } from "@/lib/consts";
 import { getPublicClient } from "@/lib/viem/publicClient";
 import { useParams } from "next/navigation";
+import { mainnet } from "viem/chains";
+import { normalize } from "viem/ens";
 
+export interface AirdropItem {
+  address: string;
+  status: "validating" | "invalid" | "valid";
+  ensName: string;
+}
 const useAirdrop = () => {
   const { collection } = useTokensProvider();
-  const [walletAddresses, setWalletAddresses] = useState<string[]>([""]);
+  const [airdopToItems, setAirdropToItems] = useState<AirdropItem[]>([]);
   const { isPrepared } = useUserProvider();
   const [loading, setLoading] = useState<boolean>(false);
   const { signTransaction } = useSignTransaction();
   const signedAddress = useSignedAddress();
   const params = useParams();
 
-  const onChangeAddress = (value: string, i: number) => {
-    const temp = [...walletAddresses];
-    temp[i] = value;
-    setWalletAddresses(temp);
+  const onChangeAddress = async (value: string) => {
+    if (!value) return;
+    setAirdropToItems((prev) => [
+      ...prev,
+      {
+        address: isAddress(value) ? value : "",
+        status: isAddress(value) ? "valid" : "validating",
+        ensName: isAddress(value) ? "" : value,
+      },
+    ]);
+    if (isAddress(value)) return;
+    const publicClient = getPublicClient(mainnet.id);
+    const ensAddress = await publicClient.getEnsAddress({
+      name: normalize(value),
+    });
+    setAirdropToItems((prev) => [
+      ...prev.slice(0, prev.length - 1),
+      {
+        address: ensAddress || "",
+        status: ensAddress ? "valid" : "invalid",
+        ensName: value,
+      },
+    ]);
   };
 
   const removeAddress = (i: number) => {
-    if (walletAddresses.length === 1) {
-      setWalletAddresses([""]);
-      return;
-    }
-    const temp = [...walletAddresses];
+    const temp = [...airdopToItems];
     temp.splice(i, 1);
-    setWalletAddresses(temp);
+    setAirdropToItems(temp);
   };
 
   const onAirdrop = async () => {
@@ -39,20 +61,18 @@ const useAirdrop = () => {
       if (!isPrepared()) return;
       setLoading(true);
       const calls = [];
-      for (let i = 0; i < walletAddresses.length; i++) {
-        if (isAddress(walletAddresses[i])) {
-          const callData = encodeFunctionData({
-            abi: zoraCreator1155ImplABI,
-            functionName: "adminMint",
-            args: [
-              walletAddresses[i] as Address,
-              BigInt(params.tokenId as string),
-              BigInt(1),
-              "0x",
-            ],
-          });
-          calls.push(callData);
-        }
+      for (let i = 0; i < airdopToItems.length; i++) {
+        const callData = encodeFunctionData({
+          abi: zoraCreator1155ImplABI,
+          functionName: "adminMint",
+          args: [
+            airdopToItems[i].address as Address,
+            BigInt(params.tokenId as string),
+            BigInt(1),
+            "0x",
+          ],
+        });
+        calls.push(callData);
       }
       const hash = await signTransaction({
         account: signedAddress as Address,
@@ -74,7 +94,7 @@ const useAirdrop = () => {
   };
 
   return {
-    walletAddresses,
+    airdopToItems,
     onChangeAddress,
     loading,
     onAirdrop,
