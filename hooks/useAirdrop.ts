@@ -88,7 +88,6 @@ const useAirdrop = () => {
       setLoading(false);
       return receipt;
     } catch (error) {
-      console.log("ziad here", error);
       setLoading(false);
     }
   };
