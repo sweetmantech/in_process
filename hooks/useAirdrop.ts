@@ -27,37 +27,27 @@ const useAirdrop = () => {
 
   const onChangeAddress = async (value: string) => {
     if (!value) return;
-    const temp = [...airdopToItems];
-    if (isAddress(value)) {
-      temp.push({
-        address: value,
-        status: "validating",
-        ensName: "",
-      });
-      setAirdropToItems([...temp]);
-      temp[temp.length - 1] = {
-        ...temp[temp.length - 1],
-        status: "valid",
-      };
-      setAirdropToItems([...temp]);
-      return;
-    }
-    temp.push({
-      address: "",
-      status: "validating",
-      ensName: value,
-    });
-    setAirdropToItems([...temp]);
+    setAirdropToItems((prev) => [
+      ...prev,
+      {
+        address: isAddress(value) ? value : "",
+        status: isAddress(value) ? "valid" : "validating",
+        ensName: isAddress(value) ? "" : value,
+      },
+    ]);
+    if (isAddress(value)) return;
     const publicClient = getPublicClient(mainnet.id);
     const ensAddress = await publicClient.getEnsAddress({
       name: normalize(value),
     });
-    temp[temp.length - 1] = {
-      ...temp[temp.length - 1],
-      status: ensAddress ? "valid" : "invalid",
-      address: ensAddress || "",
-    };
-    setAirdropToItems([...temp]);
+    setAirdropToItems((prev) => [
+      ...prev.slice(0, prev.length - 1),
+      {
+        address: ensAddress || "",
+        status: "valid",
+        ensName: value,
+      },
+    ]);
   };
 
   const removeAddress = (i: number) => {
