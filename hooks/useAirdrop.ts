@@ -44,7 +44,7 @@ const useAirdrop = () => {
       ...prev.slice(0, prev.length - 1),
       {
         address: ensAddress || "",
-        status: "valid",
+        status: ensAddress ? "invalid" : "valid",
         ensName: value,
       },
     ]);
