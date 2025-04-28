@@ -1,14 +1,16 @@
 import { useEffect, useId, useRef, useState } from "react";
+import useIsMobile from "./useIsMobile";
 
 export const useMask = () => {
   const inputRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const maskId = useId();
+  const isMobile = useIsMobile();
   const [masks, setMasks] = useState<
     Array<{ x: number; y: number; width: number; height: number }>
   >([]);
-  const MASK_PADDING = 20;
+  const MASK_PADDING = isMobile ? 5 : 20;
 
   useEffect(() => {
     const updateMasks = () => {
