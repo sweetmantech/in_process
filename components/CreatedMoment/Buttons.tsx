@@ -28,8 +28,8 @@ const Buttons = () => {
   };
 
   return (
-    <div className="flex gap-2 pr-4 pt-4 relative">
-      <div className="absolute w-1/2 aspect-[1/1] -right-10 bottom-0">
+    <div className="flex flex-col md:flex-row gap-4 md:gap-2 pr-4 pt-4 relative">
+      <div className="hidden md:block absolute w-1/2 aspect-[1/1] -right-10 bottom-0">
         <Image
           src="/semi-transparent.png"
           alt="not found semi"

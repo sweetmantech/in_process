@@ -15,7 +15,7 @@ const MaskLines = () => {
 
   return (
     <div
-      className={`absolute size-full pointer-events-none ${isWritingPage || ((isLinkPage || isEmbedPage) && isMobile) || createdContract ? "opacity-1" : "opacity-0"}`}
+      className={`absolute size-full pointer-events-none ${(isWritingPage || ((isLinkPage || isEmbedPage) && isMobile)) && !createdContract ? "opacity-1" : "opacity-0"}`}
     >
       <div className="absolute inset-0 border-b border-b-grey-moss-200" />
       <div
