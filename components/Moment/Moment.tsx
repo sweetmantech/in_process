@@ -13,9 +13,12 @@ const Moment = ({ children }: { children: ReactNode }) => {
     if (createdContract) return false;
     return true;
   }, [pathname, isMobile, createdContract]);
+  const isWritingPage = pathname === "/create/writing";
+  const isCreatingPage = pathname === "/create";
+
   return (
     <div
-      className={`w-full ${createdContract ? "min-h-auto" : "min-h-[400px]"} md:min-h-auto md:aspect-[571/692] relative ${gridVisible && "bg-[url('/grid.svg')]"} bg-contain`}
+      className={`w-full ${createdContract ? (isWritingPage || isCreatingPage ? "min-h-[300px]" : "min-h-auto") : "min-h-[400px]"} md:min-h-auto md:aspect-[571/692] relative ${gridVisible && "bg-[url('/grid.svg')]"} bg-contain`}
     >
       {children}
     </div>
