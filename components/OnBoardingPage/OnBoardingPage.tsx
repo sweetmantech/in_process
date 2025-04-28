@@ -25,18 +25,21 @@ const OnBoardingPage = () => {
   }, [signedWalletAddress]);
 
   return (
-    <div className="w-screen flex flex-col items-center pt-[200px]">
-      <p className="font-archivo text-5xl">A Collective Onchain Timeline</p>
+    <div className="w-screen flex flex-col items-center pt-12 md:pt-[200px]">
+      <p className="font-archivo-medium text-2xl md:text-5xl text-center">
+        A Collective Onchain Timeline
+      </p>
       <p className="font-spectral-italic text-4xl pt-4">for artists</p>
       <Image
         alt="not found ico"
-        width={108}
-        height={108}
+        width={274}
+        height={44}
         unoptimized
-        src={"/diamond.svg"}
+        src="/brand.svg"
+        blurDataURL="/brand.png"
         className="mt-16"
       />
-      <div className="w-full grid grid-cols-3">
+      <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-4 px-4 md:px-10">
         {feeds.slice(0, 3).map((feed, i) => (
           <FeedItem key={i} feed={feed} />
         ))}
