@@ -80,9 +80,9 @@ module.exports = {
         gradientTopRightLightHeaderSm:
           "linear-gradient(30.7deg, #ffadd4 0.93%,  #6edbff 41.54%, rgba(255, 255, 255, 0.3)  64.36% )",
         gradientTopBottom:
-          "linear-gradient(180deg, #ffffff 0%, rgba(255, 255, 255, 0) 100%)",
+          "linear-gradient(180deg, rgba(224, 221, 216, 1) 0%, rgba(224, 221, 216, 0) 100%)",
         gradientBottomTop:
-          "linear-gradient(90deg, rgba(255, 255, 255, 0) 100%, #ffffff 0%)"
+          "linear-gradient(180deg, rgba(224, 221, 216, 0) 0%, rgba(224, 221, 216, 1) 100%)"
       }),
     },
   },

@@ -33,10 +33,10 @@ const TextInput = () => {
         onScroll={handleScroll}
       />
       {scrollPosition !== "top" && scrollPosition && (
-        <div className="pointer-events-none absolute z-[3] left-0 top-0 bg-gradientTopBottom w-full h-20" />
+        <div className="pointer-events-none absolute z-[3] left-0 top-0 bg-gradientTopBottom w-full h-24" />
       )}
       {scrollPosition !== "bottom" && scrollPosition && (
-        <div className="pointer-events-none absolute z-[3] left-0 bottom-0 bg-gradientBottomTop w-full h-20" />
+        <div className="pointer-events-none absolute z-[3] left-0 bottom-0 bg-gradientBottomTop w-full h-24" />
       )}
       <div
         className="z-[1] p-2 md:p-4 absolute min-h-full left-0 top-0 bg-grey-moss-100 border border-grey-moss-100 flex items-center"
