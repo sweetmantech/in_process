@@ -12,6 +12,7 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
   const isMobile = useIsMobile();
   const gridVisible = useMemo(() => {
     if (pathname === "/create/link" && isMobile) return false;
+    if (pathname === "/create/embed" && isMobile) return false;
     return true;
   }, [pathname, isMobile]);
 
