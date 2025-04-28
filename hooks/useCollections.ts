@@ -2,7 +2,7 @@ import { Collection } from "@/types/token";
 import { useQuery } from "@tanstack/react-query";
 
 async function fetchCollections(): Promise<Collection[]> {
-  const response = await fetch("/api/dune/collections");
+  const response = await fetch(`/api/dune/collections`);
   if (!response.ok) {
     throw new Error("Failed to fetch all collections");
   }
