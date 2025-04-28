@@ -10,7 +10,7 @@ const EmbedPage = () => {
 
   if (createdContract)
     return (
-      <div className="size-full">
+      <div className="size-full rounded-2xl overflow-hidden h-fit">
         <div
           dangerouslySetInnerHTML={{
             __html: embedCode,
