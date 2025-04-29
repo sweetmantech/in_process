@@ -3,10 +3,10 @@ import useSignedAddress from "./useSignedAddress";
 
 const useLayout = () => {
   const signedAddress = useSignedAddress();
-  const [isOpenNavbar, setisOpenNavbar] = useState<boolean>(false);
+  const [isOpenNavbar, setIsOpenNavbar] = useState<boolean>(false);
   const toggleNavbar = () => {
     if (!signedAddress) return;
-    setisOpenNavbar(!isOpenNavbar);
+    setIsOpenNavbar(!isOpenNavbar);
   };
 
   return {
