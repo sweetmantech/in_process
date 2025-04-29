@@ -4,7 +4,7 @@ import Image from "next/image";
 
 const ManifestoPage = () => {
   return (
-    <div className="relative px-4 md:px-0 pt-20 flex flex-col md:flex-row grow w-full pb-[8%] md:gap-16">
+    <div className="px-4 md:px-0 pt-20 flex flex-col md:flex-row grow w-full pb-[8%] md:gap-16">
       <div className="w-1/4 aspect-[546/1157] relative hidden md:block">
         <Image
           src="/left_circles.svg"
@@ -61,13 +61,15 @@ Here, we document in real time, onchain, on our terms.`}
           />
         </div>
       </div>
-      <div className="absolute size-full top-[-35px] pointer-events-none">
+      <div className="absolute size-full pointer-events-none left-[5%]">
         <Image
           src="/spiral-transparent.svg"
-          blurDataURL="spiral-transparent.png"
+          blurDataURL="/spiral-transparent.png"
           layout="fill"
           alt="not found image"
           className="plus-lighter"
+          objectFit="cover"
+          objectPosition="top"
         />
       </div>
       <div className="w-1/4 aspect-[546/1157] relative hidden md:block">
