@@ -7,12 +7,12 @@ import { WarpcastButton } from "./WarpcastButton";
 interface LoginButtonProps {
   className?: string;
   toggle: () => void;
-  isOpenDropDown: boolean;
+  isOpenNavbar: boolean;
 }
 export function LoginButton({
   className = "",
   toggle,
-  isOpenDropDown,
+  isOpenNavbar,
 }: LoginButtonProps) {
   const { context } = useFrameProvider();
 
@@ -21,7 +21,7 @@ export function LoginButton({
       <WarpcastButton
         className={className}
         toggle={toggle}
-        isOpenDropDown={isOpenDropDown}
+        isOpenNavbar={isOpenNavbar}
       />
     );
 
@@ -29,7 +29,7 @@ export function LoginButton({
     <PrivyButton
       className={className}
       toggle={toggle}
-      isOpenDropDown={isOpenDropDown}
+      isOpenNavbar={isOpenNavbar}
     />
   );
 }

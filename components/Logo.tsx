@@ -6,9 +6,9 @@ import { useRouter } from "next/navigation";
 
 interface LogoProps {
   className?: string;
-  isOpenDropDown: boolean;
+  isOpenNavbar: boolean;
 }
-const Logo = ({ className = "", isOpenDropDown }: LogoProps) => {
+const Logo = ({ className = "", isOpenNavbar }: LogoProps) => {
   const { push } = useRouter();
   const isMobile = useIsMobile();
 
@@ -18,7 +18,7 @@ const Logo = ({ className = "", isOpenDropDown }: LogoProps) => {
       type="button"
       onClick={() => push("/")}
     >
-      {isOpenDropDown && isMobile ? (
+      {isOpenNavbar && isMobile ? (
         <Image
           src="/white_logo.svg"
           blurDataURL="/white_logo.png"

@@ -10,13 +10,13 @@ import Image from "next/image";
 interface PrivyButtonProps {
   className?: string;
   toggle: () => void;
-  isOpenDropDown: boolean;
+  isOpenNavbar: boolean;
 }
 
 export function PrivyButton({
   className = "",
   toggle,
-  isOpenDropDown,
+  isOpenNavbar,
 }: PrivyButtonProps) {
   const { login, ready } = usePrivy();
   const { connectedWallet } = useConnectedWallet();
@@ -37,7 +37,7 @@ export function PrivyButton({
       type="button"
       onClick={handleClick}
       className={`flex items-center ${
-        isOpenDropDown ? "md:rounded-t-sm rounded-b-none" : "md:rounded-sm"
+        isOpenNavbar ? "md:rounded-t-sm rounded-b-none" : "md:rounded-sm"
       } md:bg-grey-moss-400 md:hover:bg-grey-moss-900 md:hover:shadow-[0px_1px_1px_1px_#0000002e] text-white font-archivo lowercase text-sm md:text-base ${className}`}
     >
       <div className="flex items-center gap-2 bg-grey-moss-400 md:bg-transparent px-4 py-2 rounded-md">
@@ -52,7 +52,7 @@ export function PrivyButton({
               alt="Menu"
               width={16}
               height={16}
-              className={`hidden md:block ml-8 transition-transform duration-200 ${isOpenDropDown ? "rotate-180" : ""}`}
+              className={`hidden md:block ml-8 transition-transform duration-200 ${isOpenNavbar ? "rotate-180" : ""}`}
             />
           </>
         ) : (
