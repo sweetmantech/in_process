@@ -29,6 +29,7 @@ export function useUserCollections() {
     queryKey: ["fetchUserCollections", signedAddress],
     queryFn: () => fetchUserCollections(signedAddress),
     enabled: Boolean(signedAddress),
+    staleTime: 60 * 1000 * 5,
     refetchOnMount: true,
   });
 }
