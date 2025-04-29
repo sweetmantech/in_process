@@ -2,10 +2,9 @@ import type { Metadata } from "next";
 import "@xyflow/react/dist/style.css";
 import "./globals.css";
 import { Providers } from "@/providers/Providers";
-import Footer from "@/components/Footer";
 import { Toaster } from "@/components/ui/sonner";
 import { Suspense } from "react";
-import Header from "@/components/Header";
+import Layout from "@/components/Layout";
 
 export const metadata: Metadata = {
   title: "In Process",
@@ -22,9 +21,7 @@ export default function RootLayout({
       <body className="min-h-screen flex flex-col !overflow-x-hidden w-screen !lowercase">
         <Suspense>
           <Providers>
-            <Header />
-            <div className="grow relative flex flex-col">{children}</div>
-            <Footer />
+            <Layout>{children}</Layout>
           </Providers>
           <Toaster />
         </Suspense>
