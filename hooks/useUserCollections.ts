@@ -17,7 +17,6 @@ async function fetchUserCollections(
   }
   const data = await response.json();
   const sum = await getTotalEarnings(data);
-  console.log("ziad sum", sum);
   return {
     totalEarnings: sum,
     userCollections: data,
