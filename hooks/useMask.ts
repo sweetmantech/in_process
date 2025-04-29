@@ -1,5 +1,6 @@
 import { useEffect, useId, useRef, useState } from "react";
 import useIsMobile from "./useIsMobile";
+import { usePathname } from "next/navigation";
 
 export const useMask = () => {
   const inputRef = useRef<HTMLDivElement>(null);
@@ -11,6 +12,7 @@ export const useMask = () => {
     Array<{ x: number; y: number; width: number; height: number }>
   >([]);
   const MASK_PADDING = isMobile ? 5 : 20;
+  const pathname = usePathname();
 
   useEffect(() => {
     const updateMasks = () => {
@@ -44,7 +46,7 @@ export const useMask = () => {
     updateMasks();
     window.addEventListener("resize", updateMasks);
     return () => window.removeEventListener("resize", updateMasks);
-  }, [inputRef, titleRef, svgRef.current]);
+  }, [inputRef, titleRef, svgRef.current, pathname]);
 
   return { masks, svgRef, maskId, inputRef, titleRef };
 };
