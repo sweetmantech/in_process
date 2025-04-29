@@ -12,7 +12,7 @@ export const NavigationArrows = ({
   onNext,
   currentSlide,
 }: NavigationArrowsProps) => (
-  <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 flex justify-between px-4">
+  <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 hidden md:flex justify-between px-4 ">
     <div>
       {currentSlide > 0 && (
         <button
