@@ -26,7 +26,8 @@ export default function OnboardingModal({
 
   useEffect(() => {
     if (isOpen) {
-      setCurrentSlide(0);
+      const isMobile = window.innerWidth <= 768;
+      setCurrentSlide(isMobile ? slides.length - 1 : 0);
     }
   }, [isOpen, connectedWallet]);
 
