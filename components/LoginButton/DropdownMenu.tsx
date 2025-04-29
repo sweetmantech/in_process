@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import CreateToEarnButton from "./CreateToEarnButton";
 import Divider from "./Divider";
 import { useLayoutProvider } from "@/providers/LayoutProvider";
+import TotalEarnings from "./TotalEarnings";
 
 interface DropdownMenuProps {
   onLogout: () => void;
@@ -31,7 +32,7 @@ export function DropdownMenu({ onLogout }: DropdownMenuProps) {
           <div className="text-white w-full">
             <p className="font-archivo text-2xl md:text-base">total earnings</p>
             <div className="block md:hidden flex items-center justify-between w-full">
-              <p className="font-spectral text-xl">$55</p>
+              <TotalEarnings className="block md:hidden" />
               <CreateToEarnButton className="block md:hidden" />
             </div>
           </div>
@@ -44,9 +45,7 @@ export function DropdownMenu({ onLogout }: DropdownMenuProps) {
           />
         </div>
         <div className="flex justify-between pt-2">
-          <p className="text-white text-base font-spectral hidden md:block">
-            $55
-          </p>
+          <TotalEarnings className="hidden md:block" />
           <CreateToEarnButton className="hidden md:block" />
         </div>
       </div>

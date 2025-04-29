@@ -21,6 +21,11 @@ export const MINT_COMMENT_EVENT_SIGNATURE = encodeEventTopics({
   eventName: "MintComment",
 })[0];
 
+export const PURCHASED_EVENT_SIGNATURE = encodeEventTopics({
+  abi: zoraCreator1155ImplABI,
+  eventName: "Purchased",
+})[0];
+
 export const ERC20_MINT_COMMENT_EVENT_SIGNATURE = encodeEventTopics({
   abi: erc20MinterABI,
   eventName: "MintComment",

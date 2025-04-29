@@ -9,6 +9,7 @@ import { CrossmintProvider } from "./CrossmintProvider";
 import FrameProvider from "./FrameProvider";
 import InProcessFeedProvider from "./InProcessFeedProvider";
 import LayoutProvider from "./LayoutProvider";
+import UserCollectionsProvider from "./UserCollectionsProvider";
 
 export function Providers({ children }: { children: ReactNode }) {
   return (
@@ -19,7 +20,9 @@ export function Providers({ children }: { children: ReactNode }) {
             <UserProvider>
               <ZoraCreateProvider>
                 <InProcessFeedProvider>
-                  <LayoutProvider>{children}</LayoutProvider>
+                  <UserCollectionsProvider>
+                    <LayoutProvider>{children}</LayoutProvider>
+                  </UserCollectionsProvider>
                 </InProcessFeedProvider>
               </ZoraCreateProvider>
             </UserProvider>
