@@ -1,6 +1,7 @@
 import { Metadata, NextPage } from "next";
 import ArtistPage from "@/components/ArtistPage";
 import ProfileProvider from "@/providers/ProfileProvider";
+import { APP_URL, VERCEL_OG } from "@/lib/consts";
 
 type Props = {
   params: Promise<{ artistAddress: string }>;
@@ -14,9 +15,25 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: "In Process",
       description: "Imagined by LATASHÁ",
-      images: [
-        `https://in-process-seven.vercel.app/api/og/artist?artistAddress=${artistAddress}`,
-      ],
+      images: [`${VERCEL_OG}/api/og/artist?artistAddress=${artistAddress}`],
+    },
+    other: {
+      "fc:frame": JSON.stringify({
+        version: "next",
+        imageUrl: `${VERCEL_OG}/api/og/artist?artistAddress=${artistAddress}`,
+        aspectRatio: "3:2",
+        button: {
+          title: "Timeline",
+          action: {
+            type: "launch_frame",
+            name: "In Process",
+            url: `${APP_URL}/${artistAddress}`,
+            iconImageUrl: `${VERCEL_OG}/api/og/artist?artistAddress=${artistAddress}`,
+            splashImageUrl: `${VERCEL_OG}/desktop_footer_logo.png`,
+            splashBackgroundColor: "#e9ccbb",
+          },
+        },
+      }),
     },
   };
 }
