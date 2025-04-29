@@ -1,5 +1,7 @@
 "use client";
 
+import useIsMobile from "@/hooks/useIsMobile";
+import { useLayoutProvider } from "@/providers/LayoutProvider";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
@@ -8,6 +10,8 @@ interface LogoProps {
 }
 const Logo = ({ className = "" }: LogoProps) => {
   const { push } = useRouter();
+  const isMobile = useIsMobile();
+  const { isOpenNavbar } = useLayoutProvider();
 
   return (
     <button
@@ -15,12 +19,21 @@ const Logo = ({ className = "" }: LogoProps) => {
       type="button"
       onClick={() => push("/")}
     >
-      <Image
-        src="/logo.svg"
-        blurDataURL="/logo.png"
-        alt="not found logo"
-        fill
-      />
+      {isOpenNavbar && isMobile ? (
+        <Image
+          src="/white_logo.svg"
+          blurDataURL="/white_logo.png"
+          alt="not found logo"
+          fill
+        />
+      ) : (
+        <Image
+          src="/logo.svg"
+          blurDataURL="/logo.png"
+          alt="not found logo"
+          fill
+        />
+      )}
     </button>
   );
 };
