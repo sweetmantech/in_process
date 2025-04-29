@@ -5,14 +5,12 @@ import Logo from "../Logo";
 import useSignedAddress from "@/hooks/useSignedAddress";
 import { DropdownMenu } from "../LoginButton/DropdownMenu";
 import { usePrivy } from "@privy-io/react-auth";
+import { useLayoutProvider } from "@/providers/LayoutProvider";
 
-interface HeaderProps {
-  isOpenNavbar: boolean;
-  toggleNavbar: () => void;
-}
-const Header = ({ isOpenNavbar, toggleNavbar }: HeaderProps) => {
+const Header = () => {
   const signedAddress = useSignedAddress();
   const { logout } = usePrivy();
+  const { isOpenNavbar, toggleNavbar } = useLayoutProvider();
 
   return (
     <div
@@ -21,7 +19,7 @@ const Header = ({ isOpenNavbar, toggleNavbar }: HeaderProps) => {
     >
       <Logo isOpenNavbar={isOpenNavbar} />
       <div className="md:relative flex items-center gap-2">
-        <LoginButton toggle={toggleNavbar} isOpenNavbar={isOpenNavbar} />
+        <LoginButton />
         {signedAddress && (
           <button
             onClick={toggleNavbar}
@@ -39,7 +37,6 @@ const Header = ({ isOpenNavbar, toggleNavbar }: HeaderProps) => {
               logout();
               toggleNavbar();
             }}
-            onClose={toggleNavbar}
           />
         )}
       </div>

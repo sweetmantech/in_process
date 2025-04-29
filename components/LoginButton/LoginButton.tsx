@@ -6,30 +6,11 @@ import { WarpcastButton } from "./WarpcastButton";
 
 interface LoginButtonProps {
   className?: string;
-  toggle: () => void;
-  isOpenNavbar: boolean;
 }
-export function LoginButton({
-  className = "",
-  toggle,
-  isOpenNavbar,
-}: LoginButtonProps) {
+export function LoginButton({ className = "" }: LoginButtonProps) {
   const { context } = useFrameProvider();
 
-  if (context)
-    return (
-      <WarpcastButton
-        className={className}
-        toggle={toggle}
-        isOpenNavbar={isOpenNavbar}
-      />
-    );
+  if (context) return <WarpcastButton className={className} />;
 
-  return (
-    <PrivyButton
-      className={className}
-      toggle={toggle}
-      isOpenNavbar={isOpenNavbar}
-    />
-  );
+  return <PrivyButton className={className} />;
 }

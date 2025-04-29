@@ -5,24 +5,20 @@ import truncateAddress from "@/lib/truncateAddress";
 import { useFrameProvider } from "@/providers/FrameProvider";
 import { config } from "@/providers/WagmiProvider";
 import { useAccount, useConnect } from "wagmi";
+import { useLayoutProvider } from "@/providers/LayoutProvider";
 
 interface WarpcastButtonProps {
   className?: string;
-  toggle: () => void;
-  isOpenNavbar: boolean;
 }
-export function WarpcastButton({
-  className = "",
-  toggle,
-  isOpenNavbar,
-}: WarpcastButtonProps) {
+export function WarpcastButton({ className = "" }: WarpcastButtonProps) {
   const { context } = useFrameProvider();
   const { isConnected, address } = useAccount();
   const { connect } = useConnect();
+  const { toggleNavbar, isOpenNavbar } = useLayoutProvider();
 
   const handleClick = async () => {
     if (isConnected) {
-      toggle();
+      toggleNavbar();
       return;
     }
     connect({ connector: config.connectors[0] });

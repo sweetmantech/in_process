@@ -6,21 +6,17 @@ import truncateAddress from "@/lib/truncateAddress";
 import { usePrivy } from "@privy-io/react-auth";
 import { Address } from "viem";
 import Image from "next/image";
+import { useLayoutProvider } from "@/providers/LayoutProvider";
 
 interface PrivyButtonProps {
   className?: string;
-  toggle: () => void;
-  isOpenNavbar: boolean;
 }
 
-export function PrivyButton({
-  className = "",
-  toggle,
-  isOpenNavbar,
-}: PrivyButtonProps) {
+export function PrivyButton({ className = "" }: PrivyButtonProps) {
   const { login, ready } = usePrivy();
   const { connectedWallet } = useConnectedWallet();
   const { data } = useArtistProfile(connectedWallet as Address);
+  const { toggleNavbar, isOpenNavbar } = useLayoutProvider();
 
   if (!ready) return null;
 
@@ -29,7 +25,7 @@ export function PrivyButton({
       login();
       return;
     }
-    toggle();
+    toggleNavbar();
   };
 
   return (
