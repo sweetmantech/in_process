@@ -1,12 +1,15 @@
 import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
 import LinkInput from "./LinkInput";
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
+import Image from "next/image";
 
 const LinkPreview = () => {
   const { createdContract, imageUri, link } = useZoraCreateProvider();
 
   return (
-    <div className={`bg-white ${createdContract ? "" : "m-4 py-6 px-4"}`}>
+    <div
+      className={`bg-white rounded-2xl overflow-hidden ${createdContract ? "" : "m-4 py-6 px-4"}`}
+    >
       {createdContract ? (
         <>
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -23,9 +26,19 @@ const LinkPreview = () => {
         </>
       ) : (
         <>
-          <p className="text-center font-archivo">
-            Paste any link from the internet
-          </p>
+          <div className="flex flex-col md:flex-row items-center gap-2 pb-2">
+            <Image
+              src="/link.svg"
+              blurDataURL="/link.png"
+              width={44}
+              height={44}
+              unoptimized
+              alt="not found link"
+            />
+            <p className="text-center font-archivo-medium">
+              Paste any link from the internet
+            </p>
+          </div>
           <LinkInput />
           {imageUri && (
             // eslint-disable-next-line @next/next/no-img-element

@@ -3,7 +3,7 @@ import { Metadata } from "@/types/token";
 import { useQuery } from "@tanstack/react-query";
 
 async function fetchMetadata(uri: string): Promise<Metadata> {
-  const response = await fetch(`/api/metadata?uri=${getFetchableUrl(uri)}`);
+  const response = await fetch(`${getFetchableUrl(uri)}`);
   if (!response.ok) {
     return {
       name: "",
