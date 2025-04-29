@@ -141,3 +141,7 @@
 .rpv-toolbar__left > .rpv-toolbar__item:first-child {
   display: none !important;
 }
+
+.plus-lighter {
+  mix-blend-mode: plus-lighter;
+}

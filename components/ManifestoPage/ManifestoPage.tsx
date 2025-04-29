@@ -5,7 +5,7 @@ import Image from "next/image";
 const ManifestoPage = () => {
   return (
     <div className="px-4 md:px-0 pt-20 flex flex-col md:flex-row grow w-full pb-[8%] md:gap-16">
-      <div className="w-1/4 aspect-[510/1072] relative hidden md:block">
+      <div className="w-1/4 aspect-[546/1157] relative hidden md:block">
         <Image
           src="/left_circles.svg"
           blurDataURL="/left_circles.png"
@@ -51,22 +51,31 @@ Here, we own the timeline.
 Here, we document in real time, onchain, on our terms.`}
         </pre>
         <p className="font-spectral-bold pt-4 text-xl">ALWAYS IN PROCESS.</p>
-        <div className="absolute right-[100px] bottom-[-60px] w-[12.5%] aspect-[72/91] hidden md:block">
-          <Image src="/sign2.png" alt="not found sign2" layout="fill" />
-        </div>
-        <div className="absolute right-[100px] top-[calc(100%+20px)] w-[52%] aspect-[294/259] hidden md:block">
+        <div className="absolute right-1/3 top-[calc(100%-50px)] hidden md:block">
           <Image
-            src="/sign0.png"
-            alt="not found sign0"
-            width={294}
-            height={259}
+            src="/signature.svg"
+            blurDataURL="/signature.png"
+            alt="not found signature"
+            width={218}
+            height={195}
           />
         </div>
       </div>
-      <div className="w-1/4 aspect-[510/1072] relative hidden md:block">
+      <div className="absolute size-full pointer-events-none left-[5%]">
         <Image
-          src="/right_circles.svg"
-          blurDataURL="/right_circles.png"
+          src="/spiral-transparent.svg"
+          blurDataURL="/spiral-transparent.png"
+          layout="fill"
+          alt="not found image"
+          className="plus-lighter"
+          objectFit="cover"
+          objectPosition="top"
+        />
+      </div>
+      <div className="w-1/4 aspect-[546/1157] relative hidden md:block">
+        <Image
+          src="/right_circles.png"
+          blurDataURL="/right_circles.svg"
           layout="fill"
           alt="not found artwork"
           objectFit="cover"
