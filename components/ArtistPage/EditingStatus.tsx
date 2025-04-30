@@ -6,7 +6,8 @@ const EditingStatus = () => {
 
   return (
     <div
-      className={`relative mx-auto md:absolute z-[10000] md:left-1/2 md:left-1/2 md:-translate-x-1/2 bottom-full flex gap-2 items-center w-fit px-6 py-1 rounded-full mb-3 md:mb-0
+      className={`relative mx-auto md:absolute z-[10000] md:left-1/2 md:bottom-full mt-16 md:m-0
+        md:-translate-x-1/2 flex gap-2 items-center w-fit px-6 py-1.5 rounded-full
     ${saving ? "bg-grey-moss-50" : "bg-grey-moss-900"}`}
     >
       <div className="flex items-center gap-2">
