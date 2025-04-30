@@ -4,7 +4,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import Image from "next/image";
 import { Label } from "../ui/label";
 import { useTokenProvider } from "@/providers/TokenProvider";
 import CommentButton from "../CommentButton/CommentButton";
@@ -23,7 +22,7 @@ const CrossmintModal = dynamic(
   {
     loading: () => (
       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
-        <div className="bg-white p-6 rounded-lg">
+        <div className="bg-white p-6 rounded-lg font-archivo">
           Loading payment options...
         </div>
       </div>
@@ -68,16 +67,10 @@ const CollectModal = () => {
             collect
           </button>
         </DialogTrigger>
-        <DialogContent className="max-w-2xl !rounded-[0px] !bg-white border-none py-10 px-8 flex flex-col items-center !gap-0 shadow-lg overflow-hidden bg-transparent">
+        <DialogContent className="max-w-xl !rounded-3xl !bg-white border-none py-10 px-8 flex flex-col items-center !gap-0 shadow-lg overflow-hidden bg-transparent">
           <VisuallyHidden>
             <DialogTitle>Collect</DialogTitle>
           </VisuallyHidden>
-          <Image
-            src={"/sparkle.png"}
-            width={44}
-            height={44}
-            alt="not found sparkle"
-          />
           <section className="font-archivo-medium text-xl pt-2 flex items-center gap-2">
             collect {truncated(meta?.name || "")} for{" "}
             {isLoading ? (
@@ -94,7 +87,7 @@ const CollectModal = () => {
             comment
           </Label>
           <textarea
-            className="bg-tan-secondary w-full p-3 font-grotesk-light !border-none !outline-none !ring-0"
+            className="bg-grey-moss-50 w-full p-3 font-grotesk-light !border-none !outline-none !ring-0"
             rows={6}
             value={comment}
             onChange={handleCommentChange}
