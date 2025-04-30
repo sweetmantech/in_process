@@ -2,7 +2,7 @@ import { TokenMetadata } from "@/types/token";
 import OgImage from "../OgImage";
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import React from "react";
-import { VERCEL_OG } from "@/lib/consts";
+import { VERCEL_OG } from "@/lib/og/consts";
 
 interface OgHeaderProps {
   avatar: string;

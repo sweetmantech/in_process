@@ -1,7 +1,7 @@
 import { Metadata, NextPage } from "next";
 import ArtistPage from "@/components/ArtistPage";
 import ProfileProvider from "@/providers/ProfileProvider";
-import { APP_URL, VERCEL_OG } from "@/lib/consts";
+import { APP_URL, VERCEL_OG } from "@/lib/og/consts";
 
 type Props = {
   params: Promise<{ artistAddress: string }>;

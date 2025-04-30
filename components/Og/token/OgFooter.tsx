@@ -1,4 +1,4 @@
-import { VERCEL_OG } from "@/lib/consts";
+import { VERCEL_OG } from "@/lib/og/consts";
 import OgImage from "../OgImage";
 
 const OgFooter = () => {

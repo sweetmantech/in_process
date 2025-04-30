@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { VERCEL_OG } from "./consts";
+import { VERCEL_OG } from "./og/consts";
 
 const getUserAvatar = async (address: Address) => {
   try {
