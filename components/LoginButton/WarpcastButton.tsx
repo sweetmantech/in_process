@@ -38,9 +38,13 @@ export function WarpcastButton({ className = "" }: WarpcastButtonProps) {
         <div
           className={`w-2 h-2 rounded-full mr-2 ${isConnected ? "bg-grey-moss-100" : "border border-grey-moss-100"}`}
         />
-        {isConnected
-          ? `${context?.user.displayName || truncateAddress(address as string)}`
-          : "sign in"}
+        {isConnected ? (
+          <p className="min-w-20 text-left">
+            {context?.user.displayName || truncateAddress(address as string)}
+          </p>
+        ) : (
+          "sign in"
+        )}
         {isConnected && (
           <Image
             src="/images/down-arrow.svg"
