@@ -2,6 +2,7 @@ import { TokenMetadata } from "@/types/token";
 import OgImage from "../OgImage";
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import React from "react";
+import { VERCEL_OG } from "@/lib/consts";
 
 interface OgHeaderProps {
   avatar: string;
@@ -28,8 +29,7 @@ const OgHeader = ({ avatar, metadata }: OgHeaderProps) => {
           <OgImage
             src={
               getFetchableUrl(
-                data.image ||
-                  `https://in-process-seven.vercel.app/images/placeholder.png`,
+                data.image || `${VERCEL_OG}/images/placeholder.png`,
               ) || ""
             }
             width={70}
@@ -40,7 +40,7 @@ const OgHeader = ({ avatar, metadata }: OgHeaderProps) => {
         ))}
       </div>
       <OgImage
-        src="https://arweave.net/LrL9js9l9tT-6S06N1MtE02nCMX5gmVzGUbEVjTplo0"
+        src={`${VERCEL_OG}/favicon_grey.png`}
         width={50}
         height={50}
         borderRadius={25}

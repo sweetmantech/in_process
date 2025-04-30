@@ -1,3 +1,4 @@
+import { VERCEL_OG } from "@/lib/consts";
 import OgImage from "../OgImage";
 
 const OgFooter = () => {
@@ -10,7 +11,7 @@ const OgFooter = () => {
       }}
     >
       <OgImage
-        src="https://arweave.net/LrL9js9l9tT-6S06N1MtE02nCMX5gmVzGUbEVjTplo0"
+        src={`${VERCEL_OG}/favicon_grey.png`}
         width={30}
         height={30}
         borderRadius={15}
