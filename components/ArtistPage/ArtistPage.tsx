@@ -3,23 +3,20 @@
 import Feed from "./Feed";
 import AltToggle from "./AltToggle";
 import { useState } from "react";
-import ArtistProfile from "./ArtistProfile";
-import { useProfileProvider } from "@/providers/ProfileProvider";
-import EditingStatus from "./EditingStatus";
 import ArtistFeedProvider from "@/providers/ArtistFeedProvider";
+import useIsMobile from "@/hooks/useIsMobile";
+import MobileProfile from "./MobileProfile";
+import DesktopProfile from "./DesktopProfile";
 
 const ArtistPage = () => {
   const [alt, setAlt] = useState<"timeline" | "grid">("timeline");
-  const { isEditing } = useProfileProvider();
+  const isMobile = useIsMobile();
 
   return (
-    <div className="w-screen grow flex flex-col pt-24 relative">
-      <div className="relative">
-        {isEditing && <EditingStatus />}
-        <div className="flex justify-between px-2 md:px-10 items-start pb-2">
-          <ArtistProfile />
-          <AltToggle alt={alt} setAlt={setAlt} />
-        </div>
+    <div className="w-screen grow flex flex-col pt-6 md:pt-24 relative">
+      <div className="relative flex justify-between px-2 md:px-10 items-start pb-2">
+        {isMobile ? <MobileProfile /> : <DesktopProfile />}
+        <AltToggle alt={alt} setAlt={setAlt} />
       </div>
       <div
         className={`md:grow flex flex-col px-2 md:px-0 ${alt === "timeline" && "md:pt-20 md:px-10"}`}
