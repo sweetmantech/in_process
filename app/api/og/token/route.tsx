@@ -5,11 +5,10 @@ import { NextRequest } from "next/server";
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import getUsername from "@/lib/getUsername";
 import getUserAvatar from "@/lib/getUserAvatar";
+import { VERCEL_OG } from "@/lib/og/consts";
 
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
-
-const VERCEL_OG = "https://in-process-seven.vercel.app";
 
 const archivoFont = fetch(
   new URL(`${VERCEL_OG}/fonts/Archivo-Regular.ttf`, import.meta.url),

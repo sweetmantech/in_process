@@ -1,5 +1,5 @@
 import LandingPage from "@/components/LandingPage/LandingPage";
-import { APP_URL } from "@/lib/consts";
+import { APP_URL } from "@/lib/og/consts";
 import { Metadata } from "next";
 
 export const revalidate = 300;

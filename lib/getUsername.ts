@@ -1,6 +1,6 @@
 import { Address } from "viem";
 import truncateAddress from "./truncateAddress";
-import { VERCEL_OG } from "./consts";
+import { VERCEL_OG } from "./og/consts";
 
 const getUsername = async (address: Address) => {
   try {

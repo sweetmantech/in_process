@@ -1,5 +1,5 @@
 import TokenPage from "@/components/TokenPage";
-import { APP_URL, VERCEL_OG } from "@/lib/consts";
+import { APP_URL, VERCEL_OG } from "@/lib/og/consts";
 import { Metadata, NextPage } from "next";
 
 type Props = {
