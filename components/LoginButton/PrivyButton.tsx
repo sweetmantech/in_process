@@ -42,7 +42,9 @@ export function PrivyButton({ className = "" }: PrivyButtonProps) {
         />
         {connectedWallet ? (
           <>
-            {data?.username || truncateAddress(connectedWallet as string)}
+            <p className="min-w-20 text-left">
+              {data?.username || truncateAddress(connectedWallet as string)}
+            </p>
             <Image
               src="/images/down-arrow.svg"
               alt="Menu"
