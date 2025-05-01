@@ -6,6 +6,7 @@ import { useFrameProvider } from "@/providers/FrameProvider";
 import { config } from "@/providers/WagmiProvider";
 import { useAccount, useConnect } from "wagmi";
 import { useLayoutProvider } from "@/providers/LayoutProvider";
+import truncated from "@/lib/truncated";
 
 interface WarpcastButtonProps {
   className?: string;
@@ -40,7 +41,8 @@ export function WarpcastButton({ className = "" }: WarpcastButtonProps) {
         />
         {isConnected ? (
           <p className="min-w-20 text-left">
-            {context?.user.displayName || truncateAddress(address as string)}
+            {truncated(context?.user.displayName || "", 9) ||
+              truncateAddress(address as string)}
           </p>
         ) : (
           "sign in"

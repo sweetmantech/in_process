@@ -1,5 +1,5 @@
-const truncated = (text: string) => {
-  return text.length > 20 ? `${text.slice(0, 20)}...` : text;
+const truncated = (text: string, visibility: number | undefined = 20) => {
+  return text.length > visibility ? `${text.slice(0, visibility)}...` : text;
 };
 
 export default truncated;
