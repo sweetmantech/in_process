@@ -19,14 +19,14 @@ export default function Price() {
           type="text"
           value={price}
           onChange={(e) => setPrice(e.target.value)}
-          className="flex-grow !font-medium !rounded-[0px] !border-none bg-white focus-visible:ring-0 focus-visible:ring-offset-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+          className="flex-grow !font-spectral !rounded-[0px] !border-none bg-white focus-visible:ring-0 focus-visible:ring-offset-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
           step="0.01"
           disabled={Boolean(fileUploading || creating)}
         />
         <div className="bg-white">
           <div className="w-[1px] h-6 bg-grey-secondary my-2" />
         </div>
-        <p className="bg-white px-3 flex items-center justify-center font-archivo">
+        <p className="bg-white px-3 flex items-center justify-center font-spectral">
           {priceUnit}
         </p>
       </div>
