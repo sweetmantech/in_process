@@ -55,8 +55,8 @@ const Feed = ({
         onClick={() => push(`/${feed.creator}`)}
         ref={ref}
       >
-        <tspan fill="#1B1504" fontSize={28}>
-          ⟡
+        <tspan fill="#4E4E4E" fontSize={20}>
+          ⬤
         </tspan>{" "}
         &nbsp;&nbsp;&nbsp;&nbsp;
         {formatFeedText(
