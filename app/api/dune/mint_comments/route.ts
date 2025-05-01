@@ -1,8 +1,8 @@
-import { BLOCKLISTS } from "@/lib/consts";
 import getCrossmintCommentEvents from "@/lib/dune/getCrossmintCommentEvents";
 import getErc20MintCommentsEvents from "@/lib/dune/getErc20MintCommentsEvents";
 import getSmartWalletMintCommentEvents from "@/lib/dune/getSmartWalletMintCommentEvents";
 import getTokenContractMintCommentEvents from "@/lib/dune/getTokenContractMintCommentEvents";
+import getWrapperCommentsEvents from "@/lib/dune/getWrapperCommentsEvents";
 import { DuneDecodedEvent } from "@/types/dune";
 import { NextRequest } from "next/server";
 
@@ -19,11 +19,15 @@ export async function GET(req: NextRequest) {
     const crossmintEvents: DuneDecodedEvent[] = await getCrossmintCommentEvents(
       tokenContract as string,
     );
+    const wrapperEvents: DuneDecodedEvent[] = await getWrapperCommentsEvents(
+      tokenContract as string,
+    );
     const formattedEvents = [
       ...erc20MinterEvents,
       ...tokenContractEvents,
       ...smartWalletEvents,
       ...crossmintEvents,
+      ...wrapperEvents,
     ].map((transaction: DuneDecodedEvent) => {
       const mintCommentEvent = transaction.logs.find(
         (log) => log?.decoded?.name === "MintComment",
@@ -43,9 +47,7 @@ export async function GET(req: NextRequest) {
     });
     return Response.json(
       tokenId
-        ? formattedEvents.filter(
-            (e) => e.tokenId === tokenId && !BLOCKLISTS.includes(e.sender),
-          )
+        ? formattedEvents.filter((e) => e.tokenId === tokenId)
         : formattedEvents,
     );
   } catch (e: any) {
