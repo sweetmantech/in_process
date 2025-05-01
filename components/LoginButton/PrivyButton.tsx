@@ -7,6 +7,7 @@ import { usePrivy } from "@privy-io/react-auth";
 import { Address } from "viem";
 import Image from "next/image";
 import { useLayoutProvider } from "@/providers/LayoutProvider";
+import truncated from "@/lib/truncated";
 
 interface PrivyButtonProps {
   className?: string;
@@ -43,7 +44,8 @@ export function PrivyButton({ className = "" }: PrivyButtonProps) {
         {connectedWallet ? (
           <>
             <p className="min-w-20 text-left">
-              {data?.username || truncateAddress(connectedWallet as string)}
+              {truncated(data?.username || "", 9) ||
+                truncateAddress(connectedWallet as string)}
             </p>
             <Image
               src="/images/down-arrow.svg"
