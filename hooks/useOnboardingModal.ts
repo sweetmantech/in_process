@@ -1,24 +1,22 @@
 "use client";
 
+import { useUserProvider } from "@/providers/UserProvider";
 import { useState, useEffect } from "react";
-import { usePrivy } from "@privy-io/react-auth";
-import { useArtistProfile } from "./useArtistProfile";
-import { Address } from "viem";
 
 export function useOnboardingModal() {
   const [isOpen, setIsOpen] = useState(false);
-  const { ready, authenticated, user } = usePrivy();
-
-  const walletAddress = user?.wallet?.address as Address | undefined;
-
-  const { data: artistProfile, isLoading } = useArtistProfile(walletAddress);
+  const { profile, connectedAddress } = useUserProvider();
 
   useEffect(() => {
-    if (!ready || !authenticated || isLoading) return;
-
-    const hasUsername = Boolean(artistProfile?.username);
-    setIsOpen(!hasUsername);
-  }, [ready, authenticated, user, walletAddress, artistProfile, isLoading]);
+    if (!profile || !connectedAddress) return;
+    const onboarded = window.localStorage.getItem(
+      `onboarded:${connectedAddress}`,
+    );
+    const shouldOnboard = !Boolean(profile?.username) && !Boolean(onboarded);
+    if (shouldOnboard)
+      window.localStorage.setItem(`onboarded:${connectedAddress}`, "true");
+    setIsOpen(shouldOnboard);
+  }, [profile]);
 
   const closeModal = () => {
     setIsOpen(false);
