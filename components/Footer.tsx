@@ -21,14 +21,11 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row items-start md:items-center">
           {clientRendered && (
             <Image
-              src="/desktop_footer_logo.png"
+              src="/footer_logo.svg"
               blurDataURL="/footer_logo.png"
               alt="not found logo"
               width={isMobile ? 60 : 80}
               height={isMobile ? 60 : 80}
-              style={{
-                imageRendering: "pixelated"
-              }}
             />
           )}
           <p className="font-archivo-bold text-md !uppercase">© TOPIA</p>
