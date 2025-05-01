@@ -20,17 +20,6 @@ const ManifestoPage = () => {
       </div>
       <div className="relative w-full md:w-2/4 flex justify-center text-grey-moss-900">
         <div className="w-fit relative">
-          <div className="block md:hidden absolute w-screen h-full pointer-events-none top-[-120px] -left-4">
-            <Image
-              src="/mobile-spiral-transparent.svg"
-              blurDataURL="/mobile-spiral-transparent.png"
-              layout="fill"
-              alt="not found image"
-              className="plus-lighter"
-              objectFit="cover"
-              objectPosition="top center"
-            />
-          </div>
           <p className="font-archivo text-2xl md:text-5xl tracking-[-1px] relative z-[2]">
             in process: a manifesto
           </p>
@@ -87,17 +76,6 @@ Here, we document in real time, onchain, on our terms.`}
           alt="not found artwork"
           objectFit="cover"
           objectPosition="left"
-        />
-      </div>
-      <div className="hidden md:block absolute size-full pointer-events-none left-0 md:left-[5%]">
-        <Image
-          src="/spiral-transparent.svg"
-          blurDataURL="/spiral-transparent.png"
-          layout="fill"
-          alt="not found image"
-          className="plus-lighter"
-          objectFit="contain"
-          objectPosition="top center"
         />
       </div>
     </div>
