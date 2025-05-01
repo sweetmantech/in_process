@@ -3,6 +3,8 @@ import useConnectedWallet from "./useConnectedWallet";
 import { useFrameProvider } from "@/providers/FrameProvider";
 import { useAccount, useConnect } from "wagmi";
 import { config } from "@/providers/WagmiProvider";
+import useSignedAddress from "./useSignedAddress";
+import { useArtistProfile } from "./useArtistProfile";
 
 const useUser = () => {
   const { user, login } = usePrivy();
@@ -10,6 +12,8 @@ const useUser = () => {
   const { context } = useFrameProvider();
   const { isConnected } = useAccount();
   const { connect } = useConnect();
+  const signedAddress = useSignedAddress();
+  const userProfile = useArtistProfile(signedAddress);
 
   const isPrepared = () => {
     if (context) {
@@ -29,6 +33,8 @@ const useUser = () => {
   return {
     email: user?.email?.address,
     isPrepared,
+    profile: userProfile.data,
+    connectedAddress: signedAddress,
   };
 };
 
