@@ -2,16 +2,18 @@
 
 import useBalance from "@/hooks/useBalance";
 import { Address, parseUnits } from "viem";
-import { CHAIN, CHAIN_ID, MULTICALL3_ADDRESS } from "@/lib/consts";
+import { CHAIN, CHAIN_ID, UNISWAP_ROUTER_ADDRESS } from "@/lib/consts";
 import { getPublicClient } from "@/lib/viem/publicClient";
 import useSignedAddress from "@/hooks/useSignedAddress";
 import useSignTransaction from "@/hooks/useSignTransaction";
 import { useState } from "react";
-import { USDC_TOKEN } from "@/lib/tokens";
-import { multicall3ABI } from "@/lib/abis/multicall3ABI";
+import { USDC_TOKEN, WETH_TOKEN } from "@/lib/tokens";
 import { toast } from "sonner";
-import getSwapAndMintMulticallCalls from "@/lib/calls/getSwapAndMintMuticallCalls";
 import getPoolInfo from "@/lib/uniswap/getPoolInfo";
+import { wrapperABI } from "@/lib/abis/wrapperABI";
+import { QUOTER_ADDRESSES, V3_CORE_FACTORY_ADDRESSES } from "@uniswap/sdk-core";
+import { erc20MinterAddresses } from "@/lib/protocolSdk/constants";
+import { ETH_USDC_WRAPPER } from "../../../lib/consts";
 
 const Swap = () => {
   const balances = useBalance();
@@ -27,7 +29,7 @@ const Swap = () => {
       setLoading(true);
       const collectionAddress = "0x1590252D59F9DB3af56860b864CB49C97eF35ba9";
       const usdcPrice = parseUnits(amount, USDC_TOKEN.decimals);
-      const { amountInMaximum, liquidity } = await getPoolInfo(
+      const { amountInMaximum } = await getPoolInfo(
         signedAddress as Address,
         usdcPrice,
       );
@@ -37,20 +39,24 @@ const Swap = () => {
         setLoading(false);
         return;
       }
-      const calls = getSwapAndMintMulticallCalls(
-        signedAddress as Address,
-        collectionAddress,
-        BigInt(1),
-        comment,
-        usdcPrice,
-        amountInMaximum,
-        liquidity,
-      );
       const hash = await signTransaction({
-        address: MULTICALL3_ADDRESS,
-        abi: multicall3ABI as any,
-        functionName: "aggregate3Value",
-        args: [calls],
+        address: ETH_USDC_WRAPPER,
+        abi: wrapperABI as any,
+        functionName: "mint",
+        args: [
+          V3_CORE_FACTORY_ADDRESSES[CHAIN_ID],
+          UNISWAP_ROUTER_ADDRESS,
+          QUOTER_ADDRESSES[CHAIN_ID],
+          WETH_TOKEN.address,
+          USDC_TOKEN.address,
+          500,
+          usdcPrice,
+          erc20MinterAddresses[CHAIN_ID],
+          collectionAddress,
+          1,
+          1,
+          comment,
+        ],
         account: signedAddress as Address,
         value: amountInMaximum,
         chain: CHAIN,

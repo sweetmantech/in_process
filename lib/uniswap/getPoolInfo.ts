@@ -14,8 +14,8 @@ const getPoolInfo = async (account: Address, swapAmount: bigint) => {
     tokenB: USDC_TOKEN,
     fee: FeeAmount.LOW,
   });
-  const publicClient = getPublicClient(CHAIN_ID);
 
+  const publicClient = getPublicClient(CHAIN_ID);
   const poolCalls = [
     "token0",
     "token1",
@@ -55,15 +55,15 @@ const getPoolInfo = async (account: Address, swapAmount: bigint) => {
   });
 
   const gasEstimate = result[3] as bigint;
-
-  const amountInMaximum = result[0] as bigint;
+  const swapFee = BigInt(5) / BigInt(100);
+  const amountInMaximum = (result[0] as bigint) + gasEstimate;
 
   return {
     tokenIn,
     tokenOut,
     fee,
     liquidity,
-    amountInMaximum,
+    amountInMaximum: amountInMaximum + amountInMaximum * swapFee,
     gasEstimate,
   };
 };
