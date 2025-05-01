@@ -29,7 +29,7 @@ const MobileProfile = () => {
           />
           <textarea
             rows={4}
-            className="px-2 py-1 font-archivo !ring-0 !outline-none"
+            className="px-2 py-1 font-spectral !ring-0 !outline-none"
             value={bio}
             onChange={(e) => setBio(e.target.value)}
           />

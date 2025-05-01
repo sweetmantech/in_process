@@ -87,7 +87,7 @@ const CollectModal = () => {
             comment
           </Label>
           <textarea
-            className="bg-grey-moss-50 w-full p-3 font-grotesk-light !border-none !outline-none !ring-0"
+            className="bg-grey-moss-50 w-full p-3 font-spectral !border-none !outline-none !ring-0"
             rows={6}
             value={comment}
             onChange={handleCommentChange}
