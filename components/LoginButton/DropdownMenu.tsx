@@ -6,16 +6,14 @@ import CreateToEarnButton from "./CreateToEarnButton";
 import Divider from "./Divider";
 import { useLayoutProvider } from "@/providers/LayoutProvider";
 import TotalEarnings from "./TotalEarnings";
+import { usePrivy } from "@privy-io/react-auth";
 
-interface DropdownMenuProps {
-  onLogout: () => void;
-}
-
-export function DropdownMenu({ onLogout }: DropdownMenuProps) {
+export function DropdownMenu() {
   const { context } = useFrameProvider();
   const { push } = useRouter();
   const signedAddress = useSignedAddress();
   const { toggleNavbar } = useLayoutProvider();
+  const { logout } = usePrivy();
 
   return (
     <div className="absolute top-full left-0 right-0 h-screen md:h-fit bg-grey-moss-900 shadow-lg font-archivo z-[999999999] rounded-b-sm border-t-0">
@@ -63,7 +61,10 @@ export function DropdownMenu({ onLogout }: DropdownMenuProps) {
         <>
           <Divider />
           <button
-            onClick={onLogout}
+            onClick={() => {
+              toggleNavbar();
+              logout();
+            }}
             className="w-full text-left pl-14 md:px-4 py-4 md:py-2 text-white text-2xl md:text-base hover:bg-[#333333] hover:rounded-b-sm transition-colors"
           >
             log out

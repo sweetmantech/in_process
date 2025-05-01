@@ -4,13 +4,11 @@ import LoginButton from "../LoginButton";
 import Logo from "../Logo";
 import useSignedAddress from "@/hooks/useSignedAddress";
 import { DropdownMenu } from "../LoginButton/DropdownMenu";
-import { usePrivy } from "@privy-io/react-auth";
 import { useLayoutProvider } from "@/providers/LayoutProvider";
 
 const Header = () => {
   const signedAddress = useSignedAddress();
-  const { logout } = usePrivy();
-  const { isOpenNavbar, toggleNavbar } = useLayoutProvider();
+  const { isOpenNavbar, toggleNavbar, menuRef } = useLayoutProvider();
 
   return (
     <div
@@ -18,7 +16,7 @@ const Header = () => {
       z-[9999999] relative w-screen flex justify-between items-center px-6 md:px-10 py-4 md:pt-6`}
     >
       <Logo />
-      <div className="md:relative flex items-center gap-2">
+      <div className="md:relative flex items-center gap-2" ref={menuRef}>
         <LoginButton />
         {signedAddress && (
           <button
@@ -31,14 +29,7 @@ const Header = () => {
             <div className="size-2 rounded-full bg-grey-moss-100" />
           </button>
         )}
-        {isOpenNavbar && signedAddress && (
-          <DropdownMenu
-            onLogout={() => {
-              logout();
-              toggleNavbar();
-            }}
-          />
-        )}
+        {isOpenNavbar && signedAddress && <DropdownMenu />}
       </div>
     </div>
   );
