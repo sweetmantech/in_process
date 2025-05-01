@@ -19,24 +19,15 @@ const Footer = () => {
       <div className="my-8 h-[1px] bg-grey-moss-400 w-full w-full block md:hidden" />
       <div className="flex justify-between items-center">
         <div className="flex flex-col md:flex-row items-start md:items-center">
-          <div className="w-[40px] md:w-[80px] h-[80px] md:aspect-[1/1] relative">
-            {clientRendered && (
-              <Image
-                src={
-                  isMobile
-                    ? "/mobile_footer_logo.svg"
-                    : "/desktop_footer_logo.svg"
-                }
-                blurDataURL={
-                  isMobile
-                    ? "/mobile_footer_logo.png"
-                    : "/desktop_footer_logo.png"
-                }
-                alt="not found logo"
-                fill
-              />
-            )}
-          </div>
+          {clientRendered && (
+            <Image
+              src="/footer_logo.svg"
+              blurDataURL="/footer_logo.png"
+              alt="not found logo"
+              width={isMobile ? 60 : 80}
+              height={isMobile ? 60 : 80}
+            />
+          )}
           <p className="font-archivo-bold text-md !uppercase">© TOPIA</p>
         </div>
         <div className="flex flex-col items-end font-archivo-bold text-md">
