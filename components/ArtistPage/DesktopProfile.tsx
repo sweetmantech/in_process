@@ -17,6 +17,7 @@ const DesktopProfile = () => {
     isLoading,
   } = useProfileProvider();
 
+  
   return (
     <Fragment>
       {isEditing && <EditingStatus />}
