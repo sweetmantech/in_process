@@ -55,7 +55,7 @@ const getPoolInfo = async (account: Address, swapAmount: bigint) => {
   });
 
   const gasEstimate = result[3] as bigint;
-  const swapFee = BigInt(5) / BigInt(100);
+  const swapVolatility = BigInt(10) / BigInt(100);
   const amountInMaximum = (result[0] as bigint) + gasEstimate;
 
   return {
@@ -63,7 +63,7 @@ const getPoolInfo = async (account: Address, swapAmount: bigint) => {
     tokenOut,
     fee,
     liquidity,
-    amountInMaximum: amountInMaximum + amountInMaximum * swapFee,
+    amountInMaximum: amountInMaximum + amountInMaximum * swapVolatility,
     gasEstimate,
   };
 };
