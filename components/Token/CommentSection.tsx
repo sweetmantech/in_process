@@ -1,28 +1,14 @@
 import { useTokenProvider } from "@/providers/TokenProvider";
 import CommentsContainer from "./CommentsContainer";
-import { Skeleton } from "../ui/skeleton";
 import ArtistName from "../ArtistName";
 
 const CommentSection = () => {
-  const { visibleComments, comments, loading, error, showMoreComments } =
-    useTokenProvider();
+  const { visibleComments, comments, showMoreComments } = useTokenProvider();
 
   const sortedComments = [...comments].sort(
     (a, b) => b.timestamp - a.timestamp,
   );
 
-  if (loading)
-    return (
-      <CommentsContainer>
-        <Skeleton className="w-full h-[300px]" />
-      </CommentsContainer>
-    );
-  if (error)
-    return (
-      <CommentsContainer>
-        <p className="font-archivo text-xl text-red">Error loading comments</p>
-      </CommentsContainer>
-    );
   if (comments.length === 0)
     return (
       <CommentsContainer>
