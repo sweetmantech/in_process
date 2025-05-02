@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { Address } from "viem";
 import { MintCommentEvent } from "@/types/token";
+import delay from "@/lib/delay";
 
 async function fetchMintEvents(
   endPoint: string,
@@ -20,6 +21,7 @@ async function fetchMintEvents(
       return data;
     } catch (error) {
       console.error(error);
+      await delay(500);
     }
   }
 }
