@@ -96,7 +96,7 @@ export function useComments(
         .flat()
         .sort(
           (a: MintCommentEvent, b: MintCommentEvent) =>
-            a.timestamp - b.timestamp,
+            b.timestamp - a.timestamp,
         )
         .filter(
           (e) =>
