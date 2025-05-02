@@ -29,6 +29,7 @@ export type UseCommentsReturn = {
   visibleComments: number;
   showMoreComments: () => void;
   addComment: (comment: MintCommentEvent) => void;
+  isLoading: boolean;
 };
 
 export function useComments(
@@ -37,6 +38,7 @@ export function useComments(
 ): UseCommentsReturn {
   const [visibleComments, setVisibleComments] = useState(3);
   const [comments, setComments] = useState<MintCommentEvent[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const showMoreComments = () => {
     setVisibleComments((prev) => prev + 3);
@@ -100,6 +102,7 @@ export function useComments(
             e?.tokenContract?.toLowerCase() === tokenContract.toLowerCase(),
         );
       setComments(data);
+      setIsLoading(false);
     };
     if (tokenContract && tokenId) init();
   }, [tokenContract, tokenId]);
@@ -109,5 +112,6 @@ export function useComments(
     visibleComments,
     showMoreComments,
     addComment,
+    isLoading,
   };
 }
