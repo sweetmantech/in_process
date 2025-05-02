@@ -57,7 +57,10 @@ Here, we own the timeline.
 Here, we document in real time, onchain, on our terms.`}
           </pre>
           <p className="font-spectral-bold pt-4 text-xl">ALWAYS IN PROCESS.</p>
-          <div className="-translate-y-6 relative flex justify-end pr-4 md:pr-0 w-full md:absolute md:right-10 md:top-[calc(100%-50px)]">
+          <div
+            className="md:absolute md:bottom-0 md:translate-x-0 md:translate-y-3/4 md:right-0
+          relative translate-x-1/2 -translate-y-1/3"
+          >
             <Image
               src="/signature.svg"
               blurDataURL="/signature.png"
