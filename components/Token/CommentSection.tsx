@@ -1,26 +1,16 @@
 import { useTokenProvider } from "@/providers/TokenProvider";
 import CommentsContainer from "./CommentsContainer";
-import { Skeleton } from "../ui/skeleton";
 import ArtistName from "../ArtistName";
+import { Skeleton } from "../ui/skeleton";
 
 const CommentSection = () => {
-  const { visibleComments, comments, loading, error, showMoreComments } =
+  const { visibleComments, comments, showMoreComments, isLoading } =
     useTokenProvider();
 
-  const sortedComments = [...comments].sort(
-    (a, b) => b.timestamp - a.timestamp,
-  );
-
-  if (loading)
+  if (isLoading)
     return (
       <CommentsContainer>
         <Skeleton className="w-full h-[300px]" />
-      </CommentsContainer>
-    );
-  if (error)
-    return (
-      <CommentsContainer>
-        <p className="font-archivo text-xl text-red">Error loading comments</p>
       </CommentsContainer>
     );
   if (comments.length === 0)
@@ -36,7 +26,7 @@ const CommentSection = () => {
   return (
     <CommentsContainer>
       <div className="space-y-1 md:space-y-2">
-        {sortedComments.slice(0, visibleComments).map((comment, i) => (
+        {comments.slice(0, visibleComments).map((comment, i) => (
           <div key={i} className="rounded flex items-end justify-between">
             <div>
               <p className="text-base font-spectral tracking-[-1px]">
@@ -53,7 +43,7 @@ const CommentSection = () => {
           </div>
         ))}
       </div>
-      {sortedComments.length > visibleComments && (
+      {comments.length > visibleComments && (
         <button
           onClick={showMoreComments}
           className="w-full py-2 mt-4 text-sm bg-black text-tan-primary font-archivo"
