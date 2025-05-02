@@ -1,13 +1,12 @@
 "use client";
 
-import { useArtistProfile } from "@/hooks/useArtistProfile";
 import useConnectedWallet from "@/hooks/useConnectedWallet";
 import truncateAddress from "@/lib/truncateAddress";
 import { usePrivy } from "@privy-io/react-auth";
-import { Address } from "viem";
 import Image from "next/image";
 import { useLayoutProvider } from "@/providers/LayoutProvider";
 import truncated from "@/lib/truncated";
+import { useUserProvider } from "@/providers/UserProvider";
 
 interface PrivyButtonProps {
   className?: string;
@@ -16,8 +15,8 @@ interface PrivyButtonProps {
 export function PrivyButton({ className = "" }: PrivyButtonProps) {
   const { login, ready } = usePrivy();
   const { connectedWallet } = useConnectedWallet();
-  const { data } = useArtistProfile(connectedWallet as Address);
   const { toggleNavbar, isOpenNavbar } = useLayoutProvider();
+  const { profile } = useUserProvider();
 
   if (!ready) return null;
 
@@ -44,7 +43,7 @@ export function PrivyButton({ className = "" }: PrivyButtonProps) {
         {connectedWallet ? (
           <>
             <p className="min-w-20 text-left">
-              {truncated(data?.username || "", 9) ||
+              {truncated(profile?.username || "", 9) ||
                 truncateAddress(connectedWallet as string)}
             </p>
             <Image

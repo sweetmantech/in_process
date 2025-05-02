@@ -35,6 +35,7 @@ const useUser = () => {
     isPrepared,
     profile: userProfile.data,
     connectedAddress: signedAddress,
+    getProfile: () => userProfile.refetch(),
   };
 };
 

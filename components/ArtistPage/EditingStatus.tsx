@@ -1,14 +1,14 @@
 import { useProfileProvider } from "@/providers/ProfileProvider";
-import { X } from "lucide-react";
 
 const EditingStatus = () => {
-  const { toggleEditing, save, saving } = useProfileProvider();
+  const { saving, statusRef } = useProfileProvider();
 
   return (
     <div
       className={`relative mx-auto md:absolute z-[10000] md:left-1/2 md:bottom-full mt-16 md:m-0
         md:-translate-x-1/2 flex gap-2 items-center w-fit px-6 py-1.5 rounded-full
     ${saving ? "bg-grey-moss-50" : "bg-grey-moss-900"}`}
+      ref={statusRef}
     >
       <div className="flex items-center gap-2">
         {!saving && (
@@ -22,24 +22,6 @@ const EditingStatus = () => {
           {saving ? "saved!" : "editing your profile"}
         </p>
       </div>
-      {!saving && (
-        <>
-          <button
-            type="button"
-            className="bg-grey-moss-100 text-grey-moss-900 text-sm font-archivo px-3 rounded-full"
-            onClick={save}
-          >
-            save
-          </button>
-          <button
-            type="button"
-            className="bg-grey-moss-100 text-grey-moss-900 rounded-full p-0.5"
-            onClick={toggleEditing}
-          >
-            <X className="size-4" />
-          </button>
-        </>
-      )}
     </div>
   );
 };

@@ -1,9 +1,9 @@
 import { useParams, useSearchParams } from "next/navigation";
-import useConnectedWallet from "./useConnectedWallet";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useArtistProfile } from "./useArtistProfile";
 import { Address } from "viem";
 import truncateAddress from "@/lib/truncateAddress";
+import { useUserProvider } from "@/providers/UserProvider";
 
 const saveIndentify = async (
   artistAddress: Address,
@@ -20,17 +20,20 @@ const saveIndentify = async (
 };
 
 const useProfile = () => {
+  const usernameRef = useRef() as any;
+  const bioRef = useRef() as any;
+  const statusRef = useRef() as any;
+  const { getProfile, connectedAddress } = useUserProvider();
   const { data, isLoading } = useArtistProfile();
-  const { connectedWallet } = useConnectedWallet();
   const [socialAccounts, setSocialAccounts] = useState<any>(null);
   const [username, setUserName] = useState<string>("");
   const [bio, setBio] = useState<string>("");
   const { artistAddress } = useParams();
   const searchParams = useSearchParams();
   const canEdit =
-    connectedWallet?.toLowerCase() ===
+    connectedAddress?.toLowerCase() ===
       new String((artistAddress as string) || "").toLowerCase() &&
-    Boolean(connectedWallet);
+    Boolean(connectedAddress);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [saving, setSaving] = useState<boolean>(false);
   const toggleEditing = () => setIsEditing(!isEditing);
@@ -50,14 +53,33 @@ const useProfile = () => {
     }
   }, [canEdit, searchParams, artistAddress]);
 
-  const save = async () => {
-    setSaving(true);
-    await saveIndentify(artistAddress as Address, username, bio);
-    setTimeout(() => {
-      toggleEditing();
-      setSaving(false);
-    }, 500);
-  };
+  useEffect(() => {
+    if (!usernameRef.current || !bioRef.current || !statusRef.current) return;
+    if (!isEditing) return;
+    const handleMouseDown = async (e: MouseEvent) => {
+      if (
+        usernameRef.current.contains(e.target) ||
+        bioRef.current.contains(e.target) ||
+        statusRef.current.contains(e.target)
+      )
+        return;
+      setSaving(true);
+      await saveIndentify(
+        artistAddress as Address,
+        usernameRef.current.value,
+        bioRef.current.value,
+      );
+      setTimeout(() => {
+        toggleEditing();
+        setSaving(false);
+        getProfile();
+      }, 500);
+    };
+
+    document.addEventListener("mousedown", handleMouseDown);
+
+    return () => document.removeEventListener("mousedown", handleMouseDown);
+  }, [isEditing, usernameRef, bioRef, statusRef]);
 
   return {
     canEdit,
@@ -68,10 +90,12 @@ const useProfile = () => {
     bio,
     setBio,
     socialAccounts,
-    save,
     isLoading,
     saving,
     setSaving,
+    usernameRef,
+    bioRef,
+    statusRef,
   };
 };
 
