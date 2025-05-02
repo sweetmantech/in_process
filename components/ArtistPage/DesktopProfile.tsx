@@ -15,6 +15,8 @@ const DesktopProfile = () => {
     setUserName,
     setBio,
     isLoading,
+    usernameRef,
+    bioRef,
   } = useProfileProvider();
 
   return (
@@ -24,6 +26,8 @@ const DesktopProfile = () => {
         <div className="flex gap-3 md:gap-6 items-center">
           {isEditing ? (
             <input
+              type="text"
+              ref={usernameRef}
               value={username}
               onChange={(e) => setUserName(e.target.value)}
               className="max-w-[120px] md:!max-w-[200px] text-xl md:text-4xl p-1 md:p-3 bg-grey-moss-50 outline-none ring-0 font-archivo-medium"
@@ -45,6 +49,8 @@ const DesktopProfile = () => {
         </div>
         {isEditing ? (
           <input
+            type="text"
+            ref={bioRef}
             value={bio}
             onChange={(e) => setBio(e.target.value)}
             className="max-w-[150px] md:max-w-auto md:min-w-[250px] outline-none ring-0 p-1 md:p-2 font-spectral text-lg md:text-xl mt-2 md:mt-4 bg-grey-moss-50"

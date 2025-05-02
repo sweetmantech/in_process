@@ -14,6 +14,8 @@ const MobileProfile = () => {
     isLoading,
     setUserName,
     setBio,
+    usernameRef,
+    bioRef,
   } = useProfileProvider();
 
   return (
@@ -26,8 +28,10 @@ const MobileProfile = () => {
             className="px-2 py-1 font-archivo !ring-0 !outline-none"
             value={username}
             onChange={(e) => setUserName(e.target.value)}
+            ref={usernameRef}
           />
           <textarea
+            ref={bioRef}
             rows={4}
             className="px-2 py-1 font-spectral !ring-0 !outline-none"
             value={bio}
