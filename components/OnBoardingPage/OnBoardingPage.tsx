@@ -3,26 +3,17 @@
 import { useInProcessFeedProvider } from "@/providers/InProcessFeedProvider";
 import Image from "next/image";
 import FeedItem from "./FeedItem";
-import useConnectedWallet from "@/hooks/useConnectedWallet";
 import { redirect } from "next/navigation";
-import { useAccount } from "wagmi";
-import { useFrameProvider } from "@/providers/FrameProvider";
 import { useEffect } from "react";
+import { useUserProvider } from "@/providers/UserProvider";
 
 const OnBoardingPage = () => {
   const { feeds } = useInProcessFeedProvider();
-  const { connectedWallet } = useConnectedWallet();
-  const { address, isConnected } = useAccount();
-  const { context } = useFrameProvider();
-  const signedWalletAddress = context
-    ? isConnected
-      ? address
-      : null
-    : connectedWallet;
+  const { connectedAddress } = useUserProvider();
 
   useEffect(() => {
-    if (signedWalletAddress) redirect("/");
-  }, [signedWalletAddress]);
+    if (connectedAddress) redirect("/");
+  }, [connectedAddress]);
 
   return (
     <div className="w-screen flex flex-col items-center pt-12 md:pt-[200px]">
