@@ -9,11 +9,13 @@ const CreateToEarnButton = ({ className = "" }: { className?: string }) => {
   const { toggleNavbar } = useLayoutProvider();
   const { data } = useUserCollectionsProvider();
   const { ethPrice } = useEthPriceProvider();
-  const earnings = Number(Number(data?.totalEarnings || 0) * ethPrice).toFixed(
-    2,
-  );
+  const ethEarnings = Number(
+    Number(data?.totalEarnings?.eth || 0) * ethPrice,
+  ).toFixed(2);
+  const usdcEarnings = Number(data?.totalEarnings?.usdc).toFixed(2);
+  const totalEarnings = parseFloat(ethEarnings) + parseFloat(usdcEarnings);
 
-  if (parseFloat(earnings) > 0 || !data?.totalEarnings) return <Fragment />;
+  if (totalEarnings > 0 || !data?.totalEarnings) return <Fragment />;
   return (
     <button
       type="button"

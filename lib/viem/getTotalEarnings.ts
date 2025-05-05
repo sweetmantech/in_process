@@ -11,14 +11,24 @@ import {
 } from "@zoralabs/protocol-deployments";
 import { getPublicClient } from "@/lib/viem/publicClient";
 import { Collection } from "@/types/token";
-import { Address, formatEther } from "viem";
+import { Address, formatEther, formatUnits } from "viem";
 
 const fetchTokenData = async (contract: Address) => {
   const response = await fetch(`/api/dune/purchased?tokenContract=${contract}`);
   return response.ok ? response.json() : [];
 };
 
-const getTotalEarnings = async (collections: Collection[]) => {
+const fetchTransferData = async (contract: Address, owner: Address) => {
+  const response = await fetch(
+    `/api/dune/purchased/wrapper?tokenContract=${contract}&owner=${owner}`,
+  );
+  return response.ok ? response.json() : [];
+};
+
+const getTotalEarnings = async (
+  collections: Collection[],
+  artistAddress: Address,
+) => {
   const nextTokenIds = await getNextTokenIds(collections);
   const publicClient = getPublicClient(CHAIN_ID);
 
@@ -48,22 +58,40 @@ const getTotalEarnings = async (collections: Collection[]) => {
   const returnValues: any = await publicClient.multicall({
     contracts: calls as any,
   });
-  const priceCollections = new Set<Address>();
-
+  const ethPriceCollections = new Set<Address>();
+  const usdcPriceCollections = new Set<Address>();
   for (let i = 0; i < returnValues.length; i += 3) {
     const totalMinted = returnValues[i + 2].result?.totalMinted;
-    const tokenPrice = returnValues[i].result?.pricePerToken as bigint;
-    if (totalMinted > BigInt(0) && tokenPrice > BigInt(0)) {
-      priceCollections.add(calls[i].args[0] as Address);
+    const ethTokenPrice = returnValues[i].result?.pricePerToken as bigint;
+    const usdcTokenPrice = returnValues[i + 1].result?.pricePerToken as bigint;
+
+    if (totalMinted > BigInt(0)) {
+      const collectionAddress = calls[i].args[0] as Address;
+      if (ethTokenPrice > BigInt(0)) ethPriceCollections.add(collectionAddress);
+      if (usdcTokenPrice > BigInt(0))
+        usdcPriceCollections.add(collectionAddress);
     }
   }
 
-  const events = await Promise.all([...priceCollections].map(fetchTokenData));
-  const sum = events
+  const ethEvents = await Promise.all(
+    [...ethPriceCollections].map(fetchTokenData),
+  );
+  const usdcEvents = await Promise.all(
+    [...usdcPriceCollections].map(
+      async (c: Address) => await fetchTransferData(c, artistAddress),
+    ),
+  );
+  const ethSum = ethEvents
     .flat()
     .reduce((acc, e) => acc + BigInt(e.value), BigInt(0));
+  const usdcSum = usdcEvents
+    .flat()
+    .reduce((acc, e) => acc + BigInt(e.amount), BigInt(0));
 
-  return formatEther(sum);
+  return {
+    eth: formatEther(ethSum),
+    usdc: formatUnits(usdcSum, 6),
+  };
 };
 
 export default getTotalEarnings;
