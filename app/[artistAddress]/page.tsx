@@ -9,12 +9,18 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { artistAddress } = await params;
+
+  const response = await fetch(`${APP_URL}/api/profile?walletAddress=${artistAddress}`);
+  const profile = await response.json();
+  const title = profile.username || "Artist";
+  const description = profile.bio || "Imagined by LATASHÁ";
+
   return {
-    title: "In Process",
-    description: "Imagined by LATASHÁ",
+    title: title,
+    description: description,
     openGraph: {
-      title: "In Process",
-      description: "Imagined by LATASHÁ",
+      title: title,
+      description: description,
       images: [`${VERCEL_OG}/api/og/artist?artistAddress=${artistAddress}`],
     },
     other: {
@@ -23,7 +29,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         imageUrl: `${VERCEL_OG}/api/og/artist?artistAddress=${artistAddress}`,
         aspectRatio: "3:2",
         button: {
-          title: "Timeline",
+          title: title,
           action: {
             type: "launch_frame",
             name: "In Process",
