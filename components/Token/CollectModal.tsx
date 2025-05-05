@@ -40,8 +40,8 @@ const CollectModal = () => {
     saleConfig,
     metadata,
     setComment,
+    isLoading,
   } = useTokenProvider();
-  const { data, isLoading } = saleConfig;
   const { data: meta } = metadata;
   const { setIsOpenCrossmint, isOpenCrossmint } = useZoraMintCommentProvider();
   const { isPrepared } = useUserProvider();
@@ -77,9 +77,9 @@ const CollectModal = () => {
               <Skeleton className="h-5 w-10 rounded-none" />
             ) : (
               <>
-                {data?.pricePerToken === BigInt(0)
+                {saleConfig?.pricePerToken === BigInt(0)
                   ? "free"
-                  : `${getPrice(data?.pricePerToken || 0, data?.type)} ${getPriceUnit(data?.type)}`}
+                  : `${getPrice(saleConfig?.pricePerToken || 0, saleConfig?.type)} ${getPriceUnit(saleConfig?.type)}`}
               </>
             )}
           </section>

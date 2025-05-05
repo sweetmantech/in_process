@@ -16,37 +16,36 @@ import { Address, formatEther, formatUnits } from "viem";
 const useCrossmintCalldata = () => {
   const { comment, token, saleConfig } = useTokenProvider();
   const { address } = useAccount();
-  const { data: sale } = saleConfig;
 
   const collectionLocator = useMemo(() => {
-    if (!sale) return;
-    return sale.type === MintType.ZoraErc20Mint
+    if (!saleConfig) return;
+    return saleConfig.type === MintType.ZoraErc20Mint
       ? ERC20_CROSSMINT_COLLECTION_ID
       : FIXED_PRICE_CROSSMINT_COLLECTION_ID;
-  }, [sale]);
+  }, [saleConfig]);
 
   const callData = useMemo(() => {
-    if (!sale) return;
-    if (sale.type === MintType.ZoraErc20Mint)
+    if (!saleConfig) return;
+    if (saleConfig.type === MintType.ZoraErc20Mint)
       return {
         quantity: 1,
         erc20Minter: erc20MinterAddresses[CHAIN_ID],
-        tokenContract: token.token.contract.address,
-        tokenId: token.token.tokenId,
+        tokenContract: token.tokenContractAddress,
+        tokenId: token.tokenId,
         comment,
         mintReferral: address as Address,
-        totalPrice: formatUnits(BigInt(sale?.pricePerToken || 0), 6),
+        totalPrice: formatUnits(BigInt(saleConfig?.pricePerToken || 0), 6),
       };
     return {
       quantity: 1,
       priceFixedSaleStrategy:
         zoraCreatorFixedPriceSaleStrategyAddress[CHAIN_ID],
-      tokenContract: token.token.contract.address,
-      tokenId: token.token.tokenId,
+      tokenContract: token.tokenContractAddress,
+      tokenId: token.tokenId,
       comment,
-      totalPrice: formatEther(BigInt(sale?.pricePerToken || 0)),
+      totalPrice: formatEther(BigInt(saleConfig?.pricePerToken || 0)),
     };
-  }, []);
+  }, [saleConfig]);
 
   return {
     callData,

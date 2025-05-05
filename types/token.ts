@@ -12,13 +12,8 @@ export interface TokenMetadata {
 }
 
 export interface TokenInfo {
-  token: {
-    tokenId: string;
-    tokenURI: string;
-    contract: {
-      address: Address;
-    };
-  };
+  tokenId: string;
+  tokenContractAddress: Address;
 }
 
 export interface Metadata {

@@ -1,6 +1,6 @@
 import { useComments } from "@/hooks/useComments";
 import { useMetadata } from "@/hooks/useMetadata";
-import useTokenSaleConfig from "@/hooks/useTokenSaleConfig";
+import useTokenInfo from "@/hooks/useTokenInfo";
 import useWriteComment from "@/hooks/useWriteComment";
 import { TokenInfo } from "@/types/token";
 import {
@@ -15,11 +15,11 @@ import {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const TokenContext = createContext<
   | (ReturnType<typeof useWriteComment> &
+      ReturnType<typeof useTokenInfo> &
       ReturnType<typeof useComments> & {
         token: TokenInfo;
         isOpenCommentModal: boolean;
         setIsOpenCommentModal: Dispatch<SetStateAction<boolean>>;
-        saleConfig: ReturnType<typeof useTokenSaleConfig>;
         metadata: ReturnType<typeof useMetadata>;
         collected: boolean;
         setCollected: Dispatch<SetStateAction<boolean>>;
@@ -30,17 +30,15 @@ const TokenContext = createContext<
 export function TokenProvider({
   children,
   token,
-  tokenId,
 }: {
   children: ReactNode;
   token: TokenInfo;
-  tokenId: string;
 }) {
   const writeComment = useWriteComment();
-  const comments = useComments(token.token.contract.address, tokenId);
-  const saleConfig = useTokenSaleConfig(token.token.contract.address, tokenId);
+  const comments = useComments(token.tokenContractAddress, token.tokenId);
+  const tokenInfo = useTokenInfo(token.tokenContractAddress, token.tokenId);
   const [isOpenCommentModal, setIsOpenCommentModal] = useState(false);
-  const metadata = useMetadata(token.token.tokenURI);
+  const metadata = useMetadata(tokenInfo.tokenUri);
   const [collected, setCollected] = useState(false);
 
   return (
@@ -49,7 +47,7 @@ export function TokenProvider({
         token,
         ...comments,
         ...writeComment,
-        saleConfig,
+        ...tokenInfo,
         isOpenCommentModal,
         setIsOpenCommentModal,
         metadata,

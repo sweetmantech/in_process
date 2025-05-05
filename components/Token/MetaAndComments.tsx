@@ -15,8 +15,7 @@ const MetaAndComments = ({
   priceHidden = false,
   commentsHidden = false,
 }: MetaAndCommentsProps) => {
-  const { saleConfig, metadata } = useTokenProvider();
-  const { data, isLoading } = saleConfig;
+  const { saleConfig, metadata, isLoading } = useTokenProvider();
   const { data: meta } = metadata;
 
   if (!meta) return <Fragment />;
@@ -36,9 +35,9 @@ const MetaAndComments = ({
               <Skeleton className="w-full h-6" />
             ) : (
               <p className="w-2/3 md:w-full font-archivo text-sm md:text-base border border-black rounded-md text-center bg-grey-moss-50">
-                {data?.pricePerToken === BigInt(0)
+                {saleConfig?.pricePerToken === BigInt(0)
                   ? "free"
-                  : `${getPrice(data?.pricePerToken || 0, data?.type)} ${getPriceUnit(data?.type || "")}`}
+                  : `${getPrice(saleConfig?.pricePerToken || 0, saleConfig?.type)} ${getPriceUnit(saleConfig?.type || "")}`}
               </p>
             )}
           </div>

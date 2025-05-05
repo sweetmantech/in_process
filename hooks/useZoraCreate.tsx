@@ -33,7 +33,6 @@ const createOnSmartWallet = async (parameters: any) => {
 };
 
 export default function useZoraCreate() {
-  const { ethBalance } = useBalance();
   const [creating, setCreating] = useState<boolean>(false);
   const params = useParams();
   const chainId = Number(params.chainId) || CHAIN_ID;
@@ -46,7 +45,7 @@ export default function useZoraCreate() {
     collection,
   );
   const mask = useMask();
-  const { isPrepared } = useUserProvider();
+  const { isPrepared, balances } = useUserProvider();
   const { signTransaction } = useSignTransaction();
 
   const create = async () => {
@@ -59,7 +58,7 @@ export default function useZoraCreate() {
       }
       const { address, account, args, abi, functionName } = parameters;
       let hash: Address | null = null;
-      if (ethBalance === BigInt(0))
+      if (balances.ethBalance === BigInt(0))
         hash = await createOnSmartWallet(parameters);
       else
         hash = await signTransaction({

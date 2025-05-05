@@ -6,26 +6,24 @@ import {
 } from "@/lib/consts";
 import { getPublicClient } from "@/lib/viem/publicClient";
 import { parseEther } from "viem";
-import useSignedAddress from "./useSignedAddress";
 import { Address } from "viem";
-import { SaleConfig } from "./useTokenSaleConfig";
+import { SaleConfig } from "./useTokenInfo";
 import useUsdc from "./useUsdc";
 import { toast } from "sonner";
 import getCollectRequest from "@/lib/getCollectRequest";
 import { TokenInfo } from "@/types/token";
 import useSignTransaction from "./useSignTransaction";
 import getPoolInfo from "@/lib/uniswap/getPoolInfo";
-import useBalance from "./useBalance";
 import { QUOTER_ADDRESSES, V3_CORE_FACTORY_ADDRESSES } from "@uniswap/sdk-core";
 import { USDC_TOKEN, WETH_TOKEN } from "@/lib/tokens";
 import { erc20MinterAddresses } from "@/lib/protocolSdk/constants";
 import { wrapperABI } from "@/lib/abis/wrapperABI";
+import { useUserProvider } from "@/providers/UserProvider";
 
 const useUsdcMint = () => {
-  const signedAddress = useSignedAddress();
   const { hasAllowance, approve } = useUsdc();
   const { signTransaction } = useSignTransaction();
-  const balances = useBalance();
+  const { balances, connectedAddress } = useUserProvider();
 
   const mintWithUsdc = async (
     sale: SaleConfig,
@@ -46,7 +44,7 @@ const useUsdcMint = () => {
       const request = getCollectRequest(
         token,
         sale,
-        signedAddress as Address,
+        connectedAddress as Address,
         comment,
       );
       if (!request) throw new Error();
@@ -56,7 +54,7 @@ const useUsdcMint = () => {
     }
 
     const { amountInMaximum } = await getPoolInfo(
-      signedAddress as Address,
+      connectedAddress as Address,
       usdcPrice,
     );
     const ethBalance = parseEther(balances.ethBalance.toString());
@@ -74,12 +72,12 @@ const useUsdcMint = () => {
           500,
           usdcPrice,
           erc20MinterAddresses[CHAIN_ID],
-          token.token.contract.address,
-          token.token.tokenId,
+          token.tokenContractAddress,
+          token.tokenId,
           1,
           comment,
         ],
-        account: signedAddress as Address,
+        account: connectedAddress as Address,
         value: amountInMaximum,
         chain: CHAIN,
       });
