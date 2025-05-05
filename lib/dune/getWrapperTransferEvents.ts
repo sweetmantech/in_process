@@ -1,9 +1,10 @@
 import { DuneDecodedEvent } from "@/types/dune";
-import { CHAIN_ID, ETH_USDC_WRAPPER } from "../consts";
+import { CHAIN_ID } from "../consts";
 import { MINT_COMMENT_EVENT_SIGNATURE } from "../events";
 import { Address } from "viem";
 
 const getWrapperTransferEvents = async (
+  wrapper: Address,
   tokenContract: Address,
   owner: Address,
 ) => {
@@ -21,7 +22,7 @@ const getWrapperTransferEvents = async (
   const urlSearchParams = new URLSearchParams(params);
 
   const response = await fetch(
-    `https://api.dune.com/api/echo/v1/transactions/evm/${ETH_USDC_WRAPPER}?${urlSearchParams}`,
+    `https://api.dune.com/api/echo/v1/transactions/evm/${wrapper}?${urlSearchParams}`,
     options,
   );
   if (!response.ok) throw Error("failed to call Dune API.");

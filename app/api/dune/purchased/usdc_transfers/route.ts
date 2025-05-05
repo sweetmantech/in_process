@@ -7,8 +7,11 @@ import { Address } from "viem";
 export async function GET(req: NextRequest) {
   const owner = req.nextUrl.searchParams.get("owner");
   const tokenContract = req.nextUrl.searchParams.get("tokenContract");
+  const wrapper = req.nextUrl.searchParams.get("wrapper");
+
   try {
     const transactions: DuneDecodedEvent[] = await getWrapperTransferEvents(
+      wrapper as Address,
       tokenContract as Address,
       owner as Address,
     );
