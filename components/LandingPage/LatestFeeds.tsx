@@ -4,21 +4,28 @@ import truncated from "@/lib/truncated";
 import ArtistName from "../ArtistName";
 import { useInProcessFeedProvider } from "@/providers/InProcessFeedProvider";
 import { useMetadata } from "@/hooks/useMetadata";
+import { useRouter } from "next/navigation";
 
 const Feed = ({ feed }: { feed: Token }) => {
   const { data } = useMetadata(feed.uri);
+  const { push } = useRouter();
+
   return (
-    <div className="flex items-start justify-between p-4">
-      <div>
+    <button
+      type="button"
+      className="w-full flex items-start justify-between p-4"
+      onClick={() => push(`/${feed.creator}`)}
+    >
+      <div className="">
         <p className="font-spectral-italic text-base">
           {truncated(data?.name || "")}
         </p>
-        <p className="font-archivo text-[11px]">
+        <p className="font-archivo text-[11px] text-left">
           {new Date(feed.released_at).toLocaleString()}
         </p>
       </div>
       <ArtistName className="font-archivo text-sm" address={feed.creator} />
-    </div>
+    </button>
   );
 };
 const LatestFeeds = () => {
