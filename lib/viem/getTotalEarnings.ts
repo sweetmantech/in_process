@@ -23,14 +23,18 @@ const fetchTokenData = async (contract: Address) => {
 };
 
 const fetchTransferData = async (contract: Address, owner: Address) => {
-  const [responseUsdcWrapper, responseCrossmint] = await Promise.all([
-    fetch(
-      `/api/dune/purchased/usdc_transfers?tokenContract=${contract}&owner=${owner}&wrapper=${ETH_USDC_WRAPPER}`,
-    ),
-    fetch(
-      `/api/dune/purchased/usdc_transfers?tokenContract=${contract}&owner=${owner}&wrapper=${CROSSMINT_SIGNER_ADDRESS}`,
-    ),
-  ]);
+  const [responseUsdcWrapper, responseCrossmint, responseDirectmint] =
+    await Promise.all([
+      fetch(
+        `/api/dune/purchased/usdc_transfers?tokenContract=${contract}&owner=${owner}&wrapper=${ETH_USDC_WRAPPER}`,
+      ),
+      fetch(
+        `/api/dune/purchased/usdc_transfers?tokenContract=${contract}&owner=${owner}&wrapper=${CROSSMINT_SIGNER_ADDRESS}`,
+      ),
+      fetch(
+        `/api/dune/purchased/usdc_transfers?tokenContract=${contract}&owner=${owner}&wrapper=${erc20MinterAddresses[CHAIN_ID]}`,
+      ),
+    ]);
 
   const dataUsdcWrapper = responseUsdcWrapper.ok
     ? await responseUsdcWrapper.json()
@@ -39,7 +43,10 @@ const fetchTransferData = async (contract: Address, owner: Address) => {
     ? await responseCrossmint.json()
     : [];
 
-  return [...dataUsdcWrapper, ...dataCrossmint];
+  const dataDirectmint = responseDirectmint.ok
+    ? await responseDirectmint.json()
+    : [];
+  return [...dataUsdcWrapper, ...dataCrossmint, ...dataDirectmint];
 };
 
 const getTotalEarnings = async (
