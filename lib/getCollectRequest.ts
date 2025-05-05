@@ -34,8 +34,8 @@ const getCollectRequest = (
       args: [
         account,
         1,
-        token.token.contract.address,
-        token.token.tokenId,
+        token.tokenContractAddress,
+        token.tokenId,
         sale.pricePerToken,
         USDC_ADDRESS,
         account,
@@ -44,13 +44,13 @@ const getCollectRequest = (
       chain: CHAIN,
     };
   return {
-    address: token.token.contract.address,
+    address: token.tokenContractAddress,
     account: account as Address,
     abi: zoraCreator1155ImplABI as any,
     functionName: "mint",
     args: [
       zoraCreatorFixedPriceSaleStrategyAddress[CHAIN_ID],
-      BigInt(token.token.tokenId),
+      BigInt(token.tokenId),
       BigInt(1),
       [],
       minterArguments,
