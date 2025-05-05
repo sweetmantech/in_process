@@ -5,9 +5,11 @@ import { useEthPriceProvider } from "@/providers/EthPriceProvider";
 const TotalEarnings = ({ className }: { className: string }) => {
   const { data, isLoading } = useUserCollectionsProvider();
   const { ethPrice } = useEthPriceProvider();
-  const earnings = Number(Number(data?.totalEarnings || 0) * ethPrice).toFixed(
-    2,
-  );
+  const ethEarnings = Number(
+    Number(data?.totalEarnings?.eth || 0) * ethPrice,
+  ).toFixed(2);
+  const usdcEarnings = Number(data?.totalEarnings?.usdc).toFixed(2);
+  const totalEarnings = parseFloat(ethEarnings) + parseFloat(usdcEarnings);
   return (
     <div
       className={`text-white md:text-base font-spectral text-xl ${className}`}
@@ -15,7 +17,7 @@ const TotalEarnings = ({ className }: { className: string }) => {
       {isLoading ? (
         <Skeleton className="bg-grey-moss-300 w-10 md:w-8 h-4 mt-1" />
       ) : (
-        `$${parseFloat(earnings)}`
+        `$${totalEarnings}`
       )}
     </div>
   );

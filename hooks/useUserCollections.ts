@@ -2,11 +2,15 @@ import { Collection } from "@/types/token";
 import useSignedAddress from "./useSignedAddress";
 import { useQuery } from "@tanstack/react-query";
 import getTotalEarnings from "@/lib/viem/getTotalEarnings";
+import { Address } from "viem";
 
 async function fetchUserCollections(
   artistAddress: string | string[] | undefined,
 ): Promise<{
-  totalEarnings: string;
+  totalEarnings: {
+    eth: string;
+    usdc: string;
+  };
   userCollections: Collection[];
 }> {
   const response = await fetch(
@@ -16,7 +20,7 @@ async function fetchUserCollections(
     throw new Error("Failed to fetch user collections");
   }
   const data = await response.json();
-  const sum = await getTotalEarnings(data);
+  const sum = await getTotalEarnings(data, artistAddress as Address);
   return {
     totalEarnings: sum,
     userCollections: data,
