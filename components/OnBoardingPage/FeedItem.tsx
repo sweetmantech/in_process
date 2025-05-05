@@ -5,12 +5,14 @@ import Image from "next/image";
 import Loading from "../Loading";
 import ArtistName from "../ArtistName";
 import truncated from "@/lib/truncated";
+import { useRouter } from "next/navigation";
 
 interface FeedItemProps {
   feed: Token;
 }
 const FeedItem = ({ feed }: FeedItemProps) => {
   const { data, isLoading } = useMetadata(feed.uri);
+  const { push } = useRouter();
 
   if (isLoading)
     return (
@@ -19,7 +21,11 @@ const FeedItem = ({ feed }: FeedItemProps) => {
       </div>
     );
   return (
-    <div className="w-full">
+    <button
+      type="button"
+      className="w-full"
+      onClick={() => push(`/${feed.creator}`)}
+    >
       <div className="w-full aspect-video relative mt-14 bg-grey-moss-100">
         <Image
           src={getFetchableUrl(data?.image) || ""}
@@ -36,10 +42,10 @@ const FeedItem = ({ feed }: FeedItemProps) => {
         </p>
         <ArtistName address={feed.creator} className="!font-archivo-medium" />
       </div>
-      <p className="font-archivo">
+      <p className="font-archivo text-left">
         {new Date(feed.released_at).toLocaleString()}
       </p>
-    </div>
+    </button>
   );
 };
 
