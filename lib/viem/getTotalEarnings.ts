@@ -3,7 +3,11 @@ import {
   erc20MinterAddresses,
   zoraCreatorFixedPriceSaleStrategyAddress,
 } from "@/lib/protocolSdk/constants";
-import { CHAIN_ID } from "@/lib/consts";
+import {
+  CHAIN_ID,
+  CROSSMINT_SIGNER_ADDRESS,
+  ETH_USDC_WRAPPER,
+} from "@/lib/consts";
 import {
   erc20MinterABI,
   zoraCreator1155ImplABI,
@@ -19,10 +23,23 @@ const fetchTokenData = async (contract: Address) => {
 };
 
 const fetchTransferData = async (contract: Address, owner: Address) => {
-  const response = await fetch(
-    `/api/dune/purchased/wrapper?tokenContract=${contract}&owner=${owner}`,
-  );
-  return response.ok ? response.json() : [];
+  const [responseUsdcWrapper, responseCrossmint] = await Promise.all([
+    fetch(
+      `/api/dune/purchased/usdc_transfers?tokenContract=${contract}&owner=${owner}&wrapper=${ETH_USDC_WRAPPER}`,
+    ),
+    fetch(
+      `/api/dune/purchased/usdc_transfers?tokenContract=${contract}&owner=${owner}&wrapper=${CROSSMINT_SIGNER_ADDRESS}`,
+    ),
+  ]);
+
+  const dataUsdcWrapper = responseUsdcWrapper.ok
+    ? await responseUsdcWrapper.json()
+    : [];
+  const dataCrossmint = responseCrossmint.ok
+    ? await responseCrossmint.json()
+    : [];
+
+  return [...dataUsdcWrapper, ...dataCrossmint];
 };
 
 const getTotalEarnings = async (
