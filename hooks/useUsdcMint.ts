@@ -8,7 +8,7 @@ import { getPublicClient } from "@/lib/viem/publicClient";
 import { parseEther } from "viem";
 import useSignedAddress from "./useSignedAddress";
 import { Address } from "viem";
-import { SaleConfig } from "./useTokenSaleConfig";
+import { SaleConfig } from "./useTokenInfo";
 import useUsdc from "./useUsdc";
 import { toast } from "sonner";
 import getCollectRequest from "@/lib/getCollectRequest";

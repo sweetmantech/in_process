@@ -1,4 +1,4 @@
-import { SaleConfig } from "@/hooks/useTokenSaleConfig";
+import { SaleConfig } from "@/hooks/useTokenInfo";
 import { TokenInfo } from "@/types/token";
 import {
   erc20MinterABI,

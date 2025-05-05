@@ -1,6 +1,6 @@
 import { Address } from "viem";
 import useBalance from "./useBalance";
-import { SaleConfig } from "./useTokenSaleConfig";
+import { SaleConfig } from "./useTokenInfo";
 import getCollectRequest from "@/lib/getCollectRequest";
 import useSignedAddress from "./useSignedAddress";
 import { TokenInfo } from "@/types/token";

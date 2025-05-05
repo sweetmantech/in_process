@@ -7,7 +7,7 @@ import { getPublicClient } from "@/lib/viem/publicClient";
 import { Address } from "viem";
 import { useFrameProvider } from "@/providers/FrameProvider";
 import { useAccount } from "wagmi";
-import { SaleConfig } from "./useTokenSaleConfig";
+import { SaleConfig } from "./useTokenInfo";
 import { MintType } from "@/types/zora";
 import useSignTransaction from "./useSignTransaction";
 
