@@ -5,6 +5,7 @@ import { useAccount, useConnect } from "wagmi";
 import { config } from "@/providers/WagmiProvider";
 import useSignedAddress from "./useSignedAddress";
 import { useArtistProfile } from "./useArtistProfile";
+import useBalance from "./useBalance";
 
 const useUser = () => {
   const { user, login } = usePrivy();
@@ -14,6 +15,7 @@ const useUser = () => {
   const { connect } = useConnect();
   const signedAddress = useSignedAddress();
   const userProfile = useArtistProfile(signedAddress);
+  const balances = useBalance();
 
   const isPrepared = () => {
     if (context) {
@@ -36,6 +38,7 @@ const useUser = () => {
     profile: userProfile.data,
     connectedAddress: signedAddress,
     getProfile: () => userProfile.refetch(),
+    balances,
   };
 };
 

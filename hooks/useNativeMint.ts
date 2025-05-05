@@ -1,5 +1,4 @@
 import { Address } from "viem";
-import useBalance from "./useBalance";
 import { SaleConfig } from "./useTokenInfo";
 import getCollectRequest from "@/lib/getCollectRequest";
 import useSignedAddress from "./useSignedAddress";
@@ -7,9 +6,10 @@ import { TokenInfo } from "@/types/token";
 import useSignTransaction from "./useSignTransaction";
 import { getPublicClient } from "@/lib/viem/publicClient";
 import { CHAIN_ID } from "@/lib/consts";
+import { useUserProvider } from "@/providers/UserProvider";
 
 const useNativeMint = () => {
-  const balances = useBalance();
+  const { balances } = useUserProvider();
   const signedAddress = useSignedAddress();
   const { signTransaction } = useSignTransaction();
 
