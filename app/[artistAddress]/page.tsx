@@ -10,7 +10,9 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { artistAddress } = await params;
 
-  const response = await fetch(`${APP_URL}/api/profile?walletAddress=${artistAddress}`);
+  const response = await fetch(
+    `${APP_URL}/api/profile?walletAddress=${artistAddress}`,
+  );
   const profile = await response.json();
   const title = profile.username || "Artist";
   const description = profile.bio || "Imagined by LATASHÁ";

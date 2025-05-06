@@ -72,7 +72,7 @@ const useCreateMetadata = () => {
     const pdfImageUri = await uploadPdfImage();
     if (pdfImageUri) image = pdfImageUri;
     if (pathname === "/create/writing") {
-      mime = "image/png";
+      mime = "text/plain";
       image = await writinig.uploadWritingImage();
     }
     if (pathname === "/create/embed") {
