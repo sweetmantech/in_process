@@ -1,11 +1,12 @@
 import OgBackground from "@/components/Og/token/OgBackground";
 import OgFooter from "@/components/Og/token/OgFooter";
 import OgHeader from "@/components/Og/token/OgHeader";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import getUsername from "@/lib/getUsername";
 import getUserAvatar from "@/lib/getUserAvatar";
 import { VERCEL_OG } from "@/lib/og/consts";
+import satori from "satori";
 
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
@@ -17,6 +18,9 @@ const archivoFont = fetch(
 const spectralFont = fetch(
   new URL(`${VERCEL_OG}/fonts/Spectral-Regular.ttf`, import.meta.url),
 ).then((res) => res.arrayBuffer());
+
+const WIDTH = 500;
+const HEIGHT = 333;
 
 export async function GET(req: NextRequest) {
   const queryParams = req.nextUrl.searchParams;
@@ -36,54 +40,50 @@ export async function GET(req: NextRequest) {
 
   const username = await getUsername(metadata.owner);
   const useravatar = await getUserAvatar(metadata.owner);
-  const { ImageResponse } = await import("@vercel/og");
   const [archivoFontData, spectralFontData] = await Promise.all([
     archivoFont,
     spectralFont,
   ]);
-
-  return new ImageResponse(
-    (
+  const svg = await satori(
+    <div
+      style={{
+        display: "flex",
+        position: "relative",
+        overflow: "hidden",
+        width: "100%",
+        height: "100%",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <OgBackground
+        backgroundUrl={
+          getFetchableUrl(
+            metadata.metadata.image || `${VERCEL_OG}/images/placeholder.png`,
+          ) || ""
+        }
+      />
       <div
         style={{
-          display: "flex",
           position: "relative",
-          overflow: "hidden",
+          display: "flex",
+          flexDirection: "column",
           width: "100%",
           height: "100%",
-          justifyContent: "center",
-          alignItems: "center",
+          padding: 12,
         }}
       >
-        <OgBackground
-          backgroundUrl={
-            getFetchableUrl(
-              metadata.metadata.image || `${VERCEL_OG}/images/placeholder.png`,
-            ) || ""
-          }
+        <OgHeader
+          ensAvatar={useravatar}
+          username={username}
+          comments={comments.length}
         />
-        <div
-          style={{
-            position: "relative",
-            display: "flex",
-            flexDirection: "column",
-            width: "100%",
-            height: "100%",
-            padding: 12,
-          }}
-        >
-          <OgHeader
-            ensAvatar={useravatar}
-            username={username}
-            comments={comments.length}
-          />
-          <OgFooter />
-        </div>
+        <OgFooter />
       </div>
-    ),
+    </div>,
     {
-      width: 500,
-      height: 333.3,
+      width: WIDTH,
+      height: HEIGHT,
       fonts: [
         {
           name: "Archivo",
@@ -96,6 +96,12 @@ export async function GET(req: NextRequest) {
           weight: 400,
         },
       ],
-    },
+    } as any,
   );
+
+  return new NextResponse(svg, {
+    headers: {
+      "content-type": "image/svg+xml",
+    },
+  });
 }

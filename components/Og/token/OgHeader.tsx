@@ -24,7 +24,7 @@ const OgHeader = ({ ensAvatar, comments, username }: OgHeaderProps) => {
         }}
       >
         <OgImage src={ensAvatar} width={50} height={50} borderRadius={50} />
-        <p
+        <div
           style={{
             fontFamily: "Spectral",
             lineHeight: "100%",
@@ -33,7 +33,7 @@ const OgHeader = ({ ensAvatar, comments, username }: OgHeaderProps) => {
           }}
         >
           @{username}
-        </p>
+        </div>
       </div>
       <div
         style={{
@@ -64,7 +64,7 @@ const OgHeader = ({ ensAvatar, comments, username }: OgHeaderProps) => {
         >
           <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
         </svg>
-        <p
+        <div
           style={{
             lineHeight: "100%",
             fontFamily: "Archivo",
@@ -72,7 +72,7 @@ const OgHeader = ({ ensAvatar, comments, username }: OgHeaderProps) => {
           }}
         >
           {comments}
-        </p>
+        </div>
       </div>
     </div>
   );

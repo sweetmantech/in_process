@@ -10,12 +10,18 @@ const OgBackground = ({ backgroundUrl }: OgBackgroundProps) => {
         display: "flex",
         width: "100%",
         height: "100%",
-        alignItems: "center",
         justifyContent: "center",
+        alignItems: "center",
       }}
     >
       {/* eslint-disable-next-line */}
-      <img src={backgroundUrl} height={400} />
+      <img
+        src={backgroundUrl}
+        style={{
+          objectFit: "cover",
+          objectPosition: "center",
+        }}
+      />
     </div>
   );
 };
