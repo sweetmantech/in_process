@@ -14,7 +14,6 @@ const OgImage = ({ width, height, borderRadius, src }: OgImageProps) => {
         width,
         height,
         position: "relative",
-        overflow: "hidden",
         justifyContent: "center",
         alignItems: "center",
       }}
@@ -25,6 +24,7 @@ const OgImage = ({ width, height, borderRadius, src }: OgImageProps) => {
         style={{
           objectFit: "cover",
           objectPosition: "center",
+          borderRadius,
         }}
       />
     </div>
