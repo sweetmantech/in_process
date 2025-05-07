@@ -46,10 +46,13 @@ export async function GET(req: NextRequest) {
   let orientation = 1;
   if (metadata.metadata.image) {
     const imageUrl = getFetchableUrl(metadata.metadata.image) || "";
-    const data = await fetch(imageUrl).then((res) => res.arrayBuffer());
-    const uint8Array = new Uint8Array(data);
-    const meta = imageMeta(uint8Array);
-    orientation = meta.orientation || 1;
+    const response = await fetch(imageUrl);
+    if (response.ok) {
+      const data = await response.arrayBuffer();
+      const uint8Array = new Uint8Array(data);
+      const meta = imageMeta(uint8Array);
+      orientation = meta.orientation || 1;
+    }
   }
 
   return new ImageResponse(
