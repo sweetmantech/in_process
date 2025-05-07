@@ -1,8 +1,11 @@
+import { rotation } from "@/lib/og/consts";
+
 interface OgBackgroundProps {
   backgroundUrl: string;
+  orientation: number;
 }
 
-const OgBackground = ({ backgroundUrl }: OgBackgroundProps) => {
+const OgBackground = ({ backgroundUrl, orientation }: OgBackgroundProps) => {
   return (
     <div
       style={{
@@ -20,6 +23,7 @@ const OgBackground = ({ backgroundUrl }: OgBackgroundProps) => {
         style={{
           objectFit: "cover",
           objectPosition: "center",
+          transform: rotation[orientation],
         }}
       />
     </div>
