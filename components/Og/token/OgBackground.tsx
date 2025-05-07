@@ -12,7 +12,6 @@ const OgBackground = ({ backgroundUrl }: OgBackgroundProps) => {
         height: "100%",
         justifyContent: "center",
         alignItems: "center",
-        overflow: "hidden",
       }}
     >
       {/* eslint-disable-next-line */}
