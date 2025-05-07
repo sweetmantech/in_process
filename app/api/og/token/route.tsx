@@ -1,26 +1,22 @@
 import OgBackground from "@/components/Og/token/OgBackground";
 import OgFooter from "@/components/Og/token/OgFooter";
 import OgHeader from "@/components/Og/token/OgHeader";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import getUsername from "@/lib/getUsername";
 import getUserAvatar from "@/lib/getUserAvatar";
 import { VERCEL_OG } from "@/lib/og/consts";
-import satori from "satori";
-import sharp from "sharp"; // Import sharp
 
+export const runtime = "edge";
 export const dynamic = "force-dynamic";
 
-const archivoFont = fetch(`${VERCEL_OG}/fonts/Archivo-Regular.ttf`).then(
-  (res) => res.arrayBuffer(),
-);
+const archivoFont = fetch(
+  new URL(`${VERCEL_OG}/fonts/Archivo-Regular.ttf`, import.meta.url),
+).then((res) => res.arrayBuffer());
 
-const spectralFont = fetch(`${VERCEL_OG}/fonts/Spectral-Regular.ttf`).then(
-  (res) => res.arrayBuffer(),
-);
-
-const WIDTH = 500;
-const HEIGHT = 333;
+const spectralFont = fetch(
+  new URL(`${VERCEL_OG}/fonts/Spectral-Regular.ttf`, import.meta.url),
+).then((res) => res.arrayBuffer());
 
 export async function GET(req: NextRequest) {
   const queryParams = req.nextUrl.searchParams;
@@ -40,51 +36,54 @@ export async function GET(req: NextRequest) {
 
   const username = await getUsername(metadata.owner);
   const useravatar = await getUserAvatar(metadata.owner);
+  const { ImageResponse } = await import("@vercel/og");
   const [archivoFontData, spectralFontData] = await Promise.all([
     archivoFont,
     spectralFont,
   ]);
-  const svg = await satori(
-    <div
-      style={{
-        display: "flex",
-        position: "relative",
-        overflow: "hidden",
-        width: "100%",
-        height: "100%",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <OgBackground
-        backgroundUrl={
-          getFetchableUrl(
-            metadata.metadata.image || `${VERCEL_OG}/images/placeholder.png`,
-          ) || ""
-        }
-      />
+
+  return new ImageResponse(
+    (
       <div
         style={{
-          position: "relative",
           display: "flex",
-          flexDirection: "column",
+          position: "relative",
+          overflow: "hidden",
           width: "100%",
           height: "100%",
-          padding: 12,
+          justifyContent: "center",
+          alignItems: "center",
         }}
       >
-        <OgHeader
-          ensAvatar={useravatar}
-          username={username}
-          comments={comments.length}
+        <OgBackground
+          backgroundUrl={
+            getFetchableUrl(
+              metadata.metadata.image || `${VERCEL_OG}/images/placeholder.png`,
+            ) || ""
+          }
         />
-        <OgFooter />
+        <div
+          style={{
+            position: "relative",
+            display: "flex",
+            flexDirection: "column",
+            width: "100%",
+            height: "100%",
+            padding: 12,
+          }}
+        >
+          <OgHeader
+            ensAvatar={useravatar}
+            username={username}
+            comments={comments.length}
+          />
+          <OgFooter />
+        </div>
       </div>
-    </div>,
+    ),
     {
-      width: WIDTH,
-      height: HEIGHT,
-      embedFont: true,
+      width: 500,
+      height: 333.3,
       fonts: [
         {
           name: "Archivo",
@@ -99,20 +98,4 @@ export async function GET(req: NextRequest) {
       ],
     },
   );
-
-  const pngBuffer = await sharp(Buffer.from(svg)).png().toBuffer();
-
-  // Create a ReadableStream from the PNG data
-  const pngStream = new ReadableStream({
-    start(controller) {
-      controller.enqueue(pngBuffer);
-      controller.close();
-    },
-  });
-
-  return new NextResponse(pngStream, {
-    headers: {
-      "Content-Type": "image/png",
-    },
-  });
 }
