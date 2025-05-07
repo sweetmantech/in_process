@@ -16,6 +16,7 @@ const OgImage = ({ width, height, borderRadius, src }: OgImageProps) => {
         position: "relative",
         justifyContent: "center",
         alignItems: "center",
+        overflow: "hidden",
       }}
     >
       {/* eslint-disable-next-line */}
