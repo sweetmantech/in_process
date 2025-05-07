@@ -24,6 +24,8 @@ const OgWritingToken = ({ text }: OgWritingTokenProps) => {
           textAlign: "left",
           maxWidth: "90%",
           overflow: "hidden",
+          margin: 0,
+          padding: 0,
         }}
       >
         {text}
