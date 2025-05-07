@@ -6,18 +6,19 @@ import { NextRequest } from "next/server";
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import getUsername from "@/lib/getUsername";
 import getUserAvatar from "@/lib/getUserAvatar";
-import { VERCEL_OG } from "@/lib/og/consts";
+import { OG_HEIGHT, OG_WIDTH, VERCEL_OG } from "@/lib/og/consts";
+import { imageMeta } from "image-meta";
 
-export const runtime = "edge";
 export const dynamic = "force-dynamic";
+export const runtime = "edge";
 
-const archivoFont = fetch(
-  new URL(`${VERCEL_OG}/fonts/Archivo-Regular.ttf`, import.meta.url),
-).then((res) => res.arrayBuffer());
+const archivoFont = fetch(`${VERCEL_OG}/fonts/Archivo-Regular.ttf`).then(
+  (res) => res.arrayBuffer(),
+);
 
-const spectralFont = fetch(
-  new URL(`${VERCEL_OG}/fonts/Spectral-Regular.ttf`, import.meta.url),
-).then((res) => res.arrayBuffer());
+const spectralFont = fetch(`${VERCEL_OG}/fonts/Spectral-Regular.ttf`).then(
+  (res) => res.arrayBuffer(),
+);
 
 export async function GET(req: NextRequest) {
   const queryParams = req.nextUrl.searchParams;
@@ -44,6 +45,18 @@ export async function GET(req: NextRequest) {
   ]);
 
   const isWritingToken = metadata.metadata?.writing !== undefined;
+  
+  let orientation = 1;
+  if (metadata.metadata.image) {
+    const imageUrl = getFetchableUrl(metadata.metadata.image) || "";
+    const response = await fetch(imageUrl);
+    if (response.ok) {
+      const data = await response.arrayBuffer();
+      const uint8Array = new Uint8Array(data);
+      const meta = imageMeta(uint8Array);
+      orientation = meta.orientation || 1;
+    }
+  }
 
   return new ImageResponse(
     (
@@ -66,8 +79,10 @@ export async function GET(req: NextRequest) {
                 metadata.metadata.image || `${VERCEL_OG}/images/placeholder.png`,
               ) || ""
             }
+            orientation={orientation}
           />
         )}
+
         <div
           style={{
             position: "relative",
@@ -88,8 +103,8 @@ export async function GET(req: NextRequest) {
       </div>
     ),
     {
-      width: 500,
-      height: 333.3,
+      width: OG_WIDTH,
+      height: OG_HEIGHT,
       fonts: [
         {
           name: "Archivo",
