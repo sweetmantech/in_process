@@ -7,9 +7,9 @@ import getUsername from "@/lib/getUsername";
 import getUserAvatar from "@/lib/getUserAvatar";
 import { VERCEL_OG } from "@/lib/og/consts";
 import satori from "satori";
-import sharp from "sharp"; // Import sharp
 
 export const dynamic = "force-dynamic";
+export const runtime = "edge";
 
 const archivoFont = fetch(`${VERCEL_OG}/fonts/Archivo-Regular.ttf`).then(
   (res) => res.arrayBuffer(),
@@ -100,19 +100,9 @@ export async function GET(req: NextRequest) {
     },
   );
 
-  const pngBuffer = await sharp(Buffer.from(svg)).png().toBuffer();
-
-  // Create a ReadableStream from the PNG data
-  const pngStream = new ReadableStream({
-    start(controller) {
-      controller.enqueue(pngBuffer);
-      controller.close();
-    },
-  });
-
-  return new NextResponse(pngStream, {
+  return new NextResponse(svg, {
     headers: {
-      "Content-Type": "image/png",
+      "content-type": "image/svg+xml",
     },
   });
 }
