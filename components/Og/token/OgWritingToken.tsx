@@ -14,6 +14,8 @@ const OgWritingToken = ({ text }: OgWritingTokenProps) => {
         justifyContent: "flex-start",
         backgroundColor: "#ffffff",
         padding: "32px",
+        top: 0,
+        left: 0,
       }}
     >
       <p
@@ -26,6 +28,7 @@ const OgWritingToken = ({ text }: OgWritingTokenProps) => {
           overflow: "hidden",
           margin: 0,
           padding: 0,
+          lineHeight: 1.5,
         }}
       >
         {text}
