@@ -1,4 +1,4 @@
-import { rotation } from "@/lib/og/consts";
+import { rotation, VERCEL_OG } from "@/lib/og/consts";
 
 interface OgBackgroundProps {
   backgroundUrl: string;
@@ -15,6 +15,9 @@ const OgBackground = ({ backgroundUrl, orientation }: OgBackgroundProps) => {
         height: "100%",
         justifyContent: "center",
         alignItems: "center",
+        backgroundImage: `url('${VERCEL_OG}/bg-gray.png')`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
       }}
     >
       {/* eslint-disable-next-line */}
