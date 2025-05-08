@@ -17,7 +17,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="bg-[url('/bg-gray.png')] bg-cover">
+    <html lang="en" className="bg-[url('/bg-gray.png')] bg-cover bg-top bg-no-repeat bg-fixed">
       <body className="min-h-screen flex flex-col !overflow-x-hidden w-screen !lowercase">
         <Suspense>
           <Providers>
