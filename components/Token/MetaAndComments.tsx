@@ -2,7 +2,6 @@ import { useTokenProvider } from "@/providers/TokenProvider";
 import { Fragment } from "react";
 import { Skeleton } from "../ui/skeleton";
 import CommentSection from "./CommentSection";
-import truncated from "@/lib/truncated";
 import getPrice from "@/lib/getPrice";
 import getPriceUnit from "@/lib/getPriceUnit";
 
@@ -23,7 +22,7 @@ const MetaAndComments = ({
   return (
     <div className="w-full md:max-w-[400px] h-fit">
       <h3 className="text-4xl md:text-5xl font-spectral pt-2 md:pt-4">
-        {truncated(meta.name)}
+        {meta.name}
       </h3>
       {!priceHidden && (
         <>

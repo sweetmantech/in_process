@@ -36,7 +36,12 @@ const Footer = () => {
           <button type="button" onClick={() => push("/create")}>
             create
           </button>
-          <button type="button" onClick={() => push(signedAddress ? `/${signedAddress}` : "/onboarding")}>
+          <button
+            type="button"
+            onClick={() =>
+              push(signedAddress ? `/${signedAddress}` : "/onboarding")
+            }
+          >
             timeline
           </button>
           <button type="button" onClick={() => push("/create/writing")}>
