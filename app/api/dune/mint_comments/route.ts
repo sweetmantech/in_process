@@ -1,3 +1,4 @@
+import { CHAIN_ID } from "@/lib/consts";
 import getCrossmintCommentEvents from "@/lib/dune/getCrossmintCommentEvents";
 import getErc20MintCommentsEvents from "@/lib/dune/getErc20MintCommentsEvents";
 import getSmartWalletMintCommentEvents from "@/lib/dune/getSmartWalletMintCommentEvents";
@@ -9,18 +10,32 @@ import { NextRequest } from "next/server";
 export async function GET(req: NextRequest) {
   const tokenContract = req.nextUrl.searchParams.get("tokenContract");
   const tokenId = req.nextUrl.searchParams.get("tokenId");
+  const chainIdParam = req.nextUrl.searchParams.get("chainId");
+  const chainId = chainIdParam || CHAIN_ID;
+
   try {
     const erc20MinterEvents: DuneDecodedEvent[] =
-      await getErc20MintCommentsEvents(tokenContract as string);
+      await getErc20MintCommentsEvents(
+        tokenContract as string,
+        chainId as string,
+      );
     const tokenContractEvents: DuneDecodedEvent[] =
-      await getTokenContractMintCommentEvents(tokenContract as string);
+      await getTokenContractMintCommentEvents(
+        tokenContract as string,
+        chainId as string,
+      );
     const smartWalletEvents: DuneDecodedEvent[] =
-      await getSmartWalletMintCommentEvents(tokenContract as string);
+      await getSmartWalletMintCommentEvents(
+        tokenContract as string,
+        chainId as string,
+      );
     const crossmintEvents: DuneDecodedEvent[] = await getCrossmintCommentEvents(
       tokenContract as string,
+      chainId as string,
     );
     const wrapperEvents: DuneDecodedEvent[] = await getWrapperCommentsEvents(
       tokenContract as string,
+      chainId as string,
     );
     const formattedEvents = [
       ...erc20MinterEvents,
