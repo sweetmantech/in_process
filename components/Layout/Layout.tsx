@@ -13,7 +13,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
       className={`grow flex flex-col ${isOpenNavbar && "h-screen overflow-hidden"}`}
     >
       <Header />
-      <div className="grow relative flex flex-col">{children}</div>
+      <div className="grow relative flex flex-col pt-[48px] md:pt-[72px]">{children}</div>
       <Footer />
     </div>
   );
