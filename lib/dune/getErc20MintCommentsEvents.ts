@@ -5,6 +5,7 @@ import { erc20MinterAddresses } from "../protocolSdk/constants";
 
 const getErc20MintCommentsEvents = async (
   tokenContract: string,
+  chainId: string,
 ): Promise<DuneDecodedEvent[]> => {
   const options = {
     method: "GET",
@@ -12,7 +13,7 @@ const getErc20MintCommentsEvents = async (
   };
   const params: any = {
     decode: "true",
-    chain_ids: `${CHAIN_ID}`,
+    chain_ids: `${chainId || CHAIN_ID}`,
     topic0: MINT_COMMENT_EVENT_SIGNATURE,
     log_address: tokenContract,
   };

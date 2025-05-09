@@ -5,13 +5,12 @@ import {
   SmartWallet,
   toSmartWallet,
 } from "@coinbase/coinbase-sdk";
-import { CHAIN_ID } from "./consts";
 import isDeployedSmartWallet from "./isDeploySmartWallet";
 import deploySmartWallet from "./deploySmartWallet";
 
 Coinbase.configure(JSON.parse(process.env.COINBASE_CONFIGURATION as string));
 
-async function getSmartWallet(): Promise<SmartWallet | null> {
+async function getSmartWallet(chainId: number): Promise<SmartWallet | null> {
   try {
     const owner = privateKeyToAccount(process.env.PRIVATE_KEY as Address);
     const response = await fetch(
@@ -25,12 +24,13 @@ async function getSmartWallet(): Promise<SmartWallet | null> {
         signer: owner,
         smartWalletAddress: smartwallet.baseContractAddress,
       });
-      const isDeployed = await isDeployedSmartWallet(wallet.address);
+      const isDeployed = await isDeployedSmartWallet(wallet.address, chainId);
       if (!isDeployed)
         await deploySmartWallet(
           owner,
           smartwallet?.deploymentMeta?.factoryAddress,
           smartwallet?.deploymentMeta?.factoryCalldata,
+          chainId,
         );
       return wallet;
     }
@@ -38,7 +38,7 @@ async function getSmartWallet(): Promise<SmartWallet | null> {
       signer: owner,
     });
     wallet.useNetwork({
-      chainId: CHAIN_ID,
+      chainId: chainId as any,
     });
     return wallet;
   } catch (error) {

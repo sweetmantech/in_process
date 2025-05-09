@@ -6,8 +6,11 @@ const ERC1967_IMPLEMENTATION_SLOT =
 const NULL_DATA =
   "0x0000000000000000000000000000000000000000000000000000000000000000";
 
-const isDeployedSmartWallet = async (smartWalletAddress: Address) => {
-  const publicClient = getPublicClient();
+const isDeployedSmartWallet = async (
+  smartWalletAddress: Address,
+  chainId: number,
+) => {
+  const publicClient = getPublicClient(chainId);
   const data = await publicClient.getStorageAt({
     address: smartWalletAddress,
     slot: ERC1967_IMPLEMENTATION_SLOT,

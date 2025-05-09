@@ -4,6 +4,7 @@ import { MINT_COMMENT_EVENT_SIGNATURE } from "../events";
 
 const getWrapperCommentsEvents = async (
   tokenContract: string,
+  chainId: string,
 ): Promise<DuneDecodedEvent[]> => {
   const options = {
     method: "GET",
@@ -11,7 +12,7 @@ const getWrapperCommentsEvents = async (
   };
   const params: any = {
     decode: "true",
-    chain_ids: `${CHAIN_ID}`,
+    chain_ids: `${chainId || CHAIN_ID}`,
     topic0: MINT_COMMENT_EVENT_SIGNATURE,
     log_address: tokenContract,
   };

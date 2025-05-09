@@ -5,8 +5,9 @@ import { MINT_COMMENT_EVENT_SIGNATURE } from "../events";
 
 const getCrossmintCommentEvents = async (
   tokenContract: string,
+  chainId: string,
 ): Promise<DuneDecodedEvent[]> => {
-  const smartWallet = await getSmartWallet();
+  const smartWallet = await getSmartWallet(parseInt(chainId, 10));
   if (!smartWallet) return [];
   const options = {
     method: "GET",
@@ -14,7 +15,7 @@ const getCrossmintCommentEvents = async (
   };
   const params: any = {
     decode: "true",
-    chain_ids: `${CHAIN_ID}`,
+    chain_ids: `${chainId || CHAIN_ID}`,
     topic0: MINT_COMMENT_EVENT_SIGNATURE,
     log_address: tokenContract,
   };
@@ -22,7 +23,7 @@ const getCrossmintCommentEvents = async (
   const urlSearchParams = new URLSearchParams(params);
 
   const response = await fetch(
-    `https://api.dune.com/api/echo/v1/transactions/evm/${CROSSMINT_SIGNER_ADDRESS}?${urlSearchParams}`,
+    `https://api.dune.com/api/echo/v1/transactions/evm/${CROSSMINT_SIGNER_ADDRESS[chainId]}?${urlSearchParams}`,
     options,
   );
   if (!response.ok) throw Error("failed to call Dune API.");

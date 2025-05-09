@@ -12,14 +12,18 @@ export type SaleConfig = {
   type: string;
 };
 
-const useTokenInfo = (tokenContract: Address, tokenId: string) => {
+const useTokenInfo = (
+  tokenContract: Address,
+  tokenId: string,
+  chainId: number,
+) => {
   const [saleConfig, setSaleConfig] = useState<SaleConfig | null>(null);
   const [tokenUri, setTokenUri] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const init = async () => {
-      const tokenInfo = await getTokenInfo(tokenContract, tokenId);
+      const tokenInfo = await getTokenInfo(tokenContract, tokenId, chainId);
       setSaleConfig(tokenInfo.saleConfig);
       setTokenUri(tokenInfo.tokenUri);
       setIsLoading(false);

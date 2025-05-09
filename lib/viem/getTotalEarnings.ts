@@ -29,7 +29,7 @@ const fetchTransferData = async (contract: Address, owner: Address) => {
         `/api/dune/purchased/usdc_transfers?tokenContract=${contract}&owner=${owner}&wrapper=${ETH_USDC_WRAPPER}`,
       ),
       fetch(
-        `/api/dune/purchased/usdc_transfers?tokenContract=${contract}&owner=${owner}&wrapper=${CROSSMINT_SIGNER_ADDRESS}`,
+        `/api/dune/purchased/usdc_transfers?tokenContract=${contract}&owner=${owner}&wrapper=${CROSSMINT_SIGNER_ADDRESS[CHAIN_ID]}`,
       ),
       fetch(
         `/api/dune/purchased/usdc_transfers?tokenContract=${contract}&owner=${owner}&wrapper=${erc20MinterAddresses[CHAIN_ID]}`,
