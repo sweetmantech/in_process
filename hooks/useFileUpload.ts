@@ -20,8 +20,10 @@ const useFileUpload = ({
   const [blurImageUrl, setBlurImageUrl] = useState<string>("");
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
+  const [pctComplete, setPctComplete] = useState<number>(0);
 
   const fileUpload = async (event: any) => {
+    setPctComplete(0);
     setError("");
     setLoading(true);
 
@@ -33,7 +35,9 @@ const useFileUpload = ({
 
       const mimeType = file.type;
       const isImage = mimeType.includes("image");
-      const uri = await clientUploadToArweave(file);
+      const uri = await clientUploadToArweave(file, (pct: number) =>
+        setPctComplete(pct),
+      );
       if (isImage) {
         setImageUri(uri);
         setBlurImageUrl(URL.createObjectURL(file));
@@ -65,6 +69,7 @@ const useFileUpload = ({
     error,
     blurImageUrl,
     setFileUploading: setLoading,
+    pctComplete,
   };
 };
 

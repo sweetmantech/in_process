@@ -8,7 +8,10 @@ const arweave = Arweave.init({
   logging: false,
 });
 
-const clientUploadToArweave = async (file: File): Promise<string> => {
+const clientUploadToArweave = async (
+  file: File,
+  getProgress: (progress: number) => void = () => {},
+): Promise<string> => {
   const ARWEAVE_KEY = JSON.parse(
     Buffer.from(
       process.env.NEXT_PUBLIC_ARWEAVE_KEY as string,
@@ -31,6 +34,7 @@ const clientUploadToArweave = async (file: File): Promise<string> => {
     console.log(
       `${uploader.pctComplete}% complete, ${uploader.uploadedChunks}/${uploader.totalChunks}`,
     );
+    getProgress(uploader.pctComplete);
     await uploader.uploadChunk();
   }
 

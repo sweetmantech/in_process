@@ -21,13 +21,20 @@ const Container = ({
 );
 
 const MediaUploaded = ({ handleImageClick }: MediaUploadedProps) => {
-  const { fileUploading, blurImageUrl, mimeType, animationUri, imageUri } =
-    useZoraCreateProvider();
+  const {
+    fileUploading,
+    blurImageUrl,
+    mimeType,
+    animationUri,
+    imageUri,
+    pctComplete,
+  } = useZoraCreateProvider();
 
   if (fileUploading) {
     return (
-      <Container className="items-center">
+      <Container className="flex flex-col items-center gap-2">
         <Spinner />
+        <p className="font-archivo text-xl">{pctComplete} %</p>
       </Container>
     );
   }
