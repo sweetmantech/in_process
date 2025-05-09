@@ -5,6 +5,7 @@ import { erc20MinterAddresses } from "../protocolSdk/constants";
 
 const getErc20MintCommentsEvents = async (
   tokenContract: string,
+  chainId: string,
 ): Promise<DuneDecodedEvent[]> => {
   const options = {
     method: "GET",
@@ -12,7 +13,7 @@ const getErc20MintCommentsEvents = async (
   };
   const params: any = {
     decode: "true",
-    chain_ids: `${CHAIN_ID}`,
+    chain_ids: `${chainId || CHAIN_ID}`,
     topic0: MINT_COMMENT_EVENT_SIGNATURE,
     log_address: tokenContract,
   };
@@ -20,7 +21,7 @@ const getErc20MintCommentsEvents = async (
   const urlSearchParams = new URLSearchParams(params);
 
   const response = await fetch(
-    `https://api.dune.com/api/echo/v1/transactions/evm/${erc20MinterAddresses[CHAIN_ID]}?${urlSearchParams}`,
+    `https://api.dune.com/api/echo/v1/transactions/evm/${erc20MinterAddresses[parseInt(chainId, 10) as keyof typeof erc20MinterAddresses]}?${urlSearchParams}`,
     options,
   );
   if (!response.ok) throw Error("failed to call Dune API.");

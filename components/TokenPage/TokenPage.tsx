@@ -1,17 +1,21 @@
 "use client";
 
 import Token from "@/components/Token";
+import { ZORA_TO_VIEM, ZoraChains } from "@/lib/zora/zoraToViem";
 import { TokenProvider } from "@/providers/TokenProvider";
 import { ZoraMintCommentProvider } from "@/providers/ZoraMintCommentProvider";
 import { useParams } from "next/navigation";
 import { Address } from "viem";
+import * as chains from "viem/chains";
 
 const TokenPage = () => {
   const params = useParams();
   const collection = params.collection as string;
   const tokenId = params.tokenId as string;
   // eslint-disable-next-line
-  const [_, address] = collection.split("%3A");
+  const [chain, address] = collection.split("%3A");
+  const viemChainName = ZORA_TO_VIEM[chain as ZoraChains];
+  const viemChain = chains[viemChainName];
 
   return (
     <main className="w-screen flex grow">
@@ -21,6 +25,7 @@ const TokenPage = () => {
             tokenContractAddress: address as Address,
             tokenId,
           }}
+          chainId={viemChain.id}
         >
           <ZoraMintCommentProvider>
             <Token />

@@ -6,9 +6,13 @@ import { NextRequest } from "next/server";
 export async function GET(req: NextRequest) {
   const tokenContract = req.nextUrl.searchParams.get("tokenContract");
   const tokenId = req.nextUrl.searchParams.get("tokenId");
+  const chainId = req.nextUrl.searchParams.get("chainId");
   try {
     const erc20MinterEvents: DuneDecodedEvent[] =
-      await getErc20MintCommentsEvents(tokenContract as string);
+      await getErc20MintCommentsEvents(
+        tokenContract as string,
+        chainId as string,
+      );
 
     const comments = getFormattedMintComments(erc20MinterEvents);
     return Response.json(

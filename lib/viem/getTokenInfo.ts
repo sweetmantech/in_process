@@ -12,16 +12,23 @@ import {
 import { Address } from "viem";
 import { MintType } from "@/types/zora";
 
-const getTokenInfo = async (tokenContract: Address, tokenId: string) => {
-  const publicClient: any = getPublicClient(CHAIN_ID);
+const getTokenInfo = async (
+  tokenContract: Address,
+  tokenId: string,
+  chainId: number = CHAIN_ID,
+) => {
+  const publicClient: any = getPublicClient(chainId);
   const erc20SaleConfigCall = {
-    address: erc20MinterAddresses[CHAIN_ID],
+    address: erc20MinterAddresses[chainId as keyof typeof erc20MinterAddresses],
     abi: erc20MinterABI,
     functionName: "sale",
     args: [tokenContract, tokenId],
   };
   const fixedSaleConfigCall = {
-    address: zoraCreatorFixedPriceSaleStrategyAddress[CHAIN_ID],
+    address:
+      zoraCreatorFixedPriceSaleStrategyAddress[
+        chainId as keyof typeof zoraCreatorFixedPriceSaleStrategyAddress
+      ],
     abi: zoraCreatorFixedPriceSaleStrategyABI,
     functionName: "sale",
     args: [tokenContract, tokenId],
