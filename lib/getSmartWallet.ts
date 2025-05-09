@@ -7,10 +7,13 @@ import {
 } from "@coinbase/coinbase-sdk";
 import isDeployedSmartWallet from "./isDeploySmartWallet";
 import deploySmartWallet from "./deploySmartWallet";
+import { CHAIN_ID } from "./consts";
 
 Coinbase.configure(JSON.parse(process.env.COINBASE_CONFIGURATION as string));
 
-async function getSmartWallet(chainId: number): Promise<SmartWallet | null> {
+async function getSmartWallet(
+  chainId: number = CHAIN_ID,
+): Promise<SmartWallet | null> {
   try {
     const owner = privateKeyToAccount(process.env.PRIVATE_KEY as Address);
     const response = await fetch(

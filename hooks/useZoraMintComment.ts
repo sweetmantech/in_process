@@ -70,7 +70,7 @@ const useZoraMintComment = () => {
       let hash: Address | null = null;
 
       if (saleConfig.pricePerToken === BigInt(0)) {
-        hash = await mintOnSmartWallet({
+        const hash = await mintOnSmartWallet({
           address: token.tokenContractAddress,
           abi: zoraCreator1155ImplABI,
           functionName: "mint",
