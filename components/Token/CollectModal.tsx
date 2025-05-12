@@ -46,6 +46,10 @@ const CollectModal = () => {
   const { data: meta } = metadata;
   const { setIsOpenCrossmint, isOpenCrossmint } = useZoraMintCommentProvider();
   const { isPrepared } = useUserProvider();
+  const isSaleActive =
+    parseInt(BigInt(saleConfig?.saleStart?.toString() || 0).toString(), 10) *
+      1000 <
+    Date.now();
 
   const handleCollect = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -62,7 +66,12 @@ const CollectModal = () => {
         open={isOpenCommentModal}
         onOpenChange={() => setIsOpenCommentModal(!isOpenCommentModal)}
       >
-        <DialogTrigger asChild onClick={handleCollect}>
+        <DialogTrigger
+          asChild
+          onClick={handleCollect}
+          disabled={!isSaleActive}
+          className="disabled:cursor-not-allowed disabled:bg-grey-moss-300"
+        >
           <button
             type="button"
             className="w-full md:w-[420px] py-2 md:h-[60px] bg-black hover:bg-grey-moss-300 rounded-md h-fit text-tan-primary font-archivo text-2xl"
