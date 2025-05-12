@@ -22,14 +22,14 @@ export const FeedTooltip: React.FC<FeedTooltipProps> = ({
 
   return (
     <div
-      className="absolute border-[1px] border-black z-50 bg-white transform -translate-y-full -translate-x-full pointer-events-none"
+      className="absolute border-[1px] border-grey-moss-900 z-50 bg-white transform -translate-y-full -translate-x-full pointer-events-none"
       style={{
         left: `${position.x - 150}px`,
         top: `${position.y - 50}px`,
         visibility: isVisible ? "visible" : "hidden",
       }}
     >
-      <div className="w-[200px] aspect-[1/1] relative bg-tan-400">
+      <div className="w-[200px] aspect-[1/1] relative bg-grey-moss-100">
         {isLoading ? (
           <Loading className="size-full" />
         ) : (
