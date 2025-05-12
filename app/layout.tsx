@@ -11,6 +11,13 @@ export const metadata: Metadata = {
   description: "Imagined by LATASHÁ",
 };
 
+/**
+ * Root layout component that defines the HTML structure and global providers for the application.
+ *
+ * Wraps all pages with context providers, layout, and a notification toaster, applying global styles and supporting asynchronous loading with React Suspense.
+ *
+ * @param children - The page content to be rendered within the layout.
+ */
 export default function RootLayout({
   children,
 }: Readonly<{
