@@ -4,7 +4,7 @@ import ArtistName from "../ArtistName";
 import { Skeleton } from "../ui/skeleton";
 
 const CommentSection = () => {
-  const { visibleComments, comments, showMoreComments, isLoading } =
+  const { visibleComments, comments, showMoreComments, isLoading, isSetSale } =
     useTokenProvider();
 
   if (isLoading)
@@ -18,7 +18,7 @@ const CommentSection = () => {
       <CommentsContainer>
         <p className="font-archivo">no comments yet</p>
         <p className="font-spectral-italic tracking-[-1px]">
-          collect and be first
+          {isSetSale ? "collect and be first" : "sale is not yet activated."}
         </p>
       </CommentsContainer>
     );

@@ -7,7 +7,7 @@ import {
 import { Label } from "../ui/label";
 import { useTokenProvider } from "@/providers/TokenProvider";
 import CommentButton from "../CommentButton/CommentButton";
-import { MouseEvent, Suspense } from "react";
+import { Fragment, MouseEvent, Suspense } from "react";
 import { Skeleton } from "../ui/skeleton";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import dynamic from "next/dynamic";
@@ -41,6 +41,7 @@ const CollectModal = () => {
     metadata,
     setComment,
     isLoading,
+    isSetSale,
   } = useTokenProvider();
   const { data: meta } = metadata;
   const { setIsOpenCrossmint, isOpenCrossmint } = useZoraMintCommentProvider();
@@ -52,6 +53,8 @@ const CollectModal = () => {
     setIsOpenCommentModal(true);
     return;
   };
+
+  if (!isSetSale) return <Fragment />;
 
   return (
     <>
