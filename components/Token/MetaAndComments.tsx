@@ -14,9 +14,8 @@ const MetaAndComments = ({
   priceHidden = false,
   commentsHidden = false,
 }: MetaAndCommentsProps) => {
-  const { saleConfig, metadata, isLoading } = useTokenProvider();
+  const { saleConfig, metadata, isLoading, isSetSale } = useTokenProvider();
   const { data: meta } = metadata;
-
   if (!meta) return <Fragment />;
 
   return (
@@ -24,7 +23,7 @@ const MetaAndComments = ({
       <h3 className="text-4xl md:text-5xl font-spectral pt-2 md:pt-4">
         {meta.name}
       </h3>
-      {!priceHidden && (
+      {!priceHidden && isSetSale && (
         <>
           <div className="space-y-1 md:space-y-2 mt-2 md:mt-4">
             <p className="font-archivo text-sm md:text-lg">

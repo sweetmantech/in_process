@@ -20,11 +20,13 @@ const useTokenInfo = (
   const [saleConfig, setSaleConfig] = useState<SaleConfig | null>(null);
   const [tokenUri, setTokenUri] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isSetSale, setIsSetSale] = useState<boolean>(false);
 
   useEffect(() => {
     const init = async () => {
       const tokenInfo = await getTokenInfo(tokenContract, tokenId, chainId);
       setSaleConfig(tokenInfo.saleConfig);
+      setIsSetSale(BigInt(tokenInfo.saleConfig.saleEnd) > BigInt(0));
       setTokenUri(tokenInfo.tokenUri);
       setIsLoading(false);
     };
@@ -35,6 +37,7 @@ const useTokenInfo = (
     saleConfig,
     tokenUri,
     isLoading,
+    isSetSale,
   };
 };
 
