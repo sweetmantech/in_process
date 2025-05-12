@@ -40,10 +40,8 @@ export default function useZoraCreate() {
   const collection = searchParams.get("collectionAddress") as Address;
   const [createdContract, setCreatedContract] = useState<string>("");
   const [createdTokenId, setCreatedTokenId] = useState<string>("");
-  const { fetchParameters, createMetadata } = useZoraCreateParameters(
-    chainId,
-    collection,
-  );
+  const { fetchParameters, createMetadata, advancedValues } =
+    useZoraCreateParameters(chainId, collection);
   const mask = useMask();
   const { isPrepared, balances } = useUserProvider();
   const { signTransaction } = useSignTransaction();
@@ -102,5 +100,6 @@ export default function useZoraCreate() {
     creating,
     ...createMetadata,
     ...mask,
+    ...advancedValues,
   };
 }

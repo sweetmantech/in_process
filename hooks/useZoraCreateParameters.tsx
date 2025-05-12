@@ -8,6 +8,7 @@ import useConnectedWallet from "./useConnectedWallet";
 import { useFrameProvider } from "@/providers/FrameProvider";
 import getSaleConfigType from "@/lib/getSaleConfigType";
 import { usePathname } from "next/navigation";
+import useCreateAdvancedValues from "./useCreateAdvancedValues";
 
 const useZoraCreateParameters = (
   chainId: number = CHAIN_ID,
@@ -20,6 +21,7 @@ const useZoraCreateParameters = (
   const { address } = useAccount();
   const createMetadata = useCreateMetadata();
   const { context } = useFrameProvider();
+  const advancedValues = useCreateAdvancedValues();
 
   const fetchParameters = async () => {
     if (!publicClient) return;
@@ -31,6 +33,7 @@ const useZoraCreateParameters = (
     const salesConfig = getSalesConfig(
       getSaleConfigType(isUsdc ? "erc20Mint" : "fixedPrice"),
       createMetadata.price,
+      advancedValues.startDate,
     );
 
     let newParameters;
@@ -69,7 +72,7 @@ const useZoraCreateParameters = (
     return newParameters;
   };
 
-  return { createMetadata, fetchParameters };
+  return { createMetadata, fetchParameters, advancedValues };
 };
 
 export default useZoraCreateParameters;
