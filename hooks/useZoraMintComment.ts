@@ -76,7 +76,7 @@ const useZoraMintComment = () => {
           args: [
             zoraCreatorFixedPriceSaleStrategyAddress[CHAIN.id],
             token.tokenId,
-            1,
+            mintCount,
             [],
             minterArguments,
           ],
