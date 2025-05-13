@@ -13,6 +13,10 @@ const InProcessFeedProvider = ({ children }: { children: React.ReactNode }) => {
   const value = useMemo(
     () => ({
       ...feeds,
+      feeds: feeds.feeds.sort(
+        (a, b) =>
+          new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+      ),
     }),
     [feeds],
   );

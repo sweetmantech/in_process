@@ -13,6 +13,10 @@ const ArtistFeedProvider = ({ children }: { children: React.ReactNode }) => {
   const value = useMemo(
     () => ({
       ...feeds,
+      feeds: feeds.feeds.sort(
+        (a, b) =>
+          new Date(b.released_at).getTime() - new Date(a.released_at).getTime(),
+      ),
     }),
     [feeds],
   );
