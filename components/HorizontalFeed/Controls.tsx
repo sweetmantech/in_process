@@ -7,10 +7,10 @@ const Controls = () => {
     useHorizontalFeedAnimationProvider();
 
   return (
-    <React.Fragment>
+    <div className="px-1 flex justify-between z-[9999999999] size-full absolute flex items-center left-0 top-0">
       {activeIndex > 1 && (
         <button
-          className="absolute bottom-[53px] md:bottom-[58px] left-0 md:left-[2px] z-[2] text-black"
+          className="text-black"
           type="button"
           onClick={() => swiper?.slidePrev()}
         >
@@ -19,14 +19,14 @@ const Controls = () => {
       )}
       {timelineOverflowed && !feedEnded && (
         <button
-          className="absolute bottom-[49px] md:bottom-[54px] right-[-4px] md:right-[-6px] z-[2] text-black p-1"
+          className="text-black p-1 ml-auto"
           type="button"
           onClick={() => swiper?.slideNext()}
         >
           <ArrowRight />
         </button>
       )}
-    </React.Fragment>
+    </div>
   );
 };
 
