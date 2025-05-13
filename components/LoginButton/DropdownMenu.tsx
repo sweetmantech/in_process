@@ -57,6 +57,16 @@ export function DropdownMenu() {
       >
         timeline
       </button>
+      <Divider />
+      <button
+        onClick={() => {
+          toggleNavbar();
+          push("/manage");
+        }}
+        className="w-full text-left pl-14 md:px-4 py-4 md:py-2 text-white text-2xl md:text-base hover:bg-[#333333] hover:rounded-b-sm transition-colors"
+      >
+        manage
+      </button>
       {!context && (
         <>
           <Divider />
