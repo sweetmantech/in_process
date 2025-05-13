@@ -33,7 +33,7 @@ const Feeds = () => {
       </p>
       <div className="flex justify-center md:justify-start">
         <Button
-          className="md:mt-2 bg-black hover:bg-grey-moss-300 text-tan-primary font-archivo text-xl md:text-2xl py-4 md:py-6 px-16 md:px-24 rounded-sm"
+          className="md:mt-2 bg-black hover:bg-grey-moss-300 text-grey-eggshell font-archivo text-xl md:text-[22px] py-4 md:py-6 px-16 md:px-24 rounded-sm"
           onClick={() => push("/create")}
         >
           create

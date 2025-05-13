@@ -30,7 +30,7 @@ const CreateButton = () => {
     <Button
       onClick={handleCreate}
       disabled={!canCreate}
-      className="md:!mt-6 !font-archivo bg-black hover:bg-grey-moss-300 text-tan-primary w-full px-3 py-6 md:h-[60px] !text-xl !rounded-sm transform transition-transform duration-150 disabled:opacity-1 disabled:!cursor-not-allowed disabled:!pointer-events-auto"
+      className="md:!mt-6 !font-archivo bg-black hover:bg-grey-moss-300 text-grey-eggshell w-full px-3 py-6 md:h-[60px] !text-xl !rounded-sm transform transition-transform duration-150 disabled:opacity-1 disabled:!cursor-not-allowed disabled:!pointer-events-auto"
     >
       {creating ? "creating..." : "create"}
     </Button>

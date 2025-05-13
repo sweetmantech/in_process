@@ -46,7 +46,7 @@ const CommentSection = () => {
       {comments.length > visibleComments && (
         <button
           onClick={showMoreComments}
-          className="w-full py-2 mt-4 text-sm bg-black text-tan-primary font-archivo"
+          className="w-full py-2 mt-4 text-sm bg-black text-grey-eggshell font-archivo"
         >
           View More Comments
         </button>

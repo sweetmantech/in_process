@@ -74,7 +74,7 @@ const CollectModal = () => {
         >
           <button
             type="button"
-            className="w-full md:w-[420px] py-2 md:h-[60px] bg-black hover:bg-grey-moss-300 rounded-md h-fit text-tan-primary font-archivo text-2xl"
+            className="w-full md:w-[420px] py-2 md:h-[60px] bg-black hover:bg-grey-moss-300 rounded-md h-fit text-grey-eggshell font-archivo text-2xl"
           >
             collect
           </button>

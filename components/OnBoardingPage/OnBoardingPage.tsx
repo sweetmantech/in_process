@@ -33,7 +33,7 @@ const OnBoardingPage = () => {
         <button
           onClick={() => push("/create")}
           type="button"
-          className="text-xl w-[168px] py-1 bg-grey-moss-900 hover:bg-grey-moss-300 font-archivo text-tan-primary rounded-sm"
+          className="text-xl w-[168px] py-1 bg-grey-moss-900 hover:bg-grey-moss-300 font-archivo text-grey-eggshell rounded-sm"
         >
           start
         </button>
