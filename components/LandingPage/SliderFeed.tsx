@@ -2,7 +2,7 @@ import { useMetadata } from "@/hooks/useMetadata";
 import { Token } from "@/types/token";
 import Loading from "../Loading";
 import { useRouter } from "next/navigation";
-import ContentRenderer from "../Token/ContentRenderer";
+import CarouselItem from "./CarouselItem";
 
 interface SliderFeedProps {
   feed: Token;
@@ -18,7 +18,7 @@ const SliderFeed = ({ feed }: SliderFeedProps) => {
 
   return (
     <button
-      className="w-full h-[200px] md:h-auto aspect-video overflow-hidden relative rounded-md bg-grey-moss-100"
+      className="w-full h-[200px] md:h-auto overflow-hidden relative rounded-md bg-grey-moss-100"
       type="button"
       onClick={handleClick}
     >
@@ -27,7 +27,7 @@ const SliderFeed = ({ feed }: SliderFeedProps) => {
           <Loading className="size-3/4" />
         </div>
       ) : (
-        <ContentRenderer metadata={data} />
+        <CarouselItem metadata={data} />
       )}
     </button>
   );
