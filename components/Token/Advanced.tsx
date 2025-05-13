@@ -27,7 +27,7 @@ const Advanced = () => {
             onClick={() => setMintCount(count || 2)}
             key={index}
           >
-            {count || "Custom"}
+            {count}
           </button>
         ))}
       </div>

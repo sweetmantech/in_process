@@ -52,7 +52,7 @@ export function TokenProvider({
   const [isOpenCommentModal, setIsOpenCommentModal] = useState(false);
   const metadata = useMetadata(tokenInfo.tokenUri);
   const [collected, setCollected] = useState(false);
-  const [mintCount, setMintCount] = useState(0);
+  const [mintCount, setMintCount] = useState(1);
 
   return (
     <TokenContext.Provider
