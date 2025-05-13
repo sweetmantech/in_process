@@ -30,6 +30,7 @@ module.exports = {
           light: "#f6f6f6",
           primary: "#605F5C",
           secondary: "#888888",
+          "eggshell": "#FEFEFE",
           "moss-50": "#F5F5F5",
           "moss-100": "#E0DDD8",
           "moss-200": "#999999",
