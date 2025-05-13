@@ -1,15 +1,14 @@
 "use client";
 
-import { useInProcessFeedProvider } from "@/providers/InProcessFeedProvider";
 import Image from "next/image";
-import FeedItem from "./FeedItem";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useUserProvider } from "@/providers/UserProvider";
+import FeedTable from "../FeedTable";
 
 const OnBoardingPage = () => {
-  const { feeds } = useInProcessFeedProvider();
   const { connectedAddress } = useUserProvider();
+  const { push } = useRouter();
 
   useEffect(() => {
     if (connectedAddress) redirect("/");
@@ -30,10 +29,17 @@ const OnBoardingPage = () => {
         blurDataURL="/brand.png"
         className="mt-16"
       />
-      <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-4 px-4 md:px-10">
-        {feeds.slice(0, 3).map((feed, i) => (
-          <FeedItem key={i} feed={feed} />
-        ))}
+      <div className="py-12">
+        <button
+          onClick={() => push("/create")}
+          type="button"
+          className="text-xl w-[168px] py-1 bg-grey-moss-900 hover:bg-grey-moss-300 font-archivo text-tan-primary rounded-sm"
+        >
+          start
+        </button>
+      </div>
+      <div className="max-w-6xl w-full px-12">
+        <FeedTable />
       </div>
     </div>
   );
