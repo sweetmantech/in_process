@@ -37,7 +37,7 @@ const Buttons = () => {
       </div>
       <button
         type="button"
-        className="w-full py-2 bg-black font-archivo text-tan-primary rounded-sm relative text-2xl"
+        className="w-full py-2 bg-black font-archivo text-grey-eggshell rounded-sm relative text-2xl"
         onClick={share}
       >
         share

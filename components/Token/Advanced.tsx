@@ -21,7 +21,7 @@ const Advanced = () => {
           <button
             type="button"
             className={cn(
-              "px-6 py-1 rounded-full font-archivo bg-grey-moss-900 text-tan-primary hover:bg-grey-moss-300",
+              "px-6 py-1 rounded-full font-archivo bg-grey-moss-900 text-grey-eggshell hover:bg-grey-moss-300",
               count === mintCount ? "bg-grey-moss-300" : "",
             )}
             onClick={() => setMintCount(count || 2)}
