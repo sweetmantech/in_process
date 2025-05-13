@@ -45,6 +45,7 @@ const useZoraMintComment = () => {
     setIsOpenCommentModal,
     saleConfig,
     setCollected,
+    mintCount,
   } = useTokenProvider();
   const { isPrepared } = useUserProvider();
   const { order } = useCrossmintCheckout();
@@ -67,10 +68,8 @@ const useZoraMintComment = () => {
         [account as Address, comment],
       );
 
-      let hash: Address | null = null;
-
       if (saleConfig.pricePerToken === BigInt(0)) {
-        const hash = await mintOnSmartWallet({
+        await mintOnSmartWallet({
           address: token.tokenContractAddress,
           abi: zoraCreator1155ImplABI,
           functionName: "mint",
@@ -86,7 +85,13 @@ const useZoraMintComment = () => {
         let receipt = null;
         if (saleConfig.type === MintType.ZoraErc20Mint)
           receipt = await mintWithUsdc(saleConfig, token, comment);
-        else receipt = await mintWithNativeToken(saleConfig, token, comment);
+        else
+          receipt = await mintWithNativeToken(
+            saleConfig,
+            token,
+            comment,
+            mintCount,
+          );
 
         if (!Boolean(receipt)) {
           mintWithCrossmint();

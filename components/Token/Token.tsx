@@ -7,6 +7,7 @@ import MomentCollected from "./MomentCollected";
 import useIsMobile from "@/hooks/useIsMobile";
 import CommentSection from "./CommentSection";
 import ContentRenderer from "./ContentRenderer";
+import Advanced from "./Advanced";
 
 const Token = () => {
   const { metadata, collected } = useTokenProvider();
@@ -31,6 +32,7 @@ const Token = () => {
               </div>
             </div>
             <div className="md:!min-w-[420px]">
+              {!collected && <Advanced />}
               {collected ? <MetaAndComments priceHidden /> : <CollectModal />}
               {!collected && isMobile && <CommentSection />}
             </div>

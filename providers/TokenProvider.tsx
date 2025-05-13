@@ -23,6 +23,8 @@ const TokenContext = createContext<
         metadata: ReturnType<typeof useMetadata>;
         collected: boolean;
         setCollected: Dispatch<SetStateAction<boolean>>;
+        mintCount: number;
+        setMintCount: Dispatch<SetStateAction<number>>;
       })
   | undefined
 >(undefined);
@@ -50,6 +52,7 @@ export function TokenProvider({
   const [isOpenCommentModal, setIsOpenCommentModal] = useState(false);
   const metadata = useMetadata(tokenInfo.tokenUri);
   const [collected, setCollected] = useState(false);
+  const [mintCount, setMintCount] = useState(0);
 
   return (
     <TokenContext.Provider
@@ -63,6 +66,8 @@ export function TokenProvider({
         metadata,
         collected,
         setCollected,
+        mintCount,
+        setMintCount,
       }}
     >
       {children}
