@@ -17,6 +17,7 @@ const useNativeMint = () => {
     sale: SaleConfig,
     token: TokenInfo,
     comment: string,
+    mintCount: number = 1,
   ) => {
     const publicClient = getPublicClient(CHAIN_ID);
     const price = sale.pricePerToken;
@@ -27,6 +28,7 @@ const useNativeMint = () => {
         sale,
         signedAddress as Address,
         comment,
+        mintCount,
       );
       if (!request) throw new Error();
       const hash = await signTransaction(request);

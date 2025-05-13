@@ -17,6 +17,7 @@ const getCollectRequest = (
   sale: SaleConfig | undefined,
   account: Address,
   comment: string,
+  mintAmount: number = 1,
 ) => {
   if (!sale) return null;
 
@@ -51,12 +52,12 @@ const getCollectRequest = (
     args: [
       zoraCreatorFixedPriceSaleStrategyAddress[CHAIN_ID],
       BigInt(token.tokenId),
-      BigInt(1),
+      BigInt(mintAmount),
       [],
       minterArguments,
     ],
     chain: CHAIN,
-    value: sale.pricePerToken,
+    value: sale.pricePerToken * BigInt(mintAmount),
   };
 };
 
