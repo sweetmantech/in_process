@@ -40,14 +40,14 @@ const Buttons = () => {
       </div>
       <button
         type="button"
-        className="w-full py-2 bg-grey-moss-900 hover:bg-grey-moss-300 font-archivo text-tan-primary rounded-sm relative text-2xl"
+        className="w-full py-2 bg-grey-moss-900 hover:bg-grey-moss-300 font-archivo text-grey-eggshell rounded-sm relative text-2xl"
         onClick={toggle}
       >
         create
       </button>
       <button
         type="button"
-        className="w-full py-2 font-archivo bg-grey-moss-100 hover:bg-grey-moss-300 hover:text-tan-primary hover:border-grey-moss-300 text-grey-moss-900 border border-grey-moss-900 rounded-sm relative text-2xl"
+        className="w-full py-2 font-archivo bg-grey-moss-100 hover:bg-grey-moss-300 hover:text-grey-eggshell hover:border-grey-moss-300 text-grey-moss-900 border border-grey-moss-900 rounded-sm relative text-2xl"
         onClick={share}
       >
         share
