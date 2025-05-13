@@ -41,7 +41,7 @@ export default function useFeedTable() {
       setTableData(
         feeds.map((feed: Token) => ({
           creator: feed.creator,
-          released_date: new Date(feed.released_at)
+          released_date: new Date(feed.created_at)
             .toLocaleString()
             .toLowerCase(),
           uri: getFetchableUrl(feed.uri) as string,

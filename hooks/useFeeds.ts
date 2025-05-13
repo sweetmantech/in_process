@@ -40,7 +40,7 @@ const useFeeds = (collections: Collection[]) => {
     setFeeds(
       [...feeds, ...tokens].sort(
         (a, b) =>
-          new Date(b.released_at).getTime() - new Date(a.released_at).getTime(),
+          new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
       ),
     );
     setCollectionsIndex(collectionsIndex + offset);

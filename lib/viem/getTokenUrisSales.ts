@@ -49,6 +49,7 @@ export async function getTokenUrisSales(feeds: Token[]): Promise<Token[]> {
               ).toString(),
               10,
             ) * 1000 || t.released_at,
+          created_at: t.released_at,
         }));
       },
     );
