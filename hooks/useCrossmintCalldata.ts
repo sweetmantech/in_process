@@ -14,7 +14,7 @@ import { useTokenProvider } from "@/providers/TokenProvider";
 import { Address, formatEther, formatUnits } from "viem";
 
 const useCrossmintCalldata = () => {
-  const { comment, token, saleConfig } = useTokenProvider();
+  const { comment, token, saleConfig, mintCount } = useTokenProvider();
   const { address } = useAccount();
 
   const collectionLocator = useMemo(() => {
@@ -37,13 +37,15 @@ const useCrossmintCalldata = () => {
         totalPrice: formatUnits(BigInt(saleConfig?.pricePerToken || 0), 6),
       };
     return {
-      quantity: 1,
+      quantity: mintCount,
       priceFixedSaleStrategy:
         zoraCreatorFixedPriceSaleStrategyAddress[CHAIN_ID],
       tokenContract: token.tokenContractAddress,
       tokenId: token.tokenId,
       comment,
-      totalPrice: formatEther(BigInt(saleConfig?.pricePerToken || 0)),
+      totalPrice: formatEther(
+        BigInt(saleConfig?.pricePerToken || 0) * BigInt(mintCount),
+      ),
     };
   }, [saleConfig]);
 
