@@ -23,6 +23,7 @@ export async function POST(req: NextRequest) {
             creator: c.defaultAdmin,
             chain: c.chain,
             chainId: c.chainId,
+            created_at: c.released_at,
             released_at: c.released_at,
             uri: "",
           },
@@ -39,6 +40,7 @@ export async function POST(req: NextRequest) {
           chain: c.chain,
           chainId: c.chainId,
           released_at: e.released_at,
+          created_at: c.released_at,
           uri: "",
         }));
         return [...tokens, ...newCreatedTokens];

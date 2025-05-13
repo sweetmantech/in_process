@@ -37,12 +37,7 @@ const useFeeds = (collections: Collection[]) => {
       return;
     }
     const tokens = await fetchTokens(collectionAddresses);
-    setFeeds(
-      [...feeds, ...tokens].sort(
-        (a, b) =>
-          new Date(b.released_at).getTime() - new Date(a.released_at).getTime(),
-      ),
-    );
+    setFeeds([...feeds, ...tokens]);
     setCollectionsIndex(collectionsIndex + offset);
   }, [collections, collectionsIndex]);
 
