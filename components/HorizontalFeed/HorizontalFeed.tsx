@@ -32,14 +32,16 @@ const HorizontalFeed: FC<HorizontalFeedProps> = ({
 
   return (
     <div
-      className="relative pt-[120px] pb-[20px] md:py-0 md:grow md:size-full flex justify-center items-center overflow-hidden md:overflow-visible"
+      className="relative grow size-full flex justify-center items-center overflow-hidden md:overflow-visible"
       onMouseMove={handleMouseMove}
       onMouseLeave={() => handleMouseMove({ clientX: null } as any)}
       ref={containerRef}
     >
-      <div className="bg-black w-full h-[0.5px] absolute left-0 bottom-[89px] md:bottom-1/2" />
+      <div className="pointer-events-none size-full absolute flex items-center left-0 top-0">
+        <div className="bg-black w-full h-[0.5px]" />
+      </div>
       <div
-        className="relative w-fit"
+        className="relative w-full"
         ref={timelineRef}
         style={{
           maxWidth: containerRef.current?.offsetWidth,
@@ -63,7 +65,7 @@ const HorizontalFeed: FC<HorizontalFeedProps> = ({
               setFeedEnded(progress === 1);
             },
           }}
-          className="w-full !overflow-visible my-4"
+          className="w-full !overflow-visible !h-0"
           slideClassName="!w-fit !m-0"
         >
           {Array.from({ length: feeds.length + 1 }).map((_, i) => (

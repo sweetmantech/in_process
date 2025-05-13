@@ -3,7 +3,7 @@ import getFormattedTokens from "@/lib/dune/getFormattedTokens";
 import getNextTokenIds, {
   CollectionAndNextTokenId,
 } from "@/lib/viem/getNextTokenIds";
-import { getTokenUris } from "@/lib/viem/getTokenUris";
+import { getTokenUrisSales } from "@/lib/viem/getTokenUrisSales";
 import { DuneDecodedEvent } from "@/types/dune";
 import { Collection } from "@/types/token";
 import { NextRequest } from "next/server";
@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
         (a, b) =>
           new Date(b.released_at).getTime() - new Date(a.released_at).getTime(),
       );
-    const tokensAndUris = await getTokenUris(sortedTokens);
+    const tokensAndUris = await getTokenUrisSales(sortedTokens);
     return Response.json(tokensAndUris);
   } catch (e: any) {
     console.log(e);

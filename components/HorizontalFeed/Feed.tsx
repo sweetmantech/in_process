@@ -14,15 +14,15 @@ interface FeedProps {
 const Feed: FC<FeedProps> = ({ feed, hovered, step, height }) => {
   const { isLoading, data, handleClick, formattedDate } =
     useClickTimelineFeed(feed);
-
+  const STEP_OFFSET = 24;
   return (
     <div
-      className="relative max-w-fit"
+      className="relative px-0"
       style={{
-        paddingLeft: `${16 + step * 10}px`,
+        paddingLeft: `${STEP_OFFSET * step}px`,
       }}
     >
-      <fieldset className="flex flex-col items-center mt-[54px]">
+      <fieldset className="flex flex-col items-center">
         <button
           data-feed-button
           className="relative z-10 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-opacity-75 transition-transform hover:scale-110"
@@ -54,7 +54,7 @@ const Feed: FC<FeedProps> = ({ feed, hovered, step, height }) => {
           </p>
         )}
         <p
-          className={`text-center font-archivo ${hovered ? "translate-y-6 text-sm md:text-md" : "opacity-0 md:opacity-[1] pt-8 text-xs md:text-sm"}`}
+          className={`min-w-[200px] text-center font-archivo ${hovered ? "translate-y-6 text-sm md:text-md" : "opacity-0 md:opacity-[1] pt-8 text-xs md:text-sm"}`}
         >
           {formattedDate}
         </p>

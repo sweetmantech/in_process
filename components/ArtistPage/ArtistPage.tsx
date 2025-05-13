@@ -13,13 +13,13 @@ const ArtistPage = () => {
   const isMobile = useIsMobile();
 
   return (
-    <div className="w-screen grow flex flex-col pt-6 md:pt-16 relative">
+    <div className="w-screen grow flex flex-col  pt-6 md:pt-16 relative">
       <div className="relative flex justify-between px-2 md:px-10 items-start pb-2">
         {isMobile ? <MobileProfile /> : <DesktopProfile />}
         <AltToggle alt={alt} setAlt={setAlt} />
       </div>
       <div
-        className={`md:grow flex flex-col px-2 md:px-0 ${alt === "timeline" && "md:pt-20 md:px-10"}`}
+        className={`grow flex flex-col px-2 md:px-0 ${alt === "timeline" && "md:pt-20 md:px-10"}`}
       >
         <ArtistFeedProvider>
           <Feed alt={alt} />
