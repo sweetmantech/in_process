@@ -59,7 +59,7 @@ const ArtSlider = () => {
             ) : (
               <FetchMoreInspector
                 fetchMore={() => {
-                  if (slides.length > 55) return;
+                  if (feeds.length > 55) return;
                   fetchMore();
                 }}
                 key={i}
