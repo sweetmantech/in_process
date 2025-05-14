@@ -1,9 +1,9 @@
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import { Metadata } from "@/types/token";
-import Image from "next/image";
 import PdfViewer from "../Renderers/PdfViewer";
 import VideoPlayer from "../Renderers/VideoPlayer";
 import AudioPlayer from "../Renderers/AudioPlayer";
+import useIsMobile from "@/hooks/useIsMobile";
 
 interface ContentRendererProps {
   metadata: Metadata;
@@ -11,6 +11,7 @@ interface ContentRendererProps {
 
 const ContentRenderer = ({ metadata }: ContentRendererProps) => {
   const mimeType = metadata?.content?.mime || "";
+  const isMobile = useIsMobile();
 
   if (mimeType.includes("pdf"))
     return (
@@ -39,18 +40,24 @@ const ContentRenderer = ({ metadata }: ContentRendererProps) => {
         />
       </div>
     );
+  if (mimeType.includes("text/plain"))
+    return (
+      <div
+        className="font-archivo bg-grey-moss-100 p-2 rounded-md text-md !normal-case"
+        dangerouslySetInnerHTML={{
+          __html: metadata.description.replaceAll("\n", "<br/>"),
+        }}
+      />
+    );
   return (
-    <div className="grow relative size-full">
-      <Image
+    <div className="grow relative  flex justify-center items-start">
+      {/* eslint-disable-next-line */}
+      <img
         src={getFetchableUrl(metadata.image) || "/images/placeholder.png"}
         alt="Token Image."
-        layout="fill"
-        objectFit="contain"
-        objectPosition="center"
-        blurDataURL={
-          getFetchableUrl(metadata.image) || "/images/placeholder.png"
-        }
-        unoptimized
+        style={{
+          imageRendering: isMobile ? "pixelated" : "auto",
+        }}
       />
     </div>
   );
