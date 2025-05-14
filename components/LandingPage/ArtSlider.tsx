@@ -6,11 +6,13 @@ import { useInProcessFeedProvider } from "@/providers/InProcessFeedProvider";
 import { ArrowRight } from "../ui/icons";
 import { useState } from "react";
 import { Swiper } from "swiper/types";
+import FetchMoreInspector from "../FetchMoreInspector";
 
 const ArtSlider = () => {
   const isMobile = useIsMobile();
-  const { feeds } = useInProcessFeedProvider();
+  const { feeds, fetchMore } = useInProcessFeedProvider();
   const [swiper, setSwiper] = useState<Swiper | null>(null);
+  const slides = feeds.slice(0, 55);
 
   return (
     <div className="relative h-full">
@@ -50,8 +52,20 @@ const ArtSlider = () => {
         slideClassName="!h-fit md:!h-auto"
         className="w-full h-full !overflow-hidden"
       >
-        {feeds.slice(0, 10).map((feed, i) => (
-          <SliderFeed feed={feed} key={i} />
+        {slides.map((feed, i) => (
+          <>
+            {i !== slides.length - 1 ? (
+              <SliderFeed feed={feed} key={i} />
+            ) : (
+              <FetchMoreInspector
+                fetchMore={() => {
+                  if (feeds.length > 55) return;
+                  fetchMore();
+                }}
+                key={i}
+              />
+            )}
+          </>
         ))}
       </Slider>
     </div>
