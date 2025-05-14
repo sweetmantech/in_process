@@ -4,9 +4,9 @@ import getTokenInfo from "@/lib/viem/getTokenInfo";
 import { useEffect } from "react";
 
 export type SaleConfig = {
-  saleStart: string;
-  saleEnd: string;
-  maxTokensPerAddress: string;
+  saleStart: bigint;
+  saleEnd: bigint;
+  maxTokensPerAddress: bigint;
   pricePerToken: bigint;
   fundsRecipient: Address;
   type: string;
