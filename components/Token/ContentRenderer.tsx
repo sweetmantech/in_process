@@ -4,6 +4,7 @@ import PdfViewer from "../Renderers/PdfViewer";
 import VideoPlayer from "../Renderers/VideoPlayer";
 import AudioPlayer from "../Renderers/AudioPlayer";
 import useIsMobile from "@/hooks/useIsMobile";
+import Writing from "../Renderers/Writing";
 
 interface ContentRendererProps {
   metadata: Metadata;
@@ -42,11 +43,9 @@ const ContentRenderer = ({ metadata }: ContentRendererProps) => {
     );
   if (mimeType.includes("text/plain"))
     return (
-      <div
-        className="font-archivo bg-grey-moss-100 p-2 rounded-md text-md !normal-case"
-        dangerouslySetInnerHTML={{
-          __html: metadata.description.replaceAll("\n", "<br/>"),
-        }}
+      <Writing
+        fileUrl={getFetchableUrl(metadata.content.uri) || ""}
+        description={metadata.description}
       />
     );
   return (
@@ -56,7 +55,7 @@ const ContentRenderer = ({ metadata }: ContentRendererProps) => {
         src={getFetchableUrl(metadata.image) || "/images/placeholder.png"}
         alt="Token Image."
         style={{
-          imageRendering: isMobile ? "pixelated" : "auto",
+          imageRendering: isMobile ? "auto" : "pixelated",
         }}
       />
     </div>

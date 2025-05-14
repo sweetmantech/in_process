@@ -74,6 +74,7 @@ const useCreateMetadata = () => {
     if (pathname === "/create/writing") {
       mime = "text/plain";
       image = await writinig.uploadWritingImage();
+      animation = await writinig.uploadWriting();
     }
     if (pathname === "/create/embed") {
       mime = "text/html";
