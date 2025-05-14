@@ -20,6 +20,13 @@ const useWriting = ({ setDescription }: useWritingProps) => {
     return uri;
   };
 
+  const uploadWriting = async () => {
+    const blob = new Blob([writingText], { type: "text/plain" });
+    const writingFile = new File([blob], "writing.txt", { type: "text/plain" });
+    const uri = await clientUploadToArweave(writingFile);
+    return uri;
+  };
+
   const write = (value: string) => {
     setWritingText(value);
     setDescription(value);
@@ -30,6 +37,7 @@ const useWriting = ({ setDescription }: useWritingProps) => {
     writingText,
     setWritingText,
     write,
+    uploadWriting,
   };
 };
 
