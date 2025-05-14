@@ -47,7 +47,7 @@ const ContentRenderer = ({ metadata }: ContentRendererProps) => {
         dangerouslySetInnerHTML={{
           __html: metadata.description.replaceAll("\n", "<br/>"),
         }}
-      ></div>
+      />
     );
   return (
     <div className="grow relative  flex justify-center items-start">
