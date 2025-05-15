@@ -3,6 +3,7 @@
 import * as React from "react";
 import { CalendarIcon } from "@radix-ui/react-icons";
 import { format } from "date-fns";
+import "react-day-picker/dist/style.css";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -66,6 +67,9 @@ export function DateTimePicker({ date, setDate }: DatetimePickerProps) {
             selected={date}
             onSelect={handleDateSelect}
             initialFocus
+            captionLayout="dropdown"
+            fromYear={1969}
+            toYear={2030}
           />
           <div className="flex flex-col sm:flex-row sm:h-[300px] divide-y sm:divide-y-0 sm:divide-x">
             <ScrollArea className="w-64 sm:w-auto">
