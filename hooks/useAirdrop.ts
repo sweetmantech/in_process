@@ -10,6 +10,7 @@ import { getPublicClient } from "@/lib/viem/publicClient";
 import { useParams } from "next/navigation";
 import { mainnet } from "viem/chains";
 import { normalize } from "viem/ens";
+import { useSwitchChain } from "wagmi";
 
 export interface AirdropItem {
   address: string;
@@ -24,6 +25,7 @@ const useAirdrop = () => {
   const { signTransaction } = useSignTransaction();
   const signedAddress = useSignedAddress();
   const params = useParams();
+  const { switchChainAsync } = useSwitchChain();
 
   const onChangeAddress = async (value: string) => {
     if (!value) return;
@@ -59,6 +61,7 @@ const useAirdrop = () => {
   const onAirdrop = async () => {
     try {
       if (!isPrepared()) return;
+      await switchChainAsync({ chainId: collection.chainId });
       setLoading(true);
       const calls = [];
       for (let i = 0; i < airdopToItems.length; i++) {
