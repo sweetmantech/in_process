@@ -21,10 +21,12 @@ const useTokenInfo = (
   const [tokenUri, setTokenUri] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isSetSale, setIsSetSale] = useState<boolean>(false);
+  const [owner, setOwner] = useState<Address | null>(null);
 
   const fetchTokenInfo = useCallback(async () => {
     const tokenInfo = await getTokenInfo(tokenContract, tokenId, chainId);
     setSaleConfig(tokenInfo.saleConfig);
+    setOwner(tokenInfo.owner);
     setIsSetSale(BigInt(tokenInfo.saleConfig.saleEnd) > BigInt(0));
     setTokenUri(tokenInfo.tokenUri);
     setIsLoading(false);
@@ -40,6 +42,7 @@ const useTokenInfo = (
     isLoading,
     isSetSale,
     fetchTokenInfo,
+    owner,
   };
 };
 

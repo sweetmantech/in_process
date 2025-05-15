@@ -4,6 +4,7 @@ import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import { useRouter } from "next/navigation";
 import { useCollectionProvider } from "@/providers/CollectionProvider";
 import { Skeleton } from "../ui/skeleton";
+import { networkConfigByChain } from "@/lib/protocolSdk/apis/chain-constants";
 
 const TokenItem = ({
   t,
@@ -20,7 +21,7 @@ const TokenItem = ({
   const handleClick = () => {
     if (isLoading) return;
     push(
-      `/manage/${decodeURIComponent(collection.address as string)}/${t.tokenId.toString()}`,
+      `/manage/${networkConfigByChain[collection.chainId].zoraCollectPathChainName}:${collection.address as string}/${t.tokenId.toString()}`,
     );
     return;
   };
