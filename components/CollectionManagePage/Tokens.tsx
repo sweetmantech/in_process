@@ -1,10 +1,10 @@
-import { useTokensProvider } from "@/providers/TokensProvider";
 import Loading from "../Loading";
-import { Token } from "@/types/token";
 import TokenItem from "./TokenItem";
+import { useCollectionProvider } from "@/providers/CollectionProvider";
 
 const Tokens = () => {
-  const { data, isLoading } = useTokensProvider();
+  const { tokens } = useCollectionProvider();
+  const { isLoading, data } = tokens;
 
   if (isLoading)
     return (
@@ -14,8 +14,8 @@ const Tokens = () => {
     );
   if (data)
     return (
-      <div className="grow w-full grid grid-cols-1 md:grid-cols-3 gap-4 px-4 md:px-10 pt-6">
-        {data.map((t: Token, i: number) => (
+      <div className="grow w-full grid grid-cols-1 md:grid-cols-4 gap-4 px-4 md:px-10 pt-6">
+        {data.map((t: any, i: number) => (
           <TokenItem t={t} key={i} />
         ))}
       </div>

@@ -1,4 +1,4 @@
-import { useTokensProvider } from "@/providers/TokensProvider";
+import { useCollectionProvider } from "@/prov@/providers/CollectionManageProvider
 import { useUserProvider } from "@/providers/UserProvider";
 import { zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
 import { useState } from "react";
@@ -17,7 +17,7 @@ export interface AirdropItem {
   ensName: string;
 }
 const useAirdrop = () => {
-  const { collection } = useTokensProvider();
+  const { collection } = useCollectionProvider();
   const [airdopToItems, setAirdropToItems] = useState<AirdropItem[]>([]);
   const { isPrepared } = useUserProvider();
   const [loading, setLoading] = useState<boolean>(false);

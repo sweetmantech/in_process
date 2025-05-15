@@ -4,7 +4,9 @@ import { useParams } from "next/navigation";
 import * as chains from "viem/chains";
 import { ZORA_TO_VIEM, ZoraChains } from "@/lib/zora/zoraToViem";
 import { ReactNode } from "react";
-import { TokensProvider } from "@/providers/TokensProvider";
+import { CollectionProvider } from "@/providers/CollectionProvider";
+import { Address } from "viem";
+import Overview from "@/components/CollectionManagePage/Overview";
 
 const RootLayout = ({ children }: { children: ReactNode }) => {
   const params = useParams();
@@ -14,17 +16,15 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
   const viemChain = chains[viemChainName];
 
   return (
-    <TokensProvider
-      collections={[
-        {
-          newContract: address,
-          chainId: viemChain.id,
-          tokenId: 1,
-        },
-      ]}
+    <CollectionProvider
+      collection={{
+        address: address as Address,
+        chainId: viemChain.id,
+      }}
     >
+      <Overview />
       {children}
-    </TokensProvider>
+    </CollectionProvider>
   );
 };
 
