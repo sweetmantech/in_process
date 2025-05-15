@@ -88,7 +88,7 @@ const useAirdrop = () => {
         },
         collection.chainId,
       );
-      const publicClient: any = getPublicClient();
+      const publicClient: any = getPublicClient(collection.chainId);
       const receipt = await publicClient.waitForTransactionReceipt({ hash });
       setLoading(false);
       return receipt;
