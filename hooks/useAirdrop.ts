@@ -11,6 +11,7 @@ import { useParams } from "next/navigation";
 import { mainnet } from "viem/chains";
 import { normalize } from "viem/ens";
 import { useSwitchChain } from "wagmi";
+import getViemNetwork from "@/lib/viem/getViemNetwork";
 
 export interface AirdropItem {
   address: string;
@@ -84,7 +85,7 @@ const useAirdrop = () => {
         args: [calls],
         address: collection.address,
         value: BigInt(0),
-        chain: CHAIN,
+        chain: getViemNetwork(collection.chainId),
       });
       const publicClient: any = getPublicClient();
       const receipt = await publicClient.waitForTransactionReceipt({ hash });
