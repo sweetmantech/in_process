@@ -1,14 +1,7 @@
 "use client";
 
 import Tokens from "./Tokens";
-import Overview from "./Overview";
-import { Fragment } from "react";
 
-const CollectionManagePage = () => (
-  <Fragment>
-    <Overview />
-    <Tokens />
-  </Fragment>
-);
+const CollectionManagePage = () => <Tokens />;
 
 export default CollectionManagePage;

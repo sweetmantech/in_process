@@ -1,49 +1,61 @@
 import { useMetadata } from "@/hooks/useMetadata";
-import { Token } from "@/types/token";
 import Image from "next/image";
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { useCollectionProvider } from "@/providers/CollectionProvider";
+import { Skeleton } from "../ui/skeleton";
 
-const TokenItem = ({ t }: { t: Token }) => {
+const TokenItem = ({
+  t,
+}: {
+  t: {
+    tokenId: bigint;
+    uri: string;
+  };
+}) => {
   const { data, isLoading } = useMetadata(t.uri);
   const { push } = useRouter();
-  const { collectionAddress } = useParams();
+  const { collection } = useCollectionProvider();
 
   const handleClick = () => {
+    if (isLoading) return;
     push(
-      `/manage/${decodeURIComponent(collectionAddress as string)}/${t.tokenId}`,
+      `/manage/${decodeURIComponent(collection.address as string)}/${t.tokenId.toString()}`,
     );
     return;
   };
 
-  if (isLoading) return <div></div>;
-  if (data)
-    return (
-      <button
-        type="button"
-        className="col-span-1 aspect-video h-fit bg-grey-moss-300 rounded-lg overflow-hidden"
-        onClick={handleClick}
-      >
-        <div className="w-full h-2/3 overflow-hidden relative">
-          <div className="absolute z-[10] bg-white/30 backdrop-blur-[4px] size-full left-0 top-0" />
-          <Image
-            src={getFetchableUrl(data.image) || "/images/placeholder.png"}
-            alt="not found img"
-            unoptimized
-            className="absolute z-[1]"
-            layout="fill"
-            objectFit="cover"
-            objectPosition="center center"
-          />
-        </div>
-        <div className="h-1/3 px-4 py-2 flex gap-6 items-center">
-          <p className="font-archivo text-white text-left">{data?.name}</p>
-          <p className="font-archivo text-sm text-grey text-left bg-grey-moss-100 rounded-md px-2">
-            Token {t.tokenId}
-          </p>
-        </div>
-      </button>
-    );
+  return (
+    <section
+      className="col-span-1 aspect-[1/1] flex flex-col cursor-pointer"
+      onClick={handleClick}
+    >
+      {isLoading ? (
+        <Skeleton className="size-full" />
+      ) : (
+        <>
+          <div className="relative grow bg-grey-moss-100 overflow-hidden">
+            <div className="absolute z-[10] bg-white/30 backdrop-blur-[4px] size-full left-0 top-0" />
+            <Image
+              src={getFetchableUrl(data?.image) || "/images/placeholder.png"}
+              alt="not found img"
+              unoptimized
+              className="absolute z-[1]"
+              layout="fill"
+              objectFit="cover"
+              objectPosition="center center"
+            />
+          </div>
+          <div className="py-2 flex gap-6 justify-between items-center">
+            <p className="font-archivo text-grey-moss-900">{data?.name}</p>
+            <p className="font-archivo text-sm text-grey-moss-900 bg-grey-moss-100 rounded-md px-2">
+              id: {t.tokenId}
+            </p>
+          </div>
+        </>
+      )}
+    </section>
+  );
 };
 
 export default TokenItem;

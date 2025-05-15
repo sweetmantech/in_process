@@ -1,33 +1,43 @@
-import { createContext, useContext, ReactNode } from "react";
-import { CollectionStyle } from "@/types/zora";
-import useCollectionStyling from "@/hooks/useCollectionStyling";
+import useTokens from "@/hooks/useTokens";
 import { Address } from "viem";
+import { createContext, useContext, ReactNode } from "react";
+import useCollection from "@/hooks/useCollection";
 
-interface CollectionContextType {
-  styling?: CollectionStyle;
-  address: Address;
-  chainId: number;
+interface CollectionContextReturn {
+  tokens: ReturnType<typeof useTokens>;
+  collection: {
+    address: Address;
+    chainId: number;
+    metadata: ReturnType<typeof useCollection>;
+  };
 }
 
-interface CollectionProviderProps {
-  children: ReactNode;
-  chainId: number;
-  address: Address;
-}
-
-const CollectionContext = createContext<CollectionContextType>(
-  {} as CollectionContextType,
+const CollectionContext = createContext<CollectionContextReturn | undefined>(
+  undefined,
 );
 
 export function CollectionProvider({
   children,
-  chainId,
-  address,
-}: CollectionProviderProps) {
-  const { styling } = useCollectionStyling(chainId, address);
-
+  collection,
+}: {
+  children: ReactNode;
+  collection: {
+    address: Address;
+    chainId: number;
+  };
+}) {
+  const tokens = useTokens(collection);
+  const metadata = useCollection(collection.address, collection.chainId);
   return (
-    <CollectionContext.Provider value={{ styling, address, chainId }}>
+    <CollectionContext.Provider
+      value={{
+        tokens,
+        collection: {
+          ...collection,
+          metadata,
+        },
+      }}
+    >
       {children}
     </CollectionContext.Provider>
   );

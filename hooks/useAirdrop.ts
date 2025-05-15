@@ -1,4 +1,4 @@
-import { useTokensProvider } from "@/providers/TokensProvider";
+import { useCollectionProvider } from "@/providers/CollectionProvider";
 import { useUserProvider } from "@/providers/UserProvider";
 import { zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
 import { useState } from "react";
@@ -17,7 +17,7 @@ export interface AirdropItem {
   ensName: string;
 }
 const useAirdrop = () => {
-  const { collection } = useTokensProvider();
+  const { collection } = useCollectionProvider();
   const [airdopToItems, setAirdropToItems] = useState<AirdropItem[]>([]);
   const { isPrepared } = useUserProvider();
   const [loading, setLoading] = useState<boolean>(false);
@@ -79,7 +79,7 @@ const useAirdrop = () => {
         abi: zoraCreator1155ImplABI,
         functionName: "multicall",
         args: [calls],
-        address: collection,
+        address: collection.address,
         value: BigInt(0),
         chain: CHAIN,
       });
