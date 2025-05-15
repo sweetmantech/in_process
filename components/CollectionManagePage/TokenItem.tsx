@@ -27,7 +27,7 @@ const TokenItem = ({
 
   return (
     <section
-      className="col-span-1 aspect-[1/1] flex flex-col"
+      className="col-span-1 aspect-[1/1] flex flex-col cursor-pointer"
       onClick={handleClick}
     >
       {isLoading ? (
