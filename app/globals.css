@@ -145,3 +145,6 @@
 .plus-lighter {
   mix-blend-mode: plus-lighter;
 }
+div[aria-hidden="true"].text-sm.font-medium {
+  display: none !important;
+}
