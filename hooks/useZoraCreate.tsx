@@ -11,7 +11,6 @@ import {
 } from "@/lib/protocolSdk/create/1155-create-helper";
 import { getPublicClient } from "@/lib/viem/publicClient";
 import { useMask } from "./useMask";
-import useBalance from "./useBalance";
 import { useUserProvider } from "@/providers/UserProvider";
 import useSignTransaction from "./useSignTransaction";
 

@@ -10,7 +10,7 @@ interface ManageTabsProps {
 }
 const ManageTabs = ({ selectedTab, onChangeTab }: ManageTabsProps) => {
   return (
-    <section className="px-4 md:px-10 w-full">
+    <section className="px-4 md:px-10 w-full pt-4">
       <div className="flex gap-4">
         <button
           type="button"

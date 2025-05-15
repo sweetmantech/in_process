@@ -39,8 +39,15 @@ const getTokenInfo = async (
     functionName: "uri",
     args: [tokenId],
   };
+  const ownerCall = {
+    address: tokenContract,
+    abi: zoraCreator1155ImplABI,
+    functionName: "owner",
+    args: [],
+  };
+
   const infoCalls = await publicClient.multicall({
-    contracts: [erc20SaleConfigCall, fixedSaleConfigCall, uriCall],
+    contracts: [erc20SaleConfigCall, fixedSaleConfigCall, uriCall, ownerCall],
   });
 
   const saleConfig =
@@ -57,6 +64,7 @@ const getTokenInfo = async (
   return {
     saleConfig,
     tokenUri: infoCalls[2].result,
+    owner: infoCalls[3].result,
   };
 };
 

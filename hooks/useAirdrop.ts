@@ -5,11 +5,12 @@ import { useState } from "react";
 import { Address, encodeFunctionData, isAddress } from "viem";
 import useSignTransaction from "./useSignTransaction";
 import useSignedAddress from "./useSignedAddress";
-import { CHAIN } from "@/lib/consts";
 import { getPublicClient } from "@/lib/viem/publicClient";
 import { useParams } from "next/navigation";
 import { mainnet } from "viem/chains";
 import { normalize } from "viem/ens";
+import { useSwitchChain } from "wagmi";
+import getViemNetwork from "@/lib/viem/getViemNetwork";
 
 export interface AirdropItem {
   address: string;
@@ -24,6 +25,7 @@ const useAirdrop = () => {
   const { signTransaction } = useSignTransaction();
   const signedAddress = useSignedAddress();
   const params = useParams();
+  const { switchChainAsync } = useSwitchChain();
 
   const onChangeAddress = async (value: string) => {
     if (!value) return;
@@ -74,20 +76,24 @@ const useAirdrop = () => {
         });
         calls.push(callData);
       }
-      const hash = await signTransaction({
-        account: signedAddress as Address,
-        abi: zoraCreator1155ImplABI,
-        functionName: "multicall",
-        args: [calls],
-        address: collection.address,
-        value: BigInt(0),
-        chain: CHAIN,
-      });
-      const publicClient: any = getPublicClient();
+      const hash = await signTransaction(
+        {
+          account: signedAddress as Address,
+          abi: zoraCreator1155ImplABI,
+          functionName: "multicall",
+          args: [calls],
+          address: collection.address,
+          value: BigInt(0),
+          chain: getViemNetwork(collection.chainId),
+        },
+        collection.chainId,
+      );
+      const publicClient: any = getPublicClient(collection.chainId);
       const receipt = await publicClient.waitForTransactionReceipt({ hash });
       setLoading(false);
       return receipt;
     } catch (error) {
+      console.error(error);
       setLoading(false);
     }
   };

@@ -1,7 +1,7 @@
 import { createCreatorClient } from "@/lib/protocolSdk";
 import { Address } from "viem";
 import { CHAIN_ID, REFERRAL_RECIPIENT } from "@/lib/consts";
-import { useAccount, usePublicClient } from "wagmi";
+import { useAccount } from "wagmi";
 import getSalesConfig from "@/lib/zora/getSalesConfig";
 import useCreateMetadata from "@/hooks/useCreateMetadata";
 import useConnectedWallet from "./useConnectedWallet";
@@ -9,6 +9,7 @@ import { useFrameProvider } from "@/providers/FrameProvider";
 import getSaleConfigType from "@/lib/getSaleConfigType";
 import { usePathname } from "next/navigation";
 import useCreateAdvancedValues from "./useCreateAdvancedValues";
+import { getPublicClient } from "@/lib/viem/publicClient";
 
 const useZoraCreateParameters = (
   chainId: number = CHAIN_ID,
@@ -16,7 +17,6 @@ const useZoraCreateParameters = (
 ) => {
   const pathname = usePathname();
   const isUsdc = pathname.includes("/usdc");
-  const publicClient = usePublicClient();
   const { connectedWallet } = useConnectedWallet();
   const { address } = useAccount();
   const createMetadata = useCreateMetadata();
@@ -24,9 +24,8 @@ const useZoraCreateParameters = (
   const advancedValues = useCreateAdvancedValues();
 
   const fetchParameters = async () => {
-    if (!publicClient) return;
     const creator = context ? address : connectedWallet;
-
+    const publicClient = getPublicClient(CHAIN_ID);
     const creatorClient = createCreatorClient({ chainId, publicClient });
     const cc0MusicArweaveUri = await createMetadata.getUri();
     if (!createMetadata.name) return;

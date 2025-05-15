@@ -11,21 +11,24 @@ const useSignTransaction = () => {
   const { writeContractAsync } = useWriteContract();
   const { switchChainAsync } = useSwitchChain();
 
-  const signTransaction = async (parameters: WriteContractParameters) => {
+  const signTransaction = async (
+    parameters: WriteContractParameters,
+    chainId: number = CHAIN_ID,
+  ) => {
     const { account } = parameters;
     if (context) {
-      await switchChainAsync({ chainId: CHAIN_ID });
+      await switchChainAsync({ chainId });
       const hash = await writeContractAsync(parameters);
       return hash;
     }
 
     if (!wallet || !account)
       throw new Error("No wallet connected for transaction signing");
-    await wallet.switchChain(CHAIN_ID);
+    await wallet.switchChain(chainId);
     const provider = await wallet.getEthereumProvider();
     const client = createWalletClient({
       account,
-      chain: getViemNetwork(CHAIN_ID),
+      chain: getViemNetwork(chainId),
       transport: custom(provider),
     });
     const hash = await client.writeContract(parameters);
