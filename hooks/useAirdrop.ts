@@ -1,4 +1,4 @@
-import { useCollectionProvider } from "@/prov@/providers/CollectionManageProvider
+import { useCollectionProvider } from "@/providers/CollectionProvider";
 import { useUserProvider } from "@/providers/UserProvider";
 import { zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
 import { useState } from "react";
@@ -79,7 +79,7 @@ const useAirdrop = () => {
         abi: zoraCreator1155ImplABI,
         functionName: "multicall",
         args: [calls],
-        address: collection,
+        address: collection.address,
         value: BigInt(0),
         chain: CHAIN,
       });

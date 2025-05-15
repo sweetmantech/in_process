@@ -18,6 +18,7 @@ const TokenItem = ({
   const { collection } = useCollectionProvider();
 
   const handleClick = () => {
+    if (isLoading) return;
     push(
       `/manage/${decodeURIComponent(collection.address as string)}/${t.tokenId.toString()}`,
     );
@@ -25,15 +26,15 @@ const TokenItem = ({
   };
 
   return (
-    <section className="col-span-1 aspect-[1/1] flex flex-col">
+    <section
+      className="col-span-1 aspect-[1/1] flex flex-col"
+      onClick={handleClick}
+    >
       {isLoading ? (
         <Skeleton className="size-full" />
       ) : (
         <>
-          <div
-            className="relative grow bg-grey-moss-100 overflow-hidden"
-            onClick={handleClick}
-          >
+          <div className="relative grow bg-grey-moss-100 overflow-hidden">
             <div className="absolute z-[10] bg-white/30 backdrop-blur-[4px] size-full left-0 top-0" />
             <Image
               src={getFetchableUrl(data?.image) || "/images/placeholder.png"}
