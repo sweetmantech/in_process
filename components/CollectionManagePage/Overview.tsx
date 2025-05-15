@@ -14,7 +14,7 @@ const Overview = () => {
   const { push } = useRouter();
 
   return (
-    <div className="pt-8 px-4 md:px-10">
+    <div className="w-screen pt-8 px-4 md:px-10">
       <div className="flex gap-2 text-lg font-archivo items-center cursor-pointer">
         <button
           type="button"
@@ -40,8 +40,8 @@ const Overview = () => {
           )}
         </button>
       </div>
-      <div className="w-full pt-4 flex flex-col md:flex-row items-center gap-2">
-        <div className="w-full md:w-fit md:min-w-[200px] aspect-[1/1] relative">
+      <div className="w-fit pt-4 flex flex-col md:flex-row items-center gap-2">
+        <div className="w-full md:w-fit md:max-w-[200px] aspect-[1/1] relative">
           {isLoading ? (
             <Skeleton className="size-full" />
           ) : (
