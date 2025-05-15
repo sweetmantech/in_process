@@ -11,6 +11,7 @@ import InProcessFeedProvider from "./InProcessFeedProvider";
 import LayoutProvider from "./LayoutProvider";
 import UserCollectionsProvider from "./UserCollectionsProvider";
 import EthPriceProvider from "./EthPriceProvider";
+import TimelineProvider from "./TimelineProvider";
 
 export function Providers({ children }: { children: ReactNode }) {
   return (
@@ -18,17 +19,19 @@ export function Providers({ children }: { children: ReactNode }) {
       <WagmiProvider>
         <CrossmintProvider>
           <PrivyProvider>
-            <FrameProvider>
-              <UserProvider>
-                <ZoraCreateProvider>
-                  <InProcessFeedProvider>
-                    <UserCollectionsProvider>
-                      <LayoutProvider>{children}</LayoutProvider>
-                    </UserCollectionsProvider>
-                  </InProcessFeedProvider>
-                </ZoraCreateProvider>
-              </UserProvider>
-            </FrameProvider>
+            <TimelineProvider>
+              <FrameProvider>
+                <UserProvider>
+                  <ZoraCreateProvider>
+                    <InProcessFeedProvider>
+                      <UserCollectionsProvider>
+                        <LayoutProvider>{children}</LayoutProvider>
+                      </UserCollectionsProvider>
+                    </InProcessFeedProvider>
+                  </ZoraCreateProvider>
+                </UserProvider>
+              </FrameProvider>
+            </TimelineProvider>
           </PrivyProvider>
         </CrossmintProvider>
       </WagmiProvider>
