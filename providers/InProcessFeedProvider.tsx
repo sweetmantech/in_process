@@ -9,7 +9,7 @@ const InProcessFeedContext = createContext<ReturnType<typeof useFeeds>>(
 
 const InProcessFeedProvider = ({ children }: { children: React.ReactNode }) => {
   const { data } = useCollections();
-  const feeds = useFeeds(data || []);
+  const feeds = useFeeds(data?.pages?.[0].collections || []);
   const { hiddenMoments } = useTimelineProvider();
 
   const value = useMemo(
