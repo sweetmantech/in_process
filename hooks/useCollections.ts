@@ -42,6 +42,18 @@ export function useCollections() {
       },
       initialPageParam: undefined,
       staleTime: 1000 * 60 * 5,
+      refetchInterval(query) {
+        const pages = query.state.data?.pages;
+        if (!pages) return Infinity;
+        if (
+          Boolean(
+            pages[pages.length - 1]?.nextOffsets.factory ||
+              pages[pages.length - 1]?.nextOffsets.smartWallet,
+          )
+        )
+          return Infinity;
+        return 1000 * 5;
+      },
       refetchOnWindowFocus: false,
       retry: (failureCount) => {
         return failureCount < 4;

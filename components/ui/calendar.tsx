@@ -58,7 +58,8 @@ function Calendar({
         day_range_middle:
           "aria-selected:bg-neutral-100 aria-selected:text-neutral-900 dark:aria-selected:bg-neutral-800 dark:aria-selected:text-neutral-50",
         day_hidden: "invisible",
-        dropdown: "rounded-md border border-neutral-300 bg-white px-3 py-1 text-base mx-1 min-w-[110px] shadow-sm focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all duration-150",
+        dropdown:
+          "rounded-md border border-neutral-300 bg-white px-3 py-1 text-base mx-1 min-w-[110px] shadow-sm focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all duration-150",
         ...classNames,
       }}
       components={{
