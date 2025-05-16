@@ -1,15 +1,11 @@
 import { useUserCollectionsProvider } from "@/providers/UserCollectionsProvider";
 import { Skeleton } from "../ui/skeleton";
-import { useEthPriceProvider } from "@/providers/EthPriceProvider";
+import useTotalEarnings from "@/hooks/useTotalEarnings";
 
 const TotalEarnings = ({ className }: { className: string }) => {
-  const { data, isLoading } = useUserCollectionsProvider();
-  const { ethPrice } = useEthPriceProvider();
-  const ethEarnings = Number(
-    Number(data?.totalEarnings?.eth || 0) * ethPrice,
-  ).toFixed(2);
-  const usdcEarnings = Number(data?.totalEarnings?.usdc).toFixed(2);
-  const totalEarnings = parseFloat(ethEarnings) + parseFloat(usdcEarnings);
+  const { isLoading } = useUserCollectionsProvider();
+  const { totalEarnings } = useTotalEarnings();
+
   return (
     <div
       className={`text-white md:text-base font-spectral text-xl ${className}`}
