@@ -17,7 +17,7 @@ const MaskLines = () => {
     <div
       className={`absolute size-full pointer-events-none ${(isWritingPage || ((isLinkPage || isEmbedPage) && isMobile)) && !createdContract ? "opacity-1" : "opacity-0"}`}
     >
-      <div className="absolute inset-0 md:border-t md:border-t-grey-moss-200 md:border-b md:border-b-grey-moss-200" />
+      <div className="absolute inset-0" />
       <div
         className="absolute inset-0"
         style={{
@@ -34,7 +34,7 @@ const MaskLines = () => {
         }}
       />
       <div
-        className="absolute inset-0"
+        className="absolute inset-0 border-t border-t-grey-moss-200 border-b border-b-grey-moss-200"
         style={{
           backgroundImage: `repeating-linear-gradient(
                     to bottom,

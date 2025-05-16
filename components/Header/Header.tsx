@@ -5,10 +5,13 @@ import Logo from "../Logo";
 import useSignedAddress from "@/hooks/useSignedAddress";
 import { DropdownMenu } from "../LoginButton/DropdownMenu";
 import { useLayoutProvider } from "@/providers/LayoutProvider";
+import CreateCTAButton from "./CreateCTAButton";
+import useTotalEarnings from "@/hooks/useTotalEarnings";
 
 const Header = () => {
   const signedAddress = useSignedAddress();
   const { isOpenNavbar, toggleNavbar, menuRef } = useLayoutProvider();
+  const { totalEarnings } = useTotalEarnings();
 
   return (
     <div
@@ -17,6 +20,7 @@ const Header = () => {
     >
       <Logo />
       <div className="md:relative flex items-center gap-2" ref={menuRef}>
+        {!totalEarnings && <CreateCTAButton />}
         <LoginButton />
         {signedAddress && (
           <button
