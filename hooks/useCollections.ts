@@ -1,5 +1,7 @@
 import { CollectionsResponse, PageParam } from "@/types/fetch-collections";
+import { Collection } from "@/types/token";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 
 async function fetchCollections(
   param?: PageParam,
@@ -19,25 +21,47 @@ async function fetchCollections(
 }
 
 export function useCollections() {
-  return useInfiniteQuery({
-    queryKey: ["collectons"],
-    queryFn: ({ pageParam }) => fetchCollections(pageParam),
-    getNextPageParam: (lastPage: CollectionsResponse) => {
-      if (
-        Boolean(
-          !lastPage.nextOffsets?.factory && !lastPage.nextOffsets.smartWallet,
+  const [collections, setCollections] = useState<Collection[]>([]);
+  const [isFetchingCollections, setIsFetchingCollections] =
+    useState<boolean>(true);
+
+  const { hasNextPage, fetchNextPage, data, isFetchingNextPage } =
+    useInfiniteQuery({
+      queryKey: ["collectons"],
+      queryFn: ({ pageParam }) => fetchCollections(pageParam),
+      getNextPageParam: (lastPage: CollectionsResponse) => {
+        if (
+          Boolean(
+            !lastPage.nextOffsets?.factory && !lastPage.nextOffsets.smartWallet,
+          )
         )
-      )
-        return undefined;
-      return {
-        offsets: lastPage.nextOffsets,
-      };
-    },
-    initialPageParam: undefined,
-    staleTime: 1000 * 60 * 5,
-    refetchOnWindowFocus: false,
-    retry: (failureCount) => {
-      return failureCount < 2;
-    },
-  });
+          return undefined;
+        return {
+          offsets: lastPage.nextOffsets,
+        };
+      },
+      initialPageParam: undefined,
+      staleTime: 1000 * 60 * 5,
+      refetchOnWindowFocus: false,
+      retry: (failureCount) => {
+        return failureCount < 4;
+      },
+    });
+
+  useEffect(() => {
+    if (data?.pages.length) {
+      setCollections(
+        data?.pages?.reduce((acc: Collection[], page) => {
+          return [...acc, ...page.collections];
+        }, []) ?? [],
+      );
+      if (hasNextPage && !isFetchingNextPage) fetchNextPage();
+      if (!hasNextPage) setIsFetchingCollections(false);
+    }
+  }, [hasNextPage, fetchNextPage, data?.pages.length, isFetchingNextPage]);
+
+  return {
+    collections,
+    isFetchingCollections,
+  };
 }

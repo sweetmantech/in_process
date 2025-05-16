@@ -2,15 +2,15 @@ import delay from "@/lib/delay";
 import { Collection, Token } from "@/types/token";
 import { useCallback, useEffect, useState } from "react";
 
-const fetchTokens = async (collectionAddresses: Collection[]) => {
-  while (1) {
+const fetchTokens = async (collections: Collection[]) => {
+  while (true) {
     const response = await fetch("/api/dune/tokens", {
       method: "POST",
       headers: {
         "content-type": "application/json",
       },
       body: JSON.stringify({
-        collections: collectionAddresses,
+        collections,
       }),
     });
     if (response.ok) {
@@ -21,41 +21,49 @@ const fetchTokens = async (collectionAddresses: Collection[]) => {
   }
 };
 const useFeeds = (collections: Collection[]) => {
-  const offset = 10;
+  const chunkSizeToGetTokens = 10;
   const [feeds, setFeeds] = useState<Token[]>([]);
   const [hasMoreT, setHasMoreT] = useState<boolean>(true);
-  const [collectionsIndex, setCollectionsIndex] = useState<number>(0);
+  const [tokensFetchedCollections, setTokensFetchedCollections] = useState<
+    Collection[]
+  >([]);
+  const [isFetchingTokens, setIsFetchingTokens] = useState<boolean>(false);
 
   const fetchMore = useCallback(async () => {
-    if (!collections.length) return;
-    const collectionAddresses = collections.slice(
-      collectionsIndex,
-      collectionsIndex + offset,
-    );
-    if (!collectionAddresses.length) {
+    if (!collections.length || isFetchingTokens) return;
+    setIsFetchingTokens(true);
+    const collectionsToGetTokens = collections
+      .filter(
+        (ele: Collection) =>
+          !tokensFetchedCollections.some(
+            (c: Collection) => c.newContract === ele.newContract,
+          ),
+      )
+      .slice(0, chunkSizeToGetTokens);
+
+    if (!collectionsToGetTokens.length) {
       setHasMoreT(false);
+      setIsFetchingTokens(false);
       return;
     }
-    const tokens = await fetchTokens(collectionAddresses);
+    setHasMoreT(true);
+    const tokens = await fetchTokens(collectionsToGetTokens);
     setFeeds([...feeds, ...tokens]);
-    setCollectionsIndex(collectionsIndex + offset);
-  }, [collections, collectionsIndex]);
+    setTokensFetchedCollections([
+      ...tokensFetchedCollections,
+      ...collectionsToGetTokens,
+    ]);
+    setIsFetchingTokens(false);
+  }, [collections, isFetchingTokens]);
 
   useEffect(() => {
-    const init = async () => {
-      setFeeds([]);
-      setCollectionsIndex(0);
-      await fetchMore();
-    };
-    if (collections.length) init();
+    if (collections.length) fetchMore();
   }, [collections]);
 
   return {
     hasMoreT,
     fetchMore,
     feeds,
-    collectionsIndex,
-    collections,
   };
 };
 
