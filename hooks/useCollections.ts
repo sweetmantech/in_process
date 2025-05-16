@@ -1,8 +1,16 @@
-import { Collection } from "@/types/token";
-import { useQuery } from "@tanstack/react-query";
+import { CollectionsResponse, PageParam } from "@/types/fetch-collections";
+import { useInfiniteQuery } from "@tanstack/react-query";
 
-async function fetchCollections(): Promise<Collection[]> {
-  const response = await fetch(`/api/dune/collections`);
+async function fetchCollections(
+  param?: PageParam,
+): Promise<CollectionsResponse> {
+  const response = await fetch("/api/collections", {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+    },
+    body: JSON.stringify(param || {}),
+  });
   if (!response.ok) {
     throw new Error("Failed to fetch all collections");
   }
@@ -11,10 +19,25 @@ async function fetchCollections(): Promise<Collection[]> {
 }
 
 export function useCollections() {
-  return useQuery({
+  return useInfiniteQuery({
     queryKey: ["collectons"],
-    queryFn: () => fetchCollections(),
+    queryFn: ({ pageParam }) => fetchCollections(pageParam),
+    getNextPageParam: (lastPage: CollectionsResponse) => {
+      if (
+        Boolean(
+          !lastPage.nextOffsets?.factory && !lastPage.nextOffsets.smartWallet,
+        )
+      )
+        return undefined;
+      return {
+        offsets: lastPage.nextOffsets,
+      };
+    },
+    initialPageParam: undefined,
     staleTime: 1000 * 60 * 5,
-    refetchOnMount: true,
+    refetchOnWindowFocus: false,
+    retry: (failureCount) => {
+      return failureCount < 2;
+    },
   });
 }

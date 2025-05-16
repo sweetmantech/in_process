@@ -44,6 +44,7 @@ const useFeeds = (collections: Collection[]) => {
   useEffect(() => {
     const init = async () => {
       setFeeds([]);
+      setCollectionsIndex(0);
       await fetchMore();
     };
     if (collections.length) init();
