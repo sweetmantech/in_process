@@ -3,17 +3,18 @@ import useFeeds from "@/hooks/useFeeds";
 import { createContext, useMemo, useContext } from "react";
 import { useTimelineProvider } from "./TimelineProvider";
 
-const InProcessFeedContext = createContext<ReturnType<typeof useFeeds>>(
-  {} as ReturnType<typeof useFeeds>,
-);
+const InProcessFeedContext = createContext<
+  ReturnType<typeof useFeeds> & ReturnType<typeof useCollections>
+>({} as ReturnType<typeof useFeeds> & ReturnType<typeof useCollections>);
 
 const InProcessFeedProvider = ({ children }: { children: React.ReactNode }) => {
-  const { data } = useCollections();
-  const feeds = useFeeds(data?.pages?.[0].collections || []);
+  const collections = useCollections();
+  const feeds = useFeeds(collections.collections);
   const { hiddenMoments } = useTimelineProvider();
 
   const value = useMemo(
     () => ({
+      ...collections,
       ...feeds,
       feeds: feeds.feeds
         .sort(
