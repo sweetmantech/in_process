@@ -62,15 +62,15 @@ export function useCollections() {
 
   useEffect(() => {
     if (data?.pages.length) {
-      setCollections(
-        data?.pages?.reduce((acc: Collection[], page) => {
+      setCollections([
+        ...(data?.pages?.reduce((acc: Collection[], page) => {
           return [...acc, ...page.collections];
-        }, []) ?? [],
-      );
+        }, []) ?? []),
+      ]);
       if (hasNextPage && !isFetchingNextPage) fetchNextPage();
       if (!hasNextPage) setIsFetchingCollections(false);
     }
-  }, [hasNextPage, fetchNextPage, data?.pages.length, isFetchingNextPage]);
+  }, [hasNextPage, fetchNextPage, data?.pages, isFetchingNextPage]);
 
   return {
     collections,
