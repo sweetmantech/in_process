@@ -10,7 +10,7 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
   return (
     <ZoraCreateProvider>
       <main className="w-screen grow">
-        <div className="relative w-full mt-12 md:mt-24 grid grid-cols-1 md:grid-cols-3 gap-6 px-3 md:px-10">
+        <div className="relative w-full mt-12 md:mt-24 grid grid-cols-1 md:grid-cols-3 gap-6 px-6 md:px-10">
           <MaskLines />
           <CreateModeSelect />
           <Moment>{children}</Moment>
