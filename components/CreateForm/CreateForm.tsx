@@ -11,7 +11,7 @@ const CreateForm = () => {
   const { createdContract, inputRef, name } = useZoraCreateProvider();
   return (
     <div className="w-full col-span-1 md:pl-12">
-      <div ref={inputRef} className="space-y-3 h-fit pb-4">
+      <div ref={inputRef} className="flex flex-col space-y-3 h-fit pb-4">
         {createdContract ? (
           <>
             <p className="text-center md:text-left font-archivo-medium text-2xl md:text-4xl">
