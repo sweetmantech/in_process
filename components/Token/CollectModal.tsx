@@ -16,6 +16,7 @@ import { useUserProvider } from "@/providers/UserProvider";
 import getPrice from "@/lib/getPrice";
 import getPriceUnit from "@/lib/getPriceUnit";
 import truncated from "@/lib/truncated";
+import Advanced from "./Advanced";
 
 const CrossmintModal = dynamic(
   () => import("../CommentButton/CrossmintModal"),
@@ -105,6 +106,7 @@ const CollectModal = () => {
             value={comment}
             onChange={handleCommentChange}
           />
+          <Advanced />
           <div className="w-full mt-4">
             <CommentButton />
           </div>
