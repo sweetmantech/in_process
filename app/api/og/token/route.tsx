@@ -33,7 +33,7 @@ export async function GET(req: NextRequest) {
   ]);
 
   let orientation = 1;
-  let originalWidth = 0;
+  let originalWidth = 1;
   let originalHeight = 0;
   if (metadata.metadata.image) {
     const imageUrl = getFetchableUrl(metadata.metadata.image) || "";
@@ -44,7 +44,7 @@ export async function GET(req: NextRequest) {
       const meta = imageMeta(uint8Array);
       orientation = meta.orientation || 1;
       originalWidth = meta.width || 0;
-      originalHeight = meta.height || 0;
+      originalHeight = meta.height || 1;
     }
   }
   const previewBackgroundUrl =
