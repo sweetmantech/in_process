@@ -8,6 +8,7 @@ import { useLayoutProvider } from "@/providers/LayoutProvider";
 import CreateCTAButton from "./CreateCTAButton";
 import useTotalEarnings from "@/hooks/useTotalEarnings";
 import useIsMobile from "@/hooks/useIsMobile";
+import ArtistSearch from "../ArtistSearch";
 
 const Header = () => {
   const signedAddress = useSignedAddress();
@@ -22,6 +23,7 @@ const Header = () => {
     >
       <Logo />
       <div className="flex items-center gap-2" ref={menuRef}>
+        <ArtistSearch />
         {!totalEarnings && !isMobile && <CreateCTAButton />}
         <div className="md:relative flex items-center gap-2">
           <LoginButton />
