@@ -44,6 +44,7 @@ const SearchModal = () => {
           onClick={() => setIsOpenModal(false)}
           type="button"
           className="absolute right-4 top-4 rounded-sm !border-none !outline-none"
+          onKeyDown={onKeyDown}
         >
           <X className="size-8" />
         </button>
@@ -58,6 +59,7 @@ const SearchModal = () => {
               value={searchKey}
               onChange={onChangeSearchKey}
               onKeyDown={onKeyDown}
+              autoFocus
             />
             <div className="absolute left-0 top-0 flex pointer-events-none">
               <p className="text-5xl font-archivo opacity-0">{searchKey}</p>

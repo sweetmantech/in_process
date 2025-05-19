@@ -6,6 +6,9 @@ import { Address } from "viem";
 const useProfiles = (collections: Collection[]) => {
   const [profiles, setProfiles] = useState<Record<string, Profile>>({});
   const [isFetchingProfiles, setIsFetchingProfiles] = useState<boolean>(false);
+  const [profileFetchedArtists, setProfileFetchedArtists] = useState<Address[]>(
+    [],
+  );
 
   const fetch = useCallback(async () => {
     if (!collections.length || isFetchingProfiles) return;
@@ -13,8 +16,12 @@ const useProfiles = (collections: Collection[]) => {
     const aggregatedArtists = new Set<Address>();
     for (const collection of collections)
       aggregatedArtists.add(collection.creator);
-    const data: Record<string, Profile> = {};
-    const promise = Array.from(aggregatedArtists).map(async (address) => {
+    const data: Record<string, Profile> = { ...profiles };
+    const filtered = Array.from(aggregatedArtists).filter(
+      (address) => !profileFetchedArtists.includes(address),
+    );
+    setProfileFetchedArtists(Array.from(aggregatedArtists));
+    const promise = filtered.map(async (address) => {
       const profile = await fetchArtistProfile(address);
       data[`${address}`] = profile;
     });

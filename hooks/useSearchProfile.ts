@@ -1,7 +1,7 @@
 import { useInProcessProvider } from "@/providers/InProcessProvider";
 import { useLayoutProvider } from "@/providers/LayoutProvider";
 import { useRouter } from "next/navigation";
-import { ChangeEvent, KeyboardEvent, useState } from "react";
+import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from "react";
 import { Address, zeroAddress } from "viem";
 
 const useSearchProfile = () => {
@@ -15,6 +15,7 @@ const useSearchProfile = () => {
   const [artistName, setArtistName] = useState<string>("");
 
   const clear = () => {
+    setArtistName("");
     setArtistAddress(zeroAddress);
     setSuffixHint("");
   };
@@ -26,7 +27,9 @@ const useSearchProfile = () => {
     push(`/${artistAddress}`);
   };
 
-  const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+  const onKeyDown = (
+    e: KeyboardEvent<HTMLInputElement | HTMLButtonElement>,
+  ) => {
     if (e.key === "Tab") {
       setSearchKey(artistName);
       setSuffixHint("");
@@ -61,6 +64,21 @@ const useSearchProfile = () => {
 
     clear();
   };
+
+  useEffect(() => {
+    function preventTab(e: any) {
+      console.log("ziad here", e.key);
+      e = e || window.event;
+      if (e.keyCode === 9) {
+        e.preventDefault();
+      }
+    }
+
+    window.addEventListener("keydown", preventTab);
+
+    // Call this when modal window closes/unmounts
+    window.removeEventListener("keydown", preventTab);
+  }, [isOpenModal]);
 
   return {
     clear,
