@@ -21,7 +21,7 @@ const useProfiles = (collections: Collection[]) => {
     await Promise.all(promise);
     setProfiles(data);
     setIsFetchingProfiles(false);
-  }, [collections, isFetchingProfiles]);
+  }, [collections.length, isFetchingProfiles]);
 
   useEffect(() => {
     fetch();
