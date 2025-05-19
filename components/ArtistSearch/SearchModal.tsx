@@ -7,12 +7,17 @@ import {
 import useSearchProfile from "@/hooks/useSearchProfile";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { SearchIcon, X } from "lucide-react";
-import { useState } from "react";
 
 const SearchModal = () => {
-  const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
-  const { clear, onChangeSearchKey, onKeyDown, searchKey, suffixHint } =
-    useSearchProfile();
+  const {
+    clear,
+    onChangeSearchKey,
+    onKeyDown,
+    searchKey,
+    suffixHint,
+    isOpenModal,
+    setIsOpenModal,
+  } = useSearchProfile();
 
   return (
     <Dialog

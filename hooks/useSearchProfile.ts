@@ -1,4 +1,5 @@
 import { useInProcessProvider } from "@/providers/InProcessProvider";
+import { useLayoutProvider } from "@/providers/LayoutProvider";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, KeyboardEvent, useState } from "react";
 import { Address, zeroAddress } from "viem";
@@ -9,17 +10,23 @@ const useSearchProfile = () => {
   const [artistAddress, setArtistAddress] = useState<Address>(zeroAddress);
   const [suffixHint, setSuffixHint] = useState<string>("");
   const { push } = useRouter();
+  const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+  const { setIsExpandedSearchInput } = useLayoutProvider();
 
   const clear = () => {
     setArtistAddress(zeroAddress);
     setSuffixHint("");
   };
 
-  const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+  const redirectToArtist = () => {
     if (artistAddress === zeroAddress) return;
-    if (e.key === "Enter") {
-      push(`/${artistAddress}`);
-    }
+    setIsOpenModal(false);
+    setIsExpandedSearchInput(false);
+    push(`/${artistAddress}`);
+  };
+
+  const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") redirectToArtist();
   };
   const onChangeSearchKey = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -54,6 +61,9 @@ const useSearchProfile = () => {
     onKeyDown,
     suffixHint,
     searchKey,
+    redirectToArtist,
+    isOpenModal,
+    setIsOpenModal,
   };
 };
 
