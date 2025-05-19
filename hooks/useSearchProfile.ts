@@ -12,6 +12,7 @@ const useSearchProfile = () => {
   const { push } = useRouter();
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const { setIsExpandedSearchInput } = useLayoutProvider();
+  const [artistName, setArtistName] = useState<string>("");
 
   const clear = () => {
     setArtistAddress(zeroAddress);
@@ -26,6 +27,11 @@ const useSearchProfile = () => {
   };
 
   const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Tab") {
+      setSearchKey(artistName);
+      setSuffixHint("");
+      return;
+    }
     if (e.key === "Enter") redirectToArtist();
   };
   const onChangeSearchKey = (e: ChangeEvent<HTMLInputElement>) => {
@@ -43,6 +49,7 @@ const useSearchProfile = () => {
     }
     if (find) {
       setArtistAddress(find[0] as Address);
+      setArtistName(find[1].username || "");
       const findArtistName = find[1].username || "";
       const findIndex = findArtistName
         .toLowerCase()
