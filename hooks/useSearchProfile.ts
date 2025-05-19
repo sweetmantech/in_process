@@ -15,11 +15,13 @@ const useSearchProfile = () => {
     setSuffixHint("");
   };
 
-  const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+  const redirectToArtist = () => {
     if (artistAddress === zeroAddress) return;
-    if (e.key === "Enter") {
-      push(`/${artistAddress}`);
-    }
+    push(`/${artistAddress}`);
+  }
+
+  const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") redirectToArtist()
   };
   const onChangeSearchKey = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -54,6 +56,7 @@ const useSearchProfile = () => {
     onKeyDown,
     suffixHint,
     searchKey,
+    redirectToArtist
   };
 };
 
