@@ -8,7 +8,10 @@ export async function GET() {
     const users: any = response.leaderboard;
     const promise = users.map(async (user: any) => {
       const profile = await getTag(user.address, "profile");
-      return profile;
+      return {
+        address: user.address,
+        profile: profile?.length ? profile : null,
+      };
     });
     const profiles = await Promise.all(promise);
     return Response.json(profiles);
