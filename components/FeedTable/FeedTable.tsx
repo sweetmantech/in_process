@@ -3,15 +3,14 @@
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import useFeedTable from "@/hooks/useFeedTable";
 import { useRouter } from "next/navigation";
-import { Address } from "viem";
 import DescriptionCell from "./DescriptionCell";
-import ArtistName from "../ArtistName";
-import { useInProcessFeedProvider } from "@/providers/InProcessFeedProvider";
+import { useInProcessProvider } from "@/providers/InProcessProvider";
 import FetchMoreInspector from "../FetchMoreInspector";
 import Loading from "../Loading";
+import truncateAddress from "@/lib/truncateAddress";
 
 export default function FeedTable() {
-  const { feeds, fetchMore, hasMoreT } = useInProcessFeedProvider();
+  const { feeds, fetchMore, hasMoreT, profiles } = useInProcessProvider();
   const table = useFeedTable();
   const { push } = useRouter();
   const fontFamilies = ["font-archivo", "font-spectral-italic", "font-archivo"];
@@ -42,10 +41,10 @@ export default function FeedTable() {
                     className={`md:py-3 border-none cursor-pointer ${fontFamilies[i]} ${fontSizes[i]}`}
                   >
                     {cell.id.includes("creator") ? (
-                      <ArtistName
-                        address={cell.getValue() as Address}
-                        className="!font-archivo-medium"
-                      />
+                      <p className="font-archivo-medium">
+                        {profiles[cell.getValue() as string]?.username ||
+                          truncateAddress(cell.getValue() as string)}
+                      </p>
                     ) : (
                       <>
                         {cell.id.includes("uri") ? (

@@ -1,15 +1,15 @@
 import { Token } from "@/types/token";
 import Image from "next/image";
 import truncated from "@/lib/truncated";
-import ArtistName from "../ArtistName";
-import { useInProcessFeedProvider } from "@/providers/InProcessFeedProvider";
 import { useMetadata } from "@/hooks/useMetadata";
 import { useRouter } from "next/navigation";
+import { useInProcessProvider } from "@/providers/InProcessProvider";
+import truncateAddress from "@/lib/truncateAddress";
 
 const Feed = ({ feed }: { feed: Token }) => {
   const { data } = useMetadata(feed.uri);
   const { push } = useRouter();
-
+  const { profiles } = useInProcessProvider();
   return (
     <button
       type="button"
@@ -24,12 +24,14 @@ const Feed = ({ feed }: { feed: Token }) => {
           {new Date(feed.released_at).toLocaleString()}
         </p>
       </div>
-      <ArtistName className="font-archivo text-sm" address={feed.creator} />
+      <p className="font-archivo text-sm">
+        {profiles[`${feed.creator}`]?.username || truncateAddress(feed.creator)}
+      </p>
     </button>
   );
 };
 const LatestFeeds = () => {
-  const { feeds } = useInProcessFeedProvider();
+  const { feeds } = useInProcessProvider();
   return (
     <div className="block md:hidden w-full">
       <div className="flex justify-center">

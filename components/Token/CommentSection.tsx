@@ -1,11 +1,13 @@
 import { useTokenProvider } from "@/providers/TokenProvider";
 import CommentsContainer from "./CommentsContainer";
-import ArtistName from "../ArtistName";
 import { Skeleton } from "../ui/skeleton";
+import { useInProcessProvider } from "@/providers/InProcessProvider";
+import truncateAddress from "@/lib/truncateAddress";
 
 const CommentSection = () => {
   const { visibleComments, comments, showMoreComments, isLoading, isSetSale } =
     useTokenProvider();
+  const { profiles } = useInProcessProvider();
 
   if (isLoading)
     return (
@@ -32,10 +34,10 @@ const CommentSection = () => {
               <p className="text-base font-spectral tracking-[-1px]">
                 {comment.comment}
               </p>
-              <ArtistName
-                address={comment.sender}
-                className="text-base font-archivo-medium"
-              />
+              <p className="text-base font-archivo-medium">
+                {profiles[`${comment.sender}`]?.username ||
+                  truncateAddress(comment.sender)}
+              </p>
             </div>
             <p className="text-sm font-archivo lowercase">
               {new Date(comment.timestamp).toLocaleString()}

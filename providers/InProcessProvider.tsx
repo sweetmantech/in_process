@@ -2,20 +2,29 @@ import { useCollections } from "@/hooks/useCollections";
 import useFeeds from "@/hooks/useFeeds";
 import { createContext, useMemo, useContext } from "react";
 import { useTimelineProvider } from "./TimelineProvider";
+import useProfiles from "@/hooks/useProfiles";
 
-const InProcessFeedContext = createContext<
-  ReturnType<typeof useFeeds> & ReturnType<typeof useCollections>
->({} as ReturnType<typeof useFeeds> & ReturnType<typeof useCollections>);
+const InProcessContext = createContext<
+  ReturnType<typeof useFeeds> &
+    ReturnType<typeof useCollections> &
+    ReturnType<typeof useProfiles>
+>(
+  {} as ReturnType<typeof useFeeds> &
+    ReturnType<typeof useCollections> &
+    ReturnType<typeof useProfiles>,
+);
 
-const InProcessFeedProvider = ({ children }: { children: React.ReactNode }) => {
+const InProcessProvider = ({ children }: { children: React.ReactNode }) => {
   const collections = useCollections();
   const feeds = useFeeds(collections.collections);
   const { hiddenMoments } = useTimelineProvider();
+  const profiles = useProfiles(collections.collections);
 
   const value = useMemo(
     () => ({
       ...collections,
       ...feeds,
+      ...profiles,
       feeds: feeds.feeds
         .sort(
           (a, b) =>
@@ -37,20 +46,20 @@ const InProcessFeedProvider = ({ children }: { children: React.ReactNode }) => {
   );
 
   return (
-    <InProcessFeedContext.Provider value={value}>
+    <InProcessContext.Provider value={value}>
       {children}
-    </InProcessFeedContext.Provider>
+    </InProcessContext.Provider>
   );
 };
 
-export const useInProcessFeedProvider = () => {
-  const context = useContext(InProcessFeedContext);
+export const useInProcessProvider = () => {
+  const context = useContext(InProcessContext);
   if (!context) {
     throw new Error(
-      "useInProcessFeedProvider must be used within a InProcessFeedProvider",
+      "useInProcessProvider must be used within a InProcessProvider",
     );
   }
   return context;
 };
 
-export default InProcessFeedProvider;
+export default InProcessProvider;
