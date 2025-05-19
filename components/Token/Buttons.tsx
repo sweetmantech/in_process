@@ -1,23 +1,14 @@
 import useConnectedWallet from "@/hooks/useConnectedWallet";
-import { CHAIN, PROD_URL } from "@/lib/consts";
-import { getShortNetworkName } from "@/lib/zora/zoraToViem";
+import useShareMoment from "@/hooks/useShareMoment";
 import { useTokenProvider } from "@/providers/TokenProvider";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { toast } from "sonner";
 
 const Buttons = () => {
-  const { token, setCollected } = useTokenProvider();
+  const { setCollected } = useTokenProvider();
   const { push } = useRouter();
   const { connectedWallet } = useConnectedWallet();
-
-  const share = async () => {
-    const shortNetworkName = getShortNetworkName(CHAIN.name.toLowerCase());
-    await navigator.clipboard.writeText(
-      `${PROD_URL}/collect/${shortNetworkName}:${token.tokenContractAddress}/${token.tokenId}`,
-    );
-    toast.success("copied!");
-  };
+  const { share } = useShareMoment();
 
   const visit = () => {
     setCollected(true);

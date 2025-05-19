@@ -4,6 +4,8 @@ import { Skeleton } from "../ui/skeleton";
 import CommentSection from "./CommentSection";
 import getPrice from "@/lib/getPrice";
 import getPriceUnit from "@/lib/getPriceUnit";
+import { CopyIcon } from "lucide-react";
+import useShareMoment from "@/hooks/useShareMoment";
 
 interface MetaAndCommentsProps {
   priceHidden?: boolean;
@@ -16,8 +18,9 @@ const MetaAndComments = ({
 }: MetaAndCommentsProps) => {
   const { saleConfig, metadata, isLoading, isSetSale } = useTokenProvider();
   const { data: meta } = metadata;
-  if (!meta) return <Fragment />;
+  const { share } = useShareMoment();
 
+  if (!meta) return <Fragment />;
   return (
     <div className="w-full md:max-w-[400px] h-fit">
       <h3 className="text-4xl md:text-5xl font-spectral pt-2 md:pt-4">
@@ -32,11 +35,22 @@ const MetaAndComments = ({
             {isLoading ? (
               <Skeleton className="w-full h-6" />
             ) : (
-              <p className="w-2/3 md:w-full font-archivo text-sm md:text-base border border-black rounded-md text-center bg-grey-moss-50">
-                {saleConfig?.pricePerToken === BigInt(0)
-                  ? "free"
-                  : `${getPrice(saleConfig?.pricePerToken || BigInt(0), saleConfig?.type)} ${getPriceUnit(saleConfig?.type || "")}`}
-              </p>
+              <div className="flex gap-2 items-center">
+                <p className="w-2/3 md:w-full font-archivo text-sm md:text-base border border-black rounded-md text-center bg-grey-moss-50">
+                  {saleConfig?.pricePerToken === BigInt(0)
+                    ? "free"
+                    : `${getPrice(saleConfig?.pricePerToken || BigInt(0), saleConfig?.type)} ${getPriceUnit(saleConfig?.type || "")}`}
+                </p>
+                <button
+                  type="button"
+                  className="border border-grey-moss-900 bg-white p-1 rounded-sm"
+                >
+                  <CopyIcon
+                    onClick={share}
+                    className="size-4 text-grey-moss-900"
+                  />
+                </button>
+              </div>
             )}
           </div>
         </>
