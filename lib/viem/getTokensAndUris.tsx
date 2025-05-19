@@ -33,7 +33,7 @@ const getTokensAndUris = async (collection: Address, chainId: number) => {
       }),
     );
   } catch (error) {
-    console.log("ziad", error);
+    console.error(error);
     throw new Error("failed to get tokens");
   }
 };

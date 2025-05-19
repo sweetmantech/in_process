@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import useIsMobile from "@/hooks/useIsMobile";
 import { formatFeedText, generateSpacer } from "@/lib/spiralUtils";
 import { Token } from "@/types/token";
 import { useRouter } from "next/navigation";
-import { useInView } from "react-intersection-observer";
 import { useMetadata } from "@/hooks/useMetadata";
 import truncateAddress from "@/lib/truncateAddress";
+import { useInProcessProvider } from "@/providers/InProcessProvider";
 
 interface FeedProps {
   feed: Token;
@@ -23,28 +23,8 @@ const Feed = ({
 }: FeedProps) => {
   const isMobile = useIsMobile();
   const { push } = useRouter();
-  const [ref, inView] = useInView();
-  const [intialized, setInitialized] = useState(false);
-  const [username, setUserName] = useState("");
   const { data } = useMetadata(feed.uri);
-
-  useEffect(() => {
-    const fetchProfile = async () => {
-      if (intialized) return;
-      if (inView) {
-        setInitialized(true);
-        const response = await fetch(
-          `/api/profile?walletAddress=${feed.creator}`,
-        );
-        const data = await response.json();
-        setUserName(data.username);
-        return;
-      }
-      setUserName("");
-    };
-    fetchProfile();
-    // eslint-disable-next-line
-  }, [inView, intialized]);
+  const { profiles } = useInProcessProvider();
 
   return (
     <React.Fragment>
@@ -53,14 +33,14 @@ const Feed = ({
         onMouseMove={(e) => handleMouseMove(e, feed)}
         onMouseLeave={handleMouseLeave}
         onClick={() => push(`/${feed.creator}`)}
-        ref={ref}
       >
         <tspan fill="#4E4E4E" fontSize={20}>
           ⬤
         </tspan>{" "}
         &nbsp;&nbsp;&nbsp;&nbsp;
         {formatFeedText(
-          username || truncateAddress(feed.creator),
+          profiles[`${feed.creator}`]?.username ||
+            truncateAddress(feed.creator),
           data?.name || "",
           feed.released_at,
           isMobile ? 14 : 20,

@@ -2,7 +2,7 @@ import Slider from "../Slider";
 import SliderFeed from "./SliderFeed";
 import { Autoplay } from "swiper/modules";
 import useIsMobile from "@/hooks/useIsMobile";
-import { useInProcessFeedProvider } from "@/providers/InProcessFeedProvider";
+import { useInProcessProvider } from "@/providers/InProcessProvider";
 import { ArrowRight } from "../ui/icons";
 import { useState } from "react";
 import { Swiper } from "swiper/types";
@@ -10,7 +10,7 @@ import FetchMoreInspector from "../FetchMoreInspector";
 
 const ArtSlider = () => {
   const isMobile = useIsMobile();
-  const { feeds, fetchMore } = useInProcessFeedProvider();
+  const { feeds, fetchMore } = useInProcessProvider();
   const [swiper, setSwiper] = useState<Swiper | null>(null);
   const slides = feeds.slice(0, 55);
 

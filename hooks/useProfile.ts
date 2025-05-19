@@ -41,7 +41,7 @@ const useProfile = () => {
   useEffect(() => {
     if (data) {
       setUserName(data.username || truncateAddress(artistAddress as string));
-      setBio(data.bio);
+      setBio(data?.bio || "");
     }
   }, [data, artistAddress]);
 
