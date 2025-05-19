@@ -45,6 +45,7 @@ export const PROD_URL = "https://inprocess.fun";
 export const BLOCKLISTS = [
   "0x323e8bcb41ae2454c3f4899e094c599aab6b84bc",
   "0x51027631b9def86e088c33368ec4e3a4be0ad264",
+  "0xf498624bbf806048296cf1757f0ea349228803a5"
 ];
 export const SPIRAL_POINTS: Point[] = [
   [14, 123],
