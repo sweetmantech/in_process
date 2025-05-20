@@ -69,7 +69,10 @@ export async function GET(req: NextRequest) {
         style={{
           width: "100%",
           height: "100%",
-          padding: 48,
+          paddingTop: 48,
+          paddingBottom: 48,
+          paddingLeft: 32,
+          paddingRight: 32,
           display: "flex",
           justifyContent: "space-between",
           background: `url('${VERCEL_OG}/bg-gray.png')`,
@@ -108,7 +111,7 @@ export async function GET(req: NextRequest) {
             alignItems: "center",
             backgroundColor: "#E0DDD8",
             overflow: "hidden",
-            borderRadius: 24,
+            borderRadius: 18,
           }}
         >
           {previewBackgroundUrl ? (
@@ -126,14 +129,19 @@ export async function GET(req: NextRequest) {
               }}
             />
           ) : (
-            <p
+            <div
               style={{
                 fontFamily: "Archivo",
                 fontSize: 32,
+                textAlign: "center",
+                color: "#605F5C",
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
               }}
             >
               No Preview.
-            </p>
+            </div>
           )}
         </div>
       </div>
