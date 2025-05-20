@@ -24,6 +24,7 @@ const useProfiles = (collections: Collection[]) => {
     const promise = filtered.map(async (address) => {
       const profile = await fetchArtistProfile(address);
       data[`${address}`] = profile;
+      setProfiles({ ...data });
     });
     await Promise.all(promise);
     setProfiles(data);
