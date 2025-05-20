@@ -1,22 +1,19 @@
 import { NextRequest } from "next/server";
-import OgFooter from "@/components/Og/artist/OgFooter";
-import OgHeader from "@/components/Og/artist/OgHeader";
 import { Collection } from "@/types/token";
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import getUsername from "@/lib/getUsername";
-import getUserAvatar from "@/lib/getUserAvatar";
-import { VERCEL_OG } from "@/lib/og/consts";
+import { OG_HEIGHT, OG_WIDTH, VERCEL_OG } from "@/lib/og/consts";
 
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
 
-const archivoFont = fetch(
-  new URL(`${VERCEL_OG}/fonts/Archivo-Regular.ttf`, import.meta.url),
-).then((res) => res.arrayBuffer());
+const archivoFont = fetch(`${VERCEL_OG}/fonts/Archivo-Regular.ttf`).then(
+  (res) => res.arrayBuffer(),
+);
 
-const spectralFont = fetch(
-  new URL(`${VERCEL_OG}/fonts/Spectral-Regular.ttf`, import.meta.url),
-).then((res) => res.arrayBuffer());
+const spectralFont = fetch(`${VERCEL_OG}/fonts/Spectral-Regular.ttf`).then(
+  (res) => res.arrayBuffer(),
+);
 
 export async function GET(req: NextRequest) {
   const queryParams = req.nextUrl.searchParams;
@@ -37,7 +34,6 @@ export async function GET(req: NextRequest) {
 
   const { ImageResponse } = await import("@vercel/og");
   const username = await getUsername(artistAddress);
-  const useravatar = await getUserAvatar(artistAddress);
   const [archivoFontData, spectralFontData] = await Promise.all([
     archivoFont,
     spectralFont,
@@ -49,7 +45,7 @@ export async function GET(req: NextRequest) {
         style={{
           width: "100%",
           height: "100%",
-          padding: 12,
+          padding: 48,
           display: "flex",
           flexDirection: "column",
           background: `url('${VERCEL_OG}/bg-gray.png')`,
@@ -57,13 +53,24 @@ export async function GET(req: NextRequest) {
           backgroundPosition: "center",
         }}
       >
-        <OgHeader avatar={useravatar} metadata={metadata} />
-        <OgFooter username={username} />
+        <div style={{
+          display: 'flex',
+          width: '30%',
+          flexDirection: 'column'
+        }}>
+          <img src="https://arweave.net/GlRVqkN9sLPSmN09CSLTAgc5lW-GaUg23I0-wRd2MwI"
+            width="100%"
+          />
+          <p style={{
+            fontFamily: 'Archivo',
+            fontSize: 18
+          }}>{username}</p>
+        </div>
       </div>
     ),
     {
-      width: 500,
-      height: 333.3,
+      width: OG_WIDTH,
+      height: OG_HEIGHT,
       fonts: [
         {
           name: "Archivo",
