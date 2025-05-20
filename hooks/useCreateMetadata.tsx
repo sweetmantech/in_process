@@ -23,9 +23,7 @@ const useCreateMetadata = () => {
     mimeType,
     name,
   } = metadataValues;
-  const writinig = useWriting({
-    setDescription,
-  });
+  const writinig = useWriting();
   const embed = useEmbedCode({
     setDescription,
     setAnimationUri,
