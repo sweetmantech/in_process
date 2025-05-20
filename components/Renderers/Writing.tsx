@@ -22,7 +22,7 @@ const Writing = ({ fileUrl, description }: WritingProps) => {
   if (isLoading) return <Skeleton className="min-h-[200px] size-full" />;
   return (
     <div
-      className="font-archivo bg-grey-moss-100 p-2 rounded-md text-md !normal-case"
+      className="font-archivo bg-grey-moss-100 p-2 rounded-md text-md !normal-case text-left"
       dangerouslySetInnerHTML={{
         __html: text.replaceAll("\n", "<br/>"),
       }}
