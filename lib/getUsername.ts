@@ -9,7 +9,7 @@ const getUsername = async (address: Address) => {
     );
     if (!response.ok) throw new Error();
     const data = await response.json();
-    return data.username;
+    return data.username || truncateAddress(address);
   } catch (error) {
     console.error(error);
     return truncateAddress(address);
