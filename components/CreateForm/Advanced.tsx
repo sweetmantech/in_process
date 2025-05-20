@@ -37,7 +37,7 @@ const Advanced = () => {
             className="resize-none"
           />
           <p className="font-medium font-archivo">Start Time:</p>
-          <DateTimePicker date={startDate} setDate={onChangeStartDate} />
+          <DateTimePicker date={startDate} setDate={onChangeStartDate}/>
           <div className="absolute left-0 right-0 px-[16px] pb-32 bg-grey-moss-100">
           </div>
         </div>
