@@ -23,7 +23,7 @@ const TextInput = () => {
   return (
     <div className="overflow-hidden size-full !font-spectral shadow-[5px_6px_2px_2px_#0000000f] border border-grey-moss-300 bg-white disabled:cursor-not-allowed relative">
       <textarea
-        className="relative z-[2] size-full !outline-none p-2 md:p-4 bg-grey-moss-100"
+        className="relative z-[2] size-full !outline-none p-2 md:p-4 bg-grey-moss-100 !resize-none"
         value={writingText}
         disabled={Boolean(fileUploading || creating)}
         onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
