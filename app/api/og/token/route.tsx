@@ -115,7 +115,7 @@ export async function GET(req: NextRequest) {
                 style={{
                   wordWrap: "break-word",
                   whiteSpace: "pre-wrap",
-                  fontFamily: "Archivo",
+                  fontFamily: "Spectral",
                   fontSize: totalLines <= WRITING_SHORT_LINES ? 32 : 16,
                 }}
               >
