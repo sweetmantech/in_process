@@ -6,6 +6,7 @@ import {
   rotation,
   VERCEL_OG,
   WRITING_MAX_LINES,
+  WRITING_SHORT_LINES,
 } from "@/lib/og/consts";
 import { imageMeta } from "image-meta";
 import fetchTokenMetadata from "@/lib/fetchTokenMetadata";
@@ -114,6 +115,8 @@ export async function GET(req: NextRequest) {
                 style={{
                   wordWrap: "break-word",
                   whiteSpace: "pre-wrap",
+                  fontFamily: "Archivo",
+                  fontSize: totalLines <= WRITING_SHORT_LINES ? 32 : 16,
                 }}
               >
                 {writingText}
