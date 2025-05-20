@@ -103,7 +103,6 @@ export async function GET(req: NextRequest) {
           style={{
             display: "flex",
             width: "65%",
-            border: "1px solid red",
             height: "100%",
             position: "relative",
             alignItems: "center",
