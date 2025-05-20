@@ -2,6 +2,7 @@ import { NextRequest } from "next/server";
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import { OG_HEIGHT, OG_WIDTH, rotation, VERCEL_OG } from "@/lib/og/consts";
 import { imageMeta } from "image-meta";
+import fetchTokenMetadata from "@/lib/fetchTokenMetadata";
 
 export const dynamic = "force-dynamic";
 export const runtime = "edge";
@@ -22,9 +23,10 @@ export async function GET(req: NextRequest) {
   if (!tokenId || !collection)
     throw Error("collection or tokenId should be provided.");
 
-  const metadata = await fetch(
-    `${VERCEL_OG}/api/token/metadata?collection=${collection}&tokenId=${tokenId}`,
-  ).then((res) => res.json());
+  const metadata = await fetchTokenMetadata(
+    collection as string,
+    tokenId as string,
+  );
 
   const { ImageResponse } = await import("@vercel/og");
   const [archivoFontData, spectralFontData] = await Promise.all([
@@ -32,12 +34,14 @@ export async function GET(req: NextRequest) {
     spectralFont,
   ]);
 
+  const previewBackgroundUrl = getFetchableUrl(
+    metadata?.image || `${VERCEL_OG}/images/placeholder.png`,
+  );
   let orientation = 1;
   let originalWidth = 1;
   let originalHeight = 0;
-  if (metadata.metadata.image) {
-    const imageUrl = getFetchableUrl(metadata.metadata.image) || "";
-    const response = await fetch(imageUrl);
+  if (previewBackgroundUrl) {
+    const response = await fetch(previewBackgroundUrl);
     if (response.ok) {
       const data = await response.arrayBuffer();
       const uint8Array = new Uint8Array(data);
@@ -47,10 +51,7 @@ export async function GET(req: NextRequest) {
       originalHeight = meta.height || 1;
     }
   }
-  const previewBackgroundUrl =
-    getFetchableUrl(
-      metadata.metadata.image || `${VERCEL_OG}/images/placeholder.png`,
-    ) || "";
+
   const paddingLeft =
     (Math.abs((OG_WIDTH / originalHeight) * originalWidth - OG_WIDTH) / 2) * -1;
   return new ImageResponse(
@@ -67,7 +68,7 @@ export async function GET(req: NextRequest) {
       >
         {/* eslint-disable-next-line */}
         <img
-          src={previewBackgroundUrl}
+          src={previewBackgroundUrl as string}
           style={{
             width:
               orientation === 6 || orientation === 8

@@ -1,4 +1,5 @@
 import TokenPage from "@/components/TokenPage";
+import fetchTokenMetadata from "@/lib/fetchTokenMetadata";
 import { APP_URL, VERCEL_OG } from "@/lib/og/consts";
 import { Metadata, NextPage } from "next";
 
@@ -12,12 +13,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { tokenId, collection } = await params;
   // eslint-disable-next-line
   const [_, address] = collection.split("%3A");
-  const data = await fetch(
-    `${VERCEL_OG}/api/token/metadata?collection=${address}&tokenId=${tokenId}`,
-  ).then((res) => res.json());
+  const metadata = await fetchTokenMetadata(
+    collection as string,
+    tokenId as string,
+  );
 
-  const title = data.metadata?.name || "In Process";
-  const description = data.metadata?.description || "Imagined by LATASHÁ";
+  const title = metadata?.name || "In Process";
+  const description = metadata?.description || "Imagined by LATASHÁ";
 
   const frame = {
     version: "next",

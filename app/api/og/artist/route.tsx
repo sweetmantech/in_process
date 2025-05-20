@@ -1,8 +1,12 @@
 import { NextRequest } from "next/server";
-import { Collection } from "@/types/token";
-import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
+import { Metadata } from "@/types/token";
 import getUsername from "@/lib/getUsername";
-import { OG_HEIGHT, OG_WIDTH, VERCEL_OG } from "@/lib/og/consts";
+import { OG_HEIGHT, OG_WIDTH, rotation, VERCEL_OG } from "@/lib/og/consts";
+import fetchTokenMetadata from "@/lib/fetchTokenMetadata";
+import { Address } from "viem";
+import getArtistLatestMint from "@/lib/fetchArtistLatestMint";
+import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
+import { imageMeta } from "image-meta";
 
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
@@ -17,27 +21,47 @@ const spectralFont = fetch(`${VERCEL_OG}/fonts/Spectral-Regular.ttf`).then(
 
 export async function GET(req: NextRequest) {
   const queryParams = req.nextUrl.searchParams;
-  const artistAddress: any = queryParams.get("artistAddress");
+  const artistAddress = queryParams.get("artistAddress");
+  const chainId = queryParams.get("chainId");
+  const chainIdNum = parseInt(chainId as string, 10);
 
-  const collections = await fetch(
-    `${VERCEL_OG}/api/dune/artist/collections?artistAddress=${artistAddress}`,
-  ).then((res) => res.json());
-  const contractURIs = collections
-    .slice(0, 4)
-    .map((c: Collection) => c.contractURI);
-  const metadataPromise = contractURIs.map(async (contractURI: string) => {
-    return await fetch(getFetchableUrl(contractURI) || "").then((res) =>
-      res.json(),
+  let metadata: Metadata | null = null;
+  const latestMintedToken = await getArtistLatestMint(
+    artistAddress as string,
+    chainIdNum,
+  );
+  if (latestMintedToken)
+    metadata = await fetchTokenMetadata(
+      latestMintedToken.tokenContract,
+      BigInt(latestMintedToken.tokenId).toString(),
     );
-  });
-  const metadata = await Promise.all(metadataPromise);
+  const username = await getUsername(artistAddress as Address);
 
   const { ImageResponse } = await import("@vercel/og");
-  const username = await getUsername(artistAddress);
   const [archivoFontData, spectralFontData] = await Promise.all([
     archivoFont,
     spectralFont,
   ]);
+  const previewBackgroundUrl = metadata?.image
+    ? getFetchableUrl(metadata.image || ``)
+    : null;
+
+  let orientation = 1;
+  let originalWidth = 1;
+  let originalHeight = 0;
+  if (previewBackgroundUrl) {
+    const response = await fetch(previewBackgroundUrl);
+    if (response.ok) {
+      const data = await response.arrayBuffer();
+      const uint8Array = new Uint8Array(data);
+      const meta = imageMeta(uint8Array);
+      orientation = meta.orientation || 1;
+      originalWidth = meta.width || 0;
+      originalHeight = meta.height || 1;
+    }
+  }
+  const paddingLeft =
+    (Math.abs((OG_WIDTH / originalHeight) * originalWidth - OG_WIDTH) / 2) * -1;
 
   return new ImageResponse(
     (
@@ -47,24 +71,71 @@ export async function GET(req: NextRequest) {
           height: "100%",
           padding: 48,
           display: "flex",
-          flexDirection: "column",
+          justifyContent: "space-between",
           background: `url('${VERCEL_OG}/bg-gray.png')`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
       >
-        <div style={{
-          display: 'flex',
-          width: '30%',
-          flexDirection: 'column'
-        }}>
-          <img src="https://arweave.net/GlRVqkN9sLPSmN09CSLTAgc5lW-GaUg23I0-wRd2MwI"
+        <div
+          style={{
+            display: "flex",
+            width: "30%",
+            flexDirection: "column",
+          }}
+        >
+          {/* eslint-disable-next-line */}
+          <img
+            src="https://arweave.net/GlRVqkN9sLPSmN09CSLTAgc5lW-GaUg23I0-wRd2MwI"
             width="100%"
           />
-          <p style={{
-            fontFamily: 'Archivo',
-            fontSize: 18
-          }}>{username}</p>
+          <p
+            style={{
+              fontFamily: "Archivo",
+              fontSize: 18,
+            }}
+          >
+            {username}
+          </p>
+        </div>
+        {/* eslint-disable-next-line */}
+        <div
+          style={{
+            display: "flex",
+            width: "65%",
+            border: "1px solid red",
+            height: "100%",
+            position: "relative",
+            alignItems: "center",
+            backgroundColor: "#E0DDD8",
+            overflow: "hidden",
+            borderRadius: 24,
+          }}
+        >
+          {previewBackgroundUrl ? (
+            // eslint-disable-next-line
+            <img
+              src={previewBackgroundUrl}
+              style={{
+                width:
+                  orientation === 6 || orientation === 8
+                    ? (OG_WIDTH / originalHeight) * originalWidth
+                    : "100%",
+                transform: rotation[orientation],
+                left: orientation === 6 || orientation === 8 ? paddingLeft : 0,
+                position: "absolute",
+              }}
+            />
+          ) : (
+            <p
+              style={{
+                fontFamily: "Archivo",
+                fontSize: 32,
+              }}
+            >
+              No Preview.
+            </p>
+          )}
         </div>
       </div>
     ),
