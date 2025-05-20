@@ -41,6 +41,7 @@
     "@xyflow/react": "^12.4.3",
     "@zoralabs/protocol-deployments": "^0.3.8",
     "abitype": "^1.0.8",
+    "alchemy-sdk": "^3.5.9",
     "arbundles": "^0.11.2",
     "arweave": "^1.15.5",
     "canvas": "2.11.2",
@@ -80,7 +81,8 @@
     "usehooks-ts": "^3.1.1",
     "viem": "^2.21.45",
     "wagmi": "^2.13.3",
-    "web-streams-polyfill": "^4.1.0"
+    "web-streams-polyfill": "^4.1.0",
+    "websocket": "^1.0.35"
   },
   "devDependencies": {
     "@types/node": "^20",
@@ -110,6 +112,7 @@
       "bufferutil",
       "canvas",
       "core-js",
+      "es5-ext",
       "keccak",
       "protobufjs",
       "secp256k1",
