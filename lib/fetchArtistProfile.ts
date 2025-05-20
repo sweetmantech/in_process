@@ -5,9 +5,12 @@ export interface Profile {
   username: string | null;
   bio: string | null;
 }
-const fetchArtistProfile = async (artistAddress: Address): Promise<Profile> => {
+const fetchArtistProfile = async (
+  artistAddress: Address,
+  isVercelApi = false,
+): Promise<Profile> => {
   const response = await fetch(
-    `${VERCEL_OG}/api/profile?walletAddress=${artistAddress}`,
+    `${isVercelApi ? VERCEL_OG : ""}/api/profile?walletAddress=${artistAddress}`,
   );
   const data = await response.json();
   return data;

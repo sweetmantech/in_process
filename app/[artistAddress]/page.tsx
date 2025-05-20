@@ -13,7 +13,7 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { artistAddress } = await params;
 
-  const profile = await fetchArtistProfile(artistAddress as Address);
+  const profile = await fetchArtistProfile(artistAddress as Address, true);
   const title = profile.username || truncateAddress(artistAddress);
   const description = profile.bio || "Imagined by LATASHÁ";
 
