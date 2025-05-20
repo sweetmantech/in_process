@@ -2,6 +2,9 @@ import { Metadata, NextPage } from "next";
 import ArtistPage from "@/components/ArtistPage";
 import ProfileProvider from "@/providers/ProfileProvider";
 import { APP_URL, VERCEL_OG } from "@/lib/og/consts";
+import truncateAddress from "@/lib/truncateAddress";
+import fetchArtistProfile from "@/lib/fetchArtistProfile";
+import { Address } from "viem";
 
 type Props = {
   params: Promise<{ artistAddress: string }>;
@@ -10,11 +13,8 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { artistAddress } = await params;
 
-  const response = await fetch(
-    `${APP_URL}/api/profile?walletAddress=${artistAddress}`,
-  );
-  const profile = await response.json();
-  const title = profile.username || "Artist";
+  const profile = await fetchArtistProfile(artistAddress as Address);
+  const title = profile.username || truncateAddress(artistAddress);
   const description = profile.bio || "Imagined by LATASHÁ";
 
   return {
