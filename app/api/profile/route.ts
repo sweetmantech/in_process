@@ -5,7 +5,7 @@ import { Address } from "viem";
 export async function GET(req: NextRequest) {
   try {
     const walletAddress = req.nextUrl.searchParams.get("walletAddress");
-    const profile = getArtistProfile(walletAddress as Address);
+    const profile = await getArtistProfile(walletAddress as Address);
     return Response.json(profile);
   } catch (e: any) {
     console.log(e);
