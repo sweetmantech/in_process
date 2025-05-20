@@ -126,7 +126,7 @@ export async function GET(req: NextRequest) {
                   left: 32,
                   bottom: 0,
                   width: "100%",
-                  height: "70%",
+                  height: "50%",
                   backgroundImage:
                     "linear-gradient(180deg, rgba(224, 221, 216, 0) 0%, rgba(224, 221, 216, 1) 100%)",
                 }}
