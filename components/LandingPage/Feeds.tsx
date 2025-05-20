@@ -9,11 +9,11 @@ import Loading from "../Loading";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 import OnboardingModalWrapper from "../OnboardingModal/OnboardingModalWrapper";
-import { useInProcessFeedProvider } from "@/providers/InProcessFeedProvider";
+import { useInProcessProvider } from "@/providers/InProcessProvider";
 import { useMeasure } from "react-use";
 
 const Feeds = () => {
-  const { feeds, collections, fetchMore } = useInProcessFeedProvider();
+  const { feeds, collections, fetchMore } = useInProcessProvider();
   const isMobile = useIsMobile();
   const { push } = useRouter();
   const [tableRef, { height }] = useMeasure();

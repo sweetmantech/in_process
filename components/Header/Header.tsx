@@ -8,10 +8,12 @@ import { useLayoutProvider } from "@/providers/LayoutProvider";
 import CreateCTAButton from "./CreateCTAButton";
 import useTotalEarnings from "@/hooks/useTotalEarnings";
 import useIsMobile from "@/hooks/useIsMobile";
+import ArtistSearch from "../ArtistSearch";
 
 const Header = () => {
   const signedAddress = useSignedAddress();
-  const { isOpenNavbar, toggleNavbar, menuRef } = useLayoutProvider();
+  const { isOpenNavbar, toggleNavbar, menuRef, isExpandedSearchInput } =
+    useLayoutProvider();
   const { totalEarnings } = useTotalEarnings();
   const isMobile = useIsMobile();
 
@@ -21,10 +23,11 @@ const Header = () => {
       z-[9999999] relative w-screen flex justify-between items-center px-6 md:px-10 py-4 md:pt-6`}
     >
       <Logo />
-      <div className="flex items-center gap-2" ref={menuRef}>
+      <div className="flex items-center gap-1 md:gap-2" ref={menuRef}>
+        <ArtistSearch />
         {!totalEarnings && !isMobile && <CreateCTAButton />}
-        <div className="md:relative flex items-center gap-2">
-          <LoginButton />
+        <div className="md:relative flex items-center gap-1 md:gap-2">
+          {!isExpandedSearchInput && <LoginButton />}
           {signedAddress && (
             <button
               onClick={toggleNavbar}

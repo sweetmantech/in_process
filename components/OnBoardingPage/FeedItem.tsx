@@ -3,9 +3,10 @@ import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import { Token } from "@/types/token";
 import Image from "next/image";
 import Loading from "../Loading";
-import ArtistName from "../ArtistName";
 import truncated from "@/lib/truncated";
 import { useRouter } from "next/navigation";
+import { useInProcessProvider } from "@/providers/InProcessProvider";
+import truncateAddress from "@/lib/truncateAddress";
 
 interface FeedItemProps {
   feed: Token;
@@ -13,6 +14,7 @@ interface FeedItemProps {
 const FeedItem = ({ feed }: FeedItemProps) => {
   const { data, isLoading } = useMetadata(feed.uri);
   const { push } = useRouter();
+  const { profiles } = useInProcessProvider();
 
   if (isLoading)
     return (
@@ -40,7 +42,10 @@ const FeedItem = ({ feed }: FeedItemProps) => {
         <p className="font-spectral-medium-italic">
           {truncated(data?.name || "")}
         </p>
-        <ArtistName address={feed.creator} className="!font-archivo-medium" />
+        <p className="font-archivo text-sm">
+          {profiles[`${feed.creator}`]?.username ||
+            truncateAddress(feed.creator)}
+        </p>
       </div>
       <p className="font-archivo text-left">
         {new Date(feed.released_at).toLocaleString()}

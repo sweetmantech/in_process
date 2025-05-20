@@ -5,6 +5,9 @@ const useLayout = () => {
   const menuRef = useRef() as any;
   const signedAddress = useSignedAddress();
   const [isOpenNavbar, setIsOpenNavbar] = useState<boolean>(false);
+  const [isExpandedSearchInput, setIsExpandedSearchInput] =
+    useState<boolean>(false);
+
   const toggleNavbar = () => {
     if (!signedAddress) return;
     setIsOpenNavbar(!isOpenNavbar);
@@ -25,6 +28,8 @@ const useLayout = () => {
     toggleNavbar,
     isOpenNavbar,
     menuRef,
+    isExpandedSearchInput,
+    setIsExpandedSearchInput,
   };
 };
 

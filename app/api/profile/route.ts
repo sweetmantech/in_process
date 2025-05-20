@@ -38,7 +38,7 @@ export async function GET(req: NextRequest) {
     return Response.json(profile);
   } catch (e: any) {
     console.log(e);
-    const message = e?.message ?? "failed to generate JWT";
+    const message = e?.message ?? "failed to get profile.";
     return Response.json({ message }, { status: 500 });
   }
 }

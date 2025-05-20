@@ -3,6 +3,7 @@ import { Metadata } from "@/types/token";
 import PdfViewer from "../Renderers/PdfViewer";
 import VideoPlayer from "../Renderers/VideoPlayer";
 import AudioPlayer from "../Renderers/AudioPlayer";
+import Writing from "../Renderers/Writing";
 
 interface CarouselItemProps {
   metadata: Metadata;
@@ -35,6 +36,15 @@ const CarouselItem = ({ metadata }: CarouselItemProps) => {
         <iframe
           src={getFetchableUrl(metadata.animation_url) || ""}
           className="w-full"
+        />
+      </div>
+    );
+  if (mimeType.includes("text/plain"))
+    return (
+      <div className="size-full">
+        <Writing
+          fileUrl={getFetchableUrl(metadata.content.uri) || ""}
+          description={metadata.description}
         />
       </div>
     );
