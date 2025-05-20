@@ -81,7 +81,8 @@
     "usehooks-ts": "^3.1.1",
     "viem": "^2.21.45",
     "wagmi": "^2.13.3",
-    "web-streams-polyfill": "^4.1.0"
+    "web-streams-polyfill": "^4.1.0",
+    "websocket": "^1.0.35"
   },
   "devDependencies": {
     "@types/node": "^20",

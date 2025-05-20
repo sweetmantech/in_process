@@ -1,30 +1,42 @@
 import { NextRequest } from "next/server";
-import { Alchemy, AssetTransfersCategory, Network } from "alchemy-sdk";
-import { zeroAddress } from "viem";
+import getAlchemyRpcUrl from "@/lib/alchemy/getAlchemyRpcUrl";
 
 export async function GET(req: NextRequest) {
   try {
     const artistAddress = req.nextUrl.searchParams.get("artistAddress");
-    const config = {
-      apiKey: "bm4Vy0AOr33hIewRojery5TXIHWcD1zT",
-      network: Network.BASE_MAINNET,
+    const chainId = req.nextUrl.searchParams.get("chainId");
+    const chainIdNum = parseInt(chainId as string, 10);
+
+    const endpoint = getAlchemyRpcUrl(chainIdNum);
+    const options = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        jsonrpc: "2.0",
+        id: 0,
+        method: "alchemy_getAssetTransfers",
+        params: [
+          {
+            toBlock: "latest",
+            excludeZeroValue: true,
+            category: ["erc1155"],
+            fromAddress: "0x0000000000000000000000000000000000000000",
+            toAddress: artistAddress as string,
+            order: "desc",
+          },
+        ],
+      }),
     };
-    const alchemy = new Alchemy(config);
+    const response = await fetch(endpoint, options);
+    const data = await response.json();
 
-    const res = await alchemy.core.getAssetTransfers({
-      toBlock: "latest",
-      fromAddress: zeroAddress,
-      toAddress: artistAddress as string,
-      excludeZeroValue: true,
-      category: [AssetTransfersCategory.ERC1155],
-    });
-
-    for (const events of res.transfers) {
+    for (const events of data.result.transfers) {
       if (events.erc1155Metadata) {
         for (const erc1155 of events.erc1155Metadata) {
           return Response.json({
             tokenId: erc1155.tokenId,
             tokenContract: events.rawContract.address,
+            hash: events.hash,
           });
         }
       }

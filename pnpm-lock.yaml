@@ -221,6 +221,9 @@ importers:
       web-streams-polyfill:
         specifier: ^4.1.0
         version: 4.1.0
+      websocket:
+        specifier: ^1.0.35
+        version: 1.0.35
     devDependencies:
       '@types/node':
         specifier: ^20
