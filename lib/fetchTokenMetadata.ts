@@ -9,8 +9,8 @@ const fetchTokenMetadata = async (
     const response = await fetch(
       `${VERCEL_OG}/api/token/metadata?tokenId=${BigInt(tokenId).toString()}&collection=${tokenContract}`,
     );
+    if (!response.ok) throw new Error("failed to get token metadata");
     const data = await response.json();
-
     return data.metadata;
   } catch (error) {
     console.error(error);

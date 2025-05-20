@@ -8,3 +8,4 @@ export const rotation: any = {
 };
 export const OG_WIDTH = 500;
 export const OG_HEIGHT = 333;
+export const WRITING_MAX_LINES = 14;
