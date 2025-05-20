@@ -5,13 +5,13 @@ import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
 import { Textarea } from "../ui/textarea";
 
 const Advanced = () => {
-  const { 
-    isOpenAdvanced, 
-    setIsOpenAdvanced, 
-    onChangeStartDate, 
+  const {
+    isOpenAdvanced,
+    setIsOpenAdvanced,
+    onChangeStartDate,
     startDate,
     description,
-    setDescription
+    setDescription,
   } = useZoraCreateProvider();
 
   return (
@@ -29,7 +29,7 @@ const Advanced = () => {
       {isOpenAdvanced && (
         <div className="relative mx-[-16px] px-[16px] pb-4 bg-grey-moss-100">
           <p className="font-medium font-archivo mt-4">Description:</p>
-          <Textarea 
+          <Textarea
             placeholder="Enter a description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
@@ -37,9 +37,8 @@ const Advanced = () => {
             className="resize-none"
           />
           <p className="font-medium font-archivo">Start Time:</p>
-          <DateTimePicker date={startDate} setDate={onChangeStartDate}/>
-          <div className="absolute left-0 right-0 px-[16px] pb-32 bg-grey-moss-100">
-          </div>
+          <DateTimePicker date={startDate} setDate={onChangeStartDate} />
+          <div className="absolute left-0 right-0 px-[16px] pb-32 bg-grey-moss-100"></div>
         </div>
       )}
     </div>

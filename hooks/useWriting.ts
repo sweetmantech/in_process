@@ -1,12 +1,8 @@
 import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
 import domtoimage from "dom-to-image-more";
-import { Dispatch, SetStateAction, RefObject, useRef, useState } from "react";
+import { RefObject, useRef, useState } from "react";
 
-interface useWritingProps {
-  setDescription: Dispatch<SetStateAction<string>>;
-}
-
-const useWriting = ({ setDescription }: useWritingProps) => {
+const useWriting = () => {
   const writingRef = useRef() as RefObject<HTMLDivElement>;
   const [writingText, setWritingText] = useState<string>("");
 
@@ -29,7 +25,6 @@ const useWriting = ({ setDescription }: useWritingProps) => {
 
   const write = (value: string) => {
     setWritingText(value);
-    setDescription(value);
   };
   return {
     writingRef,
