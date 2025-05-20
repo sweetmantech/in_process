@@ -27,16 +27,19 @@ const Advanced = () => {
         />
       </Button>
       {isOpenAdvanced && (
-        <div className="mx-[-16px] px-[16px] pb-4 bg-grey-moss-100">
+        <div className="relative mx-[-16px] px-[16px] pb-4 bg-grey-moss-100">
           <p className="font-medium font-archivo mt-4">Description:</p>
           <Textarea 
             placeholder="Enter a description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="min-h-[120px]"
+            minRows={3}
+            className="resize-none"
           />
           <p className="font-medium font-archivo">Start Time:</p>
           <DateTimePicker date={startDate} setDate={onChangeStartDate} />
+          <div className="absolute left-0 right-0 px-[16px] pb-32 bg-grey-moss-100">
+          </div>
         </div>
       )}
     </div>
