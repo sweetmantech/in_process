@@ -57,7 +57,7 @@ const Feeds = () => {
           <ArtSlider />
         </div>
         {isMobile && (
-          <HorizontalFeedAnimationProvider totalFeeds={feeds?.length || 0}>
+          <HorizontalFeedAnimationProvider feeds={feeds}>
             <HorizontalFeed feeds={feeds || []} fetchMore={fetchMore} />
           </HorizontalFeedAnimationProvider>
         )}

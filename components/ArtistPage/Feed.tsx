@@ -31,7 +31,7 @@ const Feed = ({ alt }: FeedProps) => {
     );
 
   return (
-    <HorizontalFeedAnimationProvider totalFeeds={feeds?.length || 0}>
+    <HorizontalFeedAnimationProvider feeds={feeds}>
       <HorizontalFeed feeds={feeds} fetchMore={fetchMore} />
     </HorizontalFeedAnimationProvider>
   );

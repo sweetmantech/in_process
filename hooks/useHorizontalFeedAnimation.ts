@@ -8,10 +8,11 @@ import {
 import useIsMobile from "./useIsMobile";
 import { Swiper } from "swiper/types";
 import useCheckTimelineOverflow from "./useCheckTimelineOverflow";
+import { Token } from "@/types/token";
+import useTimelineCenter from "./useTimelineCenter";
 
 interface UseHorizontalFeedAnimationReturn {
   nearestIndex: number | null;
-  neighborIndexes: number[];
   handleMouseMove: (e: React.MouseEvent) => void;
   getHeight: (index: number) => number;
   isHovered: (index: number) => boolean;
@@ -33,39 +34,22 @@ interface NearestButton {
 }
 
 export const useHorizontalFeedAnimation = (
-  totalFeeds: number,
+  feeds: Token[],
 ): UseHorizontalFeedAnimationReturn => {
   const isMobile = useIsMobile();
 
-  const NEIGHBOR_RANGE = isMobile ? 0 : 5;
-  const MAX_HEIGHT = isMobile ? 80 : 200;
+  const NEIGHBOR_RANGE = isMobile ? 0 : 3;
+  const MAX_HEIGHT = isMobile ? 80 : 180;
   const MIN_HEIGHT = isMobile ? 0 : 60;
-  const HEIGHT_DECREMENT = 28;
+  const HEIGHT_DECREMENT = 40;
 
   const [swiper, setSwiper] = useState<Swiper | null>(null);
   const [nearestIndex, setNearestIndex] = useState<number | null>(0);
-  const [neighborIndexes, setNeighborIndexes] = useState<number[]>([]);
-  const [mouseX, setMouseX] = useState<number | null>(null);
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [eventTriggered, setEventTriggered] = useState<boolean>(false);
   const [feedEnded, setFeedEnded] = useState<boolean>(false);
   const checkTimelineOverflow = useCheckTimelineOverflow();
-
-  const getNeighborIndexes = useCallback(
-    (centerIndex: number) => {
-      if (centerIndex < 0) return [];
-      const neighbors = new Set<number>();
-      const start = Math.max(0, centerIndex - NEIGHBOR_RANGE);
-      const end = Math.min(totalFeeds - 1, centerIndex + NEIGHBOR_RANGE);
-      for (let i = start; i <= end; i++) {
-        if (i !== centerIndex) {
-          neighbors.add(i);
-        }
-      }
-      return Array.from(neighbors);
-    },
-    [totalFeeds],
-  );
+  const centerIndex = useTimelineCenter({ activeIndex, swiper, feeds });
 
   const findNearestButtonIndex = useCallback(
     (currentMouseX: number): NearestButton => {
@@ -93,19 +77,15 @@ export const useHorizontalFeedAnimation = (
       const currentMouseX = e.clientX;
       if (currentMouseX === null) {
         setNearestIndex(null);
-        setNeighborIndexes([]);
-        setMouseX(null);
         return;
       }
       setEventTriggered(true);
-      setMouseX(currentMouseX);
       const nearest = findNearestButtonIndex(currentMouseX);
       if (nearest.index !== nearestIndex) {
         setNearestIndex(nearest.index);
-        setNeighborIndexes(getNeighborIndexes(nearest.index));
       }
     },
-    [findNearestButtonIndex, getNeighborIndexes, nearestIndex],
+    [findNearestButtonIndex, nearestIndex],
   );
 
   const getHeight = useCallback(
@@ -116,37 +96,30 @@ export const useHorizontalFeedAnimation = (
           : MIN_HEIGHT;
       }
 
-      if (nearestIndex === null) return MIN_HEIGHT;
-      if (index === nearestIndex) return MAX_HEIGHT;
+      if (centerIndex === null || nearestIndex === null) return MIN_HEIGHT;
+      if (index === centerIndex - 1) return MAX_HEIGHT;
 
-      const distance = Math.abs(index - nearestIndex);
+      const distance = Math.abs(index - centerIndex);
       if (distance <= NEIGHBOR_RANGE) {
         return Math.max(MIN_HEIGHT, MAX_HEIGHT - HEIGHT_DECREMENT * distance);
       }
       return MIN_HEIGHT;
     },
-    [nearestIndex, isMobile, activeIndex],
+    [centerIndex, isMobile, activeIndex, nearestIndex],
   );
 
   const isHovered = useCallback(
     (index: number): boolean => {
       if (isMobile)
         return (!activeIndex && !index) || activeIndex - 1 === index;
-      if (
-        mouseX === null &&
-        nearestIndex === 0 &&
-        !eventTriggered &&
-        index === 0
-      )
-        return true;
-      return nearestIndex !== null && mouseX !== null && index === nearestIndex;
+      if (nearestIndex === 0 && !eventTriggered && index === 0) return true;
+      return nearestIndex !== null && index === nearestIndex;
     },
-    [nearestIndex, mouseX, activeIndex, isMobile],
+    [nearestIndex, activeIndex, isMobile],
   );
 
   return {
     nearestIndex,
-    neighborIndexes,
     handleMouseMove,
     getHeight,
     isHovered,

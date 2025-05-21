@@ -8,6 +8,7 @@ import { useTimelineProvider } from "@/providers/TimelineProvider";
 import { useUserProvider } from "@/providers/UserProvider";
 import { Address } from "viem";
 import { useParams } from "next/navigation";
+import { TIMLINE_STEP_OFFSET } from "@/lib/consts";
 
 interface FeedProps {
   feed: Token;
@@ -19,7 +20,6 @@ interface FeedProps {
 const Feed: FC<FeedProps> = ({ feed, hovered, step, height }) => {
   const { isLoading, data, handleClick, formattedDate } =
     useClickTimelineFeed(feed);
-  const STEP_OFFSET = 24;
   const { toggleMoment, hiddenMoments } = useTimelineProvider();
   const { connectedAddress } = useUserProvider();
   const shouldHideMomement = Boolean(
@@ -40,7 +40,7 @@ const Feed: FC<FeedProps> = ({ feed, hovered, step, height }) => {
     <div
       className="relative px-0"
       style={{
-        paddingLeft: `${STEP_OFFSET * step}px`,
+        paddingLeft: `${TIMLINE_STEP_OFFSET * step}px`,
       }}
     >
       <fieldset className="flex flex-col items-center">
@@ -55,7 +55,7 @@ const Feed: FC<FeedProps> = ({ feed, hovered, step, height }) => {
             <div className="size-2 border border-grey-moss-900 bg-grey-moss-100 rounded-full md:bottom-[-2px] bottom-[0px] absolute" />
           )}
           <div
-            className="z-[-1] w-[0.5px] bg-black -bottom-6 left-[4px] absolute transition-all duration-200 ease-out"
+            className="z-[-1] w-[0.5px] bg-black -bottom-[20px] left-[4px] absolute transition-all duration-200 ease-out"
             style={{
               height: `${height}px`,
             }}
