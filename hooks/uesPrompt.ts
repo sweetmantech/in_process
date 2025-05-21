@@ -1,5 +1,5 @@
 import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const promptOptions = [
   { label: "this is the time when...", value: "this is the time when " },
@@ -14,6 +14,7 @@ const usePrompt = () => {
   const [prompt, setPrompt] = useState(0);
   const [placeholder, setPlaceholder] = useState(promptOptions[0].label);
   const { name, setName } = useZoraCreateProvider();
+  const promptRef = useRef() as any;
 
   const rotatePrompt = () => {
     clearInterval(timer);
@@ -29,9 +30,16 @@ const usePrompt = () => {
   };
 
   const onActive = () => {
+    const promptValue = promptOptions[prompt].value;
+    setName(promptValue);
+    setTimeout(() => {
+      promptRef.current.setSelectionRange(
+        promptValue.length,
+        promptValue.length,
+      );
+    }, 100);
     clearInterval(timer);
     if (name) return;
-    setName(promptOptions[prompt].value);
   };
 
   useEffect(() => {
@@ -41,6 +49,7 @@ const usePrompt = () => {
   return {
     placeholder,
     onActive,
+    promptRef,
   };
 };
 
