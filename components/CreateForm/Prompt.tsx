@@ -5,7 +5,7 @@ import usePrompt from "@/hooks/uesPrompt";
 
 const Prompt = () => {
   const { name, setName, fileUploading, creating } = useZoraCreateProvider();
-  const { placeholder, onActive } = usePrompt();
+  const { placeholder, onActive, promptRef } = usePrompt();
 
   return (
     <div className="flex flex-col items-start w-full gap-2">
@@ -19,6 +19,7 @@ const Prompt = () => {
         onFocus={onActive}
         className="!ring-0 !ring-offset-0 bg-white border-grey border rounded-[0px]"
         disabled={Boolean(fileUploading || creating)}
+        ref={promptRef}
       />
     </div>
   );
