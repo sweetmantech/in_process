@@ -4,8 +4,10 @@ import { Skeleton } from "../ui/skeleton";
 import CommentSection from "./CommentSection";
 import getPrice from "@/lib/getPrice";
 import getPriceUnit from "@/lib/getPriceUnit";
-import { CopyIcon } from "lucide-react";
+import { CopyIcon, DownloadIcon } from "lucide-react";
 import useShareMoment from "@/hooks/useShareMoment";
+import useBalanceOf from "@/hooks/useBalanceOf";
+import useDownload from "@/hooks/useDownload";
 
 interface MetaAndCommentsProps {
   priceHidden?: boolean;
@@ -19,6 +21,8 @@ const MetaAndComments = ({
   const { saleConfig, metadata, isLoading, isSetSale } = useTokenProvider();
   const { data: meta } = metadata;
   const { share } = useShareMoment();
+  const { balanceOf } = useBalanceOf();
+  const { download } = useDownload();
 
   if (!meta) return <Fragment />;
   return (
@@ -50,6 +54,17 @@ const MetaAndComments = ({
                     className="size-4 text-grey-moss-900"
                   />
                 </button>
+                {balanceOf > 0 && (
+                  <button
+                    type="button"
+                    className="border border-grey-moss-900 bg-white p-1 rounded-sm"
+                  >
+                    <DownloadIcon
+                      onClick={download}
+                      className="size-4 text-grey-moss-900"
+                    />
+                  </button>
+                )}
               </div>
             )}
           </div>
