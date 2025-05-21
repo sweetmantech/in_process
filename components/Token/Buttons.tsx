@@ -1,4 +1,5 @@
 import useConnectedWallet from "@/hooks/useConnectedWallet";
+import useDownload from "@/hooks/useDownload";
 import useShareMoment from "@/hooks/useShareMoment";
 import { useTokenProvider } from "@/providers/TokenProvider";
 import Image from "next/image";
@@ -9,6 +10,7 @@ const Buttons = () => {
   const { push } = useRouter();
   const { connectedWallet } = useConnectedWallet();
   const { share } = useShareMoment();
+  const { download, isDownloading } = useDownload();
 
   const visit = () => {
     setCollected(true);
@@ -39,6 +41,14 @@ const Buttons = () => {
         onClick={visit}
       >
         visit timeline
+      </button>
+      <button
+        type="button"
+        className="w-full py-2 font-archivo text-black border border-black rounded-sm relative text-2xl"
+        onClick={download}
+        disabled={isDownloading}
+      >
+        download
       </button>
     </div>
   );
