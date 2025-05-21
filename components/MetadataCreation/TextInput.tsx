@@ -30,7 +30,7 @@ const TextInput = () => {
           write(e.target.value);
         }}
         onScroll={handleScroll}
-      />``
+      />
       {scrollPosition && (
         <>
           {scrollPosition !== "top" && (
