@@ -32,12 +32,12 @@ const HorizontalFeed: FC<HorizontalFeedProps> = ({
 
   return (
     <div
-      className="relative grow size-full flex justify-center items-center overflow-hidden md:overflow-visible"
+      className="relative grow size-full flex justify-center items-end overflow-visible"
       onMouseMove={handleMouseMove}
       onMouseLeave={() => handleMouseMove({ clientX: null } as any)}
       ref={containerRef}
     >
-      <div className="pointer-events-none size-full absolute flex items-center left-0 top-0">
+      <div className="pointer-events-none size-full absolute flex items-end left-0 top-0">
         <div className="bg-black w-full h-[0.5px]" />
       </div>
       <div

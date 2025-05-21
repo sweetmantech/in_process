@@ -13,7 +13,7 @@ const ArtistPage = () => {
   const isMobile = useIsMobile();
 
   return (
-    <div className="w-screen grow flex flex-col  pt-6 md:pt-16 relative">
+    <div className="overflow-hidden w-screen grow flex flex-col pb-20 pt-6 md:pt-10 relative">
       <div className="relative flex justify-between px-2 md:px-10 items-start pb-2">
         {isMobile ? <MobileProfile /> : <DesktopProfile />}
         <AltToggle alt={alt} setAlt={setAlt} />
