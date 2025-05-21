@@ -1,5 +1,6 @@
 import { createContext, useContext, ReactNode, useMemo } from "react";
 import { useHorizontalFeedAnimation } from "@/hooks/useHorizontalFeedAnimation";
+import { Token } from "@/types/token";
 
 const HorizontalFeedAnimationContext = createContext<ReturnType<
   typeof useHorizontalFeedAnimation
@@ -7,12 +8,12 @@ const HorizontalFeedAnimationContext = createContext<ReturnType<
 
 export function HorizontalFeedAnimationProvider({
   children,
-  totalFeeds,
+  feeds,
 }: {
   children: ReactNode;
-  totalFeeds: number;
+  feeds: Token[];
 }) {
-  const horizontalFeedAnimation = useHorizontalFeedAnimation(totalFeeds);
+  const horizontalFeedAnimation = useHorizontalFeedAnimation(feeds);
 
   const value = useMemo(
     () => ({
