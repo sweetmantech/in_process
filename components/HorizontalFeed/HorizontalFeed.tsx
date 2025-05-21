@@ -5,9 +5,9 @@ import Feed from "./Feed";
 import Slider from "../Slider";
 import { Token } from "@/types/token";
 import { useHorizontalFeedAnimationProvider } from "@/providers/HorizontalFeedAnimationProvider";
-import { useStepCalculation } from "@/hooks/useStepCalculation";
 import Controls from "./Controls";
 import FetchMoreInspector from "../FetchMoreInspector";
+import calculateTimelineStep from "@/lib/calculateTimelineStep";
 
 interface HorizontalFeedProps {
   feeds: Token[];
@@ -28,7 +28,6 @@ const HorizontalFeed: FC<HorizontalFeedProps> = ({
     containerRef,
     timelineRef,
   } = useHorizontalFeedAnimationProvider();
-  const { calculateStep } = useStepCalculation();
 
   return (
     <div
@@ -75,7 +74,7 @@ const HorizontalFeed: FC<HorizontalFeedProps> = ({
                   key={i}
                   feed={feeds[i]}
                   hovered={isHovered(i)}
-                  step={calculateStep(i, feeds)}
+                  step={calculateTimelineStep(i, feeds)}
                   height={getHeight(i)}
                 />
               ) : (
