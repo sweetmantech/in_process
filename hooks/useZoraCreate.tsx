@@ -41,7 +41,7 @@ export default function useZoraCreate() {
   const [createdTokenId, setCreatedTokenId] = useState<string>("");
   const { fetchParameters, createMetadata, advancedValues } =
     useZoraCreateParameters(chainId, collection);
-  const mask = useMask();
+  const mask = useMask(advancedValues.isOpenAdvanced);
   const { isPrepared, balances } = useUserProvider();
   const { signTransaction } = useSignTransaction();
 
