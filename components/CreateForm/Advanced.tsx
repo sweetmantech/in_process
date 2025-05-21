@@ -15,7 +15,7 @@ const Advanced = () => {
   } = useZoraCreateProvider();
 
   return (
-    <div className="flex flex-col gap-2 pt-4 z-10">
+    <div className="flex flex-col gap-2 pt-2 z-10">
       <Button
         type="button"
         className="w-fit self-center border border-grey rounded-full flex gap-2 items-center"
@@ -27,18 +27,17 @@ const Advanced = () => {
         />
       </Button>
       {isOpenAdvanced && (
-        <div className="relative mx-[-16px] px-[16px] pb-4 bg-grey-moss-100">
-          <p className="font-medium font-archivo mt-4">Description:</p>
+        <div className="relative mx-[-16px] px-[16px] bg-grey-moss-100">
+          <p className="font-medium font-archivo ">Description:</p>
           <Textarea
             placeholder="Enter a description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             minRows={3}
-            className="resize-none"
+            className="resize-none font-spectral"
           />
-          <p className="font-medium font-archivo">Start Time:</p>
+          <p className="font-medium font-archivo pt-2">Start Time:</p>
           <DateTimePicker date={startDate} setDate={onChangeStartDate} />
-          <div className="absolute left-0 right-0 px-[16px] pb-32 bg-grey-moss-100"></div>
         </div>
       )}
     </div>
