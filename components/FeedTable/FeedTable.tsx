@@ -32,7 +32,7 @@ export default function FeedTable() {
             {table.getRowModel().rows.map((row, i) => (
               <TableRow
                 key={row.id}
-                className="!border-transparent hover:!bg-transparent hover:!text-grey-moss-300 hover:!border-grey-moss-300 hover:!border-b"
+                className="!border-b !border-transparent hover:!bg-transparent hover:!text-grey-moss-300 hover:!border-b-grey-moss-300"
                 onClick={() => handleClick(i)}
               >
                 {row.getVisibleCells().map((cell, i) => (

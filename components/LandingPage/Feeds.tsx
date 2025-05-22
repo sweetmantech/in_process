@@ -4,7 +4,6 @@ import ArtSlider from "./ArtSlider";
 import LatestFeeds from "./LatestFeeds";
 import { HorizontalFeedAnimationProvider } from "@/providers/HorizontalFeedAnimationProvider";
 import HorizontalFeed from "../HorizontalFeed";
-import useIsMobile from "@/hooks/useIsMobile";
 import Loading from "../Loading";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
@@ -14,7 +13,6 @@ import { useMeasure } from "react-use";
 
 const Feeds = () => {
   const { feeds, collections, fetchMore } = useInProcessProvider();
-  const isMobile = useIsMobile();
   const { push } = useRouter();
   const [tableRef, { height }] = useMeasure();
 
@@ -56,11 +54,11 @@ const Feeds = () => {
         >
           <ArtSlider />
         </div>
-        {isMobile && (
-          <HorizontalFeedAnimationProvider totalFeeds={feeds?.length || 0}>
+        <div className="block md:hidden overflow-hidden h-[300px] pb-20">
+          <HorizontalFeedAnimationProvider feeds={feeds}>
             <HorizontalFeed feeds={feeds || []} fetchMore={fetchMore} />
           </HorizontalFeedAnimationProvider>
-        )}
+        </div>
       </div>
       <OnboardingModalWrapper />
     </div>

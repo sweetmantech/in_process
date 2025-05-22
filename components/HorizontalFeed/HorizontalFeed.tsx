@@ -5,9 +5,9 @@ import Feed from "./Feed";
 import Slider from "../Slider";
 import { Token } from "@/types/token";
 import { useHorizontalFeedAnimationProvider } from "@/providers/HorizontalFeedAnimationProvider";
-import { useStepCalculation } from "@/hooks/useStepCalculation";
 import Controls from "./Controls";
 import FetchMoreInspector from "../FetchMoreInspector";
+import calculateTimelineStep from "@/lib/calculateTimelineStep";
 
 interface HorizontalFeedProps {
   feeds: Token[];
@@ -28,16 +28,15 @@ const HorizontalFeed: FC<HorizontalFeedProps> = ({
     containerRef,
     timelineRef,
   } = useHorizontalFeedAnimationProvider();
-  const { calculateStep } = useStepCalculation();
 
   return (
     <div
-      className="relative grow size-full flex justify-center items-center overflow-hidden md:overflow-visible"
+      className="relative grow size-full flex justify-center items-end overflow-visible"
       onMouseMove={handleMouseMove}
       onMouseLeave={() => handleMouseMove({ clientX: null } as any)}
       ref={containerRef}
     >
-      <div className="pointer-events-none size-full absolute flex items-center left-0 top-0">
+      <div className="pointer-events-none size-full absolute flex items-end left-0 top-0">
         <div className="bg-black w-full h-[0.5px]" />
       </div>
       <div
@@ -75,7 +74,7 @@ const HorizontalFeed: FC<HorizontalFeedProps> = ({
                   key={i}
                   feed={feeds[i]}
                   hovered={isHovered(i)}
-                  step={calculateStep(i, feeds)}
+                  step={calculateTimelineStep(i, feeds)}
                   height={getHeight(i)}
                 />
               ) : (
