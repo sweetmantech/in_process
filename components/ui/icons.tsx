@@ -644,6 +644,22 @@ const TwitterIcon = (props: SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
+const TwitterXsIcon = (props: SVGProps<SVGSVGElement>) => (
+  <svg
+    width="20"
+    height="17"
+    viewBox="0 0 26 23"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M20.3632 0.437744H24.1583L15.867 9.91417L25.6211 22.8095H17.9837L12.0019 14.9885L5.15728 22.8095H1.35983L10.2282 12.6734L0.871094 0.437744H8.70234L14.1094 7.58637L20.3632 0.437744ZM19.0312 20.5379H21.1341L7.55966 2.59002H5.30299L19.0312 20.5379Z"
+      fill="#FEFEFE"
+    />
+  </svg>
+);
+
 const InstagramIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg
     width="28"
@@ -851,4 +867,5 @@ export {
   GridIcon,
   TimeLineIcon,
   EditIcon,
+  TwitterXsIcon,
 };
