@@ -9,13 +9,23 @@ const saveIndentify = async (
   artistAddress: Address,
   username: string,
   bio: string,
+  instagram: string,
+  telegram: string,
+  twitter: string,
 ) => {
   await fetch("/api/profile/create", {
     method: "POST",
     headers: {
       "content-type": "application/json",
     },
-    body: JSON.stringify({ walletAddress: artistAddress, username, bio }),
+    body: JSON.stringify({
+      walletAddress: artistAddress,
+      username,
+      bio,
+      instagram,
+      telegram,
+      twitter,
+    }),
   });
 };
 
@@ -23,6 +33,7 @@ const useProfile = () => {
   const usernameRef = useRef() as any;
   const bioRef = useRef() as any;
   const statusRef = useRef() as any;
+  const socialRef = useRef() as any;
   const { getProfile, connectedAddress } = useUserProvider();
   const { data, isLoading } = useArtistProfile();
   const [username, setUserName] = useState<string>("");
@@ -59,20 +70,30 @@ const useProfile = () => {
   }, [canEdit, searchParams, artistAddress]);
 
   useEffect(() => {
-    if (!usernameRef.current || !bioRef.current || !statusRef.current) return;
+    if (
+      !usernameRef.current ||
+      !bioRef.current ||
+      !statusRef.current ||
+      !socialRef.current
+    )
+      return;
     if (!isEditing) return;
     const handleMouseDown = async (e: MouseEvent) => {
       if (
         usernameRef.current.contains(e.target) ||
         bioRef.current.contains(e.target) ||
-        statusRef.current.contains(e.target)
+        statusRef.current.contains(e.target) ||
+        socialRef.current.contains(e.target)
       )
         return;
       setSaving(true);
       await saveIndentify(
         artistAddress as Address,
-        usernameRef.current.value,
-        bioRef.current.value,
+        username,
+        bio,
+        instagram,
+        telegram,
+        twitter,
       );
       setTimeout(() => {
         toggleEditing();
@@ -84,7 +105,7 @@ const useProfile = () => {
     document.addEventListener("mousedown", handleMouseDown);
 
     return () => document.removeEventListener("mousedown", handleMouseDown);
-  }, [isEditing, usernameRef, bioRef, statusRef]);
+  }, [isEditing, twitter, instagram, telegram, bio, username]);
 
   return {
     canEdit,
@@ -106,6 +127,7 @@ const useProfile = () => {
     setTwitter,
     setTelegram,
     setInstagram,
+    socialRef,
   };
 };
 

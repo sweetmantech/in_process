@@ -5,11 +5,16 @@ import { NextRequest } from "next/server";
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { walletAddress, username, bio } = body;
+    const { walletAddress, username, bio, instagram, telegram, twitter } = body;
     await deleteTag(walletAddress, "profile");
     await setTag(walletAddress, "profile", {
       username,
       bio,
+      socials: {
+        instagram,
+        telegram,
+        twitter,
+      },
     });
     return Response.json({
       success: true,
