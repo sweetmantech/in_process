@@ -25,7 +25,6 @@ const useProfile = () => {
   const statusRef = useRef() as any;
   const { getProfile, connectedAddress } = useUserProvider();
   const { data, isLoading } = useArtistProfile();
-  const [socialAccounts, setSocialAccounts] = useState<any>(null);
   const [username, setUserName] = useState<string>("");
   const [bio, setBio] = useState<string>("");
   const { artistAddress } = useParams();
@@ -37,11 +36,17 @@ const useProfile = () => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [saving, setSaving] = useState<boolean>(false);
   const toggleEditing = () => setIsEditing(!isEditing);
+  const [twitter, setTwitter] = useState<string>("");
+  const [instagram, setInstagram] = useState<string>("");
+  const [telegram, setTelegram] = useState("");
 
   useEffect(() => {
     if (data) {
       setUserName(data.username || truncateAddress(artistAddress as string));
       setBio(data?.bio || "");
+      setTwitter(data.socials.twitter);
+      setTelegram(data.socials.telegram);
+      setInstagram(data.socials.instagram);
     }
   }, [data, artistAddress]);
 
@@ -89,13 +94,18 @@ const useProfile = () => {
     setUserName,
     bio,
     setBio,
-    socialAccounts,
     isLoading,
     saving,
     setSaving,
     usernameRef,
     bioRef,
     statusRef,
+    twitter,
+    telegram,
+    instagram,
+    setTwitter,
+    setTelegram,
+    setInstagram,
   };
 };
 
