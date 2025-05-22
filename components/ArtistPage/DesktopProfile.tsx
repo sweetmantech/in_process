@@ -23,7 +23,7 @@ const DesktopProfile = () => {
     <Fragment>
       {isEditing && <EditingStatus />}
       <div className="relative">
-        <div className="flex gap-3 md:gap-6 items-center">
+        <div className="flex gap-3 md:gap-4 items-center">
           {isEditing ? (
             <input
               type="text"
@@ -56,7 +56,7 @@ const DesktopProfile = () => {
             className="max-w-[150px] md:max-w-auto md:min-w-[250px] outline-none ring-0 p-1 md:p-2 font-spectral text-lg md:text-xl mt-2 md:mt-4 bg-grey-moss-50"
           />
         ) : (
-          <p className="text-lg md:text-xl font-spectral pt-2 md:pt-4">
+          <p className="text-lg md:text-xl font-spectral pt-2">
             {isLoading ? <Skeleton className="w-[200px] h-8" /> : bio}
           </p>
         )}

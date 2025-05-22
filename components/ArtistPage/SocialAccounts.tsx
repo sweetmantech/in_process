@@ -1,40 +1,27 @@
 import { useProfileProvider } from "@/providers/ProfileProvider";
-import {
-  FarcasterIcon,
-  InstagramIcon,
-  TikTokIcon,
-  TwitterIcon,
-} from "../ui/icons";
+import { TwitterIcon } from "../ui/icons";
+import { Send, InstagramIcon } from "lucide-react";
 import Social from "./Social";
 
 const SocialAccounts = () => {
-  const { socialAccounts } = useProfileProvider();
+  const { twitter, instagram, telegram } = useProfileProvider();
 
   return (
     <>
-      <div className="flex gap-2 items-center pt-2 md:pt-6">
-        {socialAccounts?.instagram && (
+      <div className="flex gap-2 items-center pt-2">
+        {instagram && (
           <Social
-            link={`https://instagram.com/${socialAccounts.instagram.username}`}
-            icon={<InstagramIcon />}
+            link={`https://instagram.com/${instagram}`}
+            icon={<InstagramIcon className="text-grey-eggshell size-7" />}
           />
         )}
-        {socialAccounts?.twitter && (
-          <Social
-            link={`https://x.com/@${socialAccounts.twitter.username}`}
-            icon={<TwitterIcon />}
-          />
+        {twitter && (
+          <Social link={`https://x.com/@${twitter}`} icon={<TwitterIcon />} />
         )}
-        {socialAccounts?.farcaster && (
+        {telegram && (
           <Social
-            link={`https://warpcast.com/${socialAccounts.farcaster.username}`}
-            icon={<FarcasterIcon />}
-          />
-        )}
-        {socialAccounts?.tiktok && (
-          <Social
-            link={`https://tiktok.com/${socialAccounts.tiktok.username}`}
-            icon={<TikTokIcon />}
+            link={`https://t.me/${telegram}`}
+            icon={<Send className="text-grey-eggshell size-6" />}
           />
         )}
       </div>

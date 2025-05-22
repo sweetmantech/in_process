@@ -39,7 +39,7 @@ const MobileProfile = () => {
           />
         </div>
       )}
-      <div className="flex gap-3 md:gap-6 items-center">
+      <div className="flex gap-3 md:gap-4 items-center">
         <p className="text-xl md:text-5xl font-archivo-medium tracking-[-1px]">
           {isLoading ? <Skeleton className="w-[150px] h-12" /> : username}
         </p>

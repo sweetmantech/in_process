@@ -9,6 +9,11 @@ const getArtistProfile = async (walletAddress: Address) => {
     let profile = {
       username: "",
       bio: "",
+      socials: {
+        instagram: "",
+        twitter: "",
+        telegram: "",
+      },
     };
 
     if (tags?.tagData) {
@@ -23,6 +28,11 @@ const getArtistProfile = async (walletAddress: Address) => {
           ...profile,
           username: zora.displayName,
           bio: zora.description,
+          socials: {
+            ...profile.socials,
+            twitter: zora.socialAccounts.twitter?.username || "",
+            instagram: zora.socialAccounts.instagram?.username || "",
+          },
         };
       } else {
         const ensName = await getEnsName(walletAddress as Address);
