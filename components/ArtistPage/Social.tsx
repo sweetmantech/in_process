@@ -12,7 +12,7 @@ const Social = ({ link, icon }: SocialProps) => {
       type="button"
       onClick={() => window.open(link, "_blank")}
     >
-      <div className="flex size-9 bg-grey-primary flex items-center justify-center rounded-md">
+      <div className="flex size-7 md:size-9 bg-grey-primary flex items-center justify-center rounded-md">
         {icon}
       </div>
     </button>
