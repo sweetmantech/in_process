@@ -17,7 +17,7 @@ const Prompt = () => {
         onChange={(e) => setName(e.target.value)}
         placeholder={placeholder}
         onFocus={onActive}
-        className="!ring-0 !ring-offset-0 bg-white border-grey border rounded-[0px]"
+        className="!font-spectral !ring-0 !ring-offset-0 bg-white border-grey border rounded-[0px]"
         disabled={Boolean(fileUploading || creating)}
         ref={promptRef}
       />
