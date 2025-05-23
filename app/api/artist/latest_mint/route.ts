@@ -42,12 +42,11 @@ export async function GET(req: NextRequest) {
       }
     }
 
-    return Response.json(
-      {
-        message: "There are no mint events yet.",
-      },
-      { status: 204 },
-    );
+    return Response.json({
+      tokenContract: "",
+      tokenId: "",
+      hash: "",
+    });
   } catch (e: any) {
     console.log(e);
     const message = e?.message ?? "failed to get collections";
