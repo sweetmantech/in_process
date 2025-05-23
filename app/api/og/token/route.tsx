@@ -109,8 +109,7 @@ export async function GET(req: NextRequest) {
                 display: "flex",
                 alignItems:
                   totalLines > WRITING_MAX_LINES ? "flex-start" : "center",
-                justifyContent:
-                  totalLines > WRITING_MAX_LINES ? "flex-start" : "center",
+                justifyContent: totalLines > 1 ? "flex-start" : "center",
               }}
             >
               <pre
