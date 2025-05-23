@@ -1,12 +1,12 @@
 import { NextRequest } from "next/server";
-import { Metadata } from "@/types/token";
 import getUsername from "@/lib/getUsername";
-import { OG_HEIGHT, OG_WIDTH, rotation, VERCEL_OG } from "@/lib/og/consts";
-import fetchTokenMetadata from "@/lib/fetchTokenMetadata";
+import { OG_HEIGHT, OG_WIDTH, VERCEL_OG } from "@/lib/og/consts";
 import { Address } from "viem";
 import getArtistLatestMint from "@/lib/fetchArtistLatestMint";
-import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
-import { imageMeta } from "image-meta";
+import getImageMetadata from "@/lib/getImageMetadata";
+import ArtistInfo from "@/components/Og/artist/ArtistInfo";
+import TokenPreview from "@/components/Og/artist/TokenPreview";
+import NoMoments from "@/components/Og/artist/NoMoments";
 
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
@@ -25,16 +25,10 @@ export async function GET(req: NextRequest) {
   const chainId = queryParams.get("chainId");
   const chainIdNum = parseInt(chainId as string, 10);
 
-  let metadata: Metadata | null = null;
-  const latestMintedToken = await getArtistLatestMint(
+  const metadata = await getArtistLatestMint(
     artistAddress as string,
     chainIdNum,
   );
-  if (latestMintedToken)
-    metadata = await fetchTokenMetadata(
-      latestMintedToken.tokenContract,
-      BigInt(latestMintedToken.tokenId).toString(),
-    );
   const username = await getUsername(artistAddress as Address);
 
   const { ImageResponse } = await import("@vercel/og");
@@ -42,26 +36,8 @@ export async function GET(req: NextRequest) {
     archivoFont,
     spectralFont,
   ]);
-  const previewBackgroundUrl = metadata?.image
-    ? getFetchableUrl(metadata.image || ``)
-    : null;
 
-  let orientation = 1;
-  let originalWidth = 1;
-  let originalHeight = 0;
-  if (previewBackgroundUrl) {
-    const response = await fetch(previewBackgroundUrl);
-    if (response.ok) {
-      const data = await response.arrayBuffer();
-      const uint8Array = new Uint8Array(data);
-      const meta = imageMeta(uint8Array);
-      orientation = meta.orientation || 1;
-      originalWidth = meta.width || 0;
-      originalHeight = meta.height || 1;
-    }
-  }
-  const paddingLeft =
-    (Math.abs((OG_WIDTH / originalHeight) * originalWidth - OG_WIDTH) / 2) * -1;
+  const imageMetadata = await getImageMetadata(metadata?.image);
 
   return new ImageResponse(
     (
@@ -80,28 +56,7 @@ export async function GET(req: NextRequest) {
           backgroundPosition: "center",
         }}
       >
-        <div
-          style={{
-            display: "flex",
-            width: "30%",
-            flexDirection: "column",
-          }}
-        >
-          {/* eslint-disable-next-line */}
-          <img
-            src="https://arweave.net/GlRVqkN9sLPSmN09CSLTAgc5lW-GaUg23I0-wRd2MwI"
-            width="100%"
-          />
-          <p
-            style={{
-              fontFamily: "Archivo",
-              fontSize: 18,
-            }}
-          >
-            {username}
-          </p>
-        </div>
-        {/* eslint-disable-next-line */}
+        <ArtistInfo nickName={username} />
         <div
           style={{
             display: "flex",
@@ -114,34 +69,10 @@ export async function GET(req: NextRequest) {
             borderRadius: 18,
           }}
         >
-          {previewBackgroundUrl ? (
-            // eslint-disable-next-line
-            <img
-              src={previewBackgroundUrl}
-              style={{
-                width:
-                  orientation === 6 || orientation === 8
-                    ? (OG_WIDTH / originalHeight) * originalWidth
-                    : "100%",
-                transform: rotation[orientation],
-                left: orientation === 6 || orientation === 8 ? paddingLeft : 0,
-                position: "absolute",
-              }}
-            />
+          {metadata ? (
+            <TokenPreview imageMetadata={imageMetadata} />
           ) : (
-            <div
-              style={{
-                fontFamily: "Archivo",
-                fontSize: 32,
-                textAlign: "center",
-                color: "#605F5C",
-                width: "100%",
-                display: "flex",
-                justifyContent: "center",
-              }}
-            >
-              No Preview.
-            </div>
+            <NoMoments />
           )}
         </div>
       </div>
