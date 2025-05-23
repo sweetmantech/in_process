@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Skeleton } from "../ui/skeleton";
 import { useMeasure } from "react-use";
+import useIsMobile from "@/hooks/useIsMobile";
 
 interface WritingProps {
   fileUrl: string;
@@ -10,6 +11,7 @@ const Writing = ({ fileUrl, description }: WritingProps) => {
   const [text, setText] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [writingRef, { height }] = useMeasure();
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const getText = async () => {
@@ -22,11 +24,11 @@ const Writing = ({ fileUrl, description }: WritingProps) => {
   }, [description, fileUrl]);
 
   if (isLoading) return <Skeleton className="min-h-[200px] size-full" />;
-  const isOverflowed = height > 206;
+  const isOverflowed = height > (isMobile ? 138 : 206);
   return (
-    <div className="size-full relative bg-grey-eggshell">
+    <div className="size-full relative bg-grey-eggshell text-sm md:text-md">
       <div
-        className="bg-grey-eggshell p-2 text-md !normal-case text-left"
+        className="bg-grey-eggshell p-2 !normal-case text-left"
         dangerouslySetInnerHTML={{
           __html: text.replaceAll("\n", "<br/>"),
         }}
