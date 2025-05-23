@@ -1,4 +1,4 @@
-import ContentRenderer from "../Token/ContentRenderer";
+import ContentRenderer from "../Renderers";
 import truncateAddress from "@/lib/truncateAddress";
 import { useCollectionProvider } from "@/providers/CollectionProvider";
 import { useRouter } from "next/navigation";

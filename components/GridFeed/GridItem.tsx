@@ -1,7 +1,7 @@
 import { useMetadata } from "@/hooks/useMetadata";
 import { Token } from "@/types/token";
 import Loading from "../Loading";
-import ContentRenderer from "../Token/ContentRenderer";
+import ContentRenderer from "../Renderers";
 
 interface GridItemProps {
   feed: Token;

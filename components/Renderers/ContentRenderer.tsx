@@ -1,10 +1,10 @@
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import { Metadata } from "@/types/token";
-import PdfViewer from "../Renderers/PdfViewer";
-import VideoPlayer from "../Renderers/VideoPlayer";
-import AudioPlayer from "../Renderers/AudioPlayer";
+import PdfViewer from "./PdfViewer";
+import VideoPlayer from "./VideoPlayer";
+import AudioPlayer from "./AudioPlayer";
 import useIsMobile from "@/hooks/useIsMobile";
-import Writing from "../Renderers/Writing";
+import Writing from "./Writing";
 
 interface ContentRendererProps {
   metadata: Metadata;

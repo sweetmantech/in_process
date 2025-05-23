@@ -1,7 +1,7 @@
 import { useMetadata } from "@/hooks/useMetadata";
 import { Token } from "@/types/token";
 import { Skeleton } from "../ui/skeleton";
-import ContentRenderer from "../Token/ContentRenderer";
+import ContentRenderer from "../Renderers";
 
 interface SliderFeedProps {
   feed: Token;

@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { Skeleton } from "../ui/skeleton";
 import { Metadata } from "@/types/token";
-import ContentRenderer from "./ContentRenderer";
+import ContentRenderer from "../Renderers/ContentRenderer";
 
 interface FeedHoverProps {
   isLoading: boolean;
