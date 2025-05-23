@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Skeleton } from "../ui/skeleton";
 import { useMeasure } from "react-use";
 import useIsMobile from "@/hooks/useIsMobile";
+import { cn } from "@/lib/utils";
 
 const DESKTOP_OVERFLOW_THRESHOLD = 206;
 const MOBILE_OVERFLOW_THRESHOLD = 138;
@@ -30,10 +31,22 @@ const Writing = ({ fileUrl, description }: WritingProps) => {
   const isOverflowed =
     height >
     (isMobile ? MOBILE_OVERFLOW_THRESHOLD : DESKTOP_OVERFLOW_THRESHOLD);
+  const shouldCenter = height < DESKTOP_OVERFLOW_THRESHOLD;
+  const isShortText = height < DESKTOP_OVERFLOW_THRESHOLD / 2;
+
   return (
-    <div className="size-full relative bg-grey-eggshell text-sm md:text-md">
+    <div
+      className={cn(
+        "size-full relative bg-grey-eggshell text-sm md:text-md",
+        shouldCenter && "flex items-center justify-center",
+        isShortText && "text-xl md:text-3xl",
+      )}
+    >
       <div
-        className="bg-grey-eggshell p-2 !normal-case text-left"
+        className={cn(
+          "bg-grey-eggshell p-2 !normal-case text-left",
+          !Boolean(height) && "opacity-0",
+        )}
         dangerouslySetInnerHTML={{
           __html: text.replaceAll("\n", "<br/>"),
         }}
