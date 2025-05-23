@@ -83,7 +83,7 @@ module.exports = {
         gradientTopBottom:
           "linear-gradient(180deg, rgba(224, 221, 216, 1) 0%, rgba(224, 221, 216, 0) 100%)",
         gradientBottomTop:
-          "linear-gradient(180deg, rgba(224, 221, 216, 0) 0%, rgba(224, 221, 216, 1) 100%)"
+          "linear-gradient(180deg, #ffffff00 0%, #ffffff 100%)"
       }),
     },
   },

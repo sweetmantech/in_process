@@ -24,9 +24,9 @@ const Writing = ({ fileUrl, description }: WritingProps) => {
   if (isLoading) return <Skeleton className="min-h-[200px] size-full" />;
   const isOverflowed = height > 206;
   return (
-    <>
+    <div className="size-full relative bg-grey-eggshell">
       <div
-        className="font-spectral bg-grey-eggshell p-2 text-md !normal-case text-left"
+        className="bg-grey-eggshell p-2 text-md !normal-case text-left"
         dangerouslySetInnerHTML={{
           __html: text.replaceAll("\n", "<br/>"),
         }}
@@ -35,7 +35,7 @@ const Writing = ({ fileUrl, description }: WritingProps) => {
       {isOverflowed && (
         <div className="absolute size-full left-0 top-0 bg-gradientBottomTop" />
       )}
-    </>
+    </div>
   );
 };
 
