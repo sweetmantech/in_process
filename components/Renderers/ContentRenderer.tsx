@@ -49,7 +49,7 @@ const ContentRenderer = ({ metadata }: ContentRendererProps) => {
       />
     );
   return (
-    <div className="grow relative  flex justify-center items-start">
+    <div className="grow relative">
       {/* eslint-disable-next-line */}
       <img
         src={getFetchableUrl(metadata.image) || "/images/placeholder.png"}
@@ -57,6 +57,8 @@ const ContentRenderer = ({ metadata }: ContentRendererProps) => {
         style={{
           imageRendering: isMobile ? "auto" : "pixelated",
         }}
+        width="100%"
+        height="100%"
       />
     </div>
   );
