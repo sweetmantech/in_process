@@ -3,8 +3,8 @@ import { Skeleton } from "../ui/skeleton";
 import { useMeasure } from "react-use";
 import useIsMobile from "@/hooks/useIsMobile";
 
-const DESKTOP_CONTAINER_HEIGHT = 206;
-const MOBILE_CONTAINER_HEIGHT = 138;
+const DESKTOP_CONTAINER_THRESHOLD = 206;
+const MOBILE_CONTAINER_THRESHOLD = 138;
 
 interface WritingProps {
   fileUrl: string;
@@ -28,7 +28,8 @@ const Writing = ({ fileUrl, description }: WritingProps) => {
 
   if (isLoading) return <Skeleton className="min-h-[200px] size-full" />;
   const isOverflowed =
-    height > (isMobile ? MOBILE_CONTAINER_HEIGHT : DESKTOP_CONTAINER_HEIGHT);
+    height >
+    (isMobile ? MOBILE_CONTAINER_THRESHOLD : DESKTOP_CONTAINER_THRESHOLD);
   return (
     <div className="size-full relative bg-grey-eggshell text-sm md:text-md">
       <div
