@@ -18,7 +18,7 @@ const SliderFeed = ({ feed }: SliderFeedProps) => {
 
   return (
     <button
-      className="w-full h-[200px] md:h-auto overflow-hidden relative rounded-md bg-grey-moss-100"
+      className="w-full h-[200px] md:h-auto overflow-hidden relative rounded-md bg-grey-moss-100 font-spectral"
       type="button"
       onClick={handleClick}
     >

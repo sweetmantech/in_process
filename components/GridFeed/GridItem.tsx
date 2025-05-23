@@ -1,7 +1,7 @@
 import { useMetadata } from "@/hooks/useMetadata";
 import { Token } from "@/types/token";
 import Loading from "../Loading";
-import ContentRenderer from "../Token/ContentRenderer";
+import ContentRenderer from "../Renderers";
 
 interface GridItemProps {
   feed: Token;
@@ -16,7 +16,7 @@ const GridItem = ({ feed }: GridItemProps) => {
         <Loading className="size-full bg-grey-moss-100 border border-grey" />
       ) : (
         <>
-          <div className="aspect-video w-full overflow-hidden relative bg-grey-moss-100 rounded-md w-full">
+          <div className="aspect-video w-full overflow-hidden relative bg-grey-moss-100 rounded-md w-full font-spectral">
             <ContentRenderer metadata={data} />
           </div>
           <div className="pt-2 px-2">

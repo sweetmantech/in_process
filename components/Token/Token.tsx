@@ -6,7 +6,7 @@ import MetaAndComments from "./MetaAndComments";
 import MomentCollected from "./MomentCollected";
 import useIsMobile from "@/hooks/useIsMobile";
 import CommentSection from "./CommentSection";
-import ContentRenderer from "./ContentRenderer";
+import ContentRenderer from "../Renderers";
 
 const Token = () => {
   const { metadata, collected } = useTokenProvider();
@@ -25,7 +25,7 @@ const Token = () => {
                 <MetaAndComments commentsHidden={isMobile} />
               )}
               <div className="grow w-full flex justify-center">
-                <div className="relative w-full aspect-[576/700] h-fit">
+                <div className="relative w-full aspect-[576/700] h-fit overflow-hidden font-spectral">
                   <ContentRenderer metadata={meta} />
                 </div>
               </div>
