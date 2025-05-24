@@ -62,7 +62,7 @@ const SocialAccounts = () => {
         <Social
           link={`https://instagram.com/${instagram}`}
           icon={
-            <InstagramIcon className="text-grey-eggshell size-5 md:size-" />
+            <InstagramIcon className="text-grey-eggshell size-5 md:size-7" />
           }
         />
       )}
@@ -75,7 +75,7 @@ const SocialAccounts = () => {
       {telegram && (
         <Social
           link={`https://t.me/${telegram}`}
-          icon={<Send className="text-grey-eggshell size-5 md:size-" />}
+          icon={<Send className="text-grey-eggshell size-5 md:size-7" />}
         />
       )}
     </div>
