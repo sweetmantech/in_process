@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import useSignedAddress from "@/hooks/useSignedAddress";
+import FeedbackModal from "./FeedbackModal";
 
 const Footer = () => {
   const { push } = useRouter();
@@ -50,6 +51,7 @@ const Footer = () => {
           <button type="button" onClick={() => push("/manifesto")}>
             manifesto
           </button>
+          <FeedbackModal />
         </div>
       </div>
     </main>
