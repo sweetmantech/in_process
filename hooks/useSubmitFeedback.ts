@@ -9,6 +9,7 @@ const useSubmitFeedback = () => {
   const submit = async () => {
     setIsLoading(true);
     submitFeedback(feedback);
+    setFeedback("");
     setIsOpenModal(false);
     setIsLoading(false);
   };

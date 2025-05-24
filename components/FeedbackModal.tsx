@@ -6,12 +6,17 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "./ui/label";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
-import submitFeedback from "@/lib/submitFeedback";
 import useSubmitFeedback from "@/hooks/useSubmitFeedback";
 
 const FeedbackModal = () => {
-  const { isOpenModal, setIsOpenModal, feedback, setFeedback, isLoading } =
-    useSubmitFeedback();
+  const {
+    isOpenModal,
+    setIsOpenModal,
+    feedback,
+    setFeedback,
+    isLoading,
+    submit,
+  } = useSubmitFeedback();
 
   return (
     <Dialog
@@ -42,7 +47,7 @@ const FeedbackModal = () => {
           <button
             type="button"
             className="py-3 bg-black hover:bg-grey-moss-300 font-archivo text-xl w-full text-grey-eggshell mt-4 disabled:cursor-not-allowed disabled:bg-grey-moss-300"
-            onClick={() => submitFeedback(feedback)}
+            onClick={submit}
             disabled={!Boolean(feedback) || isLoading}
           >
             {isLoading ? "submitting..." : "submit feedback"}
