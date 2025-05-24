@@ -5,12 +5,18 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Label } from "./ui/label";
-import { useState } from "react";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
+import useSubmitFeedback from "@/hooks/useSubmitFeedback";
 
 const FeedbackModal = () => {
-  const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
-  const [feedback, setFeedback] = useState<string>("");
+  const {
+    isOpenModal,
+    setIsOpenModal,
+    feedback,
+    setFeedback,
+    isLoading,
+    submit,
+  } = useSubmitFeedback();
 
   return (
     <Dialog
@@ -29,7 +35,7 @@ const FeedbackModal = () => {
           <DialogTitle>Leave feedback</DialogTitle>
         </VisuallyHidden>
         <Label className="font-archivo text-lg text-left w-full">
-          feedback
+          leave feedback
         </Label>
         <textarea
           className="bg-grey-moss-50 w-full p-3 font-spectral !border-none !outline-none !ring-0"
@@ -40,9 +46,11 @@ const FeedbackModal = () => {
         <div className="w-full ">
           <button
             type="button"
-            className="py-3 bg-black hover:bg-grey-moss-300 font-archivo text-xl w-full text-tan-secondary mt-4"
+            className="py-3 bg-black hover:bg-grey-moss-300 font-archivo text-xl w-full text-grey-eggshell mt-4 disabled:cursor-not-allowed disabled:bg-grey-moss-300"
+            onClick={submit}
+            disabled={!Boolean(feedback) || isLoading}
           >
-            submit feedback
+            {isLoading ? "submitting..." : "submit feedback"}
           </button>
         </div>
       </DialogContent>
