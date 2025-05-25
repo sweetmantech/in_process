@@ -78,7 +78,7 @@ const PreviewModal = () => {
           onChange={handlePreviewUpload}
         />
         <div className="w-3/4 aspect-video relative border border-grey mt-2">
-          {previewUri && isUploading ? (
+          {previewUri && !isUploading ? (
             // eslint-disable-next-line
             <Image
               layout="fill"
@@ -90,7 +90,7 @@ const PreviewModal = () => {
           ) : (
             <div className="size-full p-3 flex justify-center items-center">
               <p className="font-spectral text-3xl">
-                {Boolean(progress) ? `${progress}%` : "No Preview."}
+                {isUploading ? `${progress} %` : "No Preview."}
               </p>
             </div>
           )}
