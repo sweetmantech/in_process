@@ -22,6 +22,8 @@ const useCreateMetadata = () => {
     imageUri,
     mimeType,
     name,
+    setPreviewUri,
+    previewUri,
   } = metadataValues;
   const writinig = useWriting();
   const embed = useEmbedCode({
@@ -30,6 +32,7 @@ const useCreateMetadata = () => {
   });
   const fileUpload = useFileUpload({
     setImageUri,
+    setPreviewUri,
     setAnimationUri,
     setMimeType,
     animationUri,
@@ -41,17 +44,6 @@ const useCreateMetadata = () => {
     setDescription,
     setFileUploading: fileUpload.setFileUploading,
   });
-
-  const uploadPdfImage = async () => {
-    const pdfs = document.getElementsByClassName("rpv-core__canvas-layer");
-    if (!pdfs.length) return null;
-    const blob = await domtoimage.toBlob(pdfs[0]);
-    const fileName = "image.png";
-    const fileType = "image/png";
-    const pdfImage = new File([blob], fileName, { type: fileType });
-    const imageUri = await clientUploadToArweave(pdfImage);
-    return imageUri;
-  };
 
   const reset = () => {
     writinig.setWritingText("");
@@ -67,8 +59,6 @@ const useCreateMetadata = () => {
     let image: string | null = imageUri;
     let mime = mimeType;
     let animation = animationUri || imageUri;
-    const pdfImageUri = await uploadPdfImage();
-    if (pdfImageUri) image = pdfImageUri;
     if (pathname === "/create/writing") {
       mime = "text/plain";
       image = await writinig.uploadWritingImage();
@@ -84,7 +74,7 @@ const useCreateMetadata = () => {
       name,
       description,
       external_url: link.link,
-      image,
+      image: previewUri,
       animation_url: animation,
       content: {
         mime,
