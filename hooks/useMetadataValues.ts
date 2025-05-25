@@ -13,6 +13,7 @@ const useMetadataValues = () => {
   const [imageUri, setImageUri] = useState<string>("");
   const [mimeType, setMimeType] = useState<string>("");
   const [animationUri, setAnimationUri] = useState<string>("");
+  const [previewUri, setPreviewUri] = useState<string>("");
 
   return {
     name,
@@ -31,6 +32,8 @@ const useMetadataValues = () => {
     animationUri,
     setAnimationUri,
     setIsTimedSale,
+    previewUri,
+    setPreviewUri,
   };
 };
 
