@@ -1,4 +1,3 @@
-import { uploadFile } from "@/lib/arweave/uploadFile";
 import { Dispatch, SetStateAction, useState } from "react";
 import captureImageFromVideo from "@/lib/captureImageFromVideo";
 import base64ToFile from "@/lib/base64ToFile";
@@ -6,6 +5,7 @@ import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
 
 interface useFileUploadProps {
   setImageUri: Dispatch<SetStateAction<string>>;
+  setPreviewUri: Dispatch<SetStateAction<string>>;
   setAnimationUri: Dispatch<SetStateAction<string>>;
   setMimeType: Dispatch<SetStateAction<string>>;
   animationUri: string;
@@ -13,6 +13,7 @@ interface useFileUploadProps {
 
 const useFileUpload = ({
   setImageUri,
+  setPreviewUri,
   setAnimationUri,
   setMimeType,
   animationUri,
@@ -40,6 +41,7 @@ const useFileUpload = ({
       );
       if (isImage) {
         setImageUri(uri);
+        setPreviewUri(uri);
         setBlurImageUrl(URL.createObjectURL(file));
         if (!animationUri) {
           setMimeType(mimeType);
@@ -54,6 +56,7 @@ const useFileUpload = ({
           const imageFile = base64ToFile(frameBase64 as string, file.name);
           const imageUri = await clientUploadToArweave(imageFile);
           setImageUri(imageUri);
+          setPreviewUri(imageUri);
         }
       }
     } catch (err: any) {
