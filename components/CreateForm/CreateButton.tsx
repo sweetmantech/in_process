@@ -7,15 +7,19 @@ const CreateButton = () => {
   const {
     create,
     name,
-    imageUri,
+    previewUri,
+    creating,
+    link,
     animationUri,
     writingText,
-    creating,
     embedCode,
   } = useZoraCreateProvider();
 
   const canCreate = Boolean(
-    !creating && name && (imageUri || animationUri || writingText || embedCode),
+    !creating &&
+      name &&
+      previewUri &&
+    Boolean(animationUri || link || writingText || embedCode),
   );
 
   const handleCreate = async () => {
