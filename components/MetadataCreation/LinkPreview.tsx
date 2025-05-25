@@ -4,7 +4,7 @@ import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import Image from "next/image";
 
 const LinkPreview = () => {
-  const { createdContract, imageUri, link } = useZoraCreateProvider();
+  const { createdContract, previewUri, link } = useZoraCreateProvider();
 
   return (
     <div
@@ -13,7 +13,7 @@ const LinkPreview = () => {
       {createdContract ? (
         <>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={getFetchableUrl(imageUri) || ""} alt="not found image" />
+          <img src={getFetchableUrl(previewUri) || ""} alt="not found image" />
           <div className="text-center py-4">
             <a
               className="font-spectral-italic hover:text-grey-moss-400"
@@ -40,10 +40,10 @@ const LinkPreview = () => {
             </p>
           </div>
           <LinkInput />
-          {imageUri && (
+          {previewUri && (
             // eslint-disable-next-line @next/next/no-img-element
             <img
-              src={getFetchableUrl(imageUri) || ""}
+              src={getFetchableUrl(previewUri) || ""}
               alt="not found image"
               className="pt-4"
             />

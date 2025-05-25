@@ -19,7 +19,7 @@ const CreateButton = () => {
     !creating &&
       name &&
       previewUri &&
-    Boolean(animationUri || link || writingText || embedCode),
+      Boolean(animationUri || link || writingText || embedCode),
   );
 
   const handleCreate = async () => {
