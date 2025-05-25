@@ -31,7 +31,6 @@ const useEmbedCode = ({
 
   const embed = (value: string) => {
     setEmbedCode(value);
-    setDescription(value);
   };
 
   return {
