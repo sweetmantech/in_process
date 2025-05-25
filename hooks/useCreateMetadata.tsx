@@ -37,9 +37,7 @@ const useCreateMetadata = () => {
   });
   const link = useLinkPreview({
     setImageUri,
-    setMimeType,
-    setName,
-    setDescription,
+    setPreviewUri,
     setFileUploading: fileUpload.setFileUploading,
   });
 
