@@ -5,7 +5,7 @@ import isHtml from "is-html";
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 
 const EmbedPage = () => {
-  const { embedCode, embed, createdContract, embedRef, animationUri, name } =
+  const { embedCode, embed, createdContract, animationUri, name } =
     useZoraCreateProvider();
 
   if (createdContract)
@@ -30,19 +30,6 @@ const EmbedPage = () => {
   return (
     <div className="size-full p-2 flex flex-col items-center">
       <div className="relative flex flex-col w-full grow overflow-hidden">
-        <div className="size-full h-fit absolute z-[2] left-0 top-0 border border-white">
-          <div
-            dangerouslySetInnerHTML={{
-              __html: embedCode,
-            }}
-          />
-        </div>
-        <div
-          ref={embedRef}
-          className="z-[3] absolute font-spectral w-full break-all left-0 top-0 p-2 bg-grey-moss-100 z-[1]"
-        >
-          {embedCode}
-        </div>
         <div className="relative z-[4] bg-white grow flex flex-col gap-4 py-4 px-2 md:px-8 overflow-hidden rounded-2xl">
           <div className="flex flex-col items-center">
             <Image

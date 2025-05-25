@@ -1,8 +1,6 @@
 import { uploadJson } from "@/lib/arweave/uploadJson";
 import useFileUpload from "./useFileUpload";
-import domtoimage from "dom-to-image-more";
 import useLinkPreview from "./useLinkPreview";
-import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
 import useEmbedCode from "./useEmbedCode";
 import useWriting from "./useWriting";
 import useMetadataValues from "./useMetadataValues";
@@ -66,7 +64,6 @@ const useCreateMetadata = () => {
     }
     if (pathname === "/create/embed") {
       mime = "text/html";
-      image = await embed.uploadEmbedImage();
       animation = await embed.uploadEmbedCode();
     }
 
