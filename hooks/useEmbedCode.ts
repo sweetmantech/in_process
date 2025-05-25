@@ -1,12 +1,5 @@
 import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
-import {
-  Dispatch,
-  MutableRefObject,
-  SetStateAction,
-  useRef,
-  useState,
-} from "react";
-import domtoimage from "dom-to-image-more";
+import { Dispatch, SetStateAction, useState } from "react";
 
 interface useEmbedCodeProps {
   setDescription: Dispatch<SetStateAction<string>>;
@@ -18,17 +11,6 @@ const useEmbedCode = ({
   setAnimationUri,
 }: useEmbedCodeProps) => {
   const [embedCode, setEmbedCode] = useState("");
-  const embedRef = useRef() as MutableRefObject<HTMLDivElement>;
-
-  const uploadEmbedImage = async () => {
-    if (!embedRef.current) return null;
-    const blob = await domtoimage.toBlob(embedRef.current);
-    const fileName = "image.png";
-    const fileType = "image/png";
-    const textImage = new File([blob], fileName, { type: fileType });
-    const uri = await clientUploadToArweave(textImage);
-    return uri;
-  };
 
   const uploadEmbedCode = async () => {
     const blob = new Blob(
@@ -55,8 +37,6 @@ const useEmbedCode = ({
   return {
     embedCode,
     setEmbedCode,
-    embedRef,
-    uploadEmbedImage,
     embed,
     uploadEmbedCode,
   };
