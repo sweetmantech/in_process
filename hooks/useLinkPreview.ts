@@ -1,5 +1,4 @@
 import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
-import getBlob from "@/lib/getBlob";
 import { useQuery } from "@tanstack/react-query";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
@@ -15,9 +14,7 @@ export interface LinkPreview {
 interface useLinkPreviewProps {
   setImageUri: Dispatch<SetStateAction<string>>;
   setFileUploading: Dispatch<SetStateAction<boolean>>;
-  setName: Dispatch<SetStateAction<string>>;
-  setDescription: Dispatch<SetStateAction<string>>;
-  setMimeType: Dispatch<SetStateAction<string>>;
+  setPreviewUri: Dispatch<SetStateAction<string>>;
 }
 
 async function fetchLinkPreview(link: string): Promise<LinkPreview> {
@@ -30,12 +27,21 @@ async function fetchLinkPreview(link: string): Promise<LinkPreview> {
   return data;
 }
 
+async function fetchBlob(link: string): Promise<File> {
+  const response = await fetch(
+    `/api/link/get_blob?url=${encodeURIComponent(link)}`,
+  );
+  const type = response.headers.get("content-type") || "";
+  const arrayBuffer = await response.arrayBuffer();
+  const blob = new Blob([arrayBuffer], { type });
+  const file = new File([blob], "uploadedFile", { type });
+  return file;
+}
+
 const useLinkPreview = ({
   setImageUri,
+  setPreviewUri,
   setFileUploading,
-  setName,
-  setDescription,
-  setMimeType,
 }: useLinkPreviewProps) => {
   const [link, setLink] = useState<string>("");
 
@@ -51,17 +57,16 @@ const useLinkPreview = ({
     const uploadImage = async () => {
       if (!data) return;
       if (data.images?.[0] || data.favicons?.[0]) {
-        setName(data.title);
-        setDescription(data.description);
-        setFileUploading(true);
-        const { blob, type } = await getBlob(
-          data.images?.[0] || data.favicons?.[0],
-        );
-        const file = new File([blob], "uploadedFile", { type });
-        const uri = await clientUploadToArweave(file);
-        setImageUri(uri);
-        setMimeType(type);
-        setFileUploading(false);
+        try {
+          setFileUploading(true);
+          const file = await fetchBlob(data.images?.[0] || data.favicons?.[0]);
+          const uri = await clientUploadToArweave(file);
+          setPreviewUri(uri);
+          setFileUploading(false);
+        } catch (error) {
+          console.error(error);
+          setFileUploading(false);
+        }
       }
       return;
     };
