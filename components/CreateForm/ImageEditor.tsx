@@ -18,6 +18,7 @@ import {
   ChevronLeft,
 } from "lucide-react";
 import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
+import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
 
 interface ImageDimensions {
   width: number;
@@ -46,7 +47,8 @@ interface ImageResizerProps {
 export default function ImageEditor({
   imageUrl,
 }: ImageResizerProps): ReactElement {
-  const { setIsEditingPreview } = useZoraCreateProvider();
+  const { setIsEditingPreview, setPreviewUri } = useZoraCreateProvider();
+  const [isUploading, setIsUploading] = useState<boolean>(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [originalDimensions, setOriginalDimensions] = useState<ImageDimensions>(
     { width: 0, height: 0 },
@@ -436,16 +438,14 @@ export default function ImageEditor({
       );
 
       // Download the resized image
-      canvas.toBlob((blob) => {
+      canvas.toBlob(async (blob) => {
         if (blob) {
-          const url = URL.createObjectURL(blob);
-          const a = document.createElement("a");
-          a.href = url;
-          a.download = `processed-image-${currentDimensions.width}x${currentDimensions.height}.png`;
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-          URL.revokeObjectURL(url);
+          setIsUploading(true);
+          const file = new File([blob], "uploadedFile", { type: "image/png" });
+          const uri = await clientUploadToArweave(file);
+          setPreviewUri(uri);
+          setIsUploading(false);
+          setIsEditingPreview(false);
         }
       });
     };
@@ -506,164 +506,138 @@ export default function ImageEditor({
   }
 
   return (
-    <div className="px-2 space-y-6">
+    <div className="w-full px-2 space-y-6">
       {selectedImage && (
         <>
-          {/* Image Preview */}
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <Label className="font-archivo">Original Image</Label>
-              <div className="border rounded-lg p-4 bg-gray-50 relative overflow-hidden">
-                <div
-                  ref={cropContainerRef}
-                  className="relative inline-block max-w-full"
-                  style={{
-                    width: `${imageDisplaySize.width}px`,
-                    height: `${imageDisplaySize.height}px`,
-                  }}
-                >
-                  {/* eslint-disable-next-line */}
-                  <img
-                    ref={imageRef}
-                    src={selectedImage || "/placeholder.svg"}
-                    alt="Original"
-                    className="block w-full h-full object-contain"
-                    draggable={false}
-                  />
-
-                  {/* Crop Overlay */}
-                  {cropMode && (
-                    <>
-                      {/* Dark overlay */}
-                      <div className="absolute inset-0 bg-black bg-opacity-50 pointer-events-none" />
-
-                      {/* Crop selection */}
-                      <div
-                        className="absolute border-2 border-white shadow-lg cursor-move bg-transparent"
-                        style={getCropStyle()}
-                        onMouseDown={(e) => handleMouseDown(e, "move")}
-                      >
-                        {/* Resize handles with better positioning and event handling */}
-                        <div
-                          className="absolute w-3 h-3 bg-white border border-gray-400 cursor-nw-resize z-10"
-                          style={{ top: "-6px", left: "-6px" }}
-                          onMouseDown={(e) =>
-                            handleMouseDown(e, "resize", "top-left")
-                          }
-                        />
-                        <div
-                          className="absolute w-3 h-3 bg-white border border-gray-400 cursor-n-resize z-10"
-                          style={{
-                            top: "-6px",
-                            left: "50%",
-                            transform: "translateX(-50%)",
-                          }}
-                          onMouseDown={(e) =>
-                            handleMouseDown(e, "resize", "top")
-                          }
-                        />
-                        <div
-                          className="absolute w-3 h-3 bg-white border border-gray-400 cursor-ne-resize z-10"
-                          style={{ top: "-6px", right: "-6px" }}
-                          onMouseDown={(e) =>
-                            handleMouseDown(e, "resize", "top-right")
-                          }
-                        />
-                        <div
-                          className="absolute w-3 h-3 bg-white border border-gray-400 cursor-e-resize z-10"
-                          style={{
-                            top: "50%",
-                            right: "-6px",
-                            transform: "translateY(-50%)",
-                          }}
-                          onMouseDown={(e) =>
-                            handleMouseDown(e, "resize", "right")
-                          }
-                        />
-                        <div
-                          className="absolute w-3 h-3 bg-white border border-gray-400 cursor-se-resize z-10"
-                          style={{ bottom: "-6px", right: "-6px" }}
-                          onMouseDown={(e) =>
-                            handleMouseDown(e, "resize", "bottom-right")
-                          }
-                        />
-                        <div
-                          className="absolute w-3 h-3 bg-white border border-gray-400 cursor-s-resize z-10"
-                          style={{
-                            bottom: "-6px",
-                            left: "50%",
-                            transform: "translateX(-50%)",
-                          }}
-                          onMouseDown={(e) =>
-                            handleMouseDown(e, "resize", "bottom")
-                          }
-                        />
-                        <div
-                          className="absolute w-3 h-3 bg-white border border-gray-400 cursor-sw-resize z-10"
-                          style={{ bottom: "-6px", left: "-6px" }}
-                          onMouseDown={(e) =>
-                            handleMouseDown(e, "resize", "bottom-left")
-                          }
-                        />
-                        <div
-                          className="absolute w-3 h-3 bg-white border border-gray-400 cursor-w-resize z-10"
-                          style={{
-                            top: "50%",
-                            left: "-6px",
-                            transform: "translateY(-50%)",
-                          }}
-                          onMouseDown={(e) =>
-                            handleMouseDown(e, "resize", "left")
-                          }
-                        />
-                      </div>
-                    </>
-                  )}
-                </div>
-
-                <p className="text-sm text-grey-moss-400 mt-2">
-                  {originalDimensions.width} × {originalDimensions.height} px
-                  {cropMode && (
-                    <span className="ml-2 text-grey-moss-400">
-                      | crop: {Math.round(cropArea.width)} ×{" "}
-                      {Math.round(cropArea.height)} px
-                    </span>
-                  )}
-                </p>
-
-                {cropMode && (
-                  <div className="mt-2 flex gap-2">
-                    <Button
-                      onClick={applyCrop}
-                      size="sm"
-                      className="flex items-center gap-2 font-archivo bg-grey-moss-900 text-grey-eggshell hover:bg-grey-moss-300"
-                    >
-                      <Scissors className="w-4 h-4" />
-                      apply crop
-                    </Button>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <Label className="font-archivo">Resized Preview</Label>
-              <div className="border rounded-lg p-4 bg-gray-50">
+          <div className="w-full space-y-2">
+            <div className="flex flex-col items-center border rounded-lg p-4 bg-gray-50 relative overflow-hidden">
+              <div
+                ref={cropContainerRef}
+                className="relative inline-block w-full"
+                style={{
+                  width: `${imageDisplaySize.width}px`,
+                  height: `${imageDisplaySize.height}px`,
+                }}
+              >
                 {/* eslint-disable-next-line */}
                 <img
+                  ref={imageRef}
                   src={selectedImage || "/placeholder.svg"}
-                  alt="Resized preview"
-                  className="max-w-full h-auto rounded"
-                  style={{
-                    width: `${Math.min(currentDimensions.width, 300)}px`,
-                    height: `${Math.min(currentDimensions.height, 300)}px`,
-                    objectFit: "contain",
-                  }}
+                  alt="Original"
+                  className="block size-full object-contain"
+                  draggable={false}
                 />
-                <p className="text-sm text-gray-600 mt-2">
-                  {currentDimensions.width} × {currentDimensions.height} px
-                </p>
+
+                {/* Crop Overlay */}
+                {cropMode && (
+                  <>
+                    {/* Dark overlay */}
+                    <div className="absolute inset-0 bg-black bg-opacity-50 pointer-events-none" />
+
+                    {/* Crop selection */}
+                    <div
+                      className="absolute border-2 border-white shadow-lg cursor-move bg-transparent"
+                      style={getCropStyle()}
+                      onMouseDown={(e) => handleMouseDown(e, "move")}
+                    >
+                      {/* Resize handles with better positioning and event handling */}
+                      <div
+                        className="absolute w-3 h-3 bg-white border border-gray-400 cursor-nw-resize z-10"
+                        style={{ top: "-6px", left: "-6px" }}
+                        onMouseDown={(e) =>
+                          handleMouseDown(e, "resize", "top-left")
+                        }
+                      />
+                      <div
+                        className="absolute w-3 h-3 bg-white border border-gray-400 cursor-n-resize z-10"
+                        style={{
+                          top: "-6px",
+                          left: "50%",
+                          transform: "translateX(-50%)",
+                        }}
+                        onMouseDown={(e) => handleMouseDown(e, "resize", "top")}
+                      />
+                      <div
+                        className="absolute w-3 h-3 bg-white border border-gray-400 cursor-ne-resize z-10"
+                        style={{ top: "-6px", right: "-6px" }}
+                        onMouseDown={(e) =>
+                          handleMouseDown(e, "resize", "top-right")
+                        }
+                      />
+                      <div
+                        className="absolute w-3 h-3 bg-white border border-gray-400 cursor-e-resize z-10"
+                        style={{
+                          top: "50%",
+                          right: "-6px",
+                          transform: "translateY(-50%)",
+                        }}
+                        onMouseDown={(e) =>
+                          handleMouseDown(e, "resize", "right")
+                        }
+                      />
+                      <div
+                        className="absolute w-3 h-3 bg-white border border-gray-400 cursor-se-resize z-10"
+                        style={{ bottom: "-6px", right: "-6px" }}
+                        onMouseDown={(e) =>
+                          handleMouseDown(e, "resize", "bottom-right")
+                        }
+                      />
+                      <div
+                        className="absolute w-3 h-3 bg-white border border-gray-400 cursor-s-resize z-10"
+                        style={{
+                          bottom: "-6px",
+                          left: "50%",
+                          transform: "translateX(-50%)",
+                        }}
+                        onMouseDown={(e) =>
+                          handleMouseDown(e, "resize", "bottom")
+                        }
+                      />
+                      <div
+                        className="absolute w-3 h-3 bg-white border border-gray-400 cursor-sw-resize z-10"
+                        style={{ bottom: "-6px", left: "-6px" }}
+                        onMouseDown={(e) =>
+                          handleMouseDown(e, "resize", "bottom-left")
+                        }
+                      />
+                      <div
+                        className="absolute w-3 h-3 bg-white border border-gray-400 cursor-w-resize z-10"
+                        style={{
+                          top: "50%",
+                          left: "-6px",
+                          transform: "translateY(-50%)",
+                        }}
+                        onMouseDown={(e) =>
+                          handleMouseDown(e, "resize", "left")
+                        }
+                      />
+                    </div>
+                  </>
+                )}
               </div>
+
+              <p className="text-sm text-grey-moss-400 mt-2">
+                {currentDimensions.width} × {currentDimensions.height} px
+                {cropMode && (
+                  <span className="ml-2 text-grey-moss-400">
+                    | crop: {Math.round(cropArea.width)} ×{" "}
+                    {Math.round(cropArea.height)} px
+                  </span>
+                )}
+              </p>
+
+              {cropMode && (
+                <div className="mt-2 flex gap-2">
+                  <Button
+                    onClick={applyCrop}
+                    size="sm"
+                    className="flex items-center gap-2 font-archivo bg-grey-moss-900 text-grey-eggshell hover:bg-grey-moss-300"
+                  >
+                    <Scissors className="w-4 h-4" />
+                    apply crop
+                  </Button>
+                </div>
+              )}
             </div>
           </div>
 
@@ -685,6 +659,7 @@ export default function ImageEditor({
             {/* Action Buttons */}
             <div className="flex gap-2">
               <Button
+                disabled={isUploading}
                 onClick={() => setIsEditingPreview(false)}
                 size="sm"
                 className="font-archivo flex items-center gap-2 bg-grey-moss-900 text-grey-eggshell border-none hover:bg-grey-moss-300"
@@ -693,6 +668,7 @@ export default function ImageEditor({
                 back
               </Button>
               <Button
+                disabled={isUploading}
                 onClick={resetToOriginal}
                 size="sm"
                 className="font-archivo flex items-center gap-2 bg-grey-moss-900 text-grey-eggshell border-none hover:bg-grey-moss-300"
@@ -701,6 +677,7 @@ export default function ImageEditor({
                 reset
               </Button>
               <Button
+                disabled={isUploading}
                 onClick={toggleCropMode}
                 variant={cropMode ? "default" : "outline"}
                 size="sm"
@@ -710,6 +687,7 @@ export default function ImageEditor({
                 {cropMode ? "exit crop" : "crop"}
               </Button>
               <Button
+                disabled={isUploading}
                 onClick={downloadResizedImage}
                 size="sm"
                 className="font-archivo flex items-center gap-2 bg-grey-moss-900 text-grey-eggshell border-none hover:bg-grey-moss-300"
