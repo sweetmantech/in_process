@@ -2,7 +2,7 @@ import { useEffect, useId, useRef, useState } from "react";
 import useIsMobile from "./useIsMobile";
 import { usePathname } from "next/navigation";
 
-export const useMask = (isOpenAdvanced: boolean) => {
+export const useMask = (isOpenAdvanced: boolean, writingText: string) => {
   const inputRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
@@ -46,7 +46,14 @@ export const useMask = (isOpenAdvanced: boolean) => {
     updateMasks();
     window.addEventListener("resize", updateMasks);
     return () => window.removeEventListener("resize", updateMasks);
-  }, [inputRef, titleRef, svgRef.current, pathname, isOpenAdvanced]);
+  }, [
+    inputRef,
+    titleRef,
+    svgRef.current,
+    pathname,
+    isOpenAdvanced,
+    writingText,
+  ]);
 
   return { masks, svgRef, maskId, inputRef, titleRef };
 };

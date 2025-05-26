@@ -12,9 +12,10 @@ import Image from "next/image";
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
 import { toast } from "sonner";
+import WritingPreview from "./WritingPreview";
 
 const PreviewModal = () => {
-  const { previewUri, setPreviewUri } = useZoraCreateProvider();
+  const { previewUri, setPreviewUri, writingText } = useZoraCreateProvider();
   const [progress, setProgress] = useState<number>(0);
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const previewRef = useRef() as any;
@@ -88,11 +89,17 @@ const PreviewModal = () => {
               alt="not found preview."
             />
           ) : (
-            <div className="size-full p-3 flex justify-center items-center">
-              <p className="font-spectral text-3xl">
-                {isUploading ? `${progress} %` : "No Preview."}
-              </p>
-            </div>
+            <>
+              {writingText && !isUploading ? (
+                <WritingPreview />
+              ) : (
+                <div className="size-full p-3 flex justify-center items-center">
+                  <p className="font-spectral text-3xl">
+                    {isUploading ? `${progress} %` : "No Preview."}
+                  </p>
+                </div>
+              )}
+            </>
           )}
         </div>
         <p className="font-spectral-italic">click to resize</p>

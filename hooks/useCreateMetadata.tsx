@@ -52,12 +52,10 @@ const useCreateMetadata = () => {
   };
 
   const getUri = async () => {
-    let image: string | null = imageUri;
     let mime = mimeType;
     let animation = animationUri || imageUri;
     if (pathname === "/create/writing") {
       mime = "text/plain";
-      image = await writinig.uploadWritingImage();
       animation = await writinig.uploadWriting();
     }
     if (pathname === "/create/embed") {
