@@ -13,7 +13,7 @@ const CreateButton = () => {
     animationUri,
     writingText,
     embedCode,
-    imageUri
+    imageUri,
   } = useZoraCreateProvider();
 
   const canCreate = Boolean(

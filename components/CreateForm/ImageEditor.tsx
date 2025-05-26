@@ -440,11 +440,12 @@ export default function ImageEditor({
       // Download the resized image
       canvas.toBlob(async (blob) => {
         if (blob) {
-          setIsUploading(true)
+          setIsUploading(true);
           const file = new File([blob], "uploadedFile", { type: "image/png" });
-          const uri = await clientUploadToArweave(file)
-          setPreviewUri(uri) 
-          setIsUploading(false)          
+          const uri = await clientUploadToArweave(file);
+          setPreviewUri(uri);
+          setIsUploading(false);
+          setIsEditingPreview(false);
         }
       });
     };
@@ -554,9 +555,7 @@ export default function ImageEditor({
                           left: "50%",
                           transform: "translateX(-50%)",
                         }}
-                        onMouseDown={(e) =>
-                          handleMouseDown(e, "resize", "top")
-                        }
+                        onMouseDown={(e) => handleMouseDown(e, "resize", "top")}
                       />
                       <div
                         className="absolute w-3 h-3 bg-white border border-gray-400 cursor-ne-resize z-10"
