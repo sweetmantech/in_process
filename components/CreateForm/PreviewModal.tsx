@@ -78,7 +78,7 @@ const PreviewModal = () => {
           accept="image/*"
           onChange={handlePreviewUpload}
         />
-        <div className="w-3/4 aspect-video relative border border-grey mt-2">
+        <div className="w-3/4 aspect-video relative border border-grey mt-2 font-spectral overflow-hidden">
           {previewUri && !isUploading ? (
             // eslint-disable-next-line
             <Image
