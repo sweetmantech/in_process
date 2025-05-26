@@ -18,6 +18,7 @@ import {
   ChevronLeft,
 } from "lucide-react";
 import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
+import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
 
 interface ImageDimensions {
   width: number;
@@ -46,7 +47,8 @@ interface ImageResizerProps {
 export default function ImageEditor({
   imageUrl,
 }: ImageResizerProps): ReactElement {
-  const { setIsEditingPreview } = useZoraCreateProvider();
+  const { setIsEditingPreview, setPreviewUri } = useZoraCreateProvider();
+  const [isUploading, setIsUploading] = useState<boolean>(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [originalDimensions, setOriginalDimensions] = useState<ImageDimensions>(
     { width: 0, height: 0 },
@@ -436,20 +438,19 @@ export default function ImageEditor({
       );
 
       // Download the resized image
-      canvas.toBlob((blob) => {
+      canvas.toBlob(async (blob) => {
         if (blob) {
-          const url = URL.createObjectURL(blob);
-          const a = document.createElement("a");
-          a.href = url;
-          a.download = `processed-image-${currentDimensions.width}x${currentDimensions.height}.png`;
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-          URL.revokeObjectURL(url);
+          setIsUploading(true);
+          const file = new File([blob], "uploadedFile", { type: "image/png" });
+          const uri = await clientUploadToArweave(file);
+          setPreviewUri(uri);
+          setIsUploading(false);
+          setIsEditingPreview(false);
         }
       });
     };
     img.src = selectedImage;
+    // eslint-disable-next-line
   }, [selectedImage, currentDimensions]);
 
   if (isLoading) {
@@ -685,34 +686,38 @@ export default function ImageEditor({
             {/* Action Buttons */}
             <div className="flex gap-2">
               <Button
+                disabled={isUploading}
                 onClick={() => setIsEditingPreview(false)}
                 size="sm"
-                className="font-archivo flex items-center gap-2 bg-grey-moss-900 text-grey-eggshell border-none hover:bg-grey-moss-300"
+                className="font-archivo flex items-center gap-2 bg-grey-moss-900 text-grey-eggshell border-none hover:bg-grey-moss-300 disabled:cursor-not-allowed disabled:bg-grey-moss-300"
               >
                 <ChevronLeft className="w-4 h-4" />
                 back
               </Button>
               <Button
+                disabled={isUploading}
                 onClick={resetToOriginal}
                 size="sm"
-                className="font-archivo flex items-center gap-2 bg-grey-moss-900 text-grey-eggshell border-none hover:bg-grey-moss-300"
+                className="font-archivo flex items-center gap-2 bg-grey-moss-900 text-grey-eggshell border-none hover:bg-grey-moss-300 disabled:cursor-not-allowed disabled:bg-grey-moss-300"
               >
                 <RotateCcw className="w-4 h-4" />
                 reset
               </Button>
               <Button
+                disabled={isUploading}
                 onClick={toggleCropMode}
                 variant={cropMode ? "default" : "outline"}
                 size="sm"
-                className="font-archivo flex items-center gap-2 bg-grey-moss-900 text-grey-eggshell border-none hover:bg-grey-moss-300"
+                className="font-archivo flex items-center gap-2 bg-grey-moss-900 text-grey-eggshell border-none hover:bg-grey-moss-300 disabled:cursor-not-allowed disabled:bg-grey-moss-300"
               >
                 <Crop className="w-4 h-4" />
                 {cropMode ? "exit crop" : "crop"}
               </Button>
               <Button
+                disabled={isUploading}
                 onClick={downloadResizedImage}
                 size="sm"
-                className="font-archivo flex items-center gap-2 bg-grey-moss-900 text-grey-eggshell border-none hover:bg-grey-moss-300"
+                className="font-archivo flex items-center gap-2 bg-grey-moss-900 text-grey-eggshell border-none hover:bg-grey-moss-300 disabled:cursor-not-allowed disabled:bg-grey-moss-300"
               >
                 <Upload className="w-4 h-4" />
                 done
