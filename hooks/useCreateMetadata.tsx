@@ -49,6 +49,7 @@ const useCreateMetadata = () => {
     setImageUri("");
     setMimeType("");
     setAnimationUri("");
+    setPreviewUri("");
   };
 
   const getUri = async () => {
