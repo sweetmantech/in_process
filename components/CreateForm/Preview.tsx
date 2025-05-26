@@ -33,7 +33,7 @@ const Preview = () => {
       )}
       {writingText && !previewUri && (
         <PreviewContainer>
-          <WritingPreview text={writingText} />
+          <WritingPreview />
         </PreviewContainer>
       )}
       <PreviewModal />
