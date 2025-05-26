@@ -42,11 +42,6 @@ module.exports = {
           dark: "#810505",
           DEFAULT: "#AA2E2E"
         },
-        background: {
-          DEFAULT: "#f2e8cd",
-          dark: "#E2CFB7",
-          light: "#eee9dc"
-        },
         tan: {
           DEFAULT: "#fdad00",
           primary: "#FFF9EA",
