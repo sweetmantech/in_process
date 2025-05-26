@@ -18,6 +18,7 @@ const UploadPreview = () => {
   } = useZoraCreateProvider();
   const [progress, setProgress] = useState<number>(0);
   const previewRef = useRef() as any;
+  const previewImageRef = useRef() as any;
   const [isUploading, setIsUploading] = useState<boolean>(false);
 
   const handleClick = () => {
@@ -61,6 +62,8 @@ const UploadPreview = () => {
             objectPosition="center"
             src={getFetchableUrl(previewUri) || ""}
             alt="not found preview."
+            onError={() => previewImageRef?.current?.reload()}
+            ref={previewImageRef}
           />
         ) : (
           <>
