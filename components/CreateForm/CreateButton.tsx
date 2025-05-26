@@ -13,13 +13,14 @@ const CreateButton = () => {
     animationUri,
     writingText,
     embedCode,
+    imageUri
   } = useZoraCreateProvider();
 
   const canCreate = Boolean(
     !creating &&
       name &&
       previewUri &&
-      Boolean(animationUri || link || writingText || embedCode),
+      Boolean(animationUri || link || writingText || embedCode || imageUri),
   );
 
   const handleCreate = async () => {
