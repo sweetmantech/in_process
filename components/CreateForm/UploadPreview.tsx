@@ -2,13 +2,18 @@ import { Fragment } from "react";
 import { ChangeEvent, useRef, useState } from "react";
 import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
 import Image from "next/image";
-import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
 import { toast } from "sonner";
 import WritingPreview from "./WritingPreview";
 import { Label } from "../ui/label";
 
-const UploadPreview = () => {
+const UploadPreview = ({
+  previewSrc,
+  onChange,
+}: {
+  previewSrc: string;
+  onChange: (value: string) => void;
+}) => {
   const {
     previewUri,
     setPreviewUri,
@@ -19,7 +24,6 @@ const UploadPreview = () => {
   const [progress, setProgress] = useState<number>(0);
   const previewRef = useRef() as any;
   const [isUploading, setIsUploading] = useState<boolean>(false);
-  const [previewError, setPreviewError] = useState(false);
 
   const handleClick = () => {
     if (!previewRef.current) return;
@@ -38,6 +42,7 @@ const UploadPreview = () => {
     const previewUri = await clientUploadToArweave(file, (value: number) =>
       setProgress(value),
     );
+    onChange(URL.createObjectURL(file));
     setPreviewUri(previewUri);
     setIsUploading(false);
   };
@@ -60,13 +65,9 @@ const UploadPreview = () => {
             layout="fill"
             objectFit="cover"
             objectPosition="center"
-            src={getFetchableUrl(previewUri) || ""}
+            src={previewSrc}
             alt="not found preview."
             ref={previewRef as any}
-            onError={() => {
-              setPreviewError(true);
-            }}
-            key={previewUri + previewError}
           />
         ) : (
           <>

@@ -8,15 +8,15 @@ import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
 import UploadPreview from "./UploadPreview";
 import ImageEditor from "./ImageEditor";
-import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
+import { useState } from "react";
 
 const PreviewModal = () => {
   const {
     setIsOpenPreviewUpload,
     isOpenPreviewUpload,
     isEditingPreview,
-    previewUri,
   } = useZoraCreateProvider();
+  const [previewSrc, setPreviewSrc] = useState<string>("");
 
   return (
     <Dialog
@@ -45,9 +45,15 @@ const PreviewModal = () => {
           <DialogTitle>Leave feedback</DialogTitle>
         </VisuallyHidden>
         {isEditingPreview ? (
-          <ImageEditor imageUrl={getFetchableUrl(previewUri) || ""} />
+          <ImageEditor
+            imageUrl={previewSrc}
+            onChange={(src: string) => setPreviewSrc(src)}
+          />
         ) : (
-          <UploadPreview />
+          <UploadPreview
+            onChange={(src: string) => setPreviewSrc(src)}
+            previewSrc={previewSrc}
+          />
         )}
       </DialogContent>
     </Dialog>

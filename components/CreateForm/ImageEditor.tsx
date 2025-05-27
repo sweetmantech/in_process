@@ -42,10 +42,12 @@ interface DragState {
 
 interface ImageResizerProps {
   imageUrl?: string;
+  onChange: (value: string) => void;
 }
 
 export default function ImageEditor({
   imageUrl,
+  onChange,
 }: ImageResizerProps): ReactElement {
   const { setIsEditingPreview, setPreviewUri } = useZoraCreateProvider();
   const [isUploading, setIsUploading] = useState<boolean>(false);
@@ -406,7 +408,7 @@ export default function ImageEditor({
     setImageDisplaySize({ width: displayWidth, height: displayHeight });
   }, [originalImage, trulyOriginalDimensions]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (dragState.isDragging) {
       document.addEventListener("mousemove", handleMouseMove);
       document.addEventListener("mouseup", handleMouseUp);
@@ -444,12 +446,14 @@ export default function ImageEditor({
           const file = new File([blob], "uploadedFile", { type: "image/png" });
           const uri = await clientUploadToArweave(file);
           setPreviewUri(uri);
+          onChange(URL.createObjectURL(file));
           setIsUploading(false);
           setIsEditingPreview(false);
         }
       });
     };
     img.src = selectedImage;
+    // eslint-disable-next-line
   }, [selectedImage, currentDimensions]);
 
   if (isLoading) {
