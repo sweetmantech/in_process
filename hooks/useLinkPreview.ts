@@ -15,6 +15,7 @@ interface useLinkPreviewProps {
   setImageUri: Dispatch<SetStateAction<string>>;
   setFileUploading: Dispatch<SetStateAction<boolean>>;
   setPreviewUri: Dispatch<SetStateAction<string>>;
+  setPreviewSrc: Dispatch<SetStateAction<string>>;
 }
 
 async function fetchLinkPreview(link: string): Promise<LinkPreview> {
@@ -42,6 +43,7 @@ const useLinkPreview = ({
   setImageUri,
   setPreviewUri,
   setFileUploading,
+  setPreviewSrc,
 }: useLinkPreviewProps) => {
   const [link, setLink] = useState<string>("");
 
@@ -61,8 +63,8 @@ const useLinkPreview = ({
           setFileUploading(true);
           const file = await fetchBlob(data.images?.[0] || data.favicons?.[0]);
           const uri = await clientUploadToArweave(file);
+          setPreviewSrc(URL.createObjectURL(file));
           setPreviewUri(uri);
-          setPreviewUri(URL.createObjectURL(file));
           setFileUploading(false);
         } catch (error) {
           console.error(error);

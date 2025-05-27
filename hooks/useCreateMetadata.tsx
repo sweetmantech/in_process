@@ -40,6 +40,7 @@ const useCreateMetadata = () => {
   const link = useLinkPreview({
     setImageUri,
     setPreviewUri,
+    setPreviewSrc,
     setFileUploading: fileUpload.setFileUploading,
   });
 
@@ -52,6 +53,7 @@ const useCreateMetadata = () => {
     setMimeType("");
     setAnimationUri("");
     setPreviewUri("");
+    setPreviewSrc("");
   };
 
   const getUri = async () => {

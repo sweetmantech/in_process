@@ -438,8 +438,8 @@ export default function ImageEditor(): ReactElement {
           setIsUploading(true);
           const file = new File([blob], "uploadedFile", { type: "image/png" });
           const uri = await clientUploadToArweave(file);
-          setPreviewUri(uri);
           setPreviewSrc(URL.createObjectURL(file));
+          setPreviewUri(uri);
           setIsUploading(false);
           setIsEditingPreview(false);
         }

@@ -43,8 +43,8 @@ const useFileUpload = ({
       );
       if (isImage) {
         setImageUri(uri);
-        setPreviewUri(uri);
         setPreviewSrc(URL.createObjectURL(file));
+        setPreviewUri(uri);
         setBlurImageUrl(URL.createObjectURL(file));
         if (!animationUri) {
           setMimeType(mimeType);
@@ -59,8 +59,8 @@ const useFileUpload = ({
           const imageFile = base64ToFile(frameBase64 as string, file.name);
           const imageUri = await clientUploadToArweave(imageFile);
           setImageUri(imageUri);
-          setPreviewUri(imageUri);
           setPreviewSrc(URL.createObjectURL(imageFile));
+          setPreviewUri(imageUri);
         }
       }
     } catch (err: any) {
