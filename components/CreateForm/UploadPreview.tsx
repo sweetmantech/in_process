@@ -19,6 +19,7 @@ const UploadPreview = () => {
   const [progress, setProgress] = useState<number>(0);
   const previewRef = useRef() as any;
   const [isUploading, setIsUploading] = useState<boolean>(false);
+  const [previewError, setPreviewError] = useState(false);
 
   const handleClick = () => {
     if (!previewRef.current) return;
@@ -61,6 +62,11 @@ const UploadPreview = () => {
             objectPosition="center"
             src={getFetchableUrl(previewUri) || ""}
             alt="not found preview."
+            ref={previewRef as any}
+            onError={() => {
+              setPreviewError(true);
+            }}
+            key={previewUri + previewError}
           />
         ) : (
           <>
