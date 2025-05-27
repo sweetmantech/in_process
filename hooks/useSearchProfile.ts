@@ -67,7 +67,6 @@ const useSearchProfile = () => {
 
   useEffect(() => {
     function preventTab(e: any) {
-      console.log("ziad here", e.key);
       e = e || window.event;
       if (e.keyCode === 9) {
         e.preventDefault();

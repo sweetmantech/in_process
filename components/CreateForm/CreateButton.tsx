@@ -19,8 +19,8 @@ const CreateButton = () => {
   const canCreate = Boolean(
     !creating &&
       name &&
-      previewUri &&
-      Boolean(animationUri || link || writingText || embedCode || imageUri),
+      (previewUri || writingText) &&
+      Boolean(animationUri || link || embedCode || imageUri || writingText),
   );
 
   const handleCreate = async () => {
