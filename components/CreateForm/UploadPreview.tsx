@@ -67,7 +67,6 @@ const UploadPreview = ({
             objectPosition="center"
             src={previewSrc}
             alt="not found preview."
-            ref={previewRef as any}
           />
         ) : (
           <>
