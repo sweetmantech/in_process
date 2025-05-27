@@ -22,6 +22,7 @@ const useCreateMetadata = () => {
     name,
     setPreviewUri,
     previewUri,
+    setPreviewSrc,
   } = metadataValues;
   const writinig = useWriting();
   const embed = useEmbedCode({
@@ -30,6 +31,7 @@ const useCreateMetadata = () => {
   });
   const fileUpload = useFileUpload({
     setImageUri,
+    setPreviewSrc,
     setPreviewUri,
     setAnimationUri,
     setMimeType,
