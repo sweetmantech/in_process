@@ -40,14 +40,9 @@ interface DragState {
   resizeHandle: string | null;
 }
 
-interface ImageResizerProps {
-  imageUrl?: string;
-}
-
-export default function ImageEditor({
-  imageUrl,
-}: ImageResizerProps): ReactElement {
-  const { setIsEditingPreview, setPreviewUri } = useZoraCreateProvider();
+export default function ImageEditor(): ReactElement {
+  const { setIsEditingPreview, setPreviewUri, previewSrc, setPreviewSrc } =
+    useZoraCreateProvider();
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [originalDimensions, setOriginalDimensions] = useState<ImageDimensions>(
@@ -172,10 +167,10 @@ export default function ImageEditor({
   }, []);
 
   useEffect(() => {
-    if (imageUrl) {
-      loadImageFromUrl(imageUrl);
+    if (previewSrc) {
+      loadImageFromUrl(previewSrc);
     }
-  }, [imageUrl, loadImageFromUrl]);
+  }, [previewSrc, loadImageFromUrl]);
 
   const handleScaleChange = useCallback(
     (value: number[]) => {
@@ -406,7 +401,7 @@ export default function ImageEditor({
     setImageDisplaySize({ width: displayWidth, height: displayHeight });
   }, [originalImage, trulyOriginalDimensions]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (dragState.isDragging) {
       document.addEventListener("mousemove", handleMouseMove);
       document.addEventListener("mouseup", handleMouseUp);
@@ -444,12 +439,14 @@ export default function ImageEditor({
           const file = new File([blob], "uploadedFile", { type: "image/png" });
           const uri = await clientUploadToArweave(file);
           setPreviewUri(uri);
+          setPreviewSrc(URL.createObjectURL(file));
           setIsUploading(false);
           setIsEditingPreview(false);
         }
       });
     };
     img.src = selectedImage;
+    // eslint-disable-next-line
   }, [selectedImage, currentDimensions]);
 
   if (isLoading) {
@@ -484,7 +481,7 @@ export default function ImageEditor({
   }
 
   // Show empty state if no image URL provided
-  if (!imageUrl && !selectedImage) {
+  if (!previewSrc && !selectedImage) {
     return (
       <div className="max-w-4xl mx-auto p-6">
         <Card>

@@ -17,6 +17,7 @@ const useMetadataValues = () => {
   const [isEditingPreview, setIsEditingPreview] = useState<boolean>(false);
   const [isOpenPreviewUpload, setIsOpenPreviewUpload] =
     useState<boolean>(false);
+  const [previewSrc, setPreviewSrc] = useState<string>("");
 
   return {
     name,
@@ -41,6 +42,8 @@ const useMetadataValues = () => {
     setIsEditingPreview,
     setIsOpenPreviewUpload,
     isOpenPreviewUpload,
+    previewSrc,
+    setPreviewSrc,
   };
 };
 

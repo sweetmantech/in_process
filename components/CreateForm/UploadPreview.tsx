@@ -2,7 +2,6 @@ import { Fragment } from "react";
 import { ChangeEvent, useRef, useState } from "react";
 import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
 import Image from "next/image";
-import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
 import { toast } from "sonner";
 import WritingPreview from "./WritingPreview";
@@ -15,6 +14,8 @@ const UploadPreview = () => {
     writingText,
     setIsEditingPreview,
     setIsOpenPreviewUpload,
+    previewSrc,
+    setPreviewSrc,
   } = useZoraCreateProvider();
   const [progress, setProgress] = useState<number>(0);
   const previewRef = useRef() as any;
@@ -37,6 +38,7 @@ const UploadPreview = () => {
     const previewUri = await clientUploadToArweave(file, (value: number) =>
       setProgress(value),
     );
+    setPreviewSrc(URL.createObjectURL(file));
     setPreviewUri(previewUri);
     setIsUploading(false);
   };
@@ -59,7 +61,7 @@ const UploadPreview = () => {
             layout="fill"
             objectFit="cover"
             objectPosition="center"
-            src={getFetchableUrl(previewUri) || ""}
+            src={previewSrc}
             alt="not found preview."
           />
         ) : (
