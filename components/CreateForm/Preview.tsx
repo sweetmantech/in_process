@@ -4,7 +4,7 @@ import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import Image from "next/image";
 import PreviewModal from "./PreviewModal";
 import WritingPreview from "./WritingPreview";
-import { Fragment, ReactNode, useState } from "react";
+import { Fragment, ReactNode } from "react";
 
 const PreviewContainer = ({ children }: { children: ReactNode }) => {
   return (
@@ -18,7 +18,6 @@ const PreviewContainer = ({ children }: { children: ReactNode }) => {
 };
 const Preview = () => {
   const { previewUri, writingText } = useZoraCreateProvider();
-  const [previewError, setPreviewError] = useState(false);
   return (
     <div>
       {previewUri && (
@@ -29,10 +28,6 @@ const Preview = () => {
             objectPosition="center"
             src={getFetchableUrl(previewUri) || ""}
             alt="not found preview."
-            onError={() => {
-              setPreviewError(true);
-            }}
-            key={previewUri + previewError}
           />
         </PreviewContainer>
       )}

@@ -11,12 +11,8 @@ import ImageEditor from "./ImageEditor";
 import { useState } from "react";
 
 const PreviewModal = () => {
-  const {
-    setIsOpenPreviewUpload,
-    isOpenPreviewUpload,
-    isEditingPreview,
-  } = useZoraCreateProvider();
-  const [previewSrc, setPreviewSrc] = useState<string>("");
+  const { setIsOpenPreviewUpload, isOpenPreviewUpload, isEditingPreview } =
+    useZoraCreateProvider();
 
   return (
     <Dialog
@@ -44,17 +40,7 @@ const PreviewModal = () => {
         <VisuallyHidden>
           <DialogTitle>Leave feedback</DialogTitle>
         </VisuallyHidden>
-        {isEditingPreview ? (
-          <ImageEditor
-            imageUrl={previewSrc}
-            onChange={(src: string) => setPreviewSrc(src)}
-          />
-        ) : (
-          <UploadPreview
-            onChange={(src: string) => setPreviewSrc(src)}
-            previewSrc={previewSrc}
-          />
-        )}
+        {isEditingPreview ? <ImageEditor /> : <UploadPreview />}
       </DialogContent>
     </Dialog>
   );

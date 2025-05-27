@@ -7,19 +7,15 @@ import { toast } from "sonner";
 import WritingPreview from "./WritingPreview";
 import { Label } from "../ui/label";
 
-const UploadPreview = ({
-  previewSrc,
-  onChange,
-}: {
-  previewSrc: string;
-  onChange: (value: string) => void;
-}) => {
+const UploadPreview = () => {
   const {
     previewUri,
     setPreviewUri,
     writingText,
     setIsEditingPreview,
     setIsOpenPreviewUpload,
+    previewSrc,
+    setPreviewSrc,
   } = useZoraCreateProvider();
   const [progress, setProgress] = useState<number>(0);
   const previewRef = useRef() as any;
@@ -42,7 +38,7 @@ const UploadPreview = ({
     const previewUri = await clientUploadToArweave(file, (value: number) =>
       setProgress(value),
     );
-    onChange(URL.createObjectURL(file));
+    setPreviewSrc(URL.createObjectURL(file));
     setPreviewUri(previewUri);
     setIsUploading(false);
   };
