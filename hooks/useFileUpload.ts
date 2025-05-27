@@ -6,6 +6,7 @@ import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
 interface useFileUploadProps {
   setImageUri: Dispatch<SetStateAction<string>>;
   setPreviewUri: Dispatch<SetStateAction<string>>;
+  setPreviewSrc: Dispatch<SetStateAction<string>>;
   setAnimationUri: Dispatch<SetStateAction<string>>;
   setMimeType: Dispatch<SetStateAction<string>>;
   animationUri: string;
@@ -13,6 +14,7 @@ interface useFileUploadProps {
 
 const useFileUpload = ({
   setImageUri,
+  setPreviewSrc,
   setPreviewUri,
   setAnimationUri,
   setMimeType,
@@ -42,6 +44,7 @@ const useFileUpload = ({
       if (isImage) {
         setImageUri(uri);
         setPreviewUri(uri);
+        setPreviewSrc(URL.createObjectURL(file));
         setBlurImageUrl(URL.createObjectURL(file));
         if (!animationUri) {
           setMimeType(mimeType);
@@ -57,6 +60,7 @@ const useFileUpload = ({
           const imageUri = await clientUploadToArweave(imageFile);
           setImageUri(imageUri);
           setPreviewUri(imageUri);
+          setPreviewSrc(URL.createObjectURL(imageFile));
         }
       }
     } catch (err: any) {

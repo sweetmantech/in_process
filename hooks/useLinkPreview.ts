@@ -62,6 +62,7 @@ const useLinkPreview = ({
           const file = await fetchBlob(data.images?.[0] || data.favicons?.[0]);
           const uri = await clientUploadToArweave(file);
           setPreviewUri(uri);
+          setPreviewUri(URL.createObjectURL(file));
           setFileUploading(false);
         } catch (error) {
           console.error(error);
