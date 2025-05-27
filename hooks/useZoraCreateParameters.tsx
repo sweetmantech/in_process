@@ -1,5 +1,5 @@
 import { createCreatorClient } from "@/lib/protocolSdk";
-import { Address } from "viem";
+import { Address, zeroAddress } from "viem";
 import { CHAIN_ID, REFERRAL_RECIPIENT } from "@/lib/consts";
 import { useAccount } from "wagmi";
 import getSalesConfig from "@/lib/zora/getSalesConfig";
@@ -44,6 +44,7 @@ const useZoraCreateParameters = (
             tokenMetadataURI: cc0MusicArweaveUri,
             createReferral: REFERRAL_RECIPIENT,
             salesConfig,
+            mintToCreatorCount: 1,
           },
           account: creator as Address,
         });
@@ -59,6 +60,7 @@ const useZoraCreateParameters = (
             tokenMetadataURI: cc0MusicArweaveUri,
             createReferral: REFERRAL_RECIPIENT,
             salesConfig,
+            mintToCreatorCount: 1,
           },
           account: creator as Address,
         });
