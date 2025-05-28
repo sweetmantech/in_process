@@ -31,7 +31,7 @@ export function useCollections(artistAddress?: string) {
 
   const { hasNextPage, fetchNextPage, data, isFetchingNextPage } =
     useInfiniteQuery({
-      queryKey: ["collectons"],
+      queryKey: ["collectons", artistAddress],
       queryFn: ({ pageParam }) => fetchCollections(pageParam, artistAddress),
       getNextPageParam: (lastPage: CollectionsResponse) => {
         if (
@@ -57,7 +57,7 @@ export function useCollections(artistAddress?: string) {
           )
         )
           return Infinity;
-        return 1000 * 5;
+        return Boolean(artistAddress) ? Infinity : 1000 * 5;
       },
       refetchOnWindowFocus: false,
       retry: (failureCount) => {

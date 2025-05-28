@@ -1,21 +1,14 @@
-import { useMyCollections } from "@/hooks/useManageCollections";
-import Loading from "../Loading";
 import { Collection } from "@/types/token";
 import CollectionItem from "./CollectionItem";
+import { useUserCollectionsProvider } from "@/providers/UserCollectionsProvider";
 
 const Collections = () => {
-  const { data, isLoading } = useMyCollections();
+  const { collections } = useUserCollectionsProvider();
 
-  if (isLoading)
-    return (
-      <div className="grow flex items-center justify-center">
-        <Loading className="w-[180px] aspect-[1/1] md:w-[300px]" />
-      </div>
-    );
-  if (data)
+  if (collections)
     return (
       <div className="grow grid grid-cols-1 md:grid-cols-4 gap-6 px-4 md:px-10">
-        {data.map((c: Collection, i) => (
+        {collections.map((c: Collection, i) => (
           <CollectionItem c={c} key={i} />
         ))}
       </div>

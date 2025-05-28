@@ -1,24 +1,65 @@
 "use client";
 
-import { useUserCollections } from "@/hooks/useUserCollections";
-import { createContext, useMemo, useContext } from "react";
+import { useCollections } from "@/hooks/useCollections";
+import {
+  createContext,
+  useMemo,
+  useContext,
+  Fragment,
+  useState,
+  useEffect,
+} from "react";
+import { useUserProvider } from "./UserProvider";
+import getTotalEarnings from "@/lib/viem/getTotalEarnings";
 
-const UserCollectionsContext = createContext<
-  ReturnType<typeof useUserCollections>
->({} as ReturnType<typeof useUserCollections>);
+interface UserCollectionsContextReturn
+  extends ReturnType<typeof useCollections> {
+  totalEarnings: {
+    eth: string;
+    usdc: string;
+  };
+  isLoading: boolean;
+}
+const UserCollectionsContext = createContext<UserCollectionsContextReturn>(
+  {} as UserCollectionsContextReturn,
+);
 
 const UserCollectionsProvider = ({
   children,
 }: {
   children: React.ReactNode;
 }) => {
-  const userCollections = useUserCollections();
+  const { connectedAddress } = useUserProvider();
+  if (!connectedAddress) return <Fragment />;
+  const userCollections = useCollections(connectedAddress);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [totalEarnings, setTotalEarnings] = useState<{
+    eth: string;
+    usdc: string;
+  }>({
+    eth: "0",
+    usdc: "0",
+  });
+
+  useEffect(() => {
+    const init = async () => {
+      const earnings = await getTotalEarnings(
+        userCollections.collections,
+        connectedAddress,
+      );
+      setTotalEarnings(earnings);
+      setIsLoading(false);
+    };
+    init();
+  }, [userCollections.collections.length]);
 
   const value = useMemo(
     () => ({
       ...userCollections,
+      totalEarnings,
+      isLoading,
     }),
-    [userCollections],
+    [userCollections, totalEarnings],
   );
 
   return (
