@@ -1,6 +1,6 @@
 "use client";
 
-import Token from "@/components/Token";
+import Token from "./Token";
 import { ZORA_TO_VIEM, ZoraChains } from "@/lib/zora/zoraToViem";
 import { TokenProvider } from "@/providers/TokenProvider";
 import { ZoraMintCommentProvider } from "@/providers/ZoraMintCommentProvider";

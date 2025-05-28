@@ -4,7 +4,7 @@ import {
   createColumnHelper,
 } from "@tanstack/react-table";
 
-import { Collection, Token } from "@/types/token";
+import { Token } from "@/types/token";
 import { Address } from "viem";
 import { useEffect, useState } from "react";
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
