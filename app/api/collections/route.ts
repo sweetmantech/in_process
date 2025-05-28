@@ -5,6 +5,7 @@ import getSmartWallet from "@/lib/getSmartWallet";
 import { FACTORY_ADDRESSES } from "@/lib/protocolSdk/create/factory-addresses";
 import { DuneDecodedEvent } from "@/types/dune";
 import { NextRequest } from "next/server";
+import { Address } from "viem";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
@@ -26,7 +27,7 @@ export async function POST(req: NextRequest) {
     if (!offsets || offsets.factory) {
       const { transactions: factoryEvents, nextOffset: factoryNextOffset } =
         await getCreatedContractEvents(
-          FACTORY_ADDRESSES[CHAIN_ID],
+          (artistAddress as Address) || FACTORY_ADDRESSES[CHAIN_ID],
           offsets?.factory,
           artistAddress ? { to: FACTORY_ADDRESSES[CHAIN_ID] } : undefined,
         );
