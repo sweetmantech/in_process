@@ -23,11 +23,11 @@ const Container = ({
 const MediaUploaded = ({ handleImageClick }: MediaUploadedProps) => {
   const {
     fileUploading,
-    blurImageUrl,
     mimeType,
     animationUri,
     imageUri,
     pctComplete,
+    previewSrc,
   } = useZoraCreateProvider();
 
   if (fileUploading) {
@@ -66,10 +66,10 @@ const MediaUploaded = ({ handleImageClick }: MediaUploadedProps) => {
     return (
       <div className="size-full">
         <Image
-          src={blurImageUrl || getFetchableUrl(imageUri) || ""}
+          src={previewSrc || getFetchableUrl(imageUri) || ""}
           alt="Image Preview"
           onClick={handleImageClick}
-          blurDataURL={blurImageUrl}
+          blurDataURL={previewSrc}
           layout="fill"
           objectFit="contain"
           objectPosition="center"
