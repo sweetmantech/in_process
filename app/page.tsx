@@ -6,10 +6,10 @@ export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: "In Process",
-  description: "Imagined by LATASHÁ",
+  description: "A Collective Onchain Timeline for artists",
   openGraph: {
     title: "In Process",
-    description: "Imagined by LATASHÁ",
+    description: "A Collective Onchain Timeline for artists",
     images: [`${APP_URL}/site_preview.png`],
   },
   other: {
@@ -18,13 +18,12 @@ export const metadata: Metadata = {
       imageUrl: `${APP_URL}/site_preview.png`,
       aspectRatio: "1:1",
       button: {
-        title: "Create",
+        title: "Open",
         action: {
           type: "launch_frame",
-          name: "In Process",
           url: APP_URL,
           splashImageUrl: `${APP_URL}/site_preview.png`,
-          splashBackgroundColor: "#abaaa9",
+          splashBackgroundColor: "#e4e0db",
         },
       },
     }),
