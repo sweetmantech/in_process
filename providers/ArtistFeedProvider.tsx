@@ -1,21 +1,26 @@
 "use client";
 
-import { useArtistCollections } from "@/hooks/useArtistCollections";
 import useFeeds from "@/hooks/useFeeds";
 import { createContext, useMemo, useContext } from "react";
 import useTimeline from "@/hooks/useTimeline";
 import { useProfileProvider } from "./ProfileProvider";
+import { useCollections } from "@/hooks/useCollections";
 
 const ArtistFeedContext = createContext<ReturnType<typeof useFeeds>>(
   {} as ReturnType<typeof useFeeds>,
 );
 
-const ArtistFeedProvider = ({ children }: { children: React.ReactNode }) => {
+const ArtistFeedProvider = ({
+  children,
+  artistAddress,
+}: {
+  children: React.ReactNode;
+  artistAddress: string;
+}) => {
   const { hiddenMoments } = useTimeline();
   const { canEdit } = useProfileProvider();
-  const { data } = useArtistCollections();
-
-  const feeds = useFeeds(data || []);
+  const collections = useCollections(artistAddress);
+  const feeds = useFeeds(collections.collections || []);
   const filtered = canEdit
     ? feeds.feeds
     : feeds.feeds.filter(

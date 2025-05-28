@@ -7,10 +7,12 @@ import ArtistFeedProvider from "@/providers/ArtistFeedProvider";
 import useIsMobile from "@/hooks/useIsMobile";
 import MobileProfile from "./MobileProfile";
 import DesktopProfile from "./DesktopProfile";
+import { useParams } from "next/navigation";
 
 const ArtistPage = () => {
   const [alt, setAlt] = useState<"timeline" | "grid">("timeline");
   const isMobile = useIsMobile();
+  const { artistAddress } = useParams();
 
   return (
     <div className="overflow-hidden w-screen grow flex flex-col pb-20 pt-6 md:pt-10 relative min-h-[450px] md:min-h-[550px]">
@@ -21,7 +23,7 @@ const ArtistPage = () => {
       <div
         className={`grow flex flex-col px-2 md:px-0 ${alt === "timeline" && "md:pt-20 md:px-10"}`}
       >
-        <ArtistFeedProvider>
+        <ArtistFeedProvider artistAddress={artistAddress as string}>
           <Feed alt={alt} />
         </ArtistFeedProvider>
       </div>
