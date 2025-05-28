@@ -5,14 +5,18 @@ import { useEffect, useState } from "react";
 
 async function fetchCollections(
   param?: PageParam,
+  artistAddress?: string,
 ): Promise<CollectionsResponse> {
-  const response = await fetch("/api/collections", {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
+  const response = await fetch(
+    `/api/collections?artistAddress=${artistAddress || ""}`,
+    {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(param || {}),
     },
-    body: JSON.stringify(param || {}),
-  });
+  );
   if (!response.ok) {
     throw new Error("Failed to fetch all collections");
   }
@@ -20,7 +24,7 @@ async function fetchCollections(
   return data;
 }
 
-export function useCollections() {
+export function useCollections(artistAddress?: string) {
   const [collections, setCollections] = useState<Collection[]>([]);
   const [isFetchingCollections, setIsFetchingCollections] =
     useState<boolean>(true);
@@ -28,7 +32,7 @@ export function useCollections() {
   const { hasNextPage, fetchNextPage, data, isFetchingNextPage } =
     useInfiniteQuery({
       queryKey: ["collectons"],
-      queryFn: ({ pageParam }) => fetchCollections(pageParam),
+      queryFn: ({ pageParam }) => fetchCollections(pageParam, artistAddress),
       getNextPageParam: (lastPage: CollectionsResponse) => {
         if (
           Boolean(
@@ -38,6 +42,7 @@ export function useCollections() {
           return undefined;
         return {
           offsets: lastPage.nextOffsets,
+          artistAddress: lastPage.artistAddress,
         };
       },
       initialPageParam: undefined,

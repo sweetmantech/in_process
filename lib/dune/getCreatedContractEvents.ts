@@ -6,6 +6,7 @@ import { Address } from "viem";
 const getCreatedContractEvents = async (
   addressToGetEvents: Address,
   offset: string | undefined,
+  additionalParam: object = {},
 ): Promise<{
   transactions: DuneDecodedEvent[];
   nextOffset: string | null;
@@ -18,6 +19,7 @@ const getCreatedContractEvents = async (
     decode: "true",
     chain_ids: `${CHAIN_ID}`,
     topic0: SETUP_NEW_CONTRACT_EVENT_SIGNATURE,
+    ...additionalParam,
   };
 
   if (offset) params.offset = offset;

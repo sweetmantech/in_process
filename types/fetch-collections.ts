@@ -7,8 +7,10 @@ export interface CollectionsOffset {
 export interface CollectionsResponse {
   collections: Collection[];
   nextOffsets: CollectionsOffset;
+  artistAddress?: string;
 }
 
 export interface PageParam {
-  offsets?: CollectionsOffset;
+  offsets: CollectionsOffset | undefined;
+  artistAddress: string | undefined;
 }
