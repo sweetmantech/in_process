@@ -7,15 +7,15 @@ import { Fragment } from "react";
 const CreateToEarnButton = ({ className = "" }: { className?: string }) => {
   const { push } = useRouter();
   const { toggleNavbar } = useLayoutProvider();
-  const { data } = useUserCollectionsProvider();
+  const { totalEarnings } = useUserCollectionsProvider();
   const { ethPrice } = useEthPriceProvider();
   const ethEarnings = Number(
-    Number(data?.totalEarnings?.eth || 0) * ethPrice,
+    Number(totalEarnings?.eth || 0) * ethPrice,
   ).toFixed(2);
-  const usdcEarnings = Number(data?.totalEarnings?.usdc).toFixed(2);
-  const totalEarnings = parseFloat(ethEarnings) + parseFloat(usdcEarnings);
+  const usdcEarnings = Number(totalEarnings?.usdc).toFixed(2);
+  const totalAmount = parseFloat(ethEarnings) + parseFloat(usdcEarnings);
 
-  if (totalEarnings > 0 || !data?.totalEarnings) return <Fragment />;
+  if (totalAmount > 0 || !totalEarnings) return <Fragment />;
   return (
     <button
       type="button"

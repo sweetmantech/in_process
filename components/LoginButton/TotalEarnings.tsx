@@ -3,8 +3,8 @@ import { Skeleton } from "../ui/skeleton";
 import useTotalEarnings from "@/hooks/useTotalEarnings";
 
 const TotalEarnings = ({ className }: { className: string }) => {
+  const { totalAmount } = useTotalEarnings();
   const { isLoading } = useUserCollectionsProvider();
-  const { totalEarnings } = useTotalEarnings();
 
   return (
     <div
@@ -13,7 +13,7 @@ const TotalEarnings = ({ className }: { className: string }) => {
       {isLoading ? (
         <Skeleton className="bg-grey-moss-300 w-10 md:w-8 h-4 mt-1" />
       ) : (
-        `$${totalEarnings}`
+        `$${totalAmount}`
       )}
     </div>
   );

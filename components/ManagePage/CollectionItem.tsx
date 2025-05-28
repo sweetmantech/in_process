@@ -5,6 +5,7 @@ import truncateAddress from "@/lib/truncateAddress";
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import { getShortNetworkName } from "@/lib/zora/zoraToViem";
 import { useRouter } from "next/navigation";
+import truncated from "@/lib/truncated";
 
 const CollectionItem = ({ c }: { c: Collection }) => {
   const { data, isLoading } = useMetadata(c.contractURI);
@@ -37,7 +38,9 @@ const CollectionItem = ({ c }: { c: Collection }) => {
           />
         </div>
         <div className="px-4 py-2">
-          <p className="font-archivo text-white text-left">{data?.name}</p>
+          <p className="font-archivo text-white text-left">
+            {truncated(data?.name, 30)}
+          </p>
           <p className="font-archivo text-white text-left">
             {truncateAddress(c.newContract)}
           </p>
