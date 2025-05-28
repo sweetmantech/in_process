@@ -18,7 +18,7 @@ export const metadata: Metadata = {
       imageUrl: `${APP_URL}/site_preview.png`,
       aspectRatio: "1:1",
       button: {
-        title: "Explore",
+        title: "Open",
         action: {
           type: "launch_frame",
           url: APP_URL,
