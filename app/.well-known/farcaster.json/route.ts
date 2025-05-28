@@ -1,5 +1,8 @@
+// @ts-nocheck
+import { APP_URL } from "@/lib/og/consts";
+
 export async function GET() {
-  const URL = process.env.NEXT_PUBLIC_URL;
+  const URL = APP_URL;
 
   return Response.json({
     accountAssociation: {
@@ -10,7 +13,7 @@ export async function GET() {
     frame: {
       version: process.env.NEXT_PUBLIC_VERSION,
       name: process.env.NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME,
-      homeUrl: URL,
+      homeUrl: APP_URL,
       iconUrl: process.env.NEXT_PUBLIC_ICON_URL,
       imageUrl: process.env.NEXT_PUBLIC_IMAGE_URL,
       buttonTitle: `Launch ${process.env.NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME}`,
