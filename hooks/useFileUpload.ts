@@ -20,7 +20,6 @@ const useFileUpload = ({
   setMimeType,
   animationUri,
 }: useFileUploadProps) => {
-  const [blurImageUrl, setBlurImageUrl] = useState<string>("");
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [pctComplete, setPctComplete] = useState<number>(0);
@@ -45,7 +44,6 @@ const useFileUpload = ({
         setImageUri(uri);
         setPreviewSrc(URL.createObjectURL(file));
         setPreviewUri(uri);
-        setBlurImageUrl(URL.createObjectURL(file));
         if (!animationUri) {
           setMimeType(mimeType);
         }
@@ -74,7 +72,6 @@ const useFileUpload = ({
     fileUpload,
     fileUploading: loading,
     error,
-    blurImageUrl,
     setFileUploading: setLoading,
     pctComplete,
   };
