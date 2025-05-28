@@ -14,6 +14,7 @@ export async function POST(req: NextRequest) {
         smartWallet?: string | undefined;
       }
     | undefined = body?.offsets;
+  const artistAddress = req.nextUrl.searchParams.get("artistAddress");
 
   const nextOffsets: {
     factory?: string;
@@ -27,6 +28,7 @@ export async function POST(req: NextRequest) {
         await getCreatedContractEvents(
           FACTORY_ADDRESSES[CHAIN_ID],
           offsets?.factory,
+          artistAddress ? { to: FACTORY_ADDRESSES[CHAIN_ID] } : undefined,
         );
       events.push(factoryEvents);
       if (factoryNextOffset) nextOffsets.factory = factoryNextOffset;
@@ -47,8 +49,14 @@ export async function POST(req: NextRequest) {
 
     const formattedEvents = getFormattedCollections(events.flat());
     return Response.json({
-      collections: formattedEvents,
+      collections: Boolean(artistAddress)
+        ? formattedEvents.filter(
+            (e) =>
+              e.defaultAdmin.toLowerCase() === artistAddress?.toLowerCase(),
+          )
+        : formattedEvents,
       nextOffsets,
+      artistAddress,
     });
   } catch (e: any) {
     console.log(e);
