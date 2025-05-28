@@ -1,6 +1,5 @@
 import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
 import { Label } from "../ui/label";
-import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import Image from "next/image";
 import PreviewModal from "./PreviewModal";
 import WritingPreview from "./WritingPreview";
@@ -17,7 +16,7 @@ const PreviewContainer = ({ children }: { children: ReactNode }) => {
   );
 };
 const Preview = () => {
-  const { previewUri, writingText } = useZoraCreateProvider();
+  const { previewUri, writingText, previewSrc } = useZoraCreateProvider();
   return (
     <div>
       {previewUri && (
@@ -26,7 +25,7 @@ const Preview = () => {
             layout="fill"
             objectFit="cover"
             objectPosition="center"
-            src={getFetchableUrl(previewUri) || ""}
+            src={previewSrc}
             alt="not found preview."
           />
         </PreviewContainer>
