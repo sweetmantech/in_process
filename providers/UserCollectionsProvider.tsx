@@ -1,14 +1,7 @@
 "use client";
 
 import { useCollections } from "@/hooks/useCollections";
-import {
-  createContext,
-  useMemo,
-  useContext,
-  Fragment,
-  useState,
-  useEffect,
-} from "react";
+import { createContext, useMemo, useContext, useState, useEffect } from "react";
 import { useUserProvider } from "./UserProvider";
 import getTotalEarnings from "@/lib/viem/getTotalEarnings";
 
@@ -30,8 +23,10 @@ const UserCollectionsProvider = ({
   children: React.ReactNode;
 }) => {
   const { connectedAddress } = useUserProvider();
-  if (!connectedAddress) return <Fragment />;
-  const userCollections = useCollections(connectedAddress);
+  const userCollections = useCollections(
+    connectedAddress,
+    Boolean(connectedAddress),
+  );
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [totalEarnings, setTotalEarnings] = useState<{
     eth: string;
@@ -43,6 +38,7 @@ const UserCollectionsProvider = ({
 
   useEffect(() => {
     const init = async () => {
+      if (!connectedAddress) return;
       const earnings = await getTotalEarnings(
         userCollections.collections,
         connectedAddress,
@@ -51,7 +47,7 @@ const UserCollectionsProvider = ({
       setIsLoading(false);
     };
     init();
-  }, [userCollections.collections.length]);
+  }, [userCollections.collections.length, connectedAddress]);
 
   const value = useMemo(
     () => ({

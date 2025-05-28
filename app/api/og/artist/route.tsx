@@ -2,11 +2,11 @@ import { NextRequest } from "next/server";
 import getUsername from "@/lib/getUsername";
 import { OG_HEIGHT, OG_WIDTH, VERCEL_OG } from "@/lib/og/consts";
 import { Address } from "viem";
-import getArtistLatestMint from "@/lib/fetchArtistLatestMint";
 import getImageMetadata from "@/lib/getImageMetadata";
 import ArtistInfo from "@/components/Og/artist/ArtistInfo";
 import TokenPreview from "@/components/Og/artist/TokenPreview";
 import NoMoments from "@/components/Og/artist/NoMoments";
+import getArtistLatestMoment from "@/lib/getArtistLatestMoment";
 
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
@@ -25,7 +25,7 @@ export async function GET(req: NextRequest) {
   const chainId = queryParams.get("chainId");
   const chainIdNum = parseInt(chainId as string, 10);
 
-  const metadata = await getArtistLatestMint(
+  const metadata = await getArtistLatestMoment(
     artistAddress as string,
     chainIdNum,
   );

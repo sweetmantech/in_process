@@ -24,7 +24,10 @@ async function fetchCollections(
   return data;
 }
 
-export function useCollections(artistAddress?: string) {
+export function useCollections(
+  artistAddress?: string,
+  enabled: boolean = true,
+) {
   const [collections, setCollections] = useState<Collection[]>([]);
   const [isFetchingCollections, setIsFetchingCollections] =
     useState<boolean>(true);
@@ -63,6 +66,7 @@ export function useCollections(artistAddress?: string) {
       retry: (failureCount) => {
         return failureCount < 4;
       },
+      enabled,
     });
 
   useEffect(() => {
