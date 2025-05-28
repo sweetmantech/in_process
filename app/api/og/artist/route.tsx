@@ -4,9 +4,11 @@ import { OG_HEIGHT, OG_WIDTH, VERCEL_OG } from "@/lib/og/consts";
 import { Address } from "viem";
 import getImageMetadata from "@/lib/getImageMetadata";
 import ArtistInfo from "@/components/Og/artist/ArtistInfo";
-import TokenPreview from "@/components/Og/artist/TokenPreview";
+import TokenImagePreview from "@/components/Og/artist/TokenImagePreview";
+import TokenWritingPreview from "@/components/Og/artist/TokenWritingPreview";
 import NoMoments from "@/components/Og/artist/NoMoments";
 import getArtistLatestMoment from "@/lib/getArtistLatestMoment";
+import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
@@ -37,7 +39,23 @@ export async function GET(req: NextRequest) {
     spectralFont,
   ]);
 
-  const imageMetadata = await getImageMetadata(metadata?.image);
+  let writingText = "";
+  let totalLines = 0;
+  let imageMetadata = null;
+
+  if (metadata) {
+    if (metadata.content.mime === "text/plain") {
+      const response = await fetch(getFetchableUrl(metadata.content.uri) || "");
+      const data = await response.text();
+      writingText = data;
+      const paragraphs = writingText.split("\n");
+      paragraphs.map(
+        (paragraph) =>
+          (totalLines =
+            totalLines + parseInt(Number(paragraph.length / 32).toFixed()) + 1),
+      );
+    } else imageMetadata = await getImageMetadata(metadata?.image);
+  }
 
   return new ImageResponse(
     (
@@ -70,7 +88,16 @@ export async function GET(req: NextRequest) {
           }}
         >
           {metadata ? (
-            <TokenPreview imageMetadata={imageMetadata} />
+            <>
+              {metadata.content.mime === "text/plain" ? (
+                <TokenWritingPreview
+                  writingText={writingText}
+                  totalLines={totalLines}
+                />
+              ) : (
+                <TokenImagePreview imageMetadata={imageMetadata} />
+              )}
+            </>
           ) : (
             <NoMoments />
           )}

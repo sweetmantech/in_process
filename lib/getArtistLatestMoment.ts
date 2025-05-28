@@ -8,9 +8,12 @@ const getArtistLatestMoment = async (
 ): Promise<Metadata | null> => {
   try {
     const response = await fetch(
-      `${VERCEL_OG}/api/collections/artistAddress=${artistAddress}&chainId=${chainId}`,
+      `${VERCEL_OG}/api/collections?artistAddress=${artistAddress}&chainId=${chainId}`,
       {
         method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
         body: JSON.stringify({}),
       },
     );
@@ -18,7 +21,7 @@ const getArtistLatestMoment = async (
     const data = await response.json();
     if (!data.collections.length) throw new Error("no moments yet.");
     const metadata = await fetchTokenMetadata(
-      data.collectons[0].newContract,
+      data.collections[0].newContract,
       BigInt(1).toString(),
     );
     return metadata;
