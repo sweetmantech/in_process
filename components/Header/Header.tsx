@@ -14,7 +14,7 @@ const Header = () => {
   const signedAddress = useSignedAddress();
   const { isOpenNavbar, toggleNavbar, menuRef, isExpandedSearchInput } =
     useLayoutProvider();
-  const { totalEarnings } = useTotalEarnings();
+  const { totalAmount } = useTotalEarnings();
   const isMobile = useIsMobile();
 
   return (
@@ -25,7 +25,7 @@ const Header = () => {
       <Logo />
       <div className="flex items-center gap-1 md:gap-2" ref={menuRef}>
         <ArtistSearch />
-        {!totalEarnings && !isMobile && <CreateCTAButton />}
+        {!totalAmount && !isMobile && <CreateCTAButton />}
         <div className="md:relative flex items-center gap-1 md:gap-2">
           {!isExpandedSearchInput && <LoginButton />}
           {signedAddress && (
