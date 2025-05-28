@@ -1,7 +1,7 @@
 import { OG_WIDTH, rotation } from "@/lib/og/consts";
 import { ImageMetadata } from "@/types/og";
 
-const TokenPreview = ({
+const TokenImagePreview = ({
   imageMetadata,
 }: {
   imageMetadata: ImageMetadata | null;
@@ -49,4 +49,4 @@ const TokenPreview = ({
   );
 };
 
-export default TokenPreview;
+export default TokenImagePreview;
