@@ -13,12 +13,17 @@ interface FeedProps {
 
 const Feed = ({ alt }: FeedProps) => {
   const isMobile = useIsMobile();
-  const { feeds, fetchMore } = useArtistFeedProvider();
+  const { feeds, fetchMore, isFetchingCollections, isFetchingTokens } =
+    useArtistFeedProvider();
 
-  if (!feeds.length)
+  if (!Boolean(feeds.length))
     return (
       <div className="grow flex items-center justify-center">
-        <Loading className="w-[180px] aspect-[1/1] md:w-[300px]" />
+        {isFetchingCollections || isFetchingTokens ? (
+          <Loading className="w-[180px] aspect-[1/1] md:w-[300px]" />
+        ) : (
+          <p className="font-archivo text-lg md:text-5xl">No moments yet!</p>
+        )}
       </div>
     );
 
