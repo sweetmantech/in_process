@@ -6,8 +6,14 @@ import useTimeline from "@/hooks/useTimeline";
 import { useProfileProvider } from "./ProfileProvider";
 import { useCollections } from "@/hooks/useCollections";
 
-const ArtistFeedContext = createContext<ReturnType<typeof useFeeds>>(
-  {} as ReturnType<typeof useFeeds>,
+const ArtistFeedContext = createContext<
+  ReturnType<typeof useFeeds> & {
+    isFetchingCollections: boolean;
+  }
+>(
+  {} as ReturnType<typeof useFeeds> & {
+    isFetchingCollections: boolean;
+  },
 );
 
 const ArtistFeedProvider = ({
@@ -37,6 +43,7 @@ const ArtistFeedProvider = ({
   const value = useMemo(
     () => ({
       ...feeds,
+      isFetchingCollections: collections.isFetchingCollections,
       feeds: filtered.sort(
         (a, b) =>
           new Date(b.released_at).getTime() - new Date(a.released_at).getTime(),

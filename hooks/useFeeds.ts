@@ -64,6 +64,7 @@ const useFeeds = (collections: Collection[]) => {
     hasMoreT,
     fetchMore,
     feeds,
+    isFetchingTokens,
   };
 };
 
