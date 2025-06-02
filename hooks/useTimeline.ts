@@ -17,26 +17,32 @@ const hideMoments = async (tokens: Moment[]) => {
 };
 const useTimeline = () => {
   const [hiddenMoments, setHiddenMoments] = useState<Moment[]>([]);
-
+  console.log("useTimeline hiddenMoments", hiddenMoments);
   const getTimeline = useCallback(async () => {
     const response = await fetch(`/api/token/timeline`);
     const data = await response.json();
-    setHiddenMoments(JSON.parse(data.tagData.hidden));
+    setHiddenMoments(
+      JSON.parse(data.tagData.hidden).map((item: any) => ({
+        ...item,
+        tokenId: String(item.tokenId),
+      }))
+    );
   }, []);
 
   const toggleMoment = (moment: Moment) => {
+    console.log("useTimeline toggleMoment", moment);
     const find = hiddenMoments.find(
       (ele) =>
         ele.tokenContract === moment.tokenContract.toLowerCase() &&
-        ele.tokenId === moment.tokenId,
+        ele.tokenId === moment.tokenId
     );
 
     if (find) {
       const filtered = [...hiddenMoments].filter((ele) =>
         Boolean(
           ele.tokenContract !== moment.tokenContract.toLowerCase() ||
-            ele.tokenId !== moment.tokenId,
-        ),
+            ele.tokenId !== moment.tokenId
+        )
       );
       setHiddenMoments([...filtered]);
       hideMoments([...filtered]);

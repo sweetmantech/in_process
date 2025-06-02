@@ -5,6 +5,7 @@ export async function GET() {
   try {
     const owner = privateKeyToAccount(process.env.PRIVATE_KEY as Address);
     const tags = await getTag(owner.address, "timeline");
+    console.log("tags", tags);
     return Response.json(tags);
   } catch (e: any) {
     console.log(e);

@@ -60,7 +60,7 @@ const TokenItem = ({
                 moment={{
                   owner: connectedAddress,
                   tokenContract: collection.address,
-                  tokenId: Number(t.tokenId),
+                  tokenId: t.tokenId.toString(),
                 }}
               />
             )}
