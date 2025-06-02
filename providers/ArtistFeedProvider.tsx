@@ -13,7 +13,7 @@ const ArtistFeedContext = createContext<
 >(
   {} as ReturnType<typeof useFeeds> & {
     isFetchingCollections: boolean;
-  },
+  }
 );
 
 const ArtistFeedProvider = ({
@@ -36,9 +36,9 @@ const ArtistFeedProvider = ({
               (moment) =>
                 moment.tokenContract.toLowerCase() ===
                   feed.collection.toLowerCase() &&
-                moment.tokenId === feed.tokenId,
-            ),
-          ),
+                moment.tokenId === Number(feed.tokenId)
+            )
+          )
       );
   const value = useMemo(
     () => ({
@@ -46,10 +46,10 @@ const ArtistFeedProvider = ({
       isFetchingCollections: collections.isFetchingCollections,
       feeds: filtered.sort(
         (a, b) =>
-          new Date(b.released_at).getTime() - new Date(a.released_at).getTime(),
+          new Date(b.released_at).getTime() - new Date(a.released_at).getTime()
       ),
     }),
-    [feeds],
+    [feeds]
   );
 
   return (
@@ -63,7 +63,7 @@ export const useArtistFeedProvider = () => {
   const context = useContext(ArtistFeedContext);
   if (!context) {
     throw new Error(
-      "useArtistFeedProvider must be used within a ArtistFeedProvider",
+      "useArtistFeedProvider must be used within a ArtistFeedProvider"
     );
   }
   return context;
