@@ -23,7 +23,6 @@ const Footer = () => {
       <div className="my-8 h-[1px] bg-grey-moss-400 w-full w-full block md:hidden" />
       <div className="flex justify-between items-center">
         <div className="flex flex-col md:flex-row items-start md:items-center">
-          {/* Spiral: click to go home */}
           <Link href="/" aria-label="Go to homepage" className="mr-2">
             <Image
               src="/spiral.svg"
