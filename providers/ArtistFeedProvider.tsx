@@ -40,7 +40,6 @@ const ArtistFeedProvider = ({
             )
           )
       );
-  console.log("filtered", filtered);
   const value = useMemo(
     () => ({
       ...feeds,
