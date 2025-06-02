@@ -5,6 +5,9 @@ import { useRouter } from "next/navigation";
 import { useCollectionProvider } from "@/providers/CollectionProvider";
 import { Skeleton } from "../ui/skeleton";
 import { networkConfigByChain } from "@/lib/protocolSdk/apis/chain-constants";
+import { useTimelineProvider } from "@/providers/TimelineProvider";
+import { Eye, EyeOff } from "lucide-react";
+import { useUserProvider } from "@/providers/UserProvider";
 
 const TokenItem = ({
   t,
@@ -17,11 +20,18 @@ const TokenItem = ({
   const { data, isLoading } = useMetadata(t.uri);
   const { push } = useRouter();
   const { collection } = useCollectionProvider();
+  const { hiddenMoments, toggleMoment } = useTimelineProvider();
+  const { connectedAddress } = useUserProvider();
+  const isHidden = hiddenMoments.some(
+    (ele) =>
+      ele.tokenContract === collection.address.toLowerCase() &&
+      ele.tokenId === t.tokenId.toString()
+  );
 
   const handleClick = () => {
     if (isLoading) return;
     push(
-      `/manage/${networkConfigByChain[collection.chainId].zoraCollectPathChainName}:${collection.address as string}/${t.tokenId.toString()}`,
+      `/manage/${networkConfigByChain[collection.chainId].zoraCollectPathChainName}:${collection.address as string}/${t.tokenId.toString()}`
     );
     return;
   };
@@ -52,6 +62,27 @@ const TokenItem = ({
             <p className="font-archivo text-sm text-grey-moss-900 bg-grey-moss-100 rounded-md px-2">
               id: {t.tokenId}
             </p>
+            {connectedAddress && (
+              <button
+                type="button"
+                className="ml-auto bg-grey-moss-200 border border-grey-moss-900 px-1 py-1 rounded"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  toggleMoment({
+                    owner: connectedAddress,
+                    tokenContract: collection.address,
+                    tokenId: t.tokenId.toString(),
+                  });
+                }}
+                aria-label={isHidden ? "Unhide" : "Hide"}
+              >
+                {isHidden ? (
+                  <Eye className="size-4 text-grey-eggshell" />
+                ) : (
+                  <EyeOff className="size-4 text-grey-eggshell" />
+                )}
+              </button>
+            )}
           </div>
         </>
       )}
