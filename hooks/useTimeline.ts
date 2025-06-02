@@ -17,7 +17,6 @@ const hideMoments = async (tokens: Moment[]) => {
 };
 const useTimeline = () => {
   const [hiddenMoments, setHiddenMoments] = useState<Moment[]>([]);
-  console.log("useTimeline hiddenMoments", hiddenMoments);
   const getTimeline = useCallback(async () => {
     const response = await fetch(`/api/token/timeline`);
     const data = await response.json();
