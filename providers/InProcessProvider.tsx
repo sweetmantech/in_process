@@ -3,6 +3,7 @@ import useFeeds from "@/hooks/useFeeds";
 import { createContext, useMemo, useContext } from "react";
 import { useTimelineProvider } from "./TimelineProvider";
 import useProfiles from "@/hooks/useProfiles";
+import { filterHiddenFeeds } from "@/lib/feeds/filterHidden";
 
 const InProcessContext = createContext<
   ReturnType<typeof useFeeds> &
@@ -11,7 +12,7 @@ const InProcessContext = createContext<
 >(
   {} as ReturnType<typeof useFeeds> &
     ReturnType<typeof useCollections> &
-    ReturnType<typeof useProfiles>,
+    ReturnType<typeof useProfiles>
 );
 
 const InProcessProvider = ({ children }: { children: React.ReactNode }) => {
@@ -25,24 +26,15 @@ const InProcessProvider = ({ children }: { children: React.ReactNode }) => {
       ...collections,
       ...feeds,
       ...profiles,
-      feeds: feeds.feeds
-        .sort(
+      feeds: filterHiddenFeeds(
+        feeds.feeds.sort(
           (a, b) =>
-            new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
-        )
-        .filter(
-          (feed) =>
-            !Boolean(
-              hiddenMoments.find(
-                (moment) =>
-                  moment.tokenContract.toLowerCase() ===
-                    feed.collection.toLowerCase() &&
-                  moment.tokenId === feed.tokenId,
-              ),
-            ),
+            new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
         ),
+        hiddenMoments
+      ),
     }),
-    [feeds],
+    [feeds]
   );
 
   return (
@@ -56,7 +48,7 @@ export const useInProcessProvider = () => {
   const context = useContext(InProcessContext);
   if (!context) {
     throw new Error(
-      "useInProcessProvider must be used within a InProcessProvider",
+      "useInProcessProvider must be used within a InProcessProvider"
     );
   }
   return context;

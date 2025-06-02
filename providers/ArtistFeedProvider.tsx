@@ -5,6 +5,7 @@ import { createContext, useMemo, useContext } from "react";
 import useTimeline from "@/hooks/useTimeline";
 import { useProfileProvider } from "./ProfileProvider";
 import { useCollections } from "@/hooks/useCollections";
+import { filterHiddenFeeds } from "@/lib/feeds/filterHidden";
 
 const ArtistFeedContext = createContext<
   ReturnType<typeof useFeeds> & {
@@ -29,17 +30,7 @@ const ArtistFeedProvider = ({
   const feeds = useFeeds(collections.collections || []);
   const filtered = canEdit
     ? feeds.feeds
-    : feeds.feeds.filter(
-        (feed) =>
-          !Boolean(
-            hiddenMoments.find(
-              (moment) =>
-                moment.tokenContract.toLowerCase() ===
-                  feed.collection.toLowerCase() &&
-                moment.tokenId === Number(feed.tokenId)
-            )
-          )
-      );
+    : filterHiddenFeeds(feeds.feeds, hiddenMoments);
   const value = useMemo(
     () => ({
       ...feeds,
