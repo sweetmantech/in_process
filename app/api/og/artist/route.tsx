@@ -54,7 +54,11 @@ export async function GET(req: NextRequest) {
           (totalLines =
             totalLines + parseInt(Number(paragraph.length / 32).toFixed()) + 1),
       );
-    } else imageMetadata = await getImageMetadata(metadata?.image);
+    } else {
+      imageMetadata = await getImageMetadata(
+        getFetchableUrl(metadata.image) || "",
+      );
+    }
   }
 
   return new ImageResponse(
@@ -82,6 +86,7 @@ export async function GET(req: NextRequest) {
             height: "100%",
             position: "relative",
             alignItems: "center",
+            justifyContent: "center",
             backgroundColor: "#E0DDD8",
             overflow: "hidden",
             borderRadius: 18,

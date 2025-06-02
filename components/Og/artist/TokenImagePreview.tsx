@@ -1,4 +1,4 @@
-import { OG_WIDTH, rotation } from "@/lib/og/consts";
+import { ARTIST_OG_IMAGE_WIDTH, rotation } from "@/lib/og/consts";
 import { ImageMetadata } from "@/types/og";
 
 const TokenImagePreview = ({
@@ -31,21 +31,24 @@ const TokenImagePreview = ({
     orientation,
   } = imageMetadata;
   const paddingLeft =
-    (Math.abs((OG_WIDTH / originalHeight) * originalWidth - OG_WIDTH) / 2) * -1;
-
+    (Math.abs(
+      (ARTIST_OG_IMAGE_WIDTH / originalHeight) * originalWidth -
+        ARTIST_OG_IMAGE_WIDTH,
+    ) /
+      2) *
+    -1;
+  const style: any = {
+    transform: rotation[orientation],
+    left: shouldRotate ? paddingLeft : 0,
+  };
+  if (originalWidth > originalHeight) style.height = "100%";
+  else
+    style.width = shouldRotate
+      ? (ARTIST_OG_IMAGE_WIDTH / originalHeight) * originalWidth
+      : "100%";
   return (
     // eslint-disable-next-line
-    <img
-      src={previewUrl}
-      style={{
-        width: shouldRotate
-          ? (OG_WIDTH / originalHeight) * originalWidth
-          : "100%",
-        transform: rotation[orientation],
-        left: shouldRotate ? paddingLeft : 0,
-        position: "absolute",
-      }}
-    />
+    <img src={previewUrl} style={style} />
   );
 };
 
