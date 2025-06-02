@@ -29,7 +29,6 @@ const useTimeline = () => {
   }, []);
 
   const toggleMoment = (moment: Moment) => {
-    console.log("useTimeline toggleMoment", moment);
     const find = hiddenMoments.find(
       (ele) =>
         ele.tokenContract === moment.tokenContract.toLowerCase() &&
