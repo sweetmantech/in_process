@@ -7,6 +7,7 @@ import { useUserProvider } from "@/providers/UserProvider";
 import { useParams } from "next/navigation";
 import { TIMLINE_STEP_OFFSET } from "@/lib/consts";
 import HideButton from "./HideButton";
+import { Address } from "viem";
 
 interface FeedProps {
   feed: Token;
@@ -67,7 +68,7 @@ const Feed: FC<FeedProps> = ({ feed, hovered, step, height }) => {
             {isVisibleHideButton && (
               <HideButton
                 moment={{
-                  owner: connectedAddress,
+                  owner: connectedAddress as Address,
                   tokenContract: feed.collection,
                   tokenId: String(feed.tokenId),
                 }}

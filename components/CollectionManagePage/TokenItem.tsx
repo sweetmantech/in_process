@@ -7,6 +7,7 @@ import { Skeleton } from "../ui/skeleton";
 import { networkConfigByChain } from "@/lib/protocolSdk/apis/chain-constants";
 import { useUserProvider } from "@/providers/UserProvider";
 import HideButton from "../HorizontalFeed/HideButton";
+import { Address } from "viem";
 
 const TokenItem = ({
   t,
@@ -58,7 +59,7 @@ const TokenItem = ({
             {connectedAddress && (
               <HideButton
                 moment={{
-                  owner: connectedAddress,
+                  owner: connectedAddress as Address,
                   tokenContract: collection.address,
                   tokenId: t.tokenId.toString(),
                 }}
