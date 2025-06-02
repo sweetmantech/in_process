@@ -69,7 +69,7 @@ const Feed: FC<FeedProps> = ({ feed, hovered, step, height }) => {
                 moment={{
                   owner: connectedAddress,
                   tokenContract: feed.collection,
-                  tokenId: feed.tokenId,
+                  tokenId: Number(feed.tokenId),
                 }}
               />
             )}
