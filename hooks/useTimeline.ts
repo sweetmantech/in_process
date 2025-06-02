@@ -30,7 +30,6 @@ const useTimeline = () => {
         ele.tokenContract === moment.tokenContract.toLowerCase() &&
         ele.tokenId === moment.tokenId
     );
-    console.log("useTimeline find", find);
 
     if (find) {
       const filtered = [...hiddenMoments].filter((ele) =>
@@ -39,7 +38,6 @@ const useTimeline = () => {
             ele.tokenId !== moment.tokenId
         )
       );
-      console.log("useTimeline filtered", filtered);
       setHiddenMoments([...filtered]);
       hideMoments([...filtered]);
       return;
@@ -53,7 +51,6 @@ const useTimeline = () => {
         tokenId: moment.tokenId,
       },
     ];
-    console.log("useTimeline newHiddenMoments", newHiddenMoments);
 
     setHiddenMoments(newHiddenMoments);
     hideMoments(newHiddenMoments);
