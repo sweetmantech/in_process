@@ -11,7 +11,7 @@ const InProcessContext = createContext<
 >(
   {} as ReturnType<typeof useFeeds> &
     ReturnType<typeof useCollections> &
-    ReturnType<typeof useProfiles>,
+    ReturnType<typeof useProfiles>
 );
 
 const InProcessProvider = ({ children }: { children: React.ReactNode }) => {
@@ -28,7 +28,7 @@ const InProcessProvider = ({ children }: { children: React.ReactNode }) => {
       feeds: feeds.feeds
         .sort(
           (a, b) =>
-            new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+            new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
         )
         .filter(
           (feed) =>
@@ -37,12 +37,12 @@ const InProcessProvider = ({ children }: { children: React.ReactNode }) => {
                 (moment) =>
                   moment.tokenContract.toLowerCase() ===
                     feed.collection.toLowerCase() &&
-                  moment.tokenId === feed.tokenId,
-              ),
-            ),
+                  moment.tokenId === String(feed.tokenId)
+              )
+            )
         ),
     }),
-    [feeds],
+    [feeds]
   );
 
   return (
@@ -56,7 +56,7 @@ export const useInProcessProvider = () => {
   const context = useContext(InProcessContext);
   if (!context) {
     throw new Error(
-      "useInProcessProvider must be used within a InProcessProvider",
+      "useInProcessProvider must be used within a InProcessProvider"
     );
   }
   return context;

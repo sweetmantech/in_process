@@ -5,6 +5,9 @@ import { useRouter } from "next/navigation";
 import { useCollectionProvider } from "@/providers/CollectionProvider";
 import { Skeleton } from "../ui/skeleton";
 import { networkConfigByChain } from "@/lib/protocolSdk/apis/chain-constants";
+import { useUserProvider } from "@/providers/UserProvider";
+import HideButton from "../HorizontalFeed/HideButton";
+import { Address } from "viem";
 
 const TokenItem = ({
   t,
@@ -17,11 +20,12 @@ const TokenItem = ({
   const { data, isLoading } = useMetadata(t.uri);
   const { push } = useRouter();
   const { collection } = useCollectionProvider();
+  const { connectedAddress } = useUserProvider();
 
   const handleClick = () => {
     if (isLoading) return;
     push(
-      `/manage/${networkConfigByChain[collection.chainId].zoraCollectPathChainName}:${collection.address as string}/${t.tokenId.toString()}`,
+      `/manage/${networkConfigByChain[collection.chainId].zoraCollectPathChainName}:${collection.address as string}/${t.tokenId.toString()}`
     );
     return;
   };
@@ -52,6 +56,15 @@ const TokenItem = ({
             <p className="font-archivo text-sm text-grey-moss-900 bg-grey-moss-100 rounded-md px-2">
               id: {t.tokenId}
             </p>
+            {connectedAddress && (
+              <HideButton
+                moment={{
+                  owner: connectedAddress as Address,
+                  tokenContract: collection.address,
+                  tokenId: t.tokenId.toString(),
+                }}
+              />
+            )}
           </div>
         </>
       )}

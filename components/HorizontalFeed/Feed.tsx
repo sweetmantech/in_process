@@ -3,12 +3,11 @@ import { Token } from "@/types/token";
 import FeedHover from "./FeedHover";
 import { useClickTimelineFeed } from "@/hooks/useClickTimelineFeed";
 import truncated from "@/lib/truncated";
-import { Eye, EyeOff } from "lucide-react";
-import { useTimelineProvider } from "@/providers/TimelineProvider";
 import { useUserProvider } from "@/providers/UserProvider";
-import { Address } from "viem";
 import { useParams } from "next/navigation";
 import { TIMLINE_STEP_OFFSET } from "@/lib/consts";
+import HideButton from "./HideButton";
+import { Address } from "viem";
 
 interface FeedProps {
   feed: Token;
@@ -20,20 +19,12 @@ interface FeedProps {
 const Feed: FC<FeedProps> = ({ feed, hovered, step, height }) => {
   const { isLoading, data, handleClick, formattedDate } =
     useClickTimelineFeed(feed);
-  const { toggleMoment, hiddenMoments } = useTimelineProvider();
   const { connectedAddress } = useUserProvider();
-  const shouldHideMomement = Boolean(
-    hiddenMoments.find(
-      (ele) =>
-        ele.tokenContract === feed.collection.toLowerCase() &&
-        ele.tokenId === feed.tokenId,
-    ),
-  );
   const { artistAddress } = useParams();
   const isVisibleHideButton =
     Boolean(artistAddress) &&
     Boolean(
-      (artistAddress as any).toLowerCase() === connectedAddress?.toLowerCase(),
+      (artistAddress as any).toLowerCase() === connectedAddress?.toLowerCase()
     );
 
   return (
@@ -75,23 +66,13 @@ const Feed: FC<FeedProps> = ({ feed, hovered, step, height }) => {
               {truncated(data?.name || "")}
             </p>
             {isVisibleHideButton && (
-              <button
-                type="button"
-                className="bg-grey-moss-200 border border-grey-moss-900 px-1 py-1"
-                onClick={() =>
-                  toggleMoment({
-                    owner: connectedAddress as Address,
-                    tokenContract: feed.collection,
-                    tokenId: feed.tokenId,
-                  })
-                }
-              >
-                {shouldHideMomement ? (
-                  <Eye className="size-4 text-grey-eggshell" />
-                ) : (
-                  <EyeOff className="size-4 text-grey-eggshell" />
-                )}
-              </button>
+              <HideButton
+                moment={{
+                  owner: connectedAddress as Address,
+                  tokenContract: feed.collection,
+                  tokenId: String(feed.tokenId),
+                }}
+              />
             )}
           </div>
         )}
