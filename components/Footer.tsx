@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import useSignedAddress from "@/hooks/useSignedAddress";
 import FeedbackModal from "./FeedbackModal";
+import Link from "next/link";
 
 const Footer = () => {
   const { push } = useRouter();
@@ -23,13 +24,15 @@ const Footer = () => {
       <div className="flex justify-between items-center">
         <div className="flex flex-col md:flex-row items-start md:items-center">
           {clientRendered && (
-            <Image
-              src="/footer_logo.svg"
-              blurDataURL="/footer_logo.png"
-              alt="not found logo"
-              width={isMobile ? 60 : 80}
-              height={isMobile ? 60 : 80}
-            />
+            <Link href="/" aria-label="Go to homepage" className="mr-2">
+              <Image
+                src="/footer_logo.svg"
+                blurDataURL="/footer_logo.png"
+                alt="not found logo"
+                width={isMobile ? 60 : 80}
+                height={isMobile ? 60 : 80}
+              />
+            </Link>
           )}
           <p className="font-archivo-bold text-md !uppercase">© TOPIA</p>
         </div>

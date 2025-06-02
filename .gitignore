@@ -24,6 +24,7 @@
 .DS_Store
 *.pem
 instructions.md
+ROADMAP.md
 
 # debug
 npm-debug.log*
