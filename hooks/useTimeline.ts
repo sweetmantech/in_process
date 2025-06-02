@@ -4,7 +4,7 @@ import { Address } from "viem";
 export interface Moment {
   owner: Address;
   tokenContract: Address;
-  tokenId: number;
+  tokenId: string;
 }
 const hideMoments = async (tokens: Moment[]) => {
   await fetch("/api/token/hide", {
@@ -28,15 +28,15 @@ const useTimeline = () => {
     const find = hiddenMoments.find(
       (ele) =>
         ele.tokenContract === moment.tokenContract.toLowerCase() &&
-        ele.tokenId === moment.tokenId
+        ele.tokenId === moment.tokenId,
     );
 
     if (find) {
       const filtered = [...hiddenMoments].filter((ele) =>
         Boolean(
           ele.tokenContract !== moment.tokenContract.toLowerCase() ||
-            ele.tokenId !== moment.tokenId
-        )
+            ele.tokenId !== moment.tokenId,
+        ),
       );
       setHiddenMoments([...filtered]);
       hideMoments([...filtered]);
@@ -51,7 +51,6 @@ const useTimeline = () => {
         tokenId: moment.tokenId,
       },
     ];
-
     setHiddenMoments(newHiddenMoments);
     hideMoments(newHiddenMoments);
   };
