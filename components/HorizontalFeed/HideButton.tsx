@@ -2,6 +2,7 @@ import { Eye, EyeOff } from "lucide-react";
 import type { FC, ButtonHTMLAttributes } from "react";
 import { useTimelineProvider } from "@/providers/TimelineProvider";
 import { Moment } from "@/hooks/useTimeline";
+import { toast } from "sonner";
 
 interface HideButtonProps
   extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "onClick"> {
@@ -33,6 +34,7 @@ const HideButton: FC<HideButtonProps> = ({
       onClick={(e) => {
         e.stopPropagation();
         toggleMoment(moment);
+        toast(isHidden ? "Moment visible" : "Moment hidden");
         onClick?.();
       }}
       {...props}
