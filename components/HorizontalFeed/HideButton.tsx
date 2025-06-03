@@ -6,6 +6,7 @@ import { Moment } from "@/hooks/useTimeline";
 interface HideButtonProps
   extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "onClick"> {
   moment: Moment;
+  onClick?: () => void;
 }
 
 /**
@@ -15,6 +16,7 @@ interface HideButtonProps
 const HideButton: FC<HideButtonProps> = ({
   moment,
   className = "",
+  onClick,
   ...props
 }) => {
   const { hiddenMoments, toggleMoment } = useTimelineProvider();
@@ -31,6 +33,7 @@ const HideButton: FC<HideButtonProps> = ({
       onClick={(e) => {
         e.stopPropagation();
         toggleMoment(moment);
+        onClick?.();
       }}
       {...props}
     >

@@ -1,4 +1,5 @@
-import { FC } from "react";
+import { FC, useState } from "react";
+import { motion } from "framer-motion";
 import { Token } from "@/types/token";
 import FeedHover from "./FeedHover";
 import { useClickTimelineFeed } from "@/hooks/useClickTimelineFeed";
@@ -21,17 +22,29 @@ const Feed: FC<FeedProps> = ({ feed, hovered, step, height }) => {
     useClickTimelineFeed(feed);
   const { connectedAddress } = useUserProvider();
   const { artistAddress } = useParams();
+  const [isFadingOut, setIsFadingOut] = useState(false);
+  const [isHidden, setIsHidden] = useState(false);
   const isVisibleHideButton =
     Boolean(artistAddress) &&
     Boolean(
       (artistAddress as any).toLowerCase() === connectedAddress?.toLowerCase()
     );
 
+  if (isHidden) return null;
+
   return (
-    <div
+    <motion.div
       className="relative px-0"
       style={{
         paddingLeft: `${TIMLINE_STEP_OFFSET * step}px`,
+      }}
+      initial={{ opacity: 1 }}
+      animate={{ opacity: isFadingOut ? 0 : 1 }}
+      transition={{ duration: 0.4 }}
+      onAnimationComplete={() => {
+        if (isFadingOut) {
+          setIsHidden(true);
+        }
       }}
     >
       <fieldset className="flex flex-col items-center">
@@ -60,20 +73,19 @@ const Feed: FC<FeedProps> = ({ feed, hovered, step, height }) => {
             </div>
           </div>
         </button>
-        {hovered && (
+        {hovered && isVisibleHideButton && (
           <div className="flex gap-2 items-center relative translate-y-6 pt-2">
             <p className="font-spectral-italic text-sm md:text-xl">
               {truncated(data?.name || "")}
             </p>
-            {isVisibleHideButton && (
-              <HideButton
-                moment={{
-                  owner: connectedAddress as Address,
-                  tokenContract: feed.collection,
-                  tokenId: String(feed.tokenId),
-                }}
-              />
-            )}
+            <HideButton
+              moment={{
+                owner: connectedAddress as Address,
+                tokenContract: feed.collection,
+                tokenId: String(feed.tokenId),
+              }}
+              onClick={() => setIsFadingOut(true)}
+            />
           </div>
         )}
         <p
@@ -82,7 +94,7 @@ const Feed: FC<FeedProps> = ({ feed, hovered, step, height }) => {
           {formattedDate}
         </p>
       </fieldset>
-    </div>
+    </motion.div>
   );
 };
 
