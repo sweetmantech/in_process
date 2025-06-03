@@ -6,6 +6,7 @@ import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import { getShortNetworkName } from "@/lib/zora/zoraToViem";
 import { useRouter } from "next/navigation";
 import truncated from "@/lib/truncated";
+import HideButton from "../HorizontalFeed/HideButton";
 
 const CollectionItem = ({ c }: { c: Collection }) => {
   const { data, isLoading } = useMetadata(c.contractURI);
@@ -26,6 +27,15 @@ const CollectionItem = ({ c }: { c: Collection }) => {
         onClick={handleClick}
       >
         <div className="w-full aspect-video overflow-hidden relative">
+          <div className="absolute bottom-2 right-2 z-20">
+            <HideButton
+              moment={{
+                owner: c.creator,
+                tokenContract: c.newContract,
+                tokenId: "1",
+              }}
+            />
+          </div>
           <Image
             src={getFetchableUrl(data.image) || "/images/placeholder.png"}
             alt="not found img"
