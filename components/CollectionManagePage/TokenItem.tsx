@@ -40,7 +40,6 @@ const TokenItem = ({
       ) : (
         <>
           <div className="relative grow bg-grey-moss-100 overflow-hidden">
-            <div className="absolute z-[10] bg-white/30 backdrop-blur-[4px] size-full left-0 top-0" />
             <Image
               src={getFetchableUrl(data?.image) || "/images/placeholder.png"}
               alt="not found img"

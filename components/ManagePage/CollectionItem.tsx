@@ -26,7 +26,6 @@ const CollectionItem = ({ c }: { c: Collection }) => {
         onClick={handleClick}
       >
         <div className="w-full aspect-video overflow-hidden relative">
-          <div className="absolute z-[10] bg-white/30 backdrop-blur-[4px] size-full left-0 top-0" />
           <Image
             src={getFetchableUrl(data.image) || "/images/placeholder.png"}
             alt="not found img"
