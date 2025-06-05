@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@ardrive/turbo-sdk": "^1.22.1",
+    "@coinbase/cdp-sdk": "^1.13.0",
     "@coinbase/coinbase-sdk": "^0.21.0",
     "@crossmint/client-sdk-react-ui": "^1.17.0",
     "@farcaster/frame-sdk": "^0.0.31",
@@ -85,7 +86,8 @@
     "viem": "^2.21.45",
     "wagmi": "^2.13.3",
     "web-streams-polyfill": "^4.1.0",
-    "websocket": "^1.0.35"
+    "websocket": "^1.0.35",
+    "zod": "^3.25.51"
   },
   "devDependencies": {
     "@types/node": "^20",

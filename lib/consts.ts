@@ -18,6 +18,9 @@ export const JSON_EXTENSION_REGISTRY =
 export const IS_TESTNET =
   process.env.NEXT_PUBLIC_IS_TESTNET === "true" ? true : false;
 
+// Coinbase
+export const CDP_PAYMASTER_URL = `https://api.developer.coinbase.com/rpc/v1/base${IS_TESTNET ? "-sepolia" : ""}/${process.env.CDP_PAYMASTER_KEY}`;
+
 // Wagmi
 export const CHAIN = IS_TESTNET ? baseSepolia : base;
 export const CHAIN_ID = CHAIN.id;
