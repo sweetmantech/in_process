@@ -1,4 +1,10 @@
-import { Address, encodeFunctionData, Hash, parseEventLogs } from "viem";
+import {
+  Address,
+  encodeFunctionData,
+  Hash,
+  parseEventLogs,
+  ParseEventLogsReturnType,
+} from "viem";
 import { z } from "zod";
 import cdp from "@/lib/coinbase/client";
 import { IS_TESTNET } from "@/lib/consts";
@@ -54,10 +60,10 @@ export async function createContract({
     abi: parameters.abi,
     logs: transaction.logs,
     eventName: "SetupNewContract",
-  });
+  }) as ParseEventLogsReturnType;
 
   return {
-    contractAddress: topics[0].args.newContract,
+    contractAddress: (topics[0].args as { newContract: Address }).newContract,
     hash: transaction.transactionHash as Hash,
   };
 }
