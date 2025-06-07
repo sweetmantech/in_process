@@ -1,5 +1,5 @@
 import { createCreatorClient } from "@/lib/protocolSdk";
-import { Address, zeroAddress } from "viem";
+import { Address } from "viem";
 import { CHAIN_ID, REFERRAL_RECIPIENT } from "@/lib/consts";
 import { useAccount } from "wagmi";
 import getSalesConfig from "@/lib/zora/getSalesConfig";
@@ -13,7 +13,7 @@ import { getPublicClient } from "@/lib/viem/publicClient";
 
 const useZoraCreateParameters = (
   chainId: number = CHAIN_ID,
-  collection?: Address,
+  collection?: Address
 ) => {
   const pathname = usePathname();
   const isUsdc = pathname.includes("/usdc");
@@ -32,7 +32,7 @@ const useZoraCreateParameters = (
     const salesConfig = getSalesConfig(
       getSaleConfigType(isUsdc ? "erc20Mint" : "fixedPrice"),
       createMetadata.price,
-      advancedValues.startDate,
+      advancedValues.startDate
     );
 
     let newParameters;

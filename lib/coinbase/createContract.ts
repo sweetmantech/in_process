@@ -1,16 +1,25 @@
-import { Address, encodeFunctionData, Hash, parseEventLogs } from "viem";
+import {
+  Address,
+  encodeFunctionData,
+  Hash,
+  parseEventLogs,
+  ParseEventLogsReturnType,
+} from "viem";
 import { z } from "zod";
-import { zoraCreator1155FactoryImplABI as abi } from "@zoralabs/protocol-deployments";
-import { publicClient } from "@/lib/viem/publicClient";
 import cdp from "@/lib/coinbase/client";
-import { CDP_PAYMASTER_URL } from "@/lib/consts";
+import { CHAIN_ID, IS_TESTNET } from "@/lib/consts";
 import { createMomentSchema } from "@/lib/coinbase/createContractSchema";
+import { create1155 } from "@/lib/zora/create1155";
+import { sendUserOperation } from "@/lib/coinbase/sendUserOperation";
+import { zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
 
 export type CreateMomentContractInput = z.infer<typeof createMomentSchema>;
 
 export interface CreateContractResult {
   contractAddress: Address;
   hash: Hash;
+  tokenId: string;
+  chainId: number;
 }
 
 /**
@@ -19,6 +28,7 @@ export interface CreateContractResult {
  */
 export async function createContract({
   contract,
+  token,
   account,
 }: CreateMomentContractInput): Promise<CreateContractResult> {
   // Create a new EOA
@@ -27,61 +37,46 @@ export async function createContract({
   // Create a smart account (contract wallet)
   const smartAccount = await cdp.evm.createSmartAccount({ owner: evmAccount });
 
-  // Royalty configuration (0% for now, can be extended)
-  const royaltyConfig = {
-    royaltyMintSchedule: 0,
-    royaltyBPS: 500,
-    royaltyRecipient: smartAccount.address,
-  };
+  // Use the protocol SDK to generate calldata
+  const { parameters } = await create1155({ contract, token, account });
 
   // Encode the function call data
   const createContractData = encodeFunctionData({
-    abi,
+    abi: parameters.abi,
     functionName: "createContract",
-    args: [
-      contract.uri, // contractUri
-      contract.name, // collectionName
-      royaltyConfig,
-      account as Address, // defaultAdmin
-      [], // setupActions
-    ],
+    args: parameters.args,
   });
 
-  // Send the transaction
-  const sendResult = await cdp.evm.sendUserOperation({
+  // Send the transaction and wait for receipt using the helper
+  const transaction = await sendUserOperation({
     smartAccount,
-    network: "base-sepolia",
-    paymasterUrl: CDP_PAYMASTER_URL,
+    network: IS_TESTNET ? "base-sepolia" : "base",
     calls: [
       {
-        to: "0x6832A997D8616707C7b68721D6E9332E77da7F6C" as Address, // Contract factory address
+        to: parameters.address,
         data: createContractData,
       },
     ],
   });
 
-  // Wait for the transaction to be mined
-  await cdp.evm.waitForUserOperation({
-    smartAccountAddress: smartAccount.address,
-    userOpHash: sendResult.userOpHash,
-  });
-
-  // Get the transaction details
-  const userOp = await cdp.evm.getUserOperation({
-    smartAccount,
-    userOpHash: sendResult.userOpHash,
-  });
-  const transaction = await publicClient.waitForTransactionReceipt({
-    hash: userOp.transactionHash as Hash,
-  });
-  const topics = parseEventLogs({
-    abi,
+  const factoryLogs = parseEventLogs({
+    abi: parameters.abi,
     logs: transaction.logs,
     eventName: "SetupNewContract",
-  });
+  }) as ParseEventLogsReturnType;
+
+  const collectionLogs = parseEventLogs({
+    abi: zoraCreator1155ImplABI,
+    logs: transaction.logs,
+    eventName: "SetupNewToken",
+  }) as ParseEventLogsReturnType;
+  console.log("collectionLogs", collectionLogs);
 
   return {
-    contractAddress: topics[0].args.newContract,
-    hash: userOp.transactionHash as Hash,
+    contractAddress: (factoryLogs[0].args as { newContract: Address })
+      .newContract,
+    tokenId: (collectionLogs[0].args as { tokenId: bigint }).tokenId.toString(),
+    hash: transaction.transactionHash as Hash,
+    chainId: CHAIN_ID,
   };
 }
