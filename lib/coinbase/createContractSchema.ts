@@ -1,16 +1,26 @@
 import { z } from "zod";
 
+// Address schema: type-exact for Viem (0x-prefixed, 40 hex chars)
+export const addressSchema = z
+  .string()
+  .regex(/^0x[a-fA-F0-9]{40}$/)
+  .brand<`0x${string}`>();
+
+export const bigIntString = z
+  .union([z.string(), z.number()])
+  .transform((val) => BigInt(val));
+
 export const salesConfigSchema = z.object({
   type: z.string(),
   pricePerToken: z.string(),
-  saleStart: z.number(),
-  saleEnd: z.number(),
-  currency: z.string().optional(),
+  saleStart: bigIntString,
+  saleEnd: bigIntString,
+  currency: addressSchema.optional(),
 });
 
 export const tokenSchema = z.object({
   tokenMetadataURI: z.string(),
-  createReferral: z.string(), // Address
+  createReferral: addressSchema, // Address
   salesConfig: salesConfigSchema,
   mintToCreatorCount: z.number(),
 });
@@ -23,5 +33,5 @@ export const contractSchema = z.object({
 export const createMomentSchema = z.object({
   contract: contractSchema,
   token: tokenSchema,
-  account: z.string(), // Address
+  account: addressSchema, // Address
 });
