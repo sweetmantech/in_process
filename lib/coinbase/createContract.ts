@@ -7,16 +7,19 @@ import {
 } from "viem";
 import { z } from "zod";
 import cdp from "@/lib/coinbase/client";
-import { IS_TESTNET } from "@/lib/consts";
+import { CHAIN_ID, IS_TESTNET } from "@/lib/consts";
 import { createMomentSchema } from "@/lib/coinbase/createContractSchema";
 import { create1155 } from "@/lib/zora/create1155";
 import { sendUserOperation } from "@/lib/coinbase/sendUserOperation";
+import { zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
 
 export type CreateMomentContractInput = z.infer<typeof createMomentSchema>;
 
 export interface CreateContractResult {
   contractAddress: Address;
   hash: Hash;
+  tokenId: string;
+  chainId: number;
 }
 
 /**
@@ -56,14 +59,24 @@ export async function createContract({
     ],
   });
 
-  const topics = parseEventLogs({
+  const factoryLogs = parseEventLogs({
     abi: parameters.abi,
     logs: transaction.logs,
     eventName: "SetupNewContract",
   }) as ParseEventLogsReturnType;
 
+  const collectionLogs = parseEventLogs({
+    abi: zoraCreator1155ImplABI,
+    logs: transaction.logs,
+    eventName: "SetupNewToken",
+  }) as ParseEventLogsReturnType;
+  console.log("collectionLogs", collectionLogs);
+
   return {
-    contractAddress: (topics[0].args as { newContract: Address }).newContract,
+    contractAddress: (factoryLogs[0].args as { newContract: Address })
+      .newContract,
+    tokenId: (collectionLogs[0].args as { tokenId: bigint }).tokenId.toString(),
     hash: transaction.transactionHash as Hash,
+    chainId: CHAIN_ID,
   };
 }
