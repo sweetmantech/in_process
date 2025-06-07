@@ -41,13 +41,13 @@ export async function createContract({
   // Send the transaction and wait for receipt using the helper
   const transaction = await sendUserOperation({
     smartAccount,
+    network: IS_TESTNET ? "base-sepolia" : "base",
     calls: [
       {
         to: parameters.address,
         data: createContractData,
       },
     ],
-    network: IS_TESTNET ? "base-sepolia" : "base",
   });
 
   const topics = parseEventLogs({
