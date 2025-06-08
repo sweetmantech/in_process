@@ -1,5 +1,14 @@
-const TimelinePage = () => {
-  return <main>Hello World</main>;
+"use client";
+
+import { TimelineApiProvider as TimelineProvider } from "@/providers/TimelineApiProvider";
+import TimelinePage from "@/components/Timeline/TimelinePage";
+
+const Timeline = () => {
+  return (
+    <TimelineProvider>
+      <TimelinePage />
+    </TimelineProvider>
+  );
 };
 
-export default TimelinePage;
+export default Timeline;
