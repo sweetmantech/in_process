@@ -3,7 +3,7 @@ import Loading from "@/components/Loading";
 import MomentCount from "@/components/Timeline/MomentCount";
 import CreateButton from "@/components/Timeline/CreateButton";
 import TimelineSpiral from "@/components/Timeline/TimelineSpiral";
-import TimelineTableRow from "@/components/Timeline/TimelineTableRow";
+import TimelineTable from "@/components/Timeline/Table/TimelineTable";
 import TimelineMobileMoon from "@/components/Timeline/TimelineMobileMoon";
 
 const TimelinePage = () => {
@@ -29,7 +29,7 @@ const TimelinePage = () => {
       <div className="pt-28">
         <TimelineMobileMoon />
       </div>
-      <TimelineTableRow />
+      <TimelineTable />
     </main>
   );
 };

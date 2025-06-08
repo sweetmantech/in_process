@@ -1,9 +1,8 @@
-import { useTimelineApiContext } from "@/providers/TimelineApiProvider";
-import { useRouter } from "next/navigation";
 import { useMetadata } from "@/hooks/useMetadata";
+import { useRouter } from "next/navigation";
 import truncateAddress from "@/lib/truncateAddress";
 
-const TimelineFeedRow = ({ moment }: { moment: any }) => {
+const TimelineTableRow = ({ moment }: { moment: any }) => {
   const { data } = useMetadata(moment.uri);
   const { push } = useRouter();
   return (
@@ -24,26 +23,6 @@ const TimelineFeedRow = ({ moment }: { moment: any }) => {
         {truncateAddress(moment.address)}
       </p>
     </button>
-  );
-};
-
-const TimelineTableRow = () => {
-  const { moments } = useTimelineApiContext();
-  return (
-    <div className="w-full">
-      {/* Mobile: scrollable list with max height */}
-      <div className="md:hidden max-h-[25vh] overflow-y-auto w-full">
-        {moments.map((moment) => (
-          <TimelineFeedRow key={moment.id} moment={moment} />
-        ))}
-      </div>
-      {/* Desktop: full list, no scroll constraint */}
-      <div className="hidden md:block w-full">
-        {moments.map((moment) => (
-          <TimelineFeedRow key={moment.id} moment={moment} />
-        ))}
-      </div>
-    </div>
   );
 };
 
