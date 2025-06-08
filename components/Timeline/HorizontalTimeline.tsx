@@ -6,11 +6,11 @@ import Slider from "@/components/Slider";
 import { useHorizontalFeedAnimationProvider } from "@/providers/HorizontalFeedAnimationProvider";
 import Controls from "@/components/HorizontalFeed/Controls";
 import calculateTimelineStep from "@/lib/calculateTimelineStep";
-import { mapMomentToToken } from "@/lib/timeline/mapMomentToToken";
+import { mapMomentsToTokens } from "@/lib/timeline/mapMomentToToken";
 
 const HorizontalTimeline = () => {
   const { moments } = useTimelineApiContext();
-  const tokens = moments.map(mapMomentToToken);
+  const tokens = mapMomentsToTokens(moments);
   const {
     getHeight,
     isHovered,

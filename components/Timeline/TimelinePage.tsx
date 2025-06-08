@@ -7,11 +7,11 @@ import TimelineTable from "@/components/Timeline/Table/TimelineTable";
 import TimelineMobileMoon from "@/components/Timeline/TimelineMobileMoon";
 import HorizontalTimeline from "@/components/Timeline/HorizontalTimeline";
 import { HorizontalFeedAnimationProvider } from "@/providers/HorizontalFeedAnimationProvider";
-import { mapMomentToToken } from "@/lib/timeline/mapMomentToToken";
+import { mapMomentsToTokens } from "@/lib/timeline/mapMomentToToken";
 
 const TimelinePage = () => {
   const { data, isLoading, error, moments } = useTimelineApiContext();
-  const tokens = moments.map(mapMomentToToken);
+  const tokens = mapMomentsToTokens(moments);
 
   if (isLoading)
     return (
