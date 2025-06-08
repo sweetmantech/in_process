@@ -43,7 +43,7 @@ export interface Collection {
 export interface Token {
   uri: string;
   creator: Address;
-  tokenId: Address;
+  tokenId: string;
   collection: Address;
   released_at: number;
   chain: string;

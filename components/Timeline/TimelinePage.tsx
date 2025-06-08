@@ -3,6 +3,7 @@ import Loading from "@/components/Loading";
 import { TimelineMoment } from "@/hooks/useTimelineApi";
 import MomentCount from "@/components/Timeline/MomentCount";
 import CreateButton from "@/components/Timeline/CreateButton";
+import TimelineSpiral from "@/components/Timeline/TimelineSpiral";
 
 const TimelinePage = () => {
   const { data, moments, isLoading, error } = useTimelineApiContext();
@@ -23,6 +24,7 @@ const TimelinePage = () => {
       <div className="flex justify-center md:justify-start">
         <CreateButton />
       </div>
+      <TimelineSpiral />
       <h1>Timeline</h1>
       <ul>
         {moments.map((moment: TimelineMoment) => (

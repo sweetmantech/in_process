@@ -1,13 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import { Address } from "viem";
 
 export interface TimelineMoment {
-  address: string;
+  address: Address;
   tokenId: string;
   chainId: number;
   id: string;
   uri: string;
-  admin: string;
+  admin: Address;
   createdAt: string;
 }
 
