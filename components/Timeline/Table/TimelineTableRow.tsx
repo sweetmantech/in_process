@@ -20,7 +20,7 @@ const TimelineTableRow = ({ moment }: { moment: any }) => {
         </p>
       </div>
       <p className="font-archivo text-sm text-right">
-        {truncateAddress(moment.address)}
+        {truncateAddress(moment.admin)}
       </p>
     </button>
   );
