@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import { getYoutubeTokens } from "@/lib/youtube_tokens/getYoutubeTokens";
+import { getYoutubeTokens } from "@/lib/supabase/youtube_tokens/getYoutubeTokens";
 import { CHAIN_ID } from "@/lib/consts";
 
 export async function GET(req: NextRequest) {
