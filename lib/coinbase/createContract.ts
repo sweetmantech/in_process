@@ -70,7 +70,6 @@ export async function createContract({
     logs: transaction.logs,
     eventName: "SetupNewToken",
   }) as ParseEventLogsReturnType;
-  console.log("collectionLogs", collectionLogs);
 
   return {
     contractAddress: (factoryLogs[0].args as { newContract: Address })

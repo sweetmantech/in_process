@@ -10,9 +10,9 @@ export type NewContractParams = {
 
 export type SaleStartAndEnd = {
   // defaults to 0, in seconds
-  saleStart?: bigint;
+  saleStart?: bigint | string;
   // defaults to forever, in seconds
-  saleEnd?: bigint;
+  saleEnd?: bigint | string;
 };
 
 export type MaxTokensPerAddress = {
@@ -24,7 +24,7 @@ export type FixedPriceParamsType = SaleStartAndEnd &
   MaxTokensPerAddress & {
     type?: "fixedPrice";
     // the price per token, if it is a priced mint
-    pricePerToken: bigint;
+    pricePerToken: bigint | string;
   };
 
 export type TimedSaleParamsType = {
@@ -49,7 +49,7 @@ export type Erc20ParamsType = SaleStartAndEnd &
     // if the erc20 address of the token to mint against
     currency: Address;
     // price in currency per token
-    pricePerToken: bigint;
+    pricePerToken: bigint | string;
   };
 
 export type AllowListParamType = SaleStartAndEnd & {

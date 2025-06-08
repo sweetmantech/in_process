@@ -10,7 +10,7 @@ import { MintType } from "@/types/zora";
 const getSalesConfig = (
   saleStrategy: string,
   price: string,
-  saleStart: Date | undefined,
+  saleStart: Date | undefined
 ) => {
   const timedSaleConfig = {
     type: "timed",
@@ -19,20 +19,22 @@ const getSalesConfig = (
   } as TimedSaleParamsType;
   const erc20MintSaleConfig = {
     type: "erc20Mint",
-    pricePerToken: parseUnits(price, 6),
-    saleStart: saleStart
+    pricePerToken: parseUnits(price, 6).toString(),
+    saleStart: (saleStart
       ? BigInt(Number(saleStart.getTime() / 1000).toFixed(0))
-      : BigInt(0),
-    saleEnd: maxUint64,
+      : BigInt(0)
+    ).toString(),
+    saleEnd: maxUint64.toString(),
     currency: USDC_ADDRESS,
   } as Erc20ParamsType;
   const fixedPriceSaleConfig = {
     type: "fixedPrice",
-    pricePerToken: parseEther(price),
-    saleStart: saleStart
+    pricePerToken: parseEther(price).toString(),
+    saleStart: (saleStart
       ? BigInt(Number(saleStart.getTime() / 1000).toFixed(0))
-      : BigInt(0),
-    saleEnd: maxUint64,
+      : BigInt(0)
+    ).toString(),
+    saleEnd: maxUint64.toString(),
   } as FixedPriceParamsType;
 
   if (price === "0") return fixedPriceSaleConfig;
