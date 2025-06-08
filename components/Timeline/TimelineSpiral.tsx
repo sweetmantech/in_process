@@ -9,25 +9,8 @@ import { FeedTooltip } from "@/components/SprialFeeds/FeedTooltip";
 import useSpiralMouseOver from "@/hooks/useSpiralMouseOver";
 import Feed from "@/components/SprialFeeds/Feed";
 import { useTimelineApiContext } from "@/providers/TimelineApiProvider";
-import { Token } from "@/types/token";
-import { TimelineMoment } from "@/hooks/useTimelineApi";
-import { CHAIN } from "@/lib/consts";
+import { mapMomentToToken } from "@/lib/timeline/mapMomentToToken";
 
-// Map TimelineMoment to Token for Feed compatibility
-function mapMomentToToken(moment: TimelineMoment): Token {
-  return {
-    uri: moment.uri,
-    creator: moment.address,
-    tokenId: moment.tokenId,
-    collection: moment.address,
-    released_at: Date.parse(moment.createdAt) || 0,
-    chain: CHAIN.name,
-    chainId: moment.chainId,
-    created_at: Date.parse(moment.createdAt) || 0,
-  };
-}
-
-// Spiral visualization for timeline moments
 const TimelineSpiral = () => {
   const { offset, viewBox, animationConfig, points } = useSpiralAnimation();
   const { handleMouseLeave, handleMouseMove, hoveredFeed } =
