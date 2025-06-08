@@ -1,12 +1,13 @@
 import { useTimelineApiContext } from "@/providers/TimelineApiProvider";
 import Loading from "@/components/Loading";
-import { TimelineMoment } from "@/hooks/useTimelineApi";
 import MomentCount from "@/components/Timeline/MomentCount";
 import CreateButton from "@/components/Timeline/CreateButton";
 import TimelineSpiral from "@/components/Timeline/TimelineSpiral";
+import TimelineTableRow from "@/components/Timeline/TimelineTableRow";
+import TimelineMobileMoon from "@/components/Timeline/TimelineMobileMoon";
 
 const TimelinePage = () => {
-  const { data, moments, isLoading, error } = useTimelineApiContext();
+  const { data, isLoading, error } = useTimelineApiContext();
 
   if (isLoading)
     return (
@@ -25,14 +26,10 @@ const TimelinePage = () => {
         <CreateButton />
       </div>
       <TimelineSpiral />
-      <h1>Timeline</h1>
-      <ul>
-        {moments.map((moment: TimelineMoment) => (
-          <li key={moment.id}>
-            <strong>{moment.id}</strong>: {moment.uri}
-          </li>
-        ))}
-      </ul>
+      <div className="pt-28">
+        <TimelineMobileMoon />
+      </div>
+      <TimelineTableRow />
     </main>
   );
 };
