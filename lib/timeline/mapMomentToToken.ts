@@ -15,3 +15,8 @@ export function mapMomentToToken(moment: TimelineMoment): Token {
     created_at: Date.parse(moment.createdAt) || 0,
   };
 }
+
+// Maps an array of TimelineMoment to Token[]
+export function mapMomentsToTokens(moments: TimelineMoment[]): Token[] {
+  return moments.map(mapMomentToToken);
+}

@@ -6,7 +6,7 @@ import { getShortNetworkName } from "@/lib/zora/zoraToViem";
 export const useClickTimelineFeed = (feed: Token) => {
   const { push } = useRouter();
   const pathname = usePathname();
-  const isHomePage = pathname === "/";
+  const isHomePage = pathname === "/" || pathname === "/timeline";
 
   const { isLoading, data } = useMetadata(feed.uri);
 
