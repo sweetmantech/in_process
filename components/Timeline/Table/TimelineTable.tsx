@@ -6,7 +6,7 @@ const TimelineTable = () => {
 
   return (
     <div className="w-full">
-      <div className="max-h-[25vh] overflow-y-auto w-full">
+      <div className="max-h-[25vh] md:max-h-[88vh] overflow-y-auto w-full">
         {moments.map((moment) => (
           <TimelineTableRow key={moment.id} moment={moment} />
         ))}
