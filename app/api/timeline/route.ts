@@ -6,7 +6,7 @@ import { Address } from "viem";
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
-  const limit = Math.min(Number(searchParams.get("limit")) || 20, 100);
+  const limit = Math.min(Number(searchParams.get("limit")) || 100, 100);
   const page = Number(searchParams.get("page")) || 1;
   const latest = searchParams.get("latest") !== "false"; // default true
   const artist = searchParams.get("artist") || undefined;
