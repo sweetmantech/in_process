@@ -6,13 +6,14 @@ import { CHAIN } from "@/lib/consts";
 export function mapMomentToToken(moment: TimelineMoment): Token {
   return {
     uri: moment.uri,
-    creator: moment.address,
+    creator: moment.admin,
     tokenId: moment.tokenId,
     collection: moment.address,
     released_at: Date.parse(moment.createdAt) || 0,
     chain: CHAIN.name,
     chainId: moment.chainId,
     created_at: Date.parse(moment.createdAt) || 0,
+    username: moment.username,
   };
 }
 

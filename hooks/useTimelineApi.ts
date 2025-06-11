@@ -10,6 +10,7 @@ export interface TimelineMoment {
   uri: string;
   admin: Address;
   createdAt: string;
+  username: string;
 }
 
 export interface TimelineResponse {
