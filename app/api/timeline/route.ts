@@ -30,16 +30,18 @@ export async function GET(req: NextRequest) {
     (data || []).map((row) => getArtistProfile(row.defaultAdmin as Address))
   );
 
-  const moments = (data || []).map((row, i) => ({
-    address: row.address,
-    tokenId: String(row.tokenId),
-    chainId: row.chainId,
-    id: row.id,
-    uri: row.uri,
-    admin: row.defaultAdmin,
-    createdAt: row.createdAt,
-    username: profiles[i]?.username || "",
-  }));
+  const moments = (data || [])
+    .map((row, i) => ({
+      address: row.address,
+      tokenId: String(row.tokenId),
+      chainId: row.chainId,
+      id: row.id,
+      uri: row.uri,
+      admin: row.defaultAdmin,
+      createdAt: row.createdAt,
+      username: profiles[i]?.username || "",
+    }))
+    .filter((moment) => !!moment.username);
 
   return Response.json({
     status: "success",
