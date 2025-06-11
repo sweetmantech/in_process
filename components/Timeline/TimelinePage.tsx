@@ -1,3 +1,5 @@
+"use client";
+
 import { useTimelineApiContext } from "@/providers/TimelineApiProvider";
 import Loading from "@/components/Loading";
 import MomentCount from "@/components/Timeline/MomentCount";
