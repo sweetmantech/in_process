@@ -42,7 +42,7 @@ const Feed = ({
           profiles[`${feed.creator}`]?.username ||
             feed.username ||
             truncateAddress(feed.creator),
-          (data?.name || "").slice(0, 100),
+          (data?.name || "").slice(0, 111),
           feed.released_at,
           isMobile ? 14 : 20
         )}
