@@ -2,6 +2,7 @@ import { useMetadata } from "@/hooks/useMetadata";
 import { useRouter } from "next/navigation";
 import truncateAddress from "@/lib/truncateAddress";
 import { TimelineMoment } from "@/hooks/useTimelineApi";
+import truncated from "@/lib/truncated";
 
 const TimelineTableRow = ({ moment }: { moment: TimelineMoment }) => {
   const { data } = useMetadata(moment.uri);
@@ -14,8 +15,8 @@ const TimelineTableRow = ({ moment }: { moment: TimelineMoment }) => {
       onClick={() => push(`/${moment.admin}`)}
     >
       <div>
-        <p className="font-spectral-italic text-base">
-          {`${data?.name?.slice(0, 60) || ""}${(data?.name?.length || 0) > 60 ? "..." : ""}`}
+        <p className="font-spectral-italic text-base text-left">
+          {truncated(data?.name || "")}
         </p>
         <p className="font-archivo text-[11px] text-left">
           {new Date(moment.createdAt).toLocaleString()}
