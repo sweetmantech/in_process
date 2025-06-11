@@ -31,7 +31,7 @@ async function fetchTimeline(page = 1, limit = 20): Promise<TimelineResponse> {
   return res.json();
 }
 
-export function useTimelineApi(page = 1, limit = 20, enabled = true) {
+export function useTimelineApi(page = 1, limit = 100, enabled = true) {
   const [currentPage, setCurrentPage] = useState(page);
   const query = useQuery({
     queryKey: ["timeline", currentPage, limit],
