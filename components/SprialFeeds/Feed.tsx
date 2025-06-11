@@ -40,10 +40,11 @@ const Feed = ({
         &nbsp;&nbsp;&nbsp;&nbsp;
         {formatFeedText(
           profiles[`${feed.creator}`]?.username ||
+            feed.username ||
             truncateAddress(feed.creator),
-          data?.name || "",
+          (data?.name || "").slice(0, 111),
           feed.released_at,
-          isMobile ? 14 : 20,
+          isMobile ? 14 : 20
         )}
       </tspan>
     </React.Fragment>

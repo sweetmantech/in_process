@@ -1,15 +1,17 @@
 import { useMetadata } from "@/hooks/useMetadata";
 import { useRouter } from "next/navigation";
 import truncateAddress from "@/lib/truncateAddress";
+import { TimelineMoment } from "@/hooks/useTimelineApi";
 
-const TimelineTableRow = ({ moment }: { moment: any }) => {
+const TimelineTableRow = ({ moment }: { moment: TimelineMoment }) => {
   const { data } = useMetadata(moment.uri);
   const { push } = useRouter();
+
   return (
     <button
       type="button"
       className="w-full flex items-start justify-between p-4"
-      onClick={() => push(`/${moment.address}`)}
+      onClick={() => push(`/${moment.admin}`)}
     >
       <div>
         <p className="font-spectral-italic text-base">
@@ -20,7 +22,7 @@ const TimelineTableRow = ({ moment }: { moment: any }) => {
         </p>
       </div>
       <p className="font-archivo text-sm text-right">
-        {truncateAddress(moment.admin)}
+        {moment.username || truncateAddress(moment.admin)}
       </p>
     </button>
   );

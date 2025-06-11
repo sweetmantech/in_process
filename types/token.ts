@@ -49,6 +49,7 @@ export interface Token {
   chain: string;
   chainId: number;
   created_at: number;
+  username?: string;
 }
 
 export interface MintCommentEvent {

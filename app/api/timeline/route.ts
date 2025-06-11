@@ -1,6 +1,8 @@
 import { NextRequest } from "next/server";
 import { getYoutubeTokens } from "@/lib/supabase/youtube_tokens/getYoutubeTokens";
 import { CHAIN_ID } from "@/lib/consts";
+import getArtistProfile from "@/lib/getArtistProfile";
+import { Address } from "viem";
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -24,7 +26,11 @@ export async function GET(req: NextRequest) {
     );
   }
 
-  const moments = (data || []).map((row) => ({
+  const profiles = await Promise.all(
+    (data || []).map((row) => getArtistProfile(row.defaultAdmin as Address))
+  );
+
+  const moments = (data || []).map((row, i) => ({
     address: row.address,
     tokenId: String(row.tokenId),
     chainId: row.chainId,
@@ -32,6 +38,7 @@ export async function GET(req: NextRequest) {
     uri: row.uri,
     admin: row.defaultAdmin,
     createdAt: row.createdAt,
+    username: profiles[i]?.username || "",
   }));
 
   return Response.json({
