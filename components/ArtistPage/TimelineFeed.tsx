@@ -1,7 +1,7 @@
 import HorizontalFeed from "../HorizontalFeed";
 import { HorizontalFeedAnimationProvider } from "@/providers/HorizontalFeedAnimationProvider";
 import Loading from "../Loading";
-import { useTimelineApi } from "@/hooks/useTimelineApi";
+import { useTimelineApiContext } from "@/providers/TimelineApiProvider";
 import { mapMomentsToTokens } from "@/lib/timeline/mapMomentToToken";
 import FetchMoreInspector from "../FetchMoreInspector";
 import useIsMobile from "@/hooks/useIsMobile";
@@ -9,18 +9,13 @@ import VerticalFeed from "../VerticalFeed";
 import GridFeed from "../GridFeed";
 
 interface TimelineFeedProps {
-  artistAddress: string;
   alt: "timeline" | "grid";
 }
 
-const TimelineFeed = ({ artistAddress, alt }: TimelineFeedProps) => {
+const TimelineFeed = ({ alt }: TimelineFeedProps) => {
   const isMobile = useIsMobile();
-  const { data, isFetching, currentPage, setCurrentPage } = useTimelineApi(
-    1,
-    100,
-    true,
-    artistAddress
-  );
+  const { data, isLoading, currentPage, setCurrentPage } =
+    useTimelineApiContext();
   const feeds = mapMomentsToTokens(data?.moments || []);
   const fetchMore = () => {
     if (data && data.pagination.page < data.pagination.total_pages) {
@@ -31,7 +26,7 @@ const TimelineFeed = ({ artistAddress, alt }: TimelineFeedProps) => {
   if (!Boolean(feeds.length))
     return (
       <div className="grow flex items-center justify-center">
-        {isFetching ? (
+        {isLoading ? (
           <Loading className="w-[180px] aspect-[1/1] md:w-[300px]" />
         ) : (
           <p className="font-archivo text-lg md:text-5xl">No moments yet!</p>
