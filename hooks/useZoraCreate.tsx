@@ -35,7 +35,7 @@ export default function useZoraCreate() {
       const response = await fetch("/api/moment/create", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify(parameters),
+        body: JSON.stringify(parameters.args),
       });
       if (!response.ok) {
         const error = await response.json();
