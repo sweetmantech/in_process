@@ -1,0 +1,43 @@
+import HorizontalFeed from "../HorizontalFeed";
+import { HorizontalFeedAnimationProvider } from "@/providers/HorizontalFeedAnimationProvider";
+import Loading from "../Loading";
+import { useTimelineApi } from "@/hooks/useTimelineApi";
+import { mapMomentsToTokens } from "@/lib/timeline/mapMomentToToken";
+
+interface TimelineFeedProps {
+  artistAddress: string;
+}
+
+const TimelineFeed = ({ artistAddress }: TimelineFeedProps) => {
+  const { data, isFetching, currentPage, setCurrentPage } = useTimelineApi(
+    1,
+    100,
+    true,
+    artistAddress
+  );
+  const feeds = mapMomentsToTokens(data?.moments || []);
+  const fetchMore = () => {
+    if (data && data.pagination.page < data.pagination.total_pages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  if (!Boolean(feeds.length))
+    return (
+      <div className="grow flex items-center justify-center">
+        {isFetching ? (
+          <Loading className="w-[180px] aspect-[1/1] md:w-[300px]" />
+        ) : (
+          <p className="font-archivo text-lg md:text-5xl">No moments yet!</p>
+        )}
+      </div>
+    );
+
+  return (
+    <HorizontalFeedAnimationProvider feeds={feeds}>
+      <HorizontalFeed feeds={feeds} fetchMore={fetchMore} />
+    </HorizontalFeedAnimationProvider>
+  );
+};
+
+export default TimelineFeed;
