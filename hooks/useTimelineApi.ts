@@ -25,17 +25,31 @@ export interface TimelineResponse {
   message?: string;
 }
 
-async function fetchTimeline(page = 1, limit = 20): Promise<TimelineResponse> {
-  const res = await fetch(`/api/timeline?page=${page}&limit=${limit}`);
+async function fetchTimeline(
+  page = 1,
+  limit = 20,
+  artistAddress?: string
+): Promise<TimelineResponse> {
+  const params = new URLSearchParams({
+    page: String(page),
+    limit: String(limit),
+  });
+  if (artistAddress) params.append("artist", artistAddress);
+  const res = await fetch(`/api/timeline?${params.toString()}`);
   if (!res.ok) throw new Error("Failed to fetch timeline");
   return res.json();
 }
 
-export function useTimelineApi(page = 1, limit = 100, enabled = true) {
+export function useTimelineApi(
+  page = 1,
+  limit = 100,
+  enabled = true,
+  artistAddress?: string
+) {
   const [currentPage, setCurrentPage] = useState(page);
   const query = useQuery({
-    queryKey: ["timeline", currentPage, limit],
-    queryFn: () => fetchTimeline(currentPage, limit),
+    queryKey: ["timeline", currentPage, limit, artistAddress],
+    queryFn: () => fetchTimeline(currentPage, limit, artistAddress),
     enabled,
     staleTime: 1000 * 60 * 5,
     retry: (failureCount) => failureCount < 3,

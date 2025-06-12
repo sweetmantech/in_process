@@ -1,6 +1,16 @@
 # 🎨 In Process By LATASHÁ
 
-> A social feed for your digital art on Zora. Bring your own style. Built on Base.
+> **THE TIMELINE WAS NEVER THEIRS. IT WAS ALWAYS OURS.**
+
+In Process is not just a feed—it's a living archive, a record of lineage, drafts, and blueprints that built dynasties. This is a space for process, for the work that platforms tried to erase, for the stories and sounds that algorithms could never own. Here, artists document in real time, onchain, on their terms. Every sketch, verse, sound, and glitch is a timestamp in culture. Here, we own the timeline.
+
+**In Process is not content—it's record-keeping. It's proof. It's legacy.**
+
+> Platforms have always needed us. The algorithm starves without our stories. The stream is silent without our sound. The feed is nothing but a blinking cursor, waiting on us to move. Yet they hold the archive hostage. Rewrite history in real time. Bury what doesn't fit their metrics. And call it discovery. We refuse.
+
+This is where the work lives. Where artists own their evolution. Where every moment is permanent, not ephemeral. Always in process.
+
+---
 
 ## 🌟 Key Features
 
@@ -14,7 +24,7 @@
 
 1. **Landing Page**
 
-- Beautiful gradient animations
+- Spiral animation
 - Collection URL input
 - Mobile-responsive design
 
@@ -90,14 +100,19 @@ bun dev
 
 ## 🏆 Why We Built This
 
+> This is a space for process. For lineage. For the drafts that built dynasties. For the blueprints they stole, repackaged, and resold. For the histories that deserve permanence, not expiration dates.
+
 In Process aims to revolutionize how we interact with digital art by:
 
-1. Making Digital art collections more engaging through social features
-2. Allowing artists to maintain their brand through custom styling
-3. Lowering barriers to entry with credit card payments
-4. Building on Base for fast, affordable transactions
+1. Giving artists true ownership of their timeline and process
+2. Making digital art collections more engaging through social features
+3. Allowing artists to maintain their brand through custom styling
+4. Lowering barriers to entry with credit card payments
+5. Building on Base for fast, affordable transactions
 
 ## 👥 Team
 
 - LATASHÁ - Creator & Vision
-- sweetman.eth - The dev for onchain music
+- CY - Executive Producer
+- LAURA - Designer
+- SWEETMAN - Developer
