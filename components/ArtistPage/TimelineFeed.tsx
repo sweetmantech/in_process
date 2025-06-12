@@ -3,12 +3,18 @@ import { HorizontalFeedAnimationProvider } from "@/providers/HorizontalFeedAnima
 import Loading from "../Loading";
 import { useTimelineApi } from "@/hooks/useTimelineApi";
 import { mapMomentsToTokens } from "@/lib/timeline/mapMomentToToken";
+import FetchMoreInspector from "../FetchMoreInspector";
+import useIsMobile from "@/hooks/useIsMobile";
+import VerticalFeed from "../VerticalFeed";
+import GridFeed from "../GridFeed";
 
 interface TimelineFeedProps {
   artistAddress: string;
+  alt: "timeline" | "grid";
 }
 
-const TimelineFeed = ({ artistAddress }: TimelineFeedProps) => {
+const TimelineFeed = ({ artistAddress, alt }: TimelineFeedProps) => {
+  const isMobile = useIsMobile();
   const { data, isFetching, currentPage, setCurrentPage } = useTimelineApi(
     1,
     100,
@@ -31,6 +37,14 @@ const TimelineFeed = ({ artistAddress }: TimelineFeedProps) => {
           <p className="font-archivo text-lg md:text-5xl">No moments yet!</p>
         )}
       </div>
+    );
+
+  if (alt === "grid")
+    return (
+      <>
+        {isMobile ? <VerticalFeed /> : <GridFeed />}
+        <FetchMoreInspector fetchMore={fetchMore} />
+      </>
     );
 
   return (

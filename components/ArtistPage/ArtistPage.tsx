@@ -22,7 +22,7 @@ const ArtistPage = () => {
       <div
         className={`grow flex flex-col px-2 md:px-0 ${alt === "timeline" && "md:pt-20 md:px-10"}`}
       >
-        <TimelineFeed artistAddress={artistAddress as string} />
+        <TimelineFeed artistAddress={artistAddress as string} alt={alt} />
       </div>
     </div>
   );
