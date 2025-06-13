@@ -69,10 +69,10 @@ function setupErc20Minter({
     args: [
       BigInt(nextTokenId),
       {
-        saleStart: saleStart || BigInt(0),
-        saleEnd: saleEnd || BigInt(0),
+        saleStart: BigInt(saleStart || 0),
+        saleEnd: BigInt(saleEnd || 0),
         maxTokensPerAddress: BigInt(mintLimit || 0),
-        pricePerToken: pricePerToken,
+        pricePerToken: BigInt(pricePerToken),
         fundsRecipient,
         currency: currency,
       },
@@ -126,9 +126,9 @@ function setupFixedPriceMinter({
     args: [
       BigInt(nextTokenId),
       {
-        pricePerToken: price,
-        saleStart: saleStart || BigInt(0),
-        saleEnd: saleEnd || BigInt(0),
+        pricePerToken: BigInt(price),
+        saleStart: BigInt(saleStart || 0),
+        saleEnd: BigInt(saleEnd || 0),
         maxTokensPerAddress: BigInt(mintLimit || 0),
         fundsRecipient,
       },
@@ -180,7 +180,7 @@ function setupTimedSaleMinter({
     args: [
       BigInt(tokenId),
       {
-        saleStart,
+        saleStart: BigInt(saleStart || 0),
         marketCountdown,
         minimumMarketEth,
         name: erc20zName,
@@ -233,8 +233,8 @@ function setupAllowListMinter({
     args: [
       BigInt(nextTokenId),
       {
-        presaleStart: allowlist.saleStart,
-        presaleEnd: allowlist.saleEnd,
+        presaleStart: BigInt(allowlist.saleStart || 0),
+        presaleEnd: BigInt(allowlist.saleEnd || 0),
         merkleRoot,
         fundsRecipient: fundsRecipient,
       },
@@ -254,18 +254,19 @@ function setupAllowListMinter({
 }
 
 const isAllowList = (
-  salesConfig: ConcreteSalesConfig,
+  salesConfig: ConcreteSalesConfig
 ): salesConfig is Concrete<AllowListParamType> =>
   salesConfig.type === "allowlistMint";
 const isErc20 = (
-  salesConfig: ConcreteSalesConfig,
+  salesConfig: ConcreteSalesConfig
 ): salesConfig is Concrete<Erc20ParamsType> => salesConfig.type === "erc20Mint";
 const isFixedPrice = (
-  salesConfig: ConcreteSalesConfig,
+  salesConfig: ConcreteSalesConfig
 ): salesConfig is Concrete<FixedPriceParamsType> =>
   salesConfig.type === "fixedPrice" ||
-  (salesConfig as unknown as Concrete<FixedPriceParamsType>).pricePerToken >
-    BigInt(0);
+  BigInt(
+    (salesConfig as unknown as Concrete<FixedPriceParamsType>).pricePerToken
+  ) > BigInt(0);
 
 export function setupMinters({ salesConfig, ...rest }: SetupMintersProps): {
   minter: Address;
