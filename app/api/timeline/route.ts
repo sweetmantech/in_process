@@ -41,7 +41,7 @@ export async function GET(req: NextRequest) {
       createdAt: row.createdAt,
       username: profiles[i]?.username || "",
     }))
-    .filter((moment) => !!moment.username);
+    .filter((moment) => artist || !!moment.username);
 
   return Response.json({
     status: "success",
