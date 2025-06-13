@@ -10,9 +10,9 @@ export type NewContractParams = {
 
 export type SaleStartAndEnd = {
   // defaults to 0, in seconds
-  saleStart?: bigint;
+  saleStart?: bigint | string;
   // defaults to forever, in seconds
-  saleEnd?: bigint;
+  saleEnd?: bigint | string;
 };
 
 export type MaxTokensPerAddress = {
@@ -24,7 +24,7 @@ export type FixedPriceParamsType = SaleStartAndEnd &
   MaxTokensPerAddress & {
     type?: "fixedPrice";
     // the price per token, if it is a priced mint
-    pricePerToken: bigint;
+    pricePerToken: bigint | string;
   };
 
 export type TimedSaleParamsType = {
@@ -34,7 +34,7 @@ export type TimedSaleParamsType = {
   // Symbol of the erc20z token to create for the secondary sale.  If not provided, extracts it from the name.
   erc20Symbol?: string;
   // Earliest time a token can be minted.  If undefined or 0, then it can be minted immediately.  Defaults to 0n.
-  saleStart?: bigint;
+  saleStart?: bigint | string;
   // Market countdown that will start once the minimum mints for countdown is reached. Defaults to 24 hours.
   marketCountdown?: bigint;
   // Deprecated: Use minimumMintsForCountdown instead.
@@ -49,7 +49,7 @@ export type Erc20ParamsType = SaleStartAndEnd &
     // if the erc20 address of the token to mint against
     currency: Address;
     // price in currency per token
-    pricePerToken: bigint;
+    pricePerToken: bigint | string;
   };
 
 export type AllowListParamType = SaleStartAndEnd & {
@@ -79,8 +79,8 @@ export type CreateNew1155TokenParams = CreateNew1155ParamsBase & {
 };
 
 export type AllowlistData = {
-  saleStart?: bigint;
-  saleEnd?: bigint;
+  saleStart?: bigint | string;
+  saleEnd?: bigint | string;
   presaleMerkleRoot: `0x${string}`;
 };
 
