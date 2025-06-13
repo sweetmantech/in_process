@@ -5,7 +5,6 @@ import { Token } from "@/types/token";
 import { useRouter } from "next/navigation";
 import { useMetadata } from "@/hooks/useMetadata";
 import truncateAddress from "@/lib/truncateAddress";
-import { useInProcessProvider } from "@/providers/InProcessProvider";
 
 interface FeedProps {
   feed: Token;
@@ -24,7 +23,6 @@ const Feed = ({
   const isMobile = useIsMobile();
   const { push } = useRouter();
   const { data } = useMetadata(feed.uri);
-  const { profiles } = useInProcessProvider();
 
   return (
     <React.Fragment>
@@ -39,9 +37,7 @@ const Feed = ({
         </tspan>{" "}
         &nbsp;&nbsp;&nbsp;&nbsp;
         {formatFeedText(
-          profiles[`${feed.creator}`]?.username ||
-            feed.username ||
-            truncateAddress(feed.creator),
+          feed.username || truncateAddress(feed.creator),
           (data?.name || "").slice(0, 111),
           feed.released_at,
           isMobile ? 14 : 20
