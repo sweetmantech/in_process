@@ -7,7 +7,6 @@ import { ZoraCreateProvider } from "./ZoraCreateProvider";
 import UserProvider from "./UserProvider";
 import { CrossmintProvider } from "./CrossmintProvider";
 import FrameProvider from "./FrameProvider";
-import InProcessProvider from "./InProcessProvider";
 import LayoutProvider from "./LayoutProvider";
 import UserCollectionsProvider from "./UserCollectionsProvider";
 import EthPriceProvider from "./EthPriceProvider";
@@ -23,11 +22,9 @@ export function Providers({ children }: { children: ReactNode }) {
               <FrameProvider>
                 <UserProvider>
                   <ZoraCreateProvider>
-                    <InProcessProvider>
-                      <UserCollectionsProvider>
-                        <LayoutProvider>{children}</LayoutProvider>
-                      </UserCollectionsProvider>
-                    </InProcessProvider>
+                    <UserCollectionsProvider>
+                      <LayoutProvider>{children}</LayoutProvider>
+                    </UserCollectionsProvider>
                   </ZoraCreateProvider>
                 </UserProvider>
               </FrameProvider>

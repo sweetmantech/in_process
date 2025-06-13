@@ -2,17 +2,17 @@ import Slider from "../Slider";
 import SliderFeed from "./SliderFeed";
 import { Autoplay } from "swiper/modules";
 import useIsMobile from "@/hooks/useIsMobile";
-import { useInProcessProvider } from "@/providers/InProcessProvider";
 import { ArrowRight } from "../ui/icons";
 import { useState } from "react";
 import { Swiper } from "swiper/types";
-import FetchMoreInspector from "../FetchMoreInspector";
+import { useTimelineApiContext } from "@/providers/TimelineApiProvider";
+import { mapMomentsToTokens } from "@/lib/timeline/mapMomentToToken";
 
 const ArtSlider = () => {
   const isMobile = useIsMobile();
-  const { feeds, fetchMore } = useInProcessProvider();
+  const { moments } = useTimelineApiContext();
   const [swiper, setSwiper] = useState<Swiper | null>(null);
-  const slides = feeds.slice(0, 55);
+  const slides = mapMomentsToTokens(moments).slice(0, 55);
 
   return (
     <div className="relative h-full">
@@ -53,19 +53,7 @@ const ArtSlider = () => {
         className="w-full h-full !overflow-hidden"
       >
         {slides.map((feed, i) => (
-          <>
-            {i !== slides.length - 1 ? (
-              <SliderFeed feed={feed} key={i} />
-            ) : (
-              <FetchMoreInspector
-                fetchMore={() => {
-                  if (feeds.length > 55) return;
-                  fetchMore();
-                }}
-                key={i}
-              />
-            )}
-          </>
+          <SliderFeed feed={feed} key={i} />
         ))}
       </Slider>
     </div>
