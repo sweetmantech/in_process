@@ -2,7 +2,7 @@ import { Hash, OneOf } from "viem";
 import cdp from "@/lib/coinbase/client";
 import { Call } from "@coinbase/coinbase-sdk/dist/types/calls";
 import { CDP_PAYMASTER_URL } from "../consts";
-import { publicClient } from "../viem/publicClient";
+import { getPublicClient } from "../viem/publicClient";
 
 type EvmUserOperationNetwork = "base-sepolia" | "base";
 
@@ -38,6 +38,9 @@ export async function sendUserOperation({
   });
 
   // Wait for the transaction receipt
+  const publicClient = getPublicClient(
+    network === "base-sepolia" ? 84532 : 8453
+  );
   const transaction = await publicClient.waitForTransactionReceipt({
     hash: userOp.transactionHash as Hash,
   });

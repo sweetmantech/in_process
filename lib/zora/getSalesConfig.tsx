@@ -1,8 +1,4 @@
-import {
-  Erc20ParamsType,
-  FixedPriceParamsType,
-  TimedSaleParamsType,
-} from "@/lib/protocolSdk";
+import { TimedSaleParamsType } from "@/lib/protocolSdk";
 import { maxUint64, parseEther, parseUnits } from "viem";
 import { USDC_ADDRESS } from "../consts";
 import { MintType } from "@/types/zora";
@@ -10,7 +6,7 @@ import { MintType } from "@/types/zora";
 const getSalesConfig = (
   saleStrategy: string,
   price: string,
-  saleStart: Date | undefined,
+  saleStart: Date | undefined
 ) => {
   const timedSaleConfig = {
     type: "timed",
@@ -21,19 +17,19 @@ const getSalesConfig = (
     type: "erc20Mint",
     pricePerToken: parseUnits(price, 6),
     saleStart: saleStart
-      ? BigInt(Number(saleStart.getTime() / 1000).toFixed(0))
-      : BigInt(0),
-    saleEnd: maxUint64,
+      ? BigInt(Number(saleStart.getTime() / 1000).toFixed(0)).toString()
+      : BigInt(0).toString(),
+    saleEnd: maxUint64.toString(),
     currency: USDC_ADDRESS,
-  } as Erc20ParamsType;
+  };
   const fixedPriceSaleConfig = {
     type: "fixedPrice",
-    pricePerToken: parseEther(price),
+    pricePerToken: parseEther(price).toString(),
     saleStart: saleStart
-      ? BigInt(Number(saleStart.getTime() / 1000).toFixed(0))
-      : BigInt(0),
-    saleEnd: maxUint64,
-  } as FixedPriceParamsType;
+      ? BigInt(Number(saleStart.getTime() / 1000).toFixed(0)).toString()
+      : BigInt(0).toString(),
+    saleEnd: maxUint64.toString(),
+  };
 
   if (price === "0") return fixedPriceSaleConfig;
 
