@@ -30,7 +30,7 @@ const DEFAULT_MAX_TOKENS_PER_ADDRESS: Concrete<MaxTokensPerAddress> = {
 };
 
 const erc20SaleSettingsWithDefaults = (
-  params: Erc20ParamsType
+  params: Erc20ParamsType,
 ): Concrete<Erc20ParamsType> => ({
   ...DEFAULT_SALE_START_AND_END,
   ...DEFAULT_MAX_TOKENS_PER_ADDRESS,
@@ -38,7 +38,7 @@ const erc20SaleSettingsWithDefaults = (
 });
 
 const allowListWithDefaults = (
-  allowlist: AllowListParamType
+  allowlist: AllowListParamType,
 ): Concrete<AllowListParamType> => {
   return {
     ...DEFAULT_SALE_START_AND_END,
@@ -47,7 +47,7 @@ const allowListWithDefaults = (
 };
 
 const fixedPriceSettingsWithDefaults = (
-  params: FixedPriceParamsType
+  params: FixedPriceParamsType,
 ): Concrete<FixedPriceParamsType> => ({
   ...DEFAULT_SALE_START_AND_END,
   ...DEFAULT_MAX_TOKENS_PER_ADDRESS,
@@ -83,7 +83,7 @@ const getMinimumMarketEth = (
   params: Pick<
     TimedSaleParamsType,
     "minimumMarketEth" | "minimumMintsForCountdown"
-  >
+  >,
 ) => {
   if (params.minimumMintsForCountdown) {
     return params.minimumMintsForCountdown * parseEther("0.0000111");
@@ -93,7 +93,7 @@ const getMinimumMarketEth = (
 
 const timedSaleSettingsWithDefaults = (
   params: TimedSaleParamsType,
-  contractName: string
+  contractName: string,
 ): Concrete<TimedSaleParamsType> => {
   // If the name is not provided, try to fetch it from the metadata
   const erc20Name = params.erc20Name || contractName;
@@ -115,23 +115,23 @@ const timedSaleSettingsWithDefaults = (
 };
 
 const isAllowList = (
-  salesConfig: SalesConfigParamsType
+  salesConfig: SalesConfigParamsType,
 ): salesConfig is AllowListParamType => salesConfig.type === "allowlistMint";
 const isErc20 = (
-  salesConfig: SalesConfigParamsType
+  salesConfig: SalesConfigParamsType,
 ): salesConfig is Erc20ParamsType => salesConfig.type === "erc20Mint";
 const isFixedPrice = (
-  salesConfig: SalesConfigParamsType
+  salesConfig: SalesConfigParamsType,
 ): salesConfig is FixedPriceParamsType => {
   return (
     salesConfig.type === "fixedPrice" ||
-    BigInt((salesConfig as FixedPriceParamsType).pricePerToken) > BigInt(0)
+    (salesConfig as FixedPriceParamsType).pricePerToken > BigInt(0)
   );
 };
 
 export const getSalesConfigWithDefaults = (
   salesConfig: SalesConfigParamsType | undefined,
-  contractName: string
+  contractName: string,
 ): ConcreteSalesConfig => {
   if (!salesConfig) return timedSaleSettingsWithDefaults({}, contractName);
   if (isAllowList(salesConfig)) {

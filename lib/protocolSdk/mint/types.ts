@@ -115,7 +115,7 @@ type SaleStrategy<T extends SaleType> = {
 };
 
 type PricedSaleStrategy = {
-  pricePerToken: bigint | string;
+  pricePerToken: bigint;
   maxTokensPerAddress: bigint;
 };
 
@@ -170,13 +170,13 @@ export type OnchainSalesStrategies =
 export type SaleStrategies = OnchainSalesStrategies | PremintSaleStrategy;
 
 export function isErc20SaleStrategy(
-  salesConfig: SaleStrategies
+  salesConfig: SaleStrategies,
 ): salesConfig is ERC20SaleStrategy {
   return salesConfig.saleType === "erc20";
 }
 
 export function isTimedSaleStrategy(
-  salesConfig: SaleStrategies
+  salesConfig: SaleStrategies,
 ): salesConfig is ZoraTimedSaleStrategy {
   return salesConfig.saleType === "timed";
 }
@@ -282,7 +282,7 @@ export type PrepareMintReturn = {
 
 export type PrepareMint = (params: MintParametersBase) => PrepareMintReturn;
 export type AsyncPrepareMint = (
-  params: MintParametersBase
+  params: MintParametersBase,
 ) => Promise<PrepareMintReturn>;
 
 export type MintableReturn = {

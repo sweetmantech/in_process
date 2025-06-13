@@ -23,8 +23,6 @@ export async function getYoutubeTokens({
   count: number | null;
   error: Error | null;
 }> {
-  console.log("ARTIST", artist);
-  console.log("CHAIN ID", chainId);
   const cappedLimit = Math.min(limit, 100);
   let query = supabase
     .from("in_process_tokens")
