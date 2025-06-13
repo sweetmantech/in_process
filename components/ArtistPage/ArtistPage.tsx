@@ -23,7 +23,9 @@ const ArtistPage = () => {
       <div
         className={`grow flex flex-col px-2 md:px-0 ${alt === "timeline" && "md:pt-20 md:px-10"}`}
       >
-        <TimelineApiProvider artistAddress={artistAddress as string}>
+        <TimelineApiProvider
+          artistAddress={artistAddress?.toString().toLowerCase() as string}
+        >
           <TimelineFeed alt={alt} />
         </TimelineApiProvider>
       </div>
