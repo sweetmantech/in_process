@@ -1,24 +1,56 @@
-import deleteTag from "@/lib/stack/deleteTag";
-import setTag from "@/lib/stack/setTag";
+import { supabase } from "@/lib/supabase/client";
 import { NextRequest } from "next/server";
-import { Address, privateKeyToAccount } from "viem/accounts";
+import { getYoutubeTokens } from "@/lib/supabase/youtube_tokens/getYoutubeTokens";
+import { Address } from "viem";
+import { CHAIN_ID } from "@/lib/consts";
+
+interface Token {
+  tokenContract: Address;
+  tokenId: string;
+  owner: Address;
+}
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { tokens } = body;
-    const owner = privateKeyToAccount(process.env.PRIVATE_KEY as Address);
+    const { tokens } = body as { tokens: Token[] };
+    console.log("tokens", tokens);
 
-    await deleteTag(owner.address, "timeline");
-    await setTag(owner.address, "timeline", {
-      hidden: JSON.stringify(tokens),
+    // 1. Lookup the rows using getYoutubeTokens with both addresses and tokenIds
+    const { data: rows, error: fetchError } = await getYoutubeTokens({
+      addresses: tokens.map((t) => t.tokenContract),
+      tokenIds: tokens.map((t) => t.tokenId),
+      chainId: CHAIN_ID,
+      limit: 1000,
     });
+    if (fetchError) throw fetchError;
+    if (!rows) throw new Error("No tokens found");
+
+    // 2. Extract ids
+    const ids = rows.map((row) => row.id);
+
+    if (ids.length === 0) {
+      return Response.json(
+        { success: false, message: "No matching tokens found" },
+        { status: 404 }
+      );
+    }
+
+    // 3. Batch update by id
+    const { error: updateError } = await supabase
+      .from("in_process_tokens")
+      .update({ hidden: true })
+      .in("id", ids);
+
+    if (updateError) throw updateError;
+
     return Response.json({
       success: true,
+      updated: ids.length,
     });
   } catch (e: any) {
     console.log(e);
-    const message = e?.message ?? "failed to create profile";
+    const message = e?.message ?? "failed to hide tokens";
     return Response.json({ message }, { status: 500 });
   }
 }
