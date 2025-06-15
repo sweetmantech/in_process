@@ -3,6 +3,7 @@ import { getInProcessTokens } from "@/lib/supabase/in_process_tokens/getInProces
 import { CHAIN_ID } from "@/lib/consts";
 import getArtistProfile from "@/lib/getArtistProfile";
 import { Address } from "viem";
+import type { Database } from "@/lib/supabase/types";
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -11,6 +12,9 @@ export async function GET(req: NextRequest) {
   const latest = searchParams.get("latest") !== "false"; // default true
   const artist = searchParams.get("artist") || undefined;
   const chainId = Number(searchParams.get("chainId")) || CHAIN_ID;
+  const hiddenParam = searchParams.get("hidden");
+  const hidden: Database["public"]["Tables"]["in_process_tokens"]["Row"]["hidden"] =
+    hiddenParam === null ? false : hiddenParam === "true";
 
   const { data, count, error } = await getInProcessTokens({
     limit,
@@ -18,6 +22,7 @@ export async function GET(req: NextRequest) {
     latest,
     artist,
     chainId,
+    hidden,
   });
   if (error) {
     return Response.json(

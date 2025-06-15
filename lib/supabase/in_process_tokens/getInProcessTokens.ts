@@ -13,6 +13,7 @@ export interface InProcessTokensQuery {
   chainId?: number;
   addresses?: Address[];
   tokenIds?: (string | number)[];
+  hidden?: Database["public"]["Tables"]["in_process_tokens"]["Row"]["hidden"];
 }
 
 export async function getInProcessTokens({
@@ -23,6 +24,7 @@ export async function getInProcessTokens({
   chainId,
   addresses,
   tokenIds,
+  hidden,
 }: InProcessTokensQuery = {}): Promise<{
   data: InProcessToken[] | null;
   count: number | null;
@@ -45,6 +47,9 @@ export async function getInProcessTokens({
   }
   if (tokenIds && tokenIds.length > 0) {
     query = query.in("tokenId", tokenIds.map(Number));
+  }
+  if (typeof hidden === "boolean") {
+    query = query.eq("hidden", hidden);
   }
   query = query.order("createdAt", { ascending: !latest });
   query = query.range((page - 1) * cappedLimit, page * cappedLimit - 1);
