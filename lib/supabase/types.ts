@@ -15,6 +15,7 @@ export type Database = {
           chainId: number
           createdAt: string
           defaultAdmin: string
+          hidden: boolean
           id: string
           tokenId: number
           uri: string
@@ -24,6 +25,7 @@ export type Database = {
           chainId: number
           createdAt: string
           defaultAdmin?: string
+          hidden?: boolean
           id?: string
           tokenId: number
           uri?: string
@@ -33,6 +35,7 @@ export type Database = {
           chainId?: number
           createdAt?: string
           defaultAdmin?: string
+          hidden?: boolean
           id?: string
           tokenId?: number
           uri?: string
