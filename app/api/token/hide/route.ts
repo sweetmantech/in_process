@@ -1,25 +1,19 @@
 import { NextRequest } from "next/server";
 import { getInProcessTokens } from "@/lib/supabase/in_process_tokens/getInProcessTokens";
 import { updateInProcessTokens } from "@/lib/supabase/in_process_tokens/updateInProcessTokens";
-import { Address } from "viem";
 import { CHAIN_ID } from "@/lib/consts";
-
-interface Token {
-  tokenContract: Address;
-  tokenId: string;
-  owner: Address;
-}
+import { Moment } from "@/hooks/useTimeline";
+import { Address } from "viem";
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { tokens } = body as { tokens: Token[] };
+    const { moment } = body as { moment: Moment };
 
     const { data: rows, error: fetchError } = await getInProcessTokens({
-      addresses: tokens.map((t) => t.tokenContract),
-      tokenIds: tokens.map((t) => t.tokenId),
+      addresses: [moment.tokenContract.toLowerCase() as Address],
+      tokenIds: [Number(moment.tokenId)],
       chainId: CHAIN_ID,
-      limit: 1000,
     });
     if (fetchError) throw fetchError;
     if (!rows) throw new Error("No tokens found");
@@ -35,7 +29,7 @@ export async function POST(req: NextRequest) {
 
     const { error: updateError } = await updateInProcessTokens({
       ids,
-      update: { hidden: true },
+      update: { hidden: !rows[0].hidden },
     });
 
     if (updateError) throw updateError;

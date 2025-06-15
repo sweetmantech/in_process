@@ -6,15 +6,7 @@ export interface Moment {
   tokenContract: Address;
   tokenId: string;
 }
-const hideMoments = async (tokens: Moment[]) => {
-  await fetch("/api/token/hide", {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-    },
-    body: JSON.stringify({ tokens }),
-  });
-};
+
 const useTimeline = () => {
   const [hiddenMoments, setHiddenMoments] = useState<Moment[]>([]);
   const getTimeline = useCallback(async () => {
@@ -28,36 +20,16 @@ const useTimeline = () => {
     );
   }, []);
 
-  const toggleMoment = (moment: Moment) => {
-    const find = hiddenMoments.find(
-      (ele) =>
-        ele.tokenContract === moment.tokenContract.toLowerCase() &&
-        ele.tokenId === moment.tokenId
-    );
-
-    if (find) {
-      const filtered = [...hiddenMoments].filter((ele) =>
-        Boolean(
-          ele.tokenContract !== moment.tokenContract.toLowerCase() ||
-            ele.tokenId !== moment.tokenId
-        )
-      );
-      setHiddenMoments([...filtered]);
-      hideMoments([...filtered]);
-      return;
-    }
-
-    const newHiddenMoments = [
-      ...hiddenMoments,
-      {
-        owner: moment.owner.toLowerCase() as Address,
-        tokenContract: moment.tokenContract.toLowerCase() as Address,
-        tokenId: moment.tokenId,
+  const toggleMoment = async (moment: Moment) => {
+    await fetch("/api/token/hide", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
       },
-    ];
-    setHiddenMoments(newHiddenMoments);
-    hideMoments(newHiddenMoments);
+      body: JSON.stringify({ moment }),
+    });
   };
+
   useEffect(() => {
     getTimeline();
   }, [getTimeline]);
