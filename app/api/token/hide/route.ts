@@ -1,6 +1,6 @@
-import { supabase } from "@/lib/supabase/client";
 import { NextRequest } from "next/server";
 import { getInProcessTokens } from "@/lib/supabase/in_process_tokens/getInProcessTokens";
+import { updateInProcessTokens } from "@/lib/supabase/in_process_tokens/updateInProcessTokens";
 import { Address } from "viem";
 import { CHAIN_ID } from "@/lib/consts";
 
@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const { tokens } = body as { tokens: Token[] };
 
-    // 1. Lookup the rows using getYoutubeTokens with both addresses and tokenIds
+    // 1. Lookup the rows using getInProcessTokens with both addresses and tokenIds
     const { data: rows, error: fetchError } = await getInProcessTokens({
       addresses: tokens.map((t) => t.tokenContract),
       tokenIds: tokens.map((t) => t.tokenId),
@@ -35,11 +35,10 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // 3. Batch update by id
-    const { error: updateError } = await supabase
-      .from("in_process_tokens")
-      .update({ hidden: true })
-      .in("id", ids);
+    const { error: updateError } = await updateInProcessTokens({
+      ids,
+      update: { hidden: true },
+    });
 
     if (updateError) throw updateError;
 
