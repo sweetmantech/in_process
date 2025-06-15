@@ -3,6 +3,7 @@ import type { FC, ButtonHTMLAttributes } from "react";
 import { useTimelineProvider } from "@/providers/TimelineProvider";
 import { Moment } from "@/hooks/useTimeline";
 import { toast } from "sonner";
+import { toggleMomentVisibility } from "@/lib/timeline/toggleMomentVisibility";
 
 interface HideButtonProps
   extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "onClick"> {
@@ -20,7 +21,7 @@ const HideButton: FC<HideButtonProps> = ({
   onClick,
   ...props
 }) => {
-  const { hiddenMoments, toggleMoment } = useTimelineProvider();
+  const { hiddenMoments } = useTimelineProvider();
   const isHidden = hiddenMoments.some(
     (ele) =>
       ele.tokenContract === moment.tokenContract.toLowerCase() &&
@@ -33,7 +34,7 @@ const HideButton: FC<HideButtonProps> = ({
       aria-label={isHidden ? "Unhide" : "Hide"}
       onClick={(e) => {
         e.stopPropagation();
-        toggleMoment(moment);
+        toggleMomentVisibility(moment);
         toast(isHidden ? "Moment visible" : "Moment hidden");
         onClick?.();
       }}
