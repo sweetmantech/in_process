@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import { getYoutubeTokens } from "@/lib/supabase/youtube_tokens/getYoutubeTokens";
+import { getInProcessTokens } from "@/lib/supabase/in_process_tokens/getInProcessTokens";
 import { CHAIN_ID } from "@/lib/consts";
 import getArtistProfile from "@/lib/getArtistProfile";
 import { Address } from "viem";
@@ -12,7 +12,7 @@ export async function GET(req: NextRequest) {
   const artist = searchParams.get("artist") || undefined;
   const chainId = Number(searchParams.get("chainId")) || CHAIN_ID;
 
-  const { data, count, error } = await getYoutubeTokens({
+  const { data, count, error } = await getInProcessTokens({
     limit,
     page,
     latest,

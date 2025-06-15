@@ -5,7 +5,7 @@ import { Address } from "viem";
 export type InProcessToken =
   Database["public"]["Tables"]["in_process_tokens"]["Row"];
 
-export interface YoutubeTokensQuery {
+export interface InProcessTokensQuery {
   limit?: number;
   page?: number;
   latest?: boolean;
@@ -15,7 +15,7 @@ export interface YoutubeTokensQuery {
   tokenIds?: (string | number)[];
 }
 
-export async function getYoutubeTokens({
+export async function getInProcessTokens({
   limit = 20,
   page = 1,
   latest = true,
@@ -23,7 +23,7 @@ export async function getYoutubeTokens({
   chainId,
   addresses,
   tokenIds,
-}: YoutubeTokensQuery = {}): Promise<{
+}: InProcessTokensQuery = {}): Promise<{
   data: InProcessToken[] | null;
   count: number | null;
   error: Error | null;

@@ -1,6 +1,6 @@
 import { supabase } from "@/lib/supabase/client";
 import { NextRequest } from "next/server";
-import { getYoutubeTokens } from "@/lib/supabase/youtube_tokens/getYoutubeTokens";
+import { getInProcessTokens } from "@/lib/supabase/in_process_tokens/getInProcessTokens";
 import { Address } from "viem";
 import { CHAIN_ID } from "@/lib/consts";
 
@@ -14,10 +14,9 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const { tokens } = body as { tokens: Token[] };
-    console.log("tokens", tokens);
 
     // 1. Lookup the rows using getYoutubeTokens with both addresses and tokenIds
-    const { data: rows, error: fetchError } = await getYoutubeTokens({
+    const { data: rows, error: fetchError } = await getInProcessTokens({
       addresses: tokens.map((t) => t.tokenContract),
       tokenIds: tokens.map((t) => t.tokenId),
       chainId: CHAIN_ID,
