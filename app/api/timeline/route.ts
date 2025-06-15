@@ -45,6 +45,7 @@ export async function GET(req: NextRequest) {
       admin: row.defaultAdmin,
       createdAt: row.createdAt,
       username: profiles[i]?.username || "",
+      hidden: row.hidden,
     }))
     .filter((moment) => artist || !!moment.username);
 
