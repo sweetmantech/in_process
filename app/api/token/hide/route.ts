@@ -15,7 +15,6 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const { tokens } = body as { tokens: Token[] };
 
-    // 1. Lookup the rows using getInProcessTokens with both addresses and tokenIds
     const { data: rows, error: fetchError } = await getInProcessTokens({
       addresses: tokens.map((t) => t.tokenContract),
       tokenIds: tokens.map((t) => t.tokenId),
@@ -25,7 +24,6 @@ export async function POST(req: NextRequest) {
     if (fetchError) throw fetchError;
     if (!rows) throw new Error("No tokens found");
 
-    // 2. Extract ids
     const ids = rows.map((row) => row.id);
 
     if (ids.length === 0) {
