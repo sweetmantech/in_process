@@ -48,8 +48,8 @@ export async function getInProcessTokens({
   if (tokenIds && tokenIds.length > 0) {
     query = query.in("tokenId", tokenIds.map(Number));
   }
-  if (typeof hidden === "boolean") {
-    query = query.eq("hidden", hidden);
+  if (!hidden) {
+    query = query.eq("hidden", false);
   }
   query = query.order("createdAt", { ascending: !latest });
   query = query.range((page - 1) * cappedLimit, page * cappedLimit - 1);

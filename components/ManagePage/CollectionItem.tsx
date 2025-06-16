@@ -1,5 +1,4 @@
 import { useMetadata } from "@/hooks/useMetadata";
-import { Collection } from "@/types/token";
 import Image from "next/image";
 import truncateAddress from "@/lib/truncateAddress";
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
@@ -7,14 +6,17 @@ import { getShortNetworkName } from "@/lib/zora/zoraToViem";
 import { useRouter } from "next/navigation";
 import truncated from "@/lib/truncated";
 import HideButton from "../HorizontalFeed/HideButton";
+import { TimelineMoment } from "@/hooks/useTimelineApi";
 
-const CollectionItem = ({ c }: { c: Collection }) => {
-  const { data, isLoading } = useMetadata(c.contractURI);
+const CollectionItem = ({ c }: { c: TimelineMoment }) => {
+  const { data, isLoading } = useMetadata(c.uri);
   const { push } = useRouter();
 
   const handleClick = () => {
-    const shortNetworkName = getShortNetworkName(c.chain.replaceAll("_", " "));
-    push(`/manage/${shortNetworkName}:${c.newContract}`);
+    const shortNetworkName = getShortNetworkName(
+      c.chainId === 8453 ? "base" : "base-sepolia"
+    );
+    push(`/manage/${shortNetworkName}:${c.address}`);
     return;
   };
 
@@ -30,8 +32,8 @@ const CollectionItem = ({ c }: { c: Collection }) => {
           <div className="absolute bottom-2 right-2 z-20">
             <HideButton
               moment={{
-                owner: c.creator,
-                tokenContract: c.newContract,
+                owner: c.admin,
+                tokenContract: c.address,
                 tokenId: "1",
               }}
             />
@@ -51,7 +53,7 @@ const CollectionItem = ({ c }: { c: Collection }) => {
             {truncated(data?.name, 30)}
           </p>
           <p className="font-archivo text-white text-left">
-            {truncateAddress(c.newContract)}
+            {truncateAddress(c.address)}
           </p>
         </div>
       </button>
