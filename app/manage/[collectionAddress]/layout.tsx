@@ -7,6 +7,7 @@ import { ReactNode } from "react";
 import { CollectionProvider } from "@/providers/CollectionProvider";
 import { Address } from "viem";
 import Overview from "@/components/CollectionManagePage/Overview";
+import { TimelineApiProvider } from "@/providers/TimelineApiProvider";
 
 const RootLayout = ({ children }: { children: ReactNode }) => {
   const params = useParams();
@@ -15,15 +16,20 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
   const viemChainName = ZORA_TO_VIEM[chain as ZoraChains];
   const viemChain = chains[viemChainName];
   return (
-    <CollectionProvider
-      collection={{
-        address: address as Address,
-        chainId: viemChain.id,
-      }}
+    <TimelineApiProvider
+      address={address as Address}
+      chainId={viemChain.id.toString()}
     >
-      <Overview />
-      {children}
-    </CollectionProvider>
+      <CollectionProvider
+        collection={{
+          address: address as Address,
+          chainId: viemChain.id,
+        }}
+      >
+        <Overview />
+        {children}
+      </CollectionProvider>
+    </TimelineApiProvider>
   );
 };
 

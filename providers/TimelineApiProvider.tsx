@@ -6,6 +6,7 @@ import {
   TimelineMoment,
   TimelineResponse,
 } from "@/hooks/useTimelineApi";
+import { Address } from "viem";
 
 interface TimelineContextValue {
   data: TimelineResponse | undefined;
@@ -23,12 +24,23 @@ const TimelineContext = createContext<TimelineContextValue | undefined>(
 export const TimelineApiProvider = ({
   children,
   artistAddress,
+  address,
+  chainId,
 }: {
   children: ReactNode;
-  artistAddress?: string;
+  artistAddress?: Address;
+  address?: Address;
+  chainId?: string;
 }) => {
   const { data, isLoading, error, currentPage, setCurrentPage } =
-    useTimelineApi(1, 100, true, artistAddress);
+    useTimelineApi({
+      page: 1,
+      limit: 100,
+      enabled: true,
+      artistAddress,
+      address,
+      chainId,
+    });
   return (
     <TimelineContext.Provider
       value={{

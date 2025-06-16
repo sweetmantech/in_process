@@ -8,15 +8,9 @@ import { networkConfigByChain } from "@/lib/protocolSdk/apis/chain-constants";
 import { useUserProvider } from "@/providers/UserProvider";
 import HideButton from "../HorizontalFeed/HideButton";
 import { Address } from "viem";
+import { TimelineMoment } from "@/hooks/useTimelineApi";
 
-const TokenItem = ({
-  t,
-}: {
-  t: {
-    tokenId: bigint;
-    uri: string;
-  };
-}) => {
+const TokenItem = ({ t }: { t: TimelineMoment }) => {
   const { data, isLoading } = useMetadata(t.uri);
   const { push } = useRouter();
   const { collection } = useCollectionProvider();

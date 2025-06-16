@@ -9,6 +9,7 @@ export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const limit = Math.min(Number(searchParams.get("limit")) || 100, 100);
   const page = Number(searchParams.get("page")) || 1;
+  const address = searchParams.get("address") as Address | undefined;
   const latest = searchParams.get("latest") !== "false"; // default true
   const artist = searchParams.get("artist") || undefined;
   const chainId = Number(searchParams.get("chainId")) || CHAIN_ID;
@@ -23,6 +24,7 @@ export async function GET(req: NextRequest) {
     artist,
     chainId,
     hidden,
+    addresses: address ? [address.toLowerCase() as Address] : undefined,
   });
   if (error) {
     return Response.json(
