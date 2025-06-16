@@ -1,14 +1,14 @@
-import { Collection } from "@/types/token";
 import CollectionItem from "./CollectionItem";
-import { useUserCollectionsProvider } from "@/providers/UserCollectionsProvider";
+import { useTimelineApiContext } from "@/providers/TimelineApiProvider";
+import { TimelineMoment } from "@/hooks/useTimelineApi";
 
 const Collections = () => {
-  const { collections } = useUserCollectionsProvider();
+  const { moments } = useTimelineApiContext();
 
-  if (collections)
+  if (moments)
     return (
       <div className="grow grid grid-cols-1 md:grid-cols-4 gap-6 px-4 md:px-10">
-        {collections.map((c: Collection, i) => (
+        {moments.map((c: TimelineMoment, i) => (
           <CollectionItem c={c} key={i} />
         ))}
       </div>
