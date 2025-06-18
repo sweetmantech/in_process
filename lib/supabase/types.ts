@@ -9,6 +9,33 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      in_process_artists: {
+        Row: {
+          address: string
+          bio: string | null
+          instagram_username: string | null
+          telegram_username: string | null
+          twitter_username: string | null
+          username: string | null
+        }
+        Insert: {
+          address: string
+          bio?: string | null
+          instagram_username?: string | null
+          telegram_username?: string | null
+          twitter_username?: string | null
+          username?: string | null
+        }
+        Update: {
+          address?: string
+          bio?: string | null
+          instagram_username?: string | null
+          telegram_username?: string | null
+          twitter_username?: string | null
+          username?: string | null
+        }
+        Relationships: []
+      }
       in_process_tokens: {
         Row: {
           address: string
@@ -40,7 +67,15 @@ export type Database = {
           tokenId?: number
           uri?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "fk_defaultadmin_artist"
+            columns: ["defaultAdmin"]
+            isOneToOne: false
+            referencedRelation: "in_process_artists"
+            referencedColumns: ["address"]
+          },
+        ]
       }
     }
     Views: {
