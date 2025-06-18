@@ -3,7 +3,9 @@ import type { Database } from "@/lib/supabase/types";
 import { Address } from "viem";
 
 export type InProcessToken =
-  Database["public"]["Tables"]["in_process_tokens"]["Row"];
+  Database["public"]["Tables"]["in_process_tokens"]["Row"] & {
+    username: Database["public"]["Tables"]["in_process_artists"]["Row"]["username"];
+  };
 
 export interface InProcessTokensQuery {
   limit?: number;
