@@ -1,8 +1,6 @@
 import { NextRequest } from "next/server";
 import { getInProcessTokens } from "@/lib/supabase/in_process_tokens/getInProcessTokens";
 import { CHAIN_ID } from "@/lib/consts";
-import getArtistProfile from "@/lib/getArtistProfile";
-import { Address } from "viem";
 import type { Database } from "@/lib/supabase/types";
 
 export async function GET(req: NextRequest) {
@@ -31,12 +29,8 @@ export async function GET(req: NextRequest) {
     );
   }
 
-  const profiles = await Promise.all(
-    (data || []).map((row) => getArtistProfile(row.defaultAdmin as Address))
-  );
-
   const moments = (data || [])
-    .map((row, i) => ({
+    .map((row) => ({
       address: row.address,
       tokenId: String(row.tokenId),
       chainId: row.chainId,
@@ -44,7 +38,7 @@ export async function GET(req: NextRequest) {
       uri: row.uri,
       admin: row.defaultAdmin,
       createdAt: row.createdAt,
-      username: profiles[i]?.username || "",
+      username: row.username,
       hidden: row.hidden,
     }))
     .filter((moment) => artist || !!moment.username);
