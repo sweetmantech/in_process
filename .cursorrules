@@ -110,6 +110,12 @@ Task completed: Successfully refactored `toggleMoment` function from `useTimelin
   - Title: "[Cursor] Refactor toggleMoment from useTimeline to Library Function"
   - Detailed description with all changes and benefits
 
+[X] Fixed Moment type duplication:
+  - Removed duplicate `Moment` interface from library file
+  - Updated library to import `Moment` from `@/hooks/useTimeline`
+  - Updated HideButton to import `Moment` from original location and `toggleMoment` from library
+  - Committed and pushed fix to PR branch
+
 ### Key insights:
 - Separation of concerns: Timeline hook handles state, library handles API calls
 - Improved reusability: `toggleMoment` can now be used outside timeline context
