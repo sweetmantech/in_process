@@ -79,45 +79,47 @@ The goal is to help you maintain a big picture as well as the progress of the ta
 - When mapping over data to create UI elements, extract complex elements into their own components to improve reusability, testability, and maintainability rather than defining them inline
 - When using React Query for polling endpoints, set appropriate staleTime and retry logic to prevent unnecessary refetching
 - For polling endpoints with React Query, use the query state data to determine when to stop polling rather than adding new database fields
+- When migrating component interfaces from one type to another, ensure backward compatibility by mapping properties correctly in the implementation, especially when the component interfaces with legacy systems
+- When passing objects to components that expect specific interface shapes, manually construct the object with explicit field mapping and fallbacks rather than direct object passing to prevent undefined field errors
 
 # Scratchpad
 
-## Current Task: Refactor toggleMoment from useTimeline to Library Function + Create PR
+## Current Task: Refactor toggleMoment + Fix Type Migration (MYC-2308)
 
 Status: 🟢 Complete
 
-Task completed: Successfully refactored `toggleMoment` function from `useTimeline` hook into a separate library function and created pull request:
+Task completed: Successfully refactored `toggleMoment` to library function and migrated from legacy `Moment` to `TimelineMoment` type:
 
 ### What was done:
-[X] Created new library function `/lib/timeline/toggleMoment.ts` with:
-  - Exported `toggleMoment` async function
-  - Exported `Moment` interface for type safety
+[X] **Created new library function** `/lib/timeline/toggleMoment.ts`:
+  - Exported `toggleMoment` async function accepting `TimelineMoment`
+  - Maps `TimelineMoment` fields to legacy API format internally
   - Proper JSDoc documentation
   - Clean API call to `/api/token/hide`
 
-[X] Removed `toggleMoment` from `hooks/useTimeline.ts`:
+[X] **Removed toggleMoment from useTimeline hook**:
   - Kept only `getTimeline` and `hiddenMoments` in hook
   - Maintained existing functionality for timeline data management
 
-[X] Updated `components/HorizontalFeed/HideButton.tsx`:
-  - Imported `toggleMoment` and `Moment` from new library location
-  - Removed dependency on provider's `toggleMoment`
-  - Component now uses library function directly
+[X] **Updated HideButton component** (`components/HorizontalFeed/HideButton.tsx`):
+  - Migrated from `Moment` to `TimelineMoment` type (from main branch)
+  - Updated property access from `tokenContract` to `address`
+  - Imports `toggleMoment` from new library location
+  - Simplified onClick handler to pass `TimelineMoment` directly
 
-[X] Created pull request:
+[X] **Merged with main branch changes**:
+  - Resolved merge conflicts in HideButton and .cursorrules
+  - Integrated type fixes from main branch work
+  - Combined refactoring with type migration
+
+[X] **Pull Request Management**:
   - Branch: `cursor/create-new-togglemoment-library-dc89`
   - PR: https://github.com/sweetmantech/in_process/pull/547
-  - Title: "[Cursor] Refactor toggleMoment from useTimeline to Library Function"
-  - Detailed description with all changes and benefits
-
-[X] Fixed Moment type duplication:
-  - Removed duplicate `Moment` interface from library file
-  - Updated library to import `Moment` from `@/hooks/useTimeline`
-  - Updated HideButton to import `Moment` from original location and `toggleMoment` from library
-  - Committed and pushed fix to PR branch
+  - Updated with latest main branch changes
 
 ### Key insights:
-- Separation of concerns: Timeline hook handles state, library handles API calls
-- Improved reusability: `toggleMoment` can now be used outside timeline context
-- Better testability: Function can be tested independently from React context
-- Fixed type duplication: Library now imports `Moment` type from existing location instead of duplicating it
+- **Type Evolution**: Migrated from legacy `Moment` (owner, tokenContract, tokenId) to modern `TimelineMoment` (address, admin, tokenId + metadata)
+- **Separation of concerns**: Timeline hook handles state, library handles API calls with proper field mapping
+- **Backward compatibility**: Library function internally maps new types to legacy API format
+- **Better architecture**: Function can be tested independently and reused across components
+- **Merge strategy**: Successfully combined refactoring work with main branch type improvements
