@@ -20,16 +20,6 @@ const useTimeline = () => {
     );
   }, []);
 
-  const toggleMoment = async (moment: Moment) => {
-    await fetch("/api/token/hide", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({ moment }),
-    });
-  };
-
   useEffect(() => {
     getTimeline();
   }, [getTimeline]);
@@ -37,7 +27,6 @@ const useTimeline = () => {
   return {
     getTimeline,
     hiddenMoments,
-    toggleMoment,
   };
 };
 
