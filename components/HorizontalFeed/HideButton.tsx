@@ -1,5 +1,5 @@
 import { EyeOff } from "lucide-react";
-import type { FC, ButtonHTMLAttributes } from "react";
+import { FC, ButtonHTMLAttributes, MouseEvent } from "react";
 import { TimelineMoment } from "@/hooks/useTimelineApi";
 import { toggleMoment } from "@/lib/timeline/toggleMoment";
 import { toast } from "sonner";
@@ -7,7 +7,7 @@ import { toast } from "sonner";
 interface HideButtonProps
   extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "onClick"> {
   moment: TimelineMoment;
-  onClick?: () => void;
+  onClick?: (() => void) | undefined;
 }
 
 /**
@@ -20,17 +20,25 @@ const HideButton: FC<HideButtonProps> = ({
   onClick,
   ...props
 }): JSX.Element => {
+  const handleClick = async (e: MouseEvent<HTMLButtonElement>): Promise<void> => {
+    e.stopPropagation();
+    
+    try {
+      await toggleMoment(moment);
+      toast("Moment visibility toggled");
+      onClick?.();
+    } catch (error) {
+      console.error("Failed to toggle moment visibility:", error);
+      toast("Failed to toggle moment visibility");
+    }
+  };
+
   return (
     <button
       type="button"
       className={`bg-grey-moss-200 border border-grey-moss-900 px-1 py-1 rounded ${className}`}
       aria-label="Toggle visibility"
-      onClick={(e) => {
-        e.stopPropagation();
-        toggleMoment(moment);
-        toast("Moment visibility toggled");
-        onClick?.();
-      }}
+      onClick={handleClick}
       {...props}
     >
       <EyeOff className="size-4 text-grey-eggshell" />

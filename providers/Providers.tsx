@@ -11,7 +11,11 @@ import LayoutProvider from "./LayoutProvider";
 import UserCollectionsProvider from "./UserCollectionsProvider";
 import EthPriceProvider from "./EthPriceProvider";
 
-export function Providers({ children }: { children: ReactNode }) {
+interface ProvidersProps {
+  children: ReactNode;
+}
+
+export function Providers({ children }: ProvidersProps): JSX.Element {
   return (
     <EthPriceProvider>
       <WagmiProvider>
