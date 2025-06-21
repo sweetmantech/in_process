@@ -1,4 +1,4 @@
-import { Eye, EyeOff } from "lucide-react";
+import { EyeOff } from "lucide-react";
 import type { FC, ButtonHTMLAttributes } from "react";
 import { TimelineMoment } from "@/hooks/useTimelineApi";
 import { toggleMoment } from "@/lib/timeline/toggleMoment";
