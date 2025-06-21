@@ -1,0 +1,34 @@
+[Cursor] Delete TimelineProvider and simplify hide functionality
+
+This change completes the migration from the legacy Timeline provider system to the new TimelineApi system by removing the old TimelineProvider and simplifying the HideButton component.
+
+## Changes Made
+
+### 1. Updated HideButton.tsx
+- Removed `useTimelineProvider` import and usage
+- Removed client-side `isHidden` state computation
+- Simplified to show consistent EyeOff icon
+- Updated toast message to be generic
+- Kept server-side toggleMoment API call
+
+### 2. Updated Providers.tsx  
+- Removed TimelineProvider import
+- Removed TimelineProvider wrapper from provider tree
+- Cleaned up provider hierarchy
+
+### 3. Deleted TimelineProvider.tsx
+- Removed legacy provider file
+- Eliminated unused `useTimelineProvider` hook
+- Removed client-side `hiddenMoments` state management
+
+## Benefits
+- Simplified component logic by removing client-side state
+- Eliminated dead code and unused provider
+- Consistent with new TimelineApi system
+- Reduced bundle size by removing unnecessary code
+- Server-side state management only (cleaner architecture)
+
+## Related
+- Follows up on PR #548 (TimelineMoment type migration)
+- Completes MYC-2310 ticket requirements
+- Part of Timeline system modernization effort
