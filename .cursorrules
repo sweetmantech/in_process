@@ -89,11 +89,14 @@ Status: 🟢 Complete
 Task completed: Fixed Farcaster manifest validation errors by adding missing required fields:
 
 ### What was done:
-[X] Identified missing manifest fields: subtitle, description, primaryCategory
+[X] Identified missing/incorrect manifest fields: name, version, subtitle, description, primaryCategory
 [X] Updated `/app/.well-known/farcaster.json/route.ts` with proper values:
+  - name: "In Process" (hardcoded, 10 chars, within 32 limit)
+  - version: "1" (hardcoded as required by spec)
   - subtitle: "Artists own their timeline" (29 chars, within 30 limit)
   - description: "A living archive where artists document their creative process onchain. Own your evolution, not just your art. Every sketch, verse, sound is permanent." (153 chars, within 170 limit)  
   - primaryCategory: "art-creativity" (matches project's digital art focus)
+  - buttonTitle: "Launch In Process" (consistent with hardcoded name)
 
 ### Key insights:
 - Project is "In Process By LATASHÁ" - a digital art timeline platform
