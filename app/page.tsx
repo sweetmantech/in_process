@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   other: {
     "fc:frame": JSON.stringify({
       version: "next",
-      name: process.env.NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME,
+      name: process.env.NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME || "In Process",
       imageUrl: `${APP_URL}/site_preview.png`,
       aspectRatio: "1:1",
       button: {
