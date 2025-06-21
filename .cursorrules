@@ -80,12 +80,13 @@ The goal is to help you maintain a big picture as well as the progress of the ta
 - When using React Query for polling endpoints, set appropriate staleTime and retry logic to prevent unnecessary refetching
 - For polling endpoints with React Query, use the query state data to determine when to stop polling rather than adding new database fields
 - When migrating component interfaces from one type to another, ensure backward compatibility by mapping properties correctly in the implementation, especially when the component interfaces with legacy systems
+- When passing objects to components that expect specific interface shapes, manually construct the object with explicit field mapping and fallbacks rather than direct object passing to prevent undefined field errors
 
 # Scratchpad
 
 ## Current Task: Fix HideButton Type Mismatch - MYC-2308
 
-Status: 🟢 Complete
+Status: 🟢 Complete ✅ Fixed onClick Breaking Error
 
 Task completed: Fixed type mismatch where HideButton expected `TimelineMoment` from `useTimelineApi` but was receiving `Moment` from `useTimeline`.
 
@@ -93,11 +94,13 @@ Task completed: Fixed type mismatch where HideButton expected `TimelineMoment` f
 [X] Updated HideButton component to accept `TimelineMoment` instead of `Moment`
 [X] Updated property access from `tokenContract` to `address` in isHidden logic
 [X] Updated toggleMoment call to convert `TimelineMoment` to `Moment` format
-[X] Updated CollectionItem.tsx to pass `TimelineMoment` directly instead of manual object creation
+[X] Updated CollectionItem.tsx to manually construct proper `TimelineMoment` object
 [X] Updated Feed.tsx to construct proper `TimelineMoment` from `Token` data
 [X] Updated TokenItem.tsx to construct proper `TimelineMoment` from token and collection data
+[X] FIXED: onClick breaking error by ensuring all TimelineMoment fields are properly set with fallbacks
 
 ### Key insights:
 - Type mismatch was between legacy `Moment` (owner, tokenContract, tokenId) and new `TimelineMoment` (address, admin, tokenId + more fields)
 - HideButton needed to map `TimelineMoment.address` → `tokenContract` and `TimelineMoment.admin` → `owner` for backwards compatibility
 - Components now properly construct `TimelineMoment` objects with all required fields (address, tokenId, chainId, id, uri, admin, createdAt, username)
+- CRITICAL: Direct object passing can cause undefined field errors - safer to manually construct with fallbacks
