@@ -84,43 +84,37 @@ The goal is to help you maintain a big picture as well as the progress of the ta
 
 # Scratchpad
 
-## Current Task: Refactor toggleMoment + Fix Type Migration (MYC-2308)
+## Current Task: Update /api/token/hide to use TimelineMoment type (MYC-2310)
 
 Status: 🟢 Complete
 
-Task completed: Successfully refactored `toggleMoment` to library function and migrated from legacy `Moment` to `TimelineMoment` type:
+**Requirement**: 
+- `/api/token/hide` should use `TimelineMoment` type from `hooks/useTimelineApi.ts`
+- Verify there are no more usages of the old `Moment` type from `useTimeline`
 
-### What was done:
-[X] **Created new library function** `/lib/timeline/toggleMoment.ts`:
-  - Exported `toggleMoment` async function accepting `TimelineMoment`
-  - Maps `TimelineMoment` fields to legacy API format internally
-  - Proper JSDoc documentation
-  - Clean API call to `/api/token/hide`
+**What was completed**:
+[X] **Updated API endpoint** (`/app/api/token/hide/route.ts`):
+  - Changed import from `import { Moment } from "@/hooks/useTimeline"` to `import { TimelineMoment } from "@/hooks/useTimelineApi"`
+  - Updated type annotation from `{ moment: Moment }` to `{ moment: TimelineMoment }`
+  - Changed property access from `moment.tokenContract` to `moment.address`
 
-[X] **Removed toggleMoment from useTimeline hook**:
-  - Kept only `getTimeline` and `hiddenMoments` in hook
-  - Maintained existing functionality for timeline data management
+[X] **Simplified toggleMoment function** (`/lib/timeline/toggleMoment.ts`):
+  - Removed legacy field mapping since API now accepts TimelineMoment directly
+  - Simplified to pass TimelineMoment object directly to API
+  - Maintained clean API and proper JSDoc documentation
 
-[X] **Updated HideButton component** (`components/HorizontalFeed/HideButton.tsx`):
-  - Migrated from `Moment` to `TimelineMoment` type (from main branch)
-  - Updated property access from `tokenContract` to `address`
-  - Imports `toggleMoment` from new library location
-  - Simplified onClick handler to pass `TimelineMoment` directly
+[X] **Verified no remaining usages**:
+  - Confirmed no more imports of old `Moment` type from `useTimeline`
+  - Only reference to old type is in this `.cursorrules` file (documentation)
+  - All other components correctly use `TimelineMoment` type
 
-[X] **Merged with main branch changes**:
-  - Resolved merge conflicts in HideButton and .cursorrules
-  - Integrated type fixes from main branch work
-  - Combined refactoring with type migration
+**Type Migration Summary**:
+- **Before**: API expected legacy `{ owner: Address; tokenContract: Address; tokenId: string; }`
+- **After**: API now accepts modern `{ address: Address; admin: Address; tokenId: string; chainId: number; id: string; uri: string; createdAt: string; username: string; }`
+- **Impact**: Cleaner API, direct type usage, no more field mapping needed
 
-[X] **Pull Request Management**:
-  - Branch: `cursor/create-new-togglemoment-library-dc89`
-  - PR: https://github.com/sweetmantech/in_process/pull/547
-  - Successfully merged latest main branch changes
-  - Updated PR with integrated approach combining refactoring + type migration
-
-### Key insights:
-- **Type Evolution**: Migrated from legacy `Moment` (owner, tokenContract, tokenId) to modern `TimelineMoment` (address, admin, tokenId + metadata)
-- **Separation of concerns**: Timeline hook handles state, library handles API calls with proper field mapping
-- **Backward compatibility**: Library function internally maps new types to legacy API format
-- **Better architecture**: Function can be tested independently and reused across components
-- **Merge strategy**: Successfully combined refactoring work with main branch type improvements
+**Key improvements**:
+- **Type consistency**: API now uses the same type as the rest of the application
+- **Simplified code**: Removed unnecessary field mapping in toggleMoment
+- **Better maintainability**: Single source of truth for TimelineMoment type
+- **Future-proof**: API ready for additional TimelineMoment fields if needed
