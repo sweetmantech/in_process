@@ -82,20 +82,27 @@ The goal is to help you maintain a big picture as well as the progress of the ta
 
 # Scratchpad
 
-## Current Task: Fix Invalid Manifest - Step 73
+## Current Task: Fix Home Page Performance - Step 36
 
 Status: 🟢 Complete
 
-Task completed: Fixed Farcaster manifest validation errors by adding missing required fields:
+Task completed: Fixed home page crashing from loading too much data by removing TimelineProvider from global layout.
 
 ### What was done:
-[X] Identified missing manifest fields: subtitle, description, primaryCategory
-[X] Updated `/app/.well-known/farcaster.json/route.ts` with proper values:
-  - subtitle: "Artists own their timeline" (29 chars, within 30 limit)
-  - description: "A living archive where artists document their creative process onchain. Own your evolution, not just your art. Every sketch, verse, sound is permanent." (153 chars, within 170 limit)  
-  - primaryCategory: "art-creativity" (matches project's digital art focus)
+[X] Identified that TimelineProvider was loading hidden moments data globally via useTimeline hook calling /api/token/timeline
+[X] Found TimelineProvider was only used by HideButton component in manage/artist pages
+[X] Removed TimelineProvider from global providers/Providers.tsx
+[X] Added TimelineProvider locally to:
+  - app/manage/page.tsx (wrapping ManagePage for hide functionality)
+  - components/ArtistPage/ArtistPage.tsx (wrapping TimelineFeed for hide functionality)
 
 ### Key insights:
-- Project is "In Process By LATASHÁ" - a digital art timeline platform
-- Manifest follows Farcaster Mini Apps spec with proper field constraints
-- Fields align with project's core mission of artist ownership and creative documentation
+- Global providers should only contain data needed across ALL pages
+- Timeline hide functionality is only needed on manage/artist pages, not home page
+- Home page uses TimelineApiProvider locally for paginated data loading
+- This prevents unnecessary API calls and data loading on pages that don't need it
+
+### Performance improvement:
+- Home page no longer loads hidden moments data on initial render
+- Reduced bundle size and initial page load time
+- Hide functionality still works where needed (manage/artist pages)
