@@ -2,6 +2,7 @@ import { Eye, EyeOff } from "lucide-react";
 import type { FC, ButtonHTMLAttributes } from "react";
 import { useTimelineProvider } from "@/providers/TimelineProvider";
 import { TimelineMoment } from "@/hooks/useTimelineApi";
+import { toggleMoment } from "@/lib/timeline/toggleMoment";
 import { toast } from "sonner";
 
 interface HideButtonProps
@@ -20,7 +21,7 @@ const HideButton: FC<HideButtonProps> = ({
   onClick,
   ...props
 }) => {
-  const { hiddenMoments, toggleMoment } = useTimelineProvider();
+  const { hiddenMoments } = useTimelineProvider();
   const isHidden = hiddenMoments.some(
     (ele) =>
       ele.tokenContract === moment.address.toLowerCase() &&
@@ -33,11 +34,7 @@ const HideButton: FC<HideButtonProps> = ({
       aria-label={isHidden ? "Unhide" : "Hide"}
       onClick={(e) => {
         e.stopPropagation();
-        toggleMoment({
-          owner: moment.admin,
-          tokenContract: moment.address,
-          tokenId: moment.tokenId,
-        });
+        toggleMoment(moment);
         toast(isHidden ? "Moment visible" : "Moment hidden");
         onClick?.();
       }}

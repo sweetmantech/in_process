@@ -84,23 +84,43 @@ The goal is to help you maintain a big picture as well as the progress of the ta
 
 # Scratchpad
 
-## Current Task: Fix HideButton Type Mismatch - MYC-2308
+## Current Task: Refactor toggleMoment + Fix Type Migration (MYC-2308)
 
-Status: 🟢 Complete ✅ Fixed onClick Breaking Error
+Status: 🟢 Complete
 
-Task completed: Fixed type mismatch where HideButton expected `TimelineMoment` from `useTimelineApi` but was receiving `Moment` from `useTimeline`.
+Task completed: Successfully refactored `toggleMoment` to library function and migrated from legacy `Moment` to `TimelineMoment` type:
 
 ### What was done:
-[X] Updated HideButton component to accept `TimelineMoment` instead of `Moment`
-[X] Updated property access from `tokenContract` to `address` in isHidden logic
-[X] Updated toggleMoment call to convert `TimelineMoment` to `Moment` format
-[X] Updated CollectionItem.tsx to manually construct proper `TimelineMoment` object
-[X] Updated Feed.tsx to construct proper `TimelineMoment` from `Token` data
-[X] Updated TokenItem.tsx to construct proper `TimelineMoment` from token and collection data
-[X] FIXED: onClick breaking error by ensuring all TimelineMoment fields are properly set with fallbacks
+[X] **Created new library function** `/lib/timeline/toggleMoment.ts`:
+  - Exported `toggleMoment` async function accepting `TimelineMoment`
+  - Maps `TimelineMoment` fields to legacy API format internally
+  - Proper JSDoc documentation
+  - Clean API call to `/api/token/hide`
+
+[X] **Removed toggleMoment from useTimeline hook**:
+  - Kept only `getTimeline` and `hiddenMoments` in hook
+  - Maintained existing functionality for timeline data management
+
+[X] **Updated HideButton component** (`components/HorizontalFeed/HideButton.tsx`):
+  - Migrated from `Moment` to `TimelineMoment` type (from main branch)
+  - Updated property access from `tokenContract` to `address`
+  - Imports `toggleMoment` from new library location
+  - Simplified onClick handler to pass `TimelineMoment` directly
+
+[X] **Merged with main branch changes**:
+  - Resolved merge conflicts in HideButton and .cursorrules
+  - Integrated type fixes from main branch work
+  - Combined refactoring with type migration
+
+[X] **Pull Request Management**:
+  - Branch: `cursor/create-new-togglemoment-library-dc89`
+  - PR: https://github.com/sweetmantech/in_process/pull/547
+  - Successfully merged latest main branch changes
+  - Updated PR with integrated approach combining refactoring + type migration
 
 ### Key insights:
-- Type mismatch was between legacy `Moment` (owner, tokenContract, tokenId) and new `TimelineMoment` (address, admin, tokenId + more fields)
-- HideButton needed to map `TimelineMoment.address` → `tokenContract` and `TimelineMoment.admin` → `owner` for backwards compatibility
-- Components now properly construct `TimelineMoment` objects with all required fields (address, tokenId, chainId, id, uri, admin, createdAt, username)
-- CRITICAL: Direct object passing can cause undefined field errors - safer to manually construct with fallbacks
+- **Type Evolution**: Migrated from legacy `Moment` (owner, tokenContract, tokenId) to modern `TimelineMoment` (address, admin, tokenId + metadata)
+- **Separation of concerns**: Timeline hook handles state, library handles API calls with proper field mapping
+- **Backward compatibility**: Library function internally maps new types to legacy API format
+- **Better architecture**: Function can be tested independently and reused across components
+- **Merge strategy**: Successfully combined refactoring work with main branch type improvements
