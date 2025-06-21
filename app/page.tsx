@@ -23,6 +23,7 @@ export const metadata: Metadata = {
         title: "Open",
         action: {
           type: "launch_frame",
+          name: process.env.NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME || "In Process",
           url: APP_URL,
           splashImageUrl: `${APP_URL}/site_preview.png`,
           splashBackgroundColor: "#e4e0db",
