@@ -19,7 +19,7 @@ const HideButton: FC<HideButtonProps> = ({
   className = "",
   onClick,
   ...props
-}) => {
+}): JSX.Element => {
   return (
     <button
       type="button"
