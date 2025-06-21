@@ -9,7 +9,6 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const { moment } = body as { moment: Moment };
-    console.log("MOMENT", moment);
     const { data: rows, error: fetchError } = await getInProcessTokens({
       addresses: [moment.tokenContract.toLowerCase() as Address],
       tokenIds: [Number(moment.tokenId)],
