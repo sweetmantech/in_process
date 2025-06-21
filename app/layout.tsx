@@ -1,15 +1,9 @@
-import type { Metadata } from "next";
 import "@xyflow/react/dist/style.css";
 import "./globals.css";
 import { Providers } from "@/providers/Providers";
 import { Toaster } from "@/components/ui/sonner";
 import { Suspense } from "react";
 import Layout from "@/components/Layout";
-
-export const metadata: Metadata = {
-  title: "In Process",
-  description: "Imagined by LATASHÁ",
-};
 
 export default function RootLayout({
   children,
