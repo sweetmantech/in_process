@@ -95,7 +95,9 @@ Task completed: Fixed home page crashing from loading too much data by removing 
 [X] Removed TimelineProvider from page-level components:
   - app/manage/page.tsx 
   - components/ArtistPage/ArtistPage.tsx
-[X] TimelineProvider now completely removed from unnecessary locations
+[X] Refactored HideButton to be self-contained with its own state management and API calls
+[X] Completely deleted legacy TimelineProvider and useTimeline files
+[X] Updated API route imports to use Moment interface from HideButton
 
 ### Key insights:
 - Global providers should only contain data needed across ALL pages

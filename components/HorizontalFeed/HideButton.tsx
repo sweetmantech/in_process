@@ -1,8 +1,14 @@
 import { Eye, EyeOff } from "lucide-react";
 import type { FC, ButtonHTMLAttributes } from "react";
-import { useTimelineProvider } from "@/providers/TimelineProvider";
-import { Moment } from "@/hooks/useTimeline";
+import { useState, useEffect } from "react";
+import { Address } from "viem";
 import { toast } from "sonner";
+
+export interface Moment {
+  owner: Address;
+  tokenContract: Address;
+  tokenId: string;
+}
 
 interface HideButtonProps
   extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "onClick"> {
@@ -12,7 +18,8 @@ interface HideButtonProps
 
 /**
  * HideButton: toggles hidden/visible state with eye/eye-off icon.
- * Computes hidden state and calls toggleMoment from context. Usage: <HideButton moment={...} />
+ * Self-contained component that manages its own hidden state and API calls.
+ * Usage: <HideButton moment={...} />
  */
 const HideButton: FC<HideButtonProps> = ({
   moment,
@@ -20,21 +27,72 @@ const HideButton: FC<HideButtonProps> = ({
   onClick,
   ...props
 }) => {
-  const { hiddenMoments, toggleMoment } = useTimelineProvider();
-  const isHidden = hiddenMoments.some(
-    (ele) =>
-      ele.tokenContract === moment.tokenContract.toLowerCase() &&
-      ele.tokenId === moment.tokenId
-  );
+  const [isHidden, setIsHidden] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  // Check if moment is hidden on component mount
+  useEffect(() => {
+    const checkHiddenStatus = async () => {
+      try {
+        const response = await fetch(`/api/token/timeline`);
+        const data = await response.json();
+        const hiddenMoments = JSON.parse(data.tagData.hidden || '[]').map((item: any) => ({
+          ...item,
+          tokenId: String(item.tokenId),
+        }));
+        
+        const hidden = hiddenMoments.some(
+          (ele: Moment) =>
+            ele.tokenContract.toLowerCase() === moment.tokenContract.toLowerCase() &&
+            ele.tokenId === moment.tokenId
+        );
+        setIsHidden(hidden);
+      } catch (error) {
+        console.error('Error checking hidden status:', error);
+      }
+    };
+
+    checkHiddenStatus();
+  }, [moment.tokenContract, moment.tokenId]);
+
+  const toggleMoment = async () => {
+    if (isLoading) return;
+    
+    setIsLoading(true);
+    const newHiddenState = !isHidden;
+    
+    // Optimistic update
+    setIsHidden(newHiddenState);
+    
+    try {
+      await fetch("/api/token/hide", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({ moment }),
+      });
+      
+      toast(newHiddenState ? "Moment hidden" : "Moment visible");
+    } catch (error) {
+      // Revert optimistic update on error
+      setIsHidden(!newHiddenState);
+      toast.error("Failed to update moment visibility");
+      console.error('Error toggling moment:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <button
       type="button"
-      className={`bg-grey-moss-200 border border-grey-moss-900 px-1 py-1 rounded ${className}`}
+      className={`bg-grey-moss-200 border border-grey-moss-900 px-1 py-1 rounded ${className} ${isLoading ? 'opacity-50' : ''}`}
       aria-label={isHidden ? "Unhide" : "Hide"}
+      disabled={isLoading}
       onClick={(e) => {
         e.stopPropagation();
-        toggleMoment(moment);
-        toast(isHidden ? "Moment visible" : "Moment hidden");
+        toggleMoment();
         onClick?.();
       }}
       {...props}
