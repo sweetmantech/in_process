@@ -58,9 +58,14 @@ const TokenItem = ({
             {connectedAddress && (
               <HideButton
                 moment={{
-                  owner: connectedAddress as Address,
-                  tokenContract: collection.address,
+                  address: collection.address,
                   tokenId: t.tokenId.toString(),
+                  chainId: collection.chainId,
+                  id: `${collection.address}-${t.tokenId.toString()}`,
+                  uri: t.uri,
+                  admin: connectedAddress as Address,
+                  createdAt: new Date().toISOString(),
+                  username: '',
                 }}
               />
             )}

@@ -30,13 +30,7 @@ const CollectionItem = ({ c }: { c: TimelineMoment }) => {
       >
         <div className="w-full aspect-video overflow-hidden relative">
           <div className="absolute bottom-2 right-2 z-20">
-            <HideButton
-              moment={{
-                owner: c.admin,
-                tokenContract: c.address,
-                tokenId: "1",
-              }}
-            />
+            <HideButton moment={c} />
           </div>
           <Image
             src={getFetchableUrl(data.image) || "/images/placeholder.png"}

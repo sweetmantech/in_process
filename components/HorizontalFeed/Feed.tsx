@@ -80,9 +80,14 @@ const Feed: FC<FeedProps> = ({ feed, hovered, step, height }) => {
             </p>
             <HideButton
               moment={{
-                owner: connectedAddress as Address,
-                tokenContract: feed.collection,
-                tokenId: String(feed.tokenId),
+                address: feed.collection,
+                tokenId: feed.tokenId,
+                chainId: feed.chainId,
+                id: `${feed.collection}-${feed.tokenId}`,
+                uri: feed.uri,
+                admin: connectedAddress as Address,
+                createdAt: new Date(feed.created_at * 1000).toISOString(),
+                username: feed.username || '',
               }}
               onClick={() => setIsFadingOut(true)}
             />
