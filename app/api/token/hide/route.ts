@@ -2,16 +2,16 @@ import { NextRequest } from "next/server";
 import { getInProcessTokens } from "@/lib/supabase/in_process_tokens/getInProcessTokens";
 import { updateInProcessTokens } from "@/lib/supabase/in_process_tokens/updateInProcessTokens";
 import { CHAIN_ID } from "@/lib/consts";
-import { Moment } from "@/hooks/useTimeline";
+import { TimelineMoment } from "@/hooks/useTimelineApi";
 import { Address } from "viem";
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { moment } = body as { moment: Moment };
+    const { moment } = body as { moment: TimelineMoment };
 
     const { data: rows, error: fetchError } = await getInProcessTokens({
-      addresses: [moment.tokenContract.toLowerCase() as Address],
+      addresses: [moment.address.toLowerCase() as Address],
       tokenIds: [Number(moment.tokenId)],
       chainId: CHAIN_ID,
     });
