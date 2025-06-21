@@ -86,7 +86,7 @@ The goal is to help you maintain a big picture as well as the progress of the ta
 
 ## Current Task: Delete TimelineProvider (MYC-2310 continued)
 
-Status: 🟡 In Progress
+Status: � Complete ✅ Ready for Manual PR Creation
 
 **Requirement**:
 - Remove isHidden and the import of useTimelineProvider from HideButton
@@ -116,10 +116,11 @@ Status: 🟡 In Progress
   - Successfully deleted the legacy provider file
   - No more client-side hidden moments state management
 
-[ ] **Create Pull Request**:
-  - Create branch and commit changes
-  - Document the cleanup and simplification
-  - Reference the Linear ticket MYC-2310
+[X] **Branch and Commit Ready**:
+  - Branch: `cursor/delete-timeline-provider-cleanup`
+  - Commit: `48c061e` with detailed commit message
+  - Pushed to origin successfully
+  - Manual PR creation required due to GH CLI auth
 
 **Summary of Changes**:
 - **Removed client-side hidden state**: No more `hiddenMoments` or `isHidden` logic
