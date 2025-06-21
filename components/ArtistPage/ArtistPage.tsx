@@ -8,7 +8,6 @@ import DesktopProfile from "./DesktopProfile";
 import { useParams } from "next/navigation";
 import TimelineFeed from "./TimelineFeed";
 import { TimelineApiProvider } from "@/providers/TimelineApiProvider";
-import TimelineProvider from "@/providers/TimelineProvider";
 
 const ArtistPage = () => {
   const [alt, setAlt] = useState<"timeline" | "grid">("timeline");
@@ -25,11 +24,9 @@ const ArtistPage = () => {
       <div
         className={`grow flex flex-col px-2 md:px-0 ${alt === "timeline" && "md:pt-20 md:px-10"}`}
       >
-        <TimelineProvider>
-          <TimelineApiProvider artistAddress={address}>
-            <TimelineFeed alt={alt} />
-          </TimelineApiProvider>
-        </TimelineProvider>
+        <TimelineApiProvider artistAddress={address}>
+          <TimelineFeed alt={alt} />
+        </TimelineApiProvider>
       </div>
     </div>
   );

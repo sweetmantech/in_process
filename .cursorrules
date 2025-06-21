@@ -92,9 +92,10 @@ Task completed: Fixed home page crashing from loading too much data by removing 
 [X] Identified that TimelineProvider was loading hidden moments data globally via useTimeline hook calling /api/token/timeline
 [X] Found TimelineProvider was only used by HideButton component in manage/artist pages
 [X] Removed TimelineProvider from global providers/Providers.tsx
-[X] Added TimelineProvider locally to:
-  - app/manage/page.tsx (wrapping ManagePage for hide functionality)
-  - components/ArtistPage/ArtistPage.tsx (wrapping TimelineFeed for hide functionality)
+[X] Removed TimelineProvider from page-level components:
+  - app/manage/page.tsx 
+  - components/ArtistPage/ArtistPage.tsx
+[X] TimelineProvider now completely removed from unnecessary locations
 
 ### Key insights:
 - Global providers should only contain data needed across ALL pages
