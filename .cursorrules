@@ -114,3 +114,4 @@ Task completed: Successfully refactored `toggleMoment` function from `useTimelin
 - Separation of concerns: Timeline hook handles state, library handles API calls
 - Improved reusability: `toggleMoment` can now be used outside timeline context
 - Better testability: Function can be tested independently from React context
+- Fixed type duplication: Library now imports `Moment` type from existing location instead of duplicating it

@@ -1,10 +1,4 @@
-import { Address } from "viem";
-
-export interface Moment {
-  owner: Address;
-  tokenContract: Address;
-  tokenId: string;
-}
+import { Moment } from "@/hooks/useTimeline";
 
 /**
  * Toggles the hidden state of a timeline moment by calling the hide API

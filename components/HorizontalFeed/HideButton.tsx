@@ -1,7 +1,8 @@
 import { Eye, EyeOff } from "lucide-react";
 import type { FC, ButtonHTMLAttributes } from "react";
 import { useTimelineProvider } from "@/providers/TimelineProvider";
-import { Moment, toggleMoment } from "@/lib/timeline/toggleMoment";
+import { Moment } from "@/hooks/useTimeline";
+import { toggleMoment } from "@/lib/timeline/toggleMoment";
 import { toast } from "sonner";
 
 interface HideButtonProps
