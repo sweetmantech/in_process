@@ -14,7 +14,7 @@ const CollectionItem = ({ c }: { c: TimelineMoment }) => {
 
   const handleClick = () => {
     const shortNetworkName = getShortNetworkName(
-      c.chainId === 8453 ? "base" : "base-sepolia"
+      c.chainId === 8453 ? "base" : "base sepolia"
     );
     push(`/manage/${shortNetworkName}:${c.address}`);
     return;
@@ -30,16 +30,18 @@ const CollectionItem = ({ c }: { c: TimelineMoment }) => {
       >
         <div className="w-full aspect-video overflow-hidden relative">
           <div className="absolute bottom-2 right-2 z-20">
-            <HideButton moment={{
-              address: c.address,
-              tokenId: c.tokenId,
-              chainId: c.chainId,
-              id: c.id || `${c.address}-${c.tokenId}`,
-              uri: c.uri,
-              admin: c.admin,
-              createdAt: c.createdAt,
-              username: c.username || '',
-            }} />
+            <HideButton
+              moment={{
+                address: c.address,
+                tokenId: c.tokenId,
+                chainId: c.chainId,
+                id: c.id || `${c.address}-${c.tokenId}`,
+                uri: c.uri,
+                admin: c.admin,
+                createdAt: c.createdAt,
+                username: c.username || "",
+              }}
+            />
           </div>
           <Image
             src={getFetchableUrl(data.image) || "/images/placeholder.png"}
