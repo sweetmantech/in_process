@@ -86,7 +86,7 @@ The goal is to help you maintain a big picture as well as the progress of the ta
 
 ## Current Task: Update /api/token/hide to use TimelineMoment type (MYC-2310)
 
-Status: 🟢 Complete
+Status: 🟢 Complete ✅ PR Created
 
 **Requirement**: 
 - `/api/token/hide` should use `TimelineMoment` type from `hooks/useTimelineApi.ts`
@@ -107,6 +107,12 @@ Status: 🟢 Complete
   - Confirmed no more imports of old `Moment` type from `useTimeline`
   - Only reference to old type is in this `.cursorrules` file (documentation)
   - All other components correctly use `TimelineMoment` type
+
+[X] **Pull Request Created**:
+  - Branch: `cursor/update-token-api-to-use-timelinemoment-dcb3`
+  - PR #548: https://github.com/sweetmantech/in_process/pull/548
+  - Title: "[Cursor] Update /api/token/hide to use TimelineMoment type (MYC-2310)"
+  - Comprehensive description with migration details and benefits
 
 **Type Migration Summary**:
 - **Before**: API expected legacy `{ owner: Address; tokenContract: Address; tokenId: string; }`
