@@ -14,6 +14,7 @@ export async function POST(req: NextRequest) {
       addresses: [moment.address.toLowerCase() as Address],
       tokenIds: [Number(moment.tokenId)],
       chainId: CHAIN_ID,
+      hidden: true,
     });
     if (fetchError) throw fetchError;
     if (!rows) throw new Error("No tokens found");
