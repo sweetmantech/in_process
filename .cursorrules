@@ -85,7 +85,28 @@ The goal is to help you maintain a big picture as well as the progress of the ta
 
 # Scratchpad
 
-## Current Task: HideButton - update icon shown based on API response (MYC-2319)
+## Current Task: Fix Typo - "past embed code" → "paste embed code" (MYC-2320)
+
+Status: ✅ Complete ✅
+
+**Requirement**: ✅ COMPLETED
+
+- Fix typo in create/embed interface: "past embed code" should be "paste embed code" ✅
+
+**Problem RESOLVED**:
+
+- Located typo on line 42 in `components/EmbedPage/EmbedPage.tsx`
+- Text said "past embed code" which was confusing for users
+- Should say "paste embed code" which matches the actual functionality
+
+**Implementation Changes COMPLETED**:
+[X] **Updated `EmbedPage.tsx`** (`components/EmbedPage/EmbedPage.tsx`):
+- Changed line 42 from: `<p className="font-archivo-medium text-center">past embed code</p>`
+- To: `<p className="font-archivo-medium text-center">paste embed code</p>`
+
+**Status**: ✅ **TYPO FIX COMPLETE**
+
+## Previous Task: HideButton - update icon shown based on API response (MYC-2319)
 
 Status: ✅ Complete ✅ Implementation Verified
 
