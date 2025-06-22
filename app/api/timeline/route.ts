@@ -2,7 +2,6 @@ import { NextRequest } from "next/server";
 import { getInProcessTokens } from "@/lib/supabase/in_process_tokens/getInProcessTokens";
 import { CHAIN_ID } from "@/lib/consts";
 import type { Database } from "@/lib/supabase/types";
-import { TimelineMoment } from "@/hooks/useTimelineApi";
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -31,20 +30,17 @@ export async function GET(req: NextRequest) {
   }
 
   const moments = (data || [])
-    .map(
-      (row) =>
-        ({
-          address: row.address,
-          tokenId: String(row.tokenId),
-          chainId: row.chainId,
-          id: row.id,
-          uri: row.uri,
-          admin: row.defaultAdmin,
-          createdAt: row.createdAt,
-          username: row.username,
-          hidden: row.hidden,
-        }) as TimelineMoment
-    )
+    .map((row) => ({
+      address: row.address,
+      tokenId: String(row.tokenId),
+      chainId: row.chainId,
+      id: row.id,
+      uri: row.uri,
+      admin: row.defaultAdmin,
+      createdAt: row.createdAt,
+      username: row.username,
+      hidden: row.hidden,
+    }))
     .filter((moment) => artist || !!moment.username);
 
   return Response.json({
