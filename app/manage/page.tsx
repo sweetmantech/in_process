@@ -9,7 +9,10 @@ const Manage: NextPage = () => {
   const { connectedAddress } = useUserProvider();
 
   return (
-    <TimelineApiProvider artistAddress={connectedAddress?.toLowerCase()}>
+    <TimelineApiProvider
+      artistAddress={connectedAddress?.toLowerCase()}
+      includeHidden={true}
+    >
       <ManagePage />
     </TimelineApiProvider>
   );

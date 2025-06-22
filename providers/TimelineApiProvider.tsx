@@ -23,12 +23,14 @@ const TimelineContext = createContext<TimelineContextValue | undefined>(
 export const TimelineApiProvider = ({
   children,
   artistAddress,
+  includeHidden = false,
 }: {
   children: ReactNode;
   artistAddress?: string;
+  includeHidden?: boolean;
 }) => {
   const { data, isLoading, error, currentPage, setCurrentPage } =
-    useTimelineApi(1, 100, true, artistAddress);
+    useTimelineApi(1, 100, true, artistAddress, includeHidden);
   return (
     <TimelineContext.Provider
       value={{
