@@ -40,7 +40,7 @@ const EmbedPage = () => {
               height={66}
               className="block md:hidden"
             />
-            <p className="font-archivo-medium text-center">past embed code</p>
+            <p className="font-archivo-medium text-center">paste embed code</p>
           </div>
           <textarea
             className="bg-grey-moss-50 w-full grow !outline-none !ring-0 p-2 font-spectral"
