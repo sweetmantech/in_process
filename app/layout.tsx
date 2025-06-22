@@ -4,6 +4,7 @@ import { Providers } from "@/providers/Providers";
 import { Toaster } from "@/components/ui/sonner";
 import { Suspense } from "react";
 import Layout from "@/components/Layout";
+import { Analytics } from "@vercel/analytics/react";
 
 export default function RootLayout({
   children,
@@ -19,6 +20,7 @@ export default function RootLayout({
           </Providers>
           <Toaster />
         </Suspense>
+        <Analytics />
       </body>
     </html>
   );
