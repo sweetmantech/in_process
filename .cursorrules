@@ -84,9 +84,46 @@ The goal is to help you maintain a big picture as well as the progress of the ta
 
 # Scratchpad
 
-## Current Task: Manage Page - Show All Moments Including Hidden Ones (MYC-2312)
+## Current Task: Manage Page - Eye Icon (MYC-2317)
 
-Status: � Complete ✅ Implementation Verified
+Status: 🟢 Complete ✅ Ready for PR
+
+**Issue**: 
+- When on `/manage` page, all items show eye open icon (including hidden items)
+- Required: Hidden state should be reflected in eye icon (EyeOff for hidden, Eye for visible)
+
+**Root Cause Identified & Fixed**:
+- `HideButton` component already has correct logic: `moment.hidden ? <EyeOff /> : <Eye />`
+- **Problem**: In `CollectionItem.tsx`, when constructing moment object for HideButton, the `hidden` property is omitted
+- **Solution**: Added `hidden: c.hidden` to moment object in `CollectionItem.tsx`
+
+**Implementation Completed**:
+[X] **Fix CollectionItem.tsx**: Added `hidden: c.hidden` to moment object for `/manage` page
+[X] **Committed the fix**: Main manage page now shows correct eye icon based on hidden state
+[X] **Branch pushed**: `sweetmantech/myc-2317-manage-page-eye-icon` pushed to origin
+[X] **Ready for PR**: Branch and code ready for pull request creation
+
+**PR Information**:
+- **Branch**: `sweetmantech/myc-2317-manage-page-eye-icon`
+- **PR URL**: https://github.com/sweetmantech/in_process/pull/new/sweetmantech/myc-2317-manage-page-eye-icon
+- **Title**: "[Cursor] Fix eye icon state on manage page (MYC-2317)"
+
+**Investigation Results**:
+- **TokenItem.tsx** (Collection manage page `/manage/[collection]`): Different issue - doesn't receive `hidden` data from `useTokens` hook
+- **Scope**: Ticket MYC-2317 specifically mentions `/manage` page, which refers to main manage page, not collection pages
+- **Primary fix addresses the ticket requirements** ✅
+
+**Technical Summary**:
+- Main `/manage` page: Uses `TimelineApiProvider` → `TimelineMoment[]` with `hidden` property → Fixed ✅
+- Collection pages `/manage/[collection]`: Uses `CollectionProvider` → Different data source without `hidden` state
+- API `/api/timeline` returns moments with `hidden: boolean` property for main manage page
+- HideButton now correctly shows EyeOff for hidden moments and Eye for visible moments
+
+**Task Status**: ✅ **COMPLETE** - Ready for PR creation and review
+
+## Previous Task: Manage Page - Show All Moments Including Hidden Ones (MYC-2312)
+
+Status: 🟢 Complete ✅ Implementation Verified
 
 **Issue RESOLVED**: 
 - When on `/manage` page and hide a moment, it now persists on refresh
@@ -120,101 +157,3 @@ Status: � Complete ✅ Implementation Verified
 - Logic verified through code analysis  
 - API behavior confirmed to work as expected
 - Testing blocked only by environment setup issues (canvas dependency failure)
-
-## Previous Task: Delete TimelineProvider (MYC-2310 continued)
-
-Status: 🟢 Complete ✅ TypeScript Fixed & Ready for PR
-
-**Requirement**:
-- Remove isHidden and the import of useTimelineProvider from HideButton
-- Remove TimelineProvider from providers/Providers.tsx
-- Verify there are no more usages of providers/TimelineProvider.tsx
-- Delete providers/TimelineProvider.tsx
-- Open a pull request
-
-**Progress**:
-[X] **Updated HideButton** (`/components/HorizontalFeed/HideButton.tsx`):
-  - Removed `import { useTimelineProvider } from "@/providers/TimelineProvider"`
-  - Removed `isHidden` state computation using `hiddenMoments`
-  - Simplified to show consistent EyeOff icon regardless of state
-  - Updated toast message to be generic "Moment visibility toggled"
-  - Kept the toggleMoment API call to update server state
-
-[X] **Updated Providers.tsx** (`/providers/Providers.tsx`):
-  - Removed `import TimelineProvider from "./TimelineProvider"`
-  - Removed `<TimelineProvider>` wrapper from provider tree
-  - Clean provider hierarchy without the legacy provider
-
-[X] **Verified no more usages**:
-  - Confirmed no files import from `providers/TimelineProvider`
-  - Only remaining references were in the files we updated
-
-[X] **Deleted TimelineProvider** (`/providers/TimelineProvider.tsx`):
-  - Successfully deleted the legacy provider file
-  - No more client-side hidden moments state management
-
-[X] **TypeScript Type Declarations Completed**:
-  - Fixed ESLint error: Removed unused `Eye` import from HideButton.tsx
-  - Enhanced TypeScript strict typing with explicit return types  
-  - Added JSX.Element return type annotation to components
-  - Added explicit type annotations for parameters (moment: TimelineMoment, onClick: (() => void) | undefined)
-  - Created proper type declarations for sonner package (types/sonner.d.ts)
-  - Added comprehensive React type declaration mapping (types/react.d.ts)
-  - Updated tsconfig.json to include types directory for custom declarations
-  - Fixed module resolution for React imports with compatibility layer
-  - Enhanced error handling with try/catch and proper async/await
-  - Added MouseEvent<HTMLButtonElement> typing for event handlers
-  - ✅ All TypeScript type issues resolved with proper module declarations
-
-[X] **Branch and Commits Ready**:
-  - Branch: `cursor/remove-timelineprovider-references-5235`
-  - Latest Commit: `cf305b9` with complete TypeScript type declaration fixes
-  - All changes pushed to origin successfully
-  - Ready for manual PR creation
-
-**Summary of Changes**:
-- **Removed client-side hidden state**: No more `hiddenMoments` or `isHidden` logic
-- **Simplified HideButton**: Now just calls the API without local state
-- **Cleaned provider tree**: Removed unnecessary TimelineProvider wrapper
-- **Eliminated dead code**: Deleted unused provider and hook
-
-## Previous Task: Update /api/token/hide to use TimelineMoment type (MYC-2310)
-
-Status: 🟢 Complete ✅ PR Created
-
-**Requirement**: 
-- `/api/token/hide` should use `TimelineMoment` type from `hooks/useTimelineApi.ts`
-- Verify there are no more usages of the old `Moment` type from `useTimeline`
-
-**What was completed**:
-[X] **Updated API endpoint** (`/app/api/token/hide/route.ts`):
-  - Changed import from `import { Moment } from "@/hooks/useTimeline"` to `import { TimelineMoment } from "@/hooks/useTimelineApi"`
-  - Updated type annotation from `{ moment: Moment }` to `{ moment: TimelineMoment }`
-  - Changed property access from `moment.tokenContract` to `moment.address`
-
-[X] **Simplified toggleMoment function** (`/lib/timeline/toggleMoment.ts`):
-  - Removed legacy field mapping since API now accepts TimelineMoment directly
-  - Simplified to pass TimelineMoment object directly to API
-  - Maintained clean API and proper JSDoc documentation
-
-[X] **Verified no remaining usages**:
-  - Confirmed no more imports of old `Moment` type from `useTimeline`
-  - Only reference to old type is in this `.cursorrules` file (documentation)
-  - All other components correctly use `TimelineMoment` type
-
-[X] **Pull Request Created**:
-  - Branch: `cursor/update-token-api-to-use-timelinemoment-dcb3`
-  - PR #548: https://github.com/sweetmantech/in_process/pull/548
-  - Title: "[Cursor] Update /api/token/hide to use TimelineMoment type (MYC-2310)"
-  - Comprehensive description with migration details and benefits
-
-**Type Migration Summary**:
-- **Before**: API expected legacy `{ owner: Address; tokenContract: Address; tokenId: string; }`
-- **After**: API now accepts modern `{ address: Address; admin: Address; tokenId: string; chainId: number; id: string; uri: string; createdAt: string; username: string; }`
-- **Impact**: Cleaner API, direct type usage, no more field mapping needed
-
-**Key improvements**:
-- **Type consistency**: API now uses the same type as the rest of the application
-- **Simplified code**: Removed unnecessary field mapping in toggleMoment
-- **Better maintainability**: Single source of truth for TimelineMoment type
-- **Future-proof**: API ready for additional TimelineMoment fields if needed

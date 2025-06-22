@@ -40,6 +40,7 @@ const CollectionItem = ({ c }: { c: TimelineMoment }) => {
                 admin: c.admin,
                 createdAt: c.createdAt,
                 username: c.username || "",
+                hidden: c.hidden,
               }}
             />
           </div>
