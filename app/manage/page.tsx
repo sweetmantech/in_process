@@ -12,6 +12,7 @@ const Manage: NextPage = () => {
     <TimelineApiProvider
       artistAddress={connectedAddress?.toLowerCase()}
       includeHidden={true}
+      limit={50}
     >
       <ManagePage />
     </TimelineApiProvider>

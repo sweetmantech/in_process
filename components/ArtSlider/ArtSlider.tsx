@@ -12,7 +12,7 @@ const ArtSlider = () => {
   const isMobile = useIsMobile();
   const { moments } = useTimelineApiContext();
   const [swiper, setSwiper] = useState<Swiper | null>(null);
-  const slides = mapMomentsToTokens(moments).slice(0, 55);
+  const slides = mapMomentsToTokens(moments).slice(0, 25);
 
   return (
     <div className="relative h-full">

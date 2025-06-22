@@ -16,6 +16,9 @@ const TimelineSpiral = () => {
   const { handleMouseLeave, handleMouseMove, hoveredFeed } =
     useSpiralMouseOver();
   const { moments } = useTimelineApiContext();
+  
+  // Limit moments shown in spiral to prevent performance issues
+  const limitedMoments = moments.slice(0, 15);
 
   return (
     <div className="relative mt-12">
@@ -23,7 +26,7 @@ const TimelineSpiral = () => {
         <SpiralPath id="curve" points={points as Point[]} />
         <text>
           <textPath xlinkHref="#curve" startOffset={`${offset}%`}>
-            {[...moments, ...moments].map((moment, index) => (
+            {[...limitedMoments, ...limitedMoments].map((moment, index) => (
               <Feed
                 feed={mapMomentToToken(moment)}
                 index={index}

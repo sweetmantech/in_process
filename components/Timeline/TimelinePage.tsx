@@ -10,10 +10,17 @@ import HorizontalTimeline from "@/components/Timeline/HorizontalTimeline";
 import { HorizontalFeedAnimationProvider } from "@/providers/HorizontalFeedAnimationProvider";
 import { mapMomentsToTokens } from "@/lib/timeline/mapMomentToToken";
 import TimelineGrid from "@/components/Timeline/TimelineGrid";
+import FetchMoreInspector from "@/components/FetchMoreInspector";
 
 const TimelinePage = () => {
-  const { data, isLoading, error, moments } = useTimelineApiContext();
+  const { data, isLoading, error, moments, currentPage, setCurrentPage } = useTimelineApiContext();
   const tokens = mapMomentsToTokens(moments);
+  
+  const fetchMore = () => {
+    if (data && data.pagination.page < data.pagination.total_pages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
 
   if (isLoading)
     return (
@@ -36,10 +43,14 @@ const TimelinePage = () => {
         <TimelineMobileMoon />
       </div>
       <TimelineGrid />
+      <div className="hidden md:block">
+        <FetchMoreInspector fetchMore={fetchMore} />
+      </div>
       <div className="block md:hidden overflow-hidden h-[300px] pb-20">
         <HorizontalFeedAnimationProvider feeds={tokens}>
           <HorizontalTimeline />
         </HorizontalFeedAnimationProvider>
+        <FetchMoreInspector fetchMore={fetchMore} />
       </div>
     </main>
   );

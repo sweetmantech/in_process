@@ -35,7 +35,7 @@ export const metadata: Metadata = {
 
 const Timeline = () => {
   return (
-    <TimelineProvider>
+    <TimelineProvider limit={25}>
       <TimelinePage />
     </TimelineProvider>
   );

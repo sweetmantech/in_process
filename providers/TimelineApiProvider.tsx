@@ -24,13 +24,15 @@ export const TimelineApiProvider = ({
   children,
   artistAddress,
   includeHidden = false,
+  limit = 20,
 }: {
   children: ReactNode;
   artistAddress?: string;
   includeHidden?: boolean;
+  limit?: number;
 }) => {
   const { data, isLoading, error, currentPage, setCurrentPage } =
-    useTimelineApi(1, 100, true, artistAddress, includeHidden);
+    useTimelineApi(1, limit, true, artistAddress, includeHidden);
   return (
     <TimelineContext.Provider
       value={{
