@@ -89,12 +89,14 @@ The goal is to help you maintain a big picture as well as the progress of the ta
 Status: ✅ Complete ✅ Implementation Verified
 
 **Requirement**: ✅ COMPLETED
+
 - `/api/token/hide` should return the updated rows (not just success/count) ✅
 - `toggleMoment` should return the API response data ✅
 - `HideButton` should use the response to show appropriate toast text ✅
 - Currently: HideButton never updates the Eye icon based on the response ✅ FIXED
 
 **Problem RESOLVED**:
+
 - `/api/token/hide` now returns `{ success: true, updated: ids.length, data: updatedRows }`
 - `toggleMoment` now returns the complete API response with updated data
 - `HideButton` uses actual server response for accurate toast messages
@@ -103,22 +105,24 @@ Status: ✅ Complete ✅ Implementation Verified
 **Implementation Changes COMPLETED**:
 [X] **Create branch**: `sweetmantech/myc-2318-apitokenhide-return-the-updated-rows-so-togglemoment-can`
 [X] **Updated `updateInProcessTokens`** (`lib/supabase/in_process_tokens/updateInProcessTokens.ts`):
-   - Added `.select()` to Supabase update query to return updated rows
-   - Now returns the actual updated data instead of just success/error
-[X] **Updated `/api/token/hide`** (`app/api/token/hide/route.ts`):
-   - Captures `updatedRows` from `updateInProcessTokens` response
-   - Returns updated data in API response: `{ success, updated, data: updatedRows }`
-[X] **Updated `toggleMoment`** (`lib/timeline/toggleMoment.ts`):
-   - Changed return type from `Promise<void>` to `Promise<{ success: boolean; updated: number; data: any[] }>`
-   - Added proper error handling with response status checking
-   - Returns the complete API response for client consumption
-[X] **Updated `HideButton`** (`components/HorizontalFeed/HideButton.tsx`):
-   - Now uses `response.data[0].hidden` for toast message (actual server state)
-   - Toast shows accurate "Moment hidden" or "Moment revealed" based on server response
-   - Fallback to generic message if response structure is unexpected
-   - Proper error handling maintained
+
+- Added `.select()` to Supabase update query to return updated rows
+- Now returns the actual updated data instead of just success/error
+  [X] **Updated `/api/token/hide`** (`app/api/token/hide/route.ts`):
+- Captures `updatedRows` from `updateInProcessTokens` response
+- Returns updated data in API response: `{ success, updated, data: updatedRows }`
+  [X] **Updated `toggleMoment`** (`lib/timeline/toggleMoment.ts`):
+- Changed return type from `Promise<void>` to `Promise<{ success: boolean; updated: number; data: any[] }>`
+- Added proper error handling with response status checking
+- Returns the complete API response for client consumption
+  [X] **Updated `HideButton`** (`components/HorizontalFeed/HideButton.tsx`):
+- Now uses `response.data[0].hidden` for toast message (actual server state)
+- Toast shows accurate "Moment hidden" or "Moment revealed" based on server response
+- Fallback to generic message if response structure is unexpected
+- Proper error handling maintained
 
 **Technical Flow IMPLEMENTED**:
+
 1. **User clicks HideButton** → calls `toggleMoment(moment)`
 2. **toggleMoment** → POSTs to `/api/token/hide` → returns response with updated data
 3. **API** → calls `updateInProcessTokens` with `.select()` → returns updated rows
@@ -126,12 +130,14 @@ Status: ✅ Complete ✅ Implementation Verified
 5. **Result**: Toast reflects the ACTUAL new state from server, not old client state
 
 **Key Improvements**:
+
 - **Accurate feedback**: Toast messages now reflect actual server state
 - **Complete data flow**: From API response through to UI feedback
 - **Better error handling**: Proper response validation and error messages
 - **Type safety**: Updated function signatures with proper return types
 
 **Branch & Commit**:
+
 - Branch: `sweetmantech/myc-2318-apitokenhide-return-the-updated-rows-so-togglemoment-can`
 - Commit: `c922ca7` - "[Cursor] Make /api/token/hide return updated rows for accurate toast messages (MYC-2318)"
 - **Status**: ✅ Ready for PR creation
@@ -140,35 +146,40 @@ Status: ✅ Complete ✅ Implementation Verified
 
 Status: ✅ Complete ✅ Implementation Verified
 
-**Issue RESOLVED**: 
+**Issue RESOLVED**:
+
 - When on `/manage` page and hide a moment, it now persists on refresh
 - Current behavior: `/manage` route shows ALL tokens, including hidden tokens
 - Requirement: **✅ COMPLETED**
 
 **Root Cause Identified & Fixed**:
+
 - **Problem**: `useTimelineApi.ts` → `fetchTimeline()` didn't pass `hidden` parameter, defaulting to only non-hidden moments
 - **Solution**: Added `includeHidden` parameter throughout the chain
 
 **Implementation Changes COMPLETED**:
 [X] **Updated `useTimelineApi.ts`**: Added `includeHidden` parameter to `fetchTimeline` and `useTimelineApi`
-   - When `includeHidden=true`, passes `hidden="true"` to API
-   - Updated query key to include `includeHidden` for proper caching
-[X] **Updated `TimelineApiProvider.tsx`**: Added `includeHidden` prop and passed to `useTimelineApi`
-[X] **Updated `/manage/page.tsx`**: Added `includeHidden={true}` to show all moments including hidden ones
-[X] **Verified API Logic**: Confirmed `getInProcessTokens.ts` correctly handles `hidden` parameter:
-   - `hidden=false` (default) → filters to only non-hidden moments (`query.eq("hidden", false)`)
-   - `hidden=true` → NO filter applied → returns ALL moments (both hidden and non-hidden)
+
+- When `includeHidden=true`, passes `hidden="true"` to API
+- Updated query key to include `includeHidden` for proper caching
+  [X] **Updated `TimelineApiProvider.tsx`**: Added `includeHidden` prop and passed to `useTimelineApi`
+  [X] **Updated `/manage/page.tsx`**: Added `includeHidden={true}` to show all moments including hidden ones
+  [X] **Verified API Logic**: Confirmed `getInProcessTokens.ts` correctly handles `hidden` parameter:
+- `hidden=false` (default) → filters to only non-hidden moments (`query.eq("hidden", false)`)
+- `hidden=true` → NO filter applied → returns ALL moments (both hidden and non-hidden)
 
 **Technical Flow VERIFIED**:
+
 1. **Manage Page**: `<TimelineApiProvider includeHidden={true}>`
-2. **Provider**: passes `includeHidden=true` to `useTimelineApi`  
+2. **Provider**: passes `includeHidden=true` to `useTimelineApi`
 3. **Hook**: calls `fetchTimeline(page, limit, artistAddress, true)`
 4. **API Call**: adds `hidden="true"` to URL params
 5. **Backend**: receives `hidden=true` → `!hidden` = false → no filter applied
 6. **Result**: Returns ALL moments (both hidden and non-hidden)
 
 **Status**: ✅ **IMPLEMENTATION COMPLETE**
+
 - All code changes implemented correctly
-- Logic verified through code analysis  
+- Logic verified through code analysis
 - API behavior confirmed to work as expected
 - Testing blocked only by environment setup issues (canvas dependency failure)
