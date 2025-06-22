@@ -19,6 +19,7 @@ export async function updateInProcessTokens({
   const { data, error } = await supabase
     .from("in_process_tokens")
     .update(update)
-    .in("id", ids);
+    .in("id", ids)
+    .select();
   return { data, error };
 }

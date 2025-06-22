@@ -14,6 +14,7 @@ export async function POST(req: NextRequest) {
       addresses: [moment.address.toLowerCase() as Address],
       tokenIds: [Number(moment.tokenId)],
       chainId: CHAIN_ID,
+      hidden: true,
     });
     if (fetchError) throw fetchError;
     if (!rows) throw new Error("No tokens found");
@@ -27,16 +28,17 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { error: updateError } = await updateInProcessTokens({
-      ids,
-      update: { hidden: !rows[0].hidden },
-    });
+    const { data: updatedRows, error: updateError } =
+      await updateInProcessTokens({
+        ids,
+        update: { hidden: !rows[0].hidden },
+      });
 
     if (updateError) throw updateError;
 
     return Response.json({
       success: true,
-      updated: ids.length,
+      updated: updatedRows,
     });
   } catch (e: any) {
     console.log(e);
