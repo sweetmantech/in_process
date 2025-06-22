@@ -1,49 +1,52 @@
 import { Eye, EyeOff } from "lucide-react";
-import type { FC, ButtonHTMLAttributes } from "react";
-import { useTimelineProvider } from "@/providers/TimelineProvider";
-import { TimelineMoment } from "@/hooks/useTimelineApi";
+import { FC, ButtonHTMLAttributes, MouseEvent } from "react";
+import type { TimelineMoment } from "@/hooks/useTimelineApi";
 import { toggleMoment } from "@/lib/timeline/toggleMoment";
 import { toast } from "sonner";
 
 interface HideButtonProps
   extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "onClick"> {
   moment: TimelineMoment;
-  onClick?: () => void;
+  onClick?: (() => void) | undefined;
 }
 
 /**
- * HideButton: toggles hidden/visible state with eye/eye-off icon.
- * Computes hidden state and calls toggleMoment from context. Usage: <HideButton moment={...} />
+ * HideButton: toggles hidden/visible state with eye-off icon.
+ * Calls toggleMoment to update server state. Usage: <HideButton moment={...} />
  */
 const HideButton: FC<HideButtonProps> = ({
   moment,
   className = "",
   onClick,
   ...props
-}) => {
-  const { hiddenMoments } = useTimelineProvider();
-  const isHidden = hiddenMoments.some(
-    (ele) =>
-      ele.tokenContract === moment.address.toLowerCase() &&
-      ele.tokenId === moment.tokenId
-  );
+}): JSX.Element => {
+  const handleClick = async (
+    e: MouseEvent<HTMLButtonElement>
+  ): Promise<void> => {
+    e.stopPropagation();
+
+    try {
+      await toggleMoment(moment);
+      toast(moment.hidden ? "Moment revealed" : "Moment hidden");
+      onClick?.();
+    } catch (error) {
+      console.error("Failed to toggle moment visibility:", error);
+      toast("Failed to toggle moment visibility");
+    }
+  };
+
   return (
     <button
       type="button"
       className={`bg-grey-moss-200 border border-grey-moss-900 px-1 py-1 rounded ${className}`}
-      aria-label={isHidden ? "Unhide" : "Hide"}
-      onClick={(e) => {
-        e.stopPropagation();
-        toggleMoment(moment);
-        toast(isHidden ? "Moment visible" : "Moment hidden");
-        onClick?.();
-      }}
+      aria-label="Toggle visibility"
+      onClick={handleClick}
       {...props}
     >
-      {isHidden ? (
-        <Eye className="size-4 text-grey-eggshell" />
-      ) : (
+      {moment.hidden ? (
         <EyeOff className="size-4 text-grey-eggshell" />
+      ) : (
+        <Eye className="size-4 text-grey-eggshell" />
       )}
     </button>
   );

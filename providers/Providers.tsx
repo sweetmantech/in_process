@@ -10,25 +10,26 @@ import FrameProvider from "./FrameProvider";
 import LayoutProvider from "./LayoutProvider";
 import UserCollectionsProvider from "./UserCollectionsProvider";
 import EthPriceProvider from "./EthPriceProvider";
-import TimelineProvider from "./TimelineProvider";
 
-export function Providers({ children }: { children: ReactNode }) {
+interface ProvidersProps {
+  children: ReactNode;
+}
+
+export function Providers({ children }: ProvidersProps): JSX.Element {
   return (
     <EthPriceProvider>
       <WagmiProvider>
         <CrossmintProvider>
           <PrivyProvider>
-            <TimelineProvider>
-              <FrameProvider>
-                <UserProvider>
-                  <ZoraCreateProvider>
-                    <UserCollectionsProvider>
-                      <LayoutProvider>{children}</LayoutProvider>
-                    </UserCollectionsProvider>
-                  </ZoraCreateProvider>
-                </UserProvider>
-              </FrameProvider>
-            </TimelineProvider>
+            <FrameProvider>
+              <UserProvider>
+                <ZoraCreateProvider>
+                  <UserCollectionsProvider>
+                    <LayoutProvider>{children}</LayoutProvider>
+                  </UserCollectionsProvider>
+                </ZoraCreateProvider>
+              </UserProvider>
+            </FrameProvider>
           </PrivyProvider>
         </CrossmintProvider>
       </WagmiProvider>

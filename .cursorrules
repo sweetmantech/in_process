@@ -88,31 +88,36 @@ The goal is to help you maintain a big picture as well as the progress of the ta
 
 Status: 🔍 **ROOT CAUSE IDENTIFIED** - Ready for fix
 
-**Requirement**: 
+**Requirement**:
+
 - Fix the "insufficient balance to perform useroperation" error when calling `/api/moment/create`
 - CDP_PAYMASTER_URL should be used so the signing smart wallet doesn't need funds
 - Delete TimelineProvider alias usage
 
 **Root Cause Found**:
 ✅ **CDP_PAYMASTER_KEY environment variable is NOT SET**
+
 - Current CDP_PAYMASTER_URL: `https://api.developer.coinbase.com/rpc/v1/base/undefined`
 - The paymaster URL contains "undefined" because `process.env.CDP_PAYMASTER_KEY` is missing
 - This causes the smart wallet to fail with "insufficient balance" error instead of using the paymaster
 
 **Changes Made**:
 [X] **Enhanced error handling** (`lib/coinbase/sendUserOperation.ts`):
-  - Added debug logging to show CDP_PAYMASTER_URL value
-  - Added validation to detect undefined paymaster key
-  - Added better error messages for paymaster issues
-  - Wrapped paymaster errors with helpful context
+
+- Added debug logging to show CDP_PAYMASTER_URL value
+- Added validation to detect undefined paymaster key
+- Added better error messages for paymaster issues
+- Wrapped paymaster errors with helpful context
 
 [X] **Removed TimelineProvider alias** (`app/page.tsx`):
-  - Changed import from `TimelineApiProvider as TimelineProvider` to `TimelineApiProvider`
-  - Updated JSX usage to use `TimelineApiProvider` directly
-  - Added proper TypeScript interface to `TimelineApiProvider` component
+
+- Changed import from `TimelineApiProvider as TimelineProvider` to `TimelineApiProvider`
+- Updated JSX usage to use `TimelineApiProvider` directly
+- Added proper TypeScript interface to `TimelineApiProvider` component
 
 **SOLUTION NEEDED**:
 🔑 **Set CDP_PAYMASTER_KEY environment variable**
+
 - The development team needs to add `CDP_PAYMASTER_KEY=<actual_key>` to their environment
 - This should be obtained from Coinbase Developer Platform
 - Once set, the paymaster will work and smart wallets won't need ETH balance
@@ -123,6 +128,7 @@ Status: 🔍 **ROOT CAUSE IDENTIFIED** - Ready for fix
 [ ] Test the fix
 
 **Key files**:
+
 - `lib/coinbase/sendUserOperation.ts` - already uses paymaster correctly
 - `lib/consts.ts` - CDP_PAYMASTER_URL construction
 - `app/page.tsx` - TimelineProvider alias to remove
