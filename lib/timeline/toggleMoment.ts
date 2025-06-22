@@ -3,14 +3,24 @@ import { TimelineMoment } from "@/hooks/useTimelineApi";
 /**
  * Toggles the hidden state of a timeline moment by calling the hide API
  * @param moment - The timeline moment to toggle
- * @returns Promise that resolves when the API call completes
+ * @returns Promise with the API response containing updated row data
  */
-export const toggleMoment = async (moment: TimelineMoment): Promise<void> => {
-  await fetch("/api/token/hide", {
+export const toggleMoment = async (moment: TimelineMoment): Promise<{
+  success: boolean;
+  updated: number;
+  data: any[];
+}> => {
+  const response = await fetch("/api/token/hide", {
     method: "POST",
     headers: {
       "content-type": "application/json",
     },
     body: JSON.stringify({ moment }),
   });
+
+  if (!response.ok) {
+    throw new Error(`Failed to toggle moment: ${response.statusText}`);
+  }
+
+  return response.json();
 };
