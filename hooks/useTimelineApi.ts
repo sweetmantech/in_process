@@ -11,6 +11,7 @@ export interface TimelineMoment {
   admin: Address;
   createdAt: string;
   username: string;
+  hidden?: boolean;
 }
 
 export interface TimelineResponse {
