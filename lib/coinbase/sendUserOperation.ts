@@ -17,13 +17,38 @@ export async function sendUserOperation({
   calls,
   network,
 }: SendUserOperationParams) {
-  // Send the transaction
-  const sendResult = await cdp.evm.sendUserOperation({
-    smartAccount,
-    network,
-    paymasterUrl: CDP_PAYMASTER_URL,
-    calls,
-  });
+  // Debug logging for paymaster URL
+  console.log("CDP_PAYMASTER_URL:", CDP_PAYMASTER_URL);
+  console.log("Network:", network);
+  console.log("Smart account address:", smartAccount.address);
+  
+  if (!CDP_PAYMASTER_URL || CDP_PAYMASTER_URL.includes("undefined")) {
+    throw new Error("CDP_PAYMASTER_KEY environment variable is not set. Please set CDP_PAYMASTER_KEY in your environment variables.");
+  }
+
+  let sendResult;
+  try {
+    // Send the transaction
+    sendResult = await cdp.evm.sendUserOperation({
+      smartAccount,
+      network,
+      paymasterUrl: CDP_PAYMASTER_URL,
+      calls,
+    });
+  } catch (error: any) {
+    console.error("Error in sendUserOperation:", error);
+    
+    // Check if it's a paymaster related error
+    if (error.message && error.message.includes("insufficient balance")) {
+      throw new Error(
+        `Insufficient balance error detected. This likely means the CDP paymaster is not working correctly. ` +
+        `Check that CDP_PAYMASTER_KEY is set correctly. Current paymaster URL: ${CDP_PAYMASTER_URL}. ` +
+        `Original error: ${error.message}`
+      );
+    }
+    
+    throw error;
+  }
 
   // Wait for the transaction to be mined
   await cdp.evm.waitForUserOperation({

@@ -20,13 +20,15 @@ const TimelineContext = createContext<TimelineContextValue | undefined>(
   undefined
 );
 
+interface TimelineApiProviderProps {
+  children: ReactNode;
+  artistAddress?: string;
+}
+
 export const TimelineApiProvider = ({
   children,
   artistAddress,
-}: {
-  children: ReactNode;
-  artistAddress?: string;
-}) => {
+}: TimelineApiProviderProps) => {
   const { data, isLoading, error, currentPage, setCurrentPage } =
     useTimelineApi(1, 100, true, artistAddress);
   return (

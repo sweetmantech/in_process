@@ -84,43 +84,45 @@ The goal is to help you maintain a big picture as well as the progress of the ta
 
 # Scratchpad
 
-## Current Task: Update /api/token/hide to use TimelineMoment type (MYC-2310)
+## Current Task: Fix API moment/create user operation balance error (MYC-2316)
 
-Status: 🟢 Complete ✅ PR Created
+Status: 🔍 **ROOT CAUSE IDENTIFIED** - Ready for fix
 
 **Requirement**: 
-- `/api/token/hide` should use `TimelineMoment` type from `hooks/useTimelineApi.ts`
-- Verify there are no more usages of the old `Moment` type from `useTimeline`
+- Fix the "insufficient balance to perform useroperation" error when calling `/api/moment/create`
+- CDP_PAYMASTER_URL should be used so the signing smart wallet doesn't need funds
+- Delete TimelineProvider alias usage
 
-**What was completed**:
-[X] **Updated API endpoint** (`/app/api/token/hide/route.ts`):
-  - Changed import from `import { Moment } from "@/hooks/useTimeline"` to `import { TimelineMoment } from "@/hooks/useTimelineApi"`
-  - Updated type annotation from `{ moment: Moment }` to `{ moment: TimelineMoment }`
-  - Changed property access from `moment.tokenContract` to `moment.address`
+**Root Cause Found**:
+✅ **CDP_PAYMASTER_KEY environment variable is NOT SET**
+- Current CDP_PAYMASTER_URL: `https://api.developer.coinbase.com/rpc/v1/base/undefined`
+- The paymaster URL contains "undefined" because `process.env.CDP_PAYMASTER_KEY` is missing
+- This causes the smart wallet to fail with "insufficient balance" error instead of using the paymaster
 
-[X] **Simplified toggleMoment function** (`/lib/timeline/toggleMoment.ts`):
-  - Removed legacy field mapping since API now accepts TimelineMoment directly
-  - Simplified to pass TimelineMoment object directly to API
-  - Maintained clean API and proper JSDoc documentation
+**Changes Made**:
+[X] **Enhanced error handling** (`lib/coinbase/sendUserOperation.ts`):
+  - Added debug logging to show CDP_PAYMASTER_URL value
+  - Added validation to detect undefined paymaster key
+  - Added better error messages for paymaster issues
+  - Wrapped paymaster errors with helpful context
 
-[X] **Verified no remaining usages**:
-  - Confirmed no more imports of old `Moment` type from `useTimeline`
-  - Only reference to old type is in this `.cursorrules` file (documentation)
-  - All other components correctly use `TimelineMoment` type
+[X] **Removed TimelineProvider alias** (`app/page.tsx`):
+  - Changed import from `TimelineApiProvider as TimelineProvider` to `TimelineApiProvider`
+  - Updated JSX usage to use `TimelineApiProvider` directly
+  - Added proper TypeScript interface to `TimelineApiProvider` component
 
-[X] **Pull Request Created**:
-  - Branch: `cursor/update-token-api-to-use-timelinemoment-dcb3`
-  - PR #548: https://github.com/sweetmantech/in_process/pull/548
-  - Title: "[Cursor] Update /api/token/hide to use TimelineMoment type (MYC-2310)"
-  - Comprehensive description with migration details and benefits
+**SOLUTION NEEDED**:
+🔑 **Set CDP_PAYMASTER_KEY environment variable**
+- The development team needs to add `CDP_PAYMASTER_KEY=<actual_key>` to their environment
+- This should be obtained from Coinbase Developer Platform
+- Once set, the paymaster will work and smart wallets won't need ETH balance
 
-**Type Migration Summary**:
-- **Before**: API expected legacy `{ owner: Address; tokenContract: Address; tokenId: string; }`
-- **After**: API now accepts modern `{ address: Address; admin: Address; tokenId: string; chainId: number; id: string; uri: string; createdAt: string; username: string; }`
-- **Impact**: Cleaner API, direct type usage, no more field mapping needed
+**Next Steps**:
+[X] Add debug logging to check CDP_PAYMASTER_URL value
+[X] Remove TimelineProvider alias and use TimelineApiProvider directly
+[ ] Test the fix
 
-**Key improvements**:
-- **Type consistency**: API now uses the same type as the rest of the application
-- **Simplified code**: Removed unnecessary field mapping in toggleMoment
-- **Better maintainability**: Single source of truth for TimelineMoment type
-- **Future-proof**: API ready for additional TimelineMoment fields if needed
+**Key files**:
+- `lib/coinbase/sendUserOperation.ts` - already uses paymaster correctly
+- `lib/consts.ts` - CDP_PAYMASTER_URL construction
+- `app/page.tsx` - TimelineProvider alias to remove
