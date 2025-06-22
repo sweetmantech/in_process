@@ -8,11 +8,13 @@ const MobileSelect = () => {
   const [isOpenSelect, setIsOpenSelect] = useState<boolean>(false);
   const { push } = useRouter();
   const pathname = usePathname();
+  const isUsdc = pathname.includes("/usdc");
+  const baseRoute = isUsdc ? "/create/usdc" : "/create";
   const selectedValue = useMemo(() => {
-    if (pathname === "/create") return "moment";
-    if (pathname === "/create/writing") return "thought";
-    if (pathname === "/create/link") return "link";
-    if (pathname === "/create/embed") return "embed";
+    if (pathname === "/create" || pathname === "/create/usdc") return "moment";
+    if (pathname === "/create/writing" || pathname === "/create/usdc/writing") return "thought";
+    if (pathname === "/create/link" || pathname === "/create/usdc/link") return "link";
+    if (pathname === "/create/embed" || pathname === "/create/usdc/embed") return "embed";
   }, [pathname]);
 
   const values = useMemo(() => {
@@ -25,10 +27,9 @@ const MobileSelect = () => {
   }, [selectedValue]);
 
   const handleClick = (value: string) => {
-    const link = "/create";
-    if (value === "moment") push(link);
-    if (value === "thought") push(`${link}/writing`);
-    if (value !== "moment" && value !== "thought") push(`${link}/${value}`);
+    if (value === "moment") push(baseRoute);
+    if (value === "thought") push(`${baseRoute}/writing`);
+    if (value !== "moment" && value !== "thought") push(`${baseRoute}/${value}`);
     setIsOpenSelect(false);
   };
   return (

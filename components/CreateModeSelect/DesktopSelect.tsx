@@ -8,35 +8,37 @@ const DesktopSelect = () => {
   const { push } = useRouter();
   const searchParams = useSearchParams();
   const urlParams = searchParams.toString();
-  const isCreatePage = pathname === "/create";
-  const isWritingPage = pathname === "/create/writing";
-  const isLinkPage = pathname === "/create/link";
-  const isEmbedPage = pathname === "/create/embed";
+  const isUsdc = pathname.includes("/usdc");
+  const baseRoute = isUsdc ? "/create/usdc" : "/create";
+  const isCreatePage = pathname === "/create" || pathname === "/create/usdc";
+  const isWritingPage = pathname === "/create/writing" || pathname === "/create/usdc/writing";
+  const isLinkPage = pathname === "/create/link" || pathname === "/create/usdc/link";
+  const isEmbedPage = pathname === "/create/embed" || pathname === "/create/usdc/embed";
   const urlQuery = urlParams ? `?${urlParams}` : "";
   return (
     <div className="w-full lg:max-w-[250px] xl:max-w-[300px] h-fit">
       <div ref={titleRef} className="flex flex-col gap-3 pb-3">
         <CTAButton
           isActive={isCreatePage}
-          onClick={() => push(`/create${urlQuery}`)}
+          onClick={() => push(`${baseRoute}${urlQuery}`)}
         >
           new moment
         </CTAButton>
         <CTAButton
           isActive={isWritingPage}
-          onClick={() => push(`/create/writing${urlQuery}`)}
+          onClick={() => push(`${baseRoute}/writing${urlQuery}`)}
         >
           new thought
         </CTAButton>
         <CTAButton
           isActive={isLinkPage}
-          onClick={() => push(`/create/link${urlQuery}`)}
+          onClick={() => push(`${baseRoute}/link${urlQuery}`)}
         >
           new link
         </CTAButton>
         <CTAButton
           isActive={isEmbedPage}
-          onClick={() => push(`/create/embed${urlQuery}`)}
+          onClick={() => push(`${baseRoute}/embed${urlQuery}`)}
         >
           new embed
         </CTAButton>
