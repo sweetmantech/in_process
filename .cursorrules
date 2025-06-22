@@ -82,10 +82,39 @@ The goal is to help you maintain a big picture as well as the progress of the ta
 - When migrating component interfaces from one type to another, ensure backward compatibility by mapping properties correctly in the implementation, especially when the component interfaces with legacy systems
 - When passing objects to components that expect specific interface shapes, manually construct the object with explicit field mapping and fallbacks rather than direct object passing to prevent undefined field errors
 - For components that need to update visual state based on API responses, use local state (useState) initialized with prop values and update the state with API response data to ensure UI reflects server state immediately
+- When using parseUnits/parseEther for USDC price handling, always convert BigInt results to strings using .toString() before JSON serialization to prevent "Do not know how to serialize a BigInt" errors
 
 # Scratchpad
 
-## Current Task: Fix Typo - "past embed code" → "paste embed code" (MYC-2320)
+## Current Task: Fix BigInt Serialization Error in /create/usdc (MYC-2323)
+
+Status: ✅ Complete ✅
+
+**Requirement**: ✅ COMPLETED
+- Fix BigInt serialization error on `/create/usdc` page when clicking create button ✅
+- Error: "TypeError: Do not know how to serialize a BigInt at JSON.stringify" ✅
+- Need to identify and convert BigInt values to strings before JSON serialization ✅
+
+**Problem RESOLVED**:
+- In `lib/zora/getSalesConfig.tsx` on line 17: `pricePerToken: parseUnits(price, 6)`
+- `parseUnits()` returns a BigInt but it was not converted to string like other fields
+- The `saleStart` and `saleEnd` fields were correctly converted with `.toString()`
+- But `pricePerToken` was left as BigInt, causing JSON.stringify to fail
+- The schema expects `pricePerToken` to be a string
+
+**Implementation Changes COMPLETED**:
+[X] **Updated `getSalesConfig.tsx`**: Changed `pricePerToken: parseUnits(price, 6)` to `pricePerToken: parseUnits(price, 6).toString()`
+- Now all BigInt values in the USDC sale config are properly converted to strings
+- Matches the pattern used for `saleStart` and `saleEnd` fields
+- Aligns with schema expectation that `pricePerToken` should be a string
+
+**Technical Fix**:
+- **Before**: `pricePerToken: parseUnits(price, 6)` (BigInt - causes JSON.stringify error)
+- **After**: `pricePerToken: parseUnits(price, 6).toString()` (string - serializes correctly)
+
+**Status**: ✅ **BIGINT SERIALIZATION ERROR FIXED**
+
+## Previous Task: Fix Typo - "past embed code" → "paste embed code" (MYC-2320)
 
 Status: ✅ Complete ✅
 
