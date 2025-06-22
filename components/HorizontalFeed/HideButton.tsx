@@ -1,4 +1,4 @@
-import { EyeOff } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 import { FC, ButtonHTMLAttributes, MouseEvent } from "react";
 import type { TimelineMoment } from "@/hooks/useTimelineApi";
 import { toggleMoment } from "@/lib/timeline/toggleMoment";
@@ -20,12 +20,14 @@ const HideButton: FC<HideButtonProps> = ({
   onClick,
   ...props
 }): JSX.Element => {
-  const handleClick = async (e: MouseEvent<HTMLButtonElement>): Promise<void> => {
+  const handleClick = async (
+    e: MouseEvent<HTMLButtonElement>
+  ): Promise<void> => {
     e.stopPropagation();
-    
+
     try {
       await toggleMoment(moment);
-      toast("Moment visibility toggled");
+      toast(moment.hidden ? "Moment revealed" : "Moment hidden");
       onClick?.();
     } catch (error) {
       console.error("Failed to toggle moment visibility:", error);
@@ -41,7 +43,11 @@ const HideButton: FC<HideButtonProps> = ({
       onClick={handleClick}
       {...props}
     >
-      <EyeOff className="size-4 text-grey-eggshell" />
+      {moment.hidden ? (
+        <EyeOff className="size-4 text-grey-eggshell" />
+      ) : (
+        <Eye className="size-4 text-grey-eggshell" />
+      )}
     </button>
   );
 };
