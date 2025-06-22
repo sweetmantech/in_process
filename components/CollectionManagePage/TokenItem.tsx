@@ -65,8 +65,7 @@ const TokenItem = ({
                   uri: t.uri,
                   admin: connectedAddress as Address,
                   createdAt: new Date().toISOString(),
-                  username: "",
-                  hidden: false,
+                  username: '',
                 }}
               />
             )}
