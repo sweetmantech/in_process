@@ -86,33 +86,42 @@ The goal is to help you maintain a big picture as well as the progress of the ta
 
 # Scratchpad
 
-## Current Task: Fix BigInt Serialization Error in /create/usdc (MYC-2323)
+## Current Task: Add USDC Subroutes for /create/usdc (MYC-2324)
 
-Status: ✅ Complete ✅
+Status: ✅ Complete ✅ 
 
-**Requirement**: ✅ COMPLETED
-- Fix BigInt serialization error on `/create/usdc` page when clicking create button ✅
-- Error: "TypeError: Do not know how to serialize a BigInt at JSON.stringify" ✅
-- Need to identify and convert BigInt values to strings before JSON serialization ✅
+**Requirement**: 
+- Add missing USDC subroutes to match existing ETH-based routes at `/create/`
+- Required routes: `/create/usdc/writing`, `/create/usdc/embed`, `/create/usdc/link`
+- Reference existing ETH routes: `/create/writing`, `/create/link`, `/create/embed`
+- Add parity for `/create/usdc` routes with `/create/` existing routes
 
-**Problem RESOLVED**:
-- In `lib/zora/getSalesConfig.tsx` on line 17: `pricePerToken: parseUnits(price, 6)`
-- `parseUnits()` returns a BigInt but it was not converted to string like other fields
-- The `saleStart` and `saleEnd` fields were correctly converted with `.toString()`
-- But `pricePerToken` was left as BigInt, causing JSON.stringify to fail
-- The schema expects `pricePerToken` to be a string
+**Investigation COMPLETED**:
+[X] **Explored existing route structure**: Found `/create/writing`, `/create/link`, `/create/embed` routes
+[X] **Analyzed existing components**: Each route has simple page component that renders corresponding component
+[X] **Discovered USDC detection logic**: System automatically detects USDC mode via `pathname.includes("/usdc")`
+[X] **Confirmed component compatibility**: Existing components work for both ETH and USDC modes based on URL path
+
+**Architecture Understanding**:
+- **Route Pattern**: `/create/[type]/page.tsx` → `[Type]Page` component
+- **USDC Detection**: `useZoraCreateParameters` & `useMetadataValues` check `pathname.includes("/usdc")`
+- **Auto-switching**: Components automatically switch ETH/USDC mode based on URL path
+- **Existing Components**: `WritingPage`, `LinkPage`, `EmbedPage` work for both modes
 
 **Implementation Changes COMPLETED**:
-[X] **Updated `getSalesConfig.tsx`**: Changed `pricePerToken: parseUnits(price, 6)` to `pricePerToken: parseUnits(price, 6).toString()`
-- Now all BigInt values in the USDC sale config are properly converted to strings
-- Matches the pattern used for `saleStart` and `saleEnd` fields
-- Aligns with schema expectation that `pricePerToken` should be a string
+[X] **Create `/create/usdc/writing/`** → directory + `page.tsx` → renders `WritingPage`
+[X] **Create `/create/usdc/link/`** → directory + `page.tsx` → renders `LinkPage`  
+[X] **Create `/create/usdc/embed/`** → directory + `page.tsx` → renders `EmbedPage`
+[X] **Updated Navigation Components**: Modified `DesktopSelect` and `MobileSelect` to handle USDC routes
+[X] **Verified Route Structure**: All USDC subroutes created successfully
 
-**Technical Fix**:
-- **Before**: `pricePerToken: parseUnits(price, 6)` (BigInt - causes JSON.stringify error)
-- **After**: `pricePerToken: parseUnits(price, 6).toString()` (string - serializes correctly)
+**Navigation Updates**:
+- **DesktopSelect**: Added USDC route detection and dynamic base route handling
+- **MobileSelect**: Added USDC route detection and dynamic base route handling  
+- **Active State**: Navigation now correctly shows active state for USDC routes
+- **Context Preservation**: When on USDC routes, navigation stays within USDC context
 
-**Status**: ✅ **BIGINT SERIALIZATION ERROR FIXED**
+**Status**: ✅ **ALL USDC SUBROUTES CREATED AND NAVIGATION UPDATED**
 
 ## Previous Task: Fix Typo - "past embed code" → "paste embed code" (MYC-2320)
 
