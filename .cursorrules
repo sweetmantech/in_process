@@ -81,10 +81,52 @@ The goal is to help you maintain a big picture as well as the progress of the ta
 - For polling endpoints with React Query, use the query state data to determine when to stop polling rather than adding new database fields
 - When migrating component interfaces from one type to another, ensure backward compatibility by mapping properties correctly in the implementation, especially when the component interfaces with legacy systems
 - When passing objects to components that expect specific interface shapes, manually construct the object with explicit field mapping and fallbacks rather than direct object passing to prevent undefined field errors
+- For components that need to update visual state based on API responses, use local state (useState) initialized with prop values and update the state with API response data to ensure UI reflects server state immediately
 
 # Scratchpad
 
-## Current Task: Make /api/token/hide return updated rows (MYC-2318)
+## Current Task: HideButton - update icon shown based on API response (MYC-2319)
+
+Status: ✅ Complete ✅ Implementation Verified
+
+**Requirement**: ✅ COMPLETED
+
+- HideButton uses `updatedMoment.hidden` response in `handleClick` to determine whether to show Eye vs EyeOff icon ✅
+- Update icon shown based on API response from toggleMoment (/api/token/hide) ✅
+
+**Problem RESOLVED**:
+
+- HideButton was using the original `moment.hidden` prop to render the icon
+- Even after receiving API response with updated data, the icon never changed
+- Toast messages were accurate but icon remained stale
+
+**Implementation Changes COMPLETED**:
+[X] **Updated `HideButton`** (`components/HorizontalFeed/HideButton.tsx`):
+
+- Added `useState` import for local state management
+- Added `isHidden` state initialized with `moment.hidden`
+- Updated `handleClick` to set `isHidden` from API response: `setIsHidden(updatedMoment.hidden)`
+- Changed icon rendering to use `isHidden` state instead of `moment.hidden` prop
+- Now icon updates immediately after API response reflects new server state
+
+**Technical Flow IMPLEMENTED**:
+
+1. **Component renders** → `isHidden` state initialized with `moment.hidden`
+2. **User clicks button** → `handleClick` calls `toggleMoment(moment)`
+3. **API responds** → `updatedMoment.hidden` from server response
+4. **State updates** → `setIsHidden(updatedMoment.hidden)` triggers re-render
+5. **Icon updates** → Rendered with new `isHidden` value (Eye ↔ EyeOff)
+
+**Key Improvements**:
+
+- **Real-time feedback**: Icon immediately reflects server state after API call
+- **State consistency**: Local state synchronized with server response
+- **Minimal changes**: Simple useState addition without affecting other functionality
+- **Preserves existing logic**: Toast messages and error handling unchanged
+
+**Status**: ✅ **IMPLEMENTATION COMPLETE**
+
+## Previous Task: Make /api/token/hide return updated rows (MYC-2318)
 
 Status: ✅ Complete ✅ Implementation Verified
 
