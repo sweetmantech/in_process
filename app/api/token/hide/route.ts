@@ -27,17 +27,17 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { data: updatedRows, error: updateError } = await updateInProcessTokens({
-      ids,
-      update: { hidden: !rows[0].hidden },
-    });
+    const { data: updatedRows, error: updateError } =
+      await updateInProcessTokens({
+        ids,
+        update: { hidden: !rows[0].hidden },
+      });
 
     if (updateError) throw updateError;
 
     return Response.json({
       success: true,
-      updated: ids.length,
-      data: updatedRows,
+      updated: updatedRows,
     });
   } catch (e: any) {
     console.log(e);

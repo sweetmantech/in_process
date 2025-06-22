@@ -27,15 +27,15 @@ const HideButton: FC<HideButtonProps> = ({
 
     try {
       const response = await toggleMoment(moment);
-      
+
       // Use the actual updated data from the server response
-      if (response.success && response.data && response.data.length > 0) {
-        const updatedMoment = response.data[0];
+      if (response.success && response.updated && response.updated.length > 0) {
+        const updatedMoment = response.updated[0];
         toast(updatedMoment.hidden ? "Moment hidden" : "Moment revealed");
       } else {
         toast("Moment visibility toggled");
       }
-      
+
       onClick?.();
     } catch (error) {
       console.error("Failed to toggle moment visibility:", error);
