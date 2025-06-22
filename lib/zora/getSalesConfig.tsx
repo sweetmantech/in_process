@@ -15,7 +15,7 @@ const getSalesConfig = (
   } as TimedSaleParamsType;
   const erc20MintSaleConfig = {
     type: "erc20Mint",
-    pricePerToken: parseUnits(price, 6),
+    pricePerToken: parseUnits(price, 6).toString(),
     saleStart: saleStart
       ? BigInt(Number(saleStart.getTime() / 1000).toFixed(0)).toString()
       : BigInt(0).toString(),
