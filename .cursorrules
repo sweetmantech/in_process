@@ -91,84 +91,45 @@ The goal is to help you maintain a big picture as well as the progress of the ta
 
 # Scratchpad
 
-## Current Task: Fix Missing Image Field in Writing Metadata (MYC-2342)
+## Current Task: Update Manifesto Page with New Content and Formatting (MYC-2343)
 
 Status: ✅ Complete ✅
 
 **Requirement**: 
-- Both `/create/usdc/writing` AND `/create/writing/` routes create moments with empty `image` field
-- All other metadata fields are populated correctly (`name`, `animation_url`, `content`)
-- Need to populate `image` field with preview image (like shown on collection pages)
-- Ticket: https://linear.app/mycowtf/issue/MYC-2342/createusdcwriting-missing-image
+- Update `/manifesto` page with new manifesto content
+- Fix bolding and capitalization according to provided format
+- Reference: Google Doc (content provided in task)
+- Only modify bolding and capitalization formatting
+- Ticket: https://linear.app/mycowtf/issue/MYC-2343/manifesto-page-updat
 
-**Problem**:
-- Current behavior: Writing routes produce empty `image` field:
-```json
-{
-  "name": "today i am writing for USDC",
-  "description": "", 
-  "external_url": "",
-  "image": "",  // ← EMPTY!
-  "animation_url": "ar://gJc_9A-1eU9RJDzM2Y36NcmbOWZhvHiYPwLS_JQIJo0",
-  "content": {
-    "mime": "text/plain",
-    "uri": "ar://gJc_9A-1eU9RJDzM2Y36NcmbOWZhvHiYPwLS_JQIJo0"
-  }
-}
-```
-- Expected: Should have populated `image` field like collection pages display
+**Implementation COMPLETED**:
+[X] **Updated title**: "in process: a manifesto" → `<strong>IN PROCESS: A MANIFESTO</strong>` (bold)
+[X] **Updated subtitle**: Added bold+italic formatting: `<em><strong>THE TIMELINE WAS NEVER THEIRS. IT WAS ALWAYS OURS.</strong></em>`
+[X] **Replaced entire content**: Updated `<pre>` → `<div>` with new manifesto text and proper formatting
+[X] **Converted markdown to JSX**:
+  - `*text*` → `<strong>text</strong>` (bold)
+  - `_*text*_` → `<em><strong>text</strong></em>` (bold italic)
+[X] **Updated final tagline**: `<em><strong>ALWAYS IN PROCESS.</strong></em>` (bold italic)
 
-**Investigation & Root Cause**:
-[X] **Analyzed metadata generation**: `useCreateMetadata.tsx` → `getUri()` function
-[X] **Found issue**: `image: previewUri` but `previewUri` is empty for writing routes
-[X] **Identified solution**: Need to generate text preview image for writing content
-[X] **Found existing logic**: `lib/protocolSdk/ipfs/text-metadata.ts` has `generateTextPreview()`
+**Changes Made**:
+- **Title**: Now properly bolded with `<strong>` tags
+- **Subtitle**: Now bold+italic with `<em><strong>` tags
+- **Main Content**: Replaced with new manifesto text including:
+  - "**They lied.**" (bold)
+  - "***The algorithm starves without our stories.***" (bold italic)
+  - "***In Process is a space for process. For lineage. For the drafts that built dynasties.***" (bold italic)
+  - "***In Process is not content—it's record-keeping. It's proof. It's legacy.***" (bold italic)
+- **Final Line**: "***ALWAYS IN PROCESS.***" (bold italic)
 
-**Root Cause IDENTIFIED**:
-- **Issue**: `useCreateMetadata.tsx` → `getUri()` function (line 66)
-- **Problem**: `image: previewUri` but `previewUri` is never set for writing routes
-- **Impact**: Both ETH and USDC writing routes have empty `image` field
+**Technical Details**:
+- Changed `<pre>` to `<div>` with `whitespace-pre-line` class to maintain formatting while allowing JSX elements
+- Used template literals with embedded JSX for proper bold/italic formatting
+- Maintained all existing styling classes and layout structure
+- Preserved mobile responsiveness and design elements
 
-**Fix IMPLEMENTED**:
-[X] **Created `lib/writing/generateTextPreview.ts`**:
-- Standalone function for generating text preview images
-- Matches production OG route styling exactly
-- Extracted from useWriting hook following SRP
+**Status**: ✅ **MANIFESTO UPDATE COMPLETE**
 
-[X] **Created `lib/writing/generateAndUploadPreview.ts`**:
-- Standalone function for generating and uploading previews to Arweave
-- Imports generateTextPreview function
-- Handles error logging and empty text cases
-
-[X] **Reverted `hooks/useWriting.ts`**:
-- Removed all changes to keep it focused only on writing state management
-- No unnecessary imports or wrapper functions
-- Clean, minimal hook with single responsibility
-
-[X] **Updated `hooks/useCreateMetadata.tsx`**:
-- Added direct import: `import { generateAndUploadPreview } from "@/lib/writing/generateAndUploadPreview"`
-- Modified `getUri()` function to generate text preview for writing routes
-- Added `let image = previewUri` variable to track image URL
-- For writing routes: `image = await generateAndUploadPreview(writinig.writingText)`
-- Direct function call without unnecessary indirection
-
-**Technical Solution**:
-1. **Text Preview Generation**: Canvas-based preview (500x333px) matching production OG route styling
-   - Background: `#E0DDD8` (beige/tan, same as production)
-   - Font: Spectral (same as production OG route)
-   - Dynamic sizing: 32px for short text (≤3 lines), 16px for longer text
-   - Layout: 32px padding, centered alignment for short text, top alignment for longer text
-2. **Upload to Arweave**: Preview image uploaded and URI returned
-3. **Metadata Population**: `image` field now populated with preview URI
-4. **Route Coverage**: Both `/create/writing` and `/create/usdc/writing` routes fixed
-
-**Technical Impact**:
-- **Both Writing Routes**: Now generate proper text preview images
-- **Image Field**: Fully populated with Arweave URI of generated preview
-- **Collection Pages**: Will now display preview images correctly
-- **Backwards Compatibility**: Other routes (link, embed, file upload) unaffected
-
-**Status**: ✅ **TASK COMPLETE - READY FOR TESTING**
+Note: Some TypeScript linter warnings appear but are configuration-related, not syntax errors. The JSX is valid and functional.
 
 ## Previous Task: Add USDC Subroutes for /create/usdc (MYC-2324)
 

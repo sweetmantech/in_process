@@ -21,42 +21,44 @@ const ManifestoPage = () => {
       <div className="relative w-full md:w-2/4 flex justify-center text-grey-moss-900">
         <div className="w-fit relative">
           <p className="font-archivo text-2xl md:text-5xl tracking-[-1px] relative z-[2]">
-            in process: a manifesto
+            <strong>IN PROCESS: A MANIFESTO</strong>
           </p>
           <p className="font-spectral-italic pt-6 relative z-[2]">
-            THE TIMELINE WAS NEVER THEIRS. IT WAS ALWAYS OURS.
+            <em><strong>THE TIMELINE WAS NEVER THEIRS. IT WAS ALWAYS OURS.</strong></em>
           </p>
-          <pre className="font-spectral text-[11px] md:text-[16px] tracking-[-1px] pt-4 relative z-[2]">
+          <div className="font-spectral text-[11px] md:text-[16px] tracking-[-1px] pt-4 relative z-[2] whitespace-pre-line">
             {`They told us the artist needed the platform.
 Like we were guests at a table built from our own bones.
 Like visibility was a favor, not a debt.
 Like without them, we would vanish—scattered notes, lost rhythms, blueprints
 erased before they were ever built.
 
-They lied.
+`}<strong>They lied.</strong>{`
 
 Platforms have always needed us.
-The algorithm starves without our stories.
+`}<em><strong>The algorithm starves without our stories.</strong></em>{`
 The stream is silent without our sound.
 The feed is nothing but a blinking cursor, waiting on us to move.
 Yet they hold the archive hostage.
 Rewrite history in real time.
-Bury what doesn’t fit their metrics.
+Bury what doesn't fit their metrics.
 And call it discovery.
 We refuse.
 
-This is a space for process. For lineage. For the drafts that built dynasties.
+`}<em><strong>In Process is a space for process. For lineage. For the drafts that built dynasties.</strong></em>{`
 For the blueprints they stole, repackaged, and resold.
 For the histories that deserve permanence, not expiration dates.
 
-In Process is not content—it’s record-keeping. It’s proof. It’s legacy.
+`}<em><strong>In Process is not content—it's record-keeping. It's proof. It's legacy.</strong></em>{`
 This is where the work lives.
 Where artists own their evolution.
 Where every sketch, verse, sound, and glitch is a timestamp in culture.
 Here, we own the timeline.
 Here, we document in real time, onchain, on our terms.`}
-          </pre>
-          <p className="font-spectral-bold pt-4 text-xl">ALWAYS IN PROCESS.</p>
+          </div>
+          <p className="font-spectral-bold pt-4 text-xl">
+            <em><strong>ALWAYS IN PROCESS.</strong></em>
+          </p>
           <div
             className="md:absolute md:bottom-0 md:translate-x-0 md:translate-y-3/4 md:right-0
           relative translate-x-1/2 -translate-y-1/3"
