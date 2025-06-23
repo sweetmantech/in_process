@@ -59,9 +59,12 @@ const useCreateMetadata = () => {
   const getUri = async () => {
     let mime = mimeType;
     let animation = animationUri || imageUri;
+    let image = previewUri;
+    
     if (pathname === "/create/writing" || pathname === "/create/usdc/writing") {
       mime = "text/plain";
       animation = await writinig.uploadWriting();
+      image = await writinig.generateAndUploadPreview();
     }
     if (pathname === "/create/embed" || pathname === "/create/usdc/embed") {
       mime = "text/html";
@@ -72,7 +75,7 @@ const useCreateMetadata = () => {
       name,
       description,
       external_url: link.link,
-      image: previewUri,
+      image: image,
       animation_url: animation,
       content: {
         mime,
