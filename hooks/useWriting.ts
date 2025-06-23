@@ -4,7 +4,6 @@ import { useState } from "react";
 
 const useWriting = () => {
   const [writingText, setWritingText] = useState<string>("");
-  const [previewImageUri, setPreviewImageUri] = useState<string>("");
 
   const uploadWriting = async () => {
     const blob = new Blob([writingText], { type: "text/plain" });
@@ -15,14 +14,11 @@ const useWriting = () => {
 
   const generateAndUploadPreviewWrapper = async () => {
     const previewUri = await generateAndUploadPreview(writingText);
-    setPreviewImageUri(previewUri);
     return previewUri;
   };
 
   const write = (value: string) => {
     setWritingText(value);
-    // Clear preview when text changes
-    setPreviewImageUri("");
   };
 
   return {
@@ -31,7 +27,6 @@ const useWriting = () => {
     write,
     uploadWriting,
     generateAndUploadPreview: generateAndUploadPreviewWrapper,
-    previewImageUri,
   };
 };
 

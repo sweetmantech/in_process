@@ -86,6 +86,7 @@ The goal is to help you maintain a big picture as well as the progress of the ta
 - When adding new USDC routes that mirror existing ETH routes, check all pathname-dependent logic to ensure both routes are handled - especially in hooks like useCreateMetadata that generate different metadata based on the route path
 - For writing/text-based NFTs, the metadata `image` field should contain a generated text preview thumbnail, not be left empty - use canvas-based text rendering to create preview images and upload them to Arweave for proper metadata population
 - When functions grow complex within hooks, extract them into standalone lib files following Single Responsibility Principle - hooks should focus on state management while lib functions handle business logic
+- Follow YAGNI (You Ain't Gonna Need It) - remove unused state variables, exports, and code even if they might be "useful later" - keep only what's actually being used
 
 # Scratchpad
 
@@ -143,6 +144,7 @@ Status: ✅ Complete ✅
 - Imports generateAndUploadPreview from lib folder
 - Added wrapper function to maintain state management
 - Cleaned up to focus only on writing-specific state management
+- Removed unused previewImageUri state (following YAGNI)
 
 [X] **Updated `hooks/useCreateMetadata.tsx`**:
 - Modified `getUri()` function to generate text preview for writing routes
