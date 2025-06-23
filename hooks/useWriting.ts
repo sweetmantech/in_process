@@ -14,7 +14,6 @@ const useWriting = () => {
   const write = (value: string) => {
     setWritingText(value);
   };
-
   return {
     writingText,
     setWritingText,
