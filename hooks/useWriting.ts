@@ -1,5 +1,4 @@
 import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
-import { generateAndUploadPreview } from "@/lib/writing/generateAndUploadPreview";
 import { useState } from "react";
 
 const useWriting = () => {
@@ -12,11 +11,6 @@ const useWriting = () => {
     return uri;
   };
 
-  const generateAndUploadPreviewWrapper = async () => {
-    const previewUri = await generateAndUploadPreview(writingText);
-    return previewUri;
-  };
-
   const write = (value: string) => {
     setWritingText(value);
   };
@@ -26,7 +20,6 @@ const useWriting = () => {
     setWritingText,
     write,
     uploadWriting,
-    generateAndUploadPreview: generateAndUploadPreviewWrapper,
   };
 };
 

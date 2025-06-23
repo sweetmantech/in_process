@@ -87,6 +87,7 @@ The goal is to help you maintain a big picture as well as the progress of the ta
 - For writing/text-based NFTs, the metadata `image` field should contain a generated text preview thumbnail, not be left empty - use canvas-based text rendering to create preview images and upload them to Arweave for proper metadata population
 - When functions grow complex within hooks, extract them into standalone lib files following Single Responsibility Principle - hooks should focus on state management while lib functions handle business logic
 - Follow YAGNI (You Ain't Gonna Need It) - remove unused state variables, exports, and code even if they might be "useful later" - keep only what's actually being used
+- Avoid unnecessary indirection - import functions directly where they're used rather than importing into intermediate hooks just to re-export them
 
 # Scratchpad
 
@@ -139,18 +140,17 @@ Status: ✅ Complete ✅
 - Imports generateTextPreview function
 - Handles error logging and empty text cases
 
-[X] **Updated `hooks/useWriting.ts`**:
-- Removed local function definitions (following SRP)
-- Imports generateAndUploadPreview from lib folder
-- Added wrapper function to maintain state management
-- Cleaned up to focus only on writing-specific state management
-- Removed unused previewImageUri state (following YAGNI)
+[X] **Reverted `hooks/useWriting.ts`**:
+- Removed all changes to keep it focused only on writing state management
+- No unnecessary imports or wrapper functions
+- Clean, minimal hook with single responsibility
 
 [X] **Updated `hooks/useCreateMetadata.tsx`**:
+- Added direct import: `import { generateAndUploadPreview } from "@/lib/writing/generateAndUploadPreview"`
 - Modified `getUri()` function to generate text preview for writing routes
 - Added `let image = previewUri` variable to track image URL
-- For writing routes: `image = await writinig.generateAndUploadPreview()`
-- Changed `image: previewUri` to `image: image` to use the generated preview
+- For writing routes: `image = await generateAndUploadPreview(writinig.writingText)`
+- Direct function call without unnecessary indirection
 
 **Technical Solution**:
 1. **Text Preview Generation**: Canvas-based preview (500x333px) matching production OG route styling

@@ -4,6 +4,7 @@ import useLinkPreview from "./useLinkPreview";
 import useEmbedCode from "./useEmbedCode";
 import useWriting from "./useWriting";
 import useMetadataValues from "./useMetadataValues";
+import { generateAndUploadPreview } from "@/lib/writing/generateAndUploadPreview";
 import { usePathname } from "next/navigation";
 
 const useCreateMetadata = () => {
@@ -64,7 +65,7 @@ const useCreateMetadata = () => {
     if (pathname === "/create/writing" || pathname === "/create/usdc/writing") {
       mime = "text/plain";
       animation = await writinig.uploadWriting();
-      image = await writinig.generateAndUploadPreview();
+      image = await generateAndUploadPreview(writinig.writingText);
     }
     if (pathname === "/create/embed" || pathname === "/create/usdc/embed") {
       mime = "text/html";
