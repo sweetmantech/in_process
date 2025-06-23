@@ -83,10 +83,67 @@ The goal is to help you maintain a big picture as well as the progress of the ta
 - When passing objects to components that expect specific interface shapes, manually construct the object with explicit field mapping and fallbacks rather than direct object passing to prevent undefined field errors
 - For components that need to update visual state based on API responses, use local state (useState) initialized with prop values and update the state with API response data to ensure UI reflects server state immediately
 - When using parseUnits/parseEther for USDC price handling, always convert BigInt results to strings using .toString() before JSON serialization to prevent "Do not know how to serialize a BigInt" errors
+- When adding new USDC routes that mirror existing ETH routes, check all pathname-dependent logic to ensure both routes are handled - especially in hooks like useCreateMetadata that generate different metadata based on the route path
 
 # Scratchpad
 
-## Current Task: Add USDC Subroutes for /create/usdc (MYC-2324)
+## Current Task: Fix USDC Writing Empty Metadata (MYC-2341)
+
+Status: ✅ Complete ✅
+
+**Requirement**: 
+- `/create/usdc/writing` route creates moments with empty metadata fields
+- Only `name` (title) is populated correctly
+- Missing `image` and `content` fields that should be populated
+- Need to fix metadata generation for USDC writing route
+
+**Problem**:
+- Current behavior: USDC writing route produces empty metadata:
+```json
+{
+  "name": "today i tried writing for usdc",
+  "description": "", 
+  "external_url": "",
+  "image": "",
+  "animation_url": "",
+  "content": {
+    "mime": "",
+    "uri": ""
+  }
+}
+```
+- Expected: Should have populated `image` and `content` fields like regular writing route
+
+**Investigation Plan**:
+[X] **Explore existing `/create/writing` route**: Understand how metadata is generated
+[X] **Analyze metadata generation logic**: Find where metadata fields are populated
+[X] **Compare ETH vs USDC metadata generation**: Identify differences
+[X] **Locate USDC detection logic**: Understand how USDC mode affects metadata
+[X] **Identify root cause**: Find why USDC writing has empty metadata
+[X] **Implement fix**: Ensure USDC writing generates correct metadata
+[ ] **Test fix**: Verify USDC writing route works correctly
+
+**Root Cause IDENTIFIED & FIXED**:
+- **Issue**: `useCreateMetadata.tsx` → `getUri()` function (lines 57-63)
+- **Problem**: Pathname conditions only checked ETH routes:
+  - `if (pathname === "/create/writing")` - missing USDC route
+  - `if (pathname === "/create/embed")` - missing USDC route
+- **Impact**: USDC routes never got proper metadata handling → empty `mime`, `animation_url`, and `content` fields
+
+**Fix IMPLEMENTED**:
+- **Updated `hooks/useCreateMetadata.tsx`** (lines 57-63):
+  - Line 57: `if (pathname === "/create/writing" || pathname === "/create/usdc/writing")`
+  - Line 61: `if (pathname === "/create/embed" || pathname === "/create/usdc/embed")`
+- **Result**: Both ETH and USDC routes now get proper metadata handling
+
+**Technical Impact**:
+- **USDC Writing**: Now generates `mime: "text/plain"`, proper `animation_url`, and correct `content.uri`
+- **USDC Embed**: Now generates `mime: "text/html"`, proper `animation_url`, and correct `content.uri`
+- **Backwards Compatibility**: ETH routes continue to work as before
+
+**Status**: ✅ **TASK COMPLETE - READY FOR TESTING**
+
+## Previous Task: Add USDC Subroutes for /create/usdc (MYC-2324)
 
 Status: ✅ Complete ✅ 
 
@@ -96,30 +153,11 @@ Status: ✅ Complete ✅
 - Reference existing ETH routes: `/create/writing`, `/create/link`, `/create/embed`
 - Add parity for `/create/usdc` routes with `/create/` existing routes
 
-**Investigation COMPLETED**:
-[X] **Explored existing route structure**: Found `/create/writing`, `/create/link`, `/create/embed` routes
-[X] **Analyzed existing components**: Each route has simple page component that renders corresponding component
-[X] **Discovered USDC detection logic**: System automatically detects USDC mode via `pathname.includes("/usdc")`
-[X] **Confirmed component compatibility**: Existing components work for both ETH and USDC modes based on URL path
-
-**Architecture Understanding**:
-- **Route Pattern**: `/create/[type]/page.tsx` → `[Type]Page` component
-- **USDC Detection**: `useZoraCreateParameters` & `useMetadataValues` check `pathname.includes("/usdc")`
-- **Auto-switching**: Components automatically switch ETH/USDC mode based on URL path
-- **Existing Components**: `WritingPage`, `LinkPage`, `EmbedPage` work for both modes
-
 **Implementation Changes COMPLETED**:
 [X] **Create `/create/usdc/writing/`** → directory + `page.tsx` → renders `WritingPage`
 [X] **Create `/create/usdc/link/`** → directory + `page.tsx` → renders `LinkPage`  
 [X] **Create `/create/usdc/embed/`** → directory + `page.tsx` → renders `EmbedPage`
 [X] **Updated Navigation Components**: Modified `DesktopSelect` and `MobileSelect` to handle USDC routes
-[X] **Verified Route Structure**: All USDC subroutes created successfully
-
-**Navigation Updates**:
-- **DesktopSelect**: Added USDC route detection and dynamic base route handling
-- **MobileSelect**: Added USDC route detection and dynamic base route handling  
-- **Active State**: Navigation now correctly shows active state for USDC routes
-- **Context Preservation**: When on USDC routes, navigation stays within USDC context
 
 **Status**: ✅ **ALL USDC SUBROUTES CREATED AND NAVIGATION UPDATED**
 
