@@ -20,13 +20,13 @@ const ManifestoPage = () => {
       </div>
       <div className="relative w-full md:w-2/4 flex justify-center text-grey-moss-900">
         <div className="w-fit relative">
-          <p className="font-archivo text-2xl md:text-5xl tracking-[-1px] relative z-[2]">
+          <p className="font-archivo text-2xl md:text-5xl tracking-[-1px] relative z-[2] uppercase">
             <strong>IN PROCESS: A MANIFESTO</strong>
           </p>
-          <p className="font-spectral-italic pt-6 relative z-[2]">
+          <p className="font-spectral-italic pt-6 relative z-[2] uppercase">
             <em><strong>THE TIMELINE WAS NEVER THEIRS. IT WAS ALWAYS OURS.</strong></em>
           </p>
-          <div className="font-spectral text-[11px] md:text-[16px] tracking-[-1px] pt-4 relative z-[2] whitespace-pre-line">
+          <div className="font-spectral text-[11px] md:text-[16px] tracking-[-1px] pt-4 relative z-[2] whitespace-pre-line normal-case">
             {`They told us the artist needed the platform.
 Like we were guests at a table built from our own bones.
 Like visibility was a favor, not a debt.
@@ -56,7 +56,7 @@ Where every sketch, verse, sound, and glitch is a timestamp in culture.
 Here, we own the timeline.
 Here, we document in real time, onchain, on our terms.`}
           </div>
-          <p className="font-spectral-bold pt-4 text-xl">
+          <p className="font-spectral-bold pt-4 text-xl uppercase">
             <em><strong>ALWAYS IN PROCESS.</strong></em>
           </p>
           <div

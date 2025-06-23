@@ -135,7 +135,15 @@ Status: ✅ Complete ✅
 - "it's" → "it&rsquo;s" (multiple instances)
 - Build now passes ESLint validation
 
-**Status**: ✅ **MANIFESTO UPDATE COMPLETE - BUILD PASSING**
+**Capitalization Issue FIXED**:
+[X] **Fixed Tailwind Config**: Corrected "Spectral-bold" → "Spectral-Bold" font family name to match globals.css
+[X] **Added explicit text case classes**:
+- Title: Added `uppercase` class to force capitalization 
+- Subtitle: Added `uppercase` class to force capitalization
+- Main content: Added `normal-case` class to preserve proper sentence case
+- Final tagline: Added `uppercase` class to force capitalization
+
+**Status**: ✅ **MANIFESTO UPDATE COMPLETE - CAPITALIZATION FIXED**
 
 ## Previous Task: Add USDC Subroutes for /create/usdc (MYC-2324)
 
