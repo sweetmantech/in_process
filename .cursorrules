@@ -129,7 +129,13 @@ Status: ✅ Complete ✅
 
 **Status**: ✅ **MANIFESTO UPDATE COMPLETE**
 
-Note: Some TypeScript linter warnings appear but are configuration-related, not syntax errors. The JSX is valid and functional.
+**Build Errors FIXED**:
+[X] **Fixed ESLint errors**: Replaced unescaped apostrophes with HTML entities (`&rsquo;`)
+- "doesn't" → "doesn&rsquo;t" 
+- "it's" → "it&rsquo;s" (multiple instances)
+- Build now passes ESLint validation
+
+**Status**: ✅ **MANIFESTO UPDATE COMPLETE - BUILD PASSING**
 
 ## Previous Task: Add USDC Subroutes for /create/usdc (MYC-2324)
 

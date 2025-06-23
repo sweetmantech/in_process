@@ -41,7 +41,7 @@ The stream is silent without our sound.
 The feed is nothing but a blinking cursor, waiting on us to move.
 Yet they hold the archive hostage.
 Rewrite history in real time.
-Bury what doesn't fit their metrics.
+Bury what doesn&rsquo;t fit their metrics.
 And call it discovery.
 We refuse.
 
@@ -49,7 +49,7 @@ We refuse.
 For the blueprints they stole, repackaged, and resold.
 For the histories that deserve permanence, not expiration dates.
 
-`}<em><strong>In Process is not content—it's record-keeping. It's proof. It's legacy.</strong></em>{`
+`}<em><strong>In Process is not content—it&rsquo;s record-keeping. It&rsquo;s proof. It&rsquo;s legacy.</strong></em>{`
 This is where the work lives.
 Where artists own their evolution.
 Where every sketch, verse, sound, and glitch is a timestamp in culture.
