@@ -87,7 +87,32 @@ The goal is to help you maintain a big picture as well as the progress of the ta
 
 # Scratchpad
 
-## Current Task: Fix USDC Writing Empty Metadata (MYC-2341)
+## Current Task: Manifesto Page Update (MYC-2343)
+
+Status: ✅ Complete ✅
+
+**Requirement**: 
+- Update `/manifesto` page with new format and content
+- Replace existing manifesto text with new version
+- Maintain proper formatting with bold and italic styling
+
+**Implementation Changes COMPLETED**:
+[X] **Updated `ManifestoPage.tsx`** (`components/ManifestoPage/ManifestoPage.tsx`):
+- Updated title to bold: `<strong>in process: a manifesto</strong>`
+- Updated subtitle with bold italic: `<em><strong>THE TIMELINE WAS NEVER THEIRS. IT WAS ALWAYS OURS.</strong></em>`
+- Replaced entire manifesto text with new content
+- Applied proper formatting: `<strong>` for bold, `<em><strong>` for bold italic
+- Fixed JSX structure to avoid linter errors by separating template literals and JSX elements
+- Updated final line: `<em><strong>ALWAYS IN PROCESS.</strong></em>`
+
+**Technical Changes**:
+- Changed from `<pre>` to `<div>` with `whitespace-pre-line` for better JSX compatibility
+- Properly structured mixed JSX/template literal content to avoid TypeScript errors
+- Maintained responsive design and existing visual styling
+
+**Status**: ✅ **MANIFESTO UPDATE COMPLETE**
+
+## Previous Task: Fix USDC Writing Empty Metadata (MYC-2341)
 
 Status: ✅ Complete ✅
 
