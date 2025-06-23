@@ -140,7 +140,11 @@ Status: ✅ Complete ✅
 - Changed `image: previewUri` to `image: image` to use the generated preview
 
 **Technical Solution**:
-1. **Text Preview Generation**: Canvas-based preview (500x500px) with text wrapped and styled
+1. **Text Preview Generation**: Canvas-based preview (500x333px) matching production OG route styling
+   - Background: `#E0DDD8` (beige/tan, same as production)
+   - Font: Spectral (same as production OG route)
+   - Dynamic sizing: 32px for short text (≤3 lines), 16px for longer text
+   - Layout: 32px padding, centered alignment for short text, top alignment for longer text
 2. **Upload to Arweave**: Preview image uploaded and URI returned
 3. **Metadata Population**: `image` field now populated with preview URI
 4. **Route Coverage**: Both `/create/writing` and `/create/usdc/writing` routes fixed

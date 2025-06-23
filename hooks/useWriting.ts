@@ -1,65 +1,32 @@
 import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
 import { useState } from "react";
 
-// Text preview generation function (adapted from text-metadata.ts)
+// Text preview generation function (matching production OG route styling)
 const generateTextPreview = async (text: string): Promise<File> => {
-  const CHAR_LIMIT = 1111;
-  const trimmedText = text.trim().slice(0, CHAR_LIMIT);
+  const trimmedText = text.trim();
 
-  const [width, height] = [500, 500];
-  const padding = 20;
+  // Use same dimensions as OG route
+  const width = 500;
+  const height = 333;
+  const padding = 32;
   const dpr = 2;
 
-  const fontFamily = "Inter";
-  const [fontSize, lineHeight] = [16, 24];
-  const [textColor, backgroundColor] = ["black", "white"];
+  // Calculate total lines using same logic as OG route
+  const paragraphs = trimmedText.split("\n");
+  let totalLines = 0;
+  paragraphs.forEach((paragraph) => {
+    totalLines += Math.max(1, parseInt(Number(paragraph.length / 64).toFixed()) + 1);
+  });
 
-  const wrapText = ({
-    ctx,
-    text,
-    x,
-    y,
-    maxWidth,
-    lineHeight,
-  }: {
-    ctx: CanvasRenderingContext2D;
-    text: string;
-    x: number;
-    y: number;
-    maxWidth: number;
-    lineHeight: number;
-  }) => {
-    let words = text.replaceAll("\n", " \n ").split(/ +/);
-    let line = "";
-    let testLine = "";
-    const lineArray = [];
+  // Dynamic font size based on line count (same logic as OG route)
+  const WRITING_SHORT_LINES = 3;
+  const fontSize = totalLines <= WRITING_SHORT_LINES ? 32 : 16;
+  const lineHeight = fontSize * 1.2; // Reasonable line height
 
-    for (let n = 0; n < words.length; n++) {
-      testLine += `${words[n]} `;
-      const metrics = ctx.measureText(testLine);
-      const testWidth = metrics.width;
-      
-      if (words[n]?.includes("\n") || (testWidth > maxWidth && n > 0)) {
-        lineArray.push({ text: line, x, y });
-        y += lineHeight;
-        
-        if (words[n]?.includes("\n")) {
-          line = ``;
-          testLine = ``;
-        } else {
-          line = `${words[n]} `;
-          testLine = `${words[n]} `;
-        }
-      } else {
-        line += `${words[n]} `;
-      }
-      
-      if (n === words.length - 1) {
-        lineArray.push({ text: line, x, y });
-      }
-    }
-    return lineArray;
-  };
+  // Production colors and fonts
+  const backgroundColor = "#E0DDD8"; // Same beige/tan as production
+  const textColor = "#000000";
+  const fontFamily = "Spectral, serif"; // Same font as production
 
   return new Promise((resolve, reject) => {
     const canvas = document.createElement("canvas");
@@ -69,19 +36,63 @@ const generateTextPreview = async (text: string): Promise<File> => {
     if (!ctx) {
       return reject(new Error("Could not create canvas context"));
     }
+
+    // Set background to match production
     ctx.fillStyle = backgroundColor;
     ctx.fillRect(0, 0, width * dpr, height * dpr);
+
+    // Set text styling to match production
     ctx.fillStyle = textColor;
     ctx.font = `${fontSize * dpr}px ${fontFamily}`;
-    const wrapped = wrapText({
-      ctx,
-      text: trimmedText,
-      x: padding * dpr,
-      y: fontSize * dpr + padding * dpr,
-      maxWidth: width * dpr - padding * 2 * dpr,
-      lineHeight: lineHeight * dpr,
+    ctx.textBaseline = "top";
+
+    // Calculate text placement (matching OG route layout)
+    const textX = padding * dpr;
+    const availableWidth = (width - padding * 2) * dpr;
+    const availableHeight = (height - padding * 2) * dpr;
+
+    // Simple text wrapping that respects newlines
+    const lines: string[] = [];
+    paragraphs.forEach((paragraph) => {
+      if (paragraph === "") {
+        lines.push("");
+        return;
+      }
+      
+      const words = paragraph.split(" ");
+      let currentLine = "";
+      
+      words.forEach((word) => {
+        const testLine = currentLine + (currentLine ? " " : "") + word;
+        const metrics = ctx.measureText(testLine);
+        
+        if (metrics.width > availableWidth && currentLine) {
+          lines.push(currentLine);
+          currentLine = word;
+        } else {
+          currentLine = testLine;
+        }
+      });
+      
+      if (currentLine) {
+        lines.push(currentLine);
+      }
     });
-    wrapped.forEach((line) => ctx.fillText(line.text, line.x, line.y));
+
+    // Calculate starting Y position for centering (for short text) or top alignment
+    const totalTextHeight = lines.length * lineHeight * dpr;
+    const startY = totalLines <= WRITING_SHORT_LINES 
+      ? padding * dpr + Math.max(0, (availableHeight - totalTextHeight) / 2)
+      : padding * dpr;
+
+    // Draw text lines
+    lines.forEach((line, index) => {
+      const y = startY + (index * lineHeight * dpr);
+      if (y < height * dpr - padding * dpr) { // Don't draw below bottom padding
+        ctx.fillText(line, textX, y);
+      }
+    });
+
     canvas.toBlob((blob) => {
       if (!blob) {
         return reject(new Error("Could not create blob"));
