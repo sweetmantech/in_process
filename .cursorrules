@@ -85,6 +85,7 @@ The goal is to help you maintain a big picture as well as the progress of the ta
 - When using parseUnits/parseEther for USDC price handling, always convert BigInt results to strings using .toString() before JSON serialization to prevent "Do not know how to serialize a BigInt" errors
 - When adding new USDC routes that mirror existing ETH routes, check all pathname-dependent logic to ensure both routes are handled - especially in hooks like useCreateMetadata that generate different metadata based on the route path
 - For writing/text-based NFTs, the metadata `image` field should contain a generated text preview thumbnail, not be left empty - use canvas-based text rendering to create preview images and upload them to Arweave for proper metadata population
+- When functions grow complex within hooks, extract them into standalone lib files following Single Responsibility Principle - hooks should focus on state management while lib functions handle business logic
 
 # Scratchpad
 
@@ -127,11 +128,21 @@ Status: ✅ Complete ✅
 - **Impact**: Both ETH and USDC writing routes have empty `image` field
 
 **Fix IMPLEMENTED**:
+[X] **Created `lib/writing/generateTextPreview.ts`**:
+- Standalone function for generating text preview images
+- Matches production OG route styling exactly
+- Extracted from useWriting hook following SRP
+
+[X] **Created `lib/writing/generateAndUploadPreview.ts`**:
+- Standalone function for generating and uploading previews to Arweave
+- Imports generateTextPreview function
+- Handles error logging and empty text cases
+
 [X] **Updated `hooks/useWriting.ts`**:
-- Added `generateTextPreview()` function (adapted from `text-metadata.ts`)
-- Added `generateAndUploadPreview()` method to generate and upload text preview image
-- Added `previewImageUri` state to track generated preview
-- Modified `write()` to clear preview when text changes
+- Removed local function definitions (following SRP)
+- Imports generateAndUploadPreview from lib folder
+- Added wrapper function to maintain state management
+- Cleaned up to focus only on writing-specific state management
 
 [X] **Updated `hooks/useCreateMetadata.tsx`**:
 - Modified `getUri()` function to generate text preview for writing routes
