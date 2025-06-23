@@ -60,7 +60,7 @@ const wrapText = ({
   return lineArray;
 };
 
-async function generateTextPreview(text: string): Promise<File> {
+export async function generateTextPreview(text: string): Promise<File> {
   // Trim the text to a reasonable max length. Prevent crashes if the user pastes a gigantic string
   const trimmedText = text.trim().slice(0, CHAR_LIMIT);
 
