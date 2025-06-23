@@ -58,7 +58,7 @@ module.exports = {
         "spectral-italic": ["Spectral-Italic", "sans-serif"],
         "spectral": ["Spectral-Regular", "sans-serif"],
         "spectral-medium": ["Spectral-Medium", "sans-serif"],
-        "spectral-bold": ["Spectral-bold", "sans-serif"],
+        "spectral-bold": ["Spectral-Bold", "sans-serif"],
         "spectral-medium-italic": ["Spectral-MediumItalic", "sans-serif"],
       },
       borderRadius: {
