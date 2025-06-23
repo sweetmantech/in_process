@@ -21,7 +21,7 @@ const ManifestoPage = () => {
       <div className="relative w-full md:w-2/4 flex justify-center text-grey-moss-900">
         <div className="w-fit relative">
           <p className="font-archivo text-2xl md:text-5xl tracking-[-1px] relative z-[2]">
-            <strong>in process: a manifesto</strong>
+            <strong>IN PROCESS: A MANIFESTO</strong>
           </p>
           <p className="font-spectral-italic pt-6 relative z-[2]">
             <em><strong>THE TIMELINE WAS NEVER THEIRS. IT WAS ALWAYS OURS.</strong></em>
