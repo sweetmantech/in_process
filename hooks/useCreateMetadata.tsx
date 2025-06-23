@@ -59,11 +59,11 @@ const useCreateMetadata = () => {
   const getUri = async () => {
     let mime = mimeType;
     let animation = animationUri || imageUri;
-    if (pathname === "/create/writing") {
+    if (pathname === "/create/writing" || pathname === "/create/usdc/writing") {
       mime = "text/plain";
       animation = await writinig.uploadWriting();
     }
-    if (pathname === "/create/embed") {
+    if (pathname === "/create/embed" || pathname === "/create/usdc/embed") {
       mime = "text/html";
       animation = await embed.uploadEmbedCode();
     }
