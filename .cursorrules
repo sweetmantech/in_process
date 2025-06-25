@@ -92,7 +92,43 @@ The goal is to help you maintain a big picture as well as the progress of the ta
 
 # Scratchpad
 
-## Current Task: Currency Dropdown for All /create Routes (MYC-2378)
+## Current Task: Delete /create/usdc Route and Sub-routes (MYC-2380)
+
+Status: ✅ **COMPLETE** ✅
+
+**Requirement**: 
+- Delete the `/create/usdc` route and all subroutes ✅
+- Current: prototype routes in `/create/usdc` (and subroutes) still exist ✅ REMOVED
+- Required: delete the `/create/usdc` route and subroutes ✅ COMPLETED
+- Ticket: https://linear.app/mycowtf/issue/MYC-2380/createusdc-delete-route-and-sub-routes
+
+**Implementation COMPLETED**:
+[X] **Deleted entire `/create/usdc` directory**: Removed `/create/usdc/` and all subroutes (`embed/`, `link/`, `writing/`, `page.tsx`)
+[X] **Updated DesktopSelect.tsx**: Removed all USDC logic and route references
+  - Removed `isUsdc` variable and conditional logic
+  - Simplified `baseRoute` to always be `/create`
+  - Updated all page detection logic to only check main routes
+[X] **Updated MobileSelect.tsx**: Removed all USDC logic and route references
+  - Removed `isUsdc` variable and conditional logic  
+  - Simplified `baseRoute` to always be `/create`
+  - Updated `selectedValue` logic to only check main routes
+[X] **Verified complete removal**: Confirmed no USDC references remain in navigation components
+
+**Changes Made**:
+- **Deleted directories**: `/create/usdc/`, `/create/usdc/embed/`, `/create/usdc/link/`, `/create/usdc/writing/`
+- **Deleted files**: `/create/usdc/page.tsx`, `/create/usdc/embed/page.tsx`, `/create/usdc/link/page.tsx`, `/create/usdc/writing/page.tsx`
+- **DesktopSelect.tsx**: Removed USDC conditional logic, simplified to only handle main `/create` routes
+- **MobileSelect.tsx**: Removed USDC conditional logic, simplified to only handle main `/create` routes
+
+**Technical Details**:
+- All USDC routes and navigation logic have been completely removed
+- Navigation components now only handle the main `/create`, `/create/writing`, `/create/link`, `/create/embed` routes
+- No more dual ETH/USDC route support - back to single route structure
+- Verified through directory listing and grep searches - no USDC references remain
+
+**Status**: ✅ **USDC ROUTE DELETION COMPLETE**
+
+## Previous Task: Currency Dropdown for All /create Routes (MYC-2378)
 
 Status: ✅ **COMPLETE** ✅
 
