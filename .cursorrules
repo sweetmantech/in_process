@@ -108,10 +108,11 @@ Status: 🔄 In Progress 🔄
 [X] **Use existing priceUnit logic**: Using existing `priceUnit` and `setPriceUnit` from `useMetadataValues`
 [X] **Update useZoraCreateParameters**: Modified to use `priceUnit` instead of pathname check
 [X] **Maintain original state management**: Kept existing `useMetadataValues` approach
+[X] **Remove props from CurrencySelect**: Component gets values directly from `useZoraCreateProvider`
 
 **Changes Made**:
-- **CurrencySelect.tsx**: New dropdown component styled to fit in price unit area
-- **Price.tsx**: CurrencySelect replaces priceUnit text on /usdc routes, uses existing `setPriceUnit`
+- **CurrencySelect.tsx**: Self-contained component with no props, gets values from `useZoraCreateProvider`
+- **Price.tsx**: Simply renders `<CurrencySelect />` without any props on /usdc routes
 - **useZoraCreateParameters.tsx**: Uses `createMetadata.priceUnit === "usdc"` instead of pathname
 - **Reverted unnecessary changes**: Removed custom `selectedCurrency` state, using existing logic
 
@@ -125,6 +126,7 @@ Status: 🔄 In Progress 🔄
 **Key Corrections**:
 - **Correct placement**: Dropdown replaces priceUnit display area (not before label)
 - **Use existing state**: Leverages existing `priceUnit` from `useMetadataValues` (no new state)
+- **Remove props**: CurrencySelect gets values directly from `useZoraCreateProvider` (no props needed)
 - **Minimal changes**: Only modified what was necessary, kept existing patterns
 
 **Status**: ✅ **IMPLEMENTATION COMPLETE**

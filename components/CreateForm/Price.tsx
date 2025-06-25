@@ -31,11 +31,7 @@ export default function Price() {
           <div className="w-[1px] h-6 bg-grey-secondary my-2" />
         </div>
         {isUsdcRoute ? (
-          <CurrencySelect
-            value={priceUnit === "usdc" ? "USD" : "ETH"}
-            onChange={(currency) => setPriceUnit(currency === "USD" ? "usdc" : "eth")}
-            disabled={Boolean(fileUploading || creating)}
-          />
+          <CurrencySelect />
         ) : (
           <p className="bg-white px-3 flex items-center justify-center font-spectral">
             {priceUnit}

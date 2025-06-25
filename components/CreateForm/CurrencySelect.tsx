@@ -1,19 +1,17 @@
 "use client";
 
+import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
+
 type Currency = "ETH" | "USD";
 
-interface CurrencySelectProps {
-  value: Currency;
-  onChange: (currency: Currency) => void;
-  disabled?: boolean;
-}
-
-export default function CurrencySelect({ value, onChange, disabled }: CurrencySelectProps) {
+export default function CurrencySelect() {
+  const { priceUnit, setPriceUnit, fileUploading, creating } = useZoraCreateProvider();
+  
   return (
     <select
-      value={value}
-      onChange={(e) => onChange(e.target.value as Currency)}
-      disabled={disabled}
+      value={priceUnit === "usdc" ? "USD" : "ETH"}
+      onChange={(e) => setPriceUnit(e.target.value === "USD" ? "usdc" : "eth")}
+      disabled={Boolean(fileUploading || creating)}
       className="bg-white px-3 py-2 !font-spectral !rounded-[0px] !border-none focus-visible:ring-0 focus-visible:ring-offset-0 min-w-[60px]"
     >
       <option value="ETH">ETH</option>
