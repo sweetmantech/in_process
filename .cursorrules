@@ -143,6 +143,39 @@ Status: 🔄 In Progress 🔄
 
 **Status**: ✅ **IMPLEMENTATION COMPLETE WITH STYLING FIXES**
 
+## Previous Task: Update Homepage Hero Section - Description Text (MYC-2354)
+
+Status: ✅ Complete ✅
+
+**Requirement**: 
+- Update homepage hero section with description text
+- Current: homepage doesn't mention what "in process" does
+- Required: add "onchain collective timeline" description on timeline homepage
+- Adapt design from figma (2 images provided)
+- On mobile: put intro text ABOVE number of moments shared text
+- On desktop: move # of moments shared text to the RIGHT side
+- Ticket: https://linear.app/mycowtf/issue/MYC-2354/update-homepage-hero-section-description-text
+
+**Implementation COMPLETED**:
+[X] **Created hero section container** with responsive flex layout
+[X] **Added description text**: "an onchain collective timeline" (h1) + "for artists" (p)
+[X] **Updated desktop layout**: flex-row with description left, moments/create right
+[X] **Updated mobile layout**: flex-col with description top, moments middle, create bottom
+[X] **Refactored into TimelineHero component**: Extracted hero section into separate component file
+[X] **Fixed mobile design issues**: Centered text, repositioned elements below spiral
+[X] **Fixed mobile styling**: Proper colors, sizes, borders, backgrounds
+[X] **Fixed mobile spacing**: Optimal spacing between all components
+[X] **Applied styling to desktop**: Consistent design across both platforms
+
+**Changes Made**:
+- **TimelineHero.tsx**: NEW component file with hero section logic, mobile-centered text alignment
+- **MobileMomentsSection.tsx**: NEW component for mobile moment count/create button below spiral
+- **TimelinePage.tsx**: Added MobileMomentsSection below TimelineSpiral, fixed spacing to moon
+- **CreateButton.tsx**: Updated styling - eggshell background, no border, optimized sizing for both mobile and desktop
+- **MomentCount.tsx**: Updated styling - grey color, single line text, proportional sizing for both mobile and desktop
+
+**Status**: ✅ **COMPLETE - HERO SECTION REFACTOR + MOBILE & DESKTOP DESIGN FIXES**
+
 ## Previous Task: Remove Colons from Advanced Form Field Titles (MYC-2350)
 
 Status: ✅ Complete ✅

@@ -2,8 +2,8 @@
 
 import { useTimelineApiContext } from "@/providers/TimelineApiProvider";
 import Loading from "@/components/Loading";
-import MomentCount from "@/components/Timeline/MomentCount";
-import CreateButton from "@/components/Timeline/CreateButton";
+import TimelineHero from "@/components/Timeline/TimelineHero";
+import MobileMomentsSection from "@/components/Timeline/MobileMomentsSection";
 import TimelineSpiral from "@/components/Timeline/TimelineSpiral";
 import TimelineMobileMoon from "@/components/Timeline/TimelineMobileMoon";
 import HorizontalTimeline from "@/components/Timeline/HorizontalTimeline";
@@ -27,12 +27,10 @@ const TimelinePage = () => {
 
   return (
     <main className="px-2 md:px-10 relative grow flex flex-col">
-      <MomentCount count={totalCount} />
-      <div className="flex justify-center md:justify-start">
-        <CreateButton />
-      </div>
+      <TimelineHero totalCount={totalCount} />
       <TimelineSpiral />
-      <div className="pt-28">
+      <MobileMomentsSection totalCount={totalCount} />
+      <div className="pt-8 md:pt-28">
         <TimelineMobileMoon />
       </div>
       <TimelineGrid />
