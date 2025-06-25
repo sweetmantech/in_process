@@ -6,7 +6,7 @@ import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
 import CurrencySelect from "./CurrencySelect";
 
 export default function Price() {
-  const { price, setPrice, priceUnit, fileUploading, creating } =
+  const { price, setPrice, fileUploading, creating } =
     useZoraCreateProvider();
 
   return (
