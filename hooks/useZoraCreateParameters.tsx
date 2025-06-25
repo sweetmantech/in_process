@@ -6,17 +6,17 @@ import useCreateMetadata from "@/hooks/useCreateMetadata";
 import useConnectedWallet from "./useConnectedWallet";
 import { useFrameProvider } from "@/providers/FrameProvider";
 import getSaleConfigType from "@/lib/getSaleConfigType";
-import { usePathname } from "next/navigation";
 import useCreateAdvancedValues from "./useCreateAdvancedValues";
 
 const useZoraCreateParameters = (collection?: Address) => {
-  const pathname = usePathname();
-  const isUsdc = pathname.includes("/usdc");
   const { connectedWallet } = useConnectedWallet();
   const { address } = useAccount();
   const createMetadata = useCreateMetadata();
   const { context } = useFrameProvider();
   const advancedValues = useCreateAdvancedValues();
+  
+  // Use priceUnit to determine if USDC
+  const isUsdc = createMetadata.priceUnit === "usdc";
 
   const fetchParameters = async () => {
     const creator = context ? address : connectedWallet;

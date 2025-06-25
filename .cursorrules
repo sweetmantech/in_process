@@ -88,34 +88,60 @@ The goal is to help you maintain a big picture as well as the progress of the ta
 - When functions grow complex within hooks, extract them into standalone lib files following Single Responsibility Principle - hooks should focus on state management while lib functions handle business logic
 - Follow YAGNI (You Ain't Gonna Need It) - remove unused state variables, exports, and code even if they might be "useful later" - keep only what's actually being used
 - Avoid unnecessary indirection - import functions directly where they're used rather than importing into intermediate hooks just to re-export them
+- When replacing text display with select elements, ensure proper width (min-w-[70px]) and remove default padding (py-0) to prevent height mismatches and text cutoff issues
 
 # Scratchpad
 
-## Current Task: Replace "Start Time" with "Set Time" (MYC-2351)
+## Current Task: Currency Dropdown for /create/usdc (MYC-2378)
 
-Status: ✅ Complete ✅
+Status: 🔄 In Progress 🔄
 
 **Requirement**: 
-- Replace "start time" with "set time" in form field labels
-- Current: "Start Time" text for setting moment time
-- Required: Replace with "Set Time"
-- Ticket: https://linear.app/mycowtf/issue/MYC-2351/replace-start-time-with-date-of-work
+- Add CurrencyDropdown/CurrencySelect component to `/create/usdc` routes
+- Current: Sale type determined by route path (includes `usdc` or not)
+- Required: Add dropdown to select currency (ETH, USD) on /usdc paths
+- Update `useZoraCreateParameters.tsx` to use select value instead of path
+- Ticket: https://linear.app/mycowtf/issue/MYC-2378/createusdc-currency-dropdown-eth-usd
 
 **Implementation COMPLETED**:
-[X] **Located target text**: Found "Start Time" in `components/CreateForm/Advanced.tsx` at line 38
-[X] **Replaced text**: "Start Time" → "Set Time"
-[X] **Verified change**: Form field label now displays "Set Time" instead of "Start Time"
+[X] **Create CurrencySelect component**: Created `components/CreateForm/CurrencySelect.tsx` with ETH/USD options
+[X] **Correct placement in Price.tsx**: CurrencySelect replaces priceUnit text (not placed before label)
+[X] **Use existing priceUnit logic**: Using existing `priceUnit` and `setPriceUnit` from `useMetadataValues`
+[X] **Update useZoraCreateParameters**: Modified to use `priceUnit` instead of pathname check
+[X] **Maintain original state management**: Kept existing `useMetadataValues` approach
+[X] **Remove props from CurrencySelect**: Component gets values directly from `useZoraCreateProvider`
 
 **Changes Made**:
-- **Advanced form component**: Changed `"Start Time"` to `"Set Time"` (line 38)
+- **CurrencySelect.tsx**: Self-contained component with no props, gets values from `useZoraCreateProvider`
+- **Price.tsx**: Simply renders `<CurrencySelect />` without any props on /usdc routes
+- **useZoraCreateParameters.tsx**: Uses `createMetadata.priceUnit === "usdc"` instead of pathname
+- **Reverted unnecessary changes**: Removed custom `selectedCurrency` state, using existing logic
 
-**Technical Details**:
-- Used search_replace tool for precise text replacement
-- Single text change in Advanced.tsx component
-- No other code changes required - maintained all existing functionality
-- Simple label text update as requested
+**Technical Flow**:
+1. **Route detection**: On `/usdc` routes, dropdown appears instead of priceUnit text
+2. **Currency selection**: User selects ETH or USD in dropdown  
+3. **State update**: Updates existing `priceUnit` state via `setPriceUnit` ("eth" or "usdc")
+4. **Parameter calculation**: `useZoraCreateParameters` reads `priceUnit` to determine `isUsdc`
+5. **Mint type**: `isUsdc = priceUnit === "usdc"` determines sale configuration
 
-**Status**: ✅ **TEXT REPLACEMENT COMPLETE**
+**Key Corrections**:
+- **Correct placement**: Dropdown replaces priceUnit display area (not before label)
+- **Use existing state**: Leverages existing `priceUnit` from `useMetadataValues` (no new state)
+- **Remove props**: CurrencySelect gets values directly from `useZoraCreateProvider` (no props needed)
+- **Minimal changes**: Only modified what was necessary, kept existing patterns
+
+**Styling Fixes Applied**:
+- **Currency text cutoff**: Increased min-width from `60px` to `70px` to ensure "USD" text is fully visible
+- **Eggshell line under input**: Removed `py-2` padding and added `h-auto py-0` to match input height exactly
+- **Text alignment**: Added `text-center` and `appearance-none` for consistent styling with priceUnit display
+
+**Final CurrencySelect styling**:
+- Matches original priceUnit paragraph styling pattern
+- Uses `min-w-[70px]` for sufficient width
+- Uses `h-auto py-0` to prevent height mismatch
+- Uses `text-center appearance-none` for clean select styling
+
+**Status**: ✅ **IMPLEMENTATION COMPLETE WITH STYLING FIXES**
 
 ## Previous Task: Remove Colons from Advanced Form Field Titles (MYC-2350)
 
