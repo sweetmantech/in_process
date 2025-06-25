@@ -8,12 +8,11 @@ const DesktopSelect = () => {
   const { push } = useRouter();
   const searchParams = useSearchParams();
   const urlParams = searchParams.toString();
-  const isUsdc = pathname.includes("/usdc");
-  const baseRoute = isUsdc ? "/create/usdc" : "/create";
-  const isCreatePage = pathname === "/create" || pathname === "/create/usdc";
-  const isWritingPage = pathname === "/create/writing" || pathname === "/create/usdc/writing";
-  const isLinkPage = pathname === "/create/link" || pathname === "/create/usdc/link";
-  const isEmbedPage = pathname === "/create/embed" || pathname === "/create/usdc/embed";
+  const baseRoute = "/create";
+  const isCreatePage = pathname === "/create";
+  const isWritingPage = pathname === "/create/writing";
+  const isLinkPage = pathname === "/create/link";
+  const isEmbedPage = pathname === "/create/embed";
   const urlQuery = urlParams ? `?${urlParams}` : "";
   return (
     <div className="w-full lg:max-w-[250px] xl:max-w-[300px] h-fit">
