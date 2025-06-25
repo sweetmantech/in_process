@@ -2,8 +2,6 @@
 
 import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
 
-type Currency = "ETH" | "USD";
-
 export default function CurrencySelect() {
   const { priceUnit, setPriceUnit, fileUploading, creating } = useZoraCreateProvider();
   

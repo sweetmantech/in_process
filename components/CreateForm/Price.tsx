@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 import CurrencySelect from "./CurrencySelect";
 
 export default function Price() {
-  const { price, setPrice, priceUnit, setPriceUnit, fileUploading, creating } =
+  const { price, setPrice, priceUnit, fileUploading, creating } =
     useZoraCreateProvider();
   const pathname = usePathname();
   const isUsdcRoute = pathname.includes("/usdc");
