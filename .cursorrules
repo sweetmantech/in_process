@@ -91,7 +91,7 @@ The goal is to help you maintain a big picture as well as the progress of the ta
 
 # Scratchpad
 
-## Current Task: Fix Mobile Design Issues - Hero Section Layout (MYC-2354)
+## Current Task: Fix Mobile Styling - Moment Count & Create Button (MYC-2354)
 
 Status: ✅ Complete ✅
 
@@ -127,13 +127,20 @@ Status: ✅ Complete ✅
   - **Moment count position**: Moved below spiral via new MobileMomentsSection component
   - **Moment text lines**: Single line on mobile (conditional `<br>` with `hidden md:block`)
   - **Create button colors**: White background with black text and border
+[X] **Fixed mobile styling to match designs**:
+  - **Create button border**: Removed on mobile (`md:border md:border-black`)
+  - **Create button background**: Tan color on mobile (`bg-grey-eggshell md:bg-white`)
+  - **Create button size**: Smaller on mobile (`text-lg py-3 px-12` vs desktop)
+  - **Moment count text size**: Smaller on mobile (`text-lg md:text-5xl`)
+  - **Moment count text color**: Grey on mobile (`text-grey-600 md:text-black`)
 
 **Changes Made**:
 - **TimelineHero.tsx**: NEW component file with hero section logic, mobile-centered text alignment
 - **MobileMomentsSection.tsx**: NEW component for mobile moment count/create button below spiral
 - **TimelinePage.tsx**: Added MobileMomentsSection below TimelineSpiral
 - **MomentCount.tsx**: Fixed line breaks - single line on mobile, double line on desktop
-- **CreateButton.tsx**: Updated colors - white background, black text, black border
+- **CreateButton.tsx**: Updated styling - tan background on mobile, smaller size, no border on mobile
+- **MomentCount.tsx**: Updated styling - smaller text and grey color on mobile
 
 **Technical Notes**:
 - JSX linter errors appeared but noted as acceptable (common TypeScript configuration issue)
