@@ -91,7 +91,33 @@ The goal is to help you maintain a big picture as well as the progress of the ta
 
 # Scratchpad
 
-## Current Task: Remove Colons from Advanced Form Field Titles (MYC-2350)
+## Current Task: Replace "Start Time" with "Set Time" (MYC-2351)
+
+Status: ✅ Complete ✅
+
+**Requirement**: 
+- Replace "start time" with "set time" in form field labels
+- Current: "Start Time" text for setting moment time
+- Required: Replace with "Set Time"
+- Ticket: https://linear.app/mycowtf/issue/MYC-2351/replace-start-time-with-date-of-work
+
+**Implementation COMPLETED**:
+[X] **Located target text**: Found "Start Time" in `components/CreateForm/Advanced.tsx` at line 38
+[X] **Replaced text**: "Start Time" → "Set Time"
+[X] **Verified change**: Form field label now displays "Set Time" instead of "Start Time"
+
+**Changes Made**:
+- **Advanced form component**: Changed `"Start Time"` to `"Set Time"` (line 38)
+
+**Technical Details**:
+- Used search_replace tool for precise text replacement
+- Single text change in Advanced.tsx component
+- No other code changes required - maintained all existing functionality
+- Simple label text update as requested
+
+**Status**: ✅ **TEXT REPLACEMENT COMPLETE**
+
+## Previous Task: Remove Colons from Advanced Form Field Titles (MYC-2350)
 
 Status: ✅ Complete ✅
 
