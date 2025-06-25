@@ -28,7 +28,7 @@ const Advanced = () => {
       </Button>
       {isOpenAdvanced && (
         <div className="relative mx-[-16px] px-[16px] bg-grey-moss-100">
-          <p className="font-medium font-archivo ">Description:</p>
+          <p className="font-medium font-archivo ">Description</p>
           <Textarea
             placeholder="enter a description"
             value={description}
@@ -36,7 +36,7 @@ const Advanced = () => {
             minRows={3}
             className="resize-none font-spectral"
           />
-          <p className="font-medium font-archivo pt-2">Start Time:</p>
+          <p className="font-medium font-archivo pt-2">Start Time</p>
           <DateTimePicker date={startDate} setDate={onChangeStartDate} />
         </div>
       )}

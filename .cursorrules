@@ -91,32 +91,37 @@ The goal is to help you maintain a big picture as well as the progress of the ta
 
 # Scratchpad
 
-## Current Task: Make Create Page Text All Lowercase (MYC-2349)
+## Current Task: Remove Colons from Advanced Form Field Titles (MYC-2350)
 
 Status: ✅ Complete ✅
 
 **Requirement**: 
-- Make specific text elements lowercase on Create page
-- "Advanced" (dropdown button) → "advanced"
-- "Enter a description" (textarea placeholder) → "enter a description"
-- Ticket: https://linear.app/mycowtf/issue/MYC-2349/all-type-lowercase
+- Remove colons after advanced form field titles
+- Current: "description:" and "start time:" (with colons)
+- Required: "description" and "start time" (without colons)
+- Ticket: https://linear.app/mycowtf/issue/MYC-2350/no-after-form-field-titles
 
 **Implementation COMPLETED**:
-[X] **Located target file**: Found both text instances in `components/CreateForm/Advanced.tsx`
-[X] **Updated dropdown button text**: "Advanced" → "advanced" (line 23)
-[X] **Updated textarea placeholder**: "Enter a description" → "enter a description" (line 32)
+[X] **Located target file**: Found form field labels in `components/CreateForm/Advanced.tsx`
+[X] **Removed colon from "Description:"**: Line 29 - "Description:" → "Description"
+[X] **Removed colon from "Start Time:"**: Line 36 - "Start Time:" → "Start Time"
+[X] **Verified all changes**: Both form field titles now display without colons
 
 **Changes Made**:
-- **Button Text**: Changed "Advanced" to "advanced" in dropdown button
-- **Placeholder Text**: Changed "Enter a description" to "enter a description" in textarea
+- **Description field**: Changed `"Description:"` to `"Description"` (line 29)
+- **Start Time field**: Changed `"Start Time:"` to `"Start Time"` (line 36)
 
 **Technical Details**:
 - Used search_replace tool for precise text replacement
 - Both changes made in single component file
 - No other code changes required - maintained all existing functionality
-- Simple lowercase conversion as requested
+- Simple colon removal as requested
 
-**Status**: ✅ **LOWERCASE TEXT CHANGES COMPLETE**
+**Status**: ✅ **COLON REMOVAL COMPLETE**
+
+## Previous Task: Make Create Page Text All Lowercase (MYC-2349)
+
+Status: ✅ Complete ✅
 
 ## Previous Task: Update Manifesto Page with New Content and Formatting (MYC-2343)
 
