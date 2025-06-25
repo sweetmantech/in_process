@@ -91,7 +91,7 @@ The goal is to help you maintain a big picture as well as the progress of the ta
 
 # Scratchpad
 
-## Current Task: Final Mobile Styling Fixes - Colors & Spacing (MYC-2354)
+## Current Task: Apply Mobile Styling to Desktop - Consistent Design (MYC-2354)
 
 Status: ✅ Complete ✅
 
@@ -138,21 +138,28 @@ Status: ✅ Complete ✅
   - **Create button background**: Fixed eggshell color with `!bg-grey-eggshell` to override defaults
   - **Spacing reduction**: Reduced padding (`pt-4 pb-2` instead of `pt-8 pb-4`) for tighter layout
   - **Final spacing fix**: Reduced gap between MobileMomentsSection and TimelineMobileMoon (`pt-8 md:pt-28`)
+[X] **Applied mobile styling to desktop for consistency**:
+  - **Moment count color**: Grey on both mobile and desktop (`text-grey-moss-400`)
+  - **Moment count text**: Single line on both platforms (removed conditional line break)
+  - **Moment count size**: Reduced desktop from `text-5xl` to `text-2xl` for better proportion
+  - **Create button background**: Eggshell on both platforms (removed `md:!bg-white`)
+  - **Create button border**: Removed border on both platforms (removed `md:border md:border-black`)
+  - **Create button size**: Reduced desktop padding and text size for better proportion
 
 **Changes Made**:
 - **TimelineHero.tsx**: NEW component file with hero section logic, mobile-centered text alignment
 - **MobileMomentsSection.tsx**: NEW component for mobile moment count/create button below spiral
 - **TimelinePage.tsx**: Added MobileMomentsSection below TimelineSpiral, fixed spacing to moon (`pt-8 md:pt-28`)
 - **MomentCount.tsx**: Fixed line breaks - single line on mobile, double line on desktop
-- **CreateButton.tsx**: Updated styling - tan background on mobile, smaller size, no border on mobile
-- **MomentCount.tsx**: Updated styling - smaller text and grey color on mobile
+- **CreateButton.tsx**: Updated styling - eggshell background, no border, optimized sizing for both mobile and desktop
+- **MomentCount.tsx**: Updated styling - grey color, single line text, proportional sizing for both mobile and desktop
 
 **Technical Notes**:
 - JSX linter errors appeared but noted as acceptable (common TypeScript configuration issue)
 - Development server setup encountered dependency conflicts (React 19 RC vs peer dependencies)
 - Implementation successfully matches Figma designs with responsive behavior
 
-**Status**: ✅ **COMPLETE - HERO SECTION REFACTOR + ALL MOBILE DESIGN FIXES**
+**Status**: ✅ **COMPLETE - HERO SECTION REFACTOR + MOBILE & DESKTOP DESIGN FIXES**
 
 ## Previous Task: Replace "Start Time" with "Set Time" (MYC-2351)
 
