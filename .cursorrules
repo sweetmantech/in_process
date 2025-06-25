@@ -91,7 +91,7 @@ The goal is to help you maintain a big picture as well as the progress of the ta
 
 # Scratchpad
 
-## Current Task: Fix Mobile Styling - Moment Count & Create Button (MYC-2354)
+## Current Task: Final Mobile Styling Fixes - Colors & Spacing (MYC-2354)
 
 Status: ✅ Complete ✅
 
@@ -132,7 +132,11 @@ Status: ✅ Complete ✅
   - **Create button background**: Tan color on mobile (`bg-grey-eggshell md:bg-white`)
   - **Create button size**: Smaller on mobile (`text-lg py-3 px-12` vs desktop)
   - **Moment count text size**: Smaller on mobile (`text-lg md:text-5xl`)
-  - **Moment count text color**: Grey on mobile (`text-grey-600 md:text-black`)
+  - **Moment count text color**: Grey on mobile (`text-grey-moss-400 md:text-black`)
+[X] **Final mobile styling fixes**:
+  - **Moment text color**: Fixed to proper grey (`text-grey-moss-400` instead of `text-grey-600`)
+  - **Create button background**: Fixed eggshell color with `!bg-grey-eggshell` to override defaults
+  - **Spacing reduction**: Reduced padding (`pt-4 pb-2` instead of `pt-8 pb-4`) for tighter layout
 
 **Changes Made**:
 - **TimelineHero.tsx**: NEW component file with hero section logic, mobile-centered text alignment
@@ -147,7 +151,7 @@ Status: ✅ Complete ✅
 - Development server setup encountered dependency conflicts (React 19 RC vs peer dependencies)
 - Implementation successfully matches Figma designs with responsive behavior
 
-**Status**: ✅ **HERO SECTION REFACTOR + MOBILE DESIGN FIXES COMPLETE**
+**Status**: ✅ **HERO SECTION REFACTOR + ALL MOBILE DESIGN FIXES COMPLETE**
 
 ## Previous Task: Replace "Start Time" with "Set Time" (MYC-2351)
 

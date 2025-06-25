@@ -7,7 +7,7 @@ interface MobileMomentsSectionProps {
 
 const MobileMomentsSection = ({ totalCount }: MobileMomentsSectionProps) => {
   return (
-    <div className="md:hidden flex flex-col items-center pt-8 pb-4">
+    <div className="md:hidden flex flex-col items-center pt-4 pb-2">
       <MomentCount count={totalCount} />
       <div className="mt-4">
         <CreateButton />
