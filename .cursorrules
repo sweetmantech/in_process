@@ -92,15 +92,15 @@ The goal is to help you maintain a big picture as well as the progress of the ta
 
 # Scratchpad
 
-## Current Task: Currency Dropdown for /create/usdc (MYC-2378)
+## Current Task: Currency Dropdown for All /create Routes (MYC-2378)
 
-Status: 🔄 In Progress 🔄
+Status: ✅ **COMPLETE** ✅
 
 **Requirement**: 
-- Add CurrencyDropdown/CurrencySelect component to `/create/usdc` routes
-- Current: Sale type determined by route path (includes `usdc` or not)
-- Required: Add dropdown to select currency (ETH, USD) on /usdc paths
-- Update `useZoraCreateParameters.tsx` to use select value instead of path
+- ~~Add CurrencyDropdown/CurrencySelect component to `/create/usdc` routes~~ ✅ 
+- **NEW**: Remove check for isUsdcRoute - always show CurrencySelect on ALL /create routes
+- Current: CurrencySelect only shows on /usdc routes
+- Required: Always show CurrencySelect dropdown regardless of route
 - Ticket: https://linear.app/mycowtf/issue/MYC-2378/createusdc-currency-dropdown-eth-usd
 
 **Implementation COMPLETED**:
@@ -110,38 +110,33 @@ Status: 🔄 In Progress 🔄
 [X] **Update useZoraCreateParameters**: Modified to use `priceUnit` instead of pathname check
 [X] **Maintain original state management**: Kept existing `useMetadataValues` approach
 [X] **Remove props from CurrencySelect**: Component gets values directly from `useZoraCreateProvider`
+[X] **REMOVE isUsdcRoute check**: Always show CurrencySelect on ALL /create routes (not just /usdc)
+
+**Latest Changes Made**:
+- **Price.tsx**: Removed `usePathname` import and `isUsdcRoute` check
+- **Price.tsx**: Always renders `<CurrencySelect />` instead of conditional rendering
+- **Simplified logic**: No more route-based conditional rendering
 
 **Changes Made**:
 - **CurrencySelect.tsx**: Self-contained component with no props, gets values from `useZoraCreateProvider`
-- **Price.tsx**: Simply renders `<CurrencySelect />` without any props on /usdc routes
+- **Price.tsx**: Always renders `<CurrencySelect />` (previously only on /usdc routes)
 - **useZoraCreateParameters.tsx**: Uses `createMetadata.priceUnit === "usdc"` instead of pathname
 - **Reverted unnecessary changes**: Removed custom `selectedCurrency` state, using existing logic
 
 **Technical Flow**:
-1. **Route detection**: On `/usdc` routes, dropdown appears instead of priceUnit text
+1. **All routes**: Currency dropdown now appears on ALL `/create` routes (not just /usdc)
 2. **Currency selection**: User selects ETH or USD in dropdown  
 3. **State update**: Updates existing `priceUnit` state via `setPriceUnit` ("eth" or "usdc")
 4. **Parameter calculation**: `useZoraCreateParameters` reads `priceUnit` to determine `isUsdc`
 5. **Mint type**: `isUsdc = priceUnit === "usdc"` determines sale configuration
 
-**Key Corrections**:
-- **Correct placement**: Dropdown replaces priceUnit display area (not before label)
-- **Use existing state**: Leverages existing `priceUnit` from `useMetadataValues` (no new state)
-- **Remove props**: CurrencySelect gets values directly from `useZoraCreateProvider` (no props needed)
-- **Minimal changes**: Only modified what was necessary, kept existing patterns
+**Key Changes**:
+- **Universal availability**: CurrencySelect now available on ALL /create routes
+- **Simplified logic**: Removed route-based conditional rendering
+- **Consistent UX**: Same interface across all create pages
+- **Minimal code**: Cleaner Price.tsx without pathname checks
 
-**Styling Fixes Applied**:
-- **Currency text cutoff**: Increased min-width from `60px` to `70px` to ensure "USD" text is fully visible
-- **Eggshell line under input**: Removed `py-2` padding and added `h-auto py-0` to match input height exactly
-- **Text alignment**: Added `text-center` and `appearance-none` for consistent styling with priceUnit display
-
-**Final CurrencySelect styling**:
-- Matches original priceUnit paragraph styling pattern
-- Uses `min-w-[70px]` for sufficient width
-- Uses `h-auto py-0` to prevent height mismatch
-- Uses `text-center appearance-none` for clean select styling
-
-**Status**: ✅ **IMPLEMENTATION COMPLETE WITH STYLING FIXES**
+**Status**: ✅ **IMPLEMENTATION COMPLETE - CURRENCYSELECT NOW ON ALL ROUTES**
 
 ## Previous Task: Update Homepage Hero Section - Description Text (MYC-2354)
 
