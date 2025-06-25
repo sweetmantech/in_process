@@ -8,16 +8,15 @@ import { useFrameProvider } from "@/providers/FrameProvider";
 import getSaleConfigType from "@/lib/getSaleConfigType";
 import useCreateAdvancedValues from "./useCreateAdvancedValues";
 
-type Currency = "ETH" | "USD";
-
-const useZoraCreateParameters = (collection?: Address, selectedCurrency?: Currency) => {
-  // Use selectedCurrency if provided, otherwise fallback to ETH
-  const isUsdc = selectedCurrency === "USD";
+const useZoraCreateParameters = (collection?: Address) => {
   const { connectedWallet } = useConnectedWallet();
   const { address } = useAccount();
-  const createMetadata = useCreateMetadata(selectedCurrency);
+  const createMetadata = useCreateMetadata();
   const { context } = useFrameProvider();
   const advancedValues = useCreateAdvancedValues();
+  
+  // Use priceUnit to determine if USDC
+  const isUsdc = createMetadata.priceUnit === "usdc";
 
   const fetchParameters = async () => {
     const creator = context ? address : connectedWallet;

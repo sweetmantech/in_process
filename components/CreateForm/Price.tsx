@@ -7,20 +7,13 @@ import { usePathname } from "next/navigation";
 import CurrencySelect from "./CurrencySelect";
 
 export default function Price() {
-  const { price, setPrice, priceUnit, fileUploading, creating, selectedCurrency, setSelectedCurrency } =
+  const { price, setPrice, priceUnit, setPriceUnit, fileUploading, creating } =
     useZoraCreateProvider();
   const pathname = usePathname();
   const isUsdcRoute = pathname.includes("/usdc");
 
   return (
     <div className="w-full space-y-2">
-      {isUsdcRoute && (
-        <CurrencySelect
-          value={selectedCurrency}
-          onChange={setSelectedCurrency}
-          disabled={Boolean(fileUploading || creating)}
-        />
-      )}
       <Label htmlFor="price" className="font-archivo text-md">
         price
       </Label>
@@ -37,9 +30,17 @@ export default function Price() {
         <div className="bg-white">
           <div className="w-[1px] h-6 bg-grey-secondary my-2" />
         </div>
-        <p className="bg-white px-3 flex items-center justify-center font-spectral">
-          {priceUnit}
-        </p>
+        {isUsdcRoute ? (
+          <CurrencySelect
+            value={priceUnit === "usdc" ? "USD" : "ETH"}
+            onChange={(currency) => setPriceUnit(currency === "USD" ? "usdc" : "eth")}
+            disabled={Boolean(fileUploading || creating)}
+          />
+        ) : (
+          <p className="bg-white px-3 flex items-center justify-center font-spectral">
+            {priceUnit}
+          </p>
+        )}
       </div>
     </div>
   );

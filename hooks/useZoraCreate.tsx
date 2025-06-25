@@ -1,28 +1,20 @@
 "use client";
 
 import { useState } from "react";
-import { useSearchParams, usePathname } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { Address } from "viem";
 import useZoraCreateParameters from "./useZoraCreateParameters";
 import { useMask } from "./useMask";
 import { useUserProvider } from "@/providers/UserProvider";
 
-type Currency = "ETH" | "USD";
-
 export default function useZoraCreate() {
   const [creating, setCreating] = useState<boolean>(false);
   const searchParams = useSearchParams();
-  const pathname = usePathname();
   const collection = searchParams.get("collectionAddress") as Address;
   const [createdContract, setCreatedContract] = useState<string>("");
   const [createdTokenId, setCreatedTokenId] = useState<string>("");
-  
-  // Currency selection state - defaults to USD for /usdc routes, ETH otherwise
-  const [selectedCurrency, setSelectedCurrency] = useState<Currency>(
-    pathname.includes("/usdc") ? "USD" : "ETH"
-  );
   const { fetchParameters, createMetadata, advancedValues } =
-    useZoraCreateParameters(collection, selectedCurrency);
+    useZoraCreateParameters(collection);
   const mask = useMask(
     advancedValues.isOpenAdvanced,
     createMetadata.writingText
@@ -65,8 +57,6 @@ export default function useZoraCreate() {
     setCreatedContract,
     create,
     creating,
-    selectedCurrency,
-    setSelectedCurrency,
     ...createMetadata,
     ...mask,
     ...advancedValues,

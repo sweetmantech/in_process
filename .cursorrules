@@ -104,25 +104,28 @@ Status: 🔄 In Progress 🔄
 
 **Implementation COMPLETED**:
 [X] **Create CurrencySelect component**: Created `components/CreateForm/CurrencySelect.tsx` with ETH/USD options
-[X] **Add to Price.tsx**: Added CurrencySelect component (only visible on paths with `/usdc`)
-[X] **Currency state management**: Added `selectedCurrency` state to `useZoraCreate` hook
-[X] **Update useZoraCreateParameters**: Modified to use `selectedCurrency` instead of pathname check
-[X] **Update priceUnit logic**: Modified `useMetadataValues` to use selectedCurrency for priceUnit
+[X] **Correct placement in Price.tsx**: CurrencySelect replaces priceUnit text (not placed before label)
+[X] **Use existing priceUnit logic**: Using existing `priceUnit` and `setPriceUnit` from `useMetadataValues`
+[X] **Update useZoraCreateParameters**: Modified to use `priceUnit` instead of pathname check
+[X] **Maintain original state management**: Kept existing `useMetadataValues` approach
 
 **Changes Made**:
-- **CurrencySelect.tsx**: New component with dropdown for ETH/USD selection
-- **useZoraCreate.tsx**: Added `selectedCurrency` state and `setSelectedCurrency` function
-- **useZoraCreateParameters.tsx**: Accepts `selectedCurrency` parameter instead of using pathname
-- **Price.tsx**: Includes CurrencySelect component (only on /usdc routes)
-- **useMetadataValues.ts**: Updated to use selectedCurrency for priceUnit calculation
-- **useCreateMetadata.tsx**: Passes selectedCurrency to useMetadataValues
+- **CurrencySelect.tsx**: New dropdown component styled to fit in price unit area
+- **Price.tsx**: CurrencySelect replaces priceUnit text on /usdc routes, uses existing `setPriceUnit`
+- **useZoraCreateParameters.tsx**: Uses `createMetadata.priceUnit === "usdc"` instead of pathname
+- **Reverted unnecessary changes**: Removed custom `selectedCurrency` state, using existing logic
 
 **Technical Flow**:
-1. **Currency selection**: User selects ETH or USD in dropdown (only on /usdc routes)
-2. **State update**: `selectedCurrency` state updates via `setSelectedCurrency`
-3. **Parameter calculation**: `useZoraCreateParameters` uses `selectedCurrency` instead of pathname
-4. **Price unit display**: `priceUnit` updates based on selectedCurrency ("eth" or "usdc")
-5. **Mint type**: `isUsdc = selectedCurrency === "USD"` determines sale configuration
+1. **Route detection**: On `/usdc` routes, dropdown appears instead of priceUnit text
+2. **Currency selection**: User selects ETH or USD in dropdown  
+3. **State update**: Updates existing `priceUnit` state via `setPriceUnit` ("eth" or "usdc")
+4. **Parameter calculation**: `useZoraCreateParameters` reads `priceUnit` to determine `isUsdc`
+5. **Mint type**: `isUsdc = priceUnit === "usdc"` determines sale configuration
+
+**Key Corrections**:
+- **Correct placement**: Dropdown replaces priceUnit display area (not before label)
+- **Use existing state**: Leverages existing `priceUnit` from `useMetadataValues` (no new state)
+- **Minimal changes**: Only modified what was necessary, kept existing patterns
 
 **Status**: ✅ **IMPLEMENTATION COMPLETE**
 

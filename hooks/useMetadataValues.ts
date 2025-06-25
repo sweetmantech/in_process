@@ -1,17 +1,12 @@
-import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
 
-type Currency = "ETH" | "USD";
+const useMetadataValues = () => {
+  const pathname = usePathname();
+  const isUsdc = pathname.includes("/usdc");
 
-const useMetadataValues = (selectedCurrency?: Currency) => {
   const [name, setName] = useState<string>("");
-  const [priceUnit, setPriceUnit] = useState<string>(
-    selectedCurrency === "USD" ? "usdc" : "eth"
-  );
-
-  // Update priceUnit when selectedCurrency changes
-  useEffect(() => {
-    setPriceUnit(selectedCurrency === "USD" ? "usdc" : "eth");
-  }, [selectedCurrency]);
+  const [priceUnit, setPriceUnit] = useState<string>(isUsdc ? "usdc" : "eth");
   const [price, setPrice] = useState("0");
   const [description, setDescription] = useState<string>("");
   const [isTimedSale, setIsTimedSale] = useState<boolean>(false);
