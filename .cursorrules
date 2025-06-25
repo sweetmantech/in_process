@@ -137,11 +137,12 @@ Status: ✅ Complete ✅
   - **Moment text color**: Fixed to proper grey (`text-grey-moss-400` instead of `text-grey-600`)
   - **Create button background**: Fixed eggshell color with `!bg-grey-eggshell` to override defaults
   - **Spacing reduction**: Reduced padding (`pt-4 pb-2` instead of `pt-8 pb-4`) for tighter layout
+  - **Final spacing fix**: Reduced gap between MobileMomentsSection and TimelineMobileMoon (`pt-8 md:pt-28`)
 
 **Changes Made**:
 - **TimelineHero.tsx**: NEW component file with hero section logic, mobile-centered text alignment
 - **MobileMomentsSection.tsx**: NEW component for mobile moment count/create button below spiral
-- **TimelinePage.tsx**: Added MobileMomentsSection below TimelineSpiral
+- **TimelinePage.tsx**: Added MobileMomentsSection below TimelineSpiral, fixed spacing to moon (`pt-8 md:pt-28`)
 - **MomentCount.tsx**: Fixed line breaks - single line on mobile, double line on desktop
 - **CreateButton.tsx**: Updated styling - tan background on mobile, smaller size, no border on mobile
 - **MomentCount.tsx**: Updated styling - smaller text and grey color on mobile
@@ -151,7 +152,7 @@ Status: ✅ Complete ✅
 - Development server setup encountered dependency conflicts (React 19 RC vs peer dependencies)
 - Implementation successfully matches Figma designs with responsive behavior
 
-**Status**: ✅ **HERO SECTION REFACTOR + ALL MOBILE DESIGN FIXES COMPLETE**
+**Status**: ✅ **COMPLETE - HERO SECTION REFACTOR + ALL MOBILE DESIGN FIXES**
 
 ## Previous Task: Replace "Start Time" with "Set Time" (MYC-2351)
 

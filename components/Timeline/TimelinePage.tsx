@@ -30,7 +30,7 @@ const TimelinePage = () => {
       <TimelineHero totalCount={totalCount} />
       <TimelineSpiral />
       <MobileMomentsSection totalCount={totalCount} />
-      <div className="pt-28">
+      <div className="pt-8 md:pt-28">
         <TimelineMobileMoon />
       </div>
       <TimelineGrid />
