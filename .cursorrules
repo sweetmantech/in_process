@@ -88,10 +88,62 @@ The goal is to help you maintain a big picture as well as the progress of the ta
 - When functions grow complex within hooks, extract them into standalone lib files following Single Responsibility Principle - hooks should focus on state management while lib functions handle business logic
 - Follow YAGNI (You Ain't Gonna Need It) - remove unused state variables, exports, and code even if they might be "useful later" - keep only what's actually being used
 - Avoid unnecessary indirection - import functions directly where they're used rather than importing into intermediate hooks just to re-export them
+- When replacing text display with select elements, ensure proper width (min-w-[70px]) and remove default padding (py-0) to prevent height mismatches and text cutoff issues
 
 # Scratchpad
 
-## Current Task: Apply Mobile Styling to Desktop - Consistent Design (MYC-2354)
+## Current Task: Currency Dropdown for /create/usdc (MYC-2378)
+
+Status: 🔄 In Progress 🔄
+
+**Requirement**: 
+- Add CurrencyDropdown/CurrencySelect component to `/create/usdc` routes
+- Current: Sale type determined by route path (includes `usdc` or not)
+- Required: Add dropdown to select currency (ETH, USD) on /usdc paths
+- Update `useZoraCreateParameters.tsx` to use select value instead of path
+- Ticket: https://linear.app/mycowtf/issue/MYC-2378/createusdc-currency-dropdown-eth-usd
+
+**Implementation COMPLETED**:
+[X] **Create CurrencySelect component**: Created `components/CreateForm/CurrencySelect.tsx` with ETH/USD options
+[X] **Correct placement in Price.tsx**: CurrencySelect replaces priceUnit text (not placed before label)
+[X] **Use existing priceUnit logic**: Using existing `priceUnit` and `setPriceUnit` from `useMetadataValues`
+[X] **Update useZoraCreateParameters**: Modified to use `priceUnit` instead of pathname check
+[X] **Maintain original state management**: Kept existing `useMetadataValues` approach
+[X] **Remove props from CurrencySelect**: Component gets values directly from `useZoraCreateProvider`
+
+**Changes Made**:
+- **CurrencySelect.tsx**: Self-contained component with no props, gets values from `useZoraCreateProvider`
+- **Price.tsx**: Simply renders `<CurrencySelect />` without any props on /usdc routes
+- **useZoraCreateParameters.tsx**: Uses `createMetadata.priceUnit === "usdc"` instead of pathname
+- **Reverted unnecessary changes**: Removed custom `selectedCurrency` state, using existing logic
+
+**Technical Flow**:
+1. **Route detection**: On `/usdc` routes, dropdown appears instead of priceUnit text
+2. **Currency selection**: User selects ETH or USD in dropdown  
+3. **State update**: Updates existing `priceUnit` state via `setPriceUnit` ("eth" or "usdc")
+4. **Parameter calculation**: `useZoraCreateParameters` reads `priceUnit` to determine `isUsdc`
+5. **Mint type**: `isUsdc = priceUnit === "usdc"` determines sale configuration
+
+**Key Corrections**:
+- **Correct placement**: Dropdown replaces priceUnit display area (not before label)
+- **Use existing state**: Leverages existing `priceUnit` from `useMetadataValues` (no new state)
+- **Remove props**: CurrencySelect gets values directly from `useZoraCreateProvider` (no props needed)
+- **Minimal changes**: Only modified what was necessary, kept existing patterns
+
+**Styling Fixes Applied**:
+- **Currency text cutoff**: Increased min-width from `60px` to `70px` to ensure "USD" text is fully visible
+- **Eggshell line under input**: Removed `py-2` padding and added `h-auto py-0` to match input height exactly
+- **Text alignment**: Added `text-center` and `appearance-none` for consistent styling with priceUnit display
+
+**Final CurrencySelect styling**:
+- Matches original priceUnit paragraph styling pattern
+- Uses `min-w-[70px]` for sufficient width
+- Uses `h-auto py-0` to prevent height mismatch
+- Uses `text-center appearance-none` for clean select styling
+
+**Status**: ✅ **IMPLEMENTATION COMPLETE WITH STYLING FIXES**
+
+## Previous Task: Update Homepage Hero Section - Description Text (MYC-2354)
 
 Status: ✅ Complete ✅
 
@@ -105,87 +157,24 @@ Status: ✅ Complete ✅
 - Ticket: https://linear.app/mycowtf/issue/MYC-2354/update-homepage-hero-section-description-text
 
 **Implementation COMPLETED**:
-[X] **Located main homepage**: `components/Timeline/TimelinePage.tsx` - main timeline page component
-[X] **Located moment count**: `components/Timeline/MomentCount.tsx` - displays "{count} moments have been shared"
-[X] **Located create button**: `components/Timeline/CreateButton.tsx` - create button component
-[X] **Update layout**: Implemented responsive layout matching Figma designs
-
-**Layout Requirements IMPLEMENTED**:
-- **Desktop**: Description text (left) + Moments count & create button (right) ✅
-- **Mobile**: Description text (top) + Moments count (below) + Create button (bottom) ✅
-
-**Implementation Changes COMPLETED**:
 [X] **Created hero section container** with responsive flex layout
 [X] **Added description text**: "an onchain collective timeline" (h1) + "for artists" (p)
 [X] **Updated desktop layout**: flex-row with description left, moments/create right
 [X] **Updated mobile layout**: flex-col with description top, moments middle, create bottom
-[X] **Updated MomentCount styling** to work in new layout (removed padding/centering)
-[X] **Applied proper typography**: Used `font-archivo` and `font-spectral-italic` classes
 [X] **Refactored into TimelineHero component**: Extracted hero section into separate component file
-[X] **Fixed mobile design issues**:
-  - **Description text alignment**: Centered on mobile (`text-center md:text-left`)
-  - **Moment count position**: Moved below spiral via new MobileMomentsSection component
-  - **Moment text lines**: Single line on mobile (conditional `<br>` with `hidden md:block`)
-  - **Create button colors**: White background with black text and border
-[X] **Fixed mobile styling to match designs**:
-  - **Create button border**: Removed on mobile (`md:border md:border-black`)
-  - **Create button background**: Tan color on mobile (`bg-grey-eggshell md:bg-white`)
-  - **Create button size**: Smaller on mobile (`text-lg py-3 px-12` vs desktop)
-  - **Moment count text size**: Smaller on mobile (`text-lg md:text-5xl`)
-  - **Moment count text color**: Grey on mobile (`text-grey-moss-400 md:text-black`)
-[X] **Final mobile styling fixes**:
-  - **Moment text color**: Fixed to proper grey (`text-grey-moss-400` instead of `text-grey-600`)
-  - **Create button background**: Fixed eggshell color with `!bg-grey-eggshell` to override defaults
-  - **Spacing reduction**: Reduced padding (`pt-4 pb-2` instead of `pt-8 pb-4`) for tighter layout
-  - **Final spacing fix**: Reduced gap between MobileMomentsSection and TimelineMobileMoon (`pt-8 md:pt-28`)
-[X] **Applied mobile styling to desktop for consistency**:
-  - **Moment count color**: Grey on both mobile and desktop (`text-grey-moss-400`)
-  - **Moment count text**: Single line on both platforms (removed conditional line break)
-  - **Moment count size**: Reduced desktop from `text-5xl` to `text-2xl` for better proportion
-  - **Create button background**: Eggshell on both platforms (removed `md:!bg-white`)
-  - **Create button border**: Removed border on both platforms (removed `md:border md:border-black`)
-  - **Create button size**: Reduced desktop padding and text size for better proportion
+[X] **Fixed mobile design issues**: Centered text, repositioned elements below spiral
+[X] **Fixed mobile styling**: Proper colors, sizes, borders, backgrounds
+[X] **Fixed mobile spacing**: Optimal spacing between all components
+[X] **Applied styling to desktop**: Consistent design across both platforms
 
 **Changes Made**:
 - **TimelineHero.tsx**: NEW component file with hero section logic, mobile-centered text alignment
 - **MobileMomentsSection.tsx**: NEW component for mobile moment count/create button below spiral
-- **TimelinePage.tsx**: Added MobileMomentsSection below TimelineSpiral, fixed spacing to moon (`pt-8 md:pt-28`)
-- **MomentCount.tsx**: Fixed line breaks - single line on mobile, double line on desktop
+- **TimelinePage.tsx**: Added MobileMomentsSection below TimelineSpiral, fixed spacing to moon
 - **CreateButton.tsx**: Updated styling - eggshell background, no border, optimized sizing for both mobile and desktop
 - **MomentCount.tsx**: Updated styling - grey color, single line text, proportional sizing for both mobile and desktop
 
-**Technical Notes**:
-- JSX linter errors appeared but noted as acceptable (common TypeScript configuration issue)
-- Development server setup encountered dependency conflicts (React 19 RC vs peer dependencies)
-- Implementation successfully matches Figma designs with responsive behavior
-
 **Status**: ✅ **COMPLETE - HERO SECTION REFACTOR + MOBILE & DESKTOP DESIGN FIXES**
-
-## Previous Task: Replace "Start Time" with "Set Time" (MYC-2351)
-
-Status: ✅ Complete ✅
-
-**Requirement**: 
-- Replace "start time" with "set time" in form field labels
-- Current: "Start Time" text for setting moment time
-- Required: Replace with "Set Time"
-- Ticket: https://linear.app/mycowtf/issue/MYC-2351/replace-start-time-with-date-of-work
-
-**Implementation COMPLETED**:
-[X] **Located target text**: Found "Start Time" in `components/CreateForm/Advanced.tsx` at line 38
-[X] **Replaced text**: "Start Time" → "Set Time"
-[X] **Verified change**: Form field label now displays "Set Time" instead of "Start Time"
-
-**Changes Made**:
-- **Advanced form component**: Changed `"Start Time"` to `"Set Time"` (line 38)
-
-**Technical Details**:
-- Used search_replace tool for precise text replacement
-- Single text change in Advanced.tsx component
-- No other code changes required - maintained all existing functionality
-- Simple label text update as requested
-
-**Status**: ✅ **TEXT REPLACEMENT COMPLETE**
 
 ## Previous Task: Remove Colons from Advanced Form Field Titles (MYC-2350)
 
