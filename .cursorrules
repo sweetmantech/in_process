@@ -88,6 +88,7 @@ The goal is to help you maintain a big picture as well as the progress of the ta
 - When functions grow complex within hooks, extract them into standalone lib files following Single Responsibility Principle - hooks should focus on state management while lib functions handle business logic
 - Follow YAGNI (You Ain't Gonna Need It) - remove unused state variables, exports, and code even if they might be "useful later" - keep only what's actually being used
 - Avoid unnecessary indirection - import functions directly where they're used rather than importing into intermediate hooks just to re-export them
+- When replacing text display with select elements, ensure proper width (min-w-[70px]) and remove default padding (py-0) to prevent height mismatches and text cutoff issues
 
 # Scratchpad
 
@@ -129,7 +130,18 @@ Status: 🔄 In Progress 🔄
 - **Remove props**: CurrencySelect gets values directly from `useZoraCreateProvider` (no props needed)
 - **Minimal changes**: Only modified what was necessary, kept existing patterns
 
-**Status**: ✅ **IMPLEMENTATION COMPLETE**
+**Styling Fixes Applied**:
+- **Currency text cutoff**: Increased min-width from `60px` to `70px` to ensure "USD" text is fully visible
+- **Eggshell line under input**: Removed `py-2` padding and added `h-auto py-0` to match input height exactly
+- **Text alignment**: Added `text-center` and `appearance-none` for consistent styling with priceUnit display
+
+**Final CurrencySelect styling**:
+- Matches original priceUnit paragraph styling pattern
+- Uses `min-w-[70px]` for sufficient width
+- Uses `h-auto py-0` to prevent height mismatch
+- Uses `text-center appearance-none` for clean select styling
+
+**Status**: ✅ **IMPLEMENTATION COMPLETE WITH STYLING FIXES**
 
 ## Previous Task: Remove Colons from Advanced Form Field Titles (MYC-2350)
 
