@@ -91,7 +91,34 @@ The goal is to help you maintain a big picture as well as the progress of the ta
 
 # Scratchpad
 
-## Current Task: Update Manifesto Page with New Content and Formatting (MYC-2343)
+## Current Task: Make Create Page Text All Lowercase (MYC-2349)
+
+Status: ✅ Complete ✅
+
+**Requirement**: 
+- Make specific text elements lowercase on Create page
+- "Advanced" (dropdown button) → "advanced"
+- "Enter a description" (textarea placeholder) → "enter a description"
+- Ticket: https://linear.app/mycowtf/issue/MYC-2349/all-type-lowercase
+
+**Implementation COMPLETED**:
+[X] **Located target file**: Found both text instances in `components/CreateForm/Advanced.tsx`
+[X] **Updated dropdown button text**: "Advanced" → "advanced" (line 23)
+[X] **Updated textarea placeholder**: "Enter a description" → "enter a description" (line 32)
+
+**Changes Made**:
+- **Button Text**: Changed "Advanced" to "advanced" in dropdown button
+- **Placeholder Text**: Changed "Enter a description" to "enter a description" in textarea
+
+**Technical Details**:
+- Used search_replace tool for precise text replacement
+- Both changes made in single component file
+- No other code changes required - maintained all existing functionality
+- Simple lowercase conversion as requested
+
+**Status**: ✅ **LOWERCASE TEXT CHANGES COMPLETE**
+
+## Previous Task: Update Manifesto Page with New Content and Formatting (MYC-2343)
 
 Status: ✅ Complete ✅
 
@@ -110,38 +137,6 @@ Status: ✅ Complete ✅
   - `*text*` → `<strong>text</strong>` (bold)
   - `_*text*_` → `<em><strong>text</strong></em>` (bold italic)
 [X] **Updated final tagline**: `<em><strong>ALWAYS IN PROCESS.</strong></em>` (bold italic)
-
-**Changes Made**:
-- **Title**: Now properly bolded with `<strong>` tags
-- **Subtitle**: Now bold+italic with `<em><strong>` tags
-- **Main Content**: Replaced with new manifesto text including:
-  - "**They lied.**" (bold)
-  - "***The algorithm starves without our stories.***" (bold italic)
-  - "***In Process is a space for process. For lineage. For the drafts that built dynasties.***" (bold italic)
-  - "***In Process is not content—it's record-keeping. It's proof. It's legacy.***" (bold italic)
-- **Final Line**: "***ALWAYS IN PROCESS.***" (bold italic)
-
-**Technical Details**:
-- Changed `<pre>` to `<div>` with `whitespace-pre-line` class to maintain formatting while allowing JSX elements
-- Used template literals with embedded JSX for proper bold/italic formatting
-- Maintained all existing styling classes and layout structure
-- Preserved mobile responsiveness and design elements
-
-**Status**: ✅ **MANIFESTO UPDATE COMPLETE**
-
-**Build Errors FIXED**:
-[X] **Fixed ESLint errors**: Replaced unescaped apostrophes with HTML entities (`&rsquo;`)
-- "doesn't" → "doesn&rsquo;t" 
-- "it's" → "it&rsquo;s" (multiple instances)
-- Build now passes ESLint validation
-
-**Capitalization Issue FIXED**:
-[X] **Fixed Tailwind Config**: Corrected "Spectral-bold" → "Spectral-Bold" font family name to match globals.css
-[X] **Added explicit text case classes**:
-- Title: Added `uppercase` class to force capitalization 
-- Subtitle: Added `uppercase` class to force capitalization
-- Main content: Added `normal-case` class to preserve proper sentence case
-- Final tagline: Added `uppercase` class to force capitalization
 
 **Status**: ✅ **MANIFESTO UPDATE COMPLETE - CAPITALIZATION FIXED**
 

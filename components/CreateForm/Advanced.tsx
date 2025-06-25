@@ -21,7 +21,7 @@ const Advanced = () => {
         className="w-fit self-center border border-grey rounded-full flex gap-2 items-center"
         onClick={() => setIsOpenAdvanced(!isOpenAdvanced)}
       >
-        Advanced
+        advanced
         <ChevronDown
           className={`text-grey-moss-900 transition-transform duration-200 ${isOpenAdvanced ? "rotate-180" : ""}`}
         />
@@ -30,7 +30,7 @@ const Advanced = () => {
         <div className="relative mx-[-16px] px-[16px] bg-grey-moss-100">
           <p className="font-medium font-archivo ">Description:</p>
           <Textarea
-            placeholder="Enter a description"
+            placeholder="enter a description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             minRows={3}
