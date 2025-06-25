@@ -91,7 +91,7 @@ The goal is to help you maintain a big picture as well as the progress of the ta
 
 # Scratchpad
 
-## Current Task: Update Homepage Hero Section - Description Text (MYC-2354)
+## Current Task: Create TimelineHero Component - Refactor Hero Section (MYC-2354)
 
 Status: ✅ Complete ✅
 
@@ -121,9 +121,11 @@ Status: ✅ Complete ✅
 [X] **Updated mobile layout**: flex-col with description top, moments middle, create bottom
 [X] **Updated MomentCount styling** to work in new layout (removed padding/centering)
 [X] **Applied proper typography**: Used `font-archivo` and `font-spectral-italic` classes
+[X] **Refactored into TimelineHero component**: Extracted hero section into separate component file
 
 **Changes Made**:
-- **TimelinePage.tsx**: Added hero section with responsive flex layout, description text, and repositioned elements
+- **TimelineHero.tsx**: NEW component file with hero section logic and responsive layout
+- **TimelinePage.tsx**: Refactored to use TimelineHero component, removed inline hero code
 - **MomentCount.tsx**: Removed padding/centering since parent container handles positioning
 
 **Technical Notes**:
@@ -131,7 +133,7 @@ Status: ✅ Complete ✅
 - Development server setup encountered dependency conflicts (React 19 RC vs peer dependencies)
 - Implementation successfully matches Figma designs with responsive behavior
 
-**Status**: ✅ **HERO SECTION UPDATE COMPLETE**
+**Status**: ✅ **HERO SECTION COMPONENT REFACTOR COMPLETE**
 
 ## Previous Task: Replace "Start Time" with "Set Time" (MYC-2351)
 
