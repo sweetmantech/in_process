@@ -3,13 +3,24 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
+import { usePathname } from "next/navigation";
+import CurrencySelect from "./CurrencySelect";
 
 export default function Price() {
-  const { price, setPrice, priceUnit, fileUploading, creating } =
+  const { price, setPrice, priceUnit, fileUploading, creating, selectedCurrency, setSelectedCurrency } =
     useZoraCreateProvider();
+  const pathname = usePathname();
+  const isUsdcRoute = pathname.includes("/usdc");
 
   return (
     <div className="w-full space-y-2">
+      {isUsdcRoute && (
+        <CurrencySelect
+          value={selectedCurrency}
+          onChange={setSelectedCurrency}
+          disabled={Boolean(fileUploading || creating)}
+        />
+      )}
       <Label htmlFor="price" className="font-archivo text-md">
         price
       </Label>

@@ -91,31 +91,40 @@ The goal is to help you maintain a big picture as well as the progress of the ta
 
 # Scratchpad
 
-## Current Task: Replace "Start Time" with "Set Time" (MYC-2351)
+## Current Task: Currency Dropdown for /create/usdc (MYC-2378)
 
-Status: ✅ Complete ✅
+Status: 🔄 In Progress 🔄
 
 **Requirement**: 
-- Replace "start time" with "set time" in form field labels
-- Current: "Start Time" text for setting moment time
-- Required: Replace with "Set Time"
-- Ticket: https://linear.app/mycowtf/issue/MYC-2351/replace-start-time-with-date-of-work
+- Add CurrencyDropdown/CurrencySelect component to `/create/usdc` routes
+- Current: Sale type determined by route path (includes `usdc` or not)
+- Required: Add dropdown to select currency (ETH, USD) on /usdc paths
+- Update `useZoraCreateParameters.tsx` to use select value instead of path
+- Ticket: https://linear.app/mycowtf/issue/MYC-2378/createusdc-currency-dropdown-eth-usd
 
 **Implementation COMPLETED**:
-[X] **Located target text**: Found "Start Time" in `components/CreateForm/Advanced.tsx` at line 38
-[X] **Replaced text**: "Start Time" → "Set Time"
-[X] **Verified change**: Form field label now displays "Set Time" instead of "Start Time"
+[X] **Create CurrencySelect component**: Created `components/CreateForm/CurrencySelect.tsx` with ETH/USD options
+[X] **Add to Price.tsx**: Added CurrencySelect component (only visible on paths with `/usdc`)
+[X] **Currency state management**: Added `selectedCurrency` state to `useZoraCreate` hook
+[X] **Update useZoraCreateParameters**: Modified to use `selectedCurrency` instead of pathname check
+[X] **Update priceUnit logic**: Modified `useMetadataValues` to use selectedCurrency for priceUnit
 
 **Changes Made**:
-- **Advanced form component**: Changed `"Start Time"` to `"Set Time"` (line 38)
+- **CurrencySelect.tsx**: New component with dropdown for ETH/USD selection
+- **useZoraCreate.tsx**: Added `selectedCurrency` state and `setSelectedCurrency` function
+- **useZoraCreateParameters.tsx**: Accepts `selectedCurrency` parameter instead of using pathname
+- **Price.tsx**: Includes CurrencySelect component (only on /usdc routes)
+- **useMetadataValues.ts**: Updated to use selectedCurrency for priceUnit calculation
+- **useCreateMetadata.tsx**: Passes selectedCurrency to useMetadataValues
 
-**Technical Details**:
-- Used search_replace tool for precise text replacement
-- Single text change in Advanced.tsx component
-- No other code changes required - maintained all existing functionality
-- Simple label text update as requested
+**Technical Flow**:
+1. **Currency selection**: User selects ETH or USD in dropdown (only on /usdc routes)
+2. **State update**: `selectedCurrency` state updates via `setSelectedCurrency`
+3. **Parameter calculation**: `useZoraCreateParameters` uses `selectedCurrency` instead of pathname
+4. **Price unit display**: `priceUnit` updates based on selectedCurrency ("eth" or "usdc")
+5. **Mint type**: `isUsdc = selectedCurrency === "USD"` determines sale configuration
 
-**Status**: ✅ **TEXT REPLACEMENT COMPLETE**
+**Status**: ✅ **IMPLEMENTATION COMPLETE**
 
 ## Previous Task: Remove Colons from Advanced Form Field Titles (MYC-2350)
 

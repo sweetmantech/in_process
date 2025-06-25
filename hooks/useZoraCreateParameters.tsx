@@ -6,15 +6,16 @@ import useCreateMetadata from "@/hooks/useCreateMetadata";
 import useConnectedWallet from "./useConnectedWallet";
 import { useFrameProvider } from "@/providers/FrameProvider";
 import getSaleConfigType from "@/lib/getSaleConfigType";
-import { usePathname } from "next/navigation";
 import useCreateAdvancedValues from "./useCreateAdvancedValues";
 
-const useZoraCreateParameters = (collection?: Address) => {
-  const pathname = usePathname();
-  const isUsdc = pathname.includes("/usdc");
+type Currency = "ETH" | "USD";
+
+const useZoraCreateParameters = (collection?: Address, selectedCurrency?: Currency) => {
+  // Use selectedCurrency if provided, otherwise fallback to ETH
+  const isUsdc = selectedCurrency === "USD";
   const { connectedWallet } = useConnectedWallet();
   const { address } = useAccount();
-  const createMetadata = useCreateMetadata();
+  const createMetadata = useCreateMetadata(selectedCurrency);
   const { context } = useFrameProvider();
   const advancedValues = useCreateAdvancedValues();
 

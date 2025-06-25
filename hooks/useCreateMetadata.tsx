@@ -7,9 +7,11 @@ import useMetadataValues from "./useMetadataValues";
 import { generateAndUploadPreview } from "@/lib/writing/generateAndUploadPreview";
 import { usePathname } from "next/navigation";
 
-const useCreateMetadata = () => {
+type Currency = "ETH" | "USD";
+
+const useCreateMetadata = (selectedCurrency?: Currency) => {
   const pathname = usePathname();
-  const metadataValues = useMetadataValues();
+  const metadataValues = useMetadataValues(selectedCurrency);
   const {
     setDescription,
     setImageUri,
