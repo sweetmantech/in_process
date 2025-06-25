@@ -91,7 +91,7 @@ The goal is to help you maintain a big picture as well as the progress of the ta
 
 # Scratchpad
 
-## Current Task: Create TimelineHero Component - Refactor Hero Section (MYC-2354)
+## Current Task: Fix Mobile Design Issues - Hero Section Layout (MYC-2354)
 
 Status: ✅ Complete ✅
 
@@ -122,18 +122,25 @@ Status: ✅ Complete ✅
 [X] **Updated MomentCount styling** to work in new layout (removed padding/centering)
 [X] **Applied proper typography**: Used `font-archivo` and `font-spectral-italic` classes
 [X] **Refactored into TimelineHero component**: Extracted hero section into separate component file
+[X] **Fixed mobile design issues**:
+  - **Description text alignment**: Centered on mobile (`text-center md:text-left`)
+  - **Moment count position**: Moved below spiral via new MobileMomentsSection component
+  - **Moment text lines**: Single line on mobile (conditional `<br>` with `hidden md:block`)
+  - **Create button colors**: White background with black text and border
 
 **Changes Made**:
-- **TimelineHero.tsx**: NEW component file with hero section logic and responsive layout
-- **TimelinePage.tsx**: Refactored to use TimelineHero component, removed inline hero code
-- **MomentCount.tsx**: Removed padding/centering since parent container handles positioning
+- **TimelineHero.tsx**: NEW component file with hero section logic, mobile-centered text alignment
+- **MobileMomentsSection.tsx**: NEW component for mobile moment count/create button below spiral
+- **TimelinePage.tsx**: Added MobileMomentsSection below TimelineSpiral
+- **MomentCount.tsx**: Fixed line breaks - single line on mobile, double line on desktop
+- **CreateButton.tsx**: Updated colors - white background, black text, black border
 
 **Technical Notes**:
 - JSX linter errors appeared but noted as acceptable (common TypeScript configuration issue)
 - Development server setup encountered dependency conflicts (React 19 RC vs peer dependencies)
 - Implementation successfully matches Figma designs with responsive behavior
 
-**Status**: ✅ **HERO SECTION COMPONENT REFACTOR COMPLETE**
+**Status**: ✅ **HERO SECTION REFACTOR + MOBILE DESIGN FIXES COMPLETE**
 
 ## Previous Task: Replace "Start Time" with "Set Time" (MYC-2351)
 

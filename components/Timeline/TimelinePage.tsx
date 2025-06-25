@@ -3,6 +3,7 @@
 import { useTimelineApiContext } from "@/providers/TimelineApiProvider";
 import Loading from "@/components/Loading";
 import TimelineHero from "@/components/Timeline/TimelineHero";
+import MobileMomentsSection from "@/components/Timeline/MobileMomentsSection";
 import TimelineSpiral from "@/components/Timeline/TimelineSpiral";
 import TimelineMobileMoon from "@/components/Timeline/TimelineMobileMoon";
 import HorizontalTimeline from "@/components/Timeline/HorizontalTimeline";
@@ -28,6 +29,7 @@ const TimelinePage = () => {
     <main className="px-2 md:px-10 relative grow flex flex-col">
       <TimelineHero totalCount={totalCount} />
       <TimelineSpiral />
+      <MobileMomentsSection totalCount={totalCount} />
       <div className="pt-28">
         <TimelineMobileMoon />
       </div>
