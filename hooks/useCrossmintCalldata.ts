@@ -28,13 +28,13 @@ const useCrossmintCalldata = () => {
     if (!saleConfig) return;
     if (saleConfig.type === MintType.ZoraErc20Mint)
       return {
-        quantity: 1,
+        quantity: mintCount,
         erc20Minter: erc20MinterAddresses[CHAIN_ID],
         tokenContract: token.tokenContractAddress,
         tokenId: token.tokenId,
         comment,
         mintReferral: address as Address,
-        totalPrice: formatUnits(saleConfig.pricePerToken, 6),
+        totalPrice: formatUnits(saleConfig.pricePerToken * BigInt(mintCount), 6),
       };
     return {
       quantity: mintCount,

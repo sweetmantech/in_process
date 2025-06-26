@@ -29,9 +29,10 @@ const useUsdcMint = () => {
     sale: SaleConfig,
     token: TokenInfo,
     comment: string,
+    mintCount: number = 1,
   ) => {
     const usdcPrice = sale.pricePerToken;
-    const hasSufficientUsdc = balances.usdcBalance >= usdcPrice;
+    const hasSufficientUsdc = balances.usdcBalance >= usdcPrice * BigInt(mintCount);
     const publicClient = getPublicClient(CHAIN_ID);
     if (hasSufficientUsdc) {
       const sufficientAllowance = await hasAllowance(sale);
@@ -46,6 +47,7 @@ const useUsdcMint = () => {
         sale,
         connectedAddress as Address,
         comment,
+        mintCount,
       );
       if (!request) throw new Error();
       const hash = await signTransaction(request);
@@ -74,7 +76,7 @@ const useUsdcMint = () => {
           erc20MinterAddresses[CHAIN_ID],
           token.tokenContractAddress,
           token.tokenId,
-          1,
+          mintCount,
           comment,
         ],
         account: connectedAddress as Address,
