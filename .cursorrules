@@ -92,7 +92,32 @@ The goal is to help you maintain a big picture as well as the progress of the ta
 
 # Scratchpad
 
-## Current Task: Delete /create/usdc Route and Sub-routes (MYC-2380)
+## Current Task: Create Page - Change "set time" Label to "time" (MYC-2390)
+
+Status: ✅ **COMPLETE** ✅
+
+**Requirement**: 
+- Change "set time" label to just "time" on Create page ✅
+- Current: label says "set time" ✅ CHANGED
+- Required: label simply says "time" ✅ COMPLETED
+- Ticket: https://linear.app/mycowtf/issue/MYC-2390/create-page-set-time-=-time
+
+**Implementation COMPLETED**:
+[X] **Located label text**: Found "Set Time" in `components/CreateForm/Advanced.tsx` line 38
+[X] **Updated label**: Changed from "Set Time" to "time" 
+[X] **Verified change**: Simple text replacement completed
+
+**Changes Made**:
+- **Advanced.tsx**: Line 38 - Changed `"Set Time"` to `"time"`
+
+**Technical Details**:
+- Minimal change - just label text update as requested
+- Maintained all existing functionality and styling
+- Used search_replace for precise text replacement
+
+**Status**: ✅ **LABEL UPDATE COMPLETE**
+
+## Previous Task: Delete /create/usdc Route and Sub-routes (MYC-2380)
 
 Status: ✅ **COMPLETE** ✅
 
