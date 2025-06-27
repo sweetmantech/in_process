@@ -36,7 +36,7 @@ const Advanced = () => {
             minRows={3}
             className="resize-none font-spectral"
           />
-          <p className="font-medium font-archivo pt-2">Set Time</p>
+          <p className="font-medium font-archivo pt-2">time</p>
           <DateTimePicker date={startDate} setDate={onChangeStartDate} />
         </div>
       )}
