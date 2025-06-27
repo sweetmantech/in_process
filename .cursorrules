@@ -89,6 +89,7 @@ The goal is to help you maintain a big picture as well as the progress of the ta
 - Follow YAGNI (You Ain't Gonna Need It) - remove unused state variables, exports, and code even if they might be "useful later" - keep only what's actually being used
 - Avoid unnecessary indirection - import functions directly where they're used rather than importing into intermediate hooks just to re-export them
 - When replacing text display with select elements, ensure proper width (min-w-[70px]) and remove default padding (py-0) to prevent height mismatches and text cutoff issues
+- When fixing quantity issues in mint flows, check ALL code paths including direct minting, wrapper contracts, balance checks, pricing calculations, and third-party integrations like Crossmint - hardcoded quantities can appear in multiple places throughout the flow
 
 # Scratchpad
 
@@ -116,6 +117,65 @@ Status: ✅ **COMPLETE** ✅
 - Used search_replace for precise text replacement
 
 **Status**: ✅ **LABEL UPDATE COMPLETE**
+
+## Previous Task: Moment Page - USD collect - quantity fix (MYC-2389)
+
+Status: ✅ **COMPLETE** ✅
+
+**Requirement**: 
+- Fix USDC collection quantity issue on moment pages
+- Current: quantity select is ignored. only one edition is collected for USDC purchases
+- Required: quantity is respected for USDC purchases  
+- Ticket: https://linear.app/mycowtf/issue/MYC-2389/moment-page-usd-collect-quantity
+
+**Root Cause Analysis COMPLETED**:
+[X] **Identified multiple hardcoded quantity issues**:
+  1. `lib/getCollectRequest.ts` line 32: hardcoded `1` in args for USDC (should use `mintAmount`)
+  2. `hooks/useUsdcMint.ts` line 43: `getCollectRequest` called without `mintAmount` parameter
+  3. `hooks/useUsdcMint.ts` line 71: ETH_USDC_WRAPPER mint call hardcoded quantity to `1`
+  4. `hooks/useZoraMintComment.ts` line 86: `mintWithUsdc` called without `mintCount` parameter
+  5. `hooks/useCrossmintCalldata.ts` line 30: USDC quantity hardcoded to `1` (should use `mintCount`)
+
+**Implementation Plan**:
+[X] **Fix `lib/getCollectRequest.ts`**: Use `mintAmount` instead of hardcoded `1` for USDC mints
+[X] **Fix `hooks/useUsdcMint.ts`**: Accept `mintCount` parameter and pass it to `getCollectRequest` and ETH_USDC_WRAPPER
+[X] **Fix `hooks/useZoraMintComment.ts`**: Pass `mintCount` to `mintWithUsdc` call
+[X] **Fix `hooks/useCrossmintCalldata.ts`**: Use `mintCount` instead of hardcoded `1` for USDC
+[X] **Fix USDC pricing**: Ensure total price calculation and balance check account for quantity
+
+**Technical Changes Required**:
+- Add `mintCount` parameter to `mintWithUsdc` function signature
+- Update all USDC-related quantity handling to use dynamic values
+- Maintain consistency with ETH mint flow (already uses `mintCount` correctly)
+
+**Implementation Changes COMPLETED**:
+[X] **Updated `lib/getCollectRequest.ts`**: Changed hardcoded `1` to `mintAmount` in USDC mint args (line 32)
+[X] **Updated `hooks/useUsdcMint.ts`**: 
+  - Added `mintCount: number = 1` parameter to `mintWithUsdc` function
+  - Pass `mintCount` to `getCollectRequest` call (line 43)
+  - Changed hardcoded `1` to `mintCount` in ETH_USDC_WRAPPER mint call (line 71)  
+  - Fixed USDC balance check to multiply by `mintCount` for total cost validation
+[X] **Updated `hooks/useZoraMintComment.ts`**: Pass `mintCount` parameter to `mintWithUsdc` call (line 86)
+[X] **Updated `hooks/useCrossmintCalldata.ts`**: 
+  - Changed hardcoded quantity `1` to `mintCount` (line 30)
+  - Fixed `totalPrice` calculation to multiply by `mintCount` for accurate pricing
+
+**Key Fixes Applied**:
+- **Quantity consistency**: All USDC mint functions now respect the selected quantity
+- **Price calculation**: USDC total price now correctly multiplies by quantity
+- **Balance validation**: USDC balance check accounts for total cost (price × quantity)
+- **Cross-platform support**: Both direct USDC and ETH-to-USDC wrapper paths use quantity
+- **Crossmint integration**: USDC crossmint orders now use correct quantity and total price
+
+**Technical Flow FIXED**:
+1. **User selects quantity** → `mintCount` state in `useTokenProvider`
+2. **Mint initiated** → `mintWithUsdc(saleConfig, token, comment, mintCount)`
+3. **Balance check** → `usdcPrice * BigInt(mintCount)` for sufficient funds
+4. **Direct USDC path** → `getCollectRequest(..., mintCount)` → `mintAmount` in contract args
+5. **ETH-to-USDC path** → ETH_USDC_WRAPPER with `mintCount` parameter
+6. **Crossmint fallback** → Correct quantity and total price calculation
+
+**Status**: ✅ **IMPLEMENTATION COMPLETE**
 
 ## Previous Task: Delete /create/usdc Route and Sub-routes (MYC-2380)
 

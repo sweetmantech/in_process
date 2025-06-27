@@ -34,7 +34,7 @@ const getCollectRequest = (
       functionName: "mint",
       args: [
         account,
-        1,
+        mintAmount,
         token.tokenContractAddress,
         token.tokenId,
         sale.pricePerToken,

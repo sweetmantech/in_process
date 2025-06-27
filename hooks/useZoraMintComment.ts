@@ -84,7 +84,7 @@ const useZoraMintComment = () => {
       } else {
         let receipt = null;
         if (saleConfig.type === MintType.ZoraErc20Mint)
-          receipt = await mintWithUsdc(saleConfig, token, comment);
+          receipt = await mintWithUsdc(saleConfig, token, comment, mintCount);
         else
           receipt = await mintWithNativeToken(
             saleConfig,
