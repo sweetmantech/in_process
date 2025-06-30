@@ -18,12 +18,12 @@ const Advanced = () => {
     <div className="flex flex-col gap-2 pt-2 z-10">
       <Button
         type="button"
-        className="w-fit self-center border border-grey rounded-full flex gap-2 items-center"
+        className="w-full h-fit p-0 mb-3 pb-1 self-center font-archivo font-medium border-b text-md border-grey-moss-300 rounded-none flex justify-between items-center"
         onClick={() => setIsOpenAdvanced(!isOpenAdvanced)}
       >
         advanced
         <ChevronDown
-          className={`text-grey-moss-900 transition-transform duration-200 ${isOpenAdvanced ? "rotate-180" : ""}`}
+          className={`text-grey-moss-200 transition-transform duration-200 ${isOpenAdvanced ? "rotate-180" : ""}`}
         />
       </Button>
       {isOpenAdvanced && (
