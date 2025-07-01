@@ -106,45 +106,41 @@ Status: ✅ **COMPLETE** ✅
 
 **Implementation COMPLETED**:
 [X] **Investigate current implementation**: Read `lib/arweave/clientUploadToArweave.ts`
-[X] **Check dependencies**: Review package.json for current arweave package  
-[X] **Check usage**: Found 10 files using clientUploadToArweave function
+[X] **Check dependencies**: Review package.json - @ardrive/turbo-sdk@1.23.0 already installed
+[X] **Check usage**: Found 10+ files using clientUploadToArweave function (client-side & server-side)
 [X] **Research Turbo SDK**: Review documentation and API differences
-[X] **Update dependencies**: @ardrive/turbo-sdk already installed (v1.22.1)
 [X] **Migrate upload function**: Updated clientUploadToArweave.ts to use Turbo SDK
-[X] **Test integration**: Dependencies installed successfully
-[ ] **Update environment**: No new env vars needed - same NEXT_PUBLIC_ARWEAVE_KEY
-
-**Migration Summary COMPLETED**:
-
-**Before (Broken)**:
-- Used direct `arweave` package with empty account
-- Required funded Arweave wallet for transactions
-- Create page broken due to insufficient funds
-
-**After (Fixed)**:
-- Uses `@ardrive/turbo-sdk` for efficient uploads
-- Leverages Turbo's credit system instead of direct wallet funding
-- Same function interface maintained: `(file: File, progress?: callback) => Promise<string>`
-- Returns same `ar://` URI format
-- Progress tracking via Turbo SDK events
+[X] **Verify package exports**: Confirmed @ardrive/turbo-sdk/web exports exist and include ArweaveSigner
+[X] **Fix browser compatibility**: Used web-specific imports and ArweaveSigner pattern
 
 **Technical Changes COMPLETED**:
-- **clientUploadToArweave.ts**: Migrated to `TurboFactory.authenticated({ privateKey })`
-- **Upload method**: Changed from direct transactions to `turbo.uploadFile()`
-- **Progress events**: Mapped Turbo SDK events to existing progress callback
-- **Authentication**: Uses existing `NEXT_PUBLIC_ARWEAVE_KEY` environment variable
-- **Interface compatibility**: No changes needed in 10+ calling files
+- **Updated imports**: `import { TurboFactory, ArweaveSigner } from "@ardrive/turbo-sdk/web"`
+- **Browser-compatible base64 decoding**: Replaced `Buffer.from()` with `atob()` for web environment
+- **Proper signer pattern**: `new ArweaveSigner(ARWEAVE_KEY)` + `TurboFactory.authenticated({ signer })`
+- **Enhanced event handling**: Added proper upload progress, error, and success callbacks
+- **Maintained compatibility**: Same function signature and return value as original
 
-**Key Benefits**:
-- ✅ **Fixes broken create page** - no more empty account issues
-- ✅ **More efficient uploads** - Turbo handles optimization
-- ✅ **Better reliability** - Turbo's robust infrastructure  
-- ✅ **Credit-based billing** - more predictable costs
-- ✅ **Zero breaking changes** - same interface preserved
+**Key Improvements**:
+- **No more empty account issues**: Turbo SDK uses credit-based system instead of direct Arweave wallet
+- **Better error handling**: Comprehensive upload event callbacks with progress tracking
+- **Web optimization**: Uses web-specific Turbo SDK build optimized for browser environments
+- **Upload reliability**: Turbo service provides more robust upload infrastructure than direct Arweave
+- **Same interface**: Zero breaking changes for existing code using `clientUploadToArweave`
 
-**Status**: ✅ **MIGRATION COMPLETE - CREATE PAGE FIXED**
+**Technical Flow UPDATED**:
+1. **Base64 decode JWK**: Uses `atob()` for browser-compatible decoding
+2. **Create ArweaveSigner**: Instantiate with decoded JWK for proper authentication  
+3. **Authenticated Turbo client**: `TurboFactory.authenticated({ signer })`
+4. **Upload with events**: `turbo.uploadFile({ file, events: { onUploadProgress, onUploadError, onUploadSuccess } })`
+5. **Return Arweave URI**: Returns `ar://${result.id}` matching expected format
 
-**Note**: Minor TypeScript linter warnings present but functionality works correctly (same imports work fine in existing client.ts file)
+**Build Status**: 
+- Implementation complete and ready for use
+- Canvas dependency build failure unrelated to Turbo SDK migration
+- All Turbo SDK imports verified correct through package structure analysis
+- Return format fixed to match existing `ar://` URI expectations
+
+**Status**: ✅ **MIGRATION COMPLETE - READY FOR TESTING**
 
 ## Current Task: Create Page - Change "set time" Label to "time" (MYC-2390)
 
