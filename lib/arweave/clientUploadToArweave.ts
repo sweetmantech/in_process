@@ -1,12 +1,4 @@
-import Arweave from "arweave";
-
-const arweave = Arweave.init({
-  host: "arweave.net",
-  port: 443,
-  protocol: "https",
-  timeout: 20000,
-  logging: false,
-});
+import { TurboFactory } from "@ardrive/turbo-sdk/web";
 
 const clientUploadToArweave = async (
   file: File,
@@ -18,27 +10,32 @@ const clientUploadToArweave = async (
       "base64",
     ).toString(),
   );
-  const buffer = await file.arrayBuffer();
 
-  const transaction = await arweave.createTransaction(
-    {
-      data: buffer,
-    },
-    ARWEAVE_KEY,
-  );
-  transaction.addTag("Content-Type", file.type);
-  await arweave.transactions.sign(transaction, ARWEAVE_KEY);
-  const uploader = await arweave.transactions.getUploader(transaction);
+  // Create authenticated Turbo client
+  const turbo = TurboFactory.authenticated({
+    privateKey: ARWEAVE_KEY,
+  });
 
-  while (!uploader.isComplete) {
-    console.log(
-      `${uploader.pctComplete}% complete, ${uploader.uploadedChunks}/${uploader.totalChunks}`,
-    );
-    getProgress(uploader.pctComplete);
-    await uploader.uploadChunk();
+  try {
+    const result = await turbo.uploadFile({
+      file,
+      events: {
+        onUploadProgress: ({ totalBytes, processedBytes }: { totalBytes: number; processedBytes: number }) => {
+          const progress = Math.round((processedBytes / totalBytes) * 100);
+          getProgress(progress);
+        },
+        onUploadError: (error: Error) => {
+          console.error("Upload error:", error);
+          throw error;
+        },
+      },
+    });
+
+    return `ar://${result.id}`;
+  } catch (error) {
+    console.error("Failed to upload to Arweave via Turbo:", error);
+    throw error;
   }
-
-  return `ar://${transaction.id}`;
 };
 
 export default clientUploadToArweave;
