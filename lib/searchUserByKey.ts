@@ -17,7 +17,7 @@ export async function searchUserByKey(
 ): Promise<SearchUserByKeyResponse> {
   if (!searchKey) return { user: null };
   const res = await fetch(
-    `/api/search?searchKey=${encodeURIComponent(searchKey)}`
+    `/api/search/user?searchKey=${encodeURIComponent(searchKey)}`
   );
   if (!res.ok) return { user: null };
   return res.json();
