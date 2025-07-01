@@ -15,7 +15,8 @@ const clientUploadToArweave = async (
 
   try {
     const result = await turbo.uploadFile({
-      file,
+      fileStreamFactory: () => file.stream(),
+      fileSizeFactory: () => file.size,
       events: {
         onUploadProgress: ({ totalBytes, processedBytes }: { totalBytes: number; processedBytes: number }) => {
           const progress = Math.round((processedBytes / totalBytes) * 100);
