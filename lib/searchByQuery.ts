@@ -2,11 +2,9 @@
 
 import { Database } from "./supabase/types";
 
-export type SearchByQueryResponse =
-  | {
-      artist: Database["public"]["Tables"]["in_process_artists"]["Row"];
-    }
-  | { artist: null };
+export type SearchByQueryResponse = {
+  artist: Database["public"]["Tables"]["in_process_artists"]["Row"] | null;
+};
 
 /**
  * Calls the /api/artist/search endpoint with the given query.
