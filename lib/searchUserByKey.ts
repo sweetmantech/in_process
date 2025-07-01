@@ -1,6 +1,6 @@
 // Fetches the first user or moment matching the searchKey from the /api/search endpoint
 
-import { User } from "./supabase/types";
+import { User } from "@/types/token";
 
 export type SearchUserByKeyResponse =
   | {

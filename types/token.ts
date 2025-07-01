@@ -65,3 +65,9 @@ export interface MintCommentEvent {
   tokenContract?: string;
   collection?: Address;
 }
+
+export interface User {
+  address: Address;
+  username: string;
+  bio: string | null;
+}

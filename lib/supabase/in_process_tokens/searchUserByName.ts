@@ -1,5 +1,6 @@
 import { supabase } from "@/lib/supabase/client";
-import { User } from "../types";
+import { User } from "@/types/token";
+import { Address } from "viem";
 
 // Search users by username (case-insensitive, partial)
 export async function searchUserByName(
@@ -13,7 +14,7 @@ export async function searchUserByName(
   if (error || !data || data.length === 0) return null;
   const row = data[0];
   return {
-    address: row.address,
+    address: row.address as Address,
     username: row.username || "",
     bio: row.bio,
   };
