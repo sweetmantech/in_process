@@ -2,6 +2,13 @@ import { supabase } from "@/lib/supabase/client";
 
 // Fetch artists by query (case-insensitive, partial)
 export async function getArtists(query: string, limit = 10) {
+  if (!query || query.trim().length === 0) {
+    return null;
+  }
+  if (query.length > 100) {
+    return null;
+  }
+
   const { data, error } = await supabase
     .from("in_process_artists")
     .select("address, username, bio")

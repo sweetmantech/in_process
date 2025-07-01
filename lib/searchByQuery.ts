@@ -14,9 +14,14 @@ export async function searchByQuery(
   query: string
 ): Promise<SearchByQueryResponse> {
   if (!query) return { artist: null };
-  const res = await fetch(
-    `/api/search/artist?query=${encodeURIComponent(query)}`
-  );
-  if (!res.ok) return { artist: null };
-  return res.json();
+  try {
+    const res = await fetch(
+      `/api/search/artist?query=${encodeURIComponent(query)}`
+    );
+    if (!res.ok) return { artist: null };
+    return res.json();
+  } catch (error) {
+    console.error("Error searching artists:", error);
+    return { artist: null };
+  }
 }
