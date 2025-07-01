@@ -2,7 +2,7 @@ import { useLayoutProvider } from "@/providers/LayoutProvider";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, KeyboardEvent, useEffect, useState } from "react";
 import { Address, zeroAddress } from "viem";
-import { useMatrixSearch } from "./useMatrixSearch";
+import { useUserSearch } from "./useUserSearch";
 
 const useSearchProfile = () => {
   const [searchKey, setSearchKey] = useState<string>("");
@@ -13,10 +13,10 @@ const useSearchProfile = () => {
   const { setIsExpandedSearchInput } = useLayoutProvider();
   const [artistName, setArtistName] = useState<string>("");
   const {
-    data: matrixSearchData,
-    refetch: refetchMatrixSearch,
-    isLoading: isMatrixSearchLoading,
-  } = useMatrixSearch(searchKey);
+    data: userSearchData,
+    refetch: refetchUserSearch,
+    isLoading: isUserSearchLoading,
+  } = useUserSearch(searchKey);
 
   const clear = () => {
     setArtistName("");
@@ -54,22 +54,17 @@ const useSearchProfile = () => {
   };
 
   useEffect(() => {
-    if (!matrixSearchData) return;
-    let searchString = "";
-    if (matrixSearchData?.type === "user") {
-      searchString = matrixSearchData.user.username || "";
-      setArtistName(searchString);
-      setArtistAddress(matrixSearchData.user.address as Address);
-    } else if (matrixSearchData?.type === "moment") {
-      searchString = matrixSearchData.moment.name || "";
-    }
+    if (!userSearchData || !userSearchData?.user) return;
+    const searchString = userSearchData.user.username || "";
+    setArtistName(searchString);
+    setArtistAddress(userSearchData.user.address as Address);
     setSuffixHint(searchString.slice(searchKey.length));
-  }, [matrixSearchData, searchKey.length]);
+  }, [userSearchData, searchKey.length]);
 
   useEffect(() => {
     if (!searchKey) return;
-    if (!isMatrixSearchLoading) refetchMatrixSearch();
-  }, [searchKey, refetchMatrixSearch, isMatrixSearchLoading]);
+    if (!isUserSearchLoading) refetchUserSearch();
+  }, [searchKey, refetchUserSearch, isUserSearchLoading]);
 
   useEffect(() => {
     function preventTab(e: any) {
