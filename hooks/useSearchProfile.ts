@@ -2,6 +2,7 @@ import { useLayoutProvider } from "@/providers/LayoutProvider";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, KeyboardEvent, useEffect, useState } from "react";
 import { Address, zeroAddress } from "viem";
+import { useMatrixSearch } from "./useMatrixSearch";
 
 const useSearchProfile = () => {
   const [searchKey, setSearchKey] = useState<string>("");
@@ -11,6 +12,11 @@ const useSearchProfile = () => {
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const { setIsExpandedSearchInput } = useLayoutProvider();
   const [artistName, setArtistName] = useState<string>("");
+  const {
+    data: matrixSearchData,
+    refetch: refetchMatrixSearch,
+    isLoading: isMatrixSearchLoading,
+  } = useMatrixSearch(searchKey);
 
   const clear = () => {
     setArtistName("");
@@ -46,6 +52,24 @@ const useSearchProfile = () => {
 
     clear();
   };
+
+  useEffect(() => {
+    if (!matrixSearchData) return;
+    let searchString = "";
+    if (matrixSearchData?.type === "user") {
+      searchString = matrixSearchData.user.username || "";
+      setArtistName(searchString);
+      setArtistAddress(matrixSearchData.user.address as Address);
+    } else if (matrixSearchData?.type === "moment") {
+      searchString = matrixSearchData.moment.name || "";
+    }
+    setSuffixHint(searchString.slice(searchKey.length));
+  }, [matrixSearchData, searchKey.length]);
+
+  useEffect(() => {
+    if (!searchKey) return;
+    if (!isMatrixSearchLoading) refetchMatrixSearch();
+  }, [searchKey, refetchMatrixSearch, isMatrixSearchLoading]);
 
   useEffect(() => {
     function preventTab(e: any) {
