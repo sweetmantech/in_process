@@ -2,7 +2,7 @@ import { useLayoutProvider } from "@/providers/LayoutProvider";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, KeyboardEvent, useEffect, useState } from "react";
 import { Address, zeroAddress } from "viem";
-import { useUserSearch } from "./useUserSearch";
+import { useArtistSearch } from "./useArtistSearch";
 
 const useSearchProfile = () => {
   const [searchKey, setSearchKey] = useState<string>("");
@@ -16,7 +16,7 @@ const useSearchProfile = () => {
     data: userSearchData,
     refetch: refetchUserSearch,
     isLoading: isUserSearchLoading,
-  } = useUserSearch(searchKey);
+  } = useArtistSearch(searchKey);
 
   const clear = () => {
     setArtistName("");
@@ -54,10 +54,10 @@ const useSearchProfile = () => {
   };
 
   useEffect(() => {
-    if (!userSearchData || !userSearchData?.user) return;
-    const searchString = userSearchData.user.username || "";
+    if (!userSearchData || !userSearchData?.artist) return;
+    const searchString = userSearchData.artist.username || "";
     setArtistName(searchString);
-    setArtistAddress(userSearchData.user.address as Address);
+    setArtistAddress(userSearchData.artist.address as Address);
     setSuffixHint(searchString.slice(searchKey.length));
   }, [userSearchData, searchKey.length]);
 
