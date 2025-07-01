@@ -4,7 +4,7 @@ import { searchUserByName } from "@/lib/supabase/in_process_tokens/searchUserByN
 export async function GET(req: NextRequest) {
   const searchKey = req.nextUrl.searchParams.get("searchKey") || "";
   if (!searchKey) {
-    return Response.json({ type: null });
+    return Response.json({ user: null });
   }
   const user = await searchUserByName(searchKey);
   if (user) {
