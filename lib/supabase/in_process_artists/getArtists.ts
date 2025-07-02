@@ -1,7 +1,10 @@
 import { supabase } from "@/lib/supabase/client";
 
 // Fetch artists by query (case-insensitive, partial)
-export async function getArtists(query: string, limit = 10) {
+export async function getArtists(
+  query: string,
+  limit = 10
+): Promise<any[] | null> {
   const { data, error } = await supabase
     .from("in_process_artists")
     .select("*")

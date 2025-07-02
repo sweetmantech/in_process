@@ -13,11 +13,7 @@ const useSearchProfile = () => {
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const { setIsExpandedSearchInput } = useLayoutProvider();
   const [artistName, setArtistName] = useState<string>("");
-  const {
-    data: userSearchData,
-    refetch: refetchUserSearch,
-    isLoading: isUserSearchLoading,
-  } = useQuery<SearchByQueryResponse>({
+  const { data: userSearchData } = useQuery<SearchByQueryResponse>({
     queryKey: ["search", searchKey],
     queryFn: () => searchByQuery(searchKey),
     enabled: !!searchKey, // Only run if query is non-empty
@@ -60,17 +56,18 @@ const useSearchProfile = () => {
   };
 
   useEffect(() => {
-    if (!userSearchData || !userSearchData?.artist) return;
-    const searchString = userSearchData.artist.username || "";
+    const artist = userSearchData?.artist;
+    if (!artist || !artist.username) return;
+
+    const searchString = artist.username;
     setArtistName(searchString);
-    setArtistAddress(userSearchData.artist.address as Address);
+
+    if (artist.address) {
+      setArtistAddress(artist.address as Address);
+    }
+
     setSuffixHint(searchString.slice(searchKey.length));
   }, [userSearchData, searchKey.length]);
-
-  useEffect(() => {
-    if (!searchKey) return;
-    if (!isUserSearchLoading) refetchUserSearch();
-  }, [searchKey, refetchUserSearch, isUserSearchLoading]);
 
   useEffect(() => {
     function preventTab(e: any) {
