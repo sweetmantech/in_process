@@ -5,7 +5,7 @@ export async function GET(req: NextRequest) {
   const query = req.nextUrl.searchParams.get("query") || "";
   if (!query || query.trim().length === 0) {
     return Response.json(
-      { artist: null, error: "Query is required" },
+      { artist: null, error: "Missing param: query" },
       { status: 400 }
     );
   }

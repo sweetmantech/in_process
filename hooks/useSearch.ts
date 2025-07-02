@@ -1,18 +1,15 @@
 import { useLayoutProvider } from "@/providers/LayoutProvider";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, KeyboardEvent, useEffect, useState } from "react";
-import { Address, zeroAddress } from "viem";
 import { useQuery } from "@tanstack/react-query";
 import { searchByQuery, SearchByQueryResponse } from "@/lib/searchByQuery";
 
-const useSearchProfile = () => {
+const useSearch = () => {
   const [searchKey, setSearchKey] = useState<string>("");
-  const [artistAddress, setArtistAddress] = useState<Address>(zeroAddress);
   const [suffixHint, setSuffixHint] = useState<string>("");
   const { push } = useRouter();
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const { setIsExpandedSearchInput } = useLayoutProvider();
-  const [artistName, setArtistName] = useState<string>("");
   const { data: userSearchData } = useQuery<SearchByQueryResponse>({
     queryKey: ["search", searchKey],
     queryFn: () => searchByQuery(searchKey),
@@ -21,23 +18,21 @@ const useSearchProfile = () => {
   });
 
   const clear = () => {
-    setArtistName("");
-    setArtistAddress(zeroAddress);
     setSuffixHint("");
   };
 
   const redirectToArtist = () => {
-    if (artistAddress === zeroAddress) return;
+    if (!userSearchData?.artist) return;
     setIsOpenModal(false);
     setIsExpandedSearchInput(false);
-    push(`/${artistAddress}`);
+    push(`/${userSearchData?.artist?.address}`);
   };
 
   const onKeyDown = (
     e: KeyboardEvent<HTMLInputElement | HTMLButtonElement>
   ) => {
     if (e.key === "Tab") {
-      setSearchKey(artistName);
+      setSearchKey(userSearchData?.artist?.username || "");
       setSuffixHint("");
       return;
     }
@@ -58,15 +53,7 @@ const useSearchProfile = () => {
   useEffect(() => {
     const artist = userSearchData?.artist;
     if (!artist || !artist.username) return;
-
-    const searchString = artist.username;
-    setArtistName(searchString);
-
-    if (artist.address) {
-      setArtistAddress(artist.address as Address);
-    }
-
-    setSuffixHint(searchString.slice(searchKey.length));
+    setSuffixHint(artist.username.slice(searchKey.length));
   }, [userSearchData, searchKey.length]);
 
   useEffect(() => {
@@ -95,4 +82,4 @@ const useSearchProfile = () => {
   };
 };
 
-export default useSearchProfile;
+export default useSearch;

@@ -5,7 +5,7 @@ import {
   DialogOverlay,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import useSearchProfile from "@/hooks/useSearchProfile";
+import useSearch from "@/hooks/useSearch";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import Image from "next/image";
 
@@ -18,7 +18,7 @@ const SearchModal = () => {
     suffixHint,
     isOpenModal,
     setIsOpenModal,
-  } = useSearchProfile();
+  } = useSearch();
 
   return (
     <Dialog

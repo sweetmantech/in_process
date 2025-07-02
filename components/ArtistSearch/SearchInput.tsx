@@ -1,4 +1,4 @@
-import useSearchProfile from "@/hooks/useSearchProfile";
+import useSearch from "@/hooks/useSearch";
 import { useLayoutProvider } from "@/providers/LayoutProvider";
 import { SearchIcon } from "lucide-react";
 
@@ -6,7 +6,7 @@ const SearchInput = () => {
   const { setIsExpandedSearchInput, isExpandedSearchInput } =
     useLayoutProvider();
   const { searchKey, onChangeSearchKey, suffixHint, redirectToArtist } =
-    useSearchProfile();
+    useSearch();
 
   return (
     <div className="flex items-center gap-1 bg-white px-2 py-2 rounded-sm min-h-9">
