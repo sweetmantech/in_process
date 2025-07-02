@@ -1,36 +1,43 @@
 import { useLayoutProvider } from "@/providers/LayoutProvider";
 import { useRouter } from "next/navigation";
-import { ChangeEvent, KeyboardEvent, useEffect, useState } from "react";
-import { Address, zeroAddress } from "viem";
+import {
+  ChangeEvent,
+  KeyboardEvent,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+import { useQuery } from "@tanstack/react-query";
+import { searchByQuery, SearchByQueryResponse } from "@/lib/searchByQuery";
 
-const useSearchProfile = () => {
+const useSearch = () => {
   const [searchKey, setSearchKey] = useState<string>("");
-  const [artistAddress, setArtistAddress] = useState<Address>(zeroAddress);
-  const [suffixHint, setSuffixHint] = useState<string>("");
   const { push } = useRouter();
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const { setIsExpandedSearchInput } = useLayoutProvider();
-  const [artistName, setArtistName] = useState<string>("");
-
-  const clear = () => {
-    setArtistName("");
-    setArtistAddress(zeroAddress);
-    setSuffixHint("");
-  };
+  const { data: userSearchData } = useQuery<SearchByQueryResponse>({
+    queryKey: ["search", searchKey],
+    queryFn: () => searchByQuery(searchKey),
+    enabled: !!searchKey, // Only run if query is non-empty
+    staleTime: 1000 * 30, // 30 seconds (adjust as needed)
+  });
+  const suffixHint = useMemo(() => {
+    if (!userSearchData?.artist || !userSearchData?.artist?.username) return "";
+    return userSearchData?.artist?.username.slice(searchKey.length);
+  }, [userSearchData, searchKey]);
 
   const redirectToArtist = () => {
-    if (artistAddress === zeroAddress) return;
+    if (!userSearchData?.artist) return;
     setIsOpenModal(false);
     setIsExpandedSearchInput(false);
-    push(`/${artistAddress}`);
+    push(`/${userSearchData?.artist?.address}`);
   };
 
   const onKeyDown = (
     e: KeyboardEvent<HTMLInputElement | HTMLButtonElement>
   ) => {
     if (e.key === "Tab") {
-      setSearchKey(artistName);
-      setSuffixHint("");
+      setSearchKey(userSearchData?.artist?.username || "");
       return;
     }
     if (e.key === "Enter") redirectToArtist();
@@ -38,13 +45,6 @@ const useSearchProfile = () => {
   const onChangeSearchKey = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchKey(value);
-
-    if (!value) {
-      clear();
-      return;
-    }
-
-    clear();
   };
 
   useEffect(() => {
@@ -62,7 +62,6 @@ const useSearchProfile = () => {
   }, [isOpenModal]);
 
   return {
-    clear,
     onChangeSearchKey,
     onKeyDown,
     suffixHint,
@@ -73,4 +72,4 @@ const useSearchProfile = () => {
   };
 };
 
-export default useSearchProfile;
+export default useSearch;
