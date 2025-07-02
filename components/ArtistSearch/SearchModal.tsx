@@ -11,7 +11,6 @@ import Image from "next/image";
 
 const SearchModal = () => {
   const {
-    clear,
     onChangeSearchKey,
     onKeyDown,
     searchKey,
@@ -24,7 +23,6 @@ const SearchModal = () => {
     <Dialog
       open={isOpenModal}
       onOpenChange={() => {
-        clear();
         setIsOpenModal(!isOpenModal);
       }}
     >
