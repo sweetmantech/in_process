@@ -15,9 +15,7 @@ export async function searchByQuery(
 ): Promise<SearchByQueryResponse> {
   if (!query) return { artist: null };
   try {
-    const res = await fetch(
-      `/api/search/artist?query=${encodeURIComponent(query)}`
-    );
+    const res = await fetch(`/api/search?query=${encodeURIComponent(query)}`);
     if (!res.ok) return { artist: null };
     return res.json();
   } catch (error) {

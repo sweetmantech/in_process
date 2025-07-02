@@ -2,7 +2,8 @@ import { useLayoutProvider } from "@/providers/LayoutProvider";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, KeyboardEvent, useEffect, useState } from "react";
 import { Address, zeroAddress } from "viem";
-import { useArtistSearch } from "./useArtistSearch";
+import { useQuery } from "@tanstack/react-query";
+import { searchByQuery, SearchByQueryResponse } from "@/lib/searchByQuery";
 
 const useSearchProfile = () => {
   const [searchKey, setSearchKey] = useState<string>("");
@@ -16,7 +17,12 @@ const useSearchProfile = () => {
     data: userSearchData,
     refetch: refetchUserSearch,
     isLoading: isUserSearchLoading,
-  } = useArtistSearch(searchKey);
+  } = useQuery<SearchByQueryResponse>({
+    queryKey: ["search", searchKey],
+    queryFn: () => searchByQuery(searchKey),
+    enabled: !!searchKey, // Only run if query is non-empty
+    staleTime: 1000 * 30, // 30 seconds (adjust as needed)
+  });
 
   const clear = () => {
     setArtistName("");
