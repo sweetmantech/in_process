@@ -2,11 +2,12 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
+  DialogOverlay,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import useSearchProfile from "@/hooks/useSearchProfile";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
-import { SearchIcon, X } from "lucide-react";
+import Image from "next/image";
 
 const SearchModal = () => {
   const {
@@ -33,9 +34,16 @@ const SearchModal = () => {
         onClick={() => setIsOpenModal(true)}
       >
         <button type="button" className="hover:bg-grey-eggshell rounded-md p-2">
-          <SearchIcon className="size-5" />
+          <Image
+            src="/search_icon.svg"
+            blurDataURL="/search_icon.png"
+            alt="search icon"
+            width={24}
+            height={24}
+          />
         </button>
       </DialogTrigger>
+      <DialogOverlay className="opacity-80" />
       <DialogContent className="max-w-xl !rounded-3xl !bg-white border-none py-10 px-8 flex flex-col items-center !gap-0 shadow-lg overflow-hidden bg-transparent">
         <VisuallyHidden>
           <DialogTitle>Search</DialogTitle>
@@ -43,14 +51,25 @@ const SearchModal = () => {
         <button
           onClick={() => setIsOpenModal(false)}
           type="button"
-          className="absolute right-4 top-4 rounded-sm !border-none !outline-none"
+          className="absolute right-8 top-8 rounded-sm !border-none !outline-none"
           onKeyDown={onKeyDown}
         >
-          <X className="size-8" />
+          <Image
+            src="/close_icon.svg"
+            blurDataURL="/close_icon.png"
+            alt="close icon"
+            width={24}
+            height={24}
+          />
         </button>
-        <div className="flex gap-4 items-center py-12">
-          <SearchIcon className="text-grey-moss-900 size-12" />
-          <div className="h-12 w-0.5 bg-grey-moss-400" />
+        <div className="flex gap-10 items-center py-12">
+          <Image
+            src="/search_icon.svg"
+            blurDataURL="/search_icon.png"
+            alt="search icon"
+            width={52}
+            height={52}
+          />
           <div className="relative flex items-center">
             <input
               type="text"
