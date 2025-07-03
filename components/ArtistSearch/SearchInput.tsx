@@ -1,6 +1,7 @@
 import useSearch from "@/hooks/useSearch";
 import { useLayoutProvider } from "@/providers/LayoutProvider";
 import { SearchIcon } from "lucide-react";
+import SearchNotFound from "./SearchNotFound";
 
 const SearchInput = () => {
   const { setIsExpandedSearchInput, isExpandedSearchInput } =
@@ -52,13 +53,7 @@ const SearchInput = () => {
         )}
       </div>
       {searchKey && !isLoadingSearch && !userSearchData?.artist && (
-        <div className="w-fit h-fit absolute right-0 -bottom-[58px] py-2 px-3 bg-white rounded-sm">
-          <div className="flex flex-col w-full items-end">
-            <p className="text-grey-moss-300 text-sm p-0">
-              no results in the matrix, search again
-            </p>
-          </div>
-        </div>
+        <SearchNotFound />
       )}
     </div>
   );

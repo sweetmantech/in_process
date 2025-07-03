@@ -7,6 +7,8 @@ const CommentSection = () => {
   const { visibleComments, comments, showMoreComments, isLoading, isSetSale } =
     useTokenProvider();
 
+  console.log({ comments });
+
   if (isLoading)
     return (
       <CommentsContainer>

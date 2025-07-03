@@ -8,6 +8,7 @@ import {
 import useSearch from "@/hooks/useSearch";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import Image from "next/image";
+import SearchNotFound from "./SearchNotFound";
 
 const SearchModal = () => {
   const {
@@ -89,14 +90,7 @@ const SearchModal = () => {
           </div>
         </div>
         {searchKey && !isLoadingSearch && !userSearchData?.artist && (
-          <>
-            <hr className="w-full border-grey-moss-300" />
-            <div className="flex flex-col gap-4 pt-4 w-full px-4 items-center">
-              <p className="text-grey-moss-300 text-sm">
-                no results in the matrix, search again
-              </p>
-            </div>
-          </>
+          <SearchNotFound />
         )}
       </DialogContent>
     </Dialog>
