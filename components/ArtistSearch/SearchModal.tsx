@@ -105,7 +105,9 @@ const SearchModal = () => {
                   </p>
                 </div>
               ) : (
-                <p className="text-grey-moss-300 text-sm">No results found</p>
+                <p className="text-grey-moss-300 text-sm">
+                  no results in the matrix, search again
+                </p>
               )}
             </div>
           </>
