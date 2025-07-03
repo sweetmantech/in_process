@@ -8,7 +8,6 @@ import {
 import useSearch from "@/hooks/useSearch";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import Image from "next/image";
-import Loading from "../Loading";
 
 const SearchModal = () => {
   const {
@@ -89,26 +88,13 @@ const SearchModal = () => {
             </div>
           </div>
         </div>
-        {searchKey && (
+        {searchKey && !isLoadingSearch && !userSearchData?.artist && (
           <>
             <hr className="w-full border-grey-moss-300" />
             <div className="flex flex-col gap-4 pt-4 w-full px-4 items-center">
-              {isLoadingSearch ? (
-                <Loading className="w-5 h-5" />
-              ) : userSearchData?.artist ? (
-                <div className="flex items-center justify-between gap-2 w-full">
-                  <p className="text-grey-moss-300 text-sm">
-                    {userSearchData?.artist?.username}
-                  </p>
-                  <p className="text-grey-moss-300 text-sm">
-                    {userSearchData?.artist?.address}
-                  </p>
-                </div>
-              ) : (
-                <p className="text-grey-moss-300 text-sm">
-                  no results in the matrix, search again
-                </p>
-              )}
+              <p className="text-grey-moss-300 text-sm">
+                no results in the matrix, search again
+              </p>
             </div>
           </>
         )}
