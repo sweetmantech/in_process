@@ -15,12 +15,13 @@ const useSearch = () => {
   const { push } = useRouter();
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const { setIsExpandedSearchInput } = useLayoutProvider();
-  const { data: userSearchData } = useQuery<SearchByQueryResponse>({
-    queryKey: ["search", searchKey],
-    queryFn: () => searchByQuery(searchKey),
-    enabled: !!searchKey, // Only run if query is non-empty
-    staleTime: 1000 * 30, // 30 seconds (adjust as needed)
-  });
+  const { data: userSearchData, isLoading: isLoadingSearch } =
+    useQuery<SearchByQueryResponse>({
+      queryKey: ["search", searchKey],
+      queryFn: () => searchByQuery(searchKey),
+      enabled: !!searchKey, // Only run if query is non-empty
+      staleTime: 1000 * 30, // 30 seconds (adjust as needed)
+    });
   const suffixHint = useMemo(() => {
     if (!userSearchData?.artist || !userSearchData?.artist?.username) return "";
     return userSearchData?.artist?.username.slice(searchKey.length);
@@ -62,6 +63,8 @@ const useSearch = () => {
   }, [isOpenModal]);
 
   return {
+    userSearchData,
+    isLoadingSearch,
     onChangeSearchKey,
     onKeyDown,
     suffixHint,
