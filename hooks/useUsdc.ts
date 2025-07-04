@@ -30,7 +30,7 @@ const useUsdc = () => {
     return response;
   };
 
-  const hasAllowance = async (sale: SaleConfig | undefined) => {
+  const hasAllowance = async (sale: SaleConfig | undefined, quantity: number = 1) => {
     if (!sale) return false;
     if (sale.type !== MintType.ZoraErc20Mint) return true;
     const publicClient = getPublicClient(CHAIN_ID);
@@ -41,7 +41,7 @@ const useUsdc = () => {
       functionName: "allowance",
       args: [connectedAddress as Address, erc20MinterAddresses[CHAIN_ID]],
     });
-    return data >= sale.pricePerToken;
+    return data >= sale.pricePerToken * BigInt(quantity);
   };
 
   return { approve, hasAllowance };
