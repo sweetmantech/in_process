@@ -31,10 +31,15 @@ const useUsdcMint = () => {
     comment: string,
     mintCount: number = 1
   ) => {
+    console.log("sale", sale);
+    console.log("token", token);
+    console.log("comment", comment);
+    console.log("mintCount", mintCount);
     const usdcPrice = sale.pricePerToken;
     const hasSufficientUsdc =
       balances.usdcBalance >= usdcPrice * BigInt(mintCount);
     const publicClient = getPublicClient(CHAIN_ID);
+    console.log("hasSufficientUsdc", hasSufficientUsdc);
     if (hasSufficientUsdc) {
       const sufficientAllowance = await hasAllowance(sale);
       if (!sufficientAllowance) {
@@ -50,6 +55,7 @@ const useUsdcMint = () => {
         comment,
         mintCount
       );
+      console.log("request", request);
       if (!request) throw new Error();
       const hash = await signTransaction(request);
       const receipt = await publicClient.waitForTransactionReceipt({ hash });
