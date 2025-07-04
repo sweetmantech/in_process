@@ -1,7 +1,6 @@
-import fetchArtistProfile from "@/lib/fetchArtistProfile";
+import { useArtistProfile } from "@/hooks/useArtistProfile";
 import truncateAddress from "@/lib/truncateAddress";
-import { useQuery } from "@tanstack/react-query";
-import { Address, isAddress } from "viem";
+import { Address } from "viem";
 
 interface CommentProps {
   comment: string;
@@ -10,15 +9,7 @@ interface CommentProps {
 }
 
 export const Comment = ({ comment, sender, timestamp }: CommentProps) => {
-  const {
-    data: artistProfile,
-    isLoading,
-    error,
-  } = useQuery({
-    queryKey: ["artistProfile", sender],
-    queryFn: () => fetchArtistProfile(sender),
-    enabled: !!sender && isAddress(sender),
-  });
+  const { data: artistProfile, isLoading, error } = useArtistProfile(sender);
 
   const truncatedAddress = truncateAddress(sender);
   const displayName = isLoading
