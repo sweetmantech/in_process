@@ -93,7 +93,34 @@ The goal is to help you maintain a big picture as well as the progress of the ta
 
 # Scratchpad
 
-## Current Task: Create Page - Change "set time" Label to "time" (MYC-2390)
+## Current Task: TokenProvider - update TokenInfo type to include chainId
+
+Status: ✅ **COMPLETE** ✅
+
+**Requirement**: 
+- Update `types/token.ts` - TokenInfo is missing chainId ✅
+- Current: TokenInfo type only has tokenId and tokenContractAddress ✅ UPDATED
+- Required: update TokenInfo to include optional chainId ✅ COMPLETED
+- Also update `components/TokenPage/TokenPage.tsx` to pass the chainId value to the token param in TokenProvider ✅ COMPLETED
+
+**Implementation COMPLETED**:
+[X] **Updated TokenInfo type**: Added optional `chainId?: number` field to `types/token.ts`
+[X] **Updated TokenPage.tsx**: Modified token object to include `chainId: viemChain.id`
+[X] **Verified compatibility**: Confirmed TokenProvider already accepts chainId as separate prop
+
+**Changes Made**:
+- **types/token.ts**: Line 14 - Added `chainId?: number` to TokenInfo interface
+- **TokenPage.tsx**: Line 27 - Added `chainId: viemChain.id` to token object passed to TokenProvider
+
+**Technical Details**:
+- Minimal changes - just type definition update and prop addition
+- Maintained all existing functionality
+- TokenProvider already had separate chainId prop, now token object can also include it
+- Optional field ensures backward compatibility
+
+**Status**: ✅ **TOKENINFO CHAINID UPDATE COMPLETE**
+
+## Previous Task: Create Page - Change "set time" Label to "time" (MYC-2390)
 
 Status: ✅ **COMPLETE** ✅
 

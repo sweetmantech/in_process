@@ -24,6 +24,7 @@ const TokenPage = () => {
           token={{
             tokenContractAddress: address as Address,
             tokenId,
+            chainId: viemChain.id,
           }}
           chainId={viemChain.id}
         >
