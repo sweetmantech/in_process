@@ -8,9 +8,12 @@ import {
 import useSearch from "@/hooks/useSearch";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import Image from "next/image";
+import SearchNotFound from "./SearchNotFound";
 
 const SearchModal = () => {
   const {
+    userSearchData,
+    isLoadingSearch,
     onChangeSearchKey,
     onKeyDown,
     searchKey,
@@ -41,7 +44,7 @@ const SearchModal = () => {
           />
         </button>
       </DialogTrigger>
-      <DialogOverlay className="opacity-80" />
+      <DialogOverlay className="opacity-80 !pointer-events-none" />
       <DialogContent className="max-w-xl !rounded-3xl !bg-white border-none py-10 px-8 flex flex-col items-center !gap-0 shadow-lg overflow-hidden bg-transparent">
         <VisuallyHidden>
           <DialogTitle>Search</DialogTitle>
@@ -86,6 +89,9 @@ const SearchModal = () => {
             </div>
           </div>
         </div>
+        {searchKey && !isLoadingSearch && !userSearchData?.artist && (
+          <SearchNotFound />
+        )}
       </DialogContent>
     </Dialog>
   );
