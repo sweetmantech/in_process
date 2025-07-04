@@ -9,7 +9,7 @@ interface CommentProps {
 }
 
 export const Comment = ({ comment, sender, timestamp }: CommentProps) => {
-  const { data: username } = useQuery({
+  const { data: displayName } = useQuery({
     queryKey: ["username", sender],
     queryFn: () => getUsername(sender as Address),
     enabled: !!sender,
@@ -19,7 +19,7 @@ export const Comment = ({ comment, sender, timestamp }: CommentProps) => {
     <div className="rounded flex items-end justify-between">
       <div>
         <p className="text-base font-spectral tracking-[-1px]">{comment}</p>
-        <p className="text-base font-archivo-medium">{username}</p>
+        <p className="text-base font-archivo-medium">{displayName}</p>
       </div>
       <p className="text-sm font-archivo lowercase">
         {new Date(timestamp).toLocaleString()}
