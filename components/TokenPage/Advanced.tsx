@@ -12,8 +12,24 @@ const Advanced = () => {
         <input
           type="number"
           min={1}
-          value={mintCount}
-          onChange={(e) => setMintCount(parseInt(e.target.value || "1", 10))}
+          value={mintCount === 0 ? "" : mintCount}
+          onChange={(e) => {
+            const value = e.target.value;
+            if (value === "") {
+              // Allow empty input during editing
+              setMintCount(0);
+            } else {
+              const parsed = parseInt(value, 10);
+              setMintCount(isNaN(parsed) ? 1 : Math.max(1, parsed));
+            }
+          }}
+          onBlur={(e) => {
+            // Ensure minimum value of 1 when user finishes editing
+            const value = e.target.value;
+            if (value === "" || parseInt(value, 10) < 1) {
+              setMintCount(1);
+            }
+          }}
           className="w-full border border-grey p-2 font-spectral !outline-none"
         />
       )}
