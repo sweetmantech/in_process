@@ -14,6 +14,7 @@ export interface TokenMetadata {
 export interface TokenInfo {
   tokenId: string;
   tokenContractAddress: Address;
+  chainId?: number;
 }
 
 export interface Metadata {
