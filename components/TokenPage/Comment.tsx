@@ -1,19 +1,29 @@
 import getUsername from "@/lib/getUsername";
 import { useQuery } from "@tanstack/react-query";
-import { Address } from "viem";
+import { Address, isAddress } from "viem";
 
 interface CommentProps {
   comment: string;
-  sender: string;
+  sender: Address;
   timestamp: number;
 }
 
 export const Comment = ({ comment, sender, timestamp }: CommentProps) => {
-  const { data: displayName } = useQuery({
+  const {
+    data: username,
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ["username", sender],
     queryFn: () => getUsername(sender as Address),
-    enabled: !!sender,
+    enabled: !!sender && isAddress(sender),
   });
+
+  const displayName = isLoading
+    ? "Loading..."
+    : error
+      ? sender
+      : username || sender;
 
   return (
     <div className="rounded flex items-end justify-between">
