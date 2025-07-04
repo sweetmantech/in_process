@@ -19,6 +19,8 @@ export const Comment = ({ comment, sender, timestamp }: CommentProps) => {
     enabled: !!sender && isAddress(sender),
   });
 
+  console.log({ username, isLoading, error });
+
   const displayName = isLoading
     ? "Loading..."
     : error
