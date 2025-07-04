@@ -93,7 +93,35 @@ The goal is to help you maintain a big picture as well as the progress of the ta
 
 # Scratchpad
 
-## Current Task: TokenProvider - update TokenInfo type to include chainId
+## Current Task: useUsdc - hasAllowance - include quantity param (MYC-2457)
+
+Status: ✅ **COMPLETE** ✅
+
+**Requirement**: 
+- Update `hasAllowance` function in `useUsdc.ts` to include quantity parameter ✅
+- Current: allowance is only checking `sale.pricePerToken` ✅ FIXED
+- Required: allowance checks `sale.pricePerToken * quantity` ✅ COMPLETED
+- Ticket: https://linear.app/mycowtf/issue/MYC-2457/useusdc-hasallowance-include-quantity-param
+
+**Implementation COMPLETED**:
+[X] **Updated `hasAllowance` function signature**: Added `quantity: number = 1` parameter with default value
+[X] **Updated allowance check**: Changed from `data >= sale.pricePerToken` to `data >= sale.pricePerToken * BigInt(quantity)`
+[X] **Updated function call**: Updated `useUsdcMint.ts` to pass `mintCount` parameter to `hasAllowance(sale, mintCount)`
+
+**Changes Made**:
+- **useUsdc.ts**: Line 32 - Added `quantity: number = 1` parameter to `hasAllowance` function
+- **useUsdc.ts**: Line 44 - Updated check to `data >= sale.pricePerToken * BigInt(quantity)`
+- **useUsdcMint.ts**: Line 38 - Updated call to `hasAllowance(sale, mintCount)`
+
+**Technical Details**:
+- Now allowance check accounts for total cost (price × quantity) instead of just unit price
+- Maintains backward compatibility with default quantity of 1
+- Consistent with other quantity-aware calculations in the mint flow
+- Properly handles BigInt conversion for precise calculations
+
+**Status**: ✅ **HASALLOWANCE QUANTITY PARAMETER COMPLETE**
+
+## Previous Task: TokenProvider - update TokenInfo type to include chainId
 
 Status: ✅ **COMPLETE** ✅
 

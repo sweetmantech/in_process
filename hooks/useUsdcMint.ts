@@ -36,7 +36,7 @@ const useUsdcMint = () => {
       balances.usdcBalance >= usdcPrice * BigInt(mintCount);
     const publicClient = getPublicClient(CHAIN_ID);
     if (hasSufficientUsdc) {
-      const sufficientAllowance = await hasAllowance(sale);
+      const sufficientAllowance = await hasAllowance(sale, mintCount);
       if (!sufficientAllowance) {
         toast.error(
           `Insufficient allowance. please sign initial tx to grant max allowance`
