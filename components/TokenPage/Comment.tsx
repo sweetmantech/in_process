@@ -16,7 +16,7 @@ export const Comment = ({ comment, sender, timestamp }: CommentProps) => {
     error,
   } = useQuery({
     queryKey: ["artistProfile", sender],
-    queryFn: () => fetchArtistProfile(sender as Address),
+    queryFn: () => fetchArtistProfile(sender),
     enabled: !!sender && isAddress(sender),
   });
 
