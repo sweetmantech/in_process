@@ -36,6 +36,8 @@ const useUsdcMint = () => {
     console.log("comment", comment);
     console.log("mintCount", mintCount);
     const usdcPrice = sale.pricePerToken;
+    console.log("usdcPrice", usdcPrice);
+    console.log("balances.usdcBalance", balances.usdcBalance);
     const hasSufficientUsdc =
       balances.usdcBalance >= usdcPrice * BigInt(mintCount);
     const publicClient = getPublicClient(CHAIN_ID);
