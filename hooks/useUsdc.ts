@@ -1,6 +1,5 @@
 import { CHAIN, CHAIN_ID, USDC_ADDRESS } from "@/lib/consts";
-import { useState } from "react";
-import { erc20Abi, maxUint256 } from "viem";
+import { erc20Abi } from "viem";
 import useConnectedWallet from "./useConnectedWallet";
 import { erc20MinterAddresses } from "@/lib/protocolSdk/constants";
 import { getPublicClient } from "@/lib/viem/publicClient";
@@ -17,8 +16,8 @@ const useUsdc = () => {
   const { address } = useAccount();
   const { signTransaction } = useSignTransaction();
 
-  const approve = async () => {
-    const args = [erc20MinterAddresses[CHAIN_ID], maxUint256];
+  const approve = async (usdcPrice: bigint) => {
+    const args = [erc20MinterAddresses[CHAIN_ID], usdcPrice];
     const account = context ? address : connectedWallet;
     const response = await signTransaction({
       address: USDC_ADDRESS,
