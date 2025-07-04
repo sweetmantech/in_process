@@ -1,4 +1,6 @@
-import truncateAddress from "@/lib/truncateAddress";
+import getUsername from "@/lib/getUsername";
+import { useQuery } from "@tanstack/react-query";
+import { Address } from "viem";
 
 interface CommentProps {
   comment: string;
@@ -7,13 +9,17 @@ interface CommentProps {
 }
 
 export const Comment = ({ comment, sender, timestamp }: CommentProps) => {
+  const { data: username } = useQuery({
+    queryKey: ["username", sender],
+    queryFn: () => getUsername(sender as Address),
+    enabled: !!sender,
+  });
+
   return (
     <div className="rounded flex items-end justify-between">
       <div>
         <p className="text-base font-spectral tracking-[-1px]">{comment}</p>
-        <p className="text-base font-archivo-medium">
-          {truncateAddress(sender)}
-        </p>
+        <p className="text-base font-archivo-medium">{username}</p>
       </div>
       <p className="text-sm font-archivo lowercase">
         {new Date(timestamp).toLocaleString()}
