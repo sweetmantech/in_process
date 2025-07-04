@@ -1,4 +1,5 @@
-import getUsername from "@/lib/getUsername";
+import fetchArtistProfile from "@/lib/fetchArtistProfile";
+import truncateAddress from "@/lib/truncateAddress";
 import { useQuery } from "@tanstack/react-query";
 import { Address, isAddress } from "viem";
 
@@ -10,22 +11,21 @@ interface CommentProps {
 
 export const Comment = ({ comment, sender, timestamp }: CommentProps) => {
   const {
-    data: username,
+    data: artistProfile,
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["username", sender],
-    queryFn: () => getUsername(sender as Address),
+    queryKey: ["artistProfile", sender],
+    queryFn: () => fetchArtistProfile(sender as Address),
     enabled: !!sender && isAddress(sender),
   });
 
-  console.log({ username, isLoading, error });
-
+  const truncatedAddress = truncateAddress(sender);
   const displayName = isLoading
     ? "Loading..."
     : error
-      ? sender
-      : username || sender;
+      ? truncatedAddress
+      : artistProfile?.username || truncatedAddress;
 
   return (
     <div className="rounded flex items-end justify-between">
