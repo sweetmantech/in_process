@@ -93,48 +93,6 @@ The goal is to help you maintain a big picture as well as the progress of the ta
 
 # Scratchpad
 
-## Current Task: Arweave => @ardrive/turbo-sdk Migration (MYC-2422)
-
-Status: ⚠️ **BLOCKED - WEBPACK CONFIGURATION ISSUE** ⚠️
-
-**Requirement**: 
-- Migrate from arweave package to @ardrive/turbo-sdk for uploads ✅
-- Current: Build failing due to `node:buffer` import despite comprehensive polyfills ❌
-- Required: Resolve webpack configuration for Node.js protocol imports
-- Documentation: https://docs.ardrive.io/docs/turbo/turbo-sdk/ai-sdk.html ✅
-- Ticket: https://linear.app/mycowtf/issue/MYC-2422/arweave-=-ardriveturbo-sdk
-
-**Implementation Status**:
-[X] **Code migration completed**: Successfully updated `lib/arweave/clientUploadToArweave.ts` ✅
-[X] **Dependencies installed**: All polyfill packages installed (crypto-browserify, stream-browserify, buffer, util, events, assert) ✅
-[X] **Next.js config updated**: Added comprehensive webpack polyfills and transpilation ✅
-[X] **Node.js protocol handling**: Added extensive fallbacks and aliases for all node: imports ✅
-[X] **Turbo SDK team guidance**: Applied suggested next.config.ts configuration ✅
-[ ] **Build success**: Still failing on `node:buffer` import in `@ardrive/turbo-sdk/lib/esm/web/signer.js` ❌
-
-**Current Technical Issue**:
-- **Error**: `Module build failed: UnhandledSchemeError: Reading from "node:buffer" is not handled by plugins`
-- **Source**: Direct import from Turbo SDK web build (`@ardrive/turbo-sdk/lib/esm/web/signer.js`)
-- **Webpack config**: Comprehensive polyfills and aliases not resolving the issue
-- **Root cause**: Next.js webpack cannot handle Node.js protocol imports (`node:buffer`) despite configuration
-
-**Working Code Migration**:
-- ✅ Migrated from `arweave` package to `@ardrive/turbo-sdk/web`
-- ✅ Implemented `ArweaveSigner` + `TurboFactory.authenticated({ signer })`
-- ✅ Added upload progress tracking via Turbo SDK events
-- ✅ Maintained exact same function interface for compatibility
-- ✅ Returns correct `ar://${result.id}` format
-
-**Next Steps Required**:
-1. **Contact Turbo SDK team**: Current suggested config not resolving node: protocol imports
-2. **Alternative approach**: Consider using different SDK build or webpack plugin
-3. **Server-side migration**: Move upload logic to API route to avoid browser webpack issues
-4. **Webpack 5 plugin**: Research specific plugins for handling node: protocol imports
-
-**Status**: ⚠️ **REQUIRES ADDITIONAL WEBPACK CONFIGURATION OR ALTERNATIVE APPROACH**
-
-**Note**: Code migration is complete and functional - only webpack build configuration blocking deployment.
-
 ## Current Task: Create Page - Change "set time" Label to "time" (MYC-2390)
 
 Status: ✅ **COMPLETE** ✅
