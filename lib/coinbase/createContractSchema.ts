@@ -35,3 +35,14 @@ export const createMomentSchema = z.object({
   token: tokenSchema,
   account: addressSchema, // Address
 });
+
+export const writingContractSchema = z.object({
+  name: z.string(),
+  content: z.string(),
+});
+
+export const createWritingMomentSchema = z.object({
+  contract: writingContractSchema,
+  salesConfig: salesConfigSchema,
+  account: addressSchema, // Address
+});
