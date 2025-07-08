@@ -3,7 +3,6 @@ import { createContract } from "@/lib/coinbase/createContract";
 import { createWritingMomentSchema } from "@/lib/coinbase/createContractSchema";
 import { uploadWritingFile } from "@/lib/arweave/uploadWritingFile";
 import { convertWritingToContractSchema } from "@/lib/coinbase/convertWritingToContractSchema";
-import { REFERRAL_RECIPIENT } from "@/lib/consts";
 
 export async function POST(req: NextRequest) {
   try {
@@ -20,12 +19,8 @@ export async function POST(req: NextRequest) {
       );
     }
     const data = parseResult.data;
-    const contentUri = await uploadWritingFile(data.contract.content);
-    const convertedData = convertWritingToContractSchema(
-      data,
-      REFERRAL_RECIPIENT,
-      contentUri
-    );
+    const contentUri = await uploadWritingFile(data.token.tokenContent);
+    const convertedData = convertWritingToContractSchema(data, contentUri);
     const result = await createContract(convertedData);
     return Response.json(result);
   } catch (e: any) {
