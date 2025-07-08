@@ -1,9 +1,8 @@
 import { NextRequest } from "next/server";
 import { createContract } from "@/lib/coinbase/createContract";
 import { createWritingMomentSchema } from "@/lib/coinbase/createContractSchema";
-import { uploadWritingFile } from "@/lib/arweave/uploadWritingFile";
 import { convertWritingToContractSchema } from "@/lib/coinbase/convertWritingToContractSchema";
-import { uploadJson } from "@/lib/arweave/uploadJson";
+import { uploadWritingWithJson } from "@/lib/writing/uploadWritingWithJson";
 
 export async function POST(req: NextRequest) {
   try {
@@ -20,18 +19,10 @@ export async function POST(req: NextRequest) {
       );
     }
     const data = parseResult.data;
-    const contentUri = await uploadWritingFile(data.token.tokenContent);
-    const metadataUri = await uploadJson({
-      name: data.contract.name,
-      description: "",
-      external_url: "",
-      image: "",
-      animation_url: contentUri,
-      content: {
-        mime: "text/plain",
-        uri: contentUri,
-      },
-    });
+    const metadataUri = await uploadWritingWithJson(
+      data.contract.name,
+      data.token.tokenContent
+    );
     const convertedData = convertWritingToContractSchema(data, metadataUri);
     const result = await createContract(convertedData);
     return Response.json(result);
