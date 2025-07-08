@@ -31,15 +31,18 @@ const usePrompt = () => {
 
   const onActive = () => {
     const promptValue = promptOptions[prompt].value;
-    setName(promptValue);
-    setTimeout(() => {
-      promptRef.current.setSelectionRange(
-        promptValue.length,
-        promptValue.length,
-      );
-    }, 100);
+
+    if (!name) {
+      setName(promptValue);
+      setTimeout(() => {
+        promptRef.current.setSelectionRange(
+          promptValue.length,
+          promptValue.length,
+        );
+      }, 100);
+    }
+
     clearInterval(timer);
-    if (name) return;
   };
 
   useEffect(() => {
