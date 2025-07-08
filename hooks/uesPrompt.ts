@@ -30,18 +30,16 @@ const usePrompt = () => {
   };
 
   const onActive = () => {
+    if (name) return;
+
     const promptValue = promptOptions[prompt].value;
-
-    if (!name) {
-      setName(promptValue);
-      setTimeout(() => {
-        promptRef.current.setSelectionRange(
-          promptValue.length,
-          promptValue.length,
-        );
-      }, 100);
-    }
-
+    setName(promptValue);
+    setTimeout(() => {
+      promptRef.current.setSelectionRange(
+        promptValue.length,
+        promptValue.length,
+      );
+    }, 100);
     clearInterval(timer);
   };
 
