@@ -30,6 +30,8 @@ const usePrompt = () => {
   };
 
   const onActive = () => {
+    if (name) return;
+
     const promptValue = promptOptions[prompt].value;
     setName(promptValue);
     setTimeout(() => {
@@ -39,7 +41,6 @@ const usePrompt = () => {
       );
     }, 100);
     clearInterval(timer);
-    if (name) return;
   };
 
   useEffect(() => {
