@@ -54,7 +54,13 @@ const Feed: FC<FeedProps> = ({ feed, hovered, step, height }) => {
           onClick={handleClick}
         >
           {hovered ? (
-            <div className="size-6 bg-grey-moss-400 rounded-full -translate-x-1/2 left-[4px] md:bottom-[-2px] bottom-[0px] absolute" />
+            <tspan
+              fill="#4E4E4E"
+              font-size="8"
+              className="-translate-x-1/2 left-[4px] -translate-y-1/2 absolute"
+            >
+              ⬤
+            </tspan>
           ) : (
             <div className="size-2 border border-grey-moss-900 bg-grey-moss-100 rounded-full md:bottom-[-2px] bottom-[0px] absolute" />
           )}
@@ -87,7 +93,7 @@ const Feed: FC<FeedProps> = ({ feed, hovered, step, height }) => {
                 uri: feed.uri,
                 admin: connectedAddress as Address,
                 createdAt: new Date(feed.created_at * 1000).toISOString(),
-                username: feed.username || '',
+                username: feed.username || "",
               }}
               onClick={() => setIsFadingOut(true)}
             />
