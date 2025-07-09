@@ -1,13 +1,11 @@
-import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
 import { useState } from "react";
+import { uploadWritingFile } from "@/lib/arweave/uploadWritingFile";
 
 const useWriting = () => {
   const [writingText, setWritingText] = useState<string>("");
 
   const uploadWriting = async () => {
-    const blob = new Blob([writingText], { type: "text/plain" });
-    const writingFile = new File([blob], "writing.txt", { type: "text/plain" });
-    const uri = await clientUploadToArweave(writingFile);
+    const uri = await uploadWritingFile(writingText);
     return uri;
   };
 
