@@ -3,6 +3,7 @@ import captureImageFromVideo from "@/lib/captureImageFromVideo";
 import base64ToFile from "@/lib/base64ToFile";
 import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
 import { MAX_FILE_SIZE } from "@/lib/consts";
+import { toast } from "sonner";
 
 interface useFileUploadProps {
   setImageUri: Dispatch<SetStateAction<string>>;
@@ -37,7 +38,9 @@ const useFileUpload = ({
       }
 
       if (file.size > MAX_FILE_SIZE) {
-        throw new Error(`File size exceeds the ${MAX_FILE_SIZE / (1024 * 1024)}MB limit. Please choose a smaller file.`);
+        toast.error("Please select a file smaller than 222MB");
+        setLoading(false);
+        return;
       }
 
       const mimeType = file.type;
