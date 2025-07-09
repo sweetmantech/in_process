@@ -19,7 +19,7 @@ const Controls = () => {
       )}
       {timelineOverflowed && !feedEnded && (
         <button
-          className="text-black ml-auto"
+          className="text-black p-1 ml-auto"
           type="button"
           onClick={() => swiper?.slideNext()}
         >
