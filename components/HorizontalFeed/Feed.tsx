@@ -54,12 +54,13 @@ const Feed: FC<FeedProps> = ({ feed, hovered, step, height }) => {
           onClick={handleClick}
         >
           {hovered ? (
-            <span
-              className="-translate-x-1/2 left-[4px] -translate-y-1/2 absolute text-[8px] leading-none text-[#4E4E4E]"
-              aria-hidden
+            <tspan
+              fill="#4E4E4E"
+              font-size="8"
+              className="-translate-x-1/2 left-[4px] -translate-y-1/2 absolute"
             >
               ⬤
-            </span>
+            </tspan>
           ) : (
             <div className="size-2 border border-grey-moss-900 bg-grey-moss-100 rounded-full md:bottom-[-2px] bottom-[0px] absolute" />
           )}
