@@ -54,12 +54,12 @@ const UploadPreview = () => {
         accept="image/*"
         onChange={handlePreviewUpload}
       />
-      <div className="w-3/4 aspect-video relative border border-grey mt-2 font-spectral overflow-hidden">
+      <div className="w-3/4 max-h-96 relative border border-grey mt-2 font-spectral overflow-hidden flex justify-center items-center">
         {previewUri && !isUploading ? (
           // eslint-disable-next-line
           <Image
             layout="fill"
-            objectFit="cover"
+            objectFit="contain"
             objectPosition="center"
             src={previewSrc}
             alt="not found preview."

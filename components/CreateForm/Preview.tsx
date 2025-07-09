@@ -9,7 +9,7 @@ const PreviewContainer = ({ children }: { children: ReactNode }) => {
   return (
     <Fragment>
       <Label>preview</Label>
-      <section className="mt-1 aspect-video border border-grey relative overflow-hidden cursor-pointer font-spectral">
+      <section className="mt-1 max-h-96 border border-grey relative overflow-hidden cursor-pointer font-spectral flex justify-center items-center">
         {children}
       </section>
     </Fragment>
@@ -23,7 +23,7 @@ const Preview = () => {
         <PreviewContainer>
           <Image
             layout="fill"
-            objectFit="cover"
+            objectFit="contain"
             objectPosition="center"
             src={previewSrc}
             alt="not found preview."
