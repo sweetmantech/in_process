@@ -31,11 +31,14 @@ export const TimelineApiProvider = ({
 }) => {
   const { data, isLoading, error, currentPage, setCurrentPage } =
     useTimelineApi(1, 100, true, artistAddress, includeHidden);
+    
+  const reversedMoments = data?.moments ? [...data.moments].reverse() : [];
+  
   return (
     <TimelineContext.Provider
       value={{
         data,
-        moments: data?.moments || [],
+        moments: reversedMoments,
         isLoading,
         error,
         currentPage,

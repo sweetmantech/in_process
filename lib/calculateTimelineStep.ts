@@ -10,7 +10,7 @@ const calculateTimelineStep = (
   const previousDate = new Date(feeds[currentIndex - 1].released_at);
   const currentDate = new Date(feeds[currentIndex].released_at);
 
-  return (previousDate.getTime() - currentDate.getTime()) / MS_PER_DAY;
+  return (currentDate.getTime() - previousDate.getTime()) / MS_PER_DAY;
 };
 
 export default calculateTimelineStep;

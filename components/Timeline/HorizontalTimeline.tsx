@@ -44,6 +44,7 @@ const HorizontalTimeline = () => {
           sliderProps={{
             slidesPerView: "auto",
             grabCursor: true,
+            initialSlide: Math.max(0, tokens.length - 1),
             mousewheel: {
               sensitivity: 1,
             },

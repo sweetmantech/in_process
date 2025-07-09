@@ -51,6 +51,7 @@ const HorizontalFeed: FC<HorizontalFeedProps> = ({
           sliderProps={{
             slidesPerView: "auto",
             grabCursor: true,
+            initialSlide: Math.max(0, feeds.length - 1),
             mousewheel: {
               sensitivity: 1,
             },
