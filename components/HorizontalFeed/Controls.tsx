@@ -14,16 +14,16 @@ const Controls = () => {
           type="button"
           onClick={() => swiper?.slidePrev()}
         >
-          <ArrowRight className="rotate-[-180deg]" />
+          <ArrowRight className="rotate-[-180deg] w-6 h-6" />
         </button>
       )}
       {timelineOverflowed && !feedEnded && (
         <button
-          className="text-black p-1 ml-auto"
+          className="text-black ml-auto"
           type="button"
           onClick={() => swiper?.slideNext()}
         >
-          <ArrowRight />
+          <ArrowRight className="w-6 h-6" />
         </button>
       )}
     </div>
