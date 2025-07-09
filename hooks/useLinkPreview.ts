@@ -1,6 +1,7 @@
 import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
 import { useQuery } from "@tanstack/react-query";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { MAX_FILE_SIZE } from "@/lib/consts";
 
 export interface LinkPreview {
   siteName: string;
@@ -62,6 +63,13 @@ const useLinkPreview = ({
         try {
           setFileUploading(true);
           const file = await fetchBlob(data.images?.[0] || data.favicons?.[0]);
+          
+          if (file.size > MAX_FILE_SIZE) {
+            console.error(`File size exceeds the ${MAX_FILE_SIZE / (1024 * 1024)}MB limit.`);
+            setFileUploading(false);
+            return;
+          }
+          
           const uri = await clientUploadToArweave(file);
           setPreviewSrc(URL.createObjectURL(file));
           setPreviewUri(uri);

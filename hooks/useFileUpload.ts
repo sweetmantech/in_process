@@ -2,6 +2,7 @@ import { Dispatch, SetStateAction, useState } from "react";
 import captureImageFromVideo from "@/lib/captureImageFromVideo";
 import base64ToFile from "@/lib/base64ToFile";
 import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
+import { MAX_FILE_SIZE } from "@/lib/consts";
 
 interface useFileUploadProps {
   setImageUri: Dispatch<SetStateAction<string>>;
@@ -33,6 +34,10 @@ const useFileUpload = ({
       const file: File = event.target.files[0];
       if (!file) {
         throw new Error();
+      }
+
+      if (file.size > MAX_FILE_SIZE) {
+        throw new Error(`File size exceeds the ${MAX_FILE_SIZE / (1024 * 1024)}MB limit. Please choose a smaller file.`);
       }
 
       const mimeType = file.type;
