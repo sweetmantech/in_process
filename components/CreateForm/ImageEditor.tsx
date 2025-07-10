@@ -308,17 +308,12 @@ export default function ImageEditor(): ReactElement {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const dragging = useRef(false);
   const startPos = useRef({ x: 0, y: 0 });
-  const lastPos = useRef({ x: 0, y: 0 });
 
   const handleImageMouseDown = (e: React.MouseEvent) => {
     dragging.current = true;
     startPos.current = {
       x: e.clientX - position.x,
       y: e.clientY - position.y,
-    };
-    lastPos.current = {
-      x: position.x,
-      y: position.y,
     };
   };
 
