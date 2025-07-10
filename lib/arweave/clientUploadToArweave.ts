@@ -1,44 +1,42 @@
-import Arweave from "arweave";
-
-const arweave = Arweave.init({
-  host: "arweave.net",
-  port: 443,
-  protocol: "https",
-  timeout: 20000,
-  logging: false,
-});
+import { TurboFactory, ArweaveSigner } from "@ardrive/turbo-sdk/web";
 
 const clientUploadToArweave = async (
   file: File,
   getProgress: (progress: number) => void = () => {},
 ): Promise<string> => {
-  const ARWEAVE_KEY = JSON.parse(
-    Buffer.from(
-      process.env.NEXT_PUBLIC_ARWEAVE_KEY as string,
-      "base64",
-    ).toString(),
-  );
-  const buffer = await file.arrayBuffer();
+  // Decode base64 JWK for web environment
+  const base64Key = process.env.NEXT_PUBLIC_ARWEAVE_KEY as string;
+  const keyString = atob(base64Key);
+  const ARWEAVE_KEY = JSON.parse(keyString);
 
-  const transaction = await arweave.createTransaction(
-    {
-      data: buffer,
-    },
-    ARWEAVE_KEY,
-  );
-  transaction.addTag("Content-Type", file.type);
-  await arweave.transactions.sign(transaction, ARWEAVE_KEY);
-  const uploader = await arweave.transactions.getUploader(transaction);
+  // Create signer and authenticated Turbo client using the web-specific pattern
+  const signer = new ArweaveSigner(ARWEAVE_KEY);
+  const turbo = TurboFactory.authenticated({ signer });
 
-  while (!uploader.isComplete) {
-    console.log(
-      `${uploader.pctComplete}% complete, ${uploader.uploadedChunks}/${uploader.totalChunks}`,
-    );
-    getProgress(uploader.pctComplete);
-    await uploader.uploadChunk();
+  try {
+    const result = await turbo.uploadFile({
+      fileStreamFactory: () => file.stream(),
+      fileSizeFactory: () => file.size,
+      events: {
+        onUploadProgress: ({ totalBytes, processedBytes }: { totalBytes: number; processedBytes: number }) => {
+          const progress = Math.round((processedBytes / totalBytes) * 100);
+          getProgress(progress);
+        },
+        onUploadError: (error: any) => {
+          console.error("Upload failed:", error);
+          throw error;
+        },
+        onUploadSuccess: () => {
+          console.log("Upload completed successfully");
+        },
+      },
+    });
+
+    return `ar://${result.id}`;
+  } catch (error) {
+    console.error("Error uploading file:", error);
+    throw error;
   }
-
-  return `ar://${transaction.id}`;
 };
 
 export default clientUploadToArweave;
