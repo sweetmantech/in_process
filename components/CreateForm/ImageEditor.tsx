@@ -46,7 +46,7 @@ export default function ImageEditor(): ReactElement {
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [originalDimensions, setOriginalDimensions] = useState<ImageDimensions>(
-    { width: 0, height: 0 },
+    { width: 0, height: 0 }
   );
   const [currentDimensions, setCurrentDimensions] = useState<ImageDimensions>({
     width: 0,
@@ -136,7 +136,7 @@ export default function ImageEditor(): ReactElement {
           if (img.width > maxDisplaySize || img.height > maxDisplaySize) {
             const scale = Math.min(
               maxDisplaySize / img.width,
-              maxDisplaySize / img.height,
+              maxDisplaySize / img.height
             );
             displayWidth = img.width * scale;
             displayHeight = img.height * scale;
@@ -147,7 +147,7 @@ export default function ImageEditor(): ReactElement {
         } catch (canvasError) {
           console.error(canvasError);
           setError(
-            "Failed to process image. The image might be from a different domain.",
+            "Failed to process image. The image might be from a different domain."
           );
           setIsLoading(false);
         }
@@ -180,7 +180,7 @@ export default function ImageEditor(): ReactElement {
       const height = Math.round((originalDimensions.height * newScale) / 100);
       setCurrentDimensions({ width, height });
     },
-    [originalDimensions],
+    [originalDimensions]
   );
 
   const toggleCropMode = useCallback(() => {
@@ -221,7 +221,7 @@ export default function ImageEditor(): ReactElement {
         resizeHandle: handle || null,
       });
     },
-    [],
+    []
   );
 
   const handleMouseMove = useCallback(
@@ -248,11 +248,11 @@ export default function ImageEditor(): ReactElement {
         if (dragState.dragType === "move") {
           newCrop.x = Math.max(
             0,
-            Math.min(prev.x + deltaX, originalDimensions.width - prev.width),
+            Math.min(prev.x + deltaX, originalDimensions.width - prev.width)
           );
           newCrop.y = Math.max(
             0,
-            Math.min(prev.y + deltaY, originalDimensions.height - prev.height),
+            Math.min(prev.y + deltaY, originalDimensions.height - prev.height)
           );
         } else if (dragState.dragType === "resize" && dragState.resizeHandle) {
           const handle = dragState.resizeHandle;
@@ -260,7 +260,7 @@ export default function ImageEditor(): ReactElement {
           if (handle.includes("right")) {
             newCrop.width = Math.max(
               50,
-              Math.min(prev.width + deltaX, originalDimensions.width - prev.x),
+              Math.min(prev.width + deltaX, originalDimensions.width - prev.x)
             );
           }
           if (handle.includes("left")) {
@@ -272,10 +272,7 @@ export default function ImageEditor(): ReactElement {
           if (handle.includes("bottom")) {
             newCrop.height = Math.max(
               50,
-              Math.min(
-                prev.height + deltaY,
-                originalDimensions.height - prev.y,
-              ),
+              Math.min(prev.height + deltaY, originalDimensions.height - prev.y)
             );
           }
           if (handle.includes("top")) {
@@ -295,7 +292,7 @@ export default function ImageEditor(): ReactElement {
         startY: e.clientY,
       }));
     },
-    [dragState, originalDimensions, imageDisplaySize],
+    [dragState, originalDimensions, imageDisplaySize]
   );
 
   const handleMouseUp = useCallback(() => {
@@ -307,6 +304,35 @@ export default function ImageEditor(): ReactElement {
       resizeHandle: null,
     });
   }, []);
+
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const dragging = useRef(false);
+  const startPos = useRef({ x: 0, y: 0 });
+  const lastPos = useRef({ x: 0, y: 0 });
+
+  const handleImageMouseDown = (e: React.MouseEvent) => {
+    dragging.current = true;
+    startPos.current = {
+      x: e.clientX - position.x,
+      y: e.clientY - position.y,
+    };
+    lastPos.current = {
+      x: position.x,
+      y: position.y,
+    };
+  };
+
+  const handleImageMouseMove = (e: React.MouseEvent) => {
+    if (!dragging.current) return;
+    setPosition({
+      x: e.clientX - startPos.current.x,
+      y: e.clientY - startPos.current.y,
+    });
+  };
+
+  const handleImageMouseUp = () => {
+    dragging.current = false;
+  };
 
   const applyCrop = useCallback(() => {
     if (!selectedImage) return;
@@ -329,7 +355,7 @@ export default function ImageEditor(): ReactElement {
         0,
         0,
         cropArea.width,
-        cropArea.height,
+        cropArea.height
       );
 
       const croppedDataUrl = canvas.toDataURL();
@@ -347,7 +373,7 @@ export default function ImageEditor(): ReactElement {
       if (cropArea.width > maxDisplaySize || cropArea.height > maxDisplaySize) {
         const scale = Math.min(
           maxDisplaySize / cropArea.width,
-          maxDisplaySize / cropArea.height,
+          maxDisplaySize / cropArea.height
         );
         displayWidth = cropArea.width * scale;
         displayHeight = cropArea.height * scale;
@@ -392,7 +418,7 @@ export default function ImageEditor(): ReactElement {
     ) {
       const scale = Math.min(
         maxDisplaySize / trulyOriginalDimensions.width,
-        maxDisplaySize / trulyOriginalDimensions.height,
+        maxDisplaySize / trulyOriginalDimensions.height
       );
       displayWidth = trulyOriginalDimensions.width * scale;
       displayHeight = trulyOriginalDimensions.height * scale;
@@ -424,12 +450,23 @@ export default function ImageEditor(): ReactElement {
 
     const img = new Image();
     img.onload = () => {
+      const scaleX = currentDimensions.width / imageDisplaySize.width;
+      const scaleY = currentDimensions.height / imageDisplaySize.height;
+      const cropX = -position.x * scaleX;
+      const cropY = -position.y * scaleY;
+      const cropWidth = currentDimensions.width - Math.abs(cropX);
+      const cropHeight = currentDimensions.height - Math.abs(cropY);
+
       ctx.drawImage(
         img,
+        Math.max(0, cropX),
+        Math.max(0, cropY),
+        cropWidth,
+        cropHeight,
         0,
         0,
-        currentDimensions.width,
-        currentDimensions.height,
+        cropWidth,
+        cropHeight
       );
 
       // Download the resized image
@@ -447,7 +484,7 @@ export default function ImageEditor(): ReactElement {
     };
     img.src = selectedImage;
     // eslint-disable-next-line
-  }, [selectedImage, currentDimensions]);
+  }, [selectedImage, currentDimensions, position]);
 
   if (isLoading) {
     return (
@@ -510,18 +547,26 @@ export default function ImageEditor(): ReactElement {
             <div className="flex flex-col items-center border rounded-lg p-4 bg-gray-50 relative overflow-hidden">
               <div
                 ref={cropContainerRef}
-                className="relative inline-block w-full"
+                className="relative inline-block w-full border border-solid border-grey-moss-300 overflow-hidden"
                 style={{
                   width: `${imageDisplaySize.width}px`,
                   height: `${imageDisplaySize.height}px`,
                 }}
+                onMouseMove={handleImageMouseMove}
+                onMouseUp={handleImageMouseUp}
+                onMouseLeave={handleImageMouseUp}
               >
                 {/* eslint-disable-next-line */}
                 <img
                   ref={imageRef}
                   src={selectedImage || "/placeholder.svg"}
                   alt="Original"
-                  className="block size-full object-contain"
+                  onMouseDown={handleImageMouseDown}
+                  style={{
+                    left: position.x,
+                    top: position.y,
+                  }}
+                  className="block size-full object-contain cursor-grab max-w-none absolute"
                   draggable={false}
                 />
 
