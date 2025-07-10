@@ -1,8 +1,7 @@
-import calculateTimelineStep from "@/lib/calculateTimelineStep";
-import { TIMLINE_STEP_OFFSET } from "@/lib/consts";
-import { Token } from "@/types/token";
 import { useMemo } from "react";
 import { Swiper } from "swiper/types";
+import { Token } from "@/types/token";
+import { TIMLINE_STEP_OFFSET } from "@/lib/consts";
 
 interface useTimelineCenterProps {
   activeIndex: number;
@@ -21,7 +20,7 @@ const useTimelineCenter = ({
     const firstIndex = Math.max(activeIndex, 1);
     let i = firstIndex;
     for (i = firstIndex - 1; i < feeds.length; i++) {
-      acc += TIMLINE_STEP_OFFSET * calculateTimelineStep(i, feeds) + 200;
+      acc += TIMLINE_STEP_OFFSET * 1 + 200;
       if (acc > totalWidth || i === feeds.length - 1) break;
     }
     return Math.floor((firstIndex + i + 1) / 2);

@@ -7,7 +7,6 @@ import { Token } from "@/types/token";
 import { useHorizontalFeedAnimationProvider } from "@/providers/HorizontalFeedAnimationProvider";
 import Controls from "./Controls";
 import FetchMoreInspector from "../FetchMoreInspector";
-import calculateTimelineStep from "@/lib/calculateTimelineStep";
 
 interface HorizontalFeedProps {
   feeds: Token[];
@@ -75,7 +74,7 @@ const HorizontalFeed: FC<HorizontalFeedProps> = ({
                   key={i}
                   feed={feeds[i]}
                   hovered={isHovered(i)}
-                  step={calculateTimelineStep(i, feeds)}
+                  step={1}
                   height={getHeight(i)}
                 />
               ) : (
