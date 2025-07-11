@@ -1,6 +1,6 @@
 const ALLOWED_ORIGINS = [
   "https://sirsueth-sun-spin-age.vercel.app",
-  "https://sun-age-phi.vercel.app/",
+  "https://sun-age-phi.vercel.app",
 ];
 
 export function getCORSHeaders(origin: string | null): HeadersInit {
