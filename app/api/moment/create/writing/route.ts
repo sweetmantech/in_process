@@ -4,6 +4,17 @@ import { createWritingMomentSchema } from "@/lib/coinbase/createContractSchema";
 import { convertWritingToContractSchema } from "@/lib/coinbase/convertWritingToContractSchema";
 import { uploadWritingWithJson } from "@/lib/writing/uploadWritingWithJson";
 
+export async function OPTIONS() {
+  return new Response(null, {
+    status: 200,
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type, Authorization",
+    },
+  });
+}
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
