@@ -53,7 +53,7 @@ export const BLOCKLISTS = [
   "0x1053db8955355d967BB0f3cabe7a71FD23ebfAB7",
 ];
 
-export const TIMLINE_STEP_OFFSET = 24;
+export const TIMLINE_STEP_OFFSET = 12;
 
 export const SPIRAL_POINTS: Point[] = [
   [14, 123],

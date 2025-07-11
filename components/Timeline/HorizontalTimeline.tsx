@@ -5,7 +5,6 @@ import Feed from "@/components/HorizontalFeed/Feed";
 import Slider from "@/components/Slider";
 import { useHorizontalFeedAnimationProvider } from "@/providers/HorizontalFeedAnimationProvider";
 import Controls from "@/components/HorizontalFeed/Controls";
-import calculateTimelineStep from "@/lib/calculateTimelineStep";
 import { mapMomentsToTokens } from "@/lib/timeline/mapMomentToToken";
 
 const HorizontalTimeline = () => {
@@ -66,7 +65,7 @@ const HorizontalTimeline = () => {
               key={i}
               feed={token}
               hovered={isHovered(i)}
-              step={calculateTimelineStep(i, tokens)}
+              step={1}
               height={getHeight(i)}
             />
           ))}
