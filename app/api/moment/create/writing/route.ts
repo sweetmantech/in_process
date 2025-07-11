@@ -26,7 +26,12 @@ export async function POST(req: NextRequest) {
       }));
       return Response.json(
         { message: "Invalid input", errors: errorDetails },
-        { status: 400 }
+        {
+          status: 400,
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+          },
+        }
       );
     }
     const data = parseResult.data;
@@ -36,11 +41,23 @@ export async function POST(req: NextRequest) {
     );
     const convertedData = convertWritingToContractSchema(data, metadataUri);
     const result = await createContract(convertedData);
-    return Response.json(result);
+    return Response.json(result, {
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+      },
+    });
   } catch (e: any) {
     console.log(e);
     const message = e?.message ?? "failed to create writing moment";
-    return Response.json({ message }, { status: 500 });
+    return Response.json(
+      { message },
+      {
+        status: 500,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        },
+      }
+    );
   }
 }
 
