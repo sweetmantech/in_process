@@ -9,14 +9,6 @@ export default function Price() {
   const { price, setPrice, fileUploading, creating } =
     useZoraCreateProvider();
 
-  const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    // Only allow numbers, decimal points, and empty string
-    if (value === "" || /^\d*\.?\d*$/.test(value)) {
-      setPrice(value);
-    }
-  };
-
   return (
     <div className="w-full space-y-2">
       <Label htmlFor="price" className="font-archivo text-md">
@@ -25,9 +17,9 @@ export default function Price() {
       <div className="flex overflow-hidden border border-grey-secondary">
         <Input
           id="price"
-          type="text"
+          type="number"
           value={price}
-          onChange={handlePriceChange}
+          onChange={(e) => setPrice(e.target.value)}
           className="flex-grow !font-spectral !rounded-[0px] !border-none bg-white focus-visible:ring-0 focus-visible:ring-offset-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
           step="0.01"
           disabled={Boolean(fileUploading || creating)}
