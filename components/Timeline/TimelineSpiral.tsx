@@ -17,13 +17,15 @@ const TimelineSpiral = () => {
     useSpiralMouseOver();
   const { moments } = useTimelineApiContext();
 
+  const momentsLatestToOldest = moments.reverse();
+
   return (
     <div className="relative mt-12">
       <svg viewBox={viewBox} className="relative z-[20] cursor-pointer">
         <SpiralPath id="curve" points={points as Point[]} />
         <text>
           <textPath xlinkHref="#curve" startOffset={`${offset}%`}>
-            {[...moments, ...moments].map((moment, index) => (
+            {[...momentsLatestToOldest, ...momentsLatestToOldest].map((moment, index) => (
               <Feed
                 feed={mapMomentToToken(moment)}
                 index={index}

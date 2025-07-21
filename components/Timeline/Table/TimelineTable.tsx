@@ -6,13 +6,15 @@ import { Table, TableBody } from "@/components/ui/table";
 const TimelineTable = () => {
   const { moments } = useTimelineApiContext();
 
+  const momentsLatestToOldest = moments.reverse();
+
   return (
     <div className="w-full">
       {/* Desktop: table layout */}
       <div className="hidden md:block rounded-md overflow-auto md:max-h-[88vh] no-scrollbar">
         <Table>
           <TableBody>
-            {moments.map((moment) => (
+            {momentsLatestToOldest.map((moment) => (
               <TimelineTableRowDesktop key={moment.id} moment={moment} />
             ))}
           </TableBody>
@@ -20,7 +22,7 @@ const TimelineTable = () => {
       </div>
       {/* Mobile: scrollable list */}
       <div className="md:hidden max-h-[25vh] overflow-y-auto w-full">
-        {moments.map((moment) => (
+        {momentsLatestToOldest.map((moment) => (
           <TimelineTableRow key={moment.id} moment={moment} />
         ))}
       </div>

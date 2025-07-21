@@ -60,7 +60,7 @@ const HorizontalTimeline = () => {
           className="w-full !overflow-visible !h-0"
           slideClassName="!w-fit !m-0"
         >
-          {tokens.map((token, i) => (
+          {tokens.reverse().map((token, i) => (
             <Feed
               key={i}
               feed={token}

@@ -34,7 +34,7 @@ const TimelinePage = () => {
         <TimelineMobileMoon />
       </div>
       <TimelineGrid />
-      <div className="block md:hidden overflow-hidden h-[300px] pb-20">
+      <div className="block  overflow-hidden h-[300px] pb-20">
         <HorizontalFeedAnimationProvider feeds={tokens}>
           <HorizontalTimeline />
         </HorizontalFeedAnimationProvider>
