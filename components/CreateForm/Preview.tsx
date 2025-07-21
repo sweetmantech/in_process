@@ -3,7 +3,7 @@ import { Label } from "../ui/label";
 import Image from "next/image";
 import PreviewModal from "./PreviewModal";
 import WritingPreview from "./WritingPreview";
-import { Fragment, ReactNode } from "react";
+import { Fragment, ReactNode, useCallback } from "react";
 
 const PreviewContainer = ({ children }: { children: ReactNode }) => {
   return (
@@ -15,19 +15,63 @@ const PreviewContainer = ({ children }: { children: ReactNode }) => {
     </Fragment>
   );
 };
+
 const Preview = () => {
-  const { previewUri, writingText, previewSrc } = useZoraCreateProvider();
+  const { previewUri, writingText, previewSrc, imageScale, imageOffset } = useZoraCreateProvider();
+  
+  // Ensure we have valid transformation values
+  const safeImageScale = typeof imageScale === 'number' ? imageScale : 1;
+  const safeImageOffset = imageOffset && typeof imageOffset.x === 'number' && typeof imageOffset.y === 'number' 
+    ? imageOffset 
+    : { x: 0, y: 0 };
+  
+  // Debug: Log all the data we're receiving
+  console.log('Preview component data:', {
+    previewUri,
+    writingText,
+    previewSrc,
+    imageScale: safeImageScale,
+    imageOffset: safeImageOffset,
+    hasTransformations: safeImageScale !== 1 || safeImageOffset.x !== 0 || safeImageOffset.y !== 0
+  });
+  
+  // Convert offset and scale to CSS transform for the main preview
+  const getImageStyle = useCallback(() => {
+    const transforms = [];
+    
+    if (safeImageScale !== 1) {
+      transforms.push(`scale(${safeImageScale})`);
+    }
+    
+    if (safeImageOffset.x !== 0 || safeImageOffset.y !== 0) {
+      transforms.push(`translate(${safeImageOffset.x}px, ${safeImageOffset.y}px)`);
+    }
+    
+    const style = {
+      transform: transforms.join(' '),
+      transformOrigin: 'center',
+      width: '100%',
+      height: '100%',
+      position: 'relative' as const
+    };
+    
+    console.log('Preview transforms:', { safeImageScale, safeImageOffset, style });
+    return style;
+  }, [safeImageOffset, safeImageScale]);
+
   return (
     <div>
       {previewUri && (
         <PreviewContainer>
-          <Image
-            layout="fill"
-            objectFit="cover"
-            objectPosition="center"
-            src={previewSrc}
-            alt="not found preview."
-          />
+          <div style={getImageStyle()}>
+            <Image
+              layout="fill"
+              objectFit="cover"
+              objectPosition="center"
+              src={previewSrc}
+              alt="not found preview."
+            />
+          </div>
         </PreviewContainer>
       )}
       {writingText && !previewUri && (
