@@ -20,7 +20,7 @@ const Header = () => {
   return (
     <div
       className={`${isOpenNavbar ? "bg-grey-moss-900 border-b border-grey-moss-900" : ""} md:border-none md:bg-transparent 
-      z-[9999999] relative w-screen flex justify-between items-center px-6 md:px-10 py-4 md:pt-6`}
+      z-[9999999] sticky top-0 w-screen flex justify-between items-center px-6 md:px-10 py-4 md:pt-6`}
     >
       <Logo />
       <div className="flex items-center gap-1 md:gap-2" ref={menuRef}>
