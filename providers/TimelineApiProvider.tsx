@@ -32,13 +32,13 @@ export const TimelineApiProvider = ({
   const { data, isLoading, error, currentPage, setCurrentPage } =
     useTimelineApi(1, 100, true, artistAddress, includeHidden);
     
-  const momentsLatestsToOldest = data?.moments ? [...data.moments] : [];
+  const momentsSortedDescending = data?.moments ? [...data.moments] : [];
   
   return (
     <TimelineContext.Provider
       value={{
         data,
-        moments: momentsLatestsToOldest,
+        moments: momentsSortedDescending,
         isLoading,
         error,
         currentPage,
