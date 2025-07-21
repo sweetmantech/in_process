@@ -25,16 +25,6 @@ const Preview = () => {
     ? imageOffset 
     : { x: 0, y: 0 };
   
-  // Debug: Log all the data we're receiving
-  console.log('Preview component data:', {
-    previewUri,
-    writingText,
-    previewSrc,
-    imageScale: safeImageScale,
-    imageOffset: safeImageOffset,
-    hasTransformations: safeImageScale !== 1 || safeImageOffset.x !== 0 || safeImageOffset.y !== 0
-  });
-  
   // Convert offset and scale to CSS transform for the main preview
   const getImageStyle = useCallback(() => {
     const transforms = [];

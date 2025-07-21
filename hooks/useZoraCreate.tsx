@@ -62,14 +62,5 @@ export default function useZoraCreate() {
     ...advancedValues,
   };
 
-  // Debug: Log what data is being provided
-  console.log('useZoraCreate provider data:', {
-    hasImageScale: 'imageScale' in providerData,
-    hasImageOffset: 'imageOffset' in providerData,
-    imageScale: providerData.imageScale,
-    imageOffset: providerData.imageOffset,
-    createMetadataKeys: Object.keys(createMetadata)
-  });
-
   return providerData;
 }

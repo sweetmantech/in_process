@@ -12,8 +12,6 @@ import { Slider } from "@/components/ui/slider";
 import {
   Upload,
   RotateCcw,
-  Crop,
-  Scissors,
   Loader2,
   ChevronLeft,
 } from "lucide-react";
@@ -23,21 +21,6 @@ import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
 interface ImageDimensions {
   width: number;
   height: number;
-}
-
-interface CropArea {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-}
-
-interface DragState {
-  isDragging: boolean;
-  dragType: "move" | "resize" | null;
-  startX: number;
-  startY: number;
-  resizeHandle: string | null;
 }
 
 export default function ImageEditor(): ReactElement {
@@ -53,20 +36,6 @@ export default function ImageEditor(): ReactElement {
     height: 0,
   });
   const [scale, setScale] = useState<number>(100);
-  const [cropMode, setCropMode] = useState<boolean>(false);
-  const [cropArea, setCropArea] = useState<CropArea>({
-    x: 0,
-    y: 0,
-    width: 0,
-    height: 0,
-  });
-  const [dragState, setDragState] = useState<DragState>({
-    isDragging: false,
-    dragType: null,
-    startX: 0,
-    startY: 0,
-    resizeHandle: null,
-  });
   const [imageDisplaySize, setImageDisplaySize] = useState<ImageDimensions>({
     width: 0,
     height: 0,
@@ -79,7 +48,6 @@ export default function ImageEditor(): ReactElement {
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
-  const cropContainerRef = useRef<HTMLDivElement>(null);
 
   const loadImageFromUrl = useCallback(async (url: string) => {
     if (!url.trim()) {
@@ -122,10 +90,6 @@ export default function ImageEditor(): ReactElement {
           setTrulyOriginalDimensions(dimensions);
           setCurrentDimensions(dimensions);
           setScale(100);
-
-          // Initialize crop area to full image
-          setCropArea({ x: 0, y: 0, width: img.width, height: img.height });
-          setCropMode(false);
 
           // Calculate display size (max 400px) - ensure it fits in container
           const maxDisplaySize = 400;
@@ -183,181 +147,6 @@ export default function ImageEditor(): ReactElement {
     [originalDimensions],
   );
 
-  const toggleCropMode = useCallback(() => {
-    setCropMode(!cropMode);
-    if (!cropMode) {
-      // Initialize crop area to center 50% of image
-      const cropWidth = Math.round(originalDimensions.width * 0.3);
-      const cropHeight = Math.round(originalDimensions.height * 0.3);
-      const cropX = Math.round((originalDimensions.width - cropWidth) / 5);
-      const cropY = Math.round((originalDimensions.height - cropHeight) / 5);
-      setCropArea({ x: cropX, y: cropY, width: cropWidth, height: cropHeight });
-    }
-  }, [cropMode, originalDimensions]);
-
-  const getCropStyle = useCallback(() => {
-    if (!cropMode || !originalDimensions.width) return {};
-
-    const scaleX = imageDisplaySize.width / originalDimensions.width;
-    const scaleY = imageDisplaySize.height / originalDimensions.height;
-
-    return {
-      left: `${cropArea.x * scaleX}px`,
-      top: `${cropArea.y * scaleY}px`,
-      width: `${cropArea.width * scaleX}px`,
-      height: `${cropArea.height * scaleY}px`,
-    };
-  }, [cropMode, cropArea, originalDimensions, imageDisplaySize]);
-
-  const handleMouseDown = useCallback(
-    (e: React.MouseEvent, type: "move" | "resize", handle?: string) => {
-      e.preventDefault();
-      e.stopPropagation();
-      setDragState({
-        isDragging: true,
-        dragType: type,
-        startX: e.clientX,
-        startY: e.clientY,
-        resizeHandle: handle || null,
-      });
-    },
-    [],
-  );
-
-  const handleMouseMove = useCallback(
-    (e: MouseEvent) => {
-      if (!dragState.isDragging || !cropContainerRef.current) return;
-
-      const containerRect = cropContainerRef.current.getBoundingClientRect();
-      const scaleX = originalDimensions.width / imageDisplaySize.width;
-      const scaleY = originalDimensions.height / imageDisplaySize.height;
-
-      // Calculate mouse position relative to the image container
-      const mouseX = e.clientX - containerRect.left;
-      const mouseY = e.clientY - containerRect.top;
-
-      const startMouseX = dragState.startX - containerRect.left;
-      const startMouseY = dragState.startY - containerRect.top;
-
-      const deltaX = (mouseX - startMouseX) * scaleX;
-      const deltaY = (mouseY - startMouseY) * scaleY;
-
-      setCropArea((prev) => {
-        const newCrop = { ...prev };
-
-        if (dragState.dragType === "move") {
-          newCrop.x = Math.max(
-            0,
-            Math.min(prev.x + deltaX, originalDimensions.width - prev.width),
-          );
-          newCrop.y = Math.max(
-            0,
-            Math.min(prev.y + deltaY, originalDimensions.height - prev.height),
-          );
-        } else if (dragState.dragType === "resize" && dragState.resizeHandle) {
-          const handle = dragState.resizeHandle;
-
-          if (handle.includes("right")) {
-            newCrop.width = Math.max(
-              50,
-              Math.min(prev.width + deltaX, originalDimensions.width - prev.x),
-            );
-          }
-          if (handle.includes("left")) {
-            const newWidth = Math.max(50, prev.width - deltaX);
-            const newX = Math.max(0, prev.x + prev.width - newWidth);
-            newCrop.x = newX;
-            newCrop.width = newWidth;
-          }
-          if (handle.includes("bottom")) {
-            newCrop.height = Math.max(
-              50,
-              Math.min(
-                prev.height + deltaY,
-                originalDimensions.height - prev.y,
-              ),
-            );
-          }
-          if (handle.includes("top")) {
-            const newHeight = Math.max(50, prev.height - deltaY);
-            const newY = Math.max(0, prev.y + prev.height - newHeight);
-            newCrop.y = newY;
-            newCrop.height = newHeight;
-          }
-        }
-
-        return newCrop;
-      });
-
-      setDragState((prev) => ({
-        ...prev,
-        startX: e.clientX,
-        startY: e.clientY,
-      }));
-    },
-    [dragState, originalDimensions, imageDisplaySize],
-  );
-
-  const handleMouseUp = useCallback(() => {
-    setDragState({
-      isDragging: false,
-      dragType: null,
-      startX: 0,
-      startY: 0,
-      resizeHandle: null,
-    });
-  }, []);
-
-  const applyCrop = useCallback(() => {
-    if (!selectedImage) return;
-
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    canvas.width = cropArea.width;
-    canvas.height = cropArea.height;
-
-    const img = new Image();
-    img.onload = () => {
-      ctx.drawImage(
-        img,
-        cropArea.x,
-        cropArea.y,
-        cropArea.width,
-        cropArea.height,
-        0,
-        0,
-        cropArea.width,
-        cropArea.height,
-      );
-
-      const croppedDataUrl = canvas.toDataURL();
-      setSelectedImage(croppedDataUrl);
-      setOriginalDimensions({ width: cropArea.width, height: cropArea.height });
-      setCurrentDimensions({ width: cropArea.width, height: cropArea.height });
-      setCropMode(false);
-      setScale(100);
-
-      // Update display size
-      const maxDisplaySize = 400;
-      let displayWidth = cropArea.width;
-      let displayHeight = cropArea.height;
-
-      if (cropArea.width > maxDisplaySize || cropArea.height > maxDisplaySize) {
-        const scale = Math.min(
-          maxDisplaySize / cropArea.width,
-          maxDisplaySize / cropArea.height,
-        );
-        displayWidth = cropArea.width * scale;
-        displayHeight = cropArea.height * scale;
-      }
-
-      setImageDisplaySize({ width: displayWidth, height: displayHeight });
-    };
-    img.src = selectedImage;
-  }, [selectedImage, cropArea]);
-
   const resetToOriginal = useCallback(() => {
     if (
       !originalImage ||
@@ -371,14 +160,6 @@ export default function ImageEditor(): ReactElement {
     setOriginalDimensions(trulyOriginalDimensions);
     setCurrentDimensions(trulyOriginalDimensions);
     setScale(100);
-    setCropMode(false);
-    // Reset crop area to full image
-    setCropArea({
-      x: 0,
-      y: 0,
-      width: trulyOriginalDimensions.width,
-      height: trulyOriginalDimensions.height,
-    });
 
     // Recalculate display size for original image - ensure it fits in container
     const maxDisplaySize = 400;
@@ -400,17 +181,6 @@ export default function ImageEditor(): ReactElement {
 
     setImageDisplaySize({ width: displayWidth, height: displayHeight });
   }, [originalImage, trulyOriginalDimensions]);
-
-  useEffect(() => {
-    if (dragState.isDragging) {
-      document.addEventListener("mousemove", handleMouseMove);
-      document.addEventListener("mouseup", handleMouseUp);
-      return () => {
-        document.removeEventListener("mousemove", handleMouseMove);
-        document.removeEventListener("mouseup", handleMouseUp);
-      };
-    }
-  }, [dragState.isDragging, handleMouseMove, handleMouseUp]);
 
   const downloadResizedImage = useCallback(() => {
     if (!selectedImage || !canvasRef.current) return;
@@ -466,7 +236,7 @@ export default function ImageEditor(): ReactElement {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Upload className="w-5 h-5" />
-              Image Resizer
+              Image Editor
             </CardTitle>
           </CardHeader>
           <CardContent className="flex items-center justify-center py-12">
@@ -488,7 +258,7 @@ export default function ImageEditor(): ReactElement {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Upload className="w-5 h-5" />
-              Image Resizer
+              Image Editor
             </CardTitle>
           </CardHeader>
           <CardContent className="flex items-center justify-center py-12">
@@ -509,7 +279,6 @@ export default function ImageEditor(): ReactElement {
           <div className="w-full space-y-2">
             <div className="flex flex-col items-center border rounded-lg p-4 bg-gray-50 relative overflow-hidden">
               <div
-                ref={cropContainerRef}
                 className="relative inline-block w-full"
                 style={{
                   width: `${imageDisplaySize.width}px`,
@@ -524,117 +293,11 @@ export default function ImageEditor(): ReactElement {
                   className="block size-full object-contain"
                   draggable={false}
                 />
-
-                {/* Crop Overlay */}
-                {cropMode && (
-                  <>
-                    {/* Dark overlay */}
-                    <div className="absolute inset-0 bg-black bg-opacity-50 pointer-events-none" />
-
-                    {/* Crop selection */}
-                    <div
-                      className="absolute border-2 border-white shadow-lg cursor-move bg-transparent"
-                      style={getCropStyle()}
-                      onMouseDown={(e) => handleMouseDown(e, "move")}
-                    >
-                      {/* Resize handles with better positioning and event handling */}
-                      <div
-                        className="absolute w-3 h-3 bg-white border border-gray-400 cursor-nw-resize z-10"
-                        style={{ top: "-6px", left: "-6px" }}
-                        onMouseDown={(e) =>
-                          handleMouseDown(e, "resize", "top-left")
-                        }
-                      />
-                      <div
-                        className="absolute w-3 h-3 bg-white border border-gray-400 cursor-n-resize z-10"
-                        style={{
-                          top: "-6px",
-                          left: "50%",
-                          transform: "translateX(-50%)",
-                        }}
-                        onMouseDown={(e) => handleMouseDown(e, "resize", "top")}
-                      />
-                      <div
-                        className="absolute w-3 h-3 bg-white border border-gray-400 cursor-ne-resize z-10"
-                        style={{ top: "-6px", right: "-6px" }}
-                        onMouseDown={(e) =>
-                          handleMouseDown(e, "resize", "top-right")
-                        }
-                      />
-                      <div
-                        className="absolute w-3 h-3 bg-white border border-gray-400 cursor-e-resize z-10"
-                        style={{
-                          top: "50%",
-                          right: "-6px",
-                          transform: "translateY(-50%)",
-                        }}
-                        onMouseDown={(e) =>
-                          handleMouseDown(e, "resize", "right")
-                        }
-                      />
-                      <div
-                        className="absolute w-3 h-3 bg-white border border-gray-400 cursor-se-resize z-10"
-                        style={{ bottom: "-6px", right: "-6px" }}
-                        onMouseDown={(e) =>
-                          handleMouseDown(e, "resize", "bottom-right")
-                        }
-                      />
-                      <div
-                        className="absolute w-3 h-3 bg-white border border-gray-400 cursor-s-resize z-10"
-                        style={{
-                          bottom: "-6px",
-                          left: "50%",
-                          transform: "translateX(-50%)",
-                        }}
-                        onMouseDown={(e) =>
-                          handleMouseDown(e, "resize", "bottom")
-                        }
-                      />
-                      <div
-                        className="absolute w-3 h-3 bg-white border border-gray-400 cursor-sw-resize z-10"
-                        style={{ bottom: "-6px", left: "-6px" }}
-                        onMouseDown={(e) =>
-                          handleMouseDown(e, "resize", "bottom-left")
-                        }
-                      />
-                      <div
-                        className="absolute w-3 h-3 bg-white border border-gray-400 cursor-w-resize z-10"
-                        style={{
-                          top: "50%",
-                          left: "-6px",
-                          transform: "translateY(-50%)",
-                        }}
-                        onMouseDown={(e) =>
-                          handleMouseDown(e, "resize", "left")
-                        }
-                      />
-                    </div>
-                  </>
-                )}
               </div>
 
               <p className="text-sm text-grey-moss-400 mt-2">
                 {currentDimensions.width} × {currentDimensions.height} px
-                {cropMode && (
-                  <span className="ml-2 text-grey-moss-400">
-                    | crop: {Math.round(cropArea.width)} ×{" "}
-                    {Math.round(cropArea.height)} px
-                  </span>
-                )}
               </p>
-
-              {cropMode && (
-                <div className="mt-2 flex gap-2">
-                  <Button
-                    onClick={applyCrop}
-                    size="sm"
-                    className="flex items-center gap-2 font-archivo bg-grey-moss-900 text-grey-eggshell hover:bg-grey-moss-300"
-                  >
-                    <Scissors className="w-4 h-4" />
-                    apply crop
-                  </Button>
-                </div>
-              )}
             </div>
           </div>
 
@@ -672,16 +335,6 @@ export default function ImageEditor(): ReactElement {
               >
                 <RotateCcw className="w-4 h-4" />
                 reset
-              </Button>
-              <Button
-                disabled={isUploading}
-                onClick={toggleCropMode}
-                variant={cropMode ? "default" : "outline"}
-                size="sm"
-                className="font-archivo flex items-center gap-2 bg-grey-moss-900 text-grey-eggshell border-none hover:bg-grey-moss-300"
-              >
-                <Crop className="w-4 h-4" />
-                {cropMode ? "exit crop" : "crop"}
               </Button>
               <Button
                 disabled={isUploading}

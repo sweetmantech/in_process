@@ -72,7 +72,6 @@ const UploadPreview = () => {
         x: prev.x + deltaX,
         y: prev.y + deltaY
       };
-      console.log('Dragging:', { deltaX, deltaY, newOffset });
       return newOffset;
     });
     
@@ -94,7 +93,6 @@ const UploadPreview = () => {
     const delta = e.deltaY > 0 ? -zoomSpeed : zoomSpeed;
     const newScale = Math.max(0.5, Math.min(3, imageScale + delta));
     
-    console.log('Zooming:', { currentScale: imageScale, newScale, delta });
     setImageScale(newScale);
   }, [previewUri, imageScale, setImageScale]);
 
@@ -102,14 +100,12 @@ const UploadPreview = () => {
   const handleDone = useCallback(async () => {
     if (!previewUri || (!imageOffset.x && !imageOffset.y && imageScale === 1)) {
       // No transformations applied, just close modal
-      console.log('No transformations to save');
       setIsOpenPreviewUpload(false);
       return;
     }
 
     try {
       setIsUploading(true);
-      console.log('Before closing modal - transformations:', { imageScale, imageOffset });
       
       // Create canvas to crop the image
       const canvas = document.createElement('canvas');
@@ -170,7 +166,6 @@ const UploadPreview = () => {
             setIsUploading(false);
             setIsOpenPreviewUpload(false);
             
-            console.log('Cropped image saved successfully');
           }
         }, 'image/png');
       };
@@ -181,7 +176,7 @@ const UploadPreview = () => {
       };
 
       // Load the image
-      if (previewSrc && previewSrc.startsWith('blob:')) {
+      if (previewSrc?.startsWith('blob:')) {
         img.src = previewSrc;
       } else {
         try {
