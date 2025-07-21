@@ -23,7 +23,7 @@ const TimelineSpiral = () => {
         <SpiralPath id="curve" points={points as Point[]} />
         <text>
           <textPath xlinkHref="#curve" startOffset={`${offset}%`}>
-            {[...moments, ...moments].map((moment, index) => (
+            {[...moments, ...moments].reverse().map((moment, index) => (
               <Feed
                 feed={mapMomentToToken(moment)}
                 index={index}
