@@ -32,7 +32,7 @@ export const TimelineApiProvider = ({
   const { data, isLoading, error, currentPage, setCurrentPage } =
     useTimelineApi(1, 100, true, artistAddress, includeHidden);
     
-  const reversedMoments = data?.moments ? [...data.moments].reverse() : [];
+  const reversedMoments = data?.moments ? [...data.moments] : [];
   
   return (
     <TimelineContext.Provider
