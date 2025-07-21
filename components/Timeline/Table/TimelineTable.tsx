@@ -6,7 +6,7 @@ import { Table, TableBody } from "@/components/ui/table";
 const TimelineTable = () => {
   const { moments } = useTimelineApiContext();
 
-  const momentsLatestToOldest = moments.reverse();
+  const momentsLatestToOldest = [...moments].reverse();
 
   return (
     <div className="w-full">

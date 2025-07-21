@@ -17,7 +17,7 @@ const TimelineSpiral = () => {
     useSpiralMouseOver();
   const { moments } = useTimelineApiContext();
 
-  const momentsLatestToOldest = moments.reverse();
+  const momentsLatestToOldest = [...moments].reverse();
 
   return (
     <div className="relative mt-12">
