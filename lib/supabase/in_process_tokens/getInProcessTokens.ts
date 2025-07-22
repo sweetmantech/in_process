@@ -32,7 +32,7 @@ export async function getInProcessTokens({
   count: number | null;
   error: Error | null;
 }> {
-  console.log("addresses", addresses);
+  // Removed debug console.log
   const cappedLimit = Math.min(limit, 100);
   let query = supabase
     .from("in_process_tokens")

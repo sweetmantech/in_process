@@ -9,7 +9,8 @@ import { mapMomentsToTokens } from "@/lib/timeline/mapMomentToToken";
 
 const HorizontalTimeline = () => {
   const { moments } = useTimelineApiContext();
-  const tokens = mapMomentsToTokens(moments);
+  // Reverse tokens for horizontal timeline: oldest on left, newest on right
+  const tokens = mapMomentsToTokens(moments).reverse();
   const {
     getHeight,
     isHovered,
@@ -43,7 +44,7 @@ const HorizontalTimeline = () => {
           sliderProps={{
             slidesPerView: "auto",
             grabCursor: true,
-            initialSlide: Math.max(0, tokens.length - 1),
+            initialSlide: 0, // Start from left (oldest)
             mousewheel: {
               sensitivity: 1,
             },
