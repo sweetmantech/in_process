@@ -18,6 +18,10 @@ const useMetadataValues = () => {
   const [isOpenPreviewUpload, setIsOpenPreviewUpload] =
     useState<boolean>(false);
   const [previewSrc, setPreviewSrc] = useState<string>("");
+  
+  // Image transformation state
+  const [imageScale, setImageScale] = useState<number>(1);
+  const [imageOffset, setImageOffset] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
 
   useEffect(() => {
     if (priceUnit === "usdc") {
@@ -52,6 +56,10 @@ const useMetadataValues = () => {
     isOpenPreviewUpload,
     previewSrc,
     setPreviewSrc,
+    imageScale,
+    setImageScale,
+    imageOffset,
+    setImageOffset,
   };
 };
 

@@ -24,6 +24,10 @@ const useCreateMetadata = () => {
     setPreviewUri,
     previewUri,
     setPreviewSrc,
+    imageScale,
+    setImageScale,
+    imageOffset,
+    setImageOffset,
   } = metadataValues;
   const writinig = useWriting();
   const embed = useEmbedCode({
@@ -55,6 +59,8 @@ const useCreateMetadata = () => {
     setAnimationUri("");
     setPreviewUri("");
     setPreviewSrc("");
+    setImageScale(1);
+    setImageOffset({ x: 0, y: 0 });
   };
 
   const getUri = async () => {
