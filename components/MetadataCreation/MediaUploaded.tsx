@@ -6,6 +6,7 @@ import Image from "next/image";
 import React, { Fragment } from "react";
 import PdfViewer from "../Renderers/PdfViewer";
 import VideoPlayer from "../Renderers/VideoPlayer";
+import ImageDisplay from "../CreateForm/ImageDisplay";
 
 interface MediaUploadedProps {
   handleImageClick: () => void;
@@ -64,16 +65,14 @@ const MediaUploaded = ({ handleImageClick }: MediaUploadedProps) => {
 
   if (imageUri) {
     return (
-      <div className="size-full">
-        <Image
-          src={previewSrc || getFetchableUrl(imageUri) || ""}
-          alt="Image Preview"
-          onClick={handleImageClick}
-          blurDataURL={previewSrc}
-          layout="fill"
-          objectFit="contain"
-          objectPosition="center"
-        />
+      <div className="size-full flex items-center justify-center">
+        <div className="w-full max-w-[400px] aspect-video relative">
+          <ImageDisplay
+            src={previewSrc || getFetchableUrl(imageUri) || ""}
+            alt="Image Preview"
+            className="w-full h-full"
+          />
+        </div>
       </div>
     );
   }

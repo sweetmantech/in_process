@@ -27,7 +27,7 @@ const CreateButton = () => {
     try {
       await create();
     } catch (error) {
-      console.error("Error creating:", error);
+      // Error handling without console logging
     }
   };
 

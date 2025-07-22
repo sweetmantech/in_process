@@ -35,7 +35,7 @@ const PreviewModal = () => {
           set preview
         </button>
       </DialogTrigger>
-      <DialogContent className="max-w-xl !rounded-3xl !bg-white border-none py-6 !px-4 flex flex-col items-center !gap-0 shadow-lg overflow-hidden bg-transparent">
+      <DialogContent className="w-[600px] !rounded-3xl !bg-white border-none py-6 !px-4 flex flex-col items-center !gap-0 shadow-lg overflow-hidden bg-transparent">
         <VisuallyHidden>
           <DialogTitle>Leave feedback</DialogTitle>
         </VisuallyHidden>

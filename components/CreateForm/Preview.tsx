@@ -4,6 +4,7 @@ import Image from "next/image";
 import PreviewModal from "./PreviewModal";
 import WritingPreview from "./WritingPreview";
 import { Fragment, ReactNode } from "react";
+import ImageDisplay from "./ImageDisplay";
 
 const PreviewContainer = ({ children }: { children: ReactNode }) => {
   return (
@@ -21,12 +22,10 @@ const Preview = () => {
     <div>
       {previewUri && (
         <PreviewContainer>
-          <Image
-            layout="fill"
-            objectFit="cover"
-            objectPosition="center"
+          <ImageDisplay
             src={previewSrc}
             alt="not found preview."
+            className="w-full h-full"
           />
         </PreviewContainer>
       )}

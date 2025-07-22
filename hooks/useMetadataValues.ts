@@ -1,6 +1,11 @@
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 
+interface ImagePosition {
+  x: number;
+  y: number;
+}
+
 const useMetadataValues = () => {
   const pathname = usePathname();
   const isUsdc = pathname.includes("/usdc");
@@ -18,6 +23,10 @@ const useMetadataValues = () => {
   const [isOpenPreviewUpload, setIsOpenPreviewUpload] =
     useState<boolean>(false);
   const [previewSrc, setPreviewSrc] = useState<string>("");
+  
+  // Image repositioning state
+  const [imagePosition, setImagePosition] = useState<ImagePosition>({ x: 0, y: 0 });
+  const [imageScale, setImageScale] = useState<number>(1);
 
   useEffect(() => {
     if (priceUnit === "usdc") {
@@ -52,6 +61,10 @@ const useMetadataValues = () => {
     isOpenPreviewUpload,
     previewSrc,
     setPreviewSrc,
+    imagePosition,
+    setImagePosition,
+    imageScale,
+    setImageScale,
   };
 };
 
