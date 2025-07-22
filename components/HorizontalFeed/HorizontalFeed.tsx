@@ -17,6 +17,8 @@ const HorizontalFeed: FC<HorizontalFeedProps> = ({
   feeds,
   fetchMore = () => {},
 }) => {
+  // Reverse feeds for horizontal timeline: oldest on left, newest on right
+  const reversedFeeds = [...feeds].reverse();
   const {
     getHeight,
     isHovered,
@@ -50,7 +52,7 @@ const HorizontalFeed: FC<HorizontalFeedProps> = ({
           sliderProps={{
             slidesPerView: "auto",
             grabCursor: true,
-            initialSlide: Math.max(0, feeds.length - 1),
+            initialSlide: 0, // Start from left (oldest)
             mousewheel: {
               sensitivity: 1,
             },
@@ -67,12 +69,12 @@ const HorizontalFeed: FC<HorizontalFeedProps> = ({
           className="w-full !overflow-visible !h-0"
           slideClassName="!w-fit !m-0"
         >
-          {Array.from({ length: feeds.length + 1 }).map((_, i) => (
+          {Array.from({ length: reversedFeeds.length + 1 }).map((_, i) => (
             <>
-              {i < feeds.length ? (
+              {i < reversedFeeds.length ? (
                 <Feed
                   key={i}
-                  feed={feeds[i]}
+                  feed={reversedFeeds[i]}
                   hovered={isHovered(i)}
                   step={1}
                   height={getHeight(i)}
