@@ -44,7 +44,7 @@ const Footer = () => {
         {/* Right side – nav links & social icons */}
         <div className="flex items-start md:items-center gap-4">
           {/* Navigation */}
-          <div className="flex flex-col font-archivo-bold text-md space-y-1 items-end">
+          <div className="flex flex-col font-archivo-bold text-md space-y-1 items-start md:items-end text-left md:text-right">
             <button type="button" onClick={() => push("/manifesto")}>
               manifesto
             </button>
