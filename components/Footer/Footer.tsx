@@ -20,15 +20,11 @@ const Footer = () => {
       <div className="my-8 h-[1px] bg-grey-moss-400 w-full block md:hidden" />
 
       {/* Shared responsive layout */}
-      <div className="flex justify-between items-start md:items-center">
-        {/* Left side – logo & copyright */}
-        <div className="flex flex-col md:flex-row items-start md:items-center">
+      <div className="flex items-start md:items-center gap-4">
+        {/* Logo & copyright */}
+        <div className="flex flex-col items-start md:items-center">
           {clientRendered && (
-            <Link
-              href="/"
-              aria-label="Go to homepage"
-              className="md:mr-2 mb-2 md:mb-0"
-            >
+            <Link href="/" aria-label="Go to homepage" className="mb-2 md:mb-0">
               <Image
                 src="/footer_logo.svg"
                 blurDataURL="/footer_logo.png"
@@ -41,46 +37,42 @@ const Footer = () => {
           <p className="font-archivo-bold text-md !uppercase">© TOPIA</p>
         </div>
 
-        {/* Right side – nav links & social icons */}
-        <div className="flex items-start md:items-center gap-4">
-          {/* Navigation */}
-          <div className="flex flex-col font-archivo-bold text-md space-y-1 items-start md:items-end text-left md:text-right">
-            <button type="button" onClick={() => push("/manifesto")}>
-              manifesto
-            </button>
-            <button type="button" onClick={() => push("/faq")}>
-              faq
-            </button>
-            {/* Feedback modal trigger uses its own dialog */}
-            <FeedbackModal />
-          </div>
+        {/* Navigation links */}
+        <div className="flex flex-col font-archivo-bold text-md space-y-1 text-left md:text-right items-start md:items-end">
+          <button type="button" onClick={() => push("/manifesto")}>
+            manifesto
+          </button>
+          <button type="button" onClick={() => push("/faq")}>
+            faq
+          </button>
+          <FeedbackModal />
+        </div>
 
-          {/* Icons */}
-          <div className="flex flex-col md:flex-row gap-2 items-center">
-            <a
-              href="https://x.com/stayinprocess"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="X"
-              className="block"
-            >
-              <Image src="/x.png" alt="X icon" width={36} height={36} />
-            </a>
-            <a
-              href="https://warpcast.com/callmelatasha"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Farcaster"
-              className="block"
-            >
-              <Image
-                src="/farcaster.png"
-                alt="Farcaster icon"
-                width={36}
-                height={36}
-              />
-            </a>
-          </div>
+        {/* Icons row */}
+        <div className="flex flex-row gap-2 items-center ml-auto">
+          <a
+            href="https://x.com/stayinprocess"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="X"
+            className="block"
+          >
+            <Image src="/images/x.svg" alt="X icon" width={36} height={36} />
+          </a>
+          <a
+            href="https://warpcast.com/callmelatasha"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Farcaster"
+            className="block"
+          >
+            <Image
+              src="/images/farcaster.svg"
+              alt="Farcaster icon"
+              width={36}
+              height={36}
+            />
+          </a>
         </div>
       </div>
     </main>
