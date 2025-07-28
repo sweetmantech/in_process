@@ -58,7 +58,7 @@ const Footer = () => {
           {/* Icons */}
           <div className="flex flex-col md:flex-row gap-2 items-center">
             <a
-              href="https://x.com/inprocesstopia"
+              href="https://x.com/stayinprocess"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="X"
@@ -67,7 +67,7 @@ const Footer = () => {
               <Image src="/x.png" alt="X icon" width={36} height={36} />
             </a>
             <a
-              href="https://warpcast.com/in-process"
+              href="https://warpcast.com/callmelatasha"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Farcaster"
