@@ -28,7 +28,7 @@ const FeedbackModal = () => {
         onClick={() => setIsOpenModal(true)}
         className="disabled:cursor-not-allowed disabled:bg-grey-moss-300"
       >
-        <button type="button">leave feedback</button>
+        <button type="button">feedback</button>
       </DialogTrigger>
       <DialogContent className="max-w-xl !rounded-3xl !bg-white border-none py-10 px-8 flex flex-col items-center !gap-0 shadow-lg overflow-hidden bg-transparent">
         <VisuallyHidden>
