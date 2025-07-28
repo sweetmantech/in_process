@@ -13,7 +13,7 @@ const FooterSocialIcons = () => {
         <Image src="/images/x.svg" alt="X icon" width={36} height={36} />
       </a>
       <a
-        href="https://warpcast.com/callmelatasha"
+        href="https://farcaster.xyz/callmelatasha"
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Farcaster"
