@@ -20,7 +20,7 @@ const Footer = () => {
       <div className="my-8 h-[1px] bg-grey-moss-400 w-full block md:hidden" />
 
       {/* Shared responsive layout */}
-      <div className="flex items-start md:items-center gap-4">
+      <div className="flex w-full items-start md:items-center gap-4">
         {/* Logo & copyright */}
         <div className="flex flex-col items-start md:items-center">
           {clientRendered && (
@@ -38,7 +38,7 @@ const Footer = () => {
         </div>
 
         {/* Navigation links */}
-        <div className="flex flex-col font-archivo-bold text-md space-y-1 text-left md:text-right items-start md:items-end">
+        <div className="flex flex-col font-archivo-bold text-md space-y-1 text-left md:text-right items-start md:items-end md:ml-auto">
           <button type="button" onClick={() => push("/manifesto")}>
             manifesto
           </button>
@@ -49,7 +49,7 @@ const Footer = () => {
         </div>
 
         {/* Icons row */}
-        <div className="flex flex-row gap-2 items-center ml-auto">
+        <div className="flex flex-row gap-2 items-center ml-auto md:ml-0">
           <a
             href="https://x.com/stayinprocess"
             target="_blank"
