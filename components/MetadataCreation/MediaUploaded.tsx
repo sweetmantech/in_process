@@ -2,7 +2,6 @@ import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
 import Spinner from "../ui/spinner";
 import AudioPlayer from "./AudioPlayer";
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
-import Image from "next/image";
 import React, { Fragment } from "react";
 import PdfViewer from "../Renderers/PdfViewer";
 import VideoPlayer from "../Renderers/VideoPlayer";
