@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import { ChangeEvent, useRef, useState } from "react";
 import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
-import Image from "next/image";
+import ImagePreview from "./ImagePreview";
 import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
 import { toast } from "sonner";
 import WritingPreview from "./WritingPreview";
@@ -12,7 +12,6 @@ const UploadPreview = () => {
     previewUri,
     setPreviewUri,
     writingText,
-    setIsEditingPreview,
     setIsOpenPreviewUpload,
     previewSrc,
     setPreviewSrc,
@@ -54,17 +53,13 @@ const UploadPreview = () => {
         accept="image/*"
         onChange={handlePreviewUpload}
       />
-      <div className="w-3/4 aspect-video relative border border-grey mt-2 font-spectral overflow-hidden">
-        {previewUri && !isUploading ? (
-          // eslint-disable-next-line
-          <Image
-            layout="fill"
-            objectFit="cover"
-            objectPosition="center"
-            src={previewSrc}
-            alt="not found preview."
-          />
-        ) : (
+      <div className="w-full aspect-video relative border border-grey mt-2 font-spectral overflow-hidden">
+                               {previewUri && !isUploading ? (
+                         <ImagePreview
+                           src={previewSrc}
+                           alt="not found preview."
+                         />
+                       ) : (
           <>
             {writingText && !isUploading ? (
               <WritingPreview />
@@ -79,15 +74,17 @@ const UploadPreview = () => {
         )}
       </div>
       <button
-        className="font-spectral-italic cursor-pointer"
         type="button"
-        onClick={() => setIsEditingPreview(true)}
+        className="w-full mt-2 py-2 font-archivo rounded-sm border border-grey-moss-900 
+        hover:border-grey-moss-300 hover:text-grey-eggshell hover:bg-grey-moss-300
+        transform transition-transform duration-150"
+        onClick={() => setIsOpenPreviewUpload(true)}
       >
-        click to resize
+        set preview
       </button>
       <button
         type="button"
-        className="border border-grey-moss-900 w-3/4 mt-2 py-2 font-archivo rounded-sm 
+        className="border border-grey-moss-900 w-full mt-2 py-2 font-archivo rounded-sm 
         hover:border-grey-moss-300 hover:text-grey-eggshell hover:bg-grey-moss-300
         transform transition-transform duration-150 
         disabled:opacity-1 disabled:!cursor-not-allowed disabled:!pointer-events-auto"
@@ -97,7 +94,7 @@ const UploadPreview = () => {
       </button>
       <button
         type="button"
-        className="w-3/4 mt-2 py-2 font-archivo rounded-sm bg-grey-moss-900 text-grey-eggshell
+        className="w-full mt-2 py-2 font-archivo rounded-sm bg-grey-moss-900 text-grey-eggshell
         hover:border-grey-moss-300 hover:bg-grey-moss-300
         transform transition-transform duration-150 
         disabled:opacity-1 disabled:!cursor-not-allowed disabled:!pointer-events-auto"

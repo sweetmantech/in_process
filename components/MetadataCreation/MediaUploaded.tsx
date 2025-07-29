@@ -6,6 +6,7 @@ import Image from "next/image";
 import React, { Fragment } from "react";
 import PdfViewer from "../Renderers/PdfViewer";
 import VideoPlayer from "../Renderers/VideoPlayer";
+import CropPreview from "../CreateForm/CropPreview";
 
 interface MediaUploadedProps {
   handleImageClick: () => void;
@@ -28,6 +29,7 @@ const MediaUploaded = ({ handleImageClick }: MediaUploadedProps) => {
     imageUri,
     pctComplete,
     previewSrc,
+    previewPosition,
   } = useZoraCreateProvider();
 
   if (fileUploading) {
@@ -65,14 +67,9 @@ const MediaUploaded = ({ handleImageClick }: MediaUploadedProps) => {
   if (imageUri) {
     return (
       <div className="size-full">
-        <Image
+        <CropPreview
           src={previewSrc || getFetchableUrl(imageUri) || ""}
           alt="Image Preview"
-          onClick={handleImageClick}
-          blurDataURL={previewSrc}
-          layout="fill"
-          objectFit="contain"
-          objectPosition="center"
         />
       </div>
     );
