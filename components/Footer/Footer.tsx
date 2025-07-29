@@ -9,7 +9,7 @@ const Footer = () => {
       <div className="my-8 h-[1px] bg-grey-moss-400 w-full block md:hidden" />
 
       {/* Shared responsive layout */}
-      <div className="flex w-full items-start md:items-center gap-4">
+      <div className="flex w-full items-start gap-4">
         <FooterLogo />
         <FooterNavLinks />
         <FooterSocialIcons />
