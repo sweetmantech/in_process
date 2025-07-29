@@ -10,8 +10,13 @@ import UploadPreview from "./UploadPreview";
 import ImageEditor from "./ImageEditor";
 
 const PreviewModal = () => {
-  const { setIsOpenPreviewUpload, isOpenPreviewUpload, isEditingPreview } =
+  const { setIsOpenPreviewUpload, isOpenPreviewUpload, isEditingPreview, previewSrc } =
     useZoraCreateProvider();
+
+  // Don't render ImageEditor if no preview source is available
+  if (isEditingPreview && !previewSrc) {
+    return null;
+  }
 
   return (
     <Dialog
@@ -39,7 +44,7 @@ const PreviewModal = () => {
         <VisuallyHidden>
           <DialogTitle>Leave feedback</DialogTitle>
         </VisuallyHidden>
-        {isEditingPreview ? <ImageEditor /> : <UploadPreview />}
+        {isEditingPreview ? <ImageEditor src={previewSrc} alt="Preview image" /> : <UploadPreview />}
       </DialogContent>
     </Dialog>
   );
