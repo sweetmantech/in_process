@@ -69,11 +69,11 @@ const ImageEditor = ({ src, alt }: ImageEditorProps) => {
       onWheel={handleWheel}
     >
       <Image
-        layout="fill"
-        objectFit="cover"
+        fill
         src={src}
         alt={alt}
         style={{
+          objectFit: "cover",
           transform: `translate(${previewPosition.x}px, ${previewPosition.y}px) scale(${previewScale})`,
           transition: isDragging ? "none" : "transform 0.1s ease-out",
         }}

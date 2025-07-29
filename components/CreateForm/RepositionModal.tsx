@@ -10,9 +10,7 @@ import ImageEditor from "./ImageEditor";
 const RepositionModal = () => {
   const { 
     previewSrc, 
-    previewPosition, 
     setPreviewPosition, 
-    previewScale,
     setPreviewScale,
     isOpenPreviewUpload, 
     setIsOpenPreviewUpload 

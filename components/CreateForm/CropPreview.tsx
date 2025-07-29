@@ -21,8 +21,8 @@ const CropPreview = ({ src, alt }: CropPreviewProps) => {
         <Image
           src={src}
           alt={alt}
-          layout="fill"
-          objectFit="cover"
+          fill
+          style={{ objectFit: "cover" }}
           draggable={false}
         />
       </div>

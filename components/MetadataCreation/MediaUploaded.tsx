@@ -29,7 +29,6 @@ const MediaUploaded = ({ handleImageClick }: MediaUploadedProps) => {
     imageUri,
     pctComplete,
     previewSrc,
-    previewPosition,
   } = useZoraCreateProvider();
 
   if (fileUploading) {
