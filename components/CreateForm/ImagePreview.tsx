@@ -12,11 +12,11 @@ const ImagePreview = ({ src, alt }: ImagePreviewProps) => {
   return (
     <div className="relative w-full h-full overflow-hidden">
       <Image
-        layout="fill"
-        objectFit="cover"
+        fill
         src={src}
         alt={alt}
         style={{
+          objectFit: "cover",
           transform: `translate(${previewPosition.x}px, ${previewPosition.y}px) scale(${previewScale})`,
           transition: "transform 0.1s ease-out",
         }}
