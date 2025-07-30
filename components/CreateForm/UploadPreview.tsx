@@ -6,6 +6,7 @@ import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
 import { toast } from "sonner";
 import WritingPreview from "./WritingPreview";
 import { Label } from "../ui/label";
+import ImageRepositioner from "./ImageRepositioner";
 
 const UploadPreview = () => {
   const {
@@ -54,15 +55,12 @@ const UploadPreview = () => {
         accept="image/*"
         onChange={handlePreviewUpload}
       />
-      <div className="w-3/4 aspect-video relative border border-grey mt-2 font-spectral overflow-hidden">
+      <div className="w-full aspect-video relative border border-grey mt-2 font-spectral overflow-hidden">
         {previewUri && !isUploading ? (
-          // eslint-disable-next-line
-          <Image
-            layout="fill"
-            objectFit="cover"
-            objectPosition="center"
+          <ImageRepositioner
             src={previewSrc}
             alt="not found preview."
+            className="w-full h-full"
           />
         ) : (
           <>
@@ -83,7 +81,7 @@ const UploadPreview = () => {
         type="button"
         onClick={() => setIsEditingPreview(true)}
       >
-        click to resize
+        drag to reposition
       </button>
       <button
         type="button"

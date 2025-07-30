@@ -17,6 +17,7 @@ import {
   Loader2,
   ChevronLeft,
 } from "lucide-react";
+import ImageRepositioner from "./ImageRepositioner";
 import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
 import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
 
@@ -41,7 +42,7 @@ interface DragState {
 }
 
 export default function ImageEditor(): ReactElement {
-  const { setIsEditingPreview, setPreviewUri, previewSrc, setPreviewSrc } =
+  const { setIsEditingPreview, setPreviewUri, previewSrc, setPreviewSrc, imagePosition, setImagePosition, imageScale, setImageScale } =
     useZoraCreateProvider();
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -145,7 +146,6 @@ export default function ImageEditor(): ReactElement {
           setImageDisplaySize({ width: displayWidth, height: displayHeight });
           setIsLoading(false);
         } catch (canvasError) {
-          console.error(canvasError);
           setError(
             "Failed to process image. The image might be from a different domain.",
           );
@@ -160,7 +160,6 @@ export default function ImageEditor(): ReactElement {
 
       img.src = url;
     } catch (err) {
-      console.error(err);
       setError("Invalid image URL");
       setIsLoading(false);
     }
@@ -419,20 +418,36 @@ export default function ImageEditor(): ReactElement {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    canvas.width = currentDimensions.width;
-    canvas.height = currentDimensions.height;
+    // Create a larger canvas to accommodate the transformed image
+    const containerWidth = 1200; // Standard preview width
+    const containerHeight = 675; // Standard preview height (16:9 aspect ratio)
+    
+    canvas.width = containerWidth;
+    canvas.height = containerHeight;
 
     const img = new Image();
     img.onload = () => {
+      // Clear canvas
+      ctx.clearRect(0, 0, containerWidth, containerHeight);
+      
+      // Calculate the scaled dimensions
+      const scaledWidth = currentDimensions.width * imageScale;
+      const scaledHeight = currentDimensions.height * imageScale;
+      
+      // Calculate the position to center the image and apply the offset
+      const centerX = (containerWidth - scaledWidth) / 2 + imagePosition.x;
+      const centerY = (containerHeight - scaledHeight) / 2 + imagePosition.y;
+      
+      // Draw the image with transformations
       ctx.drawImage(
         img,
-        0,
-        0,
-        currentDimensions.width,
-        currentDimensions.height,
+        centerX,
+        centerY,
+        scaledWidth,
+        scaledHeight,
       );
 
-      // Download the resized image
+      // Download the transformed image
       canvas.toBlob(async (blob) => {
         if (blob) {
           setIsUploading(true);
@@ -440,6 +455,9 @@ export default function ImageEditor(): ReactElement {
           const uri = await clientUploadToArweave(file);
           setPreviewSrc(URL.createObjectURL(file));
           setPreviewUri(uri);
+          // Reset position and scale after applying transformations
+          setImagePosition({ x: 0, y: 0 });
+          setImageScale(1);
           setIsUploading(false);
           setIsEditingPreview(false);
         }
@@ -447,7 +465,7 @@ export default function ImageEditor(): ReactElement {
     };
     img.src = selectedImage;
     // eslint-disable-next-line
-  }, [selectedImage, currentDimensions]);
+  }, [selectedImage, currentDimensions, imagePosition, imageScale, setImagePosition, setImageScale]);
 
   if (isLoading) {
     return (
@@ -504,6 +522,20 @@ export default function ImageEditor(): ReactElement {
 
   return (
     <div className="w-full px-2 space-y-6">
+      {/* Synchronized Preview Section */}
+      {previewSrc && (
+        <div className="w-full space-y-2">
+          <Label className="font-archivo-medium text-lg">Live Preview (Synchronized)</Label>
+          <div className="w-full aspect-video relative border border-grey overflow-hidden">
+            <ImageRepositioner
+              src={previewSrc}
+              alt="Synchronized preview"
+              className="w-full h-full"
+            />
+          </div>
+        </div>
+      )}
+      
       {selectedImage && (
         <>
           <div className="w-full space-y-2">
