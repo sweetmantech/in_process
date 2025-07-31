@@ -1,47 +1,63 @@
-import { Fragment } from "react";
-import { ChangeEvent, useRef, useState } from "react";
+import { Fragment, useRef, useCallback } from "react";
 import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
 import Image from "next/image";
-import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
 import { toast } from "sonner";
 import WritingPreview from "./WritingPreview";
 import { Label } from "../ui/label";
+import { useImageInteraction } from "@/hooks/useImageInteraction";
+import { useFileUpload } from "@/hooks/useFileUpload";
+import { ImageCropper } from "@/lib/image/imageCropper";
 
 const UploadPreview = () => {
   const {
     previewUri,
     setPreviewUri,
     writingText,
-    setIsEditingPreview,
     setIsOpenPreviewUpload,
     previewSrc,
     setPreviewSrc,
   } = useZoraCreateProvider();
-  const [progress, setProgress] = useState<number>(0);
-  const previewRef = useRef() as any;
-  const [isUploading, setIsUploading] = useState<boolean>(false);
+  
+  const previewRef = useRef<HTMLInputElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
-  const handleClick = () => {
+  const {
+    scale,
+    position,
+    isDragging,
+    handleMouseDown,
+    handleWheel,
+    resetTransform,
+  } = useImageInteraction({ containerRef });
+
+  const {
+    progress,
+    isUploading,
+    handleFileUpload,
+  } = useFileUpload({
+    setPreviewSrc,
+    setPreviewUri,
+  });
+
+  const handleClick = useCallback(() => {
     if (!previewRef.current) return;
     previewRef.current.click();
-  };
+  }, []);
 
-  const handlePreviewUpload = async (e: ChangeEvent<HTMLInputElement>) => {
-    setIsUploading(true);
-    const files = e.target.files;
-    if (!files?.length) return;
-    const file = files[0];
-    if (!file.type.includes("image")) {
-      toast.error("please, select only image file.");
-      return;
+  const handleCropAndClose = useCallback(async () => {
+    // Apply crop if image has been zoomed or moved
+    if (scale > 1 || position.x !== 0 || position.y !== 0) {
+      try {
+        const result = await ImageCropper.cropImage(previewSrc, position, scale);
+        setPreviewSrc(result.croppedImageUrl);
+        resetTransform();
+      } catch (error) {
+        toast.error("Failed to crop image.");
+      }
     }
-    const previewUri = await clientUploadToArweave(file, (value: number) =>
-      setProgress(value),
-    );
-    setPreviewSrc(URL.createObjectURL(file));
-    setPreviewUri(previewUri);
-    setIsUploading(false);
-  };
+    setIsOpenPreviewUpload(false);
+  }, [scale, position, previewSrc, setPreviewSrc, resetTransform, setIsOpenPreviewUpload]);
+
   return (
     <Fragment>
       <Label className="font-archivo-medium text-2xl text-center w-full">
@@ -52,17 +68,26 @@ const UploadPreview = () => {
         className="hidden"
         ref={previewRef}
         accept="image/*"
-        onChange={handlePreviewUpload}
+        onChange={handleFileUpload}
       />
-      <div className="w-3/4 aspect-video relative border border-grey mt-2 font-spectral overflow-hidden">
+      <div 
+        ref={containerRef}
+        className="w-3/4 aspect-video relative border border-grey mt-2 font-spectral overflow-hidden cursor-move"
+        onMouseDown={handleMouseDown}
+        onWheel={handleWheel}
+      >
         {previewUri && !isUploading ? (
-          // eslint-disable-next-line
           <Image
             layout="fill"
             objectFit="cover"
             objectPosition="center"
             src={previewSrc}
             alt="not found preview."
+            style={{
+              transform: `translate(${position.x}px, ${position.y}px) scale(${scale})`,
+              transition: isDragging ? "none" : "transform 0.1s ease-out",
+            }}
+            draggable={false}
           />
         ) : (
           <>
@@ -79,13 +104,6 @@ const UploadPreview = () => {
         )}
       </div>
       <button
-        className="font-spectral-italic cursor-pointer"
-        type="button"
-        onClick={() => setIsEditingPreview(true)}
-      >
-        click to resize
-      </button>
-      <button
         type="button"
         className="border border-grey-moss-900 w-3/4 mt-2 py-2 font-archivo rounded-sm 
         hover:border-grey-moss-300 hover:text-grey-eggshell hover:bg-grey-moss-300
@@ -101,7 +119,7 @@ const UploadPreview = () => {
         hover:border-grey-moss-300 hover:bg-grey-moss-300
         transform transition-transform duration-150 
         disabled:opacity-1 disabled:!cursor-not-allowed disabled:!pointer-events-auto"
-        onClick={() => setIsOpenPreviewUpload(false)}
+        onClick={handleCropAndClose}
       >
         done
       </button>
