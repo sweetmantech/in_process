@@ -1,7 +1,6 @@
 "use client";
 
 import { useAirdropProvider } from "@/providers/AirdropProvider";
-import { useState } from "react";
 import AirdropButton from "./AirdropButton";
 import { X } from "lucide-react";
 import { AirdropItem } from "@/hooks/useAirdrop";
