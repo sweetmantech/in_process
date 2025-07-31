@@ -1,7 +1,7 @@
 "use client";
 
 import { useAirdropProvider } from "@/providers/AirdropProvider";
-import { KeyboardEvent, useState } from "react";
+import { KeyboardEvent, ClipboardEvent, useState } from "react";
 import AirdropButton from "./AirdropButton";
 import { X } from "lucide-react";
 import { AirdropItem } from "@/hooks/useAirdrop";
@@ -12,15 +12,48 @@ const Airdrop = () => {
     useAirdropProvider();
   const [value, setValue] = useState("");
 
-  const handleInput = (e: KeyboardEvent<HTMLInputElement>) => {
+  // When the user presses Enter we want to submit whatever is currently in the
+  // input. The user might have typed or pasted multiple lines, so we split the
+  // value on new-lines, trim each entry and ignore blank rows.
+  const handleInput = async (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      onChangeAddress(value);
+      const items = value
+        .split(/\r?\n/) // handle both Windows and Unix newlines
+        .map((item) => item.trim())
+        .filter(Boolean);
+
+      for (const item of items) {
+        await onChangeAddress(item);
+      }
       setValue("");
     }
   };
 
-  const handleBlur = () => {
-    onChangeAddress(value);
+  // Support pasting a column of cells (e.g. from Google Sheets / Docs). We
+  // intercept the paste event, extract the text, split on new-lines, and add
+  // each non-empty row as a separate address to validate. We prevent the
+  // default paste behaviour so that the raw multi-line text is not inserted
+  // into the input field.
+  const handlePaste = async (e: ClipboardEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    const text = e.clipboardData.getData("text");
+
+    const items = text
+      .split(/\r?\n/)
+      .map((item) => item.trim())
+      .filter(Boolean);
+
+    for (const item of items) {
+      await onChangeAddress(item);
+    }
+
+    // Clear the input after processing the pasted data so the user can type
+    // again immediately.
+    setValue("");
+  };
+
+  const handleBlur = async () => {
+    await onChangeAddress(value);
     setValue("");
   };
 
@@ -55,6 +88,7 @@ const Airdrop = () => {
             value={value}
             onChange={(e) => setValue(e.target.value)}
             onKeyDown={handleInput}
+            onPaste={handlePaste}
             onBlur={handleBlur}
             autoFocus={true}
           />
