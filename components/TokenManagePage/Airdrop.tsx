@@ -3,13 +3,11 @@
 import { useAirdropProvider } from "@/providers/AirdropProvider";
 import AirdropButton from "./AirdropButton";
 import { AirdropItem } from "@/hooks/useAirdrop";
-import useAirdropInput from "@/hooks/useAirdropInput";
 import AirdropBadge from "./AirdropBadge";
+import AirdropInput from "./AirdropInput";
 
 const Airdrop = () => {
   const { airdopToItems } = useAirdropProvider();
-  const { handleInput, handlePaste, handleBlur, value, setValue } =
-    useAirdropInput();
 
   return (
     <div className="px-4 md:px-10 w-full">
@@ -18,16 +16,7 @@ const Airdrop = () => {
           {airdopToItems.map((item: AirdropItem, i) => (
             <AirdropBadge item={item} i={i} key={item.address} />
           ))}
-          <input
-            type="text"
-            className="h-fit py-1 px-2 font-archivo !outline-0 !ring-0 text-xs md:text-lg"
-            value={value}
-            onChange={(e) => setValue(e.target.value)}
-            onKeyDown={handleInput}
-            onPaste={handlePaste}
-            onBlur={handleBlur}
-            autoFocus={true}
-          />
+          <AirdropInput />
         </div>
       </div>
       <AirdropButton />
