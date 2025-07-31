@@ -9,7 +9,6 @@ import { getPublicClient } from "@/lib/viem/publicClient";
 import { useParams } from "next/navigation";
 import { mainnet } from "viem/chains";
 import { normalize } from "viem/ens";
-import { useSwitchChain } from "wagmi";
 import getViemNetwork from "@/lib/viem/getViemNetwork";
 
 export interface AirdropItem {
@@ -25,7 +24,6 @@ const useAirdrop = () => {
   const { signTransaction } = useSignTransaction();
   const signedAddress = useSignedAddress();
   const params = useParams();
-  const { switchChainAsync } = useSwitchChain();
 
   const onChangeAddress = async (value: string) => {
     if (!value) return;
@@ -86,7 +84,7 @@ const useAirdrop = () => {
           value: BigInt(0),
           chain: getViemNetwork(collection.chainId),
         },
-        collection.chainId,
+        collection.chainId
       );
       const publicClient: any = getPublicClient(collection.chainId);
       const receipt = await publicClient.waitForTransactionReceipt({ hash });
