@@ -1,28 +1,16 @@
 "use client";
 
 import { useAirdropProvider } from "@/providers/AirdropProvider";
-import { KeyboardEvent, useState } from "react";
 import AirdropButton from "./AirdropButton";
 import { X } from "lucide-react";
 import { AirdropItem } from "@/hooks/useAirdrop";
 import truncateAddress from "@/lib/truncateAddress";
+import useAirdropInput from "@/hooks/useAirdropInput";
 
 const Airdrop = () => {
-  const { airdopToItems, onChangeAddress, removeAddress } =
-    useAirdropProvider();
-  const [value, setValue] = useState("");
-
-  const handleInput = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      onChangeAddress(value);
-      setValue("");
-    }
-  };
-
-  const handleBlur = () => {
-    onChangeAddress(value);
-    setValue("");
-  };
+  const { airdopToItems, removeAddress } = useAirdropProvider();
+  const { handleInput, handlePaste, handleBlur, value, setValue } =
+    useAirdropInput();
 
   return (
     <div className="px-4 md:px-10 w-full">
@@ -55,6 +43,7 @@ const Airdrop = () => {
             value={value}
             onChange={(e) => setValue(e.target.value)}
             onKeyDown={handleInput}
+            onPaste={handlePaste}
             onBlur={handleBlur}
             autoFocus={true}
           />
