@@ -38,9 +38,6 @@ const useAirdropInput = () => {
     for (const item of items) {
       await onChangeAddress(item);
     }
-
-    // Clear the input after processing the pasted data so the user can type
-    // again immediately.
     setValue("");
   };
 
