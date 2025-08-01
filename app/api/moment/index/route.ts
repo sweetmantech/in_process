@@ -7,7 +7,7 @@ import indexMoment from "@/lib/moment/indexMoment";
 // Validation schema for the request body
 const indexMomentSchema = z.object({
   address: z.string().regex(/^0x[0-9a-fA-F]{40}$/),
-  tokenId: z.number().int().positive().optional().default(1),
+  tokenId: z.number().int().gte(0).optional().default(0),
   chainId: z.number().optional().default(CHAIN_ID),
 });
 
