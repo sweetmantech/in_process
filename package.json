@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbo",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -11,7 +11,7 @@
     "format": "pnpm run prettier:fix & pnpm lint"
   },
   "dependencies": {
-    "@ardrive/turbo-sdk": "^1.22.1",
+    "@ardrive/turbo-sdk": "^1.28.2",
     "@coinbase/cdp-sdk": "^1.13.0",
     "@coinbase/coinbase-sdk": "^0.21.0",
     "@crossmint/client-sdk-react-ui": "^1.17.0",
@@ -47,7 +47,6 @@
     "abitype": "^1.0.8",
     "alchemy-sdk": "^3.5.9",
     "arbundles": "^0.11.2",
-    "arweave": "^1.15.5",
     "canvas": "2.11.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
