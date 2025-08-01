@@ -1,5 +1,7 @@
 import { Address } from "viem";
-import { upsertInProcessTokens } from "../supabase/in_process_tokens/upsertInProcessTokens";
+import { getInProcessTokens } from "@/lib/supabase/in_process_tokens/getInProcessTokens";
+import { updateInProcessTokens } from "@/lib/supabase/in_process_tokens/updateInProcessTokens";
+import { insertInProcessTokens } from "@/lib/supabase/in_process_tokens/insertInProcessTokens";
 import getTokenInfo from "../viem/getTokenInfo";
 
 const indexMoment = async (
@@ -7,38 +9,59 @@ const indexMoment = async (
   tokenId: number,
   chainId: number
 ) => {
-  // Fetch onchain details using helper
+  // Fetch on-chain details
   const { tokenUri: uri, owner: admin } = await getTokenInfo(
     address,
     tokenId.toString(),
     chainId
   );
 
-  // Upsert the moment in a single call
-  const { data: upsertedRows, error: upsertError } =
-    await upsertInProcessTokens({
-      tokens: [
-        {
-          address,
-          tokenId,
-          chainId,
-          uri,
-          defaultAdmin: admin as Address,
-          createdAt: new Date().toISOString(),
-          hidden: false,
-        },
-      ],
-    });
+  // Look for existing moment
+  const { data: existingRows, error: fetchError } = await getInProcessTokens({
+    addresses: [address],
+    tokenIds: [tokenId],
+    chainId,
+    hidden: true, // include hidden + visible
+  });
 
-  if (upsertError) throw upsertError;
+  if (fetchError) throw fetchError;
 
-  const momentRow = upsertedRows?.[0];
+  let row;
+  if (existingRows && existingRows.length > 0) {
+    // Update existing row
+    const ids = existingRows.map((r) => r.id);
+    const { data: updatedRows, error: updateError } =
+      await updateInProcessTokens({
+        ids,
+        update: { uri, defaultAdmin: admin as Address },
+      });
+    if (updateError) throw updateError;
+    row = updatedRows?.[0];
+  } else {
+    // Insert new row when missing
+    const { data: insertedRows, error: insertError } =
+      await insertInProcessTokens({
+        tokens: [
+          {
+            address,
+            tokenId,
+            chainId,
+            uri,
+            defaultAdmin: admin as Address,
+            createdAt: new Date().toISOString(),
+            hidden: false,
+          },
+        ],
+      });
+    if (insertError) throw insertError;
+    row = insertedRows?.[0];
+  }
 
-  if (!momentRow) throw new Error("Failed to index moment");
+  if (!row) throw new Error("Failed to index moment");
 
   return {
-    ...momentRow,
-    admin: momentRow.defaultAdmin,
+    ...row,
+    admin: row.defaultAdmin,
   };
 };
 
