@@ -1,88 +1,53 @@
-import { Dispatch, SetStateAction, useState } from "react";
-import captureImageFromVideo from "@/lib/captureImageFromVideo";
-import base64ToFile from "@/lib/base64ToFile";
-import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
-import { MAX_FILE_SIZE } from "@/lib/consts";
-import { toast } from "sonner";
+import { useState, useCallback } from 'react';
+import { ChangeEvent } from 'react';
+import clientUploadToArweave from '@/lib/arweave/clientUploadToArweave';
+import { toast } from 'sonner';
 
-interface useFileUploadProps {
-  setImageUri: Dispatch<SetStateAction<string>>;
-  setPreviewUri: Dispatch<SetStateAction<string>>;
-  setPreviewSrc: Dispatch<SetStateAction<string>>;
-  setAnimationUri: Dispatch<SetStateAction<string>>;
-  setMimeType: Dispatch<SetStateAction<string>>;
-  animationUri: string;
+interface UseFileUploadProps {
+  setPreviewSrc: (src: string) => void;
+  setPreviewUri: (uri: string) => void;
 }
 
-const useFileUpload = ({
-  setImageUri,
-  setPreviewSrc,
-  setPreviewUri,
-  setAnimationUri,
-  setMimeType,
-  animationUri,
-}: useFileUploadProps) => {
-  const [error, setError] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
-  const [pctComplete, setPctComplete] = useState<number>(0);
+interface UseFileUploadReturn {
+  progress: number;
+  isUploading: boolean;
+  handleFileUpload: (e: ChangeEvent<HTMLInputElement>) => Promise<void>;
+}
 
-  const fileUpload = async (event: any) => {
-    setPctComplete(0);
-    setError("");
-    setLoading(true);
+export const useFileUpload = ({ 
+  setPreviewSrc, 
+  setPreviewUri 
+}: UseFileUploadProps): UseFileUploadReturn => {
+  const [progress, setProgress] = useState<number>(0);
+  const [isUploading, setIsUploading] = useState<boolean>(false);
 
-    try {
-      const file: File = event.target.files[0];
-      if (!file) {
-        throw new Error();
-      }
-
-      if (file.size > MAX_FILE_SIZE) {
-        toast.error("Please select a file smaller than 222MB");
-        setLoading(false);
-        return;
-      }
-
-      const mimeType = file.type;
-      const isImage = mimeType.includes("image");
-      const uri = await clientUploadToArweave(file, (pct: number) =>
-        setPctComplete(pct),
-      );
-      if (isImage) {
-        setImageUri(uri);
-        setPreviewSrc(URL.createObjectURL(file));
-        setPreviewUri(uri);
-        if (!animationUri) {
-          setMimeType(mimeType);
-        }
-      } else {
-        setAnimationUri(uri);
-        setMimeType(mimeType);
-        if (mimeType.includes("video")) {
-          const frameBase64: any = await captureImageFromVideo(
-            URL.createObjectURL(file),
-          );
-          const imageFile = base64ToFile(frameBase64 as string, file.name);
-          const imageUri = await clientUploadToArweave(imageFile);
-          setImageUri(imageUri);
-          setPreviewSrc(URL.createObjectURL(imageFile));
-          setPreviewUri(imageUri);
-        }
-      }
-    } catch (err: any) {
-      console.error(err);
-      setError(err.message ?? "Failed to upload the file. Please try again.");
+  const handleFileUpload = useCallback(async (e: ChangeEvent<HTMLInputElement>) => {
+    setIsUploading(true);
+    const files = e.target.files;
+    if (!files?.length) return;
+    
+    const file = files[0];
+    if (!file.type.includes("image")) {
+      toast.error("please, select only image file.");
+      return;
     }
-    setLoading(false);
-  };
+    
+    try {
+      const previewUri = await clientUploadToArweave(file, (value: number) =>
+        setProgress(value),
+      );
+      setPreviewSrc(URL.createObjectURL(file));
+      setPreviewUri(previewUri);
+    } catch (error) {
+      toast.error("Failed to upload image.");
+    } finally {
+      setIsUploading(false);
+    }
+  }, [setPreviewSrc, setPreviewUri]);
 
   return {
-    fileUpload,
-    fileUploading: loading,
-    error,
-    setFileUploading: setLoading,
-    pctComplete,
+    progress,
+    isUploading,
+    handleFileUpload,
   };
 };
-
-export default useFileUpload;

@@ -34,10 +34,15 @@ interface CropArea {
 
 interface DragState {
   isDragging: boolean;
-  dragType: "move" | "resize" | null;
+  dragType: "move" | "resize" | "image" | null;
   startX: number;
   startY: number;
   resizeHandle: string | null;
+}
+
+interface Position {
+  x: number;
+  y: number;
 }
 
 export default function ImageEditor(): ReactElement {
@@ -53,6 +58,7 @@ export default function ImageEditor(): ReactElement {
     height: 0,
   });
   const [scale, setScale] = useState<number>(100);
+  const [position, setPosition] = useState<Position>({ x: 0, y: 0 });
   const [cropMode, setCropMode] = useState<boolean>(false);
   const [cropArea, setCropArea] = useState<CropArea>({
     x: 0,
@@ -179,6 +185,38 @@ export default function ImageEditor(): ReactElement {
       const width = Math.round((originalDimensions.width * newScale) / 100);
       const height = Math.round((originalDimensions.height * newScale) / 100);
       setCurrentDimensions({ width, height });
+      
+      // Calculate centered position when zoomed
+      if (newScale > 100) {
+        const scaleRatio = newScale / 100;
+        const scaledWidth = originalDimensions.width * scaleRatio;
+        const scaledHeight = originalDimensions.height * scaleRatio;
+        
+        // Calculate the extra size (how much bigger the image is now)
+        const extraWidth = scaledWidth - originalDimensions.width;
+        const extraHeight = scaledHeight - originalDimensions.height;
+        
+        // Center the zoomed image - expand equally in all directions
+        const centerX = -extraWidth / 2;
+        const centerY = -extraHeight / 2;
+        
+        console.log('Scale change - centering zoom:', {
+          newScale,
+          originalWidth: originalDimensions.width,
+          originalHeight: originalDimensions.height,
+          scaledWidth,
+          scaledHeight,
+          extraWidth,
+          extraHeight,
+          centerX,
+          centerY
+        });
+        
+        setPosition({ x: centerX, y: centerY });
+      } else {
+        // Reset to center when scale is 100% or less
+        setPosition({ x: 0, y: 0 });
+      }
     },
     [originalDimensions],
   );
@@ -209,9 +247,71 @@ export default function ImageEditor(): ReactElement {
     };
   }, [cropMode, cropArea, originalDimensions, imageDisplaySize]);
 
+  // Calculate boundary constraints for image dragging
+  const calculateBoundaries = useCallback(() => {
+    if (!originalDimensions.width || !originalDimensions.height) {
+      return { minX: 0, maxX: 0, minY: 0, maxY: 0 };
+    }
+    
+    const scaleRatio = scale / 100;
+    const scaledWidth = originalDimensions.width * scaleRatio;
+    const scaledHeight = originalDimensions.height * scaleRatio;
+    
+    // Calculate boundaries to prevent empty space
+    let minX = 0, maxX = 0, minY = 0, maxY = 0;
+    
+    if (scale > 100) {
+      // Image is zoomed in - calculate boundaries based on extra size
+      const extraWidth = scaledWidth - originalDimensions.width;
+      const extraHeight = scaledHeight - originalDimensions.height;
+      
+      // When zoomed, the image is centered, so boundaries are symmetric around center
+      const centerX = -extraWidth / 2;
+      const centerY = -extraHeight / 2;
+      
+      // Allow movement of exactly deltaX/2 and deltaY/2 in each direction
+      minX = centerX - extraWidth / 2; // Can drag left by deltaX/2
+      maxX = centerX + extraWidth / 2; // Can drag right by deltaX/2
+      minY = centerY - extraHeight / 2; // Can drag up by deltaY/2
+      maxY = centerY + extraHeight / 2; // Can drag down by deltaY/2
+      
+      console.log('Boundaries (zoomed):', {
+        scale,
+        scaledWidth,
+        scaledHeight,
+        extraWidth,
+        extraHeight,
+        centerX,
+        centerY,
+        minX,
+        maxX,
+        minY,
+        maxY,
+        deltaX: extraWidth,
+        deltaY: extraHeight
+      });
+    } else {
+      // Image is at normal size or smaller - no movement allowed
+      minX = maxX = 0;
+      minY = maxY = 0;
+    }
+    
+    return { minX, maxX, minY, maxY };
+  }, [scale, originalDimensions]);
+
+  // Constrain position within boundaries
+  const constrainPosition = useCallback((newPosition: Position) => {
+    const boundaries = calculateBoundaries();
+    
+    return {
+      x: Math.max(boundaries.minX, Math.min(boundaries.maxX, newPosition.x)),
+      y: Math.max(boundaries.minY, Math.min(boundaries.maxY, newPosition.y))
+    };
+  }, [calculateBoundaries]);
+
   const handleMouseDown = useCallback(
-    (e: React.MouseEvent, type: "move" | "resize", handle?: string) => {
-      e.preventDefault();
+    (e: React.MouseEvent, type: "move" | "resize" | "image", handle?: string) => {
+    e.preventDefault();
       e.stopPropagation();
       setDragState({
         isDragging: true,
@@ -242,52 +342,73 @@ export default function ImageEditor(): ReactElement {
       const deltaX = (mouseX - startMouseX) * scaleX;
       const deltaY = (mouseY - startMouseY) * scaleY;
 
-      setCropArea((prev) => {
-        const newCrop = { ...prev };
+      if (dragState.dragType === "image") {
+        // Handle image dragging
+        const newPosition = {
+          x: position.x + deltaX,
+          y: position.y + deltaY
+        };
+        
+        // Apply boundary constraints
+        const constrainedPosition = constrainPosition(newPosition);
+        setPosition(constrainedPosition);
+        
+        console.log('Image drag:', {
+          deltaX,
+          deltaY,
+          newPosition,
+          constrainedPosition,
+          scale
+        });
+      } else {
+        // Handle crop area dragging (existing logic)
+        setCropArea((prev) => {
+          const newCrop = { ...prev };
 
-        if (dragState.dragType === "move") {
-          newCrop.x = Math.max(
-            0,
-            Math.min(prev.x + deltaX, originalDimensions.width - prev.width),
-          );
-          newCrop.y = Math.max(
-            0,
-            Math.min(prev.y + deltaY, originalDimensions.height - prev.height),
-          );
-        } else if (dragState.dragType === "resize" && dragState.resizeHandle) {
-          const handle = dragState.resizeHandle;
-
-          if (handle.includes("right")) {
-            newCrop.width = Math.max(
-              50,
-              Math.min(prev.width + deltaX, originalDimensions.width - prev.x),
+          if (dragState.dragType === "move") {
+            newCrop.x = Math.max(
+              0,
+              Math.min(prev.x + deltaX, originalDimensions.width - prev.width),
             );
-          }
-          if (handle.includes("left")) {
-            const newWidth = Math.max(50, prev.width - deltaX);
-            const newX = Math.max(0, prev.x + prev.width - newWidth);
-            newCrop.x = newX;
-            newCrop.width = newWidth;
-          }
-          if (handle.includes("bottom")) {
-            newCrop.height = Math.max(
-              50,
-              Math.min(
-                prev.height + deltaY,
-                originalDimensions.height - prev.y,
-              ),
+            newCrop.y = Math.max(
+              0,
+              Math.min(prev.y + deltaY, originalDimensions.height - prev.height),
             );
-          }
-          if (handle.includes("top")) {
-            const newHeight = Math.max(50, prev.height - deltaY);
-            const newY = Math.max(0, prev.y + prev.height - newHeight);
-            newCrop.y = newY;
-            newCrop.height = newHeight;
-          }
-        }
+          } else if (dragState.dragType === "resize" && dragState.resizeHandle) {
+            const handle = dragState.resizeHandle;
 
-        return newCrop;
-      });
+            if (handle.includes("right")) {
+              newCrop.width = Math.max(
+                50,
+                Math.min(prev.width + deltaX, originalDimensions.width - prev.x),
+              );
+            }
+            if (handle.includes("left")) {
+              const newWidth = Math.max(50, prev.width - deltaX);
+              const newX = Math.max(0, prev.x + prev.width - newWidth);
+              newCrop.x = newX;
+              newCrop.width = newWidth;
+            }
+            if (handle.includes("bottom")) {
+              newCrop.height = Math.max(
+                50,
+                Math.min(
+                  prev.height + deltaY,
+                  originalDimensions.height - prev.y,
+                ),
+              );
+            }
+            if (handle.includes("top")) {
+              const newHeight = Math.max(50, prev.height - deltaY);
+              const newY = Math.max(0, prev.y + prev.height - newHeight);
+              newCrop.y = newY;
+              newCrop.height = newHeight;
+            }
+          }
+
+          return newCrop;
+        });
+      }
 
       setDragState((prev) => ({
         ...prev,
@@ -295,7 +416,7 @@ export default function ImageEditor(): ReactElement {
         startY: e.clientY,
       }));
     },
-    [dragState, originalDimensions, imageDisplaySize],
+    [dragState, originalDimensions, imageDisplaySize, position, constrainPosition],
   );
 
   const handleMouseUp = useCallback(() => {
@@ -371,6 +492,7 @@ export default function ImageEditor(): ReactElement {
     setOriginalDimensions(trulyOriginalDimensions);
     setCurrentDimensions(trulyOriginalDimensions);
     setScale(100);
+    setPosition({ x: 0, y: 0 }); // Reset position
     setCropMode(false);
     // Reset crop area to full image
     setCropArea({
@@ -511,7 +633,7 @@ export default function ImageEditor(): ReactElement {
               <div
                 ref={cropContainerRef}
                 className="relative inline-block w-full"
-                style={{
+        style={{
                   width: `${imageDisplaySize.width}px`,
                   height: `${imageDisplaySize.height}px`,
                 }}
@@ -523,6 +645,15 @@ export default function ImageEditor(): ReactElement {
                   alt="Original"
                   className="block size-full object-contain"
                   draggable={false}
+                  style={{
+                    transform: `translate(${position.x}px, ${position.y}px)`,
+                    cursor: scale > 100 ? "move" : "default"
+                  }}
+                  onMouseDown={(e) => {
+                    if (scale > 100 && !cropMode) {
+                      handleMouseDown(e, "image");
+                    }
+                  }}
                 />
 
                 {/* Crop Overlay */}
@@ -693,7 +824,7 @@ export default function ImageEditor(): ReactElement {
                 done
               </Button>
             </div>
-          </div>
+      </div>
         </>
       )}
 
