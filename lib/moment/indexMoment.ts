@@ -9,7 +9,7 @@ const indexMoment = async (
   tokenId: number,
   chainId: number
 ) => {
-  // Fetch on-chain details
+  // Fetch onchain details
   const { tokenUri: uri, owner: admin } = await getTokenInfo(
     address,
     tokenId.toString(),

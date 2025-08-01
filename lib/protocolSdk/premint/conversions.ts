@@ -16,7 +16,7 @@ import {
 import { ContractCreationConfigOrAddress } from "./contract-types";
 
 export const convertCollectionFromApi = (
-  collection: PremintSignatureGetResponse["collection"],
+  collection: PremintSignatureGetResponse["collection"]
 ): ContractCreationConfig | undefined => {
   if (!collection) return undefined;
 
@@ -30,13 +30,13 @@ export const convertCollectionFromApi = (
 };
 
 /**
- * Convert server to on-chain types for a premint
+ * Convert server to onchain types for a premint
  *
  * @param premint Premint object from the server to convert to one that's compatible with viem
  * @returns Viem type-compatible premint object
  */
 export const convertPremintFromApi = (
-  premint: PremintSignatureGetResponse["premint"],
+  premint: PremintSignatureGetResponse["premint"]
 ): PremintConfigAndVersion => {
   if (
     premint.config_version === PremintConfigVersion.V1 ||
@@ -90,7 +90,7 @@ export const convertPremintFromApi = (
 export type PremintFromApi = ReturnType<typeof convertGetPremintApiResponse>;
 
 export const convertGetPremintApiResponse = (
-  response: PremintSignatureGetResponse,
+  response: PremintSignatureGetResponse
 ) => ({
   collection: convertCollectionFromApi(response.collection),
   collectionAddress: response.collection_address as Address,
@@ -104,7 +104,7 @@ export type PremintCollectionFromApi = ReturnType<
 >;
 
 export const convertGetPremintOfCollectionApiResponse = (
-  response: PremintSignatureGetOfCollectionResponse,
+  response: PremintSignatureGetOfCollectionResponse
 ) => ({
   collection: convertCollectionFromApi({
     contractAdmin: response.contract_admin,
@@ -198,11 +198,11 @@ export const encodePostSignatureInput = <T extends PremintConfigVersion>({
 });
 
 export const isPremintConfigV1 = (
-  premintConfigAndVersion: PremintConfigAndVersion,
+  premintConfigAndVersion: PremintConfigAndVersion
 ): premintConfigAndVersion is PremintConfigWithVersion<PremintConfigVersion.V1> =>
   premintConfigAndVersion.premintConfigVersion === PremintConfigVersion.V1;
 
 export const isPremintConfigV2 = (
-  premintConfigAndVersion: PremintConfigAndVersion,
+  premintConfigAndVersion: PremintConfigAndVersion
 ): premintConfigAndVersion is PremintConfigWithVersion<PremintConfigVersion.V2> =>
   premintConfigAndVersion.premintConfigVersion === PremintConfigVersion.V2;
