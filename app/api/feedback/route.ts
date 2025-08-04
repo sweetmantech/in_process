@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
   
   try {
     const bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN as string);
-    const message = `New Feedback\n\nContact: ${name}\n\nMessage:\n${feedback}`;
+    const message = `New Feedback\n\nName: ${name}\n\nMessage:\n${feedback}`;
     bot.sendMessage(INPROCESS_GROUP_CHAT_ID, message);
     return Response.json({ success: true });
   } catch (e: any) {
