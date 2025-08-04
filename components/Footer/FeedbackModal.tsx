@@ -14,6 +14,8 @@ const FeedbackModal = () => {
     setIsOpenModal,
     feedback,
     setFeedback,
+    name,
+    setName,
     isLoading,
     submit,
   } = useSubmitFeedback();
@@ -37,18 +39,34 @@ const FeedbackModal = () => {
         <Label className="font-archivo text-lg text-left w-full">
           leave feedback
         </Label>
+        <Label className="font-archivo text-sm text-left w-full mb-1 text-grey-moss-600">
+          contact name*
+        </Label>
+        <input
+          type="text"
+          placeholder="your name or email for follow-up"
+          className="bg-grey-moss-50 w-full p-3 font-spectral !border-none !outline-none !ring-0 mb-3"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+        />
+        <Label className="font-archivo text-sm text-left w-full mb-1 text-grey-moss-600">
+          feedback*
+        </Label>
         <textarea
           className="bg-grey-moss-50 w-full p-3 font-spectral !border-none !outline-none !ring-0"
           rows={6}
+          placeholder="describe the issue or suggestion..."
           value={feedback}
           onChange={(e) => setFeedback(e.target.value)}
+          required
         />
         <div className="w-full ">
           <button
             type="button"
             className="py-3 bg-black hover:bg-grey-moss-300 font-archivo text-xl w-full text-grey-eggshell mt-4 disabled:cursor-not-allowed disabled:bg-grey-moss-300"
             onClick={submit}
-            disabled={!Boolean(feedback) || isLoading}
+            disabled={!Boolean(feedback.trim()) || !Boolean(name.trim()) || isLoading}
           >
             {isLoading ? "submitting..." : "submit feedback"}
           </button>
