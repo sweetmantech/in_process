@@ -40,7 +40,7 @@ const FeedbackModal = () => {
           leave feedback
         </Label>
         <Label className="font-archivo text-sm text-left w-full mb-1 text-grey-moss-600">
-          contact name *
+          contact name*
         </Label>
         <input
           type="text"
