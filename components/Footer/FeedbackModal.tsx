@@ -51,7 +51,7 @@ const FeedbackModal = () => {
           required
         />
         <Label className="font-archivo text-sm text-left w-full mb-1 text-grey-moss-600">
-          feedback *
+          feedback*
         </Label>
         <textarea
           className="bg-grey-moss-50 w-full p-3 font-spectral !border-none !outline-none !ring-0"
