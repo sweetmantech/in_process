@@ -179,6 +179,19 @@ export default function ImageEditor(): ReactElement {
 
   // Utility function to ensure crop area always matches imageDisplaySize
   const ensureCropAreaConsistency = useCallback((cropArea: CropArea): CropArea => {
+    // Validate that imageDisplaySize has valid dimensions
+    if (!imageDisplaySize.width || !imageDisplaySize.height || 
+        imageDisplaySize.width <= 0 || imageDisplaySize.height <= 0) {
+      console.warn('ImageDisplaySize has invalid dimensions:', imageDisplaySize);
+      // Return a safe default crop area
+      return {
+        x: 0,
+        y: 0,
+        width: 100, // Safe default width
+        height: 100, // Safe default height
+      };
+    }
+
     return {
       x: cropArea.x,
       y: cropArea.y,
@@ -411,117 +424,238 @@ export default function ImageEditor(): ReactElement {
 
   const downloadResizedImage = useCallback((imageData?: string) => {
     const imageToUse = imageData || selectedImage;
-    if (!imageToUse || !canvasRef.current) return;
+    
+    // Validate input parameters
+    if (!imageToUse) {
+      console.error('No image data provided for download');
+      setError('No image data available for processing');
+      return;
+    }
+    
+    if (!canvasRef.current) {
+      console.error('Canvas reference not available');
+      setError('Canvas element not available for image processing');
+      return;
+    }
 
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+    if (!ctx) {
+      console.error('Failed to get 2D context from canvas');
+      setError('Failed to initialize canvas for image processing');
+      return;
+    }
+
+    // Validate current dimensions
+    if (!currentDimensions.width || !currentDimensions.height || 
+        currentDimensions.width <= 0 || currentDimensions.height <= 0) {
+      console.error('Invalid current dimensions:', currentDimensions);
+      setError('Invalid image dimensions for processing');
+      return;
+    }
 
     canvas.width = currentDimensions.width;
     canvas.height = currentDimensions.height;
 
     const img = new Image();
+    
+    // Add error handling for image loading
+    img.onerror = () => {
+      console.error('Failed to load image for processing');
+      setError('Failed to load image for processing');
+      setIsUploading(false);
+      setUploadProgress(0);
+    };
+    
     img.onload = () => {
-      ctx.drawImage(
-        img,
-        0,
-        0,
-        currentDimensions.width,
-        currentDimensions.height,
-      );
-
-      // Download the resized image
-      canvas.toBlob(async (blob) => {
-        if (blob) {
-          setIsUploading(true);
-          setUploadProgress(0);
-          const file = new File([blob], "uploadedFile", { type: "image/png" });
-          const uri = await clientUploadToArweave(file, (progress) => {
-            setUploadProgress(progress);
-          });
-          setPreviewSrc(URL.createObjectURL(file));
-          setPreviewUri(uri);
-          setIsUploading(false);
-          setUploadProgress(0);
-          setIsEditingPreview(false);
-          setIsOpenPreviewUpload(false);
+      try {
+        // Validate image dimensions before drawing
+        if (img.width <= 0 || img.height <= 0) {
+          throw new Error('Invalid image dimensions');
         }
-      });
+        
+        ctx.drawImage(
+          img,
+          0,
+          0,
+          currentDimensions.width,
+          currentDimensions.height,
+        );
+
+        // Download the resized image
+        canvas.toBlob(async (blob) => {
+          if (!blob) {
+            console.error('Failed to create image blob');
+            setError('Failed to process image');
+            setIsUploading(false);
+            setUploadProgress(0);
+            return;
+          }
+          
+          try {
+            setIsUploading(true);
+            setUploadProgress(0);
+            const file = new File([blob], "uploadedFile", { type: "image/png" });
+            const uri = await clientUploadToArweave(file, (progress) => {
+              setUploadProgress(progress);
+            });
+            setPreviewSrc(URL.createObjectURL(file));
+            setPreviewUri(uri);
+            setIsUploading(false);
+            setUploadProgress(0);
+            setIsEditingPreview(false);
+            setIsOpenPreviewUpload(false);
+          } catch (uploadError) {
+            console.error('Upload failed:', uploadError);
+            setError('Failed to upload image');
+            setIsUploading(false);
+            setUploadProgress(0);
+          }
+        }, 'image/png', 0.9); // Specify format and quality
+      } catch (drawError) {
+        console.error('Failed to draw image to canvas:', drawError);
+        setError('Failed to process image');
+        setIsUploading(false);
+        setUploadProgress(0);
+      }
     };
     img.src = imageToUse;
     // eslint-disable-next-line
   }, [selectedImage, currentDimensions]);
 
   const handleDoneClick = useCallback(async () => {
-    // Check if any changes have been made (scale, crop, or position changes)
-    const hasChanges = scale !== 100 || 
-                      cropArea.x !== 0 || 
-                      cropArea.y !== 0 || 
-                      cropArea.width !== imageDisplaySize.width || 
-                      cropArea.height !== imageDisplaySize.height;
-
-    // If no changes have been made, just use the original image
-    if (!hasChanges) {
-      downloadResizedImage(selectedImage || undefined);
-      return;
-    }
-
-    // Capture exactly what the user is seeing using current display variables
-    const croppedImageData = await new Promise<string | null>((resolve) => {
+    try {
+      // Validate input parameters
       if (!selectedImage) {
-        resolve(null);
+        console.error('No selected image available for processing');
+        setError('No image available for processing');
         return;
       }
 
-      const canvas = document.createElement("canvas");
-      const ctx = canvas.getContext("2d");
-      if (!ctx) {
-        resolve(null);
+      // Validate crop area dimensions
+      if (!cropArea.width || !cropArea.height || 
+          cropArea.width <= 0 || cropArea.height <= 0) {
+        console.error('Invalid crop area dimensions:', cropArea);
+        setError('Invalid crop area dimensions');
         return;
       }
 
-      // Set canvas to the crop area size (what user actually sees and wants)
-      canvas.width = cropArea.width;
-      canvas.height = cropArea.height;
+      // Validate image display size
+      if (!imageDisplaySize.width || !imageDisplaySize.height || 
+          imageDisplaySize.width <= 0 || imageDisplaySize.height <= 0) {
+        console.error('Invalid image display size:', imageDisplaySize);
+        setError('Invalid image display size');
+        return;
+      }
 
-      const img = new Image();
-      img.onload = () => {
-        // Use the current display variables directly - no complex calculations needed
-        // The crop area is already in the correct coordinate system for what the user sees
-        
-        // Simply draw the crop area as it's currently displayed
-        // This captures exactly what the user sees without any coordinate transformations
-        ctx.drawImage(
-          img,
-          cropArea.x,
-          cropArea.y,
-          cropArea.width,
-          cropArea.height,
-          0,
-          0,
-          cropArea.width,
-          cropArea.height
-        );
+      // Check if any changes have been made (scale, crop, or position changes)
+      const hasChanges = scale !== 100 || 
+                        cropArea.x !== 0 || 
+                        cropArea.y !== 0 || 
+                        cropArea.width !== imageDisplaySize.width || 
+                        cropArea.height !== imageDisplaySize.height;
 
-        const croppedDataUrl = canvas.toDataURL();
-        
-        // Update state for UI consistency
-        setSelectedImage(croppedDataUrl);
-        setCurrentDimensions({ width: cropArea.width, height: cropArea.height });
-        setCropMode(true);
-        setScale(100);
-        setImageDisplaySize({ width: cropArea.width, height: cropArea.height });
-        setCropArea({ x: 0, y: 0, width: cropArea.width, height: cropArea.height });
-        
-        // Return the cropped image data
-        resolve(croppedDataUrl);
-      };
-      img.src = selectedImage;
-    });
+      // If no changes have been made, just use the original image
+      if (!hasChanges) {
+        downloadResizedImage(selectedImage || undefined);
+        return;
+      }
 
-    // Now that cropping is complete, download the resized image with the cropped data
-    if (croppedImageData) {
-      downloadResizedImage(croppedImageData);
+      // Capture exactly what the user is seeing using current display variables
+      const croppedImageData = await new Promise<string | null>((resolve, reject) => {
+        if (!selectedImage) {
+          reject(new Error('No selected image available'));
+          return;
+        }
+
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+        if (!ctx) {
+          reject(new Error('Failed to get canvas context'));
+          return;
+        }
+
+        // Validate crop area dimensions before setting canvas size
+        if (cropArea.width <= 0 || cropArea.height <= 0) {
+          reject(new Error('Invalid crop area dimensions'));
+          return;
+        }
+
+        // Set canvas to the crop area size (what user actually sees and wants)
+        canvas.width = cropArea.width;
+        canvas.height = cropArea.height;
+
+        const img = new Image();
+        
+        // Add error handling for image loading
+        img.onerror = () => {
+          reject(new Error('Failed to load image for cropping'));
+        };
+        
+        img.onload = () => {
+          try {
+            // Validate image dimensions
+            if (img.width <= 0 || img.height <= 0) {
+              throw new Error('Invalid image dimensions');
+            }
+
+            // Validate crop coordinates are within image bounds
+            if (cropArea.x < 0 || cropArea.y < 0 || 
+                cropArea.x + cropArea.width > img.width || 
+                cropArea.y + cropArea.height > img.height) {
+              throw new Error('Crop area extends beyond image boundaries');
+            }
+
+            // Use the current display variables directly - no complex calculations needed
+            // The crop area is already in the correct coordinate system for what the user sees
+            
+            // Simply draw the crop area as it's currently displayed
+            // This captures exactly what the user sees without any coordinate transformations
+            ctx.drawImage(
+              img,
+              cropArea.x,
+              cropArea.y,
+              cropArea.width,
+              cropArea.height,
+              0,
+              0,
+              cropArea.width,
+              cropArea.height
+            );
+
+            const croppedDataUrl = canvas.toDataURL();
+            
+            if (!croppedDataUrl) {
+              throw new Error('Failed to generate cropped image data');
+            }
+            
+            // Update state for UI consistency
+            setSelectedImage(croppedDataUrl);
+            setCurrentDimensions({ width: cropArea.width, height: cropArea.height });
+            setCropMode(true);
+            setScale(100);
+            setImageDisplaySize({ width: cropArea.width, height: cropArea.height });
+            setCropArea({ x: 0, y: 0, width: cropArea.width, height: cropArea.height });
+            
+            // Return the cropped image data
+            resolve(croppedDataUrl);
+          } catch (drawError) {
+            console.error('Failed to draw cropped image:', drawError);
+            reject(drawError);
+          }
+        };
+        img.src = selectedImage;
+      });
+
+      // Now that cropping is complete, download the resized image with the cropped data
+      if (croppedImageData) {
+        downloadResizedImage(croppedImageData);
+      } else {
+        throw new Error('Failed to generate cropped image data');
+      }
+    } catch (error) {
+      console.error('Error in handleDoneClick:', error);
+      setError(error instanceof Error ? error.message : 'Failed to process image');
     }
   }, [selectedImage, cropArea, imageDisplaySize, scale, downloadResizedImage]);
 
