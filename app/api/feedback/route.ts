@@ -4,7 +4,7 @@ import TelegramBot from "node-telegram-bot-api";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  const { feedback, name } = body;
+  const { feedback, name, wallet } = body;
   
   // Validate required fields
   if (!name?.trim() || !feedback?.trim()) {
@@ -16,7 +16,9 @@ export async function POST(req: NextRequest) {
   
   try {
     const bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN as string);
-    const message = `New Feedback\n\nName: ${name}\n\nMessage:\n${feedback}`;
+    const message = wallet 
+      ? `New Feedback\n\nName: ${name}\nWallet: ${wallet}\n\nMessage:\n${feedback}`
+      : `New Feedback\n\nName: ${name}\n\nMessage:\n${feedback}`;
     bot.sendMessage(INPROCESS_GROUP_CHAT_ID, message);
     return Response.json({ success: true });
   } catch (e: any) {
