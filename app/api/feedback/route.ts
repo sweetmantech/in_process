@@ -5,6 +5,7 @@ import TelegramBot from "node-telegram-bot-api";
 export async function POST(req: NextRequest) {
   const body = await req.json();
   const { feedback, name, wallet } = body;
+
   
   // Validate required fields
   if (!name?.trim() || !feedback?.trim()) {

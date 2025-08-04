@@ -9,6 +9,7 @@ const useSubmitFeedback = () => {
   const [name, setName] = useState<string>("");
   const { connectedWallet } = useConnectedWallet();
 
+
   const submit = async () => {
     if (!name.trim() || !feedback.trim()) {
       return;
