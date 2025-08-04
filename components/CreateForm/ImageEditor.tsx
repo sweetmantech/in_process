@@ -39,9 +39,10 @@ interface DragState {
 }
 
 export default function ImageEditor(): ReactElement {
-  const { setIsEditingPreview, setPreviewUri, previewSrc, setPreviewSrc } =
+  const { setIsEditingPreview, setPreviewUri, previewSrc, setPreviewSrc, setIsOpenPreviewUpload } =
     useZoraCreateProvider();
   const [isUploading, setIsUploading] = useState<boolean>(false);
+  const [uploadProgress, setUploadProgress] = useState<number>(0);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [originalDimensions, setOriginalDimensions] = useState<ImageDimensions>(
     { width: 0, height: 0 },
@@ -524,12 +525,17 @@ export default function ImageEditor(): ReactElement {
       canvas.toBlob(async (blob) => {
         if (blob) {
           setIsUploading(true);
+          setUploadProgress(0);
           const file = new File([blob], "uploadedFile", { type: "image/png" });
-          const uri = await clientUploadToArweave(file);
+          const uri = await clientUploadToArweave(file, (progress) => {
+            setUploadProgress(progress);
+          });
           setPreviewSrc(URL.createObjectURL(file));
           setPreviewUri(uri);
           setIsUploading(false);
+          setUploadProgress(0);
           setIsEditingPreview(false);
+          setIsOpenPreviewUpload(false);
         }
       });
     };
@@ -538,7 +544,38 @@ export default function ImageEditor(): ReactElement {
   }, [selectedImage, currentDimensions]);
 
   const handleDoneClick = useCallback(async () => {
-    // First apply the crop and wait for it to complete
+    // Check if any changes have been made (scale, crop, or position changes)
+    const hasChanges = scale !== 100 || 
+                      cropArea.x !== 0 || 
+                      cropArea.y !== 0 || 
+                      cropArea.width !== imageDisplaySize.width || 
+                      cropArea.height !== imageDisplaySize.height;
+
+    // If no changes have been made, just use the original image
+    if (!hasChanges) {
+      downloadResizedImage(selectedImage || undefined);
+      return;
+    }
+
+    // Log BEFORE cropping - what the user sees
+    console.log('=== BEFORE CROPPING ===');
+    console.log('User visible crop area:', {
+      x: cropArea.x,
+      y: cropArea.y,
+      width: cropArea.width,
+      height: cropArea.height
+    });
+    console.log('Image display size:', {
+      width: imageDisplaySize.width,
+      height: imageDisplaySize.height
+    });
+    console.log('Scale:', scale);
+    console.log('Original image dimensions:', {
+      width: originalDimensions.width,
+      height: originalDimensions.height
+    });
+
+    // Capture exactly what the user is seeing using current display variables
     const croppedImageData = await new Promise<string | null>((resolve) => {
       if (!selectedImage) {
         resolve(null);
@@ -552,51 +589,38 @@ export default function ImageEditor(): ReactElement {
         return;
       }
 
+      // Set canvas to the crop area size (what user actually sees and wants)
+      canvas.width = cropArea.width;
+      canvas.height = cropArea.height;
+
       const img = new Image();
       img.onload = () => {
-        // The crop area represents exactly what the user sees and wants to keep
-        // We need to calculate the actual visible portion based on the constrained transform
+        // Use the current display variables directly - no complex calculations needed
+        // The crop area is already in the correct coordinate system for what the user sees
         
-        const scaleRatio = scale / 100;
-        
-        // Calculate the actual translate values that were applied (with constraints)
-        const actualTranslateX = Math.max(-imageDisplaySize.width * (scaleRatio - 1), -cropArea.x * scaleRatio);
-        const actualTranslateY = Math.max(-imageDisplaySize.height * (scaleRatio - 1), -cropArea.y * scaleRatio);
-        
-        // Convert the constrained translate back to original image coordinates
-        const cropXInOriginal = -actualTranslateX / scaleRatio;
-        const cropYInOriginal = -actualTranslateY / scaleRatio;
-        const cropWidthInOriginal = cropArea.width / scaleRatio;
-        const cropHeightInOriginal = cropArea.height / scaleRatio;
-
-        console.log('Crop Debug:', {
-          scale,
-          scaleRatio,
-          cropArea,
-          actualTranslateX,
-          actualTranslateY,
-          cropXInOriginal,
-          cropYInOriginal,
-          cropWidthInOriginal,
-          cropHeightInOriginal
+        // Log AFTER cropping - using current display variables
+        console.log('=== AFTER CROPPING - USING DISPLAY VARIABLES ===');
+        console.log('Using current crop area directly:', {
+          x: cropArea.x,
+          y: cropArea.y,
+          width: cropArea.width,
+          height: cropArea.height
         });
+        console.log('Current scale:', scale);
+        console.log('Current image display size:', imageDisplaySize);
 
-        // Set canvas to the crop area size (what user actually sees and wants)
-        canvas.width = cropArea.width;
-        canvas.height = cropArea.height;
-
-        // Draw the cropped portion from the original image
-        // This will give us exactly what the user sees in the crop area
+        // Simply draw the crop area as it's currently displayed
+        // This captures exactly what the user sees without any coordinate transformations
         ctx.drawImage(
           img,
-          cropXInOriginal,
-          cropYInOriginal,
-          cropWidthInOriginal,
-          cropHeightInOriginal,
+          cropArea.x,
+          cropArea.y,
+          cropArea.width,
+          cropArea.height,
           0,
           0,
           cropArea.width,
-          cropArea.height,
+          cropArea.height
         );
 
         const croppedDataUrl = canvas.toDataURL();
@@ -620,7 +644,7 @@ export default function ImageEditor(): ReactElement {
     if (croppedImageData) {
       downloadResizedImage(croppedImageData);
     }
-  }, [selectedImage, cropArea, originalDimensions, imageDisplaySize, scale, downloadResizedImage]);
+  }, [selectedImage, cropArea, imageDisplaySize, scale, downloadResizedImage]);
 
   if (isLoading) {
     return (
@@ -724,25 +748,17 @@ export default function ImageEditor(): ReactElement {
                 )}
               </div>
 
-              <p className="text-sm text-grey-moss-400 mt-2">
-                {currentDimensions.width} × {currentDimensions.height} px
-                {cropMode && (
-                  <span className="ml-2 text-grey-moss-400">
-                    | crop: {Math.round(cropArea.width)} ×{" "}
-                    {Math.round(cropArea.height)} px
-                  </span>
-                )}
-              </p>
-
-
             </div>
           </div>
 
           {/* Action Buttons */}
-          <div className="flex gap-2">
+          <div className="flex gap-2 justify-center">
             <Button
               disabled={isUploading}
-              onClick={() => setIsEditingPreview(false)}
+              onClick={() => {
+                setIsEditingPreview(false);
+                setIsOpenPreviewUpload(false);
+              }}
               size="sm"
               className="font-archivo flex items-center gap-2 bg-grey-moss-900 text-grey-eggshell border-none hover:bg-grey-moss-300"
             >
@@ -765,10 +781,37 @@ export default function ImageEditor(): ReactElement {
               size="sm"
               className="font-archivo flex items-center gap-2 bg-grey-moss-900 text-grey-eggshell border-none hover:bg-grey-moss-300"
             >
-              <Upload className="w-4 h-4" />
-              done
+              {isUploading ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  uploading...
+                </>
+              ) : (
+                <>
+                  <Upload className="w-4 h-4" />
+                  done
+                </>
+              )}
             </Button>
           </div>
+
+          {/* Upload Progress Bar */}
+          {isUploading && (
+            <div className="w-full mt-4">
+              <div className="flex items-center gap-2 mb-2">
+                <Loader2 className="w-4 h-4 animate-spin text-grey-moss-400" />
+                <span className="text-sm font-archivo text-grey-moss-400">
+                  Uploading image... {uploadProgress}%
+                </span>
+              </div>
+              <div className="w-full bg-grey-moss-100 rounded-full h-2">
+                <div 
+                  className="bg-grey-moss-900 h-2 rounded-full transition-all duration-300 ease-out"
+                  style={{ width: `${uploadProgress}%` }}
+                />
+              </div>
+            </div>
+          )}
         </>
       )}
 
