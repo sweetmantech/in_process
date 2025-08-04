@@ -8,7 +8,7 @@ const useSubmitFeedback = () => {
   const [name, setName] = useState<string>("");
 
   const submit = async () => {
-    if (!name.trim()) {
+    if (!name.trim() || !feedback.trim()) {
       return;
     }
     setIsLoading(true);
