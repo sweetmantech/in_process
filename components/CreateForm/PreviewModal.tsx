@@ -10,8 +10,13 @@ import UploadPreview from "./UploadPreview";
 import ImageEditor from "./ImageEditor";
 
 const PreviewModal = () => {
-  const { setIsOpenPreviewUpload, isOpenPreviewUpload, isEditingPreview } =
+  const { setIsOpenPreviewUpload, isOpenPreviewUpload, isEditingPreview, setIsEditingPreview } =
     useZoraCreateProvider();
+
+  const handleSetPreviewClick = () => {
+    setIsOpenPreviewUpload(true);
+    setIsEditingPreview(true); // Skip first modal, directly show ImageEditor
+  };
 
   return (
     <Dialog
@@ -20,7 +25,7 @@ const PreviewModal = () => {
     >
       <DialogTrigger
         asChild
-        onClick={() => setIsOpenPreviewUpload(true)}
+        onClick={handleSetPreviewClick}
         className="disabled:cursor-not-allowed disabled:bg-grey-moss-300"
       >
         <button
