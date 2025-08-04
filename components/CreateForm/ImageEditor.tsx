@@ -44,9 +44,7 @@ export default function ImageEditor(): ReactElement {
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const [uploadProgress, setUploadProgress] = useState<number>(0);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const [originalDimensions, setOriginalDimensions] = useState<ImageDimensions>(
-    { width: 0, height: 0 },
-  );
+
   const [currentDimensions, setCurrentDimensions] = useState<ImageDimensions>({
     width: 0,
     height: 0,
@@ -117,7 +115,6 @@ export default function ImageEditor(): ReactElement {
           setOriginalImage(dataUrl);
 
           const dimensions = { width: img.width, height: img.height };
-          setOriginalDimensions(dimensions);
           setTrulyOriginalDimensions(dimensions);
           setCurrentDimensions(dimensions);
           setScale(100);
@@ -237,7 +234,7 @@ export default function ImageEditor(): ReactElement {
         return clampedScale;
       });
     },
-    [imageDisplaySize],
+    [imageDisplaySize, ensureCropAreaConsistency],
   );
 
   const getCropStyle = useCallback(() => {
@@ -309,19 +306,6 @@ export default function ImageEditor(): ReactElement {
           newCrop.y = newY;
           
           // Debug log to see the calculations
-          console.log('Drag Debug:', {
-            scale,
-            scaledImageWidth,
-            scaledImageHeight,
-            maxX,
-            maxY,
-            prevX: prev.x,
-            prevY: prev.y,
-            deltaX,
-            deltaY,
-            newX,
-            newY
-          });
         } else if (dragState.dragType === "resize" && dragState.resizeHandle) {
           // Crop area should always match imageDisplaySize - no resizing allowed
           // Only allow movement within bounds
@@ -349,28 +333,10 @@ export default function ImageEditor(): ReactElement {
         startY: e.clientY,
       }));
     },
-    [dragState, imageDisplaySize, scale],
+    [dragState.isDragging, dragState.dragType, dragState.startX, dragState.startY, dragState.resizeHandle, imageDisplaySize, scale, ensureCropAreaConsistency],
   );
 
   const handleMouseUp = useCallback(() => {
-    // Log debug information when mouse is released
-    console.log('Mouse Up Debug Info:', {
-      scale: scale,
-      imageSize: {
-        width: imageDisplaySize.width,
-        height: imageDisplaySize.height
-      },
-      cropArea: {
-        x: cropArea.x,
-        y: cropArea.y,
-        width: cropArea.width,
-        height: cropArea.height
-      },
-      mouseMovement: {
-        deltaX: dragState.startX - (dragState.startX || 0),
-        deltaY: dragState.startY - (dragState.startY || 0)
-      }
-    });
 
     setDragState({
       isDragging: false,
@@ -379,65 +345,9 @@ export default function ImageEditor(): ReactElement {
       startY: 0,
       resizeHandle: null,
     });
-  }, [scale, imageDisplaySize, cropArea, dragState.startX, dragState.startY]);
+  }, []);
 
-  const applyCrop = useCallback(() => {
-    if (!selectedImage) return;
 
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    const img = new Image();
-    img.onload = () => {
-      // The crop area is in display coordinates (what user sees)
-      // We need to convert this to the actual portion of the original image
-      
-      // Calculate the actual visible portion of the original image
-      // based on the current scale and crop area position
-      const scaleRatio = scale / 100;
-      
-      // The crop area represents the visible portion in display coordinates
-      // We need to convert this to original image coordinates
-      const cropXInOriginal = cropArea.x / scaleRatio;
-      const cropYInOriginal = cropArea.y / scaleRatio;
-      const cropWidthInOriginal = cropArea.width / scaleRatio;
-      const cropHeightInOriginal = cropArea.height / scaleRatio;
-
-      // Set canvas to the display size (what user sees)
-      canvas.width = imageDisplaySize.width;
-      canvas.height = imageDisplaySize.height;
-
-      // Draw the cropped portion from the original image to fit display size
-      ctx.drawImage(
-        img,
-        cropXInOriginal,
-        cropYInOriginal,
-        cropWidthInOriginal,
-        cropHeightInOriginal,
-        0,
-        0,
-        imageDisplaySize.width,
-        imageDisplaySize.height,
-      );
-
-      const croppedDataUrl = canvas.toDataURL();
-      setSelectedImage(croppedDataUrl);
-      
-      // Update dimensions to the display size (what user sees)
-      setOriginalDimensions({ width: imageDisplaySize.width, height: imageDisplaySize.height });
-      setCurrentDimensions({ width: imageDisplaySize.width, height: imageDisplaySize.height });
-      setCropMode(true);
-      setScale(100);
-
-      // Keep the same display size (what user was seeing)
-      setImageDisplaySize({ width: imageDisplaySize.width, height: imageDisplaySize.height });
-      
-      // Reset crop area to full display area
-      setCropArea({ x: 0, y: 0, width: imageDisplaySize.width, height: imageDisplaySize.height });
-    };
-    img.src = selectedImage;
-  }, [selectedImage, cropArea, originalDimensions, imageDisplaySize, scale]);
 
   const resetToOriginal = useCallback(() => {
     if (
@@ -449,7 +359,6 @@ export default function ImageEditor(): ReactElement {
 
     // Restore original uncropped image
     setSelectedImage(originalImage);
-    setOriginalDimensions(trulyOriginalDimensions);
     setCurrentDimensions(trulyOriginalDimensions);
     setScale(100);
     setCropMode(true);
@@ -557,24 +466,6 @@ export default function ImageEditor(): ReactElement {
       return;
     }
 
-    // Log BEFORE cropping - what the user sees
-    console.log('=== BEFORE CROPPING ===');
-    console.log('User visible crop area:', {
-      x: cropArea.x,
-      y: cropArea.y,
-      width: cropArea.width,
-      height: cropArea.height
-    });
-    console.log('Image display size:', {
-      width: imageDisplaySize.width,
-      height: imageDisplaySize.height
-    });
-    console.log('Scale:', scale);
-    console.log('Original image dimensions:', {
-      width: originalDimensions.width,
-      height: originalDimensions.height
-    });
-
     // Capture exactly what the user is seeing using current display variables
     const croppedImageData = await new Promise<string | null>((resolve) => {
       if (!selectedImage) {
@@ -598,17 +489,6 @@ export default function ImageEditor(): ReactElement {
         // Use the current display variables directly - no complex calculations needed
         // The crop area is already in the correct coordinate system for what the user sees
         
-        // Log AFTER cropping - using current display variables
-        console.log('=== AFTER CROPPING - USING DISPLAY VARIABLES ===');
-        console.log('Using current crop area directly:', {
-          x: cropArea.x,
-          y: cropArea.y,
-          width: cropArea.width,
-          height: cropArea.height
-        });
-        console.log('Current scale:', scale);
-        console.log('Current image display size:', imageDisplaySize);
-
         // Simply draw the crop area as it's currently displayed
         // This captures exactly what the user sees without any coordinate transformations
         ctx.drawImage(
@@ -627,7 +507,6 @@ export default function ImageEditor(): ReactElement {
         
         // Update state for UI consistency
         setSelectedImage(croppedDataUrl);
-        setOriginalDimensions({ width: cropArea.width, height: cropArea.height });
         setCurrentDimensions({ width: cropArea.width, height: cropArea.height });
         setCropMode(true);
         setScale(100);
