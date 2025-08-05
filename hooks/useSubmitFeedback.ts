@@ -14,10 +14,8 @@ const useSubmitFeedback = () => {
       return;
     }
     setIsLoading(true);
-    
-    const currentWallet = connectedWallet;
-    
-    await submitFeedback(feedback, name, currentWallet);
+        
+    await submitFeedback(feedback, name, connectedWallet);
     setFeedback("");
     setName("");
     setIsOpenModal(false);
