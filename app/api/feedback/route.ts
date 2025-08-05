@@ -1,11 +1,12 @@
 import { INPROCESS_GROUP_CHAT_ID } from "@/lib/consts";
 import { NextRequest } from "next/server";
 import TelegramBot from "node-telegram-bot-api";
+import { Address } from "viem";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  const { feedback, name, wallet } = body;
-  
+  const { feedback, name, wallet }: { feedback: string; name: string; wallet?: Address } = body;
+
   // Validate required fields
   if (!name?.trim() || !feedback?.trim()) {
     return Response.json(
