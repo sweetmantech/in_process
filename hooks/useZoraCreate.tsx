@@ -50,7 +50,7 @@ export default function useZoraCreate() {
     }
   };
 
-  return {
+  const providerData = {
     createdContract,
     createdTokenId,
     setCreatedTokenId,
@@ -61,4 +61,6 @@ export default function useZoraCreate() {
     ...mask,
     ...advancedValues,
   };
+
+  return providerData;
 }
