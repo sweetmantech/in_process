@@ -52,7 +52,11 @@ const ContentRenderer = ({ metadata }: ContentRendererProps) => {
     <div className="grow relative">
       {/* eslint-disable-next-line */}
       <img
-        src={getFetchableUrl(metadata.image) || "/images/placeholder.png"}
+        src={
+          getFetchableUrl(metadata.animation_url) ||
+          getFetchableUrl(metadata.image) ||
+          "/images/placeholder.png"
+        }
         alt="Token Image."
         style={{
           imageRendering: isMobile ? "auto" : "pixelated",
