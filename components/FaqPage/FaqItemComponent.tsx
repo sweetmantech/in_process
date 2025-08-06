@@ -18,7 +18,11 @@ const FaqItemComponent = ({ faq, index }: FaqItemComponentProps) => {
     return (
       <div key={lineIndex} className={`mb-1 ${isBulletPoint ? "ml-4" : ""}`}>
         <span
-          className={`font-spectral text-[14px] md:text-[18px] lowercase text-[#1B1504] leading-[200%] tracking-[-0.05em] ${isBulletPoint ? "font-bold" : "font-normal"}`}
+          className={`font-spectral text-[14px] md:text-[18px] lowercase text-[#1B1504] leading-[200%] tracking-[-0.05em] font-normal`}
+          style={{
+            WebkitFontSmoothing: "antialiased",
+            MozOsxFontSmoothing: "grayscale",
+          }}
         >
           {parts.map((part, partIndex) => {
             if (part.includes("<strong>")) {
