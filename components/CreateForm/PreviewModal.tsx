@@ -10,7 +10,7 @@ import UploadPreview from "./UploadPreview";
 import CropImage from "../CropImage";
 
 const PreviewModal = () => {
-  const { setIsOpenPreviewUpload, isOpenPreviewUpload } =
+  const { setIsOpenPreviewUpload, isOpenPreviewUpload, isEditingPreview } =
     useZoraCreateProvider();
 
   return (
