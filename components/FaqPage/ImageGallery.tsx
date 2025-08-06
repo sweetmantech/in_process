@@ -6,6 +6,22 @@ interface ImageGalleryProps {
   isStepsGallery?: boolean;
 }
 
+const getCaptionStyles = (isStepsGallery: boolean, caption: string) => {
+  const baseClasses = "font-spectral lowercase text-left";
+  const sizeClasses = isStepsGallery
+    ? "text-[14px] md:text-[20px] ml-6 md:ml-4"
+    : "text-[16px] leading-[100%] md:text-[24px] ml-2 md:ml-4 text-grey-moss-500 italic";
+  const paddingClass = caption.includes("Start your process") ? "pr-10" : "";
+
+  return `${baseClasses} ${sizeClasses} ${paddingClass}`;
+};
+
+const getCaptionInlineStyles = (isStepsGallery: boolean) => ({
+  fontWeight: 500,
+  letterSpacing: "-5%",
+  color: isStepsGallery ? "rgba(27, 21, 4, 1)" : "rgba(78, 78, 78, 1)",
+});
+
 const ImageGallery = ({
   images,
   isStepsGallery = false,
@@ -30,18 +46,8 @@ const ImageGallery = ({
               />
             </div>
             <p
-              className={`font-spectral lowercase text-[16px] leading-[100%] md:text-[24px] ml-2 md:ml-4 text-left ${
-                isStepsGallery
-                  ? "text-[14px] md:text-[20px] ml-6 md:ml-4"
-                  : "text-grey-moss-500 italic"
-              } ${image.caption.includes("Start your process") ? "pr-10" : ""}`}
-              style={{
-                fontWeight: 500,
-                letterSpacing: "-5%",
-                color: isStepsGallery
-                  ? "rgba(27, 21, 4, 1)"
-                  : "rgba(78, 78, 78, 1)",
-              }}
+              className={getCaptionStyles(isStepsGallery, image.caption)}
+              style={getCaptionInlineStyles(isStepsGallery)}
             >
               {image.caption}
             </p>
