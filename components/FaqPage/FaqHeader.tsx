@@ -10,7 +10,7 @@ const FaqHeader = () => {
       </div>
       <div className="flex justify-center md:mt-10 mt-5 md:hidden">
         <Image
-          src="/faq_line.svg"
+          src="/images/faq/faq_line.svg"
           alt="faq line"
           width={378}
           height={36}

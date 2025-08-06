@@ -1,4 +1,4 @@
-import { FaqItem } from "@/data/faqContent";
+import { FaqItem } from "@/lib/faq/faqContent";
 import FaqItemComponent from "./FaqItemComponent";
 
 interface FaqSectionProps {

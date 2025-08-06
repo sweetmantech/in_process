@@ -1,7 +1,7 @@
 "use client";
 
-import { faqSections } from "@/data/faqContent";
-import { faqImageGalleries } from "@/data/faqImages";
+import { faqSections } from "@/lib/faq/faqContent";
+import { faqImageGalleries } from "@/lib/faq/faqImages";
 import FaqHeader from "./FaqHeader";
 import FaqSection from "./FaqSection";
 import ImageGallery from "./ImageGallery";
@@ -40,21 +40,21 @@ const FaqPage = () => {
         <div className="px-1 md:px-2">
           <ImageGallery
             images={faqImageGalleries.gettingStarted.slice(0, 2)}
-            isStepsGallery={true}
+            captionClassName="font-spectral lowercase text-left font-medium tracking-tight text-[#1B1504] text-[14px] md:text-[20px] ml-6 md:ml-4"
           />
         </div>
 
         <div className="mt-8 md:mt-12 px-1 md:px-2">
           <ImageGallery
             images={faqImageGalleries.gettingStarted.slice(2, 4)}
-            isStepsGallery={true}
+            captionClassName="font-spectral lowercase text-left font-medium tracking-tight text-[#1B1504] text-[14px] md:text-[20px] ml-6 md:ml-4"
           />
         </div>
 
         <div className="mt-8 md:mt-12 px-1 md:px-2">
           <ImageGallery
             images={faqImageGalleries.gettingStarted.slice(4, 6)}
-            isStepsGallery={true}
+            captionClassName="font-spectral lowercase text-left font-medium tracking-tight text-[#1B1504] text-[14px] md:text-[20px] ml-6 md:ml-4"
           />
         </div>
 
