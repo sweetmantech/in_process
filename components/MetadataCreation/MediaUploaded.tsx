@@ -66,7 +66,7 @@ const MediaUploaded = ({ handleImageClick }: MediaUploadedProps) => {
     return (
       <div className="size-full">
         <Image
-          src={previewSrc || getFetchableUrl(imageUri) || ""}
+          src={getFetchableUrl(imageUri) || previewSrc || ""}
           alt="Image Preview"
           onClick={handleImageClick}
           blurDataURL={previewSrc}
