@@ -36,7 +36,6 @@ export default function useCropImage(): UseCropImageReturn {
 
     try {
       setIsUploading(true);
-      // Get cropped image as object URL
       const resultUrl = (await getCroppedImg(
         imageSrc,
         croppedAreaPixels,
