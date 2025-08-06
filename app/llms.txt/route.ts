@@ -4,7 +4,8 @@ import { join } from "path";
 export async function GET() {
   try {
     const filePath = join(process.cwd(), "llms.txt");
-    const content = readFileSync(filePath, "utf-8");
+    const { readFile } = await import("fs/promises");
+    const content = await readFile(filePath, "utf-8");
     
     return new Response(content, {
       status: 200,
@@ -13,9 +14,9 @@ export async function GET() {
         "Cache-Control": "public, max-age=3600",
       },
     });
-  } catch (e: any) {
-    console.log(e);
-    const message = e?.message ?? "failed to read llms.txt file";
+  } catch (e: unknown) {
+    console.error("Error reading llms.txt file:", e);
+    const message = e instanceof Error ? e.message : "failed to read llms.txt file";
     return Response.json({ message }, { status: 500 });
   }
 }
