@@ -82,7 +82,7 @@ const UploadPreview = () => {
           </>
         )}
       </div>
-      <p className="font-spectral-italic cursor-pointer">click to resize</p>
+      <p className="font-spectral-italic">drag / zoom to resize</p>
       <button
         type="button"
         className="border border-grey-moss-900 w-3/4 mt-2 py-2 font-archivo rounded-sm 
