@@ -7,7 +7,6 @@ import {
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
 import UploadPreview from "./UploadPreview";
-import ImageEditor from "./ImageEditor";
 import CropImage from "../CropImage";
 
 const PreviewModal = () => {
