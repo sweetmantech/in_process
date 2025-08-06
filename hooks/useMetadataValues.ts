@@ -14,7 +14,6 @@ const useMetadataValues = () => {
   const [mimeType, setMimeType] = useState<string>("");
   const [animationUri, setAnimationUri] = useState<string>("");
   const [previewUri, setPreviewUri] = useState<string>("");
-  const [isEditingPreview, setIsEditingPreview] = useState<boolean>(false);
   const [isOpenPreviewUpload, setIsOpenPreviewUpload] =
     useState<boolean>(false);
   const [previewSrc, setPreviewSrc] = useState<string>("");
@@ -46,8 +45,6 @@ const useMetadataValues = () => {
     setIsTimedSale,
     previewUri,
     setPreviewUri,
-    isEditingPreview,
-    setIsEditingPreview,
     setIsOpenPreviewUpload,
     isOpenPreviewUpload,
     previewSrc,

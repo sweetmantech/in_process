@@ -1,45 +1,36 @@
 import Cropper from "react-easy-crop";
-import { Button } from "@/components/ui/button";
-import useCropImage from "@/hooks/useCropImage";
-import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
+import { useCropImageProvider } from "@/providers/CropImageProvider";
 import { arweaveGatewayUrl } from "@/lib/protocolSdk/ipfs/gateway";
+import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
 
 const CropImage = () => {
-  const { imageUri } = useZoraCreateProvider();
+  const { previewSrc, imageUri } = useZoraCreateProvider();
   const {
+    hasUploadedSelectedImage,
     crop,
-    setCrop,
     rotation,
+    setCrop,
     setRotation,
     zoom,
     setZoom,
     onCropComplete,
-    saveCroppedImage,
-    isUploading,
-  } = useCropImage();
-  const imageSrc = arweaveGatewayUrl(imageUri) || "";
+  } = useCropImageProvider();
+  const imageSrc = hasUploadedSelectedImage
+    ? previewSrc
+    : arweaveGatewayUrl(imageUri) || "";
 
   return (
-    <div className="flex flex-col items-center h-[500px]">
-      <div className="relative w-full h-[400px] w-[400px]">
-        <Cropper
-          image={imageSrc}
-          crop={crop}
-          rotation={rotation}
-          zoom={zoom}
-          aspect={4 / 3}
-          onCropChange={setCrop}
-          onRotationChange={setRotation}
-          onCropComplete={onCropComplete}
-          onZoomChange={setZoom}
-        />
-      </div>
-      <div className="flex justify-center pt-4 z-10">
-        <Button onClick={saveCroppedImage} disabled={isUploading}>
-          {isUploading ? "Saving…" : "Save Result"}
-        </Button>
-      </div>
-    </div>
+    <Cropper
+      image={imageSrc}
+      crop={crop}
+      rotation={rotation}
+      zoom={zoom}
+      aspect={4 / 3}
+      onCropChange={setCrop}
+      onRotationChange={setRotation}
+      onCropComplete={onCropComplete}
+      onZoomChange={setZoom}
+    />
   );
 };
 

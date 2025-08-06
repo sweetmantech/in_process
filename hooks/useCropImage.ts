@@ -15,17 +15,23 @@ interface UseCropImageReturn {
   onCropComplete: (_: Area, cropped: Area) => void;
   saveCroppedImage: () => Promise<void>;
   isUploading: boolean;
+  hasUploadedSelectedImage: boolean;
+  setHasUploadedSelectedImage: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function useCropImage(): UseCropImageReturn {
-  const { setPreviewUri, setPreviewSrc, setIsEditingPreview, imageUri } =
+  const { setPreviewUri, setPreviewSrc, previewSrc, imageUri } =
     useZoraCreateProvider();
   const [crop, setCrop] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
   const [rotation, setRotation] = useState<number>(0);
   const [zoom, setZoom] = useState<number>(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
   const [isUploading, setIsUploading] = useState<boolean>(false);
-  const imageSrc = arweaveGatewayUrl(imageUri) || "";
+  const [hasUploadedSelectedImage, setHasUploadedSelectedImage] =
+    useState<boolean>(false);
+  const imageSrc = hasUploadedSelectedImage
+    ? previewSrc
+    : arweaveGatewayUrl(imageUri) || "";
 
   const onCropComplete = (_: Area, cropped: Area) => {
     setCroppedAreaPixels(cropped);
@@ -52,7 +58,6 @@ export default function useCropImage(): UseCropImageReturn {
 
       setPreviewSrc(resultUrl);
       setPreviewUri(uri);
-      setIsEditingPreview(false);
     } catch (err) {
       console.error(err);
     } finally {
@@ -70,5 +75,7 @@ export default function useCropImage(): UseCropImageReturn {
     onCropComplete,
     saveCroppedImage,
     isUploading,
+    hasUploadedSelectedImage,
+    setHasUploadedSelectedImage,
   };
 }

@@ -1,25 +1,29 @@
 import { Fragment } from "react";
 import { ChangeEvent, useRef, useState } from "react";
 import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
-import Image from "next/image";
 import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
 import { toast } from "sonner";
 import WritingPreview from "./WritingPreview";
 import { Label } from "../ui/label";
+import { useCropImageProvider } from "@/providers/CropImageProvider";
+import CropImage from "@/components/CropImage";
 
 const UploadPreview = () => {
   const {
     previewUri,
     setPreviewUri,
     writingText,
-    setIsEditingPreview,
     setIsOpenPreviewUpload,
-    previewSrc,
     setPreviewSrc,
   } = useZoraCreateProvider();
   const [progress, setProgress] = useState<number>(0);
   const previewRef = useRef() as any;
   const [isUploading, setIsUploading] = useState<boolean>(false);
+  const {
+    saveCroppedImage,
+    isUploading: isUploadingCrop,
+    setHasUploadedSelectedImage,
+  } = useCropImageProvider();
 
   const handleClick = () => {
     if (!previewRef.current) return;
@@ -36,12 +40,19 @@ const UploadPreview = () => {
       return;
     }
     const previewUri = await clientUploadToArweave(file, (value: number) =>
-      setProgress(value),
+      setProgress(value)
     );
     setPreviewSrc(URL.createObjectURL(file));
     setPreviewUri(previewUri);
     setIsUploading(false);
+    setHasUploadedSelectedImage(true);
   };
+
+  const handleDoneClick = async () => {
+    await saveCroppedImage();
+    setIsOpenPreviewUpload(false);
+  };
+
   return (
     <Fragment>
       <Label className="font-archivo-medium text-2xl text-center w-full">
@@ -56,14 +67,7 @@ const UploadPreview = () => {
       />
       <div className="w-3/4 aspect-video relative border border-grey mt-2 font-spectral overflow-hidden">
         {previewUri && !isUploading ? (
-          // eslint-disable-next-line
-          <Image
-            layout="fill"
-            objectFit="cover"
-            objectPosition="center"
-            src={previewSrc}
-            alt="not found preview."
-          />
+          <CropImage />
         ) : (
           <>
             {writingText && !isUploading ? (
@@ -78,13 +82,7 @@ const UploadPreview = () => {
           </>
         )}
       </div>
-      <button
-        className="font-spectral-italic cursor-pointer"
-        type="button"
-        onClick={() => setIsEditingPreview(true)}
-      >
-        click to resize
-      </button>
+      <p className="font-spectral-italic">drag / zoom to resize</p>
       <button
         type="button"
         className="border border-grey-moss-900 w-3/4 mt-2 py-2 font-archivo rounded-sm 
@@ -101,9 +99,10 @@ const UploadPreview = () => {
         hover:border-grey-moss-300 hover:bg-grey-moss-300
         transform transition-transform duration-150 
         disabled:opacity-1 disabled:!cursor-not-allowed disabled:!pointer-events-auto"
-        onClick={() => setIsOpenPreviewUpload(false)}
+        onClick={handleDoneClick}
+        disabled={isUploadingCrop}
       >
-        done
+        {isUploadingCrop ? "saving..." : "done"}
       </button>
     </Fragment>
   );
