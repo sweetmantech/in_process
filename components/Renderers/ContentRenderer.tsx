@@ -1,4 +1,5 @@
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
+import { usePathname } from "next/navigation";
 import { Metadata } from "@/types/token";
 import PdfViewer from "./PdfViewer";
 import VideoPlayer from "./VideoPlayer";
@@ -12,6 +13,8 @@ interface ContentRendererProps {
 
 const ContentRenderer = ({ metadata }: ContentRendererProps) => {
   const mimeType = metadata?.content?.mime || "";
+  const pathname = usePathname();
+  const isCollect = pathname.includes("/collect");
   const isMobile = useIsMobile();
 
   if (mimeType.includes("pdf"))
@@ -52,7 +55,11 @@ const ContentRenderer = ({ metadata }: ContentRendererProps) => {
     <div className="grow relative">
       {/* eslint-disable-next-line */}
       <img
-        src={getFetchableUrl(metadata.image) || "/images/placeholder.png"}
+        src={
+          (isCollect && getFetchableUrl(metadata.animation_url)) ||
+          getFetchableUrl(metadata.image) ||
+          "/images/placeholder.png"
+        }
         alt="Token Image."
         style={{
           imageRendering: isMobile ? "auto" : "pixelated",
