@@ -11,6 +11,10 @@ export async function GET() {
       headers: {
         "Content-Type": "text/plain; charset=utf-8",
         "Cache-Control": "public, max-age=3600",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, User-Agent",
+        "Content-Length": Buffer.byteLength(content, "utf-8").toString(),
       },
     });
   } catch (e: unknown) {
@@ -18,6 +22,17 @@ export async function GET() {
     const message = e instanceof Error ? e.message : "failed to read llms.txt file";
     return Response.json({ message }, { status: 500 });
   }
+}
+
+export async function OPTIONS() {
+  return new Response(null, {
+    status: 200,
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type, User-Agent",
+    },
+  });
 }
 
 // Enable caching to match the Cache-Control header (3600 seconds = 1 hour)
