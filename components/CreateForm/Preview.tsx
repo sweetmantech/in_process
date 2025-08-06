@@ -35,7 +35,7 @@ const Preview = () => {
           <WritingPreview />
         </PreviewContainer>
       )}
-      <PreviewModal />
+      {previewUri && <PreviewModal />}
     </div>
   );
 };
