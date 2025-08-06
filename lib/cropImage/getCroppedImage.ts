@@ -1,37 +1,7 @@
-export const createImage = (url: string): Promise<HTMLImageElement> =>
-  new Promise((resolve, reject) => {
-    const image = new Image();
-    image.addEventListener("load", () => resolve(image as HTMLImageElement));
-    image.addEventListener("error", (error) => reject(error));
-    image.setAttribute("crossOrigin", "anonymous"); // needed to avoid cross-origin issues on CodeSandbox
-    image.src = url;
-  });
+import { createImage } from "./createImage";
+import { getRadianAngle } from "./getRadianAngle";
+import { rotateSize } from "./rotateSize";
 
-export function getRadianAngle(degreeValue: number): number {
-  return (degreeValue * Math.PI) / 180;
-}
-
-/**
- * Returns the new bounding area of a rotated rectangle.
- */
-export function rotateSize(
-  width: number,
-  height: number,
-  rotation: number
-): { width: number; height: number } {
-  const rotRad = getRadianAngle(rotation);
-
-  return {
-    width:
-      Math.abs(Math.cos(rotRad) * width) + Math.abs(Math.sin(rotRad) * height),
-    height:
-      Math.abs(Math.sin(rotRad) * width) + Math.abs(Math.cos(rotRad) * height),
-  };
-}
-
-/**
- * This function was adapted from the one in the ReadMe of https://github.com/DominicTobias/react-image-crop
- */
 export interface PixelCrop {
   x: number;
   y: number;
