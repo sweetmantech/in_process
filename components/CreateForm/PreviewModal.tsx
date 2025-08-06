@@ -7,10 +7,9 @@ import {
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
 import UploadPreview from "./UploadPreview";
-import ImageEditor from "./ImageEditor";
 
 const PreviewModal = () => {
-  const { setIsOpenPreviewUpload, isOpenPreviewUpload, isEditingPreview } =
+  const { setIsOpenPreviewUpload, isOpenPreviewUpload } =
     useZoraCreateProvider();
 
   return (
@@ -39,7 +38,7 @@ const PreviewModal = () => {
         <VisuallyHidden>
           <DialogTitle>Leave feedback</DialogTitle>
         </VisuallyHidden>
-        {isEditingPreview ? <ImageEditor /> : <UploadPreview />}
+        <UploadPreview />
       </DialogContent>
     </Dialog>
   );
