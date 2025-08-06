@@ -1,4 +1,3 @@
-import { readFileSync } from "fs";
 import { join } from "path";
 
 export async function GET() {
@@ -21,6 +20,5 @@ export async function GET() {
   }
 }
 
-export const dynamic = "force-dynamic";
-export const fetchCache = "force-no-store";
-export const revalidate = 0;
+// Enable caching to match the Cache-Control header (3600 seconds = 1 hour)
+export const revalidate = 3600;
