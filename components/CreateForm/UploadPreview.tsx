@@ -1,11 +1,13 @@
 import { Fragment } from "react";
 import { ChangeEvent, useRef, useState } from "react";
 import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
-import Image from "next/image";
 import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
 import { toast } from "sonner";
 import WritingPreview from "./WritingPreview";
 import { Label } from "../ui/label";
+import { arweaveGatewayUrl } from "@/lib/protocolSdk/ipfs/gateway";
+import useCropImage from "@/hooks/useCropImage";
+import Cropper from "react-easy-crop";
 
 const UploadPreview = () => {
   const {
@@ -14,12 +16,26 @@ const UploadPreview = () => {
     writingText,
     setIsEditingPreview,
     setIsOpenPreviewUpload,
-    previewSrc,
+    imageUri,
     setPreviewSrc,
+    previewSrc,
   } = useZoraCreateProvider();
   const [progress, setProgress] = useState<number>(0);
   const previewRef = useRef() as any;
   const [isUploading, setIsUploading] = useState<boolean>(false);
+  const [hasUploaded, setHasUploaded] = useState<boolean>(false);
+  const imageSrc = hasUploaded ? previewSrc : arweaveGatewayUrl(imageUri) || "";
+  const {
+    crop,
+    setCrop,
+    rotation,
+    setRotation,
+    zoom,
+    setZoom,
+    onCropComplete,
+    saveCroppedImage,
+    isUploading: isUploadingCrop,
+  } = useCropImage(hasUploaded ? previewSrc : imageSrc);
 
   const handleClick = () => {
     if (!previewRef.current) return;
@@ -36,12 +52,19 @@ const UploadPreview = () => {
       return;
     }
     const previewUri = await clientUploadToArweave(file, (value: number) =>
-      setProgress(value),
+      setProgress(value)
     );
     setPreviewSrc(URL.createObjectURL(file));
     setPreviewUri(previewUri);
     setIsUploading(false);
+    setHasUploaded(true);
   };
+
+  const handleDoneClick = async () => {
+    await saveCroppedImage();
+    setIsOpenPreviewUpload(false);
+  };
+
   return (
     <Fragment>
       <Label className="font-archivo-medium text-2xl text-center w-full">
@@ -56,13 +79,16 @@ const UploadPreview = () => {
       />
       <div className="w-3/4 aspect-video relative border border-grey mt-2 font-spectral overflow-hidden">
         {previewUri && !isUploading ? (
-          // eslint-disable-next-line
-          <Image
-            layout="fill"
-            objectFit="cover"
-            objectPosition="center"
-            src={previewSrc}
-            alt="not found preview."
+          <Cropper
+            image={hasUploaded ? previewSrc : imageSrc}
+            crop={crop}
+            rotation={rotation}
+            zoom={zoom}
+            aspect={4 / 3}
+            onCropChange={setCrop}
+            onRotationChange={setRotation}
+            onCropComplete={onCropComplete}
+            onZoomChange={setZoom}
           />
         ) : (
           <>
@@ -101,9 +127,10 @@ const UploadPreview = () => {
         hover:border-grey-moss-300 hover:bg-grey-moss-300
         transform transition-transform duration-150 
         disabled:opacity-1 disabled:!cursor-not-allowed disabled:!pointer-events-auto"
-        onClick={() => setIsOpenPreviewUpload(false)}
+        onClick={handleDoneClick}
+        disabled={isUploadingCrop}
       >
-        done
+        {isUploadingCrop ? "saving..." : "done"}
       </button>
     </Fragment>
   );

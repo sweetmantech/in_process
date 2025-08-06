@@ -17,7 +17,7 @@ interface UseCropImageReturn {
   isUploading: boolean;
 }
 
-export default function useCropImage(): UseCropImageReturn {
+export default function useCropImage(imageSrc: string): UseCropImageReturn {
   const { setPreviewUri, setPreviewSrc, setIsEditingPreview, imageUri } =
     useZoraCreateProvider();
   const [crop, setCrop] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
@@ -25,7 +25,6 @@ export default function useCropImage(): UseCropImageReturn {
   const [zoom, setZoom] = useState<number>(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
   const [isUploading, setIsUploading] = useState<boolean>(false);
-  const imageSrc = arweaveGatewayUrl(imageUri) || "";
 
   const onCropComplete = (_: Area, cropped: Area) => {
     setCroppedAreaPixels(cropped);
