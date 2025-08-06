@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
   try {
     const bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN as string);
     const message = wallet 
-      ? `New Feedback\n\nName: ${name}\nWallet: ${wallet}\n\nMessage:\n${feedback}`
+      ? `New Feedback\n\nName: ${name}\n\nWallet: ${wallet}\n\nMessage:\n${feedback}`
       : `New Feedback\n\nName: ${name}\n\nMessage:\n${feedback}`;
     bot.sendMessage(INPROCESS_GROUP_CHAT_ID, message);
     return Response.json({ success: true });
