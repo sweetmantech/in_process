@@ -5,37 +5,25 @@ import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
 import { toast } from "sonner";
 import WritingPreview from "./WritingPreview";
 import { Label } from "../ui/label";
-import { arweaveGatewayUrl } from "@/lib/protocolSdk/ipfs/gateway";
-import useCropImage from "@/hooks/useCropImage";
-import Cropper from "react-easy-crop";
+import { useCropImageProvider } from "@/providers/CropImageProvider";
+import CropImage from "@/components/CropImage";
 
 const UploadPreview = () => {
   const {
     previewUri,
     setPreviewUri,
     writingText,
-    setIsEditingPreview,
     setIsOpenPreviewUpload,
-    imageUri,
     setPreviewSrc,
-    previewSrc,
   } = useZoraCreateProvider();
   const [progress, setProgress] = useState<number>(0);
   const previewRef = useRef() as any;
   const [isUploading, setIsUploading] = useState<boolean>(false);
-  const [hasUploaded, setHasUploaded] = useState<boolean>(false);
-  const imageSrc = hasUploaded ? previewSrc : arweaveGatewayUrl(imageUri) || "";
   const {
-    crop,
-    setCrop,
-    rotation,
-    setRotation,
-    zoom,
-    setZoom,
-    onCropComplete,
     saveCroppedImage,
     isUploading: isUploadingCrop,
-  } = useCropImage(hasUploaded ? previewSrc : imageSrc);
+    setHasUploadedSelectedImage,
+  } = useCropImageProvider();
 
   const handleClick = () => {
     if (!previewRef.current) return;
@@ -57,7 +45,7 @@ const UploadPreview = () => {
     setPreviewSrc(URL.createObjectURL(file));
     setPreviewUri(previewUri);
     setIsUploading(false);
-    setHasUploaded(true);
+    setHasUploadedSelectedImage(true);
   };
 
   const handleDoneClick = async () => {
@@ -79,17 +67,7 @@ const UploadPreview = () => {
       />
       <div className="w-3/4 aspect-video relative border border-grey mt-2 font-spectral overflow-hidden">
         {previewUri && !isUploading ? (
-          <Cropper
-            image={hasUploaded ? previewSrc : imageSrc}
-            crop={crop}
-            rotation={rotation}
-            zoom={zoom}
-            aspect={4 / 3}
-            onCropChange={setCrop}
-            onRotationChange={setRotation}
-            onCropComplete={onCropComplete}
-            onZoomChange={setZoom}
-          />
+          <CropImage />
         ) : (
           <>
             {writingText && !isUploading ? (
@@ -104,13 +82,7 @@ const UploadPreview = () => {
           </>
         )}
       </div>
-      <button
-        className="font-spectral-italic cursor-pointer"
-        type="button"
-        onClick={() => setIsEditingPreview(true)}
-      >
-        click to resize
-      </button>
+      <p className="font-spectral-italic cursor-pointer">click to resize</p>
       <button
         type="button"
         className="border border-grey-moss-900 w-3/4 mt-2 py-2 font-archivo rounded-sm 
