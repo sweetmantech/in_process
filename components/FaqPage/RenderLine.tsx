@@ -1,4 +1,17 @@
-import DOMPurify from "dompurify";
+// Simple sanitization function that only allows <strong> tags
+const sanitizeHTML = (text: string): string => {
+  return text
+    .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+    .replace(/javascript:/gi, '')
+    .replace(/on\w+\s*=/gi, '')
+    .replace(/<[^>]*>/g, (match) => {
+      // Only allow <strong> tags
+      if (match.toLowerCase() === '<strong>' || match.toLowerCase() === '</strong>') {
+        return match;
+      }
+      return '';
+    });
+};
 
 export const RenderLine = (line: string, lineIndex: number) => {
   if (line.trim() === "") {
@@ -6,14 +19,7 @@ export const RenderLine = (line: string, lineIndex: number) => {
   }
 
   const isBulletPoint = line.trim().startsWith("•");
-
-  const sanitizedHTML =
-    typeof window !== "undefined"
-      ? DOMPurify.sanitize(line, {
-          ALLOWED_TAGS: ["strong"],
-          ALLOWED_ATTR: [],
-        })
-      : line;
+  const sanitizedHTML = sanitizeHTML(line);
 
   return (
     <div key={lineIndex} className={`mb-1 ${isBulletPoint ? "ml-4" : ""}`}>
