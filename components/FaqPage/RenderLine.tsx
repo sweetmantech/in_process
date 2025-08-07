@@ -1,6 +1,6 @@
 import DOMPurify from "dompurify";
 
-export const renderLine = (line: string, lineIndex: number) => {
+export const RenderLine = (line: string, lineIndex: number) => {
   if (line.trim() === "") {
     return <div key={lineIndex} className="mb-3"></div>;
   }

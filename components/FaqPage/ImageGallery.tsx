@@ -33,7 +33,7 @@ const ImageGallery = ({
                 />
               </div>
               <p
-                className={`${captionClassName} ${getCaptionClasses(captionClassName, image.caption)}`}
+                className={`${captionClassName} ${getCaptionClasses(image.caption)}`}
               >
                 {image.caption}
               </p>

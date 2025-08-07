@@ -1,3 +1,3 @@
-export const getCaptionClasses = (captionClassName: string, caption: string) => {
-  return `${captionClassName} ${caption.includes("Start your process") ? "pr-10" : ""}`;
+export const getCaptionClasses = (caption: string) => {
+  return caption.includes("Start your process") ? "pr-10" : "";
 }; 

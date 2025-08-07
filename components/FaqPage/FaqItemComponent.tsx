@@ -1,7 +1,7 @@
 "use client";
 
 import { FaqItem } from "@/lib/faq/faqContent";
-import { renderLine } from "./RenderLine";
+import { RenderLine } from "./RenderLine";
 
 interface FaqItemComponentProps {
   faq: FaqItem;
@@ -17,7 +17,7 @@ const FaqItemComponent = ({ faq, index }: FaqItemComponentProps) => {
       <div className="font-spectral whitespace-pre-line lowercase max-w-6xl text-[14px] leading-[200%] md:text-[18px] tracking-[-0.05em] antialiased">
         {faq.answer
           .split("\n")
-          .map((line, lineIndex) => renderLine(line, lineIndex))}
+          .map((line, lineIndex) => RenderLine(line, lineIndex))}
       </div>
     </div>
   );
