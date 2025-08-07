@@ -41,4 +41,4 @@ In Process revolutionizes how artists interact with digital art by giving them t
 
 - [Base Network](https://base.org): Layer 2 blockchain platform
 - [Privy Documentation](https://docs.privy.io): Authentication and wallet management
-- [CrossMint Integration](https://docs.crossmint.com): Payment processing documentation 
+- [CrossMint Integration](https://docs.crossmint.com): Payment processing documentation
