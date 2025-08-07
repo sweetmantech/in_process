@@ -86,9 +86,6 @@ importers:
       '@types/dom-to-image':
         specifier: ^2.6.7
         version: 2.6.7
-      '@types/dompurify':
-        specifier: ^3.2.0
-        version: 3.2.0
       '@types/node-telegram-bot-api':
         specifier: ^0.64.8
         version: 0.64.8
@@ -146,9 +143,6 @@ importers:
       dom-to-image-more:
         specifier: ^3.5.0
         version: 3.5.0
-      dompurify:
-        specifier: ^3.2.6
-        version: 3.2.6
       fabric:
         specifier: ^6.6.1
         version: 6.6.1(bufferutil@4.0.9)(encoding@0.1.13)(utf-8-validate@5.0.10)
@@ -200,6 +194,9 @@ importers:
       react-dom:
         specifier: 19.0.0-rc-66855b96-20241106
         version: 19.0.0-rc-66855b96-20241106(react@19.0.0-rc-66855b96-20241106)
+      react-easy-crop:
+        specifier: ^5.5.0
+        version: 5.5.0(react-dom@19.0.0-rc-66855b96-20241106(react@19.0.0-rc-66855b96-20241106))(react@19.0.0-rc-66855b96-20241106)
       react-intersection-observer:
         specifier: ^9.15.1
         version: 9.15.1(react-dom@19.0.0-rc-66855b96-20241106(react@19.0.0-rc-66855b96-20241106))(react@19.0.0-rc-66855b96-20241106)
@@ -3584,10 +3581,6 @@ packages:
   '@types/dom-to-image@2.6.7':
     resolution: {integrity: sha512-me5VbCv+fcXozblWwG13krNBvuEOm6kA5xoa4RrjDJCNFOZSWR3/QLtOXimBHk1Fisq69Gx3JtOoXtg1N1tijg==}
 
-  '@types/dompurify@3.2.0':
-    resolution: {integrity: sha512-Fgg31wv9QbLDA0SpTOXO3MaxySc4DKGLi8sna4/Utjo4r3ZRPdCt4UQee8BWr+Q5z21yifghREPJGYaEOEIACg==}
-    deprecated: This is a stub types definition. dompurify provides its own type definitions, so you do not need this installed.
-
   '@types/istanbul-lib-coverage@2.0.6':
     resolution: {integrity: sha512-2QF/t/auWm0lsy8XtKVPG19v3sSOQlJe/YHZgfjb/KBBHOGSV+J2q/S671rcq9uTBrLAXmZpqJiaQbMT+zNU1w==}
 
@@ -5451,9 +5444,6 @@ packages:
   dommatrix@1.0.3:
     resolution: {integrity: sha512-l32Xp/TLgWb8ReqbVJAFIvXmY7go4nTxxlWiAFyhoQw9RKEOHBZNnyGvJWqDVSPmq3Y9HlM4npqF/T6VMOXhww==}
     deprecated: dommatrix is no longer maintained. Please use @thednp/dommatrix.
-
-  dompurify@3.2.6:
-    resolution: {integrity: sha512-/2GogDQlohXPZe6D6NOgQvXLPSYBqIWMnZ8zzOhn09REE4eyAzb+Hed3jhoM9OkuaJ8P6ZGTTVWQKAi8ieIzfQ==}
 
   domutils@2.8.0:
     resolution: {integrity: sha512-w96Cjofp72M5IIhpjgobBimYEfoPjx1Vx0BSX9P30WBdZW2WIKU0T1Bd0kz2eNZ9ikjKgHbEyKx8BB6H1L3h3A==}
@@ -7658,6 +7648,9 @@ packages:
     resolution: {integrity: sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==}
     engines: {node: '>=0.10.0'}
 
+  normalize-wheel@1.0.1:
+    resolution: {integrity: sha512-1OnlAPZ3zgrk8B91HyRj+eVv+kS5u+Z0SCsak6Xil/kmgEia50ga7zfkumayonZrImffAxPU/5WcyGhzetHNPA==}
+
   npm-run-path@4.0.1:
     resolution: {integrity: sha512-S48WzZW777zhNIrn7gxOlISNAqi9ZC/uQFnRdbeIHhZhCA6UqpkOT8T1G7BvfdgP4Er8gF4sUbaS0i7QvIfCWw==}
     engines: {node: '>=8'}
@@ -8299,6 +8292,12 @@ packages:
     resolution: {integrity: sha512-D25vdaytZ1wFIRiwNU98NPQ/upS2P8Co4/oNoa02PzHbh8deWdepjm5qwZM/46OdSiGv4WSWwxP55RO9obqJEQ==}
     peerDependencies:
       react: 19.0.0-rc-66855b96-20241106
+
+  react-easy-crop@5.5.0:
+    resolution: {integrity: sha512-OZzU+yXMhe69vLkDex+5QxcfT94FdcgVCyW2dBUw35ZoC3Is42TUxUy04w8nH1mfMKaizVdC3rh/wUfNW1mK4w==}
+    peerDependencies:
+      react: '>=16.4.0'
+      react-dom: '>=16.4.0'
 
   react-fast-compare@2.0.4:
     resolution: {integrity: sha512-suNP+J1VU1MWFKcyt7RtjiSWUjvidmQSlqu+eHslq+342xCbGTYmC0mEhPCOHxlW0CywylOC1u2DFAT+bv4dBw==}
@@ -15267,10 +15266,6 @@ snapshots:
 
   '@types/dom-to-image@2.6.7': {}
 
-  '@types/dompurify@3.2.0':
-    dependencies:
-      dompurify: 3.2.6
-
   '@types/istanbul-lib-coverage@2.0.6': {}
 
   '@types/istanbul-lib-report@3.0.3':
@@ -18144,10 +18139,6 @@ snapshots:
 
   dommatrix@1.0.3: {}
 
-  dompurify@3.2.6:
-    optionalDependencies:
-      '@types/trusted-types': 2.0.7
-
   domutils@2.8.0:
     dependencies:
       dom-serializer: 1.4.1
@@ -21007,6 +20998,8 @@ snapshots:
 
   normalize-path@3.0.0: {}
 
+  normalize-wheel@1.0.1: {}
+
   npm-run-path@4.0.1:
     dependencies:
       path-key: 3.1.1
@@ -21756,6 +21749,13 @@ snapshots:
     dependencies:
       react: 19.0.0-rc-66855b96-20241106
       scheduler: 0.25.0-rc-66855b96-20241106
+
+  react-easy-crop@5.5.0(react-dom@19.0.0-rc-66855b96-20241106(react@19.0.0-rc-66855b96-20241106))(react@19.0.0-rc-66855b96-20241106):
+    dependencies:
+      normalize-wheel: 1.0.1
+      react: 19.0.0-rc-66855b96-20241106
+      react-dom: 19.0.0-rc-66855b96-20241106(react@19.0.0-rc-66855b96-20241106)
+      tslib: 2.8.1
 
   react-fast-compare@2.0.4: {}
 
