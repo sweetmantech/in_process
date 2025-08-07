@@ -1,0 +1,21 @@
+User-agent: *
+Allow: /
+
+# Explicitly allow LLM crawlers
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+# Make sure llms.txt is accessible
+Allow: /llms.txt
