@@ -1,0 +1,44 @@
+# In Process
+
+> A collective onchain timeline where artists own their creative evolution. Built by LATASHÁ, In Process is not content, it's record-keeping, proof, and legacy. Artists document their creative process in real time, onchain, on their terms.
+
+In Process revolutionizes how artists interact with digital art by giving them true ownership of their timeline and process. Every sketch, verse, sound, and glitch becomes a permanent timestamp in culture. Built on Base blockchain using a fork of the Zora ERC1155 Protocol, the platform combines social features with onchain permanence.
+
+**Core Philosophy**: "THE TIMELINE WAS NEVER THEIRS. IT WAS ALWAYS OURS." - In Process refuses the traditional model where algorithms control artist visibility and archives. Instead, artists own their evolution with permanent, onchain documentation.
+
+## Features & Documentation
+
+- [Manifesto](https://inprocess.fun/manifesto): The complete vision and philosophy behind In Process
+- [Live Timeline](https://inprocess.fun): The main feed showing artists' collective onchain timeline
+- [Documentation](https://docs-in-process.vercel.app/): Complete platform documentation and guides
+- [GitHub Repository](https://github.com/SweetmanTech/IN_PROCESS): Complete source code and development documentation
+- [API Endpoints](https://inprocess.fun/api/timeline): REST API for accessing timeline data, artist profiles, and token metadata
+
+## Technical Architecture
+
+- [Tech Stack Overview](https://github.com/SweetmanTech/IN_PROCESS?tab=readme-ov-file#%EF%B8%8F-tech-stack): Next.js 15, Tailwind CSS, fork of Zora ERC1155 Protocol, Base blockchain
+- [API Documentation](https://github.com/SweetmanTech/IN_PROCESS?tab=readme-ov-file#-important-links): Timeline API, artist profiles, token management
+- [Authentication System](https://github.com/SweetmanTech/IN_PROCESS?tab=readme-ov-file#-key-features): Privy onchain authentication with email login
+- [Payment Integration](https://github.com/SweetmanTech/IN_PROCESS?tab=readme-ov-file#-key-features): CrossMint for credit card, Google Pay, and Apple Pay
+
+## Key Features
+
+- **Digital Art Timeline**: Chronological feed of artists' creative process documentation
+- **Custom Collection Styling**: Each artist collection can define unique themes and visual identity  
+- **Interactive Comments**: Community engagement with real-time updates and pagination
+- **Onchain Permanence**: All content stored permanently on Base blockchain via In Process Protocol
+- **Social Features**: Artist profiles, following, and collaborative timeline building
+
+## Use Cases
+
+- **Artist Documentation**: Musicians, visual artists, and creators documenting their creative process
+- **Process Archiving**: Permanent storage of drafts, sketches, works-in-progress, and creative evolution
+- **Community Building**: Social features for artist discovery and engagement
+- **Digital Art Collection**: Curated collections with custom styling and branding
+- **Creative Timeline**: Real-time documentation of artistic development and milestones
+
+## Optional
+
+- [Base Network](https://base.org): Layer 2 blockchain platform
+- [Privy Documentation](https://docs.privy.io): Authentication and wallet management
+- [CrossMint Integration](https://docs.crossmint.com): Payment processing documentation 
