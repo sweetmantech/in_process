@@ -1,7 +1,7 @@
 "use client";
 
 import { FaqItem } from "@/lib/faq/faqContent";
-import { renderLine } from "@/lib/faq/renderLine";
+import { renderLine } from "./RenderLine";
 
 interface FaqItemComponentProps {
   faq: FaqItem;

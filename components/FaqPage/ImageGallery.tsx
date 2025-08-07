@@ -1,11 +1,8 @@
 import Image from "next/image";
 import { ImageGalleryItem } from "@/lib/faq/faqImages";
+import { getCaptionClasses } from "@/lib/faq/getCaptionClasses";
 
 const DEFAULT_CAPTION_CLASSNAME = "font-spectral lowercase text-left font-medium tracking-tight text-[#4E4E4E] text-[16px] leading-[100%] md:text-[24px] ml-2 md:ml-4 italic antialiased";
-
-const getCaptionClasses = (captionClassName: string, caption: string) => {
-  return `${captionClassName} ${caption.includes("Start your process") ? "pr-10" : ""}`;
-};
 
 interface ImageGalleryProps {
   images: ImageGalleryItem[];
