@@ -32,7 +32,7 @@ const Feed = ({
         onMouseLeave={handleMouseLeave}
         onClick={() => push(`/${feed.creator}`)}
       >
-        <tspan fill="#1B1504" fontSize={isMobile ? 3 : 6} textAnchor="middle" dy={isMobile ? "-0.39em" : "-0.35em"}>
+        <tspan fill="#1B1504" fontSize={isMobile ? 3 : 6} textAnchor="middle" dy={isMobile ? "-2" : "-3"}>
           ⬤
         </tspan>{" "}
         &nbsp;&nbsp;&nbsp;&nbsp;
