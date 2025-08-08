@@ -79,6 +79,12 @@ export const useHorizontalFeedAnimation = (
         setNearestIndex(null);
         return;
       }
+      
+      const elementUnderMouse = document.elementFromPoint(e.clientX, e.clientY);
+      if (elementUnderMouse && elementUnderMouse.closest('[data-video-hover-area="true"]')) {
+        return;
+      }
+      
       setEventTriggered(true);
       const nearest = findNearestButtonIndex(currentMouseX);
       if (nearest.index !== nearestIndex) {
@@ -115,7 +121,7 @@ export const useHorizontalFeedAnimation = (
       if (nearestIndex === 0 && !eventTriggered && index === 0) return true;
       return nearestIndex !== null && index === nearestIndex;
     },
-    [nearestIndex, activeIndex, isMobile],
+    [nearestIndex, activeIndex, isMobile, eventTriggered],
   );
 
   return {

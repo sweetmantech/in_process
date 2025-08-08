@@ -2,8 +2,16 @@ interface VideoPlayerProps {
   url: string;
 }
 const VideoPlayer = ({ url }: VideoPlayerProps) => {
+  const handleClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+  };
+
   return (
-    <video controls className="w-full rounded-md bg-grey-moss-900">
+    <video 
+      controls 
+      className="w-full rounded-md bg-grey-moss-900"
+      onClick={handleClick}
+    >
       <source src={url} />
       Your browser does not support the video element.
     </video>

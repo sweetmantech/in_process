@@ -25,6 +25,10 @@ const AudioPlayer = ({ audioUrl, thumbnailUrl }: AudioPlayerProps) => {
     }
   };
 
+  const handleAudioControlClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+  };
+
   const handleTimeUpdate = () => {
     if (audioRef.current) {
       const progress =
@@ -61,7 +65,10 @@ const AudioPlayer = ({ audioUrl, thumbnailUrl }: AudioPlayerProps) => {
           <Button
             variant="ghost"
             size="icon"
-            onClick={togglePlayPause}
+            onClick={(e) => {
+              handleAudioControlClick(e);
+              togglePlayPause();
+            }}
             className="text-primary hover:text-primary-dark"
           >
             {isPlaying ? (
@@ -74,6 +81,7 @@ const AudioPlayer = ({ audioUrl, thumbnailUrl }: AudioPlayerProps) => {
         <Slider
           value={[progress]}
           onValueChange={handleSliderChange}
+          onClick={handleAudioControlClick}
           max={100}
           step={1}
           className="w-full bg-black"
