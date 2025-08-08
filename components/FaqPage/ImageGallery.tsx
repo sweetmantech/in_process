@@ -15,11 +15,11 @@ const ImageGallery = ({
 }: ImageGalleryProps) => {
   return (
     <div className="space-y-4">
-        <div className="flex flex-col 2xl:flex-row gap-4 2xl:gap-2 justify-start items-start">
+        <div className="flex flex-col lg:flex-row gap-4 lg:gap-6 justify-start items-start">
           {images.map((image, index) => (
             <div
               key={index}
-              className="space-y-4 items-start w-full 2xl:w-1/2 2xl:max-w-none"
+              className="space-y-4 items-start w-full lg:w-1/2 lg:max-w-none"
             >
               <div className="flex justify-center md:justify-start">
                 <Image
