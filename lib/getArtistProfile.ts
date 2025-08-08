@@ -16,7 +16,7 @@ const getArtistProfile = async (walletAddress: Address) => {
       },
     };
 
-    if(data){
+    if (data && !error) {
       profile = {
         ...profile,
         username: data.username || "",
@@ -28,7 +28,8 @@ const getArtistProfile = async (walletAddress: Address) => {
           telegram: data.telegram_username || "",
         },
       };
-    }else{
+    } else {
+      // Fallback to Zora and ENS if no Supabase data
       const zora = await getZoraProfile(walletAddress as Address);
       if (zora) {
         profile = { 
@@ -43,14 +44,14 @@ const getArtistProfile = async (walletAddress: Address) => {
         };
       } else {
         const ensName = await getEnsName(walletAddress as Address);
-        if (ensName)
+        if (ensName) {
           profile = {
             ...profile,
             username: ensName,
           };
+        }
       }
     }
-    
     
     return profile;
   } catch (error) {
@@ -58,6 +59,11 @@ const getArtistProfile = async (walletAddress: Address) => {
     return {
       username: "",
       bio: "",
+      socials: {
+        instagram: "",
+        twitter: "",
+        telegram: "",
+      },
     };
   }
 };
