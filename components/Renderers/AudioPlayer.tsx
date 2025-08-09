@@ -25,7 +25,8 @@ const AudioPlayer = ({ audioUrl, thumbnailUrl }: AudioPlayerProps) => {
     }
   };
 
-  const handleAudioControlClick = (e: React.MouseEvent) => {
+  const stopPropagation = (e: React.SyntheticEvent) => {
+    // Prevent events from bubbling up to parent timeline navigation
     e.stopPropagation();
   };
 
@@ -66,9 +67,12 @@ const AudioPlayer = ({ audioUrl, thumbnailUrl }: AudioPlayerProps) => {
             variant="ghost"
             size="icon"
             onClick={(e) => {
-              handleAudioControlClick(e);
+              stopPropagation(e);
               togglePlayPause();
             }}
+            onMouseDown={stopPropagation}
+            onPointerDown={stopPropagation}
+            onTouchStart={stopPropagation}
             className="text-primary hover:text-primary-dark"
           >
             {isPlaying ? (
@@ -81,7 +85,10 @@ const AudioPlayer = ({ audioUrl, thumbnailUrl }: AudioPlayerProps) => {
         <Slider
           value={[progress]}
           onValueChange={handleSliderChange}
-          onClick={handleAudioControlClick}
+          onClick={stopPropagation}
+          onMouseDown={stopPropagation}
+          onPointerDown={stopPropagation}
+          onTouchStart={stopPropagation}
           max={100}
           step={1}
           className="w-full bg-black"
