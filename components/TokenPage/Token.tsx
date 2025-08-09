@@ -16,18 +16,17 @@ const Token = () => {
 
   return (
     <div className="w-full">
+      <BackToTimeline />
       <div className="px-3 md:px-10 flex flex-col md:flex-row gap-10 pb-20 relative">
         {meta && (
           <>
             <div className="grow flex flex-col md:flex-row gap-4 md:gap-10">
               {collected ? (
                 <div className="w-full md:max-w-[400px]">
-                  <BackToTimeline />
                   <MomentCollected />
                 </div>
               ) : (
                 <div className="w-full md:max-w-[400px]">
-                  <BackToTimeline />
                   <MetaAndComments commentsHidden={isMobile} />
                 </div>
               )}

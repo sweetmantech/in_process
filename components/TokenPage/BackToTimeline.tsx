@@ -17,7 +17,7 @@ const BackToTimeline = () => {
     : artistProfile?.username || truncateAddress(owner);
 
   return (
-    <div className="w-full mb-4">
+    <div className="w-full mb-4 px-3 md:px-10">
       <Link
         href={`/${owner.toLowerCase()}`}
         className="inline-flex items-center gap-2 text-grey-moss-700 hover:text-grey-moss-900 transition-colors group"
