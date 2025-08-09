@@ -7,10 +7,15 @@ const VideoPlayer = ({ url }: VideoPlayerProps) => {
   };
 
   return (
-    <video 
-      controls 
+    <video
+      controls
       className="w-full rounded-md bg-grey-moss-900"
-      onClick={handleClick}
+      onClick={stopPropagation}
+      onMouseDown={stopPropagation}
+      onPointerDown={stopPropagation}
+      onTouchStart={stopPropagation}
+      onTouchEnd={stopPropagation}
+      onDoubleClick={stopPropagation}
     >
       <source src={url} />
       Your browser does not support the video element.
