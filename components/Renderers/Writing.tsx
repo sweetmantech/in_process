@@ -7,9 +7,11 @@ interface WritingProps {
   fileUrl: string;
   description: string;
 }
+
 const Writing = ({ fileUrl, description }: WritingProps) => {
   const [text, setText] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [scrollPosition, setScrollPosition] = useState<"top" | "mid" | "bottom">("top");
   const [writingRef, { height: contentHeight }] = useMeasure();
   const [containerRef, { height: containerHeight }] = useMeasure();
 
@@ -23,7 +25,19 @@ const Writing = ({ fileUrl, description }: WritingProps) => {
     if (fileUrl) getText();
   }, [description, fileUrl]);
 
+  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
+    if (scrollTop === 0) {
+      setScrollPosition("top");
+    } else if (scrollHeight - scrollTop - clientHeight <= 5) {
+      setScrollPosition("bottom");
+    } else {
+      setScrollPosition("mid");
+    }
+  };
+
   if (isLoading) return <Skeleton className="min-h-[200px] size-full" />;
+  
   const isOverflowed = contentHeight > containerHeight;
   const shouldCenter = contentHeight < containerHeight;
   const isShortText = contentHeight < containerHeight / 2;
@@ -32,10 +46,11 @@ const Writing = ({ fileUrl, description }: WritingProps) => {
     <div
       className={cn(
         "size-full relative bg-grey-eggshell text-sm md:text-md",
-        shouldCenter && "flex items-center justify-center",
-        isShortText && "text-xl md:text-3xl",
+        isOverflowed ? "overflow-y-auto" : shouldCenter && "flex items-center justify-center",
+        isShortText && "text-xl md:text-3xl"
       )}
       ref={containerRef as any}
+      onScroll={handleScroll}
     >
       <div
         className={cn(
@@ -47,8 +62,16 @@ const Writing = ({ fileUrl, description }: WritingProps) => {
         }}
         ref={writingRef as any}
       />
+      
       {isOverflowed && (
-        <div className="h-1/2 absolute size-full left-0 bottom-0 bg-gradientBottomTop" />
+        <>
+          {scrollPosition !== "top" && (
+            <div className="pointer-events-none absolute z-[3] left-0 top-0 bg-gradientTopBottom w-full h-12" />
+          )}
+          {scrollPosition !== "bottom" && (
+            <div className="pointer-events-none absolute z-[3] left-0 bottom-0 bg-gradientBottomTop w-full h-12" />
+          )}
+        </>
       )}
     </div>
   );
