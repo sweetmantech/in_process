@@ -24,7 +24,7 @@ const BackToTimeline = () => {
       >
         <ChevronLeft className="size-4 group-hover:-translate-x-1 transition-transform" />
         <span className="font-archivo text-sm">
-          back to {displayName}'s timeline
+          back to {displayName}&#39;s timeline
         </span>
       </Link>
     </div>
