@@ -80,8 +80,8 @@ export const useHorizontalFeedAnimation = (
         return;
       }
       
-      const elementUnderMouse = document.elementFromPoint(e.clientX, e.clientY);
-      if (elementUnderMouse && elementUnderMouse.closest('[data-video-hover-area="true"]')) {
+      const target = e.target as Element | null;
+      if (target && target.closest('[data-video-hover-area]')) {
         return;
       }
       
