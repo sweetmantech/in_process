@@ -31,8 +31,9 @@ const Feed = ({
         onMouseMove={(e) => handleMouseMove(e, feed)}
         onMouseLeave={handleMouseLeave}
         onClick={() => push(`/${feed.creator}`)}
+        dominant-baseline="middle"
       >
-        <tspan fill="#4E4E4E" fontSize={20}>
+        <tspan fill="#1B1504" fontSize={isMobile ? 3 : 6} textAnchor="middle">
           ⬤
         </tspan>{" "}
         &nbsp;&nbsp;&nbsp;&nbsp;
