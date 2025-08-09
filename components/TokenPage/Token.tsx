@@ -25,7 +25,7 @@ const Token = () => {
                 <MetaAndComments commentsHidden={isMobile} />
               )}
               <div className="grow w-full flex justify-center">
-                <div className="relative w-full aspect-[576/700] h-fit overflow-hidden font-spectral">
+                <div className="relative w-full aspect-[576/700] h-fit font-spectral">
                   <ContentRenderer metadata={meta} />
                 </div>
               </div>

@@ -46,11 +46,12 @@ const Writing = ({ fileUrl, description }: WritingProps) => {
     <div
       className={cn(
         "size-full relative bg-grey-eggshell text-sm md:text-md",
-        isOverflowed ? "overflow-y-auto" : shouldCenter && "flex items-center justify-center",
+        isOverflowed ? "!overflow-y-auto" : shouldCenter && "flex items-center justify-center",
         isShortText && "text-xl md:text-3xl"
       )}
       ref={containerRef as any}
       onScroll={handleScroll}
+      style={isOverflowed ? { overflowY: 'auto' } : {}}
     >
       <div
         className={cn(
