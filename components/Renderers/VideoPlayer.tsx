@@ -2,7 +2,7 @@ interface VideoPlayerProps {
   url: string;
 }
 const VideoPlayer = ({ url }: VideoPlayerProps) => {
-  const handleClick = (e: React.MouseEvent) => {
+  const stopPropagation = (e: React.SyntheticEvent) => {
     e.stopPropagation();
   };
 
