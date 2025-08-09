@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, type SyntheticEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { Pause, Play } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
@@ -25,7 +25,7 @@ const AudioPlayer = ({ audioUrl, thumbnailUrl }: AudioPlayerProps) => {
     }
   };
 
-  const stopPropagation = (e: React.SyntheticEvent) => {
+  const stopPropagation = (e: SyntheticEvent) => {
     // Prevent events from bubbling up to parent timeline navigation
     e.stopPropagation();
   };

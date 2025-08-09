@@ -1,8 +1,10 @@
+import { type SyntheticEvent } from "react";
+
 interface VideoPlayerProps {
   url: string;
 }
 const VideoPlayer = ({ url }: VideoPlayerProps) => {
-  const stopPropagation = (e: React.SyntheticEvent) => {
+  const stopPropagation = (e: SyntheticEvent) => {
     // Prevent events from bubbling up to parent timeline navigation
     e.stopPropagation();
   };
