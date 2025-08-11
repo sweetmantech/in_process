@@ -5,7 +5,8 @@ import { getArtistWithAddress } from "./supabase/in_process_artists/getArtistWit
 
 const getArtistProfile = async (walletAddress: Address) => {
   try {
-    const { data, error } = await getArtistWithAddress(walletAddress as Address);
+    const { data, error } = await getArtistWithAddress(walletAddress);
+    
     let profile = {
       username: "",
       bio: "",
