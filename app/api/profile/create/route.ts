@@ -1,5 +1,5 @@
 import { deleteArtist } from "@/lib/supabase/in_process_artists/deleteArtist";
-import { insertArtist } from "@/lib/supabase/in_process_artists/insterArtist";
+import { insertArtist } from "@/lib/supabase/in_process_artists/insertArtist";
 import { NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {
