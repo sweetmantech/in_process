@@ -15,7 +15,11 @@ export async function GET(req: NextRequest) {
   const hidden: Database["public"]["Tables"]["in_process_tokens"]["Row"]["hidden"] =
     hiddenParam === null ? false : hiddenParam === "true";
 
-  const { data, error } = await getInProcessTokens({
+  const {
+    data,
+    count: artistCount,
+    error,
+  } = await getInProcessTokens({
     limit,
     page,
     latest,
@@ -38,7 +42,7 @@ export async function GET(req: NextRequest) {
     status: "success",
     moments,
     pagination: {
-      total_count: count || 0,
+      total_count: artist ? artistCount || 0 : count || 0,
       page,
       limit,
       total_pages: count ? Math.ceil(count / limit) : 1,

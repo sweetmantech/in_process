@@ -29,13 +29,17 @@ export async function getInProcessTokens({
   hidden,
 }: InProcessTokensQuery = {}): Promise<{
   data: InProcessToken[] | null;
+  count: number | null;
   error: Error | null;
 }> {
   const cappedLimit = Math.min(limit, 100);
   let query = supabase
     .from("in_process_tokens")
     .select(
-      `*, defaultAdmin, artist:in_process_artists${artist ? "" : "!inner"}(username)`
+      `*, defaultAdmin, artist:in_process_artists${artist ? "" : "!inner"}(username)`,
+      {
+        count: "exact",
+      }
     );
 
   if (artist) {
@@ -59,12 +63,12 @@ export async function getInProcessTokens({
   query = query.order("createdAt", { ascending: !latest });
   query = query.range((page - 1) * cappedLimit, page * cappedLimit - 1);
 
-  const { data, error } = await query;
+  const { data, count, error } = await query;
 
   const mappedData = (data || []).map((row: any) => ({
     ...row,
     username: row.artist?.username || "",
   }));
 
-  return { data: mappedData, error };
+  return { data: mappedData, count, error };
 }
