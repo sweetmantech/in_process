@@ -4,31 +4,25 @@ import { useTokenProvider } from "@/providers/TokenProvider";
 import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import MediaSkeleton from "./MediaSkeleton";
 
 const Media = () => {
   const { metadata } = useTokenProvider();
-  const { data: meta } = metadata;
+  const { data: meta, isLoading } = metadata;
 
-  const [formData, setFormData] = useState({
-    title: "",
-    description: "",
-  });
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
 
   useEffect(() => {
     if (meta) {
-      setFormData({
-        title: meta.name || "",
-        description: meta.description || "",
-      });
+      setTitle(meta.name || "");
+      setDescription(meta.description || "");
     }
   }, [meta]);
 
-  const handleInputChange = (field: string, value: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
-  };
+  if (isLoading || !meta) {
+    return <MediaSkeleton />;
+  }
 
   return (
     <div className="px-4 md:px-10 w-full font-archivo">
@@ -40,8 +34,8 @@ const Media = () => {
             </label>
             <Input
               type="text"
-              value={formData.title}
-              onChange={(e) => handleInputChange("title", e.target.value)}
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
               placeholder="enter a title"
             />
           </div>
@@ -51,8 +45,8 @@ const Media = () => {
               description
             </label>
             <Textarea
-              value={formData.description}
-              onChange={(e) => handleInputChange("description", e.target.value)}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
               className="font-archivo focus:border-grey-moss-500"
               minRows={3}
               placeholder="enter a description"
