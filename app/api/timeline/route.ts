@@ -36,6 +36,7 @@ export async function GET(req: NextRequest) {
   const moments = (data || []).map((row) => ({
     ...row,
     tokenId: String(row.tokenId),
+    admin: row.defaultAdmin,
   }));
   const { count } = await getInProcessTokensCount();
   return Response.json({
