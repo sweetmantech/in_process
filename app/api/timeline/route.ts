@@ -39,14 +39,15 @@ export async function GET(req: NextRequest) {
     admin: row.defaultAdmin,
   }));
   const { count } = await getInProcessTokensCount();
+  const finalCount = artist ? artistCount || 0 : count || 0;
   return Response.json({
     status: "success",
     moments,
     pagination: {
-      total_count: artist ? artistCount || 0 : count || 0,
+      total_count: finalCount,
       page,
       limit,
-      total_pages: count ? Math.ceil(count / limit) : 1,
+      total_pages: finalCount ? Math.ceil(finalCount / limit) : 1,
     },
   });
 }
