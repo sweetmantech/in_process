@@ -39,9 +39,18 @@ export default function useZoraCreate() {
         throw new Error(error.message || "Failed to create moment");
       }
       const result = await response.json();
+      await fetch("/api/moment/index", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          address: result.contractAddress,
+          tokenId: result.tokenId,
+          chainId: result.chainId.toString(),
+        }),
+      });
       setCreating(false);
       setCreatedContract(result.contractAddress);
-      setCreatedTokenId(result.tokenId?.toString() || "");
+      setCreatedTokenId(result.tokenId || "");
       return result;
     } catch (err) {
       setCreating(false);
