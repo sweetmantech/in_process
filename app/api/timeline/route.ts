@@ -30,15 +30,8 @@ export async function GET(req: NextRequest) {
     );
   }
   const moments = (data || []).map((row) => ({
-    address: row.address,
+    ...row,
     tokenId: String(row.tokenId),
-    chainId: row.chainId,
-    id: row.id,
-    uri: row.uri,
-    admin: row.defaultAdmin,
-    createdAt: row.createdAt,
-    username: row.username,
-    hidden: row.hidden,
   }));
   const { count } = await getInProcessTokensCount();
   return Response.json({
