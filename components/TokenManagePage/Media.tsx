@@ -14,11 +14,10 @@ const Media = () => {
   const [description, setDescription] = useState("");
 
   useEffect(() => {
-    if (meta) {
-      setTitle(meta.name || "");
-      setDescription(meta.description || "");
-    }
-  }, [meta]);
+    if (!meta) return;
+    if (!title) setTitle(meta.name || "");
+    if (!description) setDescription(meta.description || "");
+  }, [meta, title, description]);
 
   if (isLoading || !meta) {
     return <MediaSkeleton />;
