@@ -44,8 +44,8 @@ export default function useZoraCreate() {
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
           address: result.contractAddress,
-          tokenId: result.tokenId,
-          chainId: result.chainId.toString(),
+          tokenId: parseInt(result.tokenId),
+          chainId: result.chainId,
         }),
       });
       setCreating(false);
