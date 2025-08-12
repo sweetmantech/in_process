@@ -5,6 +5,7 @@ import AirdropProvider from "@/providers/AirdropProvider";
 import Airdrop from "./Airdrop";
 import ManageTabs, { MANAGE_TABS } from "./ManageTabs";
 import Sale from "./Sale";
+import Media from "./Media";
 import { useParams } from "next/navigation";
 import { TokenProvider } from "@/providers/TokenProvider";
 import { useCollectionProvider } from "@/providers/CollectionProvider";
@@ -30,6 +31,7 @@ const TokenManagePage = () => {
       <AirdropProvider>
         {selectedTab === MANAGE_TABS.AIRDROP && <Airdrop />}
         {selectedTab === MANAGE_TABS.SALE && <Sale />}
+        {selectedTab === MANAGE_TABS.MEDIA && <Media />}
       </AirdropProvider>
     </TokenProvider>
   );
