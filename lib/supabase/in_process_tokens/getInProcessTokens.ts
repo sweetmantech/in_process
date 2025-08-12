@@ -29,19 +29,19 @@ export async function getInProcessTokens({
   hidden,
 }: InProcessTokensQuery = {}): Promise<{
   data: InProcessToken[] | null;
-  count: number | null;
   error: Error | null;
 }> {
-  console.log("addresses", addresses);
   const cappedLimit = Math.min(limit, 100);
   let query = supabase
     .from("in_process_tokens")
-    .select("*, defaultAdmin, artist:in_process_artists(username)", {
-      count: "exact",
-    });
+    .select(
+      `*, defaultAdmin, artist:in_process_artists${artist ? "" : "!inner"}(username)`
+    );
 
   if (artist) {
     query = query.eq("defaultAdmin", artist);
+  } else {
+    query = query.neq("artist.username", "");
   }
   if (chainId !== undefined) {
     query = query.eq("chainId", chainId);
@@ -55,16 +55,16 @@ export async function getInProcessTokens({
   if (!hidden) {
     query = query.eq("hidden", false);
   }
+
   query = query.order("createdAt", { ascending: !latest });
   query = query.range((page - 1) * cappedLimit, page * cappedLimit - 1);
 
-  const { data, count, error } = await query;
+  const { data, error } = await query;
 
-  // Map joined username to top-level username, keep defaultAdmin as address
   const mappedData = (data || []).map((row: any) => ({
     ...row,
     username: row.artist?.username || "",
   }));
 
-  return { data: mappedData, count, error };
+  return { data: mappedData, error };
 }
