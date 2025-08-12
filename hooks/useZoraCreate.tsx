@@ -6,6 +6,7 @@ import { Address } from "viem";
 import useZoraCreateParameters from "./useZoraCreateParameters";
 import { useMask } from "./useMask";
 import { useUserProvider } from "@/providers/UserProvider";
+import indexMomentClient from "@/lib/moment/indexMomentClient";
 
 export default function useZoraCreate() {
   const [creating, setCreating] = useState<boolean>(false);
@@ -39,14 +40,10 @@ export default function useZoraCreate() {
         throw new Error(error.message || "Failed to create moment");
       }
       const result = await response.json();
-      await fetch("/api/moment/index", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({
-          address: result.contractAddress,
-          tokenId: parseInt(result.tokenId),
-          chainId: result.chainId,
-        }),
+      await indexMomentClient({
+        address: result.contractAddress,
+        tokenId: parseInt(result.tokenId),
+        chainId: result.chainId,
       });
       setCreating(false);
       setCreatedContract(result.contractAddress);
