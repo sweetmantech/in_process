@@ -1,24 +1,26 @@
-import deleteTag from "@/lib/stack/deleteTag";
-import setTag from "@/lib/stack/setTag";
+import { upsertArtist } from "@/lib/supabase/in_process_artists/upsertArtist";
 import { NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const { walletAddress, username, bio, instagram, telegram, twitter } = body;
-    await deleteTag(walletAddress, "profile");
-    await setTag(walletAddress, "profile", {
+    
+    const result = await upsertArtist({
+      address: walletAddress.toLowerCase(),
       username,
       bio,
-      socials: {
-        instagram,
-        telegram,
-        twitter,
-      },
+      instagram_username: instagram,
+      telegram_username: telegram,
+      twitter_username: twitter,
     });
+    if (result.error) {
+      throw new Error(result.error.message);
+    }
     return Response.json({
       success: true,
     });
+
   } catch (e: any) {
     console.log(e);
     const message = e?.message ?? "failed to create profile";
