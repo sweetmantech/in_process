@@ -21,8 +21,12 @@ export async function GET() {
       splashBackgroundColor: `#${process.env.NEXT_PUBLIC_SPLASH_BACKGROUND_COLOR}`,
       webhookUrl: `${URL}/api/webhook`,
       subtitle: "Artists own their timeline",
-      description: "A living archive where artists document their creative process onchain. Own your evolution, not just your art. Every sketch, verse, sound is permanent.",
+      description:
+        "A living archive where artists document their creative process onchain. Own your evolution, not just your art. Every sketch, verse, sound is permanent.",
       primaryCategory: "art-creativity",
+    },
+    baseBuilder: {
+      allowedAddresses: ["0x72A31A5A9568CD9EC1814C9B68dF0059317Bff87"],
     },
   });
 }
