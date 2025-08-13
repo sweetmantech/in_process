@@ -1,12 +1,8 @@
-import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 
 const useMetadataValues = () => {
-  const pathname = usePathname();
-  const isUsdc = pathname.includes("/usdc");
-
   const [name, setName] = useState<string>("");
-  const [priceUnit, setPriceUnit] = useState<string>(isUsdc ? "usdc" : "eth");
+  const [priceUnit, setPriceUnit] = useState<string>("usdc");
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState<string>("");
   const [isTimedSale, setIsTimedSale] = useState<boolean>(false);
