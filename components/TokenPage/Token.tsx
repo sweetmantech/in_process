@@ -21,15 +21,13 @@ const Token = () => {
         {meta && (
           <>
             <div className="grow flex flex-col md:flex-row gap-4 md:gap-10">
-              {collected ? (
-                <div className="w-full md:max-w-[400px]">
+              <div className="w-full md:max-w-[400px]">
+                {collected ? (
                   <MomentCollected />
-                </div>
-              ) : (
-                <div className="w-full md:max-w-[400px]">
+                ) : (
                   <MetaAndComments commentsHidden={isMobile} />
-                </div>
-              )}
+                )}
+              </div>
               <div className="grow w-full flex justify-center">
                 <div className="relative w-full aspect-[576/700] h-fit overflow-hidden font-spectral">
                   <ContentRenderer metadata={meta} />

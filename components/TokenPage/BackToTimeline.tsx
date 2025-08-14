@@ -5,6 +5,7 @@ import { useArtistProfile } from "@/hooks/useArtistProfile";
 import truncateAddress from "@/lib/truncateAddress";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const BackToTimeline = () => {
   const { owner } = useTokenProvider();
@@ -12,9 +13,20 @@ const BackToTimeline = () => {
 
   if (!owner) return null;
 
-  const displayName = isLoading
-    ? "Loading..."
-    : artistProfile?.username || truncateAddress(owner);
+  if (isLoading) {
+    return (
+      <div className="w-full mb-4 px-3 md:px-10">
+        <div className="inline-flex items-center gap-2">
+          <ChevronLeft className="size-4" />
+          <span className="font-archivo text-sm">
+            back to <Skeleton className="h-4 w-20 inline-block" />&#39;s timeline
+          </span>
+        </div>
+      </div>
+    );
+  }
+
+  const displayName = artistProfile?.username || truncateAddress(owner);
 
   return (
     <div className="w-full mb-4 px-3 md:px-10">
