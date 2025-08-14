@@ -31,7 +31,7 @@ const Writing = ({ fileUrl, description }: WritingProps) => {
             value={text}
             className={cn(
               "relative z-[2] size-full outline-none p-4 bg-grey-eggshell resize-none overflow-y-auto",
-              "text-sm md:text-md"
+              "text-sm md:text-base"
             )}
             readOnly
           />
