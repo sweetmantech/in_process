@@ -15,8 +15,8 @@ const TextInput = () => {
       scrollTop === 0
         ? "top"
         : scrollHeight - scrollTop - clientHeight <= 5
-          ? "bottom"
-          : "mid";
+        ? "bottom"
+        : "mid";
     setScrollPosition(position);
   };
 
