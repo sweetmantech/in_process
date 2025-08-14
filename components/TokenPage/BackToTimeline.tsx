@@ -16,12 +16,7 @@ const BackToTimeline = () => {
   if (isLoading) {
     return (
       <div className="w-full mb-4 px-3 md:px-10">
-        <div className="inline-flex items-center gap-2">
-          <ChevronLeft className="size-4" />
-          <span className="font-archivo text-sm">
-            back to <Skeleton className="h-4 w-20 inline-block" />&#39;s timeline
-          </span>
-        </div>
+        <Skeleton className="h-6 w-40" />
       </div>
     );
   }
