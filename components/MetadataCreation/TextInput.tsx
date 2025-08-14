@@ -28,18 +28,14 @@ const TextInput = () => {
 
   if (createdContract) {
     return (
-      <div className="w-full min-h-[300px] md:min-h-auto md:aspect-[571/692] relative bg-contain">
-        <div className="size-full">
-          <div className="size-full !font-spectral shadow-[5px_6px_2px_2px_#0000000f] border border-grey-moss-300 bg-white disabled:cursor-not-allowed relative">
-            <div
-              className="relative z-[2] size-full p-2 md:p-4 pt-24 bg-grey-eggshell overflow-y-auto whitespace-pre-wrap"
-              onScroll={handleScroll}
-            >
-              {writingText}
-            </div>
-            <div className="pointer-events-none absolute z-[3] left-0 top-0 bg-gradientTopBottom w-full h-24" />
-          </div>
+      <div className="size-full !font-spectral shadow-[5px_6px_2px_2px_#0000000f] border border-grey-moss-300 bg-white disabled:cursor-not-allowed relative">
+        <div
+          className="relative z-[2] size-full p-2 md:p-4 pt-24 bg-grey-eggshell overflow-y-auto whitespace-pre-wrap"
+          onScroll={handleScroll}
+        >
+          {writingText}
         </div>
+        <div className="pointer-events-none absolute z-[3] left-0 top-0 bg-gradientTopBottom w-full h-24" />
       </div>
     );
   }
