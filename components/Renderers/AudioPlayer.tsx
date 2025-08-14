@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, type SyntheticEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { Pause, Play } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
@@ -23,6 +23,11 @@ const AudioPlayer = ({ audioUrl, thumbnailUrl }: AudioPlayerProps) => {
       }
       setIsPlaying(!isPlaying);
     }
+  };
+
+  const stopPropagation = (e: SyntheticEvent) => {
+    // Prevent events from bubbling up to parent timeline navigation
+    e.stopPropagation();
   };
 
   const handleTimeUpdate = () => {
@@ -61,7 +66,13 @@ const AudioPlayer = ({ audioUrl, thumbnailUrl }: AudioPlayerProps) => {
           <Button
             variant="ghost"
             size="icon"
-            onClick={togglePlayPause}
+            onClick={(e) => {
+              stopPropagation(e);
+              togglePlayPause();
+            }}
+            onMouseDown={stopPropagation}
+            onPointerDown={stopPropagation}
+            onTouchStart={stopPropagation}
             className="text-primary hover:text-primary-dark"
           >
             {isPlaying ? (
@@ -74,6 +85,10 @@ const AudioPlayer = ({ audioUrl, thumbnailUrl }: AudioPlayerProps) => {
         <Slider
           value={[progress]}
           onValueChange={handleSliderChange}
+          onClick={stopPropagation}
+          onMouseDown={stopPropagation}
+          onPointerDown={stopPropagation}
+          onTouchStart={stopPropagation}
           max={100}
           step={1}
           className="w-full bg-black"
