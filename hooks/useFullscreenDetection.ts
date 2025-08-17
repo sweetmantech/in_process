@@ -1,21 +1,22 @@
 import { useState, useEffect } from "react";
 
-/**
- * Hook to detect when ANY video element on the page is in fullscreen mode
- * This prevents hover state changes when videos are fullscreen
- */
 const useFullscreenDetection = () => {
   const [isAnyVideoFullscreen, setIsAnyVideoFullscreen] = useState(false);
 
   useEffect(() => {
     const handleFullscreenChange = () => {
-      // Check if any video element is currently in fullscreen
-      const fullscreenElement = document.fullscreenElement || 
-                               (document as any).webkitFullscreenElement || 
-                               (document as any).mozFullScreenElement || 
-                               (document as any).msFullscreenElement;
+      const doc = document as Document & {
+        webkitFullscreenElement?: Element | null;
+        mozFullScreenElement?: Element | null;
+        msFullscreenElement?: Element | null;
+      };
+      const fullscreenElement =
+        doc.fullscreenElement ??
+        doc.webkitFullscreenElement ??
+        doc.mozFullScreenElement ??
+        doc.msFullscreenElement ??
+        null;
       
-      // Check if the fullscreen element is a video or contains a video
       const isVideoFullscreen = fullscreenElement && (
         fullscreenElement.tagName === 'VIDEO' || 
         fullscreenElement.querySelector('video')
@@ -24,13 +25,11 @@ const useFullscreenDetection = () => {
       setIsAnyVideoFullscreen(!!isVideoFullscreen);
     };
 
-    // Listen for fullscreen change events across different browsers
     document.addEventListener('fullscreenchange', handleFullscreenChange);
     document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
     document.addEventListener('mozfullscreenchange', handleFullscreenChange);
     document.addEventListener('msfullscreenchange', handleFullscreenChange);
 
-    // Initial check
     handleFullscreenChange();
 
     return () => {
