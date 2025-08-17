@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Skeleton } from "../ui/skeleton";
 
 interface WritingProps {
@@ -10,6 +10,8 @@ const Writing = ({ fileUrl, description }: WritingProps) => {
   const [text, setText] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [scrollPosition, setScrollPosition] = useState<"top" | "mid" | "bottom">("top");
+  const [canScroll, setCanScroll] = useState<boolean>(false);
+  const scrollerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const getText = async () => {
@@ -32,6 +34,22 @@ const Writing = ({ fileUrl, description }: WritingProps) => {
     setScrollPosition(position);
   };
 
+  useEffect(() => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    const can = el.scrollHeight > el.clientHeight;
+    setCanScroll(can);
+    const nearBottom = el.scrollHeight - el.scrollTop - el.clientHeight <= 5;
+    const next: "top" | "mid" | "bottom" = !can
+      ? "top"
+      : el.scrollTop === 0
+        ? "top"
+        : nearBottom
+          ? "bottom"
+          : "mid";
+    setScrollPosition((prev) => (prev === next ? prev : next));
+  }, [text, isLoading]);
+
   if (isLoading) return <Skeleton className="min-h-[200px] size-full" />;
 
   return (
@@ -39,15 +57,16 @@ const Writing = ({ fileUrl, description }: WritingProps) => {
       <div
         className="relative z-[2] size-full p-2 md:p-4 pt-24 bg-grey-eggshell overflow-y-auto whitespace-pre-wrap text-sm md:text-base"
         onScroll={handleScroll}
+        ref={scrollerRef}
         dangerouslySetInnerHTML={{
           __html: text.replaceAll("\n", "<br/>"),
         }}
       />
-      {scrollPosition !== "top" && (
-        <div className="pointer-events-none absolute z-[3] left-0 top-0 bg-gradientTopBottom w-full h-24" />
+      {canScroll && scrollPosition !== "top" && (
+        <div aria-hidden="true" className="pointer-events-none absolute z-[3] left-0 top-0 bg-gradientTopBottom w-full h-24" />
       )}
-      {scrollPosition !== "bottom" && (
-        <div className="pointer-events-none absolute z-[3] left-0 bottom-0 bg-gradientBottomTop w-full h-24" />
+      {canScroll && scrollPosition !== "bottom" && (
+        <div aria-hidden="true" className="pointer-events-none absolute z-[3] left-0 bottom-0 bg-gradientBottomTop w-full h-24" />
       )}
     </div>
   );
