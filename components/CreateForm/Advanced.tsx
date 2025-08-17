@@ -3,6 +3,7 @@ import { DateTimePicker } from "../ui/date-time-picker";
 import { ChevronDown } from "lucide-react";
 import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
 import { Textarea } from "../ui/textarea";
+import Price from "./Price";
 
 const Advanced = () => {
   const {
@@ -36,6 +37,9 @@ const Advanced = () => {
             minRows={3}
             className="resize-none font-spectral"
           />
+          <div className="pt-2">
+            <Price />
+          </div>
           <p className="font-medium font-archivo pt-2">time</p>
           <DateTimePicker date={startDate} setDate={onChangeStartDate} />
         </div>
