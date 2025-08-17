@@ -16,7 +16,7 @@ const FeedHover: FC<FeedHoverProps> = ({ isLoading, data }) => {
     >
       <div className="absolute inset-0 -m-8 z-0" />
       
-      <div className="relative z-10 border border-grey-moss-900 shadow-lg transition-opacity duration-200 ease-out">
+      <div className="relative z-10 shadow-lg transition-opacity duration-200 ease-out">
         <div className="w-[200px] md:w-[300px] aspect-[360/248] overflow-hidden relative bg-grey-moss-100 !font-spectral">
           {isLoading ? (
             <Skeleton className="size-full" />

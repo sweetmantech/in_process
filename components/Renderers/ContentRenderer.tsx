@@ -51,8 +51,9 @@ const ContentRenderer = ({ metadata }: ContentRendererProps) => {
         description={metadata.description}
       />
     );
+
   return (
-    <div className="grow relative">
+    <div className="w-full h-full">
       {/* eslint-disable-next-line */}
       <img
         src={
@@ -61,11 +62,10 @@ const ContentRenderer = ({ metadata }: ContentRendererProps) => {
           "/images/placeholder.png"
         }
         alt="Token Image."
+        className="w-full h-full object-cover block"
         style={{
           imageRendering: isMobile ? "auto" : "pixelated",
         }}
-        width="100%"
-        height="100%"
       />
     </div>
   );
