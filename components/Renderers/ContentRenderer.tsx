@@ -53,16 +53,18 @@ const ContentRenderer = ({ metadata }: ContentRendererProps) => {
     );
 
   return (
-    <div className="w-full h-full">
-      {/* eslint-disable-next-line */}
+    <div className="size-full">
       <img
         src={
           (isCollect && getFetchableUrl(metadata.animation_url)) ||
           getFetchableUrl(metadata.image) ||
           "/images/placeholder.png"
         }
-        alt="Token Image."
-        className="w-full h-full object-cover block"
+        alt={metadata?.name || metadata?.description || "Token image"}
+        className="size-full object-cover block"
+        loading="lazy"
+        decoding="async"
+        draggable={false}
         style={{
           imageRendering: isMobile ? "auto" : "pixelated",
         }}
