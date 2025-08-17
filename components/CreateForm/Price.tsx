@@ -10,7 +10,7 @@ export default function Price() {
     useZoraCreateProvider();
 
   return (
-    <div className="w-full space-y-2">
+    <div className="w-full pt-2">
       <Label htmlFor="price" className="font-archivo text-md">
         price
       </Label>
