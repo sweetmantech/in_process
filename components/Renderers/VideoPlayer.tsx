@@ -1,4 +1,4 @@
-import { type SyntheticEvent, useRef, useEffect } from "react";
+import { type SyntheticEvent, useRef } from "react";
 
 interface VideoPlayerProps {
   url: string;
@@ -11,40 +11,6 @@ const VideoPlayer = ({ url }: VideoPlayerProps) => {
     e.stopPropagation();
   };
 
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    const handleFullscreenChange = () => {
-      const isFullscreen = document.fullscreenElement === video;
-      if (isFullscreen) {
-        const hoverAreas = document.querySelectorAll('[data-video-hover-area]');
-        hoverAreas.forEach((area) => {
-          const feedElement = area.closest('[data-feed-button]');
-          if (feedElement) {
-            const mouseLeaveEvent = new MouseEvent('mouseleave', {
-              bubbles: true,
-              cancelable: true,
-            });
-            feedElement.dispatchEvent(mouseLeaveEvent);
-          }
-        });
-      }
-    };
-
-    document.addEventListener('fullscreenchange', handleFullscreenChange);
-    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
-    document.addEventListener('mozfullscreenchange', handleFullscreenChange);
-    document.addEventListener('MSFullscreenChange', handleFullscreenChange);
-
-    return () => {
-      document.removeEventListener('fullscreenchange', handleFullscreenChange);
-      document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
-      document.removeEventListener('mozfullscreenchange', handleFullscreenChange);
-      document.removeEventListener('MSFullscreenChange', handleFullscreenChange);
-    };
-  }, []);
-
   return (
     <video 
       ref={videoRef}
@@ -54,6 +20,7 @@ const VideoPlayer = ({ url }: VideoPlayerProps) => {
       onMouseDown={stopPropagation}
       onPointerDown={stopPropagation}
       onTouchStart={stopPropagation}
+      data-video-hover-area
     >
       <source src={url} />
       Your browser does not support the video element.

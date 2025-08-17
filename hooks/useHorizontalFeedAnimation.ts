@@ -62,17 +62,20 @@ export const useHorizontalFeedAnimation = (
         (document as any).mozFullScreenElement ||
         (document as any).msFullscreenElement
       );
-      setIsAnyVideoFullscreen(isFullscreen);
       
-      // If entering fullscreen, reset hover states
-      if (isFullscreen) {
-        setNearestIndex(null);
-        setEventTriggered(false);
-      }
+      // Only update state if actually changed
+      setIsAnyVideoFullscreen(prev => {
+        if (prev !== isFullscreen) {
+          // If entering fullscreen, reset hover states
+          if (isFullscreen) {
+            setNearestIndex(null);
+            setEventTriggered(false);
+          }
+          return isFullscreen;
+        }
+        return prev;
+      });
     };
-
-    // Check immediately
-    checkFullscreen();
 
     // Listen for all possible fullscreen events
     document.addEventListener('fullscreenchange', checkFullscreen);
@@ -111,7 +114,7 @@ export const useHorizontalFeedAnimation = (
 
   const handleMouseMove = useCallback(
     (e: React.MouseEvent) => {
-      // AGGRESSIVE: Block ALL hover logic if any video is fullscreen
+      // Block ALL hover logic if any video is fullscreen
       if (isAnyVideoFullscreen) {
         return;
       }
@@ -119,16 +122,6 @@ export const useHorizontalFeedAnimation = (
       const currentMouseX = e.clientX;
       if (currentMouseX === null) {
         setNearestIndex(null);
-        return;
-      }
-
-      // Additional check for direct fullscreen elements
-      if (
-        document.fullscreenElement ||
-        (document as any).webkitFullscreenElement ||
-        (document as any).mozFullScreenElement ||
-        (document as any).msFullscreenElement
-      ) {
         return;
       }
 
