@@ -9,6 +9,11 @@ const useSpiralMouseOver = () => {
 
   const handleMouseMove = useCallback(
     (event: React.MouseEvent, feed: Token) => {
+      // Check if any video is in fullscreen mode
+      if (document.body.dataset.videoFullscreen === 'true') {
+        return;
+      }
+      
       const svgElement = event.currentTarget.closest("svg");
       if (!svgElement) return;
 
