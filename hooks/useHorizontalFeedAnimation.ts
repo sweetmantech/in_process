@@ -79,19 +79,23 @@ export const useHorizontalFeedAnimation = (
         setNearestIndex(null);
         return;
       }
-      
-      const target = e.target as Element | null;
-      if (target && target.closest('[data-video-hover-area]')) {
+
+      if (document.fullscreenElement) {
         return;
       }
-      
+
+      const target = e.target as Element;
+      if (target && (target.closest('[data-video-hover-area]') || target.closest('video') || target.tagName === 'VIDEO')) {
+        return;
+      }
+
       setEventTriggered(true);
       const nearest = findNearestButtonIndex(currentMouseX);
       if (nearest.index !== nearestIndex) {
         setNearestIndex(nearest.index);
       }
     },
-    [findNearestButtonIndex, nearestIndex],
+    [findNearestButtonIndex, nearestIndex]
   );
 
   const getHeight = useCallback(
