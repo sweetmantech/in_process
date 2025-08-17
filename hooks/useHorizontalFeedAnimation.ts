@@ -4,6 +4,7 @@ import {
   Dispatch,
   SetStateAction,
   RefObject,
+  useEffect,
 } from "react";
 import useIsMobile from "./useIsMobile";
 import { Swiper } from "swiper/types";
@@ -48,8 +49,44 @@ export const useHorizontalFeedAnimation = (
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [eventTriggered, setEventTriggered] = useState<boolean>(false);
   const [feedEnded, setFeedEnded] = useState<boolean>(false);
+  const [isAnyVideoFullscreen, setIsAnyVideoFullscreen] = useState<boolean>(false);
   const checkTimelineOverflow = useCheckTimelineOverflow();
   const centerIndex = useTimelineCenter({ activeIndex, swiper, feeds });
+
+  // Enhanced fullscreen detection
+  useEffect(() => {
+    const checkFullscreen = () => {
+      const isFullscreen = !!(
+        document.fullscreenElement ||
+        (document as any).webkitFullscreenElement ||
+        (document as any).mozFullScreenElement ||
+        (document as any).msFullscreenElement
+      );
+      setIsAnyVideoFullscreen(isFullscreen);
+      
+      // If entering fullscreen, reset hover states
+      if (isFullscreen) {
+        setNearestIndex(null);
+        setEventTriggered(false);
+      }
+    };
+
+    // Check immediately
+    checkFullscreen();
+
+    // Listen for all possible fullscreen events
+    document.addEventListener('fullscreenchange', checkFullscreen);
+    document.addEventListener('webkitfullscreenchange', checkFullscreen);
+    document.addEventListener('mozfullscreenchange', checkFullscreen);
+    document.addEventListener('MSFullscreenChange', checkFullscreen);
+
+    return () => {
+      document.removeEventListener('fullscreenchange', checkFullscreen);
+      document.removeEventListener('webkitfullscreenchange', checkFullscreen);
+      document.removeEventListener('mozfullscreenchange', checkFullscreen);
+      document.removeEventListener('MSFullscreenChange', checkFullscreen);
+    };
+  }, []);
 
   const findNearestButtonIndex = useCallback(
     (currentMouseX: number): NearestButton => {
@@ -74,13 +111,24 @@ export const useHorizontalFeedAnimation = (
 
   const handleMouseMove = useCallback(
     (e: React.MouseEvent) => {
+      // AGGRESSIVE: Block ALL hover logic if any video is fullscreen
+      if (isAnyVideoFullscreen) {
+        return;
+      }
+
       const currentMouseX = e.clientX;
       if (currentMouseX === null) {
         setNearestIndex(null);
         return;
       }
 
-      if (document.fullscreenElement) {
+      // Additional check for direct fullscreen elements
+      if (
+        document.fullscreenElement ||
+        (document as any).webkitFullscreenElement ||
+        (document as any).mozFullScreenElement ||
+        (document as any).msFullscreenElement
+      ) {
         return;
       }
 
@@ -95,11 +143,16 @@ export const useHorizontalFeedAnimation = (
         setNearestIndex(nearest.index);
       }
     },
-    [findNearestButtonIndex, nearestIndex]
+    [findNearestButtonIndex, nearestIndex, isAnyVideoFullscreen]
   );
 
   const getHeight = useCallback(
     (index: number): number => {
+      // Block height changes when fullscreen
+      if (isAnyVideoFullscreen) {
+        return MIN_HEIGHT;
+      }
+
       if (isMobile) {
         return (!activeIndex && !index) || activeIndex - 1 === index
           ? MAX_HEIGHT
@@ -115,17 +168,22 @@ export const useHorizontalFeedAnimation = (
       }
       return MIN_HEIGHT;
     },
-    [centerIndex, isMobile, activeIndex, nearestIndex],
+    [centerIndex, isMobile, activeIndex, nearestIndex, isAnyVideoFullscreen, MAX_HEIGHT, MIN_HEIGHT, NEIGHBOR_RANGE, HEIGHT_DECREMENT],
   );
 
   const isHovered = useCallback(
     (index: number): boolean => {
+      // Block hover states when fullscreen
+      if (isAnyVideoFullscreen) {
+        return false;
+      }
+
       if (isMobile)
         return (!activeIndex && !index) || activeIndex - 1 === index;
       if (nearestIndex === 0 && !eventTriggered && index === 0) return true;
       return nearestIndex !== null && index === nearestIndex;
     },
-    [nearestIndex, activeIndex, isMobile, eventTriggered],
+    [nearestIndex, activeIndex, isMobile, eventTriggered, isAnyVideoFullscreen],
   );
 
   return {
