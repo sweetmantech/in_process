@@ -10,6 +10,7 @@ import { Swiper } from "swiper/types";
 import useCheckTimelineOverflow from "./useCheckTimelineOverflow";
 import { Token } from "@/types/token";
 import useTimelineCenter from "./useTimelineCenter";
+import { fullscreenManager } from "@/lib/fullscreenManager";
 
 interface UseHorizontalFeedAnimationReturn {
   nearestIndex: number | null;
@@ -80,8 +81,8 @@ export const useHorizontalFeedAnimation = (
         return;
       }
       
-      // Check if any video is in fullscreen mode
-      if (document.body.dataset.videoFullscreen === 'true') {
+      // Check if any video is in fullscreen mode - prevent ALL hover interactions
+      if (fullscreenManager.getIsFullscreen()) {
         return;
       }
       

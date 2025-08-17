@@ -4,10 +4,6 @@ interface VideoPlayerProps {
   url: string;
 }
 
-// Global state to track if any video is in fullscreen
-let isAnyVideoFullscreen = false;
-const fullscreenListeners = new Set<() => void>();
-
 const VideoPlayer = ({ url }: VideoPlayerProps) => {
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -17,40 +13,16 @@ const VideoPlayer = ({ url }: VideoPlayerProps) => {
   };
 
   useEffect(() => {
+    // Add a data attribute to help identify this as a video element
     const video = videoRef.current;
     if (!video) return;
 
-    const handleFullscreenChange = () => {
-      const isFullscreen = 
-        document.fullscreenElement === video ||
-        (document as any).webkitFullscreenElement === video ||
-        (document as any).mozFullScreenElement === video ||
-        (document as any).msFullscreenElement === video;
-      
-      isAnyVideoFullscreen = isFullscreen;
-      
-      // Notify all listeners about fullscreen state change
-      fullscreenListeners.forEach(listener => listener());
-      
-      // Set a data attribute on the body to prevent hover interactions
-      if (isFullscreen) {
-        document.body.dataset.videoFullscreen = 'true';
-      } else {
-        delete document.body.dataset.videoFullscreen;
-      }
-    };
-
-    // Listen for fullscreen changes
-    document.addEventListener('fullscreenchange', handleFullscreenChange);
-    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
-    document.addEventListener('mozfullscreenchange', handleFullscreenChange);
-    document.addEventListener('MSFullscreenChange', handleFullscreenChange);
+    video.dataset.videoPlayer = 'true';
 
     return () => {
-      document.removeEventListener('fullscreenchange', handleFullscreenChange);
-      document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
-      document.removeEventListener('mozfullscreenchange', handleFullscreenChange);
-      document.removeEventListener('MSFullscreenChange', handleFullscreenChange);
+      if (video) {
+        delete video.dataset.videoPlayer;
+      }
     };
   }, []);
 
@@ -68,15 +40,6 @@ const VideoPlayer = ({ url }: VideoPlayerProps) => {
       Your browser does not support the video element.
     </video>
   );
-};
-
-// Export a function to check if any video is fullscreen
-export const isVideoFullscreen = () => isAnyVideoFullscreen;
-
-// Export a function to add listeners for fullscreen changes
-export const addFullscreenListener = (listener: () => void) => {
-  fullscreenListeners.add(listener);
-  return () => fullscreenListeners.delete(listener);
 };
 
 export default VideoPlayer;

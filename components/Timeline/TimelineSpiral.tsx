@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { SpiralPath } from "@/components/SprialFeeds/SpiralPath";
 import { useSpiralAnimation } from "@/hooks/useSpiralAnimation";
 import { generateSpacer } from "@/lib/spiralUtils";
@@ -10,15 +10,33 @@ import useSpiralMouseOver from "@/hooks/useSpiralMouseOver";
 import Feed from "@/components/SprialFeeds/Feed";
 import { useTimelineApiContext } from "@/providers/TimelineApiProvider";
 import { mapMomentToToken } from "@/lib/timeline/mapMomentToToken";
+import { fullscreenManager } from "@/lib/fullscreenManager";
 
 const TimelineSpiral = () => {
   const { offset, viewBox, animationConfig, points } = useSpiralAnimation();
-  const { handleMouseLeave, handleMouseMove, hoveredFeed } =
-    useSpiralMouseOver();
+  const { handleMouseLeave, handleMouseMove, hoveredFeed } = useSpiralMouseOver();
   const { moments } = useTimelineApiContext();
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  useEffect(() => {
+    // Listen for fullscreen changes
+    const unsubscribe = fullscreenManager.addListener((fullscreen) => {
+      setIsFullscreen(fullscreen);
+    });
+
+    // Set initial state
+    setIsFullscreen(fullscreenManager.getIsFullscreen());
+
+    return unsubscribe;
+  }, []);
 
   return (
-    <div className="relative mt-12">
+    <div 
+      className="relative mt-12"
+      style={{
+        pointerEvents: isFullscreen ? 'none' : 'auto',
+      }}
+    >
       <svg viewBox={viewBox} className="relative z-[20] cursor-pointer">
         <SpiralPath id="curve" points={points as Point[]} />
         <text>
