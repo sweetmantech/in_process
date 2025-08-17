@@ -52,7 +52,7 @@ const ContentRenderer = ({ metadata }: ContentRendererProps) => {
       />
     );
   return (
-    <div className="grow relative">
+    <div className="relative w-full h-full">
       {/* eslint-disable-next-line */}
       <img
         src={
@@ -61,11 +61,12 @@ const ContentRenderer = ({ metadata }: ContentRendererProps) => {
           "/images/placeholder.png"
         }
         alt="Token Image."
+        className="absolute inset-0 w-full h-full"
         style={{
           imageRendering: isMobile ? "auto" : "pixelated",
+          objectFit: "contain",
+          objectPosition: "center",
         }}
-        width="100%"
-        height="100%"
       />
     </div>
   );
