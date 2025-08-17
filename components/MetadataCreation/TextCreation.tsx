@@ -1,11 +1,8 @@
-import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
 import TextInput from "./TextInput";
 
 const TextCreation = () => {
-  const { createdContract } = useZoraCreateProvider();
-
   return (
-    <div className={`size-full ${createdContract && "pointer-events-none"}`}>
+    <div className="size-full">
       <TextInput />
     </div>
   );
