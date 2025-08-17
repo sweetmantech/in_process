@@ -1,6 +1,5 @@
 import { Token } from "@/types/token";
 import { useState, useCallback } from "react";
-import { fullscreenManager } from "@/lib/fullscreenManager";
 
 const useSpiralMouseOver = () => {
   const [hoveredFeed, setHoveredFeed] = useState<{
@@ -10,11 +9,6 @@ const useSpiralMouseOver = () => {
 
   const handleMouseMove = useCallback(
     (event: React.MouseEvent, feed: Token) => {
-      // Check if any video is in fullscreen mode - prevent ALL hover interactions
-      if (fullscreenManager.getIsFullscreen()) {
-        return;
-      }
-      
       const svgElement = event.currentTarget.closest("svg");
       if (!svgElement) return;
 
