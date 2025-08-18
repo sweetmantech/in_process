@@ -19,9 +19,11 @@ const Preview = () => {
   const { previewUri, writingText, previewSrc, animationUri } =
     useZoraCreateProvider();
   const showPreview = previewUri || animationUri;
+  const showWritingPreview = writingText && !previewUri;
+  const showImagePreview = showPreview && !showWritingPreview;
   return (
     <div>
-      {showPreview && (
+      {showImagePreview && (
         <PreviewContainer>
           <Image
             layout="fill"
@@ -32,7 +34,7 @@ const Preview = () => {
           />
         </PreviewContainer>
       )}
-      {writingText && !previewUri && (
+      {showWritingPreview && (
         <PreviewContainer>
           <WritingPreview />
         </PreviewContainer>
