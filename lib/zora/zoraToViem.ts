@@ -45,3 +45,33 @@ export const getShortNetworkName = (
   // Default lookup
   return VIEM_TO_ZORA[normalizedName as keyof typeof VIEM_TO_ZORA];
 };
+
+/**
+ * Get the short network name from chainId
+ * @param chainId - The chain ID (e.g. 8453, 84532)
+ * @returns The short network name (e.g. "base", "bsep") or undefined if not found
+ */
+export const getShortNetworkNameFromChainId = (
+  chainId: number,
+): ZoraChains | undefined => {
+  switch (chainId) {
+    case 1:
+      return "eth";
+    case 8453:
+      return "base";
+    case 84532:
+      return "bsep";
+    case 10:
+      return "oeth";
+    case 42161:
+      return "arb";
+    case 7777777:
+      return "zora";
+    case 81457:
+      return "blast";
+    case 424:
+      return "pgn";
+    default:
+      return undefined;
+  }
+};

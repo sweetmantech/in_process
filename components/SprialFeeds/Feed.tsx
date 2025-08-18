@@ -5,6 +5,7 @@ import { Token } from "@/types/token";
 import { useRouter } from "next/navigation";
 import { useMetadata } from "@/hooks/useMetadata";
 import truncateAddress from "@/lib/truncateAddress";
+import { getShortNetworkName } from "@/lib/zora/zoraToViem";
 
 interface FeedProps {
   feed: Token;
@@ -24,13 +25,28 @@ const Feed = ({
   const { push } = useRouter();
   const { data } = useMetadata(feed.uri);
 
+  const handleClick = () => {
+    if (data?.external_url) {
+      const newWindow = window.open(data.external_url, "_blank");
+      if (newWindow) {
+        newWindow.opener = null;
+      }
+      return;
+    }
+    const shortNetworkName = getShortNetworkName(
+      feed.chain.replaceAll("_", " ")
+    );
+    const tokenId = feed.tokenId == "0" ? 1 : feed.tokenId;
+    push(`/collect/${shortNetworkName}:${feed.collection}/${tokenId}`);
+  };
+
   return (
     <React.Fragment>
       {index > 0 && generateSpacer(spacerWidth)}
       <tspan
         onMouseMove={(e) => handleMouseMove(e, feed)}
         onMouseLeave={handleMouseLeave}
-        onClick={() => push(`/${feed.creator}`)}
+        onClick={handleClick}
         dominant-baseline="middle"
       >
         <tspan fill="#1B1504" fontSize={isMobile ? 3 : 6} textAnchor="middle">

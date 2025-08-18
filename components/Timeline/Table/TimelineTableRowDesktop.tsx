@@ -2,6 +2,7 @@ import { useMetadata } from "@/hooks/useMetadata";
 import { useRouter } from "next/navigation";
 import { TableRow, TableCell } from "@/components/ui/table";
 import truncateAddress from "@/lib/truncateAddress";
+import { getShortNetworkNameFromChainId } from "@/lib/zora/zoraToViem";
 
 const fontFamilies = ["font-archivo", "font-spectral-italic", "font-archivo"];
 const fontSizes = [
@@ -14,10 +15,18 @@ const TimelineTableRowDesktop = ({ moment }: { moment: any }) => {
   const { data } = useMetadata(moment.uri);
   const { push } = useRouter();
 
+  const handleClick = () => {
+    const shortNetworkName = getShortNetworkNameFromChainId(moment.chainId);
+    if (shortNetworkName) {
+      const tokenId = moment.tokenId === "0" ? "1" : moment.tokenId;
+      push(`/collect/${shortNetworkName}:${moment.address}/${tokenId}`);
+    }
+  };
+
   return (
     <TableRow
       className="!border-b !border-transparent hover:!bg-transparent hover:!text-grey-moss-300 hover:!border-b-grey-moss-300"
-      onClick={() => push(`/${moment.admin}`)}
+      onClick={handleClick}
     >
       <TableCell
         className={`md:py-3 border-none cursor-pointer ${fontFamilies[0]} ${fontSizes[0]}`}
