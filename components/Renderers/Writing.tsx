@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import type { UIEvent } from "react";
 import { Skeleton } from "../ui/skeleton";
 
 interface WritingProps {
@@ -12,26 +13,43 @@ const Writing = ({ fileUrl, description }: WritingProps) => {
   const [scrollPosition, setScrollPosition] = useState<"top" | "mid" | "bottom">("top");
   const [canScroll, setCanScroll] = useState<boolean>(false);
   const scrollerRef = useRef<HTMLDivElement>(null);
+  const SCROLL_EPS = 5;
 
   useEffect(() => {
+    let mounted = true;
+    const ac = new AbortController();
     const getText = async () => {
-      const response = await fetch(fileUrl);
-      const content = await response.text();
-      setText(content || description);
-      setIsLoading(false);
+      try {
+        setIsLoading(true);
+        if (!fileUrl) {
+          setText(description);
+          return;
+        }
+        const response = await fetch(fileUrl, { signal: ac.signal });
+        if (!response.ok) throw new Error(`Failed to fetch writing: ${response.status}`);
+        const content = await response.text();
+        if (!mounted) return;
+        setText(content || description);
+      } catch (err) {
+        if (err instanceof DOMException && err.name === "AbortError") return;
+        if (mounted) setText(description);
+      } finally {
+        if (mounted) setIsLoading(false);
+      }
     };
-    if (fileUrl) getText();
+    void getText();
+    return () => {
+      mounted = false;
+      ac.abort();
+    };
   }, [description, fileUrl]);
 
-  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
-    const { scrollTop, scrollHeight, clientHeight } = e.target as HTMLDivElement;
-    const position =
-      scrollTop === 0
-        ? "top"
-        : scrollHeight - scrollTop - clientHeight <= 5
-        ? "bottom"
-        : "mid";
-    setScrollPosition(position);
+  const handleScroll = (e: UIEvent<HTMLDivElement>) => {
+    const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
+    const nearBottom = scrollHeight - scrollTop - clientHeight <= SCROLL_EPS;
+    const next: "top" | "mid" | "bottom" =
+      scrollTop === 0 ? "top" : nearBottom ? "bottom" : "mid";
+    setScrollPosition((prev) => (prev === next ? prev : next));
   };
 
   useEffect(() => {
@@ -39,7 +57,7 @@ const Writing = ({ fileUrl, description }: WritingProps) => {
     if (!el) return;
     const can = el.scrollHeight > el.clientHeight;
     setCanScroll(can);
-    const nearBottom = el.scrollHeight - el.scrollTop - el.clientHeight <= 5;
+    const nearBottom = el.scrollHeight - el.scrollTop - el.clientHeight <= SCROLL_EPS;
     const next: "top" | "mid" | "bottom" = !can
       ? "top"
       : el.scrollTop === 0
@@ -58,10 +76,9 @@ const Writing = ({ fileUrl, description }: WritingProps) => {
         className="relative z-[2] size-full p-2 md:p-4 pt-24 bg-grey-eggshell overflow-y-auto whitespace-pre-wrap text-sm md:text-base"
         onScroll={handleScroll}
         ref={scrollerRef}
-        dangerouslySetInnerHTML={{
-          __html: text.replaceAll("\n", "<br/>"),
-        }}
-      />
+      >
+        {text}
+      </div>
       {canScroll && scrollPosition !== "top" && (
         <div aria-hidden="true" className="pointer-events-none absolute z-[3] left-0 top-0 bg-gradientTopBottom w-full h-24" />
       )}
