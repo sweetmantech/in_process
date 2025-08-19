@@ -6,6 +6,7 @@ import {
   RefObject,
 } from "react";
 import useIsMobile from "./useIsMobile";
+import useFullscreenDetection from "./useFullscreenDetection";
 import { Swiper } from "swiper/types";
 import useCheckTimelineOverflow from "./useCheckTimelineOverflow";
 import { Token } from "@/types/token";
@@ -37,6 +38,7 @@ export const useHorizontalFeedAnimation = (
   feeds: Token[],
 ): UseHorizontalFeedAnimationReturn => {
   const isMobile = useIsMobile();
+  const { isAnyVideoFullscreen } = useFullscreenDetection();
 
   const NEIGHBOR_RANGE = isMobile ? 0 : 3;
   const MAX_HEIGHT = isMobile ? 80 : 180;
@@ -74,6 +76,11 @@ export const useHorizontalFeedAnimation = (
 
   const handleMouseMove = useCallback(
     (e: React.MouseEvent) => {
+      // Don't trigger hover state changes when any video is in fullscreen
+      if (isAnyVideoFullscreen) {
+        return;
+      }
+
       const currentMouseX = e.clientX;
       if (currentMouseX === null) {
         setNearestIndex(null);
@@ -91,7 +98,7 @@ export const useHorizontalFeedAnimation = (
         setNearestIndex(nearest.index);
       }
     },
-    [findNearestButtonIndex, nearestIndex],
+    [findNearestButtonIndex, nearestIndex, isAnyVideoFullscreen],
   );
 
   const getHeight = useCallback(
@@ -111,7 +118,7 @@ export const useHorizontalFeedAnimation = (
       }
       return MIN_HEIGHT;
     },
-    [centerIndex, isMobile, activeIndex, nearestIndex],
+    [centerIndex, isMobile, activeIndex, nearestIndex, MAX_HEIGHT, MIN_HEIGHT, NEIGHBOR_RANGE, HEIGHT_DECREMENT],
   );
 
   const isHovered = useCallback(
