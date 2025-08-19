@@ -19,7 +19,7 @@ const TokenPage = () => {
 
   return (
     <main className="w-screen flex grow">
-      <div className="w-full flex flex-col items-center justify-center pt-12 md:pt-24">
+      <div className="w-full flex flex-col items-center justify-center pt-12 md:pt-14">
         <TokenProvider
           token={{
             tokenContractAddress: address as Address,
