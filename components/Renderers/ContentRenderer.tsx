@@ -43,7 +43,11 @@ const ContentRenderer = ({ metadata }: ContentRendererProps) => {
       <div className="size-full flex justify-center">
         <iframe
           src={getFetchableUrl(metadata.animation_url) || ""}
-          className="w-full"
+          className="w-full h-full"
+          title={metadata?.name || "Embedded content"}
+          sandbox="allow-scripts allow-same-origin"
+          referrerPolicy="no-referrer"
+          loading="lazy"
         />
       </div>
     );
@@ -51,7 +55,7 @@ const ContentRenderer = ({ metadata }: ContentRendererProps) => {
   if (mimeType.includes("text/plain"))
     return (
       <Writing
-        fileUrl={getFetchableUrl(metadata.content.uri) || ""}
+        fileUrl={getFetchableUrl(metadata?.content?.uri) || ""}
         description={metadata.description}
       />
     );
