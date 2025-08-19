@@ -1,9 +1,6 @@
-import { useEffect, useRef, useState } from "react";
-import type { UIEvent } from "react";
+import { useEffect, useState } from "react";
 import { Skeleton } from "../ui/skeleton";
-
-type ScrollPos = "top" | "mid" | "bottom";
-const SCROLL_EPS = 5;
+import { useWritingScrollbar } from "@/hooks/useWritingScrollbar";
 
 interface WritingProps {
   fileUrl: string;
@@ -13,9 +10,7 @@ interface WritingProps {
 const Writing = ({ fileUrl, description }: WritingProps) => {
   const [text, setText] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [scrollPosition, setScrollPosition] = useState<ScrollPos>("top");
-  const [canScroll, setCanScroll] = useState<boolean>(false);
-  const scrollerRef = useRef<HTMLDivElement>(null);
+  const { scrollPosition, canScroll, scrollerRef, handleScroll, updateScrollState } = useWritingScrollbar();
 
   useEffect(() => {
     let mounted = true;
@@ -46,55 +41,10 @@ const Writing = ({ fileUrl, description }: WritingProps) => {
     };
   }, [description, fileUrl]);
 
-  const handleScroll = (e: UIEvent<HTMLDivElement>) => {
-    const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
-    const nearBottom = scrollHeight - scrollTop - clientHeight <= SCROLL_EPS;
-    const next: ScrollPos =
-      scrollTop === 0 ? "top" : nearBottom ? "bottom" : "mid";
-    setScrollPosition((prev) => (prev === next ? prev : next));
-  };
-
+  // Update scroll state when text or loading changes
   useEffect(() => {
-    const el = scrollerRef.current;
-    if (!el) return;
-    const can = el.scrollHeight > el.clientHeight;
-    setCanScroll(can);
-    const nearBottom = el.scrollHeight - el.scrollTop - el.clientHeight <= SCROLL_EPS;
-    const next: ScrollPos = !can
-      ? "top"
-      : el.scrollTop === 0
-        ? "top"
-        : nearBottom
-          ? "bottom"
-          : "mid";
-    setScrollPosition((prev) => (prev === next ? prev : next));
-  }, [text, isLoading]);
-
-  useEffect(() => {
-    const el = scrollerRef.current;
-    if (!el || typeof ResizeObserver === "undefined") return;
-
-    const update = () => {
-      const can = el.scrollHeight > el.clientHeight;
-      setCanScroll(can);
-      const nearBottom = el.scrollHeight - el.scrollTop - el.clientHeight <= SCROLL_EPS;
-      const next: ScrollPos = !can
-        ? "top"
-        : el.scrollTop === 0
-          ? "top"
-          : nearBottom
-            ? "bottom"
-            : "mid";
-      setScrollPosition((prev) => (prev === next ? prev : next));
-    };
-
-    const ro = new ResizeObserver(update);
-    ro.observe(el);
-    // Run once to sync immediately
-    update();
-
-    return () => ro.disconnect();
-  }, []);
+    updateScrollState();
+  }, [text, isLoading, updateScrollState]);
 
   if (isLoading && !text) return <Skeleton className="min-h-[200px] size-full" />;
 
