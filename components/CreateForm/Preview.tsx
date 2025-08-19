@@ -16,26 +16,30 @@ const PreviewContainer = ({ children }: { children: ReactNode }) => {
   );
 };
 const Preview = () => {
-  const { previewUri, writingText, previewSrc } = useZoraCreateProvider();
+  const { previewUri, writingText, previewSrc, animationUri } =
+    useZoraCreateProvider();
+  const showPreview = previewUri || animationUri;
+  const showWritingPreview = writingText && !previewUri;
+  const showImagePreview = showPreview && !showWritingPreview;
   return (
     <div>
-      {previewUri && (
+      {showImagePreview && (
         <PreviewContainer>
           <Image
             layout="fill"
             objectFit="cover"
             objectPosition="center"
-            src={previewSrc}
+            src={previewSrc || "/bg-gray.png"}
             alt="not found preview."
           />
         </PreviewContainer>
       )}
-      {writingText && !previewUri && (
+      {showWritingPreview && (
         <PreviewContainer>
           <WritingPreview />
         </PreviewContainer>
       )}
-      {previewUri && <PreviewModal />}
+      {showPreview && <PreviewModal />}
     </div>
   );
 };

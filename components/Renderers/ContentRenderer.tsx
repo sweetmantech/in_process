@@ -21,6 +21,7 @@ const ContentRenderer = ({ metadata }: ContentRendererProps) => {
     return (
       <PdfViewer fileUrl={getFetchableUrl(metadata.animation_url) || ""} />
     );
+
   if (mimeType.includes("audio")) {
     return (
       <AudioPlayer
@@ -29,12 +30,14 @@ const ContentRenderer = ({ metadata }: ContentRendererProps) => {
       />
     );
   }
+
   if (mimeType.includes("video"))
     return (
       <div className="size-full flex justify-center">
         <VideoPlayer url={getFetchableUrl(metadata.animation_url) || ""} />
       </div>
     );
+
   if (mimeType.includes("html"))
     return (
       <div className="size-full flex justify-center">
@@ -44,6 +47,7 @@ const ContentRenderer = ({ metadata }: ContentRendererProps) => {
         />
       </div>
     );
+
   if (mimeType.includes("text/plain"))
     return (
       <Writing
@@ -51,6 +55,7 @@ const ContentRenderer = ({ metadata }: ContentRendererProps) => {
         description={metadata.description}
       />
     );
+
   return (
     <div className="relative w-full h-full">
       {/* eslint-disable-next-line */}
@@ -60,8 +65,11 @@ const ContentRenderer = ({ metadata }: ContentRendererProps) => {
           getFetchableUrl(metadata.image) ||
           "/images/placeholder.png"
         }
-        alt="Token Image."
-        className="absolute inset-0 w-full h-full"
+        alt={metadata?.name || metadata?.description || "Token image"}
+        className="absolute inset-0 w-full h-full object-cover block"
+        loading="lazy"
+        decoding="async"
+        draggable={false}
         style={{
           imageRendering: isMobile ? "auto" : "pixelated",
           objectFit: "contain",
