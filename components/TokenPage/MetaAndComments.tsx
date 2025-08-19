@@ -1,7 +1,8 @@
 import { useTokenProvider } from "@/providers/TokenProvider";
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
 import { Skeleton } from "../ui/skeleton";
 import CommentSection from "./CommentSection";
+import Description from "./Description";
 import getPrice from "@/lib/getPrice";
 import getPriceUnit from "@/lib/getPriceUnit";
 import { CopyIcon, DownloadIcon } from "lucide-react";
@@ -23,36 +24,15 @@ const MetaAndComments = ({
   const { share } = useShareMoment();
   const { balanceOf } = useBalanceOf();
   const { download } = useDownload();
-  const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
 
   if (!meta) return <Fragment />;
-  
-  // Check if description is long enough to warrant truncation
-  const shouldTruncateDescription = meta.description && meta.description.length > 150;
-  const displayDescription = shouldTruncateDescription && !isDescriptionExpanded 
-    ? meta.description.slice(0, 150) + "..." 
-    : meta.description;
 
   return (
     <div className="w-full md:max-w-[400px] h-fit">
       <h3 className="text-4xl md:text-5xl font-spectral pt-2 md:pt-4">
         {meta.name}
       </h3>
-      {meta.description && (
-        <div className="mt-3 md:mt-4">
-          <p className="font-archivo text-sm md:text-base text-grey-moss-300 leading-relaxed whitespace-pre-wrap">
-            {displayDescription}
-          </p>
-          {shouldTruncateDescription && (
-            <button
-              onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}
-              className="mt-2 text-xs md:text-sm font-archivo text-grey-moss-900 hover:text-black transition-colors underline"
-            >
-              {isDescriptionExpanded ? "Read less" : "Read more"}
-            </button>
-          )}
-        </div>
-      )}
+      <Description description={meta.description || ""} />
       {!priceHidden && isSetSale && (
         <>
           <div className="space-y-1 md:space-y-2 mt-2 md:mt-4">
