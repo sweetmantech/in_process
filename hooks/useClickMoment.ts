@@ -19,7 +19,6 @@ export const useClickMoment = (moment: TimelineMoment) => {
         // Invalid or unsupported URL; fall through to internal navigation
       }
     }
-    }
     
     const shortNetworkName = getShortNetworkNameFromChainId(moment.chainId);
     if (shortNetworkName) {
