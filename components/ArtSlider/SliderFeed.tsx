@@ -1,20 +1,14 @@
-import { useMetadata } from "@/hooks/useMetadata";
 import { Token } from "@/types/token";
 import Loading from "../Loading";
-import { useRouter } from "next/navigation";
 import CarouselItem from "./CarouselItem";
+import { useClickTimelineFeed } from "@/hooks/useClickTimelineFeed";
 
 interface SliderFeedProps {
   feed: Token;
 }
 
 const SliderFeed = ({ feed }: SliderFeedProps) => {
-  const { data, isLoading } = useMetadata(feed.uri);
-  const { push } = useRouter();
-
-  const handleClick = () => {
-    push(`/${feed.creator}`);
-  };
+  const { data, isLoading, handleClick } = useClickTimelineFeed(feed);
 
   return (
     <button
