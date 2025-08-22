@@ -2,7 +2,6 @@
 
 import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
 import CreateButton from "./CreateButton";
-import Price from "./Price";
 import Prompt from "./Prompt";
 import Buttons from "../CreatedMoment/Buttons";
 import Advanced from "./Advanced";
@@ -28,7 +27,6 @@ const CreateForm = () => {
         ) : (
           <>
             <Prompt />
-            <Price />
             <Advanced />
             <Preview />
             <CreateButton />

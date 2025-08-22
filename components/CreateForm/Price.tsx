@@ -10,18 +10,25 @@ export default function Price() {
     useZoraCreateProvider();
 
   return (
-    <div className="w-full space-y-2">
+    <div className="w-full pt-2">
       <Label htmlFor="price" className="font-archivo text-md">
         price
       </Label>
       <div className="flex overflow-hidden border border-grey-secondary">
         <Input
           id="price"
-          type="text"
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
-          className="flex-grow !font-spectral !rounded-[0px] !border-none bg-white focus-visible:ring-0 focus-visible:ring-offset-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+          type="number"
+          inputMode="decimal"
+          min="0"
           step="0.01"
+          value={price}
+          onChange={(e) => {
+            const val = e.target.value;
+            if (/^\d*\.?\d*$/.test(val)) {
+              setPrice(val);
+            }
+          }}
+          className="flex-grow !font-spectral !rounded-[0px] !border-none bg-white focus-visible:ring-0 focus-visible:ring-offset-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
           disabled={Boolean(fileUploading || creating)}
         />
         <div className="bg-white">
