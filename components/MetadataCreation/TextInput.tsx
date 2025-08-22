@@ -1,24 +1,28 @@
 import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, UIEvent, useState } from "react";
+import Writing from "../Renderers/Writing";
 
 type ScrollPosition = "top" | "mid" | "bottom" | null;
 
 const TextInput = () => {
-  const { fileUploading, write, writingText, creating } =
+  const { fileUploading, write, writingText, creating, createdContract } =
     useZoraCreateProvider();
   const [scrollPosition, setScrollPosition] = useState<ScrollPosition>(null);
 
-  const handleScroll = (e: React.UIEvent<HTMLTextAreaElement>) => {
-    const { scrollTop, scrollHeight, clientHeight } =
-      e.target as HTMLTextAreaElement;
+  const handleScroll = (e: UIEvent<HTMLTextAreaElement | HTMLDivElement>) => {
+    const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
     const position: ScrollPosition =
       scrollTop === 0
         ? "top"
         : scrollHeight - scrollTop - clientHeight <= 5
-          ? "bottom"
-          : "mid";
+        ? "bottom"
+        : "mid";
     setScrollPosition(position);
   };
+
+  if (createdContract) {
+    return <Writing description={writingText} />;
+  }
 
   return (
     <div className="overflow-hidden size-full !font-spectral shadow-[5px_6px_2px_2px_#0000000f] border border-grey-moss-300 bg-white disabled:cursor-not-allowed relative">
