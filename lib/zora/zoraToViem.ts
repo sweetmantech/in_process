@@ -1,3 +1,5 @@
+import { networkConfigByChain } from "../protocolSdk/apis/chain-constants";
+
 export const ZORA_TO_VIEM = {
   arb: "arbitrum",
   base: "base",
@@ -54,24 +56,6 @@ export const getShortNetworkName = (
 export const getShortNetworkNameFromChainId = (
   chainId: number,
 ): ZoraChains | undefined => {
-  switch (chainId) {
-    case 1:
-      return "eth";
-    case 8453:
-      return "base";
-    case 84532:
-      return "bsep";
-    case 10:
-      return "oeth";
-    case 42161:
-      return "arb";
-    case 7777777:
-      return "zora";
-    case 81457:
-      return "blast";
-    case 424:
-      return "pgn";
-    default:
-      return undefined;
-  }
+  const networkConfig = networkConfigByChain[chainId];
+  return networkConfig?.zoraCollectPathChainName as ZoraChains;
 };

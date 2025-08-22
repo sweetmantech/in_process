@@ -1,8 +1,6 @@
-import { useMetadata } from "@/hooks/useMetadata";
-import { useRouter } from "next/navigation";
 import { TableRow, TableCell } from "@/components/ui/table";
 import truncateAddress from "@/lib/truncateAddress";
-import { getShortNetworkNameFromChainId } from "@/lib/zora/zoraToViem";
+import { useClickMoment } from "@/hooks/useClickMoment";
 
 const fontFamilies = ["font-archivo", "font-spectral-italic", "font-archivo"];
 const fontSizes = [
@@ -12,16 +10,7 @@ const fontSizes = [
 ];
 
 const TimelineTableRowDesktop = ({ moment }: { moment: any }) => {
-  const { data } = useMetadata(moment.uri);
-  const { push } = useRouter();
-
-  const handleClick = () => {
-    const shortNetworkName = getShortNetworkNameFromChainId(moment.chainId);
-    if (shortNetworkName) {
-      const tokenId = moment.tokenId === "0" ? "1" : moment.tokenId;
-      push(`/collect/${shortNetworkName}:${moment.address}/${tokenId}`);
-    }
-  };
+  const { data, handleClick } = useClickMoment(moment);
 
   return (
     <TableRow
