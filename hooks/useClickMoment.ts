@@ -9,11 +9,16 @@ export const useClickMoment = (moment: TimelineMoment) => {
 
   const handleClick = () => {
     if (data?.external_url) {
-      const newWindow = window.open(data.external_url, "_blank");
-      if (newWindow) {
-        newWindow.opener = null;
+      try {
+        const url = new URL(data.external_url);
+        if (url.protocol === "http:" || url.protocol === "https:") {
+          window.open(url.toString(), "_blank", "noopener,noreferrer");
+          return;
+        }
+      } catch {
+        // Invalid or unsupported URL; fall through to internal navigation
       }
-      return;
+    }
     }
     
     const shortNetworkName = getShortNetworkNameFromChainId(moment.chainId);
