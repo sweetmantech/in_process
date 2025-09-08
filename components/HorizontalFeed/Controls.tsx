@@ -7,7 +7,7 @@ const Controls = () => {
     useHorizontalFeedAnimationProvider();
 
   return (
-    <div className="px-1 flex justify-between z-[9999999999] size-full absolute flex items-center left-0 top-0">
+    <div className="px-1 flex justify-between z-[999999] size-full absolute flex items-center left-0 top-0">
       {activeIndex > 1 && (
         <button
           className="text-black"
