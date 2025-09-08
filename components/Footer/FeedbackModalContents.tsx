@@ -7,11 +7,17 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
-import useSubmitFeedback from "@/hooks/useSubmitFeedback";
+import { UseSubmitFeedbackReturn } from "@/hooks/useSubmitFeedback";
 
-const FeedbackModalContents = () => {
+interface FeedbackModalContentsProps {
+  submitFeedbackHook: UseSubmitFeedbackReturn;
+}
+
+const FeedbackModalContents = ({
+  submitFeedbackHook,
+}: FeedbackModalContentsProps) => {
   const { feedback, setFeedback, name, setName, isLoading, submit } =
-    useSubmitFeedback();
+    submitFeedbackHook;
 
   return (
     <DialogPortal>

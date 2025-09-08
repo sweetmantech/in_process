@@ -3,7 +3,8 @@ import useSubmitFeedback from "@/hooks/useSubmitFeedback";
 import FeedbackModalContents from "./FeedbackModalContents";
 
 const FeedbackModal = () => {
-  const { isOpenModal, setIsOpenModal } = useSubmitFeedback();
+  const submitFeedbackHook = useSubmitFeedback();
+  const { isOpenModal, setIsOpenModal } = submitFeedbackHook;
 
   return (
     <Dialog
@@ -17,7 +18,7 @@ const FeedbackModal = () => {
       >
         <button type="button">feedback</button>
       </DialogTrigger>
-      <FeedbackModalContents />
+      <FeedbackModalContents submitFeedbackHook={submitFeedbackHook} />
     </Dialog>
   );
 };

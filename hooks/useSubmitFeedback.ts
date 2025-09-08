@@ -2,7 +2,18 @@ import submitFeedback from "@/lib/submitFeedback";
 import { useState } from "react";
 import useConnectedWallet from "./useConnectedWallet";
 
-const useSubmitFeedback = () => {
+export type UseSubmitFeedbackReturn = {
+  submit: () => Promise<void>;
+  isLoading: boolean;
+  isOpenModal: boolean;
+  setIsOpenModal: (value: boolean) => void;
+  setFeedback: (value: string) => void;
+  feedback: string;
+  setName: (value: string) => void;
+  name: string;
+};
+
+const useSubmitFeedback = (): UseSubmitFeedbackReturn => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const [feedback, setFeedback] = useState<string>("");
@@ -14,7 +25,7 @@ const useSubmitFeedback = () => {
       return;
     }
     setIsLoading(true);
-        
+
     await submitFeedback(feedback, name, connectedWallet);
     setFeedback("");
     setName("");
