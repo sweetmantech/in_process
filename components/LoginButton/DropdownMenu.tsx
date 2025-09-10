@@ -2,10 +2,8 @@ import useSignedAddress from "@/hooks/useSignedAddress";
 import { useFrameProvider } from "@/providers/FrameProvider";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import CreateToEarnButton from "./CreateToEarnButton";
 import Divider from "./Divider";
 import { useLayoutProvider } from "@/providers/LayoutProvider";
-import TotalEarnings from "./TotalEarnings";
 import { usePrivy } from "@privy-io/react-auth";
 
 export function DropdownMenu() {
@@ -17,36 +15,6 @@ export function DropdownMenu() {
 
   return (
     <div className="absolute top-full left-0 right-0 h-screen md:h-fit bg-grey-moss-900 shadow-lg font-archivo z-[999999999] rounded-b-sm border-t-0">
-      <Divider />
-      <div className="px-6 md:px-4 py-4 md:py-2">
-        <div className="flex gap-2 items-start md:justify-between md:items-center">
-          <Image
-            src="/images/dropdown-ellipse.svg"
-            alt="Dropdown indicator"
-            width={32}
-            height={32}
-            className="block md:hidden"
-          />
-          <div className="text-white w-full">
-            <p className="font-archivo text-2xl md:text-base">total earnings</p>
-            <div className="block md:hidden flex items-center justify-between w-full">
-              <TotalEarnings className="block md:hidden" />
-              <CreateToEarnButton className="block md:hidden" />
-            </div>
-          </div>
-          <Image
-            src="/images/dropdown-ellipse.svg"
-            alt="Dropdown indicator"
-            width={24}
-            height={24}
-            className="hidden md:block"
-          />
-        </div>
-        <div className="flex justify-between pt-2">
-          <TotalEarnings className="hidden md:block" />
-          <CreateToEarnButton className="hidden md:block" />
-        </div>
-      </div>
       <Divider />
       <button
         onClick={() => {
