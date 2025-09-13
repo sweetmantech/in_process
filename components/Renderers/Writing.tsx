@@ -3,7 +3,7 @@ import { Skeleton } from "../ui/skeleton";
 import { useWritingScrollbar } from "@/hooks/useWritingScrollbar";
 
 interface WritingProps {
-  fileUrl: string;
+  fileUrl?: string;
   description: string;
 }
 
