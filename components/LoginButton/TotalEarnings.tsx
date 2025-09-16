@@ -7,9 +7,7 @@ const TotalEarnings = ({ className }: { className: string }) => {
   const { isLoading } = useUserCollectionsProvider();
 
   return (
-    <div
-      className={`text-white md:text-base font-spectral text-xl ${className}`}
-    >
+    <div className={`font-spectral ${className}`}>
       {isLoading ? (
         <Skeleton className="bg-grey-moss-300 w-10 md:w-8 h-4 mt-1" />
       ) : (
