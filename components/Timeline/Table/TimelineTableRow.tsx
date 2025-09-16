@@ -1,18 +1,16 @@
-import { useMetadata } from "@/hooks/useMetadata";
-import { useRouter } from "next/navigation";
 import truncateAddress from "@/lib/truncateAddress";
 import { TimelineMoment } from "@/hooks/useTimelineApi";
 import truncated from "@/lib/truncated";
+import { useClickMoment } from "@/hooks/useClickMoment";
 
 const TimelineTableRow = ({ moment }: { moment: TimelineMoment }) => {
-  const { data } = useMetadata(moment.uri);
-  const { push } = useRouter();
+  const { data, handleClick } = useClickMoment(moment);
 
   return (
     <button
       type="button"
       className="w-full flex items-start justify-between p-4"
-      onClick={() => push(`/${moment.admin}`)}
+      onClick={handleClick}
     >
       <div>
         <p className="font-spectral-italic text-base text-left">
