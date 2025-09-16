@@ -1,17 +1,18 @@
 "use client";
+import { useEffect, useState } from "react";
 
 import { useTokenProvider } from "@/providers/TokenProvider";
-import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import MediaSkeleton from "./MediaSkeleton";
+import OwnerWarning from "./OwnerWarning";
+import SaveMediaButton from "./SaveMediaButton";
 
 const Media = () => {
   const { metadata } = useTokenProvider();
   const { data: meta, isLoading } = metadata;
-
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const [title, setTitle] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
 
   useEffect(() => {
     if (!meta) return;
@@ -51,6 +52,9 @@ const Media = () => {
               placeholder="enter a description"
             />
           </div>
+
+          <SaveMediaButton title={title} description={description} />
+          <OwnerWarning />
         </div>
       </div>
     </div>
