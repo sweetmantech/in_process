@@ -1,11 +1,12 @@
 import { Address } from "viem";
-import getTag from "./stack/getTag";
 import getEnsName from "./viem/getEnsName";
 import getZoraProfile from "./zora/getZoraProfile";
+import { getArtistWithAddress } from "./supabase/in_process_artists/getArtistWithAddress";
 
 const getArtistProfile = async (walletAddress: Address) => {
   try {
-    const tags: any = await getTag(walletAddress as Address, "profile");
+    const { data, error } = await getArtistWithAddress(walletAddress);
+    
     let profile = {
       username: "",
       bio: "",
@@ -16,15 +17,23 @@ const getArtistProfile = async (walletAddress: Address) => {
       },
     };
 
-    if (tags?.tagData) {
+    if (data && !error) {
       profile = {
         ...profile,
-        ...tags?.tagData,
+        username: data.username || "",
+        bio: data.bio || "",
+        socials: {
+          ...profile.socials,
+          twitter: data.twitter_username || "",
+          instagram: data.instagram_username || "",
+          telegram: data.telegram_username || "",
+        },
       };
     } else {
+      // Fallback to Zora and ENS if no Supabase data
       const zora = await getZoraProfile(walletAddress as Address);
       if (zora) {
-        profile = {
+        profile = { 
           ...profile,
           username: zora.displayName,
           bio: zora.description,
@@ -36,19 +45,26 @@ const getArtistProfile = async (walletAddress: Address) => {
         };
       } else {
         const ensName = await getEnsName(walletAddress as Address);
-        if (ensName)
+        if (ensName) {
           profile = {
             ...profile,
             username: ensName,
           };
+        }
       }
     }
+    
     return profile;
   } catch (error) {
     console.error(error);
     return {
       username: "",
       bio: "",
+      socials: {
+        instagram: "",
+        twitter: "",
+        telegram: "",
+      },
     };
   }
 };
