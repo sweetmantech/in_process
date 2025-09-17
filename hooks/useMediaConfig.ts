@@ -47,11 +47,17 @@ const useMediaConfig = () => {
     tokenId: string,
     title: string,
     description: string,
+    image?: string,
   ): Promise<string> => {
     const tokenInfo = await getTokenInfo(collection, tokenId, chainId);
     const current = await fetchTokenMetadata(tokenInfo.tokenUri);
 
-    const updated = { ...(current || {}), name: title, description };
+    const updated = {
+      ...(current || {}),
+      name: title,
+      description,
+      ...(image && { image })
+    };
     return uploadJson(updated);
   };
 
