@@ -1,7 +1,8 @@
-import { Address } from "viem";
-import { useCallback, useState } from "react";
+import { Address, getAddress } from "viem";
+import { useCallback, useMemo, useState } from "react";
 import getTokenInfo from "@/lib/viem/getTokenInfo";
 import { useEffect } from "react";
+import { useUserProvider } from "@/providers/UserProvider";
 
 export type SaleConfig = {
   saleStart: bigint;
@@ -22,6 +23,14 @@ const useTokenInfo = (
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isSetSale, setIsSetSale] = useState<boolean>(false);
   const [owner, setOwner] = useState<Address | null>(null);
+  const { connectedAddress } = useUserProvider();
+
+  const isOwner = useMemo(() => {
+    return Boolean(
+      connectedAddress && owner &&
+      getAddress(connectedAddress) === getAddress(owner)
+    )
+  }, [connectedAddress, owner])
 
   const fetchTokenInfo = useCallback(async () => {
     const tokenInfo = await getTokenInfo(tokenContract, tokenId, chainId);
@@ -43,6 +52,7 @@ const useTokenInfo = (
     isSetSale,
     fetchTokenInfo,
     owner,
+    isOwner
   };
 };
 
