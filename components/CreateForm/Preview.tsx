@@ -31,6 +31,8 @@ const Preview = () => {
             objectPosition="center"
             src={previewSrc || "/bg-gray.png"}
             alt="not found preview."
+            quality={100}
+            priority
           />
         </PreviewContainer>
       )}

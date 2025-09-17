@@ -1,13 +1,13 @@
+import Image from "next/image";
 import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
 import LinkInput from "./LinkInput";
-import Image from "next/image";
 
 const LinkPreview = () => {
   const { createdContract, previewSrc, link } = useZoraCreateProvider();
 
   return (
     <div
-      className={`bg-white rounded-2xl overflow-hidden ${createdContract ? "" : "m-4 py-6 px-4"}`}
+      className={`bg-white rounded-2xl overflow-hidden ${createdContract ? "" : "m-4 py-6 px-4"} h-[calc(100%-2rem)]`}
     >
       {createdContract ? (
         <>
@@ -41,7 +41,18 @@ const LinkPreview = () => {
           <LinkInput />
           {previewSrc && (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={previewSrc} alt="not found image" className="pt-4" />
+            <div className="relative w-full mt-2 min-h-full md:min-h-[calc(80%-1rem)] overflow-hidden">
+              <Image
+                src={previewSrc}
+                alt="Preview image"
+                layout="fill"
+                objectFit="cover"
+                objectPosition="center"
+                className="object-contain rounded-lg"
+                quality={100}
+                priority
+              />
+            </div>
           )}
         </>
       )}
