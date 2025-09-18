@@ -2,6 +2,20 @@ import { NextRequest } from "next/server";
 import { createContract } from "@/lib/coinbase/createContract";
 import { createMomentSchema } from "@/lib/coinbase/createContractSchema";
 
+// CORS headers for allowing cross-origin requests
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization",
+};
+
+export async function OPTIONS() {
+  return new Response(null, {
+    status: 200,
+    headers: corsHeaders,
+  });
+}
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
@@ -13,16 +27,16 @@ export async function POST(req: NextRequest) {
       }));
       return Response.json(
         { message: "Invalid input", errors: errorDetails },
-        { status: 400 }
+        { status: 400, headers: corsHeaders }
       );
     }
     const data = parseResult.data;
     const result = await createContract(data);
-    return Response.json(result);
+    return Response.json(result, { headers: corsHeaders });
   } catch (e: any) {
     console.log(e);
     const message = e?.message ?? "failed to create moment";
-    return Response.json({ message }, { status: 500 });
+    return Response.json({ message }, { status: 500, headers: corsHeaders });
   }
 }
 
