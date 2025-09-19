@@ -10,10 +10,11 @@ import PaymentsTableContents from "./PaymentsTableContents";
 
 interface PaymentsTableProps {
   limit?: number;
+  address?: string;
 }
 
-const PaymentsTable = ({ limit = 20 }: PaymentsTableProps) => {
-  const { data, isLoading, error } = usePayments(1, limit, true);
+const PaymentsTable = ({ limit = 20, address }: PaymentsTableProps) => {
+  const { data, isLoading, error } = usePayments(1, limit, true, address);
 
   if (isLoading) return <PaymentsTableLoading />;
   if (error) return <PaymentsTableError error={error} />;

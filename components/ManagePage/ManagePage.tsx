@@ -8,6 +8,7 @@ import { usePrivy } from "@privy-io/react-auth";
 import { Fragment, useEffect, useState } from "react";
 import Collections from "./Collections";
 import TotalEarnings from "../LoginButton/TotalEarnings";
+import ManagePagePaymentsAccordion from "./ManagePagePaymentsAccordion";
 
 const ManagePage = () => {
   const { context } = useFrameProvider();
@@ -38,6 +39,7 @@ const ManagePage = () => {
           accurate totals
         </p>
       </div>
+      <ManagePagePaymentsAccordion address={signedWallet} />
       <Collections />
     </div>
   );
