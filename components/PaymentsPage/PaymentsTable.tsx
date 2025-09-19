@@ -9,23 +9,11 @@ import NoPaymentsFound from "./NoPaymentsFound";
 import PaymentsTableContents from "./PaymentsTableContents";
 
 interface PaymentsTableProps {
-  artist?: string;
-  collector?: string;
   limit?: number;
 }
 
-const PaymentsTable = ({
-  artist,
-  collector,
-  limit = 20,
-}: PaymentsTableProps) => {
-  const { data, isLoading, error } = usePayments(
-    1,
-    limit,
-    true,
-    artist,
-    collector
-  );
+const PaymentsTable = ({ limit = 20 }: PaymentsTableProps) => {
+  const { data, isLoading, error } = usePayments(1, limit, true);
 
   if (isLoading) return <PaymentsTableLoading />;
   if (error) return <PaymentsTableError error={error} />;
