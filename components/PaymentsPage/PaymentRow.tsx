@@ -19,6 +19,19 @@ const PaymentRow = ({ payment }: PaymentRowProps) => {
   const isEarning = isCombinedPayment && payment.type === "earning";
   const isExpense = isCombinedPayment && payment.type === "expense";
 
+  // Extract repeated references for DRY principle
+  const buyerUsername = payment.buyer.username;
+  const buyerAddress = payment.buyer.address;
+  const sellerAddress = payment.token.defaultAdmin;
+
+  // Create display names and addresses
+  const buyerDisplayName = buyerUsername || truncateAddress(buyerAddress);
+  const sellerDisplayName = sellerAddress
+    ? truncateAddress(sellerAddress)
+    : "Unknown";
+  const buyerTruncatedAddress = truncateAddress(buyerAddress);
+  const sellerTruncatedAddress = sellerAddress || "Unknown";
+
   return (
     <TableRow className="hover:bg-neutral-50 dark:hover:bg-neutral-900">
       <TableCell className="font-medium">
@@ -27,23 +40,18 @@ const PaymentRow = ({ payment }: PaymentRowProps) => {
             <div className="flex items-center gap-2">
               <PaymentsTypeBadge type={payment.type} />
               <span className="text-sm font-archivo-medium">
-                {isEarning
-                  ? payment.buyer.username ||
-                    truncateAddress(payment.buyer.address)
-                  : payment.token.defaultAdmin
-                    ? truncateAddress(payment.token.defaultAdmin)
-                    : "Unknown"}
+                {isEarning ? buyerDisplayName : sellerDisplayName}
               </span>
             </div>
           ) : (
             <span className="text-sm font-archivo-medium">
-              {payment.buyer.username || truncateAddress(payment.buyer.address)}
+              {buyerDisplayName}
             </span>
           )}
           <span className="text-xs text-neutral-500">
             {isCombinedPayment && isExpense
-              ? payment.token.defaultAdmin || "Unknown"
-              : truncateAddress(payment.buyer.address)}
+              ? sellerTruncatedAddress
+              : buyerTruncatedAddress}
           </span>
         </div>
       </TableCell>
