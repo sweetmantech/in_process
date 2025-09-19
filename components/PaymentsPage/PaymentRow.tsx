@@ -4,6 +4,7 @@ import truncateAddress from "@/lib/truncateAddress";
 import type { Payment, PaymentWithType } from "@/hooks/usePayments";
 import { useBlock } from "@/hooks/useBlock";
 import PaymentsTableMomentCell from "./PaymentsTableMomentCell";
+import PaymentsTypeBadge from "./PaymentsTypeBadge";
 
 interface PaymentRowProps {
   payment: Payment | PaymentWithType;
@@ -24,16 +25,7 @@ const PaymentRow = ({ payment }: PaymentRowProps) => {
         <div className="flex flex-col">
           {isCombinedPayment ? (
             <div className="flex items-center gap-2">
-              <Badge
-                variant={isEarning ? "default" : "secondary"}
-                className={`text-xs ${
-                  isEarning
-                    ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
-                    : "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
-                }`}
-              >
-                {isEarning ? "Earning" : "Expense"}
-              </Badge>
+              <PaymentsTypeBadge type={payment.type} />
               <span className="text-sm font-archivo-medium">
                 {isEarning
                   ? payment.buyer.username ||
