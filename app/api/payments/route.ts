@@ -7,8 +7,8 @@ export async function GET(req: NextRequest) {
   // Parse query parameters
   const limit = Math.min(Number(searchParams.get("limit")) || 20, 100);
   const page = Number(searchParams.get("page")) || 1;
-  const artist = searchParams.get("artist") || undefined;
-  const collector = searchParams.get("collector") || undefined;
+  const artist = searchParams.get("artist")?.toLowerCase() || undefined;
+  const collector = searchParams.get("collector")?.toLowerCase() || undefined;
 
   try {
     const { data, error } = await selectPayments({
