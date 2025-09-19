@@ -30,7 +30,7 @@ const PaymentRow = ({ payment }: PaymentRowProps) => {
     ? truncateAddress(sellerAddress)
     : "Unknown";
   const buyerTruncatedAddress = truncateAddress(buyerAddress);
-  const sellerTruncatedAddress = sellerAddress || "Unknown";
+  const sellerTruncatedAddress = truncateAddress(sellerAddress) || "Unknown";
 
   return (
     <TableRow className="hover:bg-neutral-50 dark:hover:bg-neutral-900">
