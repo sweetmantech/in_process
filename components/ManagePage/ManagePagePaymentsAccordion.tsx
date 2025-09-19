@@ -18,9 +18,7 @@ const ManagePagePaymentsAccordion = ({
       <Accordion type="single" collapsible className="w-full">
         <AccordionItem value="payments">
           <AccordionTrigger className="text-left">
-            <span className="text-lg font-archivo-medium">
-              Earnings & Expenses
-            </span>
+            <span className="text-lg font-archivo-medium">Payments</span>
           </AccordionTrigger>
           <AccordionContent>
             <PaymentsTable limit={50} address={address} combined={true} />
