@@ -42,14 +42,5 @@ export async function selectPayments({
   const { data, count, error } = await query;
   if (error) return { data: null, count: null, error };
 
-  const mappedData = (data || []).map((row: any) => ({
-    id: row.id.toString(),
-    token: row.token,
-    buyer: row.buyer,
-    amount: row.amount?.toString() || "0",
-    hash: row.hash || "",
-    block: row.block?.toString() || "",
-  }));
-
-  return { data: mappedData, count, error: null };
+  return { data, count, error: null };
 }
