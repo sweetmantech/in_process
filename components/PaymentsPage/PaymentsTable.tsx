@@ -1,0 +1,54 @@
+"use client";
+
+import { usePayments } from "@/hooks/usePayments";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import PaymentsTableLoading from "./PaymentsTableLoading";
+import PaymentsTableError from "./PaymentsTableError";
+import NoPaymentsFound from "./NoPaymentsFound";
+import PaymentsTableContents from "./PaymentsTableContents";
+
+interface PaymentsTableProps {
+  artist?: string;
+  collector?: string;
+  limit?: number;
+}
+
+const PaymentsTable = ({
+  artist,
+  collector,
+  limit = 20,
+}: PaymentsTableProps) => {
+  const { data, isLoading, error } = usePayments(
+    1,
+    limit,
+    true,
+    artist,
+    collector
+  );
+
+  if (isLoading) return <PaymentsTableLoading />;
+  if (error) return <PaymentsTableError error={error} />;
+
+  const payments = data?.payments || [];
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="flex items-center justify-between">
+          <span>Payments</span>
+          <Badge variant="outline">{payments.length} transactions</Badge>
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        {payments.length === 0 ? (
+          <NoPaymentsFound />
+        ) : (
+          <PaymentsTableContents payments={payments} />
+        )}
+      </CardContent>
+    </Card>
+  );
+};
+
+export default PaymentsTable;
