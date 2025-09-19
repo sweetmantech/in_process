@@ -37,7 +37,7 @@ const PaymentsTable = ({
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center justify-between">
-          <span>{combined ? "Payments & Expenses" : "Payments"}</span>
+          <span>Payments</span>
           <Badge variant="outline">{payments.length} transactions</Badge>
         </CardTitle>
       </CardHeader>
