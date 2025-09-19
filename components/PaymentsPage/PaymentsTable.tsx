@@ -24,7 +24,6 @@ const PaymentsTable = ({
     limit,
     true,
     address,
-    undefined,
     combined
   );
 

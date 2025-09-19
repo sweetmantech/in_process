@@ -32,13 +32,12 @@ export function usePayments(
   limit = 20,
   enabled = true,
   artist?: string,
-  collector?: string,
   combined = false
 ) {
   const [currentPage, setCurrentPage] = useState(page);
 
   const query = useQuery({
-    queryKey: ["payments", currentPage, limit, artist, collector, combined],
+    queryKey: ["payments", currentPage, limit, artist, combined],
     queryFn: async () => {
       if (combined && artist) {
         // Combined mode: fetch both earnings and expenses
@@ -73,7 +72,7 @@ export function usePayments(
         } as PaymentsCombinedResponse;
       } else {
         // Regular mode: fetch single type of payments
-        return fetchPayments(currentPage, limit, artist, collector);
+        return fetchPayments(currentPage, limit, artist);
       }
     },
     enabled: combined ? enabled && Boolean(artist) : enabled,
