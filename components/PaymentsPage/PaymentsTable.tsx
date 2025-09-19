@@ -11,10 +11,22 @@ import PaymentsTableContents from "./PaymentsTableContents";
 interface PaymentsTableProps {
   limit?: number;
   address?: string;
+  combined?: boolean; // New prop to enable combined mode
 }
 
-const PaymentsTable = ({ limit = 20, address }: PaymentsTableProps) => {
-  const { data, isLoading, error } = usePayments(1, limit, true, address);
+const PaymentsTable = ({
+  limit = 20,
+  address,
+  combined = false,
+}: PaymentsTableProps) => {
+  const { data, isLoading, error } = usePayments(
+    1,
+    limit,
+    true,
+    address,
+    undefined,
+    combined
+  );
 
   if (isLoading) return <PaymentsTableLoading />;
   if (error) return <PaymentsTableError error={error} />;
@@ -25,7 +37,7 @@ const PaymentsTable = ({ limit = 20, address }: PaymentsTableProps) => {
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center justify-between">
-          <span>Payments</span>
+          <span>{combined ? "Payments & Expenses" : "Payments"}</span>
           <Badge variant="outline">{payments.length} transactions</Badge>
         </CardTitle>
       </CardHeader>

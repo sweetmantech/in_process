@@ -1,10 +1,10 @@
 import { Table, TableBody } from "@/components/ui/table";
 import PaymentRow from "./PaymentRow";
 import PaymentsTableHeader from "./PaymentsTableHeader";
-import type { Payment } from "@/hooks/usePayments";
+import type { Payment, PaymentWithType } from "@/hooks/usePayments";
 
 interface PaymentsTableContentsProps {
-  payments: Payment[];
+  payments: (Payment | PaymentWithType)[];
 }
 
 const PaymentsTableContents = ({ payments }: PaymentsTableContentsProps) => {
@@ -14,7 +14,12 @@ const PaymentsTableContents = ({ payments }: PaymentsTableContentsProps) => {
         <PaymentsTableHeader />
         <TableBody>
           {payments.map((payment) => (
-            <PaymentRow key={payment.id} payment={payment} />
+            <PaymentRow
+              key={
+                "type" in payment ? `${payment.type}-${payment.id}` : payment.id
+              }
+              payment={payment}
+            />
           ))}
         </TableBody>
       </Table>
