@@ -1,27 +1,57 @@
 import { TableCell, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import truncateAddress from "@/lib/truncateAddress";
-import type { Payment } from "@/hooks/usePayments";
+import type { Payment, PaymentWithType } from "@/hooks/usePayments";
 import { useBlock } from "@/hooks/useBlock";
 import PaymentsTableMomentCell from "./PaymentsTableMomentCell";
+import PaymentsTypeBadge from "./PaymentsTypeBadge";
 
 interface PaymentRowProps {
-  payment: Payment;
+  payment: Payment | PaymentWithType;
 }
 
 const PaymentRow = ({ payment }: PaymentRowProps) => {
   const txUrl = `https://basescan.org/tx/${payment.hash}`;
   const { data: blockTime } = useBlock(payment.block, payment.token.chainId);
 
+  // Check if this is a combined payment with type information
+  const isCombinedPayment = "type" in payment;
+  const isEarning = isCombinedPayment && payment.type === "earning";
+  const isExpense = isCombinedPayment && payment.type === "expense";
+
+  // Extract repeated references for DRY principle
+  const buyerUsername = payment.buyer.username;
+  const buyerAddress = payment.buyer.address;
+  const sellerAddress = payment.token.defaultAdmin;
+
+  // Create display names and addresses
+  const buyerDisplayName = buyerUsername || truncateAddress(buyerAddress);
+  const sellerDisplayName = sellerAddress
+    ? truncateAddress(sellerAddress)
+    : "Unknown";
+  const buyerTruncatedAddress = truncateAddress(buyerAddress);
+  const sellerTruncatedAddress = truncateAddress(sellerAddress) || "Unknown";
+
   return (
     <TableRow className="hover:bg-neutral-50 dark:hover:bg-neutral-900">
       <TableCell className="font-medium">
         <div className="flex flex-col">
-          <span className="text-sm font-archivo-medium">
-            {payment.buyer.username || truncateAddress(payment.buyer.address)}
-          </span>
+          {isCombinedPayment ? (
+            <div className="flex items-center gap-2">
+              <PaymentsTypeBadge type={payment.type} />
+              <span className="text-sm font-archivo-medium">
+                {isEarning ? buyerDisplayName : sellerDisplayName}
+              </span>
+            </div>
+          ) : (
+            <span className="text-sm font-archivo-medium">
+              {buyerDisplayName}
+            </span>
+          )}
           <span className="text-xs text-neutral-500">
-            {truncateAddress(payment.buyer.address)}
+            {isCombinedPayment && isExpense
+              ? sellerTruncatedAddress
+              : buyerTruncatedAddress}
           </span>
         </div>
       </TableCell>
@@ -29,8 +59,17 @@ const PaymentRow = ({ payment }: PaymentRowProps) => {
       <PaymentsTableMomentCell payment={payment} />
 
       <TableCell>
-        <Badge variant="secondary" className="font-mono">
-          ${payment.amount}
+        <Badge
+          variant="secondary"
+          className={`font-mono ${
+            isCombinedPayment
+              ? isEarning
+                ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
+                : "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
+              : ""
+          }`}
+        >
+          {isCombinedPayment ? (isEarning ? "+" : "-") : ""}${payment.amount}
         </Badge>
       </TableCell>
 

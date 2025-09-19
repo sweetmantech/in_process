@@ -11,10 +11,21 @@ import PaymentsTableContents from "./PaymentsTableContents";
 interface PaymentsTableProps {
   limit?: number;
   address?: string;
+  combined?: boolean;
 }
 
-const PaymentsTable = ({ limit = 20, address }: PaymentsTableProps) => {
-  const { data, isLoading, error } = usePayments(1, limit, true, address);
+const PaymentsTable = ({
+  limit = 20,
+  address,
+  combined = false,
+}: PaymentsTableProps) => {
+  const { data, isLoading, error } = usePayments(
+    1,
+    limit,
+    true,
+    address,
+    combined
+  );
 
   if (isLoading) return <PaymentsTableLoading />;
   if (error) return <PaymentsTableError error={error} />;
