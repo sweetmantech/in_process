@@ -6,7 +6,7 @@ BEGIN
   INSERT INTO in_process_notifications (payment, artist, viewed)
   SELECT 
     NEW.id,
-    t.defaultAdmin,
+    t."defaultAdmin",
     false
   FROM in_process_tokens t
   WHERE t.id = NEW.token;
