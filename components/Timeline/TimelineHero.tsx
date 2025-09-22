@@ -12,7 +12,7 @@ const TimelineHero = ({ totalCount }: TimelineHeroProps) => {
       {/* Description Text - Centered on mobile, left on desktop */}
       <div className="text-center md:text-left md:flex-1 md:max-w-2xl">
         <h1 className="font-archivo text-2xl md:text-4xl lg:text-5xl tracking-[-1px] text-black leading-tight">
-          an onchain collective timeline
+          a collective timeline
         </h1>
         <p className="font-spectral-italic text-2xl md:text-4xl lg:text-5xl tracking-[-1px] text-black mt-1 md:mt-2 leading-tight">
           for artists
