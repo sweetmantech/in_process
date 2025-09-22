@@ -7,6 +7,9 @@ CREATE TABLE in_process_notifications (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
+-- Add unique constraint to prevent duplicate notifications per payment per artist
+ALTER TABLE in_process_notifications ADD CONSTRAINT unique_payment_artist UNIQUE (payment, artist);
+
 -- Add indexes for better query performance
 CREATE INDEX idx_in_process_notifications_payment ON in_process_notifications(payment);
 CREATE INDEX idx_in_process_notifications_artist ON in_process_notifications(artist);
