@@ -1,3 +1,7 @@
+-- Drop existing trigger and function if they exist
+DROP TRIGGER IF EXISTS payment_notification_trigger ON in_process_payments;
+DROP FUNCTION IF EXISTS create_payment_notification();
+
 -- Create function to automatically create notification when payment is created
 CREATE OR REPLACE FUNCTION create_payment_notification()
 RETURNS TRIGGER AS $$
