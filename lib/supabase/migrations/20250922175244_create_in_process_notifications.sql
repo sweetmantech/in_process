@@ -16,6 +16,9 @@ CREATE INDEX idx_in_process_notifications_artist ON in_process_notifications(art
 CREATE INDEX idx_in_process_notifications_viewed ON in_process_notifications(viewed);
 CREATE INDEX idx_in_process_notifications_artist_viewed ON in_process_notifications(artist, viewed);
 
+-- Enable Row Level Security (no policies needed - service role bypasses RLS)
+ALTER TABLE in_process_notifications ENABLE ROW LEVEL SECURITY;
+
 -- Add comment for documentation
 COMMENT ON TABLE in_process_notifications IS 'Notifications for payment events in the in-process system';
 COMMENT ON COLUMN in_process_notifications.payment IS 'Foreign key reference to in_process_payments table';
