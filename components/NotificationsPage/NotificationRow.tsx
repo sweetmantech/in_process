@@ -23,18 +23,16 @@ const NotificationRow = ({ notification }: NotificationRowProps) => {
             {notification.payment.amount} by{" "}
             {notification.payment.buyer.username || "Unknown"}
           </span>
-          <div className="flex justify-start">
-            <Badge
-              variant="secondary"
-              className={`text-xs w-fit ${
-                notification.viewed
-                  ? "bg-tan text-tan-primary"
-                  : "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
-              }`}
-            >
-              {notification.viewed ? "Viewed" : "New"}
-            </Badge>
-          </div>
+          {!notification.viewed && (
+            <div className="flex justify-start">
+              <Badge
+                variant="secondary"
+                className="text-xs w-fit bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
+              >
+                New
+              </Badge>
+            </div>
+          )}
         </div>
       </TableCell>
 

@@ -2,9 +2,12 @@
 
 import NotificationsTable from "@/components/NotificationsPage/NotificationsTable";
 import useSignedAddress from "@/hooks/useSignedAddress";
+import useMarkNotificationAsViewed from "@/hooks/useMarkNotificationAsViewed";
 
 const NotificationsPage = () => {
   const signedAddress = useSignedAddress();
+
+  useMarkNotificationAsViewed();
 
   return (
     <div className="container mx-auto px-4 py-8">
