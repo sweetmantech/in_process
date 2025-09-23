@@ -7,7 +7,6 @@ import { Badge } from "@/components/ui/badge";
 const NotificationCountBadge = () => {
   const signedAddress = useSignedAddress();
 
-  // Fetch unviewed notifications for the connected user
   const { data: unviewedData } = useNotifications(
     1,
     100, // Get up to 100 unviewed notifications for counting
@@ -18,7 +17,6 @@ const NotificationCountBadge = () => {
 
   const unviewedCount = unviewedData?.notifications?.length || 0;
 
-  // Don't render if no unviewed notifications
   if (unviewedCount === 0) return null;
 
   return (
