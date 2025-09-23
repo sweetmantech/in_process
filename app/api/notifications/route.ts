@@ -4,7 +4,6 @@ import { selectNotifications } from "@/lib/supabase/in_process_notifications/sel
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
 
-  // Parse query parameters
   const limit = Math.min(Number(searchParams.get("limit")) || 20, 100);
   const page = Number(searchParams.get("page")) || 1;
   const artist = searchParams.get("artist")?.toLowerCase() || undefined;
