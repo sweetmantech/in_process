@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import truncateAddress from "@/lib/truncateAddress";
 import type { Payment, PaymentWithType } from "@/hooks/usePayments";
 import { useBlock } from "@/hooks/useBlock";
-import PaymentsTableMomentCell from "./PaymentsTableMomentCell";
+import MomentCell from "@/components/NotificationsPage/MomentCell";
 import PaymentsTypeBadge from "./PaymentsTypeBadge";
 
 interface PaymentRowProps {
@@ -56,7 +56,7 @@ const PaymentRow = ({ payment }: PaymentRowProps) => {
         </div>
       </TableCell>
 
-      <PaymentsTableMomentCell payment={payment} />
+      <MomentCell token={payment.token} />
 
       <TableCell>
         <Badge

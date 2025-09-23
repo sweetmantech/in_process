@@ -1,20 +1,24 @@
 import { TableCell } from "@/components/ui/table";
 import truncateAddress from "@/lib/truncateAddress";
-import type { Payment } from "@/hooks/usePayments";
 import { useMetadata } from "@/hooks/useMetadata";
 import Image from "next/image";
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 
-interface PaymentsTableMomentCellProps {
-  payment: Payment;
+interface MomentCellProps {
+  token: {
+    address: string;
+    tokenId: number;
+    uri: string;
+  };
+  className?: string;
 }
 
-const PaymentsTableMomentCell = ({ payment }: PaymentsTableMomentCellProps) => {
-  const tokenUrl = `https://inprocess.fun/collect/base:${payment.token.address}/${payment.token.tokenId}`;
-  const { data: metadata } = useMetadata(payment.token.uri);
+const MomentCell = ({ token, className }: MomentCellProps) => {
+  const tokenUrl = `https://inprocess.fun/collect/base:${token.address}/${token.tokenId}`;
+  const { data: metadata } = useMetadata(token.uri);
 
   return (
-    <TableCell>
+    <TableCell className={className}>
       <div className="flex items-center gap-3">
         {metadata?.image && (
           <Image
@@ -27,7 +31,7 @@ const PaymentsTableMomentCell = ({ payment }: PaymentsTableMomentCellProps) => {
         )}
         <div className="flex flex-col">
           <span className="text-sm font-archivo-medium">
-            {metadata?.name || `Token #${payment.token.tokenId}`}
+            {metadata?.name || `Token #${token.tokenId}`}
           </span>
           <a
             href={tokenUrl}
@@ -35,7 +39,7 @@ const PaymentsTableMomentCell = ({ payment }: PaymentsTableMomentCellProps) => {
             rel="noopener noreferrer"
             className="text-xs text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
           >
-            {truncateAddress(payment.token.address)}
+            {truncateAddress(token.address)}
           </a>
         </div>
       </div>
@@ -43,4 +47,4 @@ const PaymentsTableMomentCell = ({ payment }: PaymentsTableMomentCellProps) => {
   );
 };
 
-export default PaymentsTableMomentCell;
+export default MomentCell;
