@@ -7,9 +7,15 @@ const useMarkNotificationAsViewed = () => {
 
   useEffect(() => {
     if (signedAddress) {
-      markNotificationsAsViewed(signedAddress.toLowerCase()).catch((error) => {
-        console.error("Failed to mark notifications as viewed:", error);
-      });
+      const timer = setTimeout(() => {
+        markNotificationsAsViewed(signedAddress.toLowerCase()).catch(
+          (error) => {
+            console.error("Failed to mark notifications as viewed:", error);
+          }
+        );
+      }, 10000); // 10 second delay
+
+      return () => clearTimeout(timer);
     }
   }, [signedAddress]);
 };
