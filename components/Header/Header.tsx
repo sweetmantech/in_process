@@ -9,6 +9,8 @@ import CreateCTAButton from "./CreateCTAButton";
 import useTotalEarnings from "@/hooks/useTotalEarnings";
 import useIsMobile from "@/hooks/useIsMobile";
 import ArtistSearch from "../ArtistSearch";
+import { BellIcon } from "@radix-ui/react-icons";
+import { useRouter } from "next/navigation";
 
 const Header = () => {
   const signedAddress = useSignedAddress();
@@ -16,6 +18,7 @@ const Header = () => {
     useLayoutProvider();
   const { totalAmount } = useTotalEarnings();
   const isMobile = useIsMobile();
+  const router = useRouter();
 
   return (
     <div
@@ -26,6 +29,16 @@ const Header = () => {
         <Logo />
         <div className="flex items-center gap-1 md:gap-2" ref={menuRef}>
           <ArtistSearch />
+          {signedAddress && (
+            <button
+              onClick={() => router.push("/notifications")}
+              type="button"
+              className="p-2 rounded-md hover:bg-grey-moss-200/50 transition-colors"
+              aria-label="View notifications"
+            >
+              <BellIcon className="w-5 h-5 text-grey-moss-300" />
+            </button>
+          )}
           {!totalAmount && !isMobile && <CreateCTAButton />}
           <div className="md:relative flex items-center gap-1 md:gap-2">
             {!isExpandedSearchInput && <LoginButton />}
