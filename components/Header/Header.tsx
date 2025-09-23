@@ -9,6 +9,7 @@ import CreateCTAButton from "./CreateCTAButton";
 import useTotalEarnings from "@/hooks/useTotalEarnings";
 import useIsMobile from "@/hooks/useIsMobile";
 import ArtistSearch from "../ArtistSearch";
+import NotificationButton from "./NotificationButton";
 
 const Header = () => {
   const signedAddress = useSignedAddress();
@@ -26,6 +27,7 @@ const Header = () => {
         <Logo />
         <div className="flex items-center gap-1 md:gap-2" ref={menuRef}>
           <ArtistSearch />
+          {signedAddress && <NotificationButton />}
           {!totalAmount && !isMobile && <CreateCTAButton />}
           <div className="md:relative flex items-center gap-1 md:gap-2">
             {!isExpandedSearchInput && <LoginButton />}
