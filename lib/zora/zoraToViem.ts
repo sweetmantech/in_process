@@ -1,3 +1,5 @@
+import { networkConfigByChain } from "../protocolSdk/apis/chain-constants";
+
 export const ZORA_TO_VIEM = {
   arb: "arbitrum",
   base: "base",
@@ -44,4 +46,16 @@ export const getShortNetworkName = (
 
   // Default lookup
   return VIEM_TO_ZORA[normalizedName as keyof typeof VIEM_TO_ZORA];
+};
+
+/**
+ * Get the short network name from chainId
+ * @param chainId - The chain ID (e.g. 8453, 84532)
+ * @returns The short network name (e.g. "base", "bsep") or undefined if not found
+ */
+export const getShortNetworkNameFromChainId = (
+  chainId: number,
+): ZoraChains | undefined => {
+  const networkConfig = networkConfigByChain[chainId];
+  return networkConfig?.zoraCollectPathChainName as ZoraChains;
 };

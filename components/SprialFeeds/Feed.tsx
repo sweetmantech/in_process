@@ -2,9 +2,8 @@ import React from "react";
 import useIsMobile from "@/hooks/useIsMobile";
 import { formatFeedText, generateSpacer } from "@/lib/spiralUtils";
 import { Token } from "@/types/token";
-import { useRouter } from "next/navigation";
-import { useMetadata } from "@/hooks/useMetadata";
 import truncateAddress from "@/lib/truncateAddress";
+import { useClickTimelineFeed } from "@/hooks/useClickTimelineFeed";
 
 interface FeedProps {
   feed: Token;
@@ -21,8 +20,7 @@ const Feed = ({
   handleMouseMove,
 }: FeedProps) => {
   const isMobile = useIsMobile();
-  const { push } = useRouter();
-  const { data } = useMetadata(feed.uri);
+  const { data, handleClick } = useClickTimelineFeed(feed);
 
   return (
     <React.Fragment>
@@ -30,7 +28,7 @@ const Feed = ({
       <tspan
         onMouseMove={(e) => handleMouseMove(e, feed)}
         onMouseLeave={handleMouseLeave}
-        onClick={() => push(`/${feed.creator}`)}
+        onClick={handleClick}
         dominant-baseline="middle"
       >
         <tspan fill="#1B1504" fontSize={isMobile ? 3 : 6} textAnchor="middle">
