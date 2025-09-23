@@ -1,10 +1,21 @@
 "use client";
 
+import { useEffect } from "react";
 import NotificationsTable from "@/components/NotificationsPage/NotificationsTable";
 import useSignedAddress from "@/hooks/useSignedAddress";
+import { markNotificationsAsViewed } from "@/lib/notifications/markNotificationsAsViewed";
 
 const NotificationsPage = () => {
   const signedAddress = useSignedAddress();
+
+  // Mark all notifications as viewed when user visits the page
+  useEffect(() => {
+    if (signedAddress) {
+      markNotificationsAsViewed(signedAddress.toLowerCase()).catch((error) => {
+        console.error("Failed to mark notifications as viewed:", error);
+      });
+    }
+  }, [signedAddress]);
 
   return (
     <div className="container mx-auto px-4 py-8">
