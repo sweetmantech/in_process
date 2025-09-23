@@ -19,7 +19,7 @@ const NotificationRow = ({ notification }: NotificationRowProps) => {
       <TableCell className="font-medium w-1/3">
         <div className="flex flex-col gap-2">
           <span className="text-sm font-archivo-medium">
-            {notification.artist.username || "Unknown"} got paid $
+            {notification.artist.username || "Unknown"} was paid $
             {notification.payment.amount} by{" "}
             {notification.payment.buyer.username || "Unknown"}
           </span>
