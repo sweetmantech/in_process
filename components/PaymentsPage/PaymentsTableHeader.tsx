@@ -8,7 +8,6 @@ const PaymentsTableHeader = () => {
         <TableHead>Moment</TableHead>
         <TableHead>Amount</TableHead>
         <TableHead>Time</TableHead>
-        <TableHead>Transaction</TableHead>
       </TableRow>
     </TableHeader>
   );

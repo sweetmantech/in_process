@@ -2,18 +2,15 @@ import { TableCell, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import truncateAddress from "@/lib/truncateAddress";
 import type { Payment, PaymentWithType } from "@/hooks/usePayments";
-import { useBlock } from "@/hooks/useBlock";
 import MomentCell from "@/components/NotificationsPage/MomentCell";
 import PaymentsTypeBadge from "./PaymentsTypeBadge";
+import NotificationDateCell from "@/components/NotificationsPage/NotificationDateCell";
 
 interface PaymentRowProps {
   payment: Payment | PaymentWithType;
 }
 
 const PaymentRow = ({ payment }: PaymentRowProps) => {
-  const txUrl = `https://basescan.org/tx/${payment.hash}`;
-  const { data: blockTime } = useBlock(payment.block, payment.token.chainId);
-
   // Check if this is a combined payment with type information
   const isCombinedPayment = "type" in payment;
   const isEarning = isCombinedPayment && payment.type === "earning";
@@ -73,27 +70,7 @@ const PaymentRow = ({ payment }: PaymentRowProps) => {
         </Badge>
       </TableCell>
 
-      <TableCell className="text-sm text-neutral-600 dark:text-neutral-400">
-        <div className="flex flex-col">
-          <span>
-            {blockTime ? blockTime.toLocaleString() : `Block #${payment.block}`}
-          </span>
-          <span className="text-xs text-neutral-500">
-            Block #{payment.block}
-          </span>
-        </div>
-      </TableCell>
-
-      <TableCell>
-        <a
-          href={txUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-xs text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 font-mono"
-        >
-          {truncateAddress(payment.hash)}
-        </a>
-      </TableCell>
+      <NotificationDateCell payment={payment} />
     </TableRow>
   );
 };
