@@ -18,7 +18,7 @@ const NotificationsTableContents = ({
 }: NotificationsTableContentsProps) => {
   return (
     <div className="rounded-md border overflow-auto">
-      <Table>
+      <Table className="min-w-[640px] md:min-w-0">
         <TableHeader>
           <TableRow>
             <TableHead className="w-1/3">Notification</TableHead>
