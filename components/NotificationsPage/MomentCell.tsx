@@ -13,7 +13,7 @@ interface MomentCellProps {
 }
 
 const MomentCell = ({ token, className }: MomentCellProps) => {
-  const tokenUrl = `https://inprocess.fun/collect/base:${token.address}/${token.tokenId}`;
+  const tokenUrl = `https://inprocess.fun/collect/base:${token.address}/${token.tokenId || 1}`;
   const { data: metadata } = useMetadata(token.uri);
 
   return (
