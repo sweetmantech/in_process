@@ -1,5 +1,4 @@
 import { TableCell } from "@/components/ui/table";
-import truncateAddress from "@/lib/truncateAddress";
 import { useMetadata } from "@/hooks/useMetadata";
 import Image from "next/image";
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
@@ -19,7 +18,12 @@ const MomentCell = ({ token, className }: MomentCellProps) => {
 
   return (
     <TableCell className={className}>
-      <div className="flex items-center gap-3">
+      <a
+        href={tokenUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center gap-3 hover:opacity-90"
+      >
         {metadata?.image && (
           <Image
             src={getFetchableUrl(metadata.image) || ""}
@@ -33,16 +37,8 @@ const MomentCell = ({ token, className }: MomentCellProps) => {
           <span className="text-sm font-archivo-medium">
             {metadata?.name || `Token #${token.tokenId}`}
           </span>
-          <a
-            href={tokenUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-xs text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
-          >
-            {truncateAddress(token.address)}
-          </a>
         </div>
-      </div>
+      </a>
     </TableCell>
   );
 };
