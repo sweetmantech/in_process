@@ -10,7 +10,6 @@ interface PaymentRowProps {
 }
 
 const PaymentRow = ({ payment }: PaymentRowProps) => {
-  // Check if this is a combined payment with type information
   const isCombinedPayment = "type" in payment;
   const isEarning = isCombinedPayment && payment.type === "earning";
 
