@@ -15,7 +15,7 @@ const NotificationDateCell = ({
 
   return (
     <TableCell
-      className={`text-sm text-neutral-600 dark:text-neutral-400 ${className || ""}`.trim()}
+      className={`text-sm text-neutral-600 dark:text-neutral-400 whitespace-normal break-words ${className || ""}`.trim()}
     >
       <div className="flex flex-col">
         <span>{blockTime ? blockTime.toLocaleString() : ""}</span>
