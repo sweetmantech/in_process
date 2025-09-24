@@ -6,7 +6,6 @@ import useSignedAddress from "@/hooks/useSignedAddress";
 import { DropdownMenu } from "../LoginButton/DropdownMenu";
 import { useLayoutProvider } from "@/providers/LayoutProvider";
 import CreateCTAButton from "./CreateCTAButton";
-import useTotalEarnings from "@/hooks/useTotalEarnings";
 import useIsMobile from "@/hooks/useIsMobile";
 import ArtistSearch from "../ArtistSearch";
 import NotificationButton from "./NotificationButton";
@@ -15,7 +14,6 @@ const Header = () => {
   const signedAddress = useSignedAddress();
   const { isOpenNavbar, toggleNavbar, menuRef, isExpandedSearchInput } =
     useLayoutProvider();
-  const { totalAmount } = useTotalEarnings();
   const isMobile = useIsMobile();
 
   return (
@@ -28,7 +26,7 @@ const Header = () => {
         <div className="flex items-center gap-1 md:gap-2" ref={menuRef}>
           <ArtistSearch />
           {signedAddress && <NotificationButton />}
-          {!totalAmount && !isMobile && <CreateCTAButton />}
+          {!isMobile && <CreateCTAButton />}
           <div className="md:relative flex items-center gap-1 md:gap-2">
             {!isExpandedSearchInput && <LoginButton />}
             {signedAddress && (

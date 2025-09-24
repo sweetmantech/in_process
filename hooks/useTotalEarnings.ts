@@ -1,18 +1,17 @@
-import { useUserCollectionsProvider } from "@/providers/UserCollectionsProvider";
-import { useEthPriceProvider } from "@/providers/EthPriceProvider";
+import { useQuery } from "@tanstack/react-query";
+import { useUserProvider } from "@/providers/UserProvider";
+import getTotalEarnings from "@/lib/viem/getTotalEarnings";
 
 const useTotalEarnings = () => {
-  const { totalEarnings } = useUserCollectionsProvider();
-  const { ethPrice } = useEthPriceProvider();
-  const ethEarnings = Number(
-    Number(totalEarnings?.eth || 0) * ethPrice,
-  ).toFixed(2);
-  const usdcEarnings = Number(totalEarnings?.usdc).toFixed(2);
-  const totalAmount = parseFloat(ethEarnings) + parseFloat(usdcEarnings);
+  const { connectedAddress } = useUserProvider();
 
-  return {
-    totalAmount,
-  };
+  return useQuery({
+    queryKey: ["totalEarnings", connectedAddress],
+    queryFn: () => getTotalEarnings(connectedAddress as `0x${string}`),
+    enabled: Boolean(connectedAddress),
+    staleTime: 1000 * 60 * 5,
+    retry: (failureCount) => failureCount < 3,
+  });
 };
 
 export default useTotalEarnings;
