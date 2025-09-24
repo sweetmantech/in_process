@@ -16,7 +16,7 @@ const PaymentsTypeBadge = ({ type }: PaymentsTypeBadgeProps) => {
           : "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
       }`}
     >
-      {isEarning ? "Earning" : "Expense"}
+      {isEarning ? "Received" : "Sent"}
     </Badge>
   );
 };
