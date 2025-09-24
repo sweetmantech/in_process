@@ -1,10 +1,9 @@
 import { TableCell, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import truncateAddress from "@/lib/truncateAddress";
 import type { Payment, PaymentWithType } from "@/hooks/usePayments";
 import MomentCell from "@/components/NotificationsPage/MomentCell";
-import PaymentsTypeBadge from "./PaymentsTypeBadge";
 import NotificationDateCell from "@/components/NotificationsPage/NotificationDateCell";
+import BuyerCell from "./BuyerCell";
 
 interface PaymentRowProps {
   payment: Payment | PaymentWithType;
@@ -14,44 +13,10 @@ const PaymentRow = ({ payment }: PaymentRowProps) => {
   // Check if this is a combined payment with type information
   const isCombinedPayment = "type" in payment;
   const isEarning = isCombinedPayment && payment.type === "earning";
-  const isExpense = isCombinedPayment && payment.type === "expense";
-
-  // Extract repeated references for DRY principle
-  const buyerUsername = payment.buyer.username;
-  const buyerAddress = payment.buyer.address;
-  const sellerAddress = payment.token.defaultAdmin;
-
-  // Create display names and addresses
-  const buyerDisplayName = buyerUsername || truncateAddress(buyerAddress);
-  const sellerDisplayName = sellerAddress
-    ? truncateAddress(sellerAddress)
-    : "Unknown";
-  const buyerTruncatedAddress = truncateAddress(buyerAddress);
-  const sellerTruncatedAddress = truncateAddress(sellerAddress) || "Unknown";
 
   return (
     <TableRow className="hover:bg-neutral-50 dark:hover:bg-neutral-900">
-      <TableCell className="font-medium">
-        <div className="flex flex-col">
-          {isCombinedPayment ? (
-            <div className="flex items-center gap-2">
-              <PaymentsTypeBadge type={payment.type} />
-              <span className="text-sm font-archivo-medium">
-                {isEarning ? buyerDisplayName : sellerDisplayName}
-              </span>
-            </div>
-          ) : (
-            <span className="text-sm font-archivo-medium">
-              {buyerDisplayName}
-            </span>
-          )}
-          <span className="text-xs text-neutral-500">
-            {isCombinedPayment && isExpense
-              ? sellerTruncatedAddress
-              : buyerTruncatedAddress}
-          </span>
-        </div>
-      </TableCell>
+      <BuyerCell payment={payment} />
 
       <MomentCell token={payment.token} />
 
