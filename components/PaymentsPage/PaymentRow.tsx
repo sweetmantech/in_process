@@ -16,9 +16,7 @@ const PaymentRow = ({ payment }: PaymentRowProps) => {
   return (
     <TableRow className="hover:bg-neutral-50 dark:hover:bg-neutral-900">
       <BuyerCell payment={payment} />
-
       <MomentCell token={payment.token} />
-
       <TableCell>
         <Badge
           variant="secondary"
@@ -33,7 +31,6 @@ const PaymentRow = ({ payment }: PaymentRowProps) => {
           {isCombinedPayment ? (isEarning ? "+" : "-") : ""}${payment.amount}
         </Badge>
       </TableCell>
-
       <NotificationDateCell payment={payment} />
     </TableRow>
   );
