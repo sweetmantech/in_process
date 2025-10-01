@@ -16,11 +16,11 @@ const useUpdateTokenURI = () => {
   const { connectedAddress } = useUserProvider();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const updateTokenURI = async (title: string, description: string) => {
+  const updateTokenURI = async (title: string, description: string, imageUri: string = '') => {
     const tokenInfo = await getTokenInfo(token.tokenContractAddress, token.tokenId, CHAIN_ID);
     const current = await fetchTokenMetadata(tokenInfo.tokenUri);
 
-    const updated = { ...(current || {}), name: title, description };
+    const updated = { ...(current || {}), name: title, description, ...(imageUri ? {image: imageUri} : {}) };
     if (!updated.name) throw new Error("Missing token name");
     if (!updated.description) throw new Error("Missing token description");
 
