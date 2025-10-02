@@ -2,18 +2,13 @@
 
 import { useLinkAccount } from "@privy-io/react-auth";
 import { Button } from "../ui/button";
-import { usePrivy } from "@privy-io/react-auth";
 
 interface LinkWalletButtonProps {
   className?: string;
 }
 
-const LinkWalletButton = ({
-  className,
-}: LinkWalletButtonProps) => {
-    const {user} = usePrivy();
+const LinkWalletButton = ({ className }: LinkWalletButtonProps) => {
   const { linkWallet } = useLinkAccount();
-console.log("SWEETS USER", user);
 
   return (
     <Button
