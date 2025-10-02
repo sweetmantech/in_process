@@ -2,9 +2,9 @@ import {getFetchableUrl} from "@/lib/protocolSdk/ipfs/gateway";
 import Image from "next/image";
 import React, {Fragment} from "react";
 import {useMomentManageProvider} from "@/providers/MomentManageProvider";
-import EditButton from "@/components/TokenManagePage/EditButton";
 import {useTokenProvider} from "@/providers/TokenProvider";
 import UploadSpinner from "@/components/TokenManagePage/UploadSpinner";
+import ResetButton from "@/components/MetadataCreation/ResetButton";
 
 interface ImageBoxProps {
     handleImageClick: () => void;
@@ -27,7 +27,7 @@ const ImageBox = ({ handleImageClick }: ImageBoxProps) => {
 
     return (
         <div className="w-full cursor-pointer">
-            {isOwner && <EditButton onClick={handleImageClick}/>}
+            {isOwner && <ResetButton onClick={handleImageClick} disabled={fileUploading} />}
             <Image
                 src={getFetchableUrl(imageUri) || previewSrc || ""}
                 alt="Image Preview"

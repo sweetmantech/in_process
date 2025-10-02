@@ -36,7 +36,7 @@ const MetadataCreation = () => {
       />
       {selected ? (
         <>
-          {!createdContract && <ResetButton onClick={handleReset} />}
+          {!createdContract && <ResetButton onClick={handleReset} disabled={fileUploading} />}
           <MediaUploaded handleImageClick={handleImageClick} />
         </>
       ) : (
