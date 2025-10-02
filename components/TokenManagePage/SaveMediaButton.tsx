@@ -1,20 +1,13 @@
 "use client";
 import { useTokenProvider } from "@/providers/TokenProvider";
 import useUpdateTokenURI from "@/hooks/useUpdateTokenURI";
-import {useZoraManageProvider} from "@/providers/ZoraManageProvider";
 
 const SaveMediaButton = () => {
     const { isOwner } = useTokenProvider();
-    const {
-        name,
-        description,
-        imageUri,
-    } = useZoraManageProvider();
-
     const { updateTokenURI, isLoading: isSaving } = useUpdateTokenURI();
 
     const saveHandler = () => {
-        updateTokenURI(name, description, imageUri);
+        updateTokenURI();
     }
 
     return (

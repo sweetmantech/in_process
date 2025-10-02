@@ -9,18 +9,20 @@ import { useUserProvider } from "@/providers/UserProvider";
 import { uploadJson } from "@/lib/arweave/uploadJson";
 import { fetchTokenMetadata } from "@/lib/protocolSdk/ipfs/token-metadata";
 import getTokenInfo from "@/lib/viem/getTokenInfo";
+import {useZoraManageProvider} from "@/providers/ZoraManageProvider";
 
 const useUpdateTokenURI = () => {
   const { token, fetchTokenInfo } = useTokenProvider();
   const { signTransaction } = useSignTransaction();
+  const { name, description, imageUri } = useZoraManageProvider();
   const { connectedAddress } = useUserProvider();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const updateTokenURI = async (title: string, description: string, imageUri: string = '') => {
+  const updateTokenURI = async () => {
     const tokenInfo = await getTokenInfo(token.tokenContractAddress, token.tokenId, CHAIN_ID);
     const current = await fetchTokenMetadata(tokenInfo.tokenUri);
 
-    const updated = { ...(current || {}), name: title, description, ...(imageUri ? {image: imageUri} : {}) };
+    const updated = { ...(current || {}), name, description, ...(imageUri ? {image: imageUri} : {}) };
     if (!updated.name) throw new Error("Missing token name");
     if (!updated.description) throw new Error("Missing token description");
 
