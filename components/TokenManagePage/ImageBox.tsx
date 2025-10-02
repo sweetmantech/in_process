@@ -19,9 +19,7 @@ const ImageBox = ({ handleImageClick }: ImageBoxProps) => {
         previewSrc,
     } = useMomentManageProvider();
 
-    if (fileUploading) {
-        return <UploadSpinner pctComplete={pctComplete}/>
-    }
+    if (fileUploading)  return <UploadSpinner pctComplete={pctComplete}/>
 
     if (!imageUri) return <Fragment />;
 
