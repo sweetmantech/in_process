@@ -1,20 +1,27 @@
 "use client";
 
 import { useLinkAccount } from "@privy-io/react-auth";
+import { Button } from "../ui/button";
+import { usePrivy } from "@privy-io/react-auth";
 
 interface LinkWalletButtonProps {
   className?: string;
 }
 
 const LinkWalletButton = ({
-  className = "mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors",
+  className,
 }: LinkWalletButtonProps) => {
+    const {user} = usePrivy();
   const { linkWallet } = useLinkAccount();
+console.log("SWEETS USER", user);
 
   return (
-    <button onClick={linkWallet} className={className}>
+    <Button
+      className={`mt-4 !bg-grey-eggshell hover:!bg-grey-moss-100 text-black font-archivo text-lg py-3 px-12 rounded-sm ${className || ""}`}
+      onClick={linkWallet}
+    >
       connect wallet
-    </button>
+    </Button>
   );
 };
 
