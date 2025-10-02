@@ -22,7 +22,17 @@ const useUpdateTokenURI = () => {
     const tokenInfo = await getTokenInfo(token.tokenContractAddress, token.tokenId, CHAIN_ID);
     const current = await fetchTokenMetadata(tokenInfo.tokenUri);
 
-    const updated = { ...(current || {}), name, description, ...(imageUri ? {image: imageUri} : {}) };
+    const updated = {
+      ...(current || {}),
+      name,
+      description,
+      image: imageUri || current?.image,
+      animation_url: imageUri || current?.animation_url,
+      ...(current?.content && {
+        content: { ...current.content, uri: imageUri || current.content.uri }
+      })
+    };
+
     if (!updated.name) throw new Error("Missing token name");
     if (!updated.description) throw new Error("Missing token description");
 
