@@ -9,6 +9,7 @@ import CreateCTAButton from "./CreateCTAButton";
 import useIsMobile from "@/hooks/useIsMobile";
 import ArtistSearch from "../ArtistSearch";
 import NotificationButton from "./NotificationButton";
+import { Z_BEHIND_PRIVY } from "@/lib/consts";
 
 const Header = () => {
   const signedAddress = useSignedAddress();
@@ -19,7 +20,7 @@ const Header = () => {
   return (
     <div
       className={`${isOpenNavbar ? "bg-grey-moss-900" : "bg-grey-moss-100/90"} md:bg-grey-moss-100/90 opacity-99 
-      z-[9999999] sticky top-0 w-screen`}
+      z-[${Z_BEHIND_PRIVY}] sticky top-0 w-screen`}
     >
       <div className="flex justify-between items-center px-6 md:px-10 py-8">
         <Logo />
