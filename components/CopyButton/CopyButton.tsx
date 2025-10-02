@@ -6,13 +6,11 @@ import AnimatedCopyIcon from "./AnimatedCopyIcon";
 interface CopyButtonProps {
   address: string;
   className?: string;
-  showTruncated?: boolean;
 }
 
 const CopyButton = ({
   address,
   className = "flex gap-2 items-center font-archivo bg-grey-moss-200 text-grey-eggshell hover:text-tan-primary w-fit px-3 py-1 rounded-md",
-  showTruncated = true,
 }: CopyButtonProps) => {
   const [isCopied, setIsCopied] = useState(false);
 
@@ -25,7 +23,7 @@ const CopyButton = ({
 
   return (
     <button className={className} type="button" onClick={handleCopy}>
-      {showTruncated ? truncateAddress(address) : address}
+      {truncateAddress(address)}
       <AnimatedCopyIcon isCopied={isCopied} />
     </button>
   );

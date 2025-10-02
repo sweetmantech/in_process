@@ -15,7 +15,6 @@ const LinkedWallet = ({ walletAddress, className }: LinkedWalletProps) => {
         <CopyButton
           address={walletAddress}
           className="flex items-center gap-2 text-black font-archivo text-lg break-all bg-transparent hover:bg-transparent p-0 hover:text-grey-moss-600"
-          showTruncated={false}
         />
       </div>
     </div>
