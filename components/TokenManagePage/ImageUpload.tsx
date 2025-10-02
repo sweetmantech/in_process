@@ -1,6 +1,6 @@
 import ImageBox from "@/components/TokenManagePage/ImageBox";
 import {useRef} from "react";
-import {useZoraManageProvider} from "@/providers/ZoraManageProvider";
+import {useMomentManageProvider} from "@/providers/MomentManageProvider";
 
 interface ImageUploadProps {
     imageUri: string | undefined | null;
@@ -10,7 +10,7 @@ interface ImageUploadProps {
 const ImageUpload = ({imageUri, isOwner}: ImageUploadProps) => {
     const {
         fileUpload,
-    } = useZoraManageProvider();
+    } = useMomentManageProvider();
 
     const fileInputRef = useRef<HTMLInputElement>(null);
     const handleImageClick = () => {

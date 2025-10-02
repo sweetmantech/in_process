@@ -1,8 +1,7 @@
-import Spinner from "../ui/spinner";
 import {getFetchableUrl} from "@/lib/protocolSdk/ipfs/gateway";
 import Image from "next/image";
 import React, {Fragment} from "react";
-import {useZoraManageProvider} from "@/providers/ZoraManageProvider";
+import {useMomentManageProvider} from "@/providers/MomentManageProvider";
 import EditButton from "@/components/TokenManagePage/EditButton";
 import {useTokenProvider} from "@/providers/TokenProvider";
 import UploadSpinner from "@/components/TokenManagePage/UploadSpinner";
@@ -18,7 +17,7 @@ const ImageBox = ({ handleImageClick }: ImageBoxProps) => {
         imageUri,
         pctComplete,
         previewSrc,
-    } = useZoraManageProvider();
+    } = useMomentManageProvider();
 
     if (fileUploading) {
         return <UploadSpinner pctComplete={pctComplete}/>

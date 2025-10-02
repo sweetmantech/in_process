@@ -9,12 +9,12 @@ import { useUserProvider } from "@/providers/UserProvider";
 import { uploadJson } from "@/lib/arweave/uploadJson";
 import { fetchTokenMetadata } from "@/lib/protocolSdk/ipfs/token-metadata";
 import getTokenInfo from "@/lib/viem/getTokenInfo";
-import {useZoraManageProvider} from "@/providers/ZoraManageProvider";
+import {useMomentManageProvider} from "@/providers/MomentManageProvider";
 
 const useUpdateTokenURI = () => {
   const { token, fetchTokenInfo } = useTokenProvider();
   const { signTransaction } = useSignTransaction();
-  const { name, description, imageUri } = useZoraManageProvider();
+  const { name, description, imageUri } = useMomentManageProvider();
   const { connectedAddress } = useUserProvider();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 

@@ -7,7 +7,7 @@ import { ReactNode } from "react";
 import { CollectionProvider } from "@/providers/CollectionProvider";
 import { Address } from "viem";
 import Overview from "@/components/CollectionManagePage/Overview";
-import {ZoraManageProvider} from "@/providers/ZoraManageProvider";
+import {MomentManageProvider} from "@/providers/MomentManageProvider";
 
 const RootLayout = ({ children }: { children: ReactNode }) => {
   const params = useParams();
@@ -22,10 +22,10 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
         chainId: viemChain.id,
       }}
     >
-        <ZoraManageProvider>
+        <MomentManageProvider>
           <Overview />
           {children}
-        </ZoraManageProvider>
+        </MomentManageProvider>
     </CollectionProvider>
   );
 };

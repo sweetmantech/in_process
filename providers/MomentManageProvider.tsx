@@ -7,7 +7,7 @@ const ZoraManageContext = createContext<
   ReturnType<typeof useCreateMetadata> | undefined
 >(undefined);
 
-const ZoraManageProvider = ({ children }: { children: React.ReactNode }) => {
+const MomentManageProvider = ({ children }: { children: React.ReactNode }) => {
   const editMetadata = useCreateMetadata();
 
   const value = useMemo(() => ({ ...editMetadata }), [editMetadata]);
@@ -19,14 +19,14 @@ const ZoraManageProvider = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-const useZoraManageProvider = () => {
+const useMomentManageProvider = () => {
   const context = useContext(ZoraManageContext);
   if (!context) {
     throw new Error(
-      "useZoraManageProvider must be used within a ZoraManageProvider",
+      "useMomentManageProvider must be used within a MomentManageProvider",
     );
   }
   return context;
 };
 
-export { ZoraManageProvider, useZoraManageProvider };
+export { MomentManageProvider, useMomentManageProvider };

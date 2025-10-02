@@ -1,13 +1,13 @@
 "use client";
 import {useEffect} from "react";
 
-import { useTokenProvider } from "@/providers/TokenProvider";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import {useTokenProvider} from "@/providers/TokenProvider";
+import {Input} from "@/components/ui/input";
+import {Textarea} from "@/components/ui/textarea";
 import MediaSkeleton from "./MediaSkeleton";
 import OwnerWarning from "./OwnerWarning";
 import SaveMediaButton from "./SaveMediaButton";
-import {useZoraManageProvider} from "@/providers/ZoraManageProvider";
+import {useMomentManageProvider} from "@/providers/MomentManageProvider";
 import ImageUpload from "@/components/TokenManagePage/ImageUpload";
 
 const Media = () => {
@@ -19,7 +19,7 @@ const Media = () => {
     setDescription,
     imageUri,
     setImageUri,
-  } = useZoraManageProvider();
+  } = useMomentManageProvider();
   const { data: meta, isLoading } = metadata;
 
   useEffect(() => {
