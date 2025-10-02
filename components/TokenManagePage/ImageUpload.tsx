@@ -1,15 +1,13 @@
 import ImageBox from "@/components/TokenManagePage/ImageBox";
 import {useRef} from "react";
 import {useMomentManageProvider} from "@/providers/MomentManageProvider";
+import {useTokenProvider} from "@/providers/TokenProvider";
 
-interface ImageUploadProps {
-    imageUri: string | undefined | null;
-    isOwner: boolean;
-}
-
-const ImageUpload = ({imageUri, isOwner}: ImageUploadProps) => {
+const ImageUpload = () => {
+    const {isOwner} = useTokenProvider();
     const {
         fileUpload,
+        imageUri,
     } = useMomentManageProvider();
 
     const fileInputRef = useRef<HTMLInputElement>(null);

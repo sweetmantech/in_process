@@ -11,7 +11,7 @@ import {useMomentManageProvider} from "@/providers/MomentManageProvider";
 import ImageUpload from "@/components/TokenManagePage/ImageUpload";
 
 const Media = () => {
-  const {metadata, isOwner} = useTokenProvider();
+  const {metadata} = useTokenProvider();
   const {
     name,
     description,
@@ -62,7 +62,7 @@ const Media = () => {
             />
           </div>
 
-          <ImageUpload imageUri={imageUri} isOwner={isOwner}/>
+          <ImageUpload/>
           <SaveMediaButton/>
           <OwnerWarning />
         </div>
