@@ -1,5 +1,5 @@
 "use client";
-import {useEffect, useRef} from "react";
+import {useEffect} from "react";
 
 import { useTokenProvider } from "@/providers/TokenProvider";
 import { Input } from "@/components/ui/input";
@@ -8,7 +8,7 @@ import MediaSkeleton from "./MediaSkeleton";
 import OwnerWarning from "./OwnerWarning";
 import SaveMediaButton from "./SaveMediaButton";
 import {useZoraManageProvider} from "@/providers/ZoraManageProvider";
-import ImageBox from "@/components/TokenManagePage/ImageBox";
+import ImageUpload from "@/components/TokenManagePage/ImageUpload";
 
 const Media = () => {
   const {metadata, isOwner} = useTokenProvider();
@@ -18,17 +18,9 @@ const Media = () => {
     setName,
     setDescription,
     imageUri,
-    fileUpload,
     setImageUri,
   } = useZoraManageProvider();
   const { data: meta, isLoading } = metadata;
-
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const handleImageClick = () => {
-    if (isOwner) {
-      fileInputRef.current?.click()
-    }
-  }
 
   useEffect(() => {
     if (!meta) return;
@@ -70,26 +62,7 @@ const Media = () => {
             />
           </div>
 
-          {
-              imageUri && (
-                  <div>
-                    <label className="font-archivo text-sm text-grey-moss-600 block mb-1">
-                      image
-                    </label>
-                    <div
-                        className="min-h-[400px] md:min-h-auto md:aspect-[571/692] relative bg-[url('/grid.svg')] bg-contain">
-                      <input
-                          ref={fileInputRef}
-                          id="media"
-                          type="file"
-                          className={`cursor-pointer z-2 size-full absolute opacity-0`}
-                          onChange={fileUpload}
-                      />
-                      <ImageBox handleImageClick={handleImageClick}/>
-                    </div>
-                  </div>
-              )
-          }
+          <ImageUpload imageUri={imageUri} isOwner={isOwner}/>
           <SaveMediaButton/>
           <OwnerWarning />
         </div>
