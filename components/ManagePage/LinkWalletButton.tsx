@@ -2,6 +2,8 @@
 
 import { useLinkAccount } from "@privy-io/react-auth";
 import { Button } from "../ui/button";
+import { useLinkedWallet } from "@/hooks/useLinkedWallet";
+import LinkedWallet from "./LinkedWallet";
 
 interface LinkWalletButtonProps {
   className?: string;
@@ -9,6 +11,10 @@ interface LinkWalletButtonProps {
 
 const LinkWalletButton = ({ className }: LinkWalletButtonProps) => {
   const { linkWallet } = useLinkAccount();
+  const { walletAddress } = useLinkedWallet();
+
+  if (walletAddress)
+    return <LinkedWallet walletAddress={walletAddress} className={className} />;
 
   return (
     <Button
