@@ -1,11 +1,11 @@
 import { useMeasure } from "react-use";
 import { cn } from "@/lib/utils";
-import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
+import { useMomentCreateProvider } from "@/providers/MomentCreateProvider";
 
 const WritingPreview = () => {
   const [writingRef, { height: contentHeight }] = useMeasure();
   const [containerRef, { height: containerHeight }] = useMeasure();
-  const { writingText } = useZoraCreateProvider();
+  const { writingText } = useMomentCreateProvider();
 
   const isOverflowed = contentHeight > containerHeight;
   const shouldCenter = contentHeight < containerHeight;

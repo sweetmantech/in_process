@@ -1,4 +1,4 @@
-import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
+import { useMomentCreateProvider } from "@/providers/MomentCreateProvider";
 import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Pause, Play } from "lucide-react";
@@ -7,7 +7,7 @@ import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import Image from "next/image";
 
 const AudioPlayer = ({ onClick }: { onClick: () => void }) => {
-  const { imageUri, animationUri, createdContract } = useZoraCreateProvider();
+  const { imageUri, animationUri, createdContract } = useMomentCreateProvider();
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const audioRef = useRef<HTMLAudioElement>(null);

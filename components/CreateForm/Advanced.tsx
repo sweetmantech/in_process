@@ -1,7 +1,7 @@
 import { Button } from "../ui/button";
 import { DateTimePicker } from "../ui/date-time-picker";
 import { ChevronDown } from "lucide-react";
-import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
+import { useMomentCreateProvider } from "@/providers/MomentCreateProvider";
 import { Textarea } from "../ui/textarea";
 import Price from "./Price";
 
@@ -13,7 +13,7 @@ const Advanced = () => {
     startDate,
     description,
     setDescription,
-  } = useZoraCreateProvider();
+  } = useMomentCreateProvider();
 
   return (
     <div className="flex flex-col gap-2 pt-2 z-10">

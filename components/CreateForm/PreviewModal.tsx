@@ -5,13 +5,13 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
-import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
+import { useMomentCreateProvider } from "@/providers/MomentCreateProvider";
 import UploadPreview from "./UploadPreview";
 import { CropImageProvider } from "@/providers/CropImageProvider";
 
 const PreviewModal = () => {
   const { setIsOpenPreviewUpload, isOpenPreviewUpload } =
-    useZoraCreateProvider();
+    useMomentCreateProvider();
 
   return (
     <Dialog

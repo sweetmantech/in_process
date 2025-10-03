@@ -1,4 +1,4 @@
-import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
+import { useMomentCreateProvider } from "@/providers/MomentCreateProvider";
 import { useEffect, useRef, useState } from "react";
 
 const promptOptions = [
@@ -13,7 +13,7 @@ let timer: NodeJS.Timeout | string | number | undefined = undefined;
 const usePrompt = () => {
   const [prompt, setPrompt] = useState(0);
   const [placeholder, setPlaceholder] = useState(promptOptions[0].label);
-  const { name, setName } = useZoraCreateProvider();
+  const { name, setName } = useMomentCreateProvider();
   const promptRef = useRef() as any;
 
   const rotatePrompt = () => {
