@@ -14,18 +14,8 @@ interface NotificationsTableProps {
   viewed?: boolean;
 }
 
-const NotificationsTable = ({
-  limit = 20,
-  artist,
-  viewed,
-}: NotificationsTableProps) => {
-  const { data, isLoading, error } = useNotifications(
-    1,
-    limit,
-    true,
-    artist,
-    viewed
-  );
+const NotificationsTable = ({ limit = 20, artist, viewed }: NotificationsTableProps) => {
+  const { data, isLoading, error } = useNotifications(1, limit, true, artist, viewed);
 
   if (isLoading) return <NotificationsTableLoading />;
   if (error) return <NotificationsTableError error={error} />;

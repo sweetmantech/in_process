@@ -36,8 +36,7 @@ const ManagePage = () => {
           <TotalEarnings className="text-2xl md:text-3xl font-spectral text-grey-moss-900" />
         </div>
         <p className="text-grey-moss-300 text-sm mt-2">
-          Note: Earnings calculation is being improved and may not reflect
-          accurate totals
+          Note: Earnings calculation is being improved and may not reflect accurate totals
         </p>
         <LinkWalletButton />
       </div>

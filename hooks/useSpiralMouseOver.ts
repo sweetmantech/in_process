@@ -7,36 +7,33 @@ const useSpiralMouseOver = () => {
     position: { x: number; y: number };
   } | null>(null);
 
-  const handleMouseMove = useCallback(
-    (event: React.MouseEvent, feed: Token) => {
-      const svgElement = event.currentTarget.closest("svg");
-      if (!svgElement) return;
+  const handleMouseMove = useCallback((event: React.MouseEvent, feed: Token) => {
+    const svgElement = event.currentTarget.closest("svg");
+    if (!svgElement) return;
 
-      const pt = svgElement.createSVGPoint();
-      const ctm = (event.currentTarget as SVGGraphicsElement).getScreenCTM();
+    const pt = svgElement.createSVGPoint();
+    const ctm = (event.currentTarget as SVGGraphicsElement).getScreenCTM();
 
-      if (!ctm) return;
+    if (!ctm) return;
 
-      pt.x = event.clientX;
-      pt.y = event.clientY;
-      const svgPoint = pt.matrixTransform(ctm.inverse());
+    pt.x = event.clientX;
+    pt.y = event.clientY;
+    const svgPoint = pt.matrixTransform(ctm.inverse());
 
-      if ((event.currentTarget as any)._timeout) {
-        clearTimeout((event.currentTarget as any)._timeout);
-      }
+    if ((event.currentTarget as any)._timeout) {
+      clearTimeout((event.currentTarget as any)._timeout);
+    }
 
-      (event.currentTarget as any)._timeout = setTimeout(() => {
-        setHoveredFeed({
-          feed,
-          position: {
-            x: svgPoint.x,
-            y: svgPoint.y,
-          },
-        });
-      }, 50);
-    },
-    [],
-  );
+    (event.currentTarget as any)._timeout = setTimeout(() => {
+      setHoveredFeed({
+        feed,
+        position: {
+          x: svgPoint.x,
+          y: svgPoint.y,
+        },
+      });
+    }, 50);
+  }, []);
 
   const handleMouseLeave = useCallback(() => {
     setTimeout(() => {

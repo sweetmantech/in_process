@@ -1,9 +1,4 @@
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Label } from "../ui/label";
 import { useTokenProvider } from "@/providers/TokenProvider";
 import CommentButton from "../CommentButton/CommentButton";
@@ -18,19 +13,14 @@ import getPriceUnit from "@/lib/getPriceUnit";
 import truncated from "@/lib/truncated";
 import Advanced from "./Advanced";
 
-const CrossmintModal = dynamic(
-  () => import("../CommentButton/CrossmintModal"),
-  {
-    loading: () => (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
-        <div className="bg-white p-6 rounded-lg font-archivo">
-          Loading payment options...
-        </div>
-      </div>
-    ),
-    ssr: false,
-  },
-);
+const CrossmintModal = dynamic(() => import("../CommentButton/CrossmintModal"), {
+  loading: () => (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
+      <div className="bg-white p-6 rounded-lg font-archivo">Loading payment options...</div>
+    </div>
+  ),
+  ssr: false,
+});
 
 const CollectModal = () => {
   const {
@@ -49,9 +39,7 @@ const CollectModal = () => {
   const { setIsOpenCrossmint, isOpenCrossmint } = useZoraMintCommentProvider();
   const { isPrepared } = useUserProvider();
   const isSaleActive =
-    parseInt(BigInt(saleConfig?.saleStart?.toString() || 0).toString(), 10) *
-      1000 <
-    Date.now();
+    parseInt(BigInt(saleConfig?.saleStart?.toString() || 0).toString(), 10) * 1000 < Date.now();
 
   const handleCollect = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -97,9 +85,7 @@ const CollectModal = () => {
               </>
             )}
           </section>
-          <Label className="font-archivo text-lg text-left w-full mt-4">
-            comment
-          </Label>
+          <Label className="font-archivo text-lg text-left w-full mt-4">comment</Label>
           <textarea
             className="bg-grey-moss-50 w-full p-3 font-spectral !border-none !outline-none !ring-0"
             rows={6}

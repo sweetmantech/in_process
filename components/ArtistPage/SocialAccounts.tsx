@@ -20,10 +20,7 @@ const SocialAccounts = () => {
 
   if (isEditing)
     return (
-      <div
-        className="flex flex-col md:flex-row md:pt-4 flex gap-2"
-        ref={socialRef}
-      >
+      <div className="flex flex-col md:flex-row md:pt-4 flex gap-2" ref={socialRef}>
         <fieldset className="flex gap-2 items-center">
           <div className="p-1 rounded-sm bg-grey-primary">
             <InstagramIcon className="text-grey-eggshell size-5 md:size-7" />
@@ -61,9 +58,7 @@ const SocialAccounts = () => {
       {instagram && (
         <Social
           link={`https://instagram.com/${instagram}`}
-          icon={
-            <InstagramIcon className="text-grey-eggshell size-5 md:size-7" />
-          }
+          icon={<InstagramIcon className="text-grey-eggshell size-5 md:size-7" />}
         />
       )}
       {twitter && (

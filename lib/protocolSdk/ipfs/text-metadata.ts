@@ -115,14 +115,11 @@ function generateTextTitle(text: string) {
   return firstSentence;
 }
 
-const toTextFile = (text: string) =>
-  new File([text], "Untitled.txt", { type: "text/plain" });
+const toTextFile = (text: string) => new File([text], "Untitled.txt", { type: "text/plain" });
 
 /** For text nfts, this will generate files that are needed for the metadata json, including the txt.file containing the text, and a thumbnail image containing a preview of the text
  */
-export async function generateTextNftMetadataFiles(
-  text: string,
-): Promise<TextMetadataFiles> {
+export async function generateTextNftMetadataFiles(text: string): Promise<TextMetadataFiles> {
   const name = generateTextTitle(text);
   const textFile = toTextFile(text);
   const thumbnailFile = await generateTextPreview(text);

@@ -40,7 +40,7 @@ const Advanced = () => {
             className={cn(
               `p-2 md:px-6 font-spectral text-md md:text-xl bg-grey-moss-100 text-grey-moss-900
               hover:text-grey-eggshell hover:bg-grey-moss-900`,
-              count === mintCount ? "bg-grey-moss-900 text-grey-eggshell" : "",
+              count === mintCount ? "bg-grey-moss-900 text-grey-eggshell" : ""
             )}
             onClick={() => {
               if (count) {

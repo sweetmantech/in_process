@@ -16,4 +16,4 @@ export const RenderLine = (line: string, lineIndex: number) => {
       />
     </div>
   );
-}; 
+};

@@ -15,10 +15,7 @@ interface OnboardingModalProps {
   onClose: () => void;
 }
 
-export default function OnboardingModal({
-  isOpen,
-  onClose,
-}: OnboardingModalProps) {
+export default function OnboardingModal({ isOpen, onClose }: OnboardingModalProps) {
   const { connectedWallet } = useConnectedWallet();
   const [currentSlide, setCurrentSlide] = useState(0);
   const isLastSlide = currentSlide === slides.length - 1;
@@ -82,10 +79,7 @@ export default function OnboardingModal({
               start
             </Button>
           ) : (
-            <NavigationDots
-              currentSlide={currentSlide}
-              onSlideChange={setCurrentSlide}
-            />
+            <NavigationDots currentSlide={currentSlide} onSlideChange={setCurrentSlide} />
           )}
         </div>
       </div>

@@ -6,10 +6,7 @@ import {
   OnchainSalesStrategies,
   PrepareMintReturn,
 } from "../mint/types";
-import {
-  makePrepareMint1155TokenParams,
-  parseMintCosts,
-} from "../mint/mint-transactions";
+import { makePrepareMint1155TokenParams, parseMintCosts } from "../mint/mint-transactions";
 import { getRequiredErc20Approvals } from "../mint/mint-queries";
 
 async function toSalesStrategyFromSubgraph({

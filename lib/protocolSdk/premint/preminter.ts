@@ -88,9 +88,7 @@ export async function recoverPremintSigner<T extends PremintConfigVersion>({
   });
 }
 
-export async function tryRecoverPremintSigner(
-  params: Parameters<typeof recoverPremintSigner>[0],
-) {
+export async function tryRecoverPremintSigner(params: Parameters<typeof recoverPremintSigner>[0]) {
   try {
     return await recoverPremintSigner(params);
   } catch (error) {
@@ -266,9 +264,7 @@ export const supportsPremintVersion = async ({
   tokenContract: Address;
   publicClient: PublicClient;
 }): Promise<boolean> => {
-  return (
-    await supportedPremintVersions({ tokenContract, publicClient })
-  ).includes(version);
+  return (await supportedPremintVersions({ tokenContract, publicClient })).includes(version);
 };
 
 export async function getPremintCollectionAddress({
@@ -394,10 +390,7 @@ export async function getPremintPricePerToken({
     uid,
   });
 
-  if (
-    isPremintConfigV1(premintConfigWithVersion) ||
-    isPremintConfigV2(premintConfigWithVersion)
-  ) {
+  if (isPremintConfigV1(premintConfigWithVersion) || isPremintConfigV2(premintConfigWithVersion)) {
     return premintConfigWithVersion.premintConfig.tokenConfig.pricePerToken;
   }
 
@@ -448,7 +441,7 @@ export const emptyContractCreationConfig = (): ContractCreationConfig => ({
 });
 
 export function defaultAdditionalAdmins(
-  collection: ContractCreationConfigWithOptionalAdditionalAdmins,
+  collection: ContractCreationConfigWithOptionalAdditionalAdmins
 ): ContractCreationConfig {
   return {
     ...collection,

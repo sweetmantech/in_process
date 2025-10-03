@@ -38,8 +38,7 @@ const useCrossmintCalldata = () => {
       };
     return {
       quantity: mintCount,
-      priceFixedSaleStrategy:
-        zoraCreatorFixedPriceSaleStrategyAddress[CHAIN_ID],
+      priceFixedSaleStrategy: zoraCreatorFixedPriceSaleStrategyAddress[CHAIN_ID],
       tokenContract: token.tokenContractAddress,
       tokenId: token.tokenId,
       comment,

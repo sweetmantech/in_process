@@ -38,9 +38,7 @@ export default function CrossmintModal({ onClose }: CrossmintModalProps) {
               fiat: { enabled: true },
             }}
             recipient={
-              signedAddress
-                ? { walletAddress: signedAddress as Address }
-                : { email: email || "" }
+              signedAddress ? { walletAddress: signedAddress as Address } : { email: email || "" }
             }
           />
         )}

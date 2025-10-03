@@ -14,12 +14,12 @@ import fetchTokenMetadata from "@/lib/fetchTokenMetadata";
 export const dynamic = "force-dynamic";
 export const runtime = "edge";
 
-const archivoFont = fetch(`${VERCEL_OG}/fonts/Archivo-Regular.ttf`).then(
-  (res) => res.arrayBuffer(),
+const archivoFont = fetch(`${VERCEL_OG}/fonts/Archivo-Regular.ttf`).then((res) =>
+  res.arrayBuffer()
 );
 
-const spectralFont = fetch(`${VERCEL_OG}/fonts/Spectral-Regular.ttf`).then(
-  (res) => res.arrayBuffer(),
+const spectralFont = fetch(`${VERCEL_OG}/fonts/Spectral-Regular.ttf`).then((res) =>
+  res.arrayBuffer()
 );
 
 export async function GET(req: NextRequest) {
@@ -27,13 +27,9 @@ export async function GET(req: NextRequest) {
   const collection: any = queryParams.get("collection");
   const tokenId: any = queryParams.get("tokenId");
 
-  if (!tokenId || !collection)
-    throw Error("collection or tokenId should be provided.");
+  if (!tokenId || !collection) throw Error("collection or tokenId should be provided.");
 
-  const metadata = await fetchTokenMetadata(
-    collection as string,
-    tokenId as string,
-  );
+  const metadata = await fetchTokenMetadata(collection as string, tokenId as string);
   if (!metadata) throw Error("failed to get token metadata");
 
   const previewBackgroundUrl = getFetchableUrl(metadata.image);
@@ -53,8 +49,7 @@ export async function GET(req: NextRequest) {
     const paragraphs = writingText.split("\n");
     paragraphs.map(
       (paragraph) =>
-        (totalLines =
-          totalLines + parseInt(Number(paragraph.length / 64).toFixed()) + 1),
+        (totalLines = totalLines + parseInt(Number(paragraph.length / 64).toFixed()) + 1)
     );
   } else if (previewBackgroundUrl) {
     const response = await fetch(previewBackgroundUrl);
@@ -65,16 +60,11 @@ export async function GET(req: NextRequest) {
     orientation = meta.orientation || 1;
     originalWidth = meta.width || 0;
     originalHeight = meta.height || 1;
-    paddingLeft =
-      (Math.abs((OG_WIDTH / originalHeight) * originalWidth - OG_WIDTH) / 2) *
-      -1;
+    paddingLeft = (Math.abs((OG_WIDTH / originalHeight) * originalWidth - OG_WIDTH) / 2) * -1;
   }
 
   const { ImageResponse } = await import("@vercel/og");
-  const [archivoFontData, spectralFontData] = await Promise.all([
-    archivoFont,
-    spectralFont,
-  ]);
+  const [archivoFontData, spectralFontData] = await Promise.all([archivoFont, spectralFont]);
   return new ImageResponse(
     (
       <div
@@ -107,8 +97,7 @@ export async function GET(req: NextRequest) {
                 height: "100%",
                 overflow: "hidden",
                 display: "flex",
-                alignItems:
-                  totalLines > WRITING_MAX_LINES ? "flex-start" : "center",
+                alignItems: totalLines > WRITING_MAX_LINES ? "flex-start" : "center",
                 justifyContent: totalLines > 1 ? "flex-start" : "center",
               }}
             >
@@ -169,6 +158,6 @@ export async function GET(req: NextRequest) {
           weight: 400,
         },
       ],
-    },
+    }
   );
 }

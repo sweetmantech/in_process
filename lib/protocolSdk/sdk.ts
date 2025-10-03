@@ -1,22 +1,13 @@
-import {
-  PremintClient,
-  getDataFromPremintReceipt,
-} from "./premint/premint-client";
+import { PremintClient, getDataFromPremintReceipt } from "./premint/premint-client";
 import { Create1155Client } from "./create/1155-create-helper";
 import { MintClient } from "./mint/mint-client";
 import { ClientConfig } from "./utils";
 import { IPremintAPI, PremintAPIClient } from "./premint/premint-api-client";
 import { SubgraphMintGetter } from "./mint/subgraph-mint-getter";
 import { IOnchainMintGetter } from "./mint/types";
-import {
-  IContractGetter,
-  SubgraphContractGetter,
-} from "./create/contract-getter";
+import { IContractGetter, SubgraphContractGetter } from "./create/contract-getter";
 import { RewardsClient } from "./rewards/rewards-client";
-import {
-  IRewardsGetter,
-  SubgraphRewardsGetter,
-} from "./rewards/subgraph-rewards-getter";
+import { IRewardsGetter, SubgraphRewardsGetter } from "./rewards/subgraph-rewards-getter";
 import { SecondaryClient } from "./secondary/secondary-client";
 
 export type CreatorClient = {
@@ -54,30 +45,23 @@ export type CreatorClientConfig = ClientConfig & {
  * @param clientConfig - Configuration for the client {@link CreatorClientConfig}
  * @returns CreatorClient {@link CreatorClient}
  * */
-export function createCreatorClient(
-  clientConfig: CreatorClientConfig,
-): CreatorClient {
+export function createCreatorClient(clientConfig: CreatorClientConfig): CreatorClient {
   const premintClient = new PremintClient({
     chainId: clientConfig.chainId,
     publicClient: clientConfig.publicClient,
-    premintApi:
-      clientConfig.premintApi || new PremintAPIClient(clientConfig.chainId),
+    premintApi: clientConfig.premintApi || new PremintAPIClient(clientConfig.chainId),
   });
 
   const create1155CreatorClient = new Create1155Client({
     chainId: clientConfig.chainId,
     publicClient: clientConfig.publicClient,
-    contractGetter:
-      clientConfig.contractGetter ||
-      new SubgraphContractGetter(clientConfig.chainId),
+    contractGetter: clientConfig.contractGetter || new SubgraphContractGetter(clientConfig.chainId),
   });
 
   const rewardsClient = new RewardsClient({
     chainId: clientConfig.chainId,
     publicClient: clientConfig.publicClient,
-    rewardsGetter:
-      clientConfig.rewardsGetter ||
-      new SubgraphRewardsGetter(clientConfig.chainId),
+    rewardsGetter: clientConfig.rewardsGetter || new SubgraphRewardsGetter(clientConfig.chainId),
   });
 
   return {
@@ -85,8 +69,7 @@ export function createCreatorClient(
     updatePremint: (p) => premintClient.updatePremint(p),
     deletePremint: (p) => premintClient.deletePremint(p),
     create1155: (p) => create1155CreatorClient.createNew1155(p),
-    create1155OnExistingContract: (p) =>
-      create1155CreatorClient.createNew1155OnExistingContract(p),
+    create1155OnExistingContract: (p) => create1155CreatorClient.createNew1155OnExistingContract(p),
     getRewardsBalances: (p) => rewardsClient.getRewardsBalances(p),
     withdrawRewards: (p) => rewardsClient.withdrawRewards(p),
   };
@@ -105,13 +88,9 @@ export type CollectorClientConfig = ClientConfig & {
  * @param clientConfig - Configuration for the client {@link CollectorClientConfig}
  * @returns CollectorClient {@link CollectorClient}
  */
-export function createCollectorClient(
-  params: CollectorClientConfig,
-): CollectorClient {
-  const premintGetterToUse =
-    params.premintGetter || new PremintAPIClient(params.chainId);
-  const mintGetterToUse =
-    params.mintGetter || new SubgraphMintGetter(params.chainId);
+export function createCollectorClient(params: CollectorClientConfig): CollectorClient {
+  const premintGetterToUse = params.premintGetter || new PremintAPIClient(params.chainId);
+  const mintGetterToUse = params.mintGetter || new SubgraphMintGetter(params.chainId);
   const mintClient = new MintClient({
     publicClient: params.publicClient,
     premintGetter: premintGetterToUse,
@@ -129,8 +108,7 @@ export function createCollectorClient(
         collectionAddress: p.address,
         uid: p.uid,
       }),
-    getCollectDataFromPremintReceipt: (p) =>
-      getDataFromPremintReceipt(p, params.chainId),
+    getCollectDataFromPremintReceipt: (p) => getDataFromPremintReceipt(p, params.chainId),
     getToken: (p) => mintClient.get(p),
     getTokensOfContract: (p) => mintClient.getOfContract(p),
     mint: (p) => mintClient.mint(p),

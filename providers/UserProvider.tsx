@@ -1,9 +1,7 @@
 import useUser from "@/hooks/useUser";
 import { createContext, useMemo, useContext } from "react";
 
-const UserContext = createContext<ReturnType<typeof useUser>>(
-  {} as ReturnType<typeof useUser>,
-);
+const UserContext = createContext<ReturnType<typeof useUser>>({} as ReturnType<typeof useUser>);
 
 const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const user = useUser();
@@ -12,7 +10,7 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
     () => ({
       ...user,
     }),
-    [user],
+    [user]
   );
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

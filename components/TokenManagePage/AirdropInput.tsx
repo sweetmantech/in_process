@@ -1,8 +1,7 @@
 import useAirdropInput from "@/hooks/useAirdropInput";
 
 const AirdropInput = () => {
-  const { handleInput, handlePaste, handleBlur, value, setValue } =
-    useAirdropInput();
+  const { handleInput, handlePaste, handleBlur, value, setValue } = useAirdropInput();
 
   return (
     <input

@@ -2,7 +2,7 @@ import useLayout from "@/hooks/useLayout";
 import { createContext, useMemo, useContext } from "react";
 
 const LayoutContext = createContext<ReturnType<typeof useLayout>>(
-  {} as ReturnType<typeof useLayout>,
+  {} as ReturnType<typeof useLayout>
 );
 
 const LayoutProvider = ({ children }: { children: React.ReactNode }) => {
@@ -12,12 +12,10 @@ const LayoutProvider = ({ children }: { children: React.ReactNode }) => {
     () => ({
       ...layout,
     }),
-    [layout],
+    [layout]
   );
 
-  return (
-    <LayoutContext.Provider value={value}>{children}</LayoutContext.Provider>
-  );
+  return <LayoutContext.Provider value={value}>{children}</LayoutContext.Provider>;
 };
 
 export const useLayoutProvider = () => {

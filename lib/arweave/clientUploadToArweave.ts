@@ -10,13 +10,10 @@ const arweave = Arweave.init({
 
 const clientUploadToArweave = async (
   file: File,
-  getProgress: (progress: number) => void = () => {},
+  getProgress: (progress: number) => void = () => {}
 ): Promise<string> => {
   const ARWEAVE_KEY = JSON.parse(
-    Buffer.from(
-      process.env.NEXT_PUBLIC_ARWEAVE_KEY as string,
-      "base64",
-    ).toString(),
+    Buffer.from(process.env.NEXT_PUBLIC_ARWEAVE_KEY as string, "base64").toString()
   );
   const buffer = await file.arrayBuffer();
 
@@ -24,7 +21,7 @@ const clientUploadToArweave = async (
     {
       data: buffer,
     },
-    ARWEAVE_KEY,
+    ARWEAVE_KEY
   );
   transaction.addTag("Content-Type", file.type);
   await arweave.transactions.sign(transaction, ARWEAVE_KEY);
@@ -32,7 +29,7 @@ const clientUploadToArweave = async (
 
   while (!uploader.isComplete) {
     console.log(
-      `${uploader.pctComplete}% complete, ${uploader.uploadedChunks}/${uploader.totalChunks}`,
+      `${uploader.pctComplete}% complete, ${uploader.uploadedChunks}/${uploader.totalChunks}`
     );
     getProgress(uploader.pctComplete);
     await uploader.uploadChunk();

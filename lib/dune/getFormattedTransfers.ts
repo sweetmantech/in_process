@@ -2,9 +2,7 @@ import { DuneDecodedEvent } from "@/types/dune";
 
 const getFormattedTransfers = (transactions: DuneDecodedEvent[]) => {
   const transfers = transactions.map((transaction: DuneDecodedEvent) => {
-    const transferEvent = transaction.logs.findLast(
-      (log) => log?.decoded?.name === "Transfer",
-    );
+    const transferEvent = transaction.logs.findLast((log) => log?.decoded?.name === "Transfer");
     if (!transferEvent) return;
     const data: any = {
       chainId: transaction.chain_id,

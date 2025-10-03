@@ -4,8 +4,7 @@ import { Skeleton } from "../ui/skeleton";
 import { Comment } from "./Comment";
 
 const CommentSection = () => {
-  const { visibleComments, comments, showMoreComments, isLoading, isSetSale } =
-    useTokenProvider();
+  const { visibleComments, comments, showMoreComments, isLoading, isSetSale } = useTokenProvider();
 
   if (isLoading)
     return (

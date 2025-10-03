@@ -63,10 +63,10 @@ const useZoraMintComment = () => {
       if (!saleConfig) return;
       setIsLoading(true);
       const account = context ? address : connectedWallet;
-      const minterArguments = encodeAbiParameters(
-        parseAbiParameters("address, string"),
-        [account as Address, comment],
-      );
+      const minterArguments = encodeAbiParameters(parseAbiParameters("address, string"), [
+        account as Address,
+        comment,
+      ]);
 
       if (saleConfig.pricePerToken === BigInt(0)) {
         await mintOnSmartWallet({
@@ -85,13 +85,7 @@ const useZoraMintComment = () => {
         let receipt = null;
         if (saleConfig.type === MintType.ZoraErc20Mint)
           receipt = await mintWithUsdc(saleConfig, token, comment, mintCount);
-        else
-          receipt = await mintWithNativeToken(
-            saleConfig,
-            token,
-            comment,
-            mintCount,
-          );
+        else receipt = await mintWithNativeToken(saleConfig, token, comment, mintCount);
 
         if (!Boolean(receipt)) {
           mintWithCrossmint();

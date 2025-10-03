@@ -17,7 +17,7 @@ export const VIEM_TO_ZORA = Object.entries(ZORA_TO_VIEM).reduce(
     ...acc,
     [longName]: shortName,
   }),
-  {} as Record<(typeof ZORA_TO_VIEM)[ZoraChains], ZoraChains>,
+  {} as Record<(typeof ZORA_TO_VIEM)[ZoraChains], ZoraChains>
 );
 
 // Additional mapping for special cases
@@ -30,9 +30,7 @@ const NETWORK_NAME_OVERRIDES: Record<string, string> = {
  * @param longName - The long network name (e.g. "arbitrum", "base", "Base Sepolia")
  * @returns The short network name (e.g. "arb", "base", "bsep") or undefined if not found
  */
-export const getShortNetworkName = (
-  longName: string,
-): ZoraChains | undefined => {
+export const getShortNetworkName = (longName: string): ZoraChains | undefined => {
   // Normalize the input
   const normalizedName = longName.toLowerCase();
 

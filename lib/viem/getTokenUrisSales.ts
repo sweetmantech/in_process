@@ -15,44 +15,42 @@ export async function getTokenUrisSales(feeds: Token[]): Promise<Token[]> {
         acc[network].push(item);
         return acc;
       },
-      {},
+      {}
     );
-    const promise = Object.entries(groupedFeedByNetwork).map(
-      async ([chainId, tokens]) => {
-        const publicClient = getPublicClient(parseInt(chainId, 10));
-        const calls = tokens.map((t: Token) => {
-          const erc20SaleConfigCall = getERC20SaleConfigCall(
-            t.collection,
-            t.tokenId,
-            parseInt(chainId, 10),
-          );
-          const fixedPriceSaleConfigCall = getFixedPriceSaleConfigCall(
-            t.collection,
-            t.tokenId,
-            parseInt(chainId, 10),
-          );
-          const uriCall = getUriCall(t.collection, t.tokenId);
-          return [erc20SaleConfigCall, fixedPriceSaleConfigCall, uriCall];
-        });
-        const multicalls = calls.flat();
-        const result: any = await publicClient.multicall({
-          contracts: multicalls as any,
-        });
-        return tokens.map((t: Token, i: number) => ({
-          ...t,
-          uri: result[3 * i + 2].result as string,
-          released_at:
-            parseInt(
-              (
-                (result[3 * i + 1].result?.saleStart || BigInt(0)) +
-                (result[3 * i + 2].result?.saleStart || BigInt(0))
-              ).toString(),
-              10,
-            ) * 1000 || t.released_at,
-          created_at: t.released_at,
-        }));
-      },
-    );
+    const promise = Object.entries(groupedFeedByNetwork).map(async ([chainId, tokens]) => {
+      const publicClient = getPublicClient(parseInt(chainId, 10));
+      const calls = tokens.map((t: Token) => {
+        const erc20SaleConfigCall = getERC20SaleConfigCall(
+          t.collection,
+          t.tokenId,
+          parseInt(chainId, 10)
+        );
+        const fixedPriceSaleConfigCall = getFixedPriceSaleConfigCall(
+          t.collection,
+          t.tokenId,
+          parseInt(chainId, 10)
+        );
+        const uriCall = getUriCall(t.collection, t.tokenId);
+        return [erc20SaleConfigCall, fixedPriceSaleConfigCall, uriCall];
+      });
+      const multicalls = calls.flat();
+      const result: any = await publicClient.multicall({
+        contracts: multicalls as any,
+      });
+      return tokens.map((t: Token, i: number) => ({
+        ...t,
+        uri: result[3 * i + 2].result as string,
+        released_at:
+          parseInt(
+            (
+              (result[3 * i + 1].result?.saleStart || BigInt(0)) +
+              (result[3 * i + 2].result?.saleStart || BigInt(0))
+            ).toString(),
+            10
+          ) * 1000 || t.released_at,
+        created_at: t.released_at,
+      }));
+    });
     const tokens = await Promise.all(promise);
     return tokens.flat();
   } catch (error) {

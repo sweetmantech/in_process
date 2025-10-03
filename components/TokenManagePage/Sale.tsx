@@ -21,13 +21,10 @@ const Sale = () => {
                 {saleConfig.saleStart === BigInt(0)
                   ? "Open"
                   : new Date(
-                      parseInt(saleConfig.saleStart.toString(), 10) * 1000,
+                      parseInt(saleConfig.saleStart.toString(), 10) * 1000
                     ).toLocaleDateString()}
               </p>
-              <DateTimePicker
-                date={saleStart}
-                setDate={(value) => setSaleStart(value)}
-              />
+              <DateTimePicker date={saleStart} setDate={(value) => setSaleStart(value)} />
             </div>
             <button
               className="bg-black text-grey-eggshell w-fit px-8 py-2 rounded-md"

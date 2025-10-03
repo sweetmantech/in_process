@@ -10,7 +10,8 @@ interface WritingProps {
 const Writing = ({ fileUrl, description }: WritingProps) => {
   const [text, setText] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const { scrollPosition, canScroll, scrollerRef, handleScroll, updateScrollState } = useWritingScrollbar();
+  const { scrollPosition, canScroll, scrollerRef, handleScroll, updateScrollState } =
+    useWritingScrollbar();
 
   useEffect(() => {
     let mounted = true;
@@ -61,10 +62,16 @@ const Writing = ({ fileUrl, description }: WritingProps) => {
         {text}
       </div>
       {canScroll && scrollPosition !== "top" && (
-        <div aria-hidden="true" className="pointer-events-none absolute z-[3] left-0 top-0 bg-gradientTopBottom w-full h-24" />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute z-[3] left-0 top-0 bg-gradientTopBottom w-full h-24"
+        />
       )}
       {canScroll && scrollPosition !== "bottom" && (
-        <div aria-hidden="true" className="pointer-events-none absolute z-[3] left-0 bottom-0 bg-gradientBottomTop w-full h-24" />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute z-[3] left-0 bottom-0 bg-gradientBottomTop w-full h-24"
+        />
       )}
     </div>
   );

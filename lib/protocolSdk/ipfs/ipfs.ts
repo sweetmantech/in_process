@@ -15,9 +15,7 @@ export function isCID(str: string | null | undefined): boolean {
   }
 }
 
-export function normalizeIPFSUrl(
-  url: string | null | undefined,
-): IPFSUrl | null {
+export function normalizeIPFSUrl(url: string | null | undefined): IPFSUrl | null {
   if (!url || typeof url !== "string") return null;
 
   // Handle urls wrapped in quotes
@@ -41,9 +39,7 @@ export function normalizeIPFSUrl(
     parsed.pathname = parsed.pathname.replace(/^\/ipfs\//, "");
     // Remove the protocol and host from the URL
     // http://gateway/<CID>?x=y#z -> <CID>?x=y#z
-    const cid = parsed
-      .toString()
-      .replace(`${parsed.protocol}//${parsed.host}/`, "");
+    const cid = parsed.toString().replace(`${parsed.protocol}//${parsed.host}/`, "");
     // Prepend ipfs protocol
     return `ipfs://${cid}`;
   }
@@ -59,11 +55,7 @@ function isGatewayIPFSUrl(url: string | null | undefined): boolean {
   if (url && typeof url === "string") {
     try {
       const parsed = new URL(url.replace(/^"|'(.*)"|'$/, "$1"));
-      return (
-        !isNormalizedIPFSURL(url) &&
-        parsed &&
-        parsed.pathname.startsWith("/ipfs/")
-      );
+      return !isNormalizedIPFSURL(url) && parsed && parsed.pathname.startsWith("/ipfs/");
     } catch {
       return false;
     }
@@ -76,8 +68,6 @@ function isIPFSUrl(url: string | null | undefined): boolean {
   return url ? isNormalizedIPFSURL(url) || isGatewayIPFSUrl(url) : false;
 }
 
-export function isNormalizeableIPFSUrl(
-  url: string | null | undefined,
-): boolean {
+export function isNormalizeableIPFSUrl(url: string | null | undefined): boolean {
   return url ? isIPFSUrl(url) || isCID(url) : false;
 }

@@ -3,9 +3,7 @@ import { CHAIN_ID } from "../consts";
 import { DuneDecodedEvent } from "@/types/dune";
 import { Address } from "viem";
 
-const getCreatedTokenEvents = async (
-  collection: Address,
-): Promise<DuneDecodedEvent[]> => {
+const getCreatedTokenEvents = async (collection: Address): Promise<DuneDecodedEvent[]> => {
   const options = {
     method: "GET",
     headers: { "X-Dune-Api-Key": process.env.DUNE_API_KEY as string },
@@ -20,7 +18,7 @@ const getCreatedTokenEvents = async (
 
   const response = await fetch(
     `https://api.dune.com/api/echo/v1/transactions/evm/${collection}?${urlSearchParams}`,
-    options,
+    options
   );
   if (!response.ok) throw Error("failed to call Dune API.");
 

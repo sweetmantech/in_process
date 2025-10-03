@@ -14,8 +14,7 @@ interface TimelineFeedProps {
 
 const TimelineFeed = ({ alt }: TimelineFeedProps) => {
   const isMobile = useIsMobile();
-  const { data, moments, isLoading, currentPage, setCurrentPage } =
-    useTimelineApiContext();
+  const { data, moments, isLoading, currentPage, setCurrentPage } = useTimelineApiContext();
   const feeds = mapMomentsToTokens(moments.reverse());
   const fetchMore = () => {
     if (data && data.pagination.page < data.pagination.total_pages) {

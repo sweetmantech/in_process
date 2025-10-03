@@ -5,12 +5,10 @@ const getFormattedTokens = (events: DuneDecodedEvent[]) => {
   return events
     .sort(
       (a: DuneDecodedEvent, b: DuneDecodedEvent) =>
-        new Date(b.block_time).getTime() - new Date(a.block_time).getTime(),
+        new Date(b.block_time).getTime() - new Date(a.block_time).getTime()
     )
     .map((transaction: DuneDecodedEvent) => {
-      const setUpEvent = transaction.logs.find(
-        (log) => log?.decoded?.name === "SetupNewToken",
-      );
+      const setUpEvent = transaction.logs.find((log) => log?.decoded?.name === "SetupNewToken");
       if (!setUpEvent) return;
       const data: any = {
         chainId: transaction.chain_id,

@@ -6,9 +6,7 @@ export const addressSchema = z
   .regex(/^0x[a-fA-F0-9]{40}$/)
   .brand<`0x${string}`>();
 
-export const bigIntString = z
-  .union([z.string(), z.number()])
-  .transform((val) => BigInt(val));
+export const bigIntString = z.union([z.string(), z.number()]).transform((val) => BigInt(val));
 
 export const salesConfigSchema = z.object({
   type: z.string(),

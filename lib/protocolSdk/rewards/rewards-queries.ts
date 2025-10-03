@@ -9,11 +9,7 @@ import { makeContractParameters, PublicClient } from "../utils";
 import { PublicClient as PublicClientWithMulticall } from "viem";
 import { Account, Address, encodeFunctionData, parseAbi } from "viem";
 import { IRewardsGetter } from "./subgraph-rewards-getter";
-import {
-  multicall3Abi,
-  multicall3Address,
-  Multicall3Call3,
-} from "../apis/multicall3";
+import { multicall3Abi, multicall3Address, Multicall3Call3 } from "../apis/multicall3";
 
 // Aggregates unclaimed fees and separates ETH from other ERC20 tokens
 function aggregateUnclaimedFees(
@@ -23,7 +19,7 @@ function aggregateUnclaimedFees(
     token0Amount: bigint;
     token1Amount: bigint;
   }[],
-  wethAddress: Address,
+  wethAddress: Address
 ) {
   let ethBalance = BigInt(0);
   // Aggregate unclaimed fees by token address
@@ -43,7 +39,7 @@ function aggregateUnclaimedFees(
       addFee(fee.token1, (fee.token1Amount * BigInt(75)) / BigInt(100));
       return acc;
     },
-    {} as Record<string, bigint>,
+    {} as Record<string, bigint>
   );
 
   return {
@@ -77,9 +73,7 @@ export const getRewardsBalance = async ({
   rewardsGetter: IRewardsGetter;
 }): Promise<RewardsBalance> => {
   const address = typeof account === "string" ? account : account.address;
-  const erc20ZsAndSecondaryActivated = await rewardsGetter.getErc20ZzForCreator(
-    { address },
-  );
+  const erc20ZsAndSecondaryActivated = await rewardsGetter.getErc20ZzForCreator({ address });
 
   const validErc20Zs = erc20ZsAndSecondaryActivated
     .filter(({ secondaryActivated }) => secondaryActivated)
@@ -89,19 +83,13 @@ export const getRewardsBalance = async ({
   const result = await (publicClient as PublicClientWithMulticall).multicall({
     contracts: [
       {
-        address:
-          protocolRewardsAddress[
-            chainId as keyof typeof protocolRewardsAddress
-          ],
+        address: protocolRewardsAddress[chainId as keyof typeof protocolRewardsAddress],
         abi: protocolRewardsABI,
         functionName: "balanceOf",
         args: [address],
       },
       {
-        address:
-          erc20ZRoyaltiesAddress[
-            chainId as keyof typeof erc20ZRoyaltiesAddress
-          ],
+        address: erc20ZRoyaltiesAddress[chainId as keyof typeof erc20ZRoyaltiesAddress],
         abi: erc20ZRoyaltiesABI,
         functionName: "getUnclaimedFeesBatch",
         args: [validErc20Zs],
@@ -116,10 +104,7 @@ export const getRewardsBalance = async ({
   const wethAddressForChain = wethAddress[chainId as keyof typeof wethAddress];
 
   // Aggregate unclaimed fees
-  const unclaimedFeesAggregate = aggregateUnclaimedFees(
-    result[1],
-    wethAddressForChain,
-  );
+  const unclaimedFeesAggregate = aggregateUnclaimedFees(result[1], wethAddressForChain);
 
   return {
     protocolRewards: protocolRewardsBalance,
@@ -138,8 +123,7 @@ export const withdrawProtocolRewards = ({
   return makeContractParameters({
     abi: protocolRewardsABI,
     functionName: "withdrawFor",
-    address:
-      protocolRewardsAddress[chainId as keyof typeof protocolRewardsAddress],
+    address: protocolRewardsAddress[chainId as keyof typeof protocolRewardsAddress],
     args: [withdrawFor, BigInt(0)],
   });
 };
@@ -153,16 +137,15 @@ const makeClaimSecondaryRoyaltiesCalls = async ({
   chainId: number;
   rewardsGetter: IRewardsGetter;
 }) => {
-  const erc20ZsAndSecondaryActivated = await rewardsGetter.getErc20ZzForCreator(
-    { address: claimFor },
-  );
+  const erc20ZsAndSecondaryActivated = await rewardsGetter.getErc20ZzForCreator({
+    address: claimFor,
+  });
 
   const erc20z = erc20ZsAndSecondaryActivated
     .filter(({ secondaryActivated }) => secondaryActivated)
     .map(({ erc20z }) => erc20z);
 
-  const royaltiesAddress =
-    erc20ZRoyaltiesAddress[chainId as keyof typeof erc20ZRoyaltiesAddress];
+  const royaltiesAddress = erc20ZRoyaltiesAddress[chainId as keyof typeof erc20ZRoyaltiesAddress];
 
   if (erc20z.length === 0) {
     return [];
@@ -203,12 +186,8 @@ export async function withdrawSecondaryRoyalties({
 }
 
 // Extract protocol rewards withdrawal call creation
-const createProtocolRewardsCall = (
-  chainId: number,
-  withdrawFor: Address,
-): Multicall3Call3 => ({
-  target:
-    protocolRewardsAddress[chainId as keyof typeof protocolRewardsAddress],
+const createProtocolRewardsCall = (chainId: number, withdrawFor: Address): Multicall3Call3 => ({
+  target: protocolRewardsAddress[chainId as keyof typeof protocolRewardsAddress],
   callData: encodeFunctionData({
     abi: protocolRewardsABI,
     functionName: "withdrawFor",
@@ -218,10 +197,7 @@ const createProtocolRewardsCall = (
 });
 
 // Extract multicall parameters creation
-const createMulticallParameters = (
-  calls: Multicall3Call3[],
-  account: Address | Account,
-) =>
+const createMulticallParameters = (calls: Multicall3Call3[], account: Address | Account) =>
   makeContractParameters({
     abi: parseAbi(multicall3Abi),
     functionName: "aggregate3",

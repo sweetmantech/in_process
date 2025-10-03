@@ -12,11 +12,11 @@ const useDownload = () => {
       setIsDownloading(true);
       const link = document.createElement("a");
       link.download = metadata.data.name;
-      const data = await fetch(
-        getFetchableUrl(metadata.data.content.uri) || "",
-      ).then((res) => res.blob());
+      const data = await fetch(getFetchableUrl(metadata.data.content.uri) || "").then((res) =>
+        res.blob()
+      );
       link.href = window.URL.createObjectURL(
-        new Blob([data], { type: metadata.data.content.mime }),
+        new Blob([data], { type: metadata.data.content.mime })
       );
       link.click();
       link.remove();

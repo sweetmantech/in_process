@@ -1,10 +1,10 @@
 import Cropper from "react-easy-crop";
 import { useCropImageProvider } from "@/providers/CropImageProvider";
 import { arweaveGatewayUrl } from "@/lib/protocolSdk/ipfs/gateway";
-import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
+import { useMomentCreateProvider } from "@/providers/MomentCreateProvider";
 
 const CropImage = () => {
-  const { previewSrc, imageUri } = useZoraCreateProvider();
+  const { previewSrc, imageUri } = useMomentCreateProvider();
   const {
     hasUploadedSelectedImage,
     crop,
@@ -15,9 +15,7 @@ const CropImage = () => {
     setZoom,
     onCropComplete,
   } = useCropImageProvider();
-  const imageSrc = hasUploadedSelectedImage
-    ? previewSrc
-    : arweaveGatewayUrl(imageUri) || "";
+  const imageSrc = hasUploadedSelectedImage ? previewSrc : arweaveGatewayUrl(imageUri) || "";
 
   return (
     <Cropper

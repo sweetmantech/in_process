@@ -12,9 +12,7 @@ interface CollectionContextReturn {
   };
 }
 
-const CollectionContext = createContext<CollectionContextReturn | undefined>(
-  undefined,
-);
+const CollectionContext = createContext<CollectionContextReturn | undefined>(undefined);
 
 export function CollectionProvider({
   children,
@@ -46,9 +44,7 @@ export function CollectionProvider({
 export function useCollectionProvider() {
   const context = useContext(CollectionContext);
   if (context === undefined) {
-    throw new Error(
-      "useCollectionProvider must be used within a CollectionProvider",
-    );
+    throw new Error("useCollectionProvider must be used within a CollectionProvider");
   }
   return context;
 }

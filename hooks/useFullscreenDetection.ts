@@ -16,27 +16,26 @@ const useFullscreenDetection = () => {
         doc.mozFullScreenElement ??
         doc.msFullscreenElement ??
         null;
-      
-      const isVideoFullscreen = fullscreenElement && (
-        fullscreenElement.tagName === 'VIDEO' || 
-        fullscreenElement.querySelector('video')
-      );
-      
+
+      const isVideoFullscreen =
+        fullscreenElement &&
+        (fullscreenElement.tagName === "VIDEO" || fullscreenElement.querySelector("video"));
+
       setIsAnyVideoFullscreen(!!isVideoFullscreen);
     };
 
-    document.addEventListener('fullscreenchange', handleFullscreenChange);
-    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
-    document.addEventListener('mozfullscreenchange', handleFullscreenChange);
-    document.addEventListener('msfullscreenchange', handleFullscreenChange);
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    document.addEventListener("webkitfullscreenchange", handleFullscreenChange);
+    document.addEventListener("mozfullscreenchange", handleFullscreenChange);
+    document.addEventListener("msfullscreenchange", handleFullscreenChange);
 
     handleFullscreenChange();
 
     return () => {
-      document.removeEventListener('fullscreenchange', handleFullscreenChange);
-      document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
-      document.removeEventListener('mozfullscreenchange', handleFullscreenChange);
-      document.removeEventListener('msfullscreenchange', handleFullscreenChange);
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
+      document.removeEventListener("webkitfullscreenchange", handleFullscreenChange);
+      document.removeEventListener("mozfullscreenchange", handleFullscreenChange);
+      document.removeEventListener("msfullscreenchange", handleFullscreenChange);
     };
   }, []);
 

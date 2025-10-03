@@ -51,9 +51,7 @@ export async function quoteExactOutputSingle({
 }): Promise<bigint> {
   const quote = await client.simulateContract({
     abi: uniswapQuoterABI,
-    address: UniswapQuoterAddress[
-      chainId as keyof typeof UniswapQuoterAddress
-    ] as Address,
+    address: UniswapQuoterAddress[chainId as keyof typeof UniswapQuoterAddress] as Address,
     functionName: "quoteExactOutputSingle",
     args: [
       {
@@ -95,9 +93,7 @@ export async function quoteExactInputSingle({
 }): Promise<bigint> {
   const quote = await client.simulateContract({
     abi: uniswapQuoterABI,
-    address: UniswapQuoterAddress[
-      chainId as keyof typeof UniswapQuoterAddress
-    ] as Address,
+    address: UniswapQuoterAddress[chainId as keyof typeof UniswapQuoterAddress] as Address,
     functionName: "quoteExactInputSingle",
     args: [
       {

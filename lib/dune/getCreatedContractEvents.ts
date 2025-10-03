@@ -6,7 +6,7 @@ import { Address } from "viem";
 const getCreatedContractEvents = async (
   addressToGetEvents: Address,
   offset: string | undefined,
-  additionalParam: object = {},
+  additionalParam: object = {}
 ): Promise<{
   transactions: DuneDecodedEvent[];
   nextOffset: string | null;
@@ -28,7 +28,7 @@ const getCreatedContractEvents = async (
 
   const response = await fetch(
     `https://api.dune.com/api/echo/v1/transactions/evm/${addressToGetEvents}?${urlSearchParams}`,
-    options,
+    options
   );
   if (!response.ok) throw Error("failed to get created contract events.");
 

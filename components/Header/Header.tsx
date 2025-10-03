@@ -13,8 +13,7 @@ import { Z_BEHIND_PRIVY } from "@/lib/consts";
 
 const Header = () => {
   const signedAddress = useSignedAddress();
-  const { isOpenNavbar, toggleNavbar, menuRef, isExpandedSearchInput } =
-    useLayoutProvider();
+  const { isOpenNavbar, toggleNavbar, menuRef, isExpandedSearchInput } = useLayoutProvider();
   const isMobile = useIsMobile();
 
   return (

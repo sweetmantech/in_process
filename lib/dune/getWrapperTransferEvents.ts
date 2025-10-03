@@ -6,7 +6,7 @@ import { Address } from "viem";
 const getWrapperTransferEvents = async (
   wrapper: Address,
   tokenContract: Address,
-  owner: Address,
+  owner: Address
 ) => {
   const options = {
     method: "GET",
@@ -23,13 +23,13 @@ const getWrapperTransferEvents = async (
 
   const response = await fetch(
     `https://api.dune.com/api/echo/v1/transactions/evm/${wrapper}?${urlSearchParams}`,
-    options,
+    options
   );
   if (!response.ok) throw Error("failed to call Dune API.");
 
   const data = await response.json();
   const transactions: DuneDecodedEvent[] = data.transactions.filter(
-    (e: DuneDecodedEvent) => e.from.toLowerCase() !== owner?.toLowerCase(),
+    (e: DuneDecodedEvent) => e.from.toLowerCase() !== owner?.toLowerCase()
   );
 
   return transactions;

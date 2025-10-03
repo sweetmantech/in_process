@@ -21,8 +21,7 @@ export const convertCollectionFromApi = (
   if (!collection) return undefined;
 
   return {
-    additionalAdmins:
-      (collection.additionalAdmins as Address[] | undefined) || [],
+    additionalAdmins: (collection.additionalAdmins as Address[] | undefined) || [],
     contractAdmin: collection.contractAdmin as Address,
     contractName: collection.contractName,
     contractURI: collection.contractURI,
@@ -38,12 +37,8 @@ export const convertCollectionFromApi = (
 export const convertPremintFromApi = (
   premint: PremintSignatureGetResponse["premint"]
 ): PremintConfigAndVersion => {
-  if (
-    premint.config_version === PremintConfigVersion.V1 ||
-    !premint.config_version
-  ) {
-    const tokenConfig =
-      premint.tokenConfig as components["schemas"]["TokenCreationConfigV1"];
+  if (premint.config_version === PremintConfigVersion.V1 || !premint.config_version) {
+    const tokenConfig = premint.tokenConfig as components["schemas"]["TokenCreationConfigV1"];
     return {
       premintConfigVersion: PremintConfigVersion.V1,
       premintConfig: {
@@ -63,8 +58,7 @@ export const convertPremintFromApi = (
       },
     };
   } else {
-    const tokenConfig =
-      premint.tokenConfig as components["schemas"]["TokenCreationConfigV2"];
+    const tokenConfig = premint.tokenConfig as components["schemas"]["TokenCreationConfigV2"];
     return {
       premintConfigVersion: PremintConfigVersion.V2,
       premintConfig: {
@@ -89,9 +83,7 @@ export const convertPremintFromApi = (
 
 export type PremintFromApi = ReturnType<typeof convertGetPremintApiResponse>;
 
-export const convertGetPremintApiResponse = (
-  response: PremintSignatureGetResponse
-) => ({
+export const convertGetPremintApiResponse = (response: PremintSignatureGetResponse) => ({
   collection: convertCollectionFromApi(response.collection),
   collectionAddress: response.collection_address as Address,
   signature: response.signature as Hex,
@@ -99,9 +91,7 @@ export const convertGetPremintApiResponse = (
   premint: convertPremintFromApi(response.premint),
 });
 
-export type PremintCollectionFromApi = ReturnType<
-  typeof convertGetPremintOfCollectionApiResponse
->;
+export type PremintCollectionFromApi = ReturnType<typeof convertGetPremintOfCollectionApiResponse>;
 
 export const convertGetPremintOfCollectionApiResponse = (
   response: PremintSignatureGetOfCollectionResponse
@@ -190,9 +180,7 @@ export const encodePostSignatureInput = <T extends PremintConfigVersion>({
     premintConfigVersion,
   }),
   signature,
-  collection: collection as
-    | PremintSignatureRequestBody["collection"]
-    | undefined,
+  collection: collection as PremintSignatureRequestBody["collection"] | undefined,
   collection_address: collectionAddress,
   chain_name: networkConfigByChain[chainId]!.zoraBackendChainName,
 });

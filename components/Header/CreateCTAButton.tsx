@@ -17,13 +17,13 @@ const CreateCTAButton = () => {
       <div
         className={cn(
           "border-[2px]  rounded-full w-5 aspect-[1/1] flex items-center justify-center",
-          isHovered ? "border-grey-moss-900" : "border-grey-eggshell",
+          isHovered ? "border-grey-moss-900" : "border-grey-eggshell"
         )}
       >
         <div
           className={cn(
             "border-[2px] rounded-full w-3 aspect-[1/1]",
-            isHovered ? "border-grey-moss-900" : "border-grey-eggshell",
+            isHovered ? "border-grey-moss-900" : "border-grey-eggshell"
           )}
         />
       </div>

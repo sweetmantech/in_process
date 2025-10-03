@@ -13,11 +13,7 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Input } from "@/components/ui/input";
 
 type Option = Array<{ label: string; value: string }>;
@@ -42,9 +38,7 @@ export function ComboboxInput({
 
   useEffect(() => {
     if (isControlled) {
-      const matchedOption = options.find(
-        (option) => option.value === controlledValue,
-      );
+      const matchedOption = options.find((option) => option.value === controlledValue);
       setInputValue(matchedOption?.value || controlledValue || "");
     }
   }, [controlledValue, options, isControlled]);
@@ -57,15 +51,13 @@ export function ComboboxInput({
         onChange?.("");
       } else {
         if (!isControlled) setInternalValue(currentValue);
-        const selectedOption = options.find(
-          (option) => option.value === currentValue,
-        );
+        const selectedOption = options.find((option) => option.value === currentValue);
         setInputValue(selectedOption?.value || currentValue);
         onChange?.(currentValue);
       }
       setOpen(false);
     },
-    [value, onChange, options, isControlled],
+    [value, onChange, options, isControlled]
   );
 
   const handleInputChange = useCallback(
@@ -74,7 +66,7 @@ export function ComboboxInput({
       setInputValue(newValue);
 
       const matchedOption = options.find(
-        (option) => option.value.toLowerCase() === newValue.toLowerCase(),
+        (option) => option.value.toLowerCase() === newValue.toLowerCase()
       );
 
       const valueToSet = matchedOption?.value || newValue;
@@ -85,14 +77,11 @@ export function ComboboxInput({
 
       onChange?.(valueToSet);
     },
-    [options, onChange, isControlled],
+    [options, onChange, isControlled]
   );
 
   return (
-    <Popover
-      open={disabled ? false : open}
-      onOpenChange={disabled ? undefined : setOpen}
-    >
+    <Popover open={disabled ? false : open} onOpenChange={disabled ? undefined : setOpen}>
       <PopoverTrigger asChild disabled={disabled}>
         <div className="relative flex items-center w-full">
           <Input
@@ -115,10 +104,7 @@ export function ComboboxInput({
           </Button>
         </div>
       </PopoverTrigger>
-      <PopoverContent
-        className="w-[--radix-popover-trigger-width] p-0"
-        align="start"
-      >
+      <PopoverContent className="w-[--radix-popover-trigger-width] p-0" align="start">
         <Command>
           <CommandInput placeholder="Search options..." />
           <CommandList>
@@ -134,7 +120,7 @@ export function ComboboxInput({
                   <Check
                     className={cn(
                       "mr-2 h-4 w-4",
-                      value === option.value ? "opacity-100" : "opacity-0",
+                      value === option.value ? "opacity-100" : "opacity-0"
                     )}
                   />
                   {option.value}

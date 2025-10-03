@@ -1,10 +1,10 @@
-import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
+import { useMomentCreateProvider } from "@/providers/MomentCreateProvider";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 
 const MobileSelect = () => {
-  const { titleRef } = useZoraCreateProvider();
+  const { titleRef } = useMomentCreateProvider();
   const [isOpenSelect, setIsOpenSelect] = useState<boolean>(false);
   const { push } = useRouter();
   const pathname = usePathname();
@@ -19,10 +19,7 @@ const MobileSelect = () => {
   const values = useMemo(() => {
     const defaultValues = ["moment", "thought", "link", "embed"];
     if (!selectedValue) return [];
-    return [
-      selectedValue,
-      ...defaultValues.filter((value: string) => value !== selectedValue),
-    ];
+    return [selectedValue, ...defaultValues.filter((value: string) => value !== selectedValue)];
   }, [selectedValue]);
 
   const handleClick = (value: string) => {
@@ -48,9 +45,7 @@ const MobileSelect = () => {
                 />
                 <p className="font-archivo text-lg">new {value}</p>
               </div>
-              {selectedValue === value && (
-                <ChevronUp className="text-grey-moss-400" />
-              )}
+              {selectedValue === value && <ChevronUp className="text-grey-moss-400" />}
             </button>
           ))}
         </div>
@@ -61,9 +56,7 @@ const MobileSelect = () => {
           className="bg-[#605f5c33] flex justify-between items-center px-2 py-2 rounded-md border border-grey-moss-300 w-full"
         >
           <div className="flex items-center gap-2">
-            <div
-              className={`w-4 h-4 border border-grey-moss-400 rounded-full bg-grey-moss-400`}
-            />
+            <div className={`w-4 h-4 border border-grey-moss-400 rounded-full bg-grey-moss-400`} />
             <p className="font-archivo text-lg">new {selectedValue}</p>
           </div>
           <ChevronDown className="text-grey-moss-400" />

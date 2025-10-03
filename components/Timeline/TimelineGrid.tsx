@@ -6,10 +6,7 @@ const TimelineGrid = () => (
     <div className="w-full md:col-span-8 h-fit">
       <TimelineTable />
     </div>
-    <div
-      className="hidden md:block col-span-4 relative"
-      style={{ maxHeight: "88vh" }}
-    >
+    <div className="hidden md:block col-span-4 relative" style={{ maxHeight: "88vh" }}>
       <ArtSlider />
     </div>
   </div>

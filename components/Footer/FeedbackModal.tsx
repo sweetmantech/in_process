@@ -7,10 +7,7 @@ const FeedbackModal = () => {
   const { isOpenModal, setIsOpenModal } = submitFeedbackHook;
 
   return (
-    <Dialog
-      open={isOpenModal}
-      onOpenChange={() => setIsOpenModal(!isOpenModal)}
-    >
+    <Dialog open={isOpenModal} onOpenChange={() => setIsOpenModal(!isOpenModal)}>
       <DialogTrigger
         asChild
         onClick={() => setIsOpenModal(true)}

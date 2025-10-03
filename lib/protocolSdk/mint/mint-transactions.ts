@@ -15,15 +15,8 @@ import {
   callerAndCommenterAddress,
 } from "@zoralabs/protocol-deployments";
 import { zora721Abi, zora1155LegacyAbi } from "../constants";
-import {
-  GenericTokenIdTypes,
-  SimulateContractParametersWithAccount,
-} from "../types";
-import {
-  Concrete,
-  makeContractParameters,
-  mintRecipientOrAccount,
-} from "../utils";
+import { GenericTokenIdTypes, SimulateContractParametersWithAccount } from "../types";
+import { Concrete, makeContractParameters, mintRecipientOrAccount } from "../utils";
 import { MintCosts, SaleStrategies, isErc20SaleStrategy } from "./types";
 import { MakeMintParametersArgumentsBase } from "./types";
 
@@ -87,14 +80,10 @@ function makeZoraTimedSaleStrategyMintCall({
   if (mintComment && mintComment !== "") {
     return makeContractParameters({
       abi: callerAndCommenterABI,
-      address:
-        callerAndCommenterAddress[
-          chainId as keyof typeof callerAndCommenterAddress
-        ],
+      address: callerAndCommenterAddress[chainId as keyof typeof callerAndCommenterAddress],
       functionName: "timedSaleMintAndComment",
       account: minterAccount,
-      value:
-        salesConfigAndTokenInfo.salesConfig.mintFeePerQuantity * mintQuantity,
+      value: salesConfigAndTokenInfo.salesConfig.mintFeePerQuantity * mintQuantity,
       args: [
         mintTo,
         mintQuantity,
@@ -111,17 +100,9 @@ function makeZoraTimedSaleStrategyMintCall({
     functionName: "mint",
     account: minterAccount,
     address: salesConfigAndTokenInfo.salesConfig.address,
-    value:
-      salesConfigAndTokenInfo.salesConfig.mintFeePerQuantity * mintQuantity,
+    value: salesConfigAndTokenInfo.salesConfig.mintFeePerQuantity * mintQuantity,
     /* args: mintTo, quantity, collection, tokenId, mintReferral, comment */
-    args: [
-      mintTo,
-      mintQuantity,
-      tokenContract,
-      BigInt(tokenId),
-      mintReferral || zeroAddress,
-      "",
-    ],
+    args: [mintTo, mintQuantity, tokenContract, BigInt(tokenId), mintReferral || zeroAddress, ""],
   });
 }
 
@@ -255,10 +236,7 @@ function makeFixedPriceMinterArguments({
   mintTo: Address;
   mintComment?: string;
 }) {
-  return encodeAbiParameters(parseAbiParameters("address, string"), [
-    mintTo,
-    mintComment || "",
-  ]);
+  return encodeAbiParameters(parseAbiParameters("address, string"), [mintTo, mintComment || ""]);
 }
 
 function makeAllowListMinterArguments({
@@ -268,15 +246,12 @@ function makeAllowListMinterArguments({
   mintTo: Address;
   allowListEntry: AllowListEntry;
 }) {
-  return encodeAbiParameters(
-    parseAbiParameters("address, uint256, uint256, bytes32[]"),
-    [
-      mintTo,
-      BigInt(allowListEntry.maxCanMint),
-      allowListEntry.price,
-      allowListEntry.proof,
-    ],
-  );
+  return encodeAbiParameters(parseAbiParameters("address, uint256, uint256, bytes32[]"), [
+    mintTo,
+    BigInt(allowListEntry.maxCanMint),
+    allowListEntry.price,
+    allowListEntry.proof,
+  ]);
 }
 
 function makeEthMintCall({
@@ -320,9 +295,7 @@ function makeEthMintCall({
 
   // if based on contract version it has the new mint function,
   // call the new mint function.
-  if (
-    contractSupportsNewMintFunction(salesConfigAndTokenInfo.contractVersion)
-  ) {
+  if (contractSupportsNewMintFunction(salesConfigAndTokenInfo.contractVersion)) {
     return makeContractParameters({
       abi: zoraCreator1155ImplABI,
       functionName: "mint",
@@ -357,14 +330,8 @@ function makeEthMintCall({
   });
 }
 
-function paidMintCost(
-  salesConfig: SaleStrategies,
-  allowListEntry?: Pick<AllowListEntry, "price">,
-) {
-  if (
-    salesConfig.saleType === "erc20" ||
-    salesConfig.saleType === "fixedPrice"
-  ) {
+function paidMintCost(salesConfig: SaleStrategies, allowListEntry?: Pick<AllowListEntry, "price">) {
+  if (salesConfig.saleType === "erc20" || salesConfig.saleType === "fixedPrice") {
     return salesConfig.pricePerToken;
   }
 
@@ -384,16 +351,13 @@ export function parseMintCosts({
 }): MintCosts {
   const mintFeeForTokens = salesConfig.mintFeePerQuantity * quantityToMint;
 
-  const tokenPurchaseCost =
-    paidMintCost(salesConfig, allowListEntry) * quantityToMint;
+  const tokenPurchaseCost = paidMintCost(salesConfig, allowListEntry) * quantityToMint;
 
   const totalPurchaseCostCurrency = isErc20SaleStrategy(salesConfig)
     ? salesConfig.currency
     : undefined;
 
-  const totalPurchaseCostEth = totalPurchaseCostCurrency
-    ? BigInt(0)
-    : tokenPurchaseCost;
+  const totalPurchaseCostEth = totalPurchaseCostCurrency ? BigInt(0) : tokenPurchaseCost;
 
   return {
     mintFee: mintFeeForTokens,

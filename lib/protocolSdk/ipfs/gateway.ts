@@ -6,8 +6,7 @@ const IPFS_GATEWAY = "https://magic.decentralized-content.com";
 const ARWEAVE_GATEWAY = "https://arweave.net";
 
 export function arweaveGatewayUrl(normalizedArweaveUrl: string | null) {
-  if (!normalizedArweaveUrl || typeof normalizedArweaveUrl !== "string")
-    return null;
+  if (!normalizedArweaveUrl || typeof normalizedArweaveUrl !== "string") return null;
   return normalizedArweaveUrl.replace("ar://", `${ARWEAVE_GATEWAY}/`);
 }
 

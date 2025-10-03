@@ -8,14 +8,8 @@ interface NotificationDateCellProps {
   className?: string;
 }
 
-const NotificationDateCell = ({
-  payment,
-  className,
-}: NotificationDateCellProps) => {
-  const { data: blockTime, isLoading } = useBlock(
-    payment.block,
-    payment.token.chainId
-  );
+const NotificationDateCell = ({ payment, className }: NotificationDateCellProps) => {
+  const { data: blockTime, isLoading } = useBlock(payment.block, payment.token.chainId);
 
   return (
     <TableCell

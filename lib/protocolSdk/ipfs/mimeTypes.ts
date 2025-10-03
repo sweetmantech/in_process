@@ -40,16 +40,11 @@ export enum MediaType {
 }
 
 export const DEFAULT_THUMBNAIL_CID_HASHES: { [key: string]: string } = {
-  [MediaType.AUDIO]:
-    "bafkreidir5laqi26ta6ivnpe2zpekgrfcyi4tb5x6vhwmwnledmzxshfb4",
-  [MediaType.VIDEO]:
-    "bafkreifm4edadl3j5luoyvw4p6elxeqd77la7bulee6vhq5gq4chfk32mu",
-  [MediaType.HTML]:
-    "bafkreifgvi6xfwqy2l6g45csyokejpaib52ee7zrw6etrxl2tas4xkkclq",
-  [MediaType.ZIP]:
-    "bafkreihe5rr5jbkwzegisjlhxbb7jw22xw5oilfmgd2re6tz6buo4pasdq", // assuming all zip files are html directories
-  [MediaType.TEXT]:
-    "bafkreiaez25nfgggzrnza2loxf6xueb2esm44pnyjyulwoslnipowrf56q",
+  [MediaType.AUDIO]: "bafkreidir5laqi26ta6ivnpe2zpekgrfcyi4tb5x6vhwmwnledmzxshfb4",
+  [MediaType.VIDEO]: "bafkreifm4edadl3j5luoyvw4p6elxeqd77la7bulee6vhq5gq4chfk32mu",
+  [MediaType.HTML]: "bafkreifgvi6xfwqy2l6g45csyokejpaib52ee7zrw6etrxl2tas4xkkclq",
+  [MediaType.ZIP]: "bafkreihe5rr5jbkwzegisjlhxbb7jw22xw5oilfmgd2re6tz6buo4pasdq", // assuming all zip files are html directories
+  [MediaType.TEXT]: "bafkreiaez25nfgggzrnza2loxf6xueb2esm44pnyjyulwoslnipowrf56q",
   default: "bafkreihcoahllisbpb4eeypdwtm7go5uh275wxd7wf2tantpxlpjhviok4",
 };
 
@@ -126,10 +121,7 @@ const mimeToMediaType = {
 export function mimeTypeToMedia(mimeType?: string | null) {
   if (!mimeType) return MediaType.UNKNOWN;
 
-  return (
-    mimeToMediaType[mimeType as keyof typeof mimeToMediaType] ||
-    MediaType.UNKNOWN
-  );
+  return mimeToMediaType[mimeType as keyof typeof mimeToMediaType] || MediaType.UNKNOWN;
 }
 
 export async function getMimeType(uri?: string) {

@@ -28,9 +28,7 @@ export const smartWalletABI = [
     type: "error",
   },
   {
-    inputs: [
-      { internalType: "uint256", name: "ownersRemaining", type: "uint256" },
-    ],
+    inputs: [{ internalType: "uint256", name: "ownersRemaining", type: "uint256" }],
     name: "NotLastOwner",
     type: "error",
   },
@@ -118,9 +116,7 @@ export const smartWalletABI = [
     type: "function",
   },
   {
-    inputs: [
-      { internalType: "bytes4", name: "functionSelector", type: "bytes4" },
-    ],
+    inputs: [{ internalType: "bytes4", name: "functionSelector", type: "bytes4" }],
     name: "canSkipChainIdValidation",
     outputs: [{ internalType: "bool", name: "", type: "bool" }],
     stateMutability: "pure",
@@ -385,9 +381,7 @@ export const smartWalletABI = [
       { internalType: "uint256", name: "missingAccountFunds", type: "uint256" },
     ],
     name: "validateUserOp",
-    outputs: [
-      { internalType: "uint256", name: "validationData", type: "uint256" },
-    ],
+    outputs: [{ internalType: "uint256", name: "validationData", type: "uint256" }],
     stateMutability: "nonpayable",
     type: "function",
   },

@@ -13,10 +13,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { tokenId, collection } = await params;
   // eslint-disable-next-line
   const [_, address] = collection.split("%3A");
-  const metadata = await fetchTokenMetadata(
-    collection as string,
-    tokenId as string,
-  );
+  const metadata = await fetchTokenMetadata(collection as string, tokenId as string);
 
   const title = metadata?.name || "In Process";
   const description = metadata?.description || "Imagined by LATASHÁ";
@@ -44,9 +41,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title,
       description,
-      images: [
-        `${VERCEL_OG}/api/og/token?collection=${address}&tokenId=${tokenId}`,
-      ],
+      images: [`${VERCEL_OG}/api/og/token?collection=${address}&tokenId=${tokenId}`],
     },
     other: {
       "fc:frame": JSON.stringify(frame),

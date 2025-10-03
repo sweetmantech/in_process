@@ -14,7 +14,7 @@ const useZoraCreateParameters = (collection?: Address) => {
   const createMetadata = useCreateMetadata();
   const { context } = useFrameProvider();
   const advancedValues = useCreateAdvancedValues();
-  
+
   // Use priceUnit to determine if USDC
   const isUsdc = createMetadata.priceUnit === "usdc";
 

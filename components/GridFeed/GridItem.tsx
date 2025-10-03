@@ -21,9 +21,7 @@ const GridItem = ({ feed }: GridItemProps) => {
           </div>
           <div className="pt-2 px-2">
             <p className="font-archivo text-sm">{data.name}</p>
-            <p className="font-archivo text-sm">
-              {new Date(feed.released_at).toLocaleString()}
-            </p>
+            <p className="font-archivo text-sm">{new Date(feed.released_at).toLocaleString()}</p>
           </div>
         </>
       )}

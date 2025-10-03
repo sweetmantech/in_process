@@ -1,11 +1,9 @@
 import { supabase } from "@/lib/supabase/client";
 import type { Database } from "@/lib/supabase/types";
 
-export type InProcessTokenInsert =
-  Database["public"]["Tables"]["in_process_tokens"]["Insert"];
+export type InProcessTokenInsert = Database["public"]["Tables"]["in_process_tokens"]["Insert"];
 
-export type InProcessTokenRow =
-  Database["public"]["Tables"]["in_process_tokens"]["Row"];
+export type InProcessTokenRow = Database["public"]["Tables"]["in_process_tokens"]["Row"];
 
 interface InsertInProcessTokensParams {
   tokens: InProcessTokenInsert[];
@@ -15,9 +13,7 @@ interface InsertInProcessTokensParams {
  * Simple batch insert helper for `in_process_tokens`.
  * Does NOT attempt to handle duplicates – caller must ensure uniqueness.
  */
-export async function insertInProcessTokens({
-  tokens,
-}: InsertInProcessTokensParams): Promise<{
+export async function insertInProcessTokens({ tokens }: InsertInProcessTokensParams): Promise<{
   data: InProcessTokenRow[] | null;
   error: Error | null;
 }> {
@@ -25,10 +21,7 @@ export async function insertInProcessTokens({
     throw new Error("No tokens provided for insert");
   }
 
-  const { data, error } = await supabase
-    .from("in_process_tokens")
-    .insert(tokens)
-    .select();
+  const { data, error } = await supabase.from("in_process_tokens").insert(tokens).select();
 
   return { data, error };
 }

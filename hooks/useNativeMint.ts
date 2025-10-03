@@ -17,19 +17,13 @@ const useNativeMint = () => {
     sale: SaleConfig,
     token: TokenInfo,
     comment: string,
-    mintCount: number = 1,
+    mintCount: number = 1
   ) => {
     const publicClient = getPublicClient(CHAIN_ID);
     const price = sale.pricePerToken;
     const ethBalance = balances.ethBalance;
     if (ethBalance > price) {
-      const request = getCollectRequest(
-        token,
-        sale,
-        signedAddress as Address,
-        comment,
-        mintCount,
-      );
+      const request = getCollectRequest(token, sale, signedAddress as Address, comment, mintCount);
       if (!request) throw new Error();
       const hash = await signTransaction(request);
       const receipt = await publicClient.waitForTransactionReceipt({ hash });

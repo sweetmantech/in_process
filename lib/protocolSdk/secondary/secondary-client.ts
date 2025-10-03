@@ -13,12 +13,7 @@ import { calculateSlippageUp, calculateSlippageDown } from "./slippage";
 import { getSecondaryInfo } from "./utils";
 import { addressOrAccountAddress } from "../utils";
 import { SimulateContractParametersWithAccount } from "../types";
-import {
-  QuotePrice,
-  BuyWithSlippageInput,
-  SellWithSlippageInput,
-  SecondaryInfo,
-} from "./types";
+import { QuotePrice, BuyWithSlippageInput, SellWithSlippageInput, SecondaryInfo } from "./types";
 
 // uniswap's auto slippage for L2s is 0.5% -> 0.005
 const UNISWAP_SLIPPAGE = 0.005;
@@ -26,8 +21,7 @@ const UNISWAP_SLIPPAGE = 0.005;
 // Error constants
 const ERROR_INSUFFICIENT_WALLET_FUNDS = "Insufficient wallet funds";
 const ERROR_INSUFFICIENT_POOL_SUPPLY = "Insufficient pool supply";
-const ERROR_SECONDARY_NOT_CONFIGURED =
-  "Secondary not configured for given contract and token";
+const ERROR_SECONDARY_NOT_CONFIGURED = "Secondary not configured for given contract and token";
 export const ERROR_SECONDARY_NOT_STARTED = "Secondary market has not started";
 export const ERROR_RECIPIENT_MISMATCH =
   "Recipient must be the same as the caller if there is a comment";
@@ -173,10 +167,7 @@ function handleBuyWithComment({
   return {
     parameters: makeContractParameters({
       abi: callerAndCommenterABI,
-      address:
-        callerAndCommenterAddress[
-          chainId as keyof typeof callerAndCommenterAddress
-        ],
+      address: callerAndCommenterAddress[chainId as keyof typeof callerAndCommenterAddress],
       functionName: "buyOnSecondaryAndComment",
       args: [
         accountAddress,
@@ -214,8 +205,7 @@ function handleBuyWithoutComment({
   return {
     parameters: makeContractParameters({
       abi: secondarySwapABI,
-      address:
-        secondarySwapAddress[chainId as keyof typeof secondarySwapAddress],
+      address: secondarySwapAddress[chainId as keyof typeof secondarySwapAddress],
       functionName: "buy1155",
       args: [
         erc20z,
@@ -281,7 +271,7 @@ export async function buyWithSlippage({
       erc20z,
       chainId,
     },
-    publicClient,
+    publicClient
   );
 
   const call = await makeBuy({
@@ -405,7 +395,7 @@ export async function sellWithSlippage({
 
   const { poolBalance, amount, price } = await getUniswapQuote(
     { type: "sell", quantity, poolAddress: pool, chainId, erc20z },
-    publicClient,
+    publicClient
   );
 
   const call = await makeSell({
@@ -439,13 +429,7 @@ export class SecondaryClient {
    * @param publicClient - The public client for interacting with the blockchain.
    * @param chainId - The ID of the blockchain network.
    */
-  constructor({
-    publicClient,
-    chainId,
-  }: {
-    publicClient: PublicClient;
-    chainId: number;
-  }) {
+  constructor({ publicClient, chainId }: { publicClient: PublicClient; chainId: number }) {
     this.publicClient = publicClient;
     this.chainId = chainId;
   }
@@ -476,9 +460,7 @@ export class SecondaryClient {
    * @param input - The input parameters for the buy operation.
    * @returns A promise that resolves to the result of the buy operation, including price breakdown and transaction parameters.
    */
-  async buy1155OnSecondary(
-    input: BuyWithSlippageInput,
-  ): Promise<BuyOrSellWithSlippageResult> {
+  async buy1155OnSecondary(input: BuyWithSlippageInput): Promise<BuyOrSellWithSlippageResult> {
     // Call the buyWithSlippage function with the provided input and client details
     return buyWithSlippage({
       ...input,
@@ -492,9 +474,7 @@ export class SecondaryClient {
    * @param input - The input parameters for the sell operation.
    * @returns A promise that resolves to the result of the sell operation, including price breakdown and transaction parameters.
    */
-  async sell1155OnSecondary(
-    input: SellWithSlippageInput,
-  ): Promise<BuyOrSellWithSlippageResult> {
+  async sell1155OnSecondary(input: SellWithSlippageInput): Promise<BuyOrSellWithSlippageResult> {
     // Call the sellWithSlippage function with the provided input and client details
     return sellWithSlippage({
       ...input,

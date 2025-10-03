@@ -13,7 +13,7 @@ export async function GET(req: NextRequest) {
     const transactions: DuneDecodedEvent[] = await getWrapperTransferEvents(
       wrapper as Address,
       tokenContract as Address,
-      owner as Address,
+      owner as Address
     );
     const transfers = getFormattedTransfers(transactions);
     return Response.json(transfers);

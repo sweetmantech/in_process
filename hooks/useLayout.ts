@@ -5,8 +5,7 @@ const useLayout = () => {
   const menuRef = useRef() as any;
   const signedAddress = useSignedAddress();
   const [isOpenNavbar, setIsOpenNavbar] = useState<boolean>(false);
-  const [isExpandedSearchInput, setIsExpandedSearchInput] =
-    useState<boolean>(false);
+  const [isExpandedSearchInput, setIsExpandedSearchInput] = useState<boolean>(false);
 
   const toggleNavbar = () => {
     if (!signedAddress) return;
@@ -15,8 +14,7 @@ const useLayout = () => {
 
   useEffect(() => {
     const handleClose = (e: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(e.target))
-        setIsOpenNavbar(false);
+      if (menuRef.current && !menuRef.current.contains(e.target)) setIsOpenNavbar(false);
     };
 
     document.addEventListener("mousedown", handleClose);

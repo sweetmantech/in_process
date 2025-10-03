@@ -19,12 +19,7 @@ const FooterSocialIcons = () => {
         aria-label="Farcaster"
         className="block"
       >
-        <Image
-          src="/images/farcaster.svg"
-          alt="Farcaster icon"
-          width={36}
-          height={36}
-        />
+        <Image src="/images/farcaster.svg" alt="Farcaster icon" width={36} height={36} />
       </a>
     </div>
   );

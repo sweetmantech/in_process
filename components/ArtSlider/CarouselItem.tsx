@@ -13,9 +13,7 @@ const CarouselItem = ({ metadata }: CarouselItemProps) => {
   const mimeType = metadata?.content?.mime || "";
 
   if (mimeType.includes("pdf"))
-    return (
-      <PdfViewer fileUrl={getFetchableUrl(metadata.animation_url) || ""} />
-    );
+    return <PdfViewer fileUrl={getFetchableUrl(metadata.animation_url) || ""} />;
   if (mimeType.includes("audio")) {
     return (
       <AudioPlayer
@@ -33,10 +31,7 @@ const CarouselItem = ({ metadata }: CarouselItemProps) => {
   if (mimeType.includes("html"))
     return (
       <div className="size-full flex justify-center">
-        <iframe
-          src={getFetchableUrl(metadata.animation_url) || ""}
-          className="w-full"
-        />
+        <iframe src={getFetchableUrl(metadata.animation_url) || ""} className="w-full" />
       </div>
     );
   if (mimeType.includes("text/plain"))

@@ -6,10 +6,7 @@ interface NavigationDotsProps {
   onSlideChange: (index: number) => void;
 }
 
-export const NavigationDots = ({
-  currentSlide,
-  onSlideChange,
-}: NavigationDotsProps) => (
+export const NavigationDots = ({ currentSlide, onSlideChange }: NavigationDotsProps) => (
   <>
     {slides.slice(0, 3).map((_, index) => (
       <button
@@ -20,11 +17,7 @@ export const NavigationDots = ({
         }}
       >
         <Image
-          src={
-            index === currentSlide
-              ? "/images/modal-dot-active.svg"
-              : "images/modal-dot.svg"
-          }
+          src={index === currentSlide ? "/images/modal-dot-active.svg" : "images/modal-dot.svg"}
           alt={`Slide ${index + 1}`}
           width={16}
           height={16}

@@ -39,11 +39,7 @@ export class RewardsClient {
   }
 
   /** Withdraws rewards for a given account */
-  async withdrawRewards({
-    account,
-    withdrawFor,
-    claimSecondaryRoyalties,
-  }: WithdrawRewardsParams) {
+  async withdrawRewards({ account, withdrawFor, claimSecondaryRoyalties }: WithdrawRewardsParams) {
     return {
       parameters: await withdrawRewards({
         chainId: this.chainId,

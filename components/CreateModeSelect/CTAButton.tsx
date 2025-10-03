@@ -1,4 +1,4 @@
-import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
+import { useMomentCreateProvider } from "@/providers/MomentCreateProvider";
 import { ReactNode, useState } from "react";
 
 interface CTAButtonProps {
@@ -9,7 +9,7 @@ interface CTAButtonProps {
 
 const CTAButton = ({ children, onClick, isActive }: CTAButtonProps) => {
   const [hovered, setHovered] = useState<boolean>(false);
-  const { fileUploading } = useZoraCreateProvider();
+  const { fileUploading } = useMomentCreateProvider();
 
   return (
     <button

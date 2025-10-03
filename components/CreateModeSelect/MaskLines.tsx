@@ -1,12 +1,12 @@
 "use client";
 
 import useIsMobile from "@/hooks/useIsMobile";
-import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
+import { useMomentCreateProvider } from "@/providers/MomentCreateProvider";
 import { usePathname } from "next/navigation";
 import React from "react";
 
 const MaskLines = () => {
-  const { maskId, svgRef, masks, createdContract } = useZoraCreateProvider();
+  const { maskId, svgRef, masks, createdContract } = useMomentCreateProvider();
   const pathname = usePathname();
   const isWritingPage = pathname === "/create/writing";
   const isLinkPage = pathname === "/create/link";
@@ -48,22 +48,13 @@ const MaskLines = () => {
           WebkitMaskImage: `url(#${maskId})`,
         }}
       />
-      <svg
-        ref={svgRef}
-        className="absolute inset-0 w-full h-full hidden md:block"
-      >
+      <svg ref={svgRef} className="absolute inset-0 w-full h-full hidden md:block">
         <defs>
           <mask id={maskId}>
             <rect width="100%" height="100%" fill="white" />
             {masks.map((mask, i) => (
               <React.Fragment key={i}>
-                <rect
-                  x={mask.x}
-                  y={mask.y}
-                  width={mask.width}
-                  height={mask.height}
-                  fill="black"
-                />
+                <rect x={mask.x} y={mask.y} width={mask.width} height={mask.height} fill="black" />
               </React.Fragment>
             ))}
           </mask>

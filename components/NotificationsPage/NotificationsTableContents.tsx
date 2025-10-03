@@ -1,10 +1,4 @@
-import {
-  Table,
-  TableBody,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Table, TableBody, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import type { Notification } from "@/hooks/useNotifications";
 // Import NotificationRow component
 import NotificationRow from "./NotificationRow";
@@ -13,9 +7,7 @@ interface NotificationsTableContentsProps {
   notifications: Notification[];
 }
 
-const NotificationsTableContents = ({
-  notifications,
-}: NotificationsTableContentsProps) => {
+const NotificationsTableContents = ({ notifications }: NotificationsTableContentsProps) => {
   return (
     <div className="rounded-md border overflow-auto">
       <Table className="min-w-[640px] md:min-w-0">
@@ -28,10 +20,7 @@ const NotificationsTableContents = ({
         </TableHeader>
         <TableBody>
           {notifications.map((notification) => (
-            <NotificationRow
-              key={notification.id}
-              notification={notification}
-            />
+            <NotificationRow key={notification.id} notification={notification} />
           ))}
         </TableBody>
       </Table>

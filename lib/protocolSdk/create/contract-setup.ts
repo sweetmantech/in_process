@@ -36,13 +36,7 @@ export async function getDeterministicContractAddress({
     abi: zoraCreator1155FactoryImplABI,
     address: getFactoryAddress(chainId),
     functionName: "deterministicContractAddressWithSetupActions",
-    args: [
-      account,
-      contract.uri,
-      contract.name,
-      contract.defaultAdmin || account,
-      setupActions,
-    ],
+    args: [account, contract.uri, contract.name, contract.defaultAdmin || account, setupActions],
   });
 
   return contractAddress;

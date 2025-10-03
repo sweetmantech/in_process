@@ -10,13 +10,13 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
       <TextareaAutosize
         className={cn(
           "flex w-full border border-grey-secondary bg-white px-3 py-2 text-sm placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 focus:outline-none",
-          className,
+          className
         )}
         ref={ref}
         {...props}
       />
     );
-  },
+  }
 );
 Textarea.displayName = "Textarea";
 

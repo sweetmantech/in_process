@@ -13,7 +13,7 @@ const useSignTransaction = () => {
 
   const signTransaction = async (
     parameters: WriteContractParameters,
-    chainId: number = CHAIN_ID,
+    chainId: number = CHAIN_ID
   ) => {
     const { account } = parameters;
     if (context) {
@@ -22,8 +22,7 @@ const useSignTransaction = () => {
       return hash;
     }
 
-    if (!wallet || !account)
-      throw new Error("No wallet connected for transaction signing");
+    if (!wallet || !account) throw new Error("No wallet connected for transaction signing");
     await wallet.switchChain(chainId);
     const provider = await wallet.getEthereumProvider();
     const client = createWalletClient({

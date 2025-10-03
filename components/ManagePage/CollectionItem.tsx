@@ -13,9 +13,7 @@ const CollectionItem = ({ c }: { c: TimelineMoment }) => {
   const { push } = useRouter();
 
   const handleClick = () => {
-    const shortNetworkName = getShortNetworkName(
-      c.chainId === 8453 ? "base" : "base sepolia"
-    );
+    const shortNetworkName = getShortNetworkName(c.chainId === 8453 ? "base" : "base sepolia");
     push(`/manage/${shortNetworkName}:${c.address}`);
     return;
   };
@@ -55,12 +53,8 @@ const CollectionItem = ({ c }: { c: TimelineMoment }) => {
           />
         </div>
         <div className="px-4 py-2">
-          <p className="font-archivo text-white text-left">
-            {truncated(data?.name, 30)}
-          </p>
-          <p className="font-archivo text-white text-left">
-            {truncateAddress(c.address)}
-          </p>
+          <p className="font-archivo text-white text-left">{truncated(data?.name, 30)}</p>
+          <p className="font-archivo text-white text-left">{truncateAddress(c.address)}</p>
         </div>
       </button>
     );

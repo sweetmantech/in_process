@@ -19,9 +19,7 @@ interface useLinkPreviewProps {
 }
 
 async function fetchLinkPreview(link: string): Promise<LinkPreview> {
-  const response = await fetch(
-    `/api/link/get_detail?url=${encodeURIComponent(link)}`,
-  );
+  const response = await fetch(`/api/link/get_detail?url=${encodeURIComponent(link)}`);
   if (!response.ok) throw Error("failed to get link preview.");
 
   const data = await response.json();
@@ -29,9 +27,7 @@ async function fetchLinkPreview(link: string): Promise<LinkPreview> {
 }
 
 async function fetchBlob(link: string): Promise<File> {
-  const response = await fetch(
-    `/api/link/get_blob?url=${encodeURIComponent(link)}`,
-  );
+  const response = await fetch(`/api/link/get_blob?url=${encodeURIComponent(link)}`);
   const type = response.headers.get("content-type") || "";
   const arrayBuffer = await response.arrayBuffer();
   const blob = new Blob([arrayBuffer], { type });

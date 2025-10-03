@@ -3,11 +3,7 @@ import { zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
 import { Address } from "abitype";
 import { useEffect, useState } from "react";
 
-const useToken = (
-  collectionAddress: Address,
-  tokenId: string,
-  chainId: number,
-) => {
+const useToken = (collectionAddress: Address, tokenId: string, chainId: number) => {
   const [tokenUri, setTokenUri] = useState<string>("");
   useEffect(() => {
     const init = async () => {

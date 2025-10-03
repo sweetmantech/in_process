@@ -19,7 +19,7 @@ export function HorizontalFeedAnimationProvider({
     () => ({
       ...horizontalFeedAnimation,
     }),
-    [horizontalFeedAnimation],
+    [horizontalFeedAnimation]
   );
 
   return (
@@ -33,7 +33,7 @@ export function useHorizontalFeedAnimationProvider() {
   const context = useContext(HorizontalFeedAnimationContext);
   if (!context) {
     throw new Error(
-      "useHorizontalFeedAnimationProvider must be used within a HorizontalFeedAnimationProvider",
+      "useHorizontalFeedAnimationProvider must be used within a HorizontalFeedAnimationProvider"
     );
   }
   return context;

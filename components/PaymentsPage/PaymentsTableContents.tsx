@@ -15,9 +15,7 @@ const PaymentsTableContents = ({ payments }: PaymentsTableContentsProps) => {
         <TableBody>
           {payments.map((payment) => (
             <PaymentRow
-              key={
-                "type" in payment ? `${payment.type}-${payment.id}` : payment.id
-              }
+              key={"type" in payment ? `${payment.type}-${payment.id}` : payment.id}
               payment={payment}
             />
           ))}

@@ -1,9 +1,9 @@
-import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
+import { useMomentCreateProvider } from "@/providers/MomentCreateProvider";
 import LinkInput from "./LinkInput";
 import Image from "next/image";
 
 const LinkPreview = () => {
-  const { createdContract, previewSrc, link } = useZoraCreateProvider();
+  const { createdContract, previewSrc, link } = useMomentCreateProvider();
 
   return (
     <div
@@ -34,9 +34,7 @@ const LinkPreview = () => {
               unoptimized
               alt="not found link"
             />
-            <p className="text-center font-archivo-medium">
-              Paste any link from the internet
-            </p>
+            <p className="text-center font-archivo-medium">Paste any link from the internet</p>
           </div>
           <LinkInput />
           {previewSrc && (

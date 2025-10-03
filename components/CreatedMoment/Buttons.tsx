@@ -1,17 +1,12 @@
 import { CHAIN, PROD_URL } from "@/lib/consts";
 import { getShortNetworkName } from "@/lib/zora/zoraToViem";
-import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
+import { useMomentCreateProvider } from "@/providers/MomentCreateProvider";
 import Image from "next/image";
 import { toast } from "sonner";
 
 const Buttons = () => {
-  const {
-    createdContract,
-    setCreatedContract,
-    reset,
-    setCreatedTokenId,
-    createdTokenId,
-  } = useZoraCreateProvider();
+  const { createdContract, setCreatedContract, reset, setCreatedTokenId, createdTokenId } =
+    useMomentCreateProvider();
 
   const share = async () => {
     const shortNetworkName = getShortNetworkName(CHAIN.name.toLowerCase());

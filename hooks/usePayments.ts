@@ -47,16 +47,12 @@ export function usePayments(
         ]);
 
         // Combine and type the payments
-        const earnings: PaymentWithType[] = (
-          earningsResponse.payments || []
-        ).map((payment) => ({
+        const earnings: PaymentWithType[] = (earningsResponse.payments || []).map((payment) => ({
           ...payment,
           type: "earning" as const,
         }));
 
-        const expenses: PaymentWithType[] = (
-          expensesResponse.payments || []
-        ).map((payment) => ({
+        const expenses: PaymentWithType[] = (expensesResponse.payments || []).map((payment) => ({
           ...payment,
           type: "expense" as const,
         }));

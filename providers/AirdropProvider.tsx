@@ -2,7 +2,7 @@ import useAirdrop from "@/hooks/useAirdrop";
 import { createContext, useMemo, useContext } from "react";
 
 const AirdropContext = createContext<ReturnType<typeof useAirdrop>>(
-  {} as ReturnType<typeof useAirdrop>,
+  {} as ReturnType<typeof useAirdrop>
 );
 
 const AirdropProvider = ({ children }: { children: React.ReactNode }) => {
@@ -12,12 +12,10 @@ const AirdropProvider = ({ children }: { children: React.ReactNode }) => {
     () => ({
       ...airDrop,
     }),
-    [airDrop],
+    [airDrop]
   );
 
-  return (
-    <AirdropContext.Provider value={value}>{children}</AirdropContext.Provider>
-  );
+  return <AirdropContext.Provider value={value}>{children}</AirdropContext.Provider>;
 };
 
 export const useAirdropProvider = () => {

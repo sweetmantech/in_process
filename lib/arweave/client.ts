@@ -5,7 +5,7 @@ if (!process.env.NEXT_PUBLIC_ARWEAVE_KEY) {
 }
 
 const ARWEAVE_KEY = JSON.parse(
-  Buffer.from(process.env.NEXT_PUBLIC_ARWEAVE_KEY, "base64").toString(),
+  Buffer.from(process.env.NEXT_PUBLIC_ARWEAVE_KEY, "base64").toString()
 );
 
 const turboClient: any = TurboFactory.authenticated({

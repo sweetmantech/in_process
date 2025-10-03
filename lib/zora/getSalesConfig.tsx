@@ -3,11 +3,7 @@ import { maxUint64, parseEther, parseUnits } from "viem";
 import { USDC_ADDRESS } from "../consts";
 import { MintType } from "@/types/zora";
 
-const getSalesConfig = (
-  saleStrategy: string,
-  price: string,
-  saleStart: Date | undefined
-) => {
+const getSalesConfig = (saleStrategy: string, price: string, saleStart: Date | undefined) => {
   const timedSaleConfig = {
     type: "timed",
     erc20Name: "CC0 Music",

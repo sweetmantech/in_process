@@ -10,13 +10,11 @@ export async function GET(req: NextRequest) {
   try {
     const wrapperEvents: DuneDecodedEvent[] = await getWrapperCommentsEvents(
       tokenContract as string,
-      chainId as string,
+      chainId as string
     );
 
     const comments = getFormattedMintComments(wrapperEvents);
-    return Response.json(
-      tokenId ? comments.filter((e) => e.tokenId === tokenId) : comments,
-    );
+    return Response.json(tokenId ? comments.filter((e) => e.tokenId === tokenId) : comments);
   } catch (e: any) {
     console.log(e);
     const message = e?.message ?? "failed to get Dune transactions";

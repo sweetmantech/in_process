@@ -8,10 +8,7 @@ import { uniswapV3PoolAbi } from "./abis";
 import { wethAddress as wethAddresses } from "@zoralabs/protocol-deployments";
 
 import { GetQuoteOutput } from "../types";
-import {
-  quoteExactInputSingle,
-  quoteExactOutputSingle,
-} from "./uniswapQuoteExact";
+import { quoteExactInputSingle, quoteExactOutputSingle } from "./uniswapQuoteExact";
 import { multicall3Address } from "../../apis/multicall3";
 
 async function getPoolInfo({
@@ -25,9 +22,7 @@ async function getPoolInfo({
   erc20z: Address;
   client: PublicClient;
 }) {
-  const [fee, wethBalance, erc20zBalance] = await (
-    client as PublicClientWithMulticall
-  ).multicall({
+  const [fee, wethBalance, erc20zBalance] = await (client as PublicClientWithMulticall).multicall({
     contracts: [
       {
         abi: uniswapV3PoolAbi,
@@ -70,7 +65,7 @@ type GetQuoteInput = {
 };
 export async function getUniswapQuote(
   input: GetQuoteInput,
-  client: PublicClient,
+  client: PublicClient
 ): Promise<GetQuoteOutput> {
   const { type, quantity, poolAddress, chainId, erc20z } = input;
 

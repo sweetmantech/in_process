@@ -18,22 +18,14 @@ export const formatFeedText = (
   creator: string,
   name: string,
   released_at: number,
-  fontSize: number,
+  fontSize: number
 ): React.ReactElement => (
   <>
-    <tspan style={{ fontFamily: "Archivo-Bold", fontSize, letterSpacing: 2 }}>
-      {creator}
-    </tspan>
+    <tspan style={{ fontFamily: "Archivo-Bold", fontSize, letterSpacing: 2 }}>{creator}</tspan>
     <tspan> - </tspan>
-    <tspan
-      style={{ fontFamily: "Spectral-Regular", fontSize, letterSpacing: 2 }}
-    >
-      {name}
-    </tspan>
+    <tspan style={{ fontFamily: "Spectral-Regular", fontSize, letterSpacing: 2 }}>{name}</tspan>
     <tspan> - </tspan>
-    <tspan
-      style={{ fontFamily: "Archivo-Regular", fontSize, letterSpacing: 2 }}
-    >
+    <tspan style={{ fontFamily: "Archivo-Regular", fontSize, letterSpacing: 2 }}>
       {new Date(released_at).toLocaleString().toLowerCase()}
     </tspan>
   </>

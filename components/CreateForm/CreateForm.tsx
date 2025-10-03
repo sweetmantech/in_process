@@ -1,6 +1,6 @@
 "use client";
 
-import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
+import { useMomentCreateProvider } from "@/providers/MomentCreateProvider";
 import CreateButton from "./CreateButton";
 import Prompt from "./Prompt";
 import Buttons from "../CreatedMoment/Buttons";
@@ -8,7 +8,7 @@ import Advanced from "./Advanced";
 import Preview from "./Preview";
 
 const CreateForm = () => {
-  const { createdContract, inputRef, name } = useZoraCreateProvider();
+  const { createdContract, inputRef, name } = useMomentCreateProvider();
   return (
     <div className="w-full col-span-1 md:pl-12">
       <div ref={inputRef} className="flex flex-col space-y-3 h-fit pb-4">

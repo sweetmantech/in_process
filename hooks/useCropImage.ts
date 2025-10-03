@@ -3,7 +3,7 @@ import { Area } from "react-easy-crop";
 import getCroppedImg from "@/lib/cropImage/getCroppedImage";
 import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
 import { arweaveGatewayUrl } from "@/lib/protocolSdk/ipfs/gateway";
-import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
+import { useMomentCreateProvider } from "@/providers/MomentCreateProvider";
 
 interface UseCropImageReturn {
   crop: { x: number; y: number };
@@ -20,18 +20,14 @@ interface UseCropImageReturn {
 }
 
 export default function useCropImage(): UseCropImageReturn {
-  const { setPreviewUri, setPreviewSrc, previewSrc, imageUri } =
-    useZoraCreateProvider();
+  const { setPreviewUri, setPreviewSrc, previewSrc, imageUri } = useMomentCreateProvider();
   const [crop, setCrop] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
   const [rotation, setRotation] = useState<number>(0);
   const [zoom, setZoom] = useState<number>(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
   const [isUploading, setIsUploading] = useState<boolean>(false);
-  const [hasUploadedSelectedImage, setHasUploadedSelectedImage] =
-    useState<boolean>(false);
-  const imageSrc = hasUploadedSelectedImage
-    ? previewSrc
-    : arweaveGatewayUrl(imageUri) || "";
+  const [hasUploadedSelectedImage, setHasUploadedSelectedImage] = useState<boolean>(false);
+  const imageSrc = hasUploadedSelectedImage ? previewSrc : arweaveGatewayUrl(imageUri) || "";
 
   const onCropComplete = (_: Area, cropped: Area) => {
     setCroppedAreaPixels(cropped);
@@ -42,11 +38,7 @@ export default function useCropImage(): UseCropImageReturn {
 
     try {
       setIsUploading(true);
-      const resultUrl = (await getCroppedImg(
-        imageSrc,
-        croppedAreaPixels,
-        rotation
-      )) as string;
+      const resultUrl = (await getCroppedImg(imageSrc, croppedAreaPixels, rotation)) as string;
 
       const response = await fetch(resultUrl);
       const blob = await response.blob();

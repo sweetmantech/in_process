@@ -13,8 +13,7 @@ import { mapMomentToToken } from "@/lib/timeline/mapMomentToToken";
 
 const TimelineSpiral = () => {
   const { offset, viewBox, animationConfig, points } = useSpiralAnimation();
-  const { handleMouseLeave, handleMouseMove, hoveredFeed } =
-    useSpiralMouseOver();
+  const { handleMouseLeave, handleMouseMove, hoveredFeed } = useSpiralMouseOver();
   const { moments } = useTimelineApiContext();
 
   return (

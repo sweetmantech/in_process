@@ -13,20 +13,14 @@ const AltToggle = ({ alt, setAlt }: AltToggleProps) => {
         className={`col-span-1 flex items-center justify-center p-1.5 ${alt === "timeline" ? "bg-black" : "bg-transparent"}`}
         onClick={() => setAlt("timeline")}
       >
-        <TimeLineIcon
-          fill="none"
-          stroke={`${alt === "timeline" ? "#E5D19ECC" : "#000000"}`}
-        />
+        <TimeLineIcon fill="none" stroke={`${alt === "timeline" ? "#E5D19ECC" : "#000000"}`} />
       </button>
       <button
         type="button"
         className={`col-span-1 flex items-center justify-center p-1.5 ${alt === "grid" ? "bg-black" : "bg-transparent"}`}
         onClick={() => setAlt("grid")}
       >
-        <GridIcon
-          fill="none"
-          stroke={`${alt === "grid" ? "#E5D19ECC" : "#000000"}`}
-        />
+        <GridIcon fill="none" stroke={`${alt === "grid" ? "#E5D19ECC" : "#000000"}`} />
       </button>
     </div>
   );

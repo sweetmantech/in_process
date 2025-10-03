@@ -21,10 +21,7 @@ export async function getSecondaryInfo({
   try {
     result = await publicClient.readContract({
       abi: zoraTimedSaleStrategyABI,
-      address:
-        zoraTimedSaleStrategyAddress[
-          chainId as keyof typeof zoraTimedSaleStrategyAddress
-        ],
+      address: zoraTimedSaleStrategyAddress[chainId as keyof typeof zoraTimedSaleStrategyAddress],
       functionName: "saleV2",
       args: [contract, tokenId],
     });
@@ -46,8 +43,7 @@ export async function getSecondaryInfo({
     saleStart: result.saleStart,
     name: result.name,
     symbol: result.symbol,
-    marketCountdown:
-      result.marketCountdown === BigInt(0) ? undefined : result.marketCountdown,
+    marketCountdown: result.marketCountdown === BigInt(0) ? undefined : result.marketCountdown,
     minimumMintsForCountdown:
       result.minimumMarketEth === BigInt(0)
         ? undefined

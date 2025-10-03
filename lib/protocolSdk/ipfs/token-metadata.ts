@@ -6,20 +6,14 @@ import {
   isImage,
   mimeTypeToMedia,
 } from "./mimeTypes";
-import {
-  MakeMediaMetadataParams,
-  MakeTextMetadataParams,
-  TokenMetadataJson,
-} from "./types";
+import { MakeMediaMetadataParams, MakeTextMetadataParams, TokenMetadataJson } from "./types";
 
 /**
  * Takes properties for a text based nft and formats it as proper json metadata
  * for the token, which should be uploaded to IPFS.
  * @param parameters - The parameters to format into metadata {@link MakeTextMetadataParams}
  */
-export const makeTextTokenMetadata = (
-  parameters: MakeTextMetadataParams,
-): TokenMetadataJson => {
+export const makeTextTokenMetadata = (parameters: MakeTextMetadataParams): TokenMetadataJson => {
   const { name, textFileUrl, thumbnailUrl, attributes = [] } = parameters;
 
   const content = textFileUrl
@@ -56,8 +50,7 @@ export const makeMediaTokenMetadata = async ({
   const contentUrl = mediaUrl;
   const fetchableContentUrl = getFetchableUrl(contentUrl);
 
-  if (!fetchableContentUrl)
-    throw new Error(`Content url (${contentUrl}) is not fetchable`);
+  if (!fetchableContentUrl) throw new Error(`Content url (${contentUrl}) is not fetchable`);
 
   const mimeType = await getMimeType(fetchableContentUrl);
   const mediaType = mimeTypeToMedia(mimeType);
@@ -77,8 +70,7 @@ export const makeMediaTokenMetadata = async ({
   // If no image determined, use a fallback placeholder
   if (!image)
     image = `ipfs://${
-      DEFAULT_THUMBNAIL_CID_HASHES[mediaType] ||
-      DEFAULT_THUMBNAIL_CID_HASHES.default
+      DEFAULT_THUMBNAIL_CID_HASHES[mediaType] || DEFAULT_THUMBNAIL_CID_HASHES.default
     }`;
 
   const content = contentUrl
@@ -105,9 +97,7 @@ export async function fetchTokenMetadata(tokenMetadataURI: string) {
     throw new Error(`Invalid token metadata URI: ${tokenMetadataURI}`);
   }
 
-  const json = (await (await fetch(fetchableUrl)).json()) as
-    | TokenMetadataJson
-    | undefined;
+  const json = (await (await fetch(fetchableUrl)).json()) as TokenMetadataJson | undefined;
 
   if (!json) {
     throw new Error(`Failed to fetch metadata from ${fetchableUrl}`);
