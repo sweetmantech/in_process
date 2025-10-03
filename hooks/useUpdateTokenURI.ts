@@ -9,18 +9,30 @@ import { useUserProvider } from "@/providers/UserProvider";
 import { uploadJson } from "@/lib/arweave/uploadJson";
 import { fetchTokenMetadata } from "@/lib/protocolSdk/ipfs/token-metadata";
 import getTokenInfo from "@/lib/viem/getTokenInfo";
+import {useMomentManageProvider} from "@/providers/MomentManageProvider";
 
 const useUpdateTokenURI = () => {
   const { token, fetchTokenInfo } = useTokenProvider();
   const { signTransaction } = useSignTransaction();
+  const { name, description, imageUri } = useMomentManageProvider();
   const { connectedAddress } = useUserProvider();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const updateTokenURI = async (title: string, description: string) => {
+  const updateTokenURI = async () => {
     const tokenInfo = await getTokenInfo(token.tokenContractAddress, token.tokenId, CHAIN_ID);
     const current = await fetchTokenMetadata(tokenInfo.tokenUri);
 
-    const updated = { ...(current || {}), name: title, description };
+    const updated = {
+      ...(current || {}),
+      name,
+      description,
+      image: imageUri || current?.image,
+      animation_url: imageUri || current?.animation_url,
+      ...(current?.content && {
+        content: { ...current.content, uri: imageUri || current.content.uri }
+      })
+    };
+
     if (!updated.name) throw new Error("Missing token name");
     if (!updated.description) throw new Error("Missing token description");
 

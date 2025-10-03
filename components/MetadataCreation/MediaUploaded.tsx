@@ -1,14 +1,19 @@
-import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
-import Spinner from "../ui/spinner";
 import AudioPlayer from "./AudioPlayer";
-import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
+import {getFetchableUrl} from "@/lib/protocolSdk/ipfs/gateway";
 import Image from "next/image";
-import React, { Fragment } from "react";
+import React, {Fragment} from "react";
 import PdfViewer from "../Renderers/PdfViewer";
 import VideoPlayer from "../Renderers/VideoPlayer";
+import UploadSpinner from "@/components/TokenManagePage/UploadSpinner";
 
 interface MediaUploadedProps {
   handleImageClick: () => void;
+  fileUploading: boolean;
+  mimeType: string;
+  animationUri: string;
+  imageUri: string;
+  pctComplete: number;
+  previewSrc: string;
 }
 const Container = ({
   children,
@@ -20,24 +25,17 @@ const Container = ({
   <div className={`size-full flex justify-center ${className}`}>{children}</div>
 );
 
-const MediaUploaded = ({ handleImageClick }: MediaUploadedProps) => {
-  const {
-    fileUploading,
-    mimeType,
-    animationUri,
-    imageUri,
-    pctComplete,
-    previewSrc,
-  } = useZoraCreateProvider();
+const MediaUploaded = ({
+                         handleImageClick,
+                         fileUploading,
+                         mimeType,
+                         animationUri,
+                         imageUri,
+                         pctComplete,
+                         previewSrc,
+                       }: MediaUploadedProps) => {
 
-  if (fileUploading) {
-    return (
-      <Container className="flex flex-col items-center gap-2">
-        <Spinner />
-        <p className="font-archivo text-xl">{pctComplete} %</p>
-      </Container>
-    );
-  }
+  if (fileUploading)  return <UploadSpinner pctComplete={pctComplete}/>
 
   if (mimeType.includes("pdf"))
     return (
@@ -64,7 +62,7 @@ const MediaUploaded = ({ handleImageClick }: MediaUploadedProps) => {
 
   if (imageUri) {
     return (
-      <div className="size-full">
+      <div className="size-full cursor-pointer">
         <Image
           src={getFetchableUrl(imageUri) || previewSrc || ""}
           alt="Image Preview"

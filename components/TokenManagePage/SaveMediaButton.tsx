@@ -2,18 +2,12 @@
 import { useTokenProvider } from "@/providers/TokenProvider";
 import useUpdateTokenURI from "@/hooks/useUpdateTokenURI";
 
-interface SaveMediaButtonProps {
-    title: string;
-    description: string;
-}
-
-const SaveMediaButton = ({ title, description }: SaveMediaButtonProps) => {
+const SaveMediaButton = () => {
     const { isOwner } = useTokenProvider();
-
     const { updateTokenURI, isLoading: isSaving } = useUpdateTokenURI();
 
     const saveHandler = () => {
-        updateTokenURI(title, description);
+        updateTokenURI();
     }
 
     return (

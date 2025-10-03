@@ -7,6 +7,7 @@ import { ReactNode } from "react";
 import { CollectionProvider } from "@/providers/CollectionProvider";
 import { Address } from "viem";
 import Overview from "@/components/CollectionManagePage/Overview";
+import {MomentManageProvider} from "@/providers/MomentManageProvider";
 
 const RootLayout = ({ children }: { children: ReactNode }) => {
   const params = useParams();
@@ -21,8 +22,10 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
         chainId: viemChain.id,
       }}
     >
-      <Overview />
-      {children}
+        <MomentManageProvider>
+          <Overview />
+          {children}
+        </MomentManageProvider>
     </CollectionProvider>
   );
 };

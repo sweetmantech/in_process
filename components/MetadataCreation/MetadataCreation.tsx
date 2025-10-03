@@ -8,6 +8,9 @@ const MetadataCreation = () => {
   const {
     imageUri,
     animationUri,
+    mimeType,
+    pctComplete,
+    previewSrc,
     reset,
     fileUpload,
     fileUploading,
@@ -36,8 +39,16 @@ const MetadataCreation = () => {
       />
       {selected ? (
         <>
-          {!createdContract && <ResetButton onClick={handleReset} />}
-          <MediaUploaded handleImageClick={handleImageClick} />
+          {!createdContract && <ResetButton onClick={handleReset} disabled={fileUploading} />}
+          <MediaUploaded
+              handleImageClick={handleImageClick}
+              fileUploading={fileUploading}
+              mimeType={mimeType}
+              animationUri={animationUri}
+              imageUri={imageUri}
+              pctComplete={pctComplete}
+              previewSrc={previewSrc}
+          />
         </>
       ) : (
         <NoFileSelected />

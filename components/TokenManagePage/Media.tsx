@@ -1,24 +1,33 @@
 "use client";
-import { useEffect, useState } from "react";
+import {useEffect} from "react";
 
-import { useTokenProvider } from "@/providers/TokenProvider";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import {useTokenProvider} from "@/providers/TokenProvider";
+import {Input} from "@/components/ui/input";
+import {Textarea} from "@/components/ui/textarea";
 import MediaSkeleton from "./MediaSkeleton";
 import OwnerWarning from "./OwnerWarning";
 import SaveMediaButton from "./SaveMediaButton";
+import {useMomentManageProvider} from "@/providers/MomentManageProvider";
+import ImageUpload from "@/components/TokenManagePage/ImageUpload";
 
 const Media = () => {
-  const { metadata } = useTokenProvider();
+  const {metadata} = useTokenProvider();
+  const {
+    name,
+    description,
+    setName,
+    setDescription,
+    imageUri,
+    setImageUri,
+  } = useMomentManageProvider();
   const { data: meta, isLoading } = metadata;
-  const [title, setTitle] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
 
   useEffect(() => {
     if (!meta) return;
-    if (!title) setTitle(meta.name || "");
+    if (!name) setName(meta.name || "");
     if (!description) setDescription(meta.description || "");
-  }, [meta, title, description]);
+    if (!imageUri) setImageUri(meta.image || "");
+  }, [meta, name, description, setName, setDescription, imageUri, setImageUri]);
 
   if (isLoading || !meta) {
     return <MediaSkeleton />;
@@ -34,8 +43,8 @@ const Media = () => {
             </label>
             <Input
               type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               placeholder="enter a title"
             />
           </div>
@@ -53,7 +62,8 @@ const Media = () => {
             />
           </div>
 
-          <SaveMediaButton title={title} description={description} />
+          <ImageUpload/>
+          <SaveMediaButton/>
           <OwnerWarning />
         </div>
       </div>
