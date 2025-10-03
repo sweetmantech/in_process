@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import { ChangeEvent, useRef, useState } from "react";
-import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
+import { useMomentCreateProvider } from "@/providers/MomentCreateProvider";
 import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
 import { toast } from "sonner";
 import WritingPreview from "./WritingPreview";
@@ -15,7 +15,7 @@ const UploadPreview = () => {
     writingText,
     setIsOpenPreviewUpload,
     setPreviewSrc,
-  } = useZoraCreateProvider();
+  } = useMomentCreateProvider();
   const [progress, setProgress] = useState<number>(0);
   const previewRef = useRef() as any;
   const [isUploading, setIsUploading] = useState<boolean>(false);

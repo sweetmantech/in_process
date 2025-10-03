@@ -1,9 +1,9 @@
-import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
+import { useMomentCreateProvider } from "@/providers/MomentCreateProvider";
 import { Input } from "@/components/ui/input";
 import { LinkIcon } from "../ui/icons";
 
 const LinkInput = () => {
-  const { link, setLink, fileUploading } = useZoraCreateProvider();
+  const { link, setLink, fileUploading } = useMomentCreateProvider();
 
   return (
     <div className="mt-4 flex bg-grey-moss-50 border border-grey-moss-100 items-center px-4">
