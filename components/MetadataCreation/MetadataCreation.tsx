@@ -1,4 +1,4 @@
-import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
+import { useMomentCreateProvider } from "@/providers/MomentCreateProvider";
 import { Fragment, useRef } from "react";
 import NoFileSelected from "./NoFileSelected";
 import ResetButton from "./ResetButton";
@@ -15,7 +15,7 @@ const MetadataCreation = () => {
     fileUpload,
     fileUploading,
     createdContract,
-  } = useZoraCreateProvider();
+  } = useMomentCreateProvider();
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const selected = imageUri || animationUri || fileUploading;

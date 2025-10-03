@@ -3,7 +3,7 @@
 import { ReactNode } from "react";
 import PrivyProvider from "./PrivyProvider";
 import { WagmiProvider } from "./WagmiProvider";
-import { ZoraCreateProvider } from "./ZoraCreateProvider";
+import { MomentCreateProvider } from "./MomentCreateProvider";
 import UserProvider from "./UserProvider";
 import { CrossmintProvider } from "./CrossmintProvider";
 import FrameProvider from "./FrameProvider";
@@ -23,11 +23,11 @@ export function Providers({ children }: ProvidersProps): JSX.Element {
           <PrivyProvider>
             <FrameProvider>
               <UserProvider>
-                <ZoraCreateProvider>
+                <MomentCreateProvider>
                   <UserCollectionsProvider>
                     <LayoutProvider>{children}</LayoutProvider>
                   </UserCollectionsProvider>
-                </ZoraCreateProvider>
+                </MomentCreateProvider>
               </UserProvider>
             </FrameProvider>
           </PrivyProvider>

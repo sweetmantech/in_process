@@ -1,9 +1,9 @@
-import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
+import { useMomentCreateProvider } from "@/providers/MomentCreateProvider";
 import LinkInput from "./LinkInput";
 import Image from "next/image";
 
 const LinkPreview = () => {
-  const { createdContract, previewSrc, link } = useZoraCreateProvider();
+  const { createdContract, previewSrc, link } = useMomentCreateProvider();
 
   return (
     <div

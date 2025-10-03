@@ -1,11 +1,11 @@
-import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
+import { useMomentCreateProvider } from "@/providers/MomentCreateProvider";
 import { ChangeEvent, useState } from "react";
 
 type ScrollPosition = "top" | "mid" | "bottom" | null;
 
 const TextInput = () => {
   const { fileUploading, write, writingText, creating } =
-    useZoraCreateProvider();
+    useMomentCreateProvider();
   const [scrollPosition, setScrollPosition] = useState<ScrollPosition>(null);
 
   const handleScroll = (e: React.UIEvent<HTMLTextAreaElement>) => {

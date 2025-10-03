@@ -1,10 +1,10 @@
 import useIsMobile from "@/hooks/useIsMobile";
-import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
+import { useMomentCreateProvider } from "@/providers/MomentCreateProvider";
 import { usePathname } from "next/navigation";
 import { ReactNode, useMemo } from "react";
 
 const Moment = ({ children }: { children: ReactNode }) => {
-  const { createdContract } = useZoraCreateProvider();
+  const { createdContract } = useMomentCreateProvider();
   const pathname = usePathname();
   const isMobile = useIsMobile();
   const gridVisible = useMemo(() => {
