@@ -1,25 +1,19 @@
 "use client";
-import {useEffect} from "react";
+import { useEffect } from "react";
 
-import {useTokenProvider} from "@/providers/TokenProvider";
-import {Input} from "@/components/ui/input";
-import {Textarea} from "@/components/ui/textarea";
+import { useTokenProvider } from "@/providers/TokenProvider";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import MediaSkeleton from "./MediaSkeleton";
 import OwnerWarning from "./OwnerWarning";
 import SaveMediaButton from "./SaveMediaButton";
-import {useMomentManageProvider} from "@/providers/MomentManageProvider";
+import { useMomentManageProvider } from "@/providers/MomentManageProvider";
 import ImageUpload from "@/components/TokenManagePage/ImageUpload";
 
 const Media = () => {
-  const {metadata} = useTokenProvider();
-  const {
-    name,
-    description,
-    setName,
-    setDescription,
-    imageUri,
-    setImageUri,
-  } = useMomentManageProvider();
+  const { metadata } = useTokenProvider();
+  const { name, description, setName, setDescription, imageUri, setImageUri } =
+    useMomentManageProvider();
   const { data: meta, isLoading } = metadata;
 
   useEffect(() => {
@@ -38,9 +32,7 @@ const Media = () => {
       <div className="bg-white rounded-lg shadow-sm p-6 max-w-md mt-4">
         <div className="space-y-4">
           <div>
-            <label className="font-archivo text-sm text-grey-moss-600 block mb-1">
-              title
-            </label>
+            <label className="font-archivo text-sm text-grey-moss-600 block mb-1">title</label>
             <Input
               type="text"
               value={name}
@@ -62,8 +54,8 @@ const Media = () => {
             />
           </div>
 
-          <ImageUpload/>
-          <SaveMediaButton/>
+          <ImageUpload />
+          <SaveMediaButton />
           <OwnerWarning />
         </div>
       </div>

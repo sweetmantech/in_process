@@ -9,18 +9,13 @@ export interface IRewardsGetter {
   }) => Promise<{ secondaryActivated: boolean; erc20z: Address }[]>;
 }
 
-export class SubgraphRewardsGetter
-  extends SubgraphGetter
-  implements IRewardsGetter
-{
+export class SubgraphRewardsGetter extends SubgraphGetter implements IRewardsGetter {
   constructor(chainId: number, subgraphQuerier?: ISubgraphQuerier) {
     super(chainId, subgraphQuerier);
   }
 
   async getErc20ZzForCreator({ address }: { address: Address }) {
-    const queryResults = await this.querySubgraphWithRetries(
-      buildCreatorERC20zs({ address }),
-    );
+    const queryResults = await this.querySubgraphWithRetries(buildCreatorERC20zs({ address }));
 
     const results = (
       queryResults?.map((result) => {
@@ -36,10 +31,8 @@ export class SubgraphRewardsGetter
         };
       }) || []
     ).filter(
-      (
-        idAndActivated,
-      ): idAndActivated is { secondaryActivated: boolean; erc20z: Address } =>
-        !!idAndActivated,
+      (idAndActivated): idAndActivated is { secondaryActivated: boolean; erc20z: Address } =>
+        !!idAndActivated
     );
 
     return results;

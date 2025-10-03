@@ -11,11 +11,7 @@ interface FeedTooltipProps {
   isVisible: boolean;
 }
 
-export const FeedTooltip: React.FC<FeedTooltipProps> = ({
-  feed,
-  position,
-  isVisible,
-}) => {
+export const FeedTooltip: React.FC<FeedTooltipProps> = ({ feed, position, isVisible }) => {
   if (!isVisible || !position || !feed) return null;
   // eslint-disable-next-line
   const { isLoading, data } = useMetadata(feed.uri);

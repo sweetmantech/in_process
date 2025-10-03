@@ -31,11 +31,7 @@ const Overview = () => {
           }
           className="px-2 py-1 rounded-md hover:text-grey-eggshell hover:bg-black"
         >
-          {isLoading ? (
-            <Skeleton className="w-12 h-4 rounded-sm" />
-          ) : (
-            data?.name
-          )}
+          {isLoading ? <Skeleton className="w-12 h-4 rounded-sm" /> : data?.name}
         </button>
       </div>
       <div className="w-fit pt-4 flex flex-col md:flex-row items-center gap-2">
@@ -47,9 +43,7 @@ const Overview = () => {
           )}
         </div>
         <div className="space-y-2">
-          <p className="font-archivo-medium text-xl md:text-4xl">
-            {data?.name}
-          </p>
+          <p className="font-archivo-medium text-xl md:text-4xl">{data?.name}</p>
           <CopyButton address={collection.address} />
         </div>
       </div>

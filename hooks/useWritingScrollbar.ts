@@ -12,8 +12,7 @@ export const useWritingScrollbar = () => {
   const handleScroll = (e: UIEvent<HTMLDivElement>) => {
     const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
     const nearBottom = scrollHeight - scrollTop - clientHeight <= SCROLL_EPS;
-    const next: ScrollPos =
-      scrollTop === 0 ? "top" : nearBottom ? "bottom" : "mid";
+    const next: ScrollPos = scrollTop === 0 ? "top" : nearBottom ? "bottom" : "mid";
     setScrollPosition((prev) => (prev === next ? prev : next));
   };
 

@@ -11,7 +11,7 @@ const saveIndentify = async (
   bio: string,
   instagram: string,
   telegram: string,
-  twitter: string,
+  twitter: string
 ) => {
   await fetch("/api/profile/create", {
     method: "POST",
@@ -41,8 +41,7 @@ const useProfile = () => {
   const { artistAddress } = useParams();
   const searchParams = useSearchParams();
   const canEdit =
-    connectedAddress?.toLowerCase() ===
-      new String((artistAddress as string) || "").toLowerCase() &&
+    connectedAddress?.toLowerCase() === new String((artistAddress as string) || "").toLowerCase() &&
     Boolean(connectedAddress);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [saving, setSaving] = useState<boolean>(false);
@@ -70,13 +69,7 @@ const useProfile = () => {
   }, [canEdit, searchParams, artistAddress]);
 
   useEffect(() => {
-    if (
-      !usernameRef.current ||
-      !bioRef.current ||
-      !statusRef.current ||
-      !socialRef.current
-    )
-      return;
+    if (!usernameRef.current || !bioRef.current || !statusRef.current || !socialRef.current) return;
     if (!isEditing) return;
     const handleMouseDown = async (e: MouseEvent) => {
       if (
@@ -87,14 +80,7 @@ const useProfile = () => {
       )
         return;
       setSaving(true);
-      await saveIndentify(
-        artistAddress as Address,
-        username,
-        bio,
-        instagram,
-        telegram,
-        twitter,
-      );
+      await saveIndentify(artistAddress as Address, username, bio, instagram, telegram, twitter);
       setTimeout(() => {
         toggleEditing();
         setSaving(false);

@@ -12,9 +12,7 @@ const PaymentsTableError = ({ error }: PaymentsTableErrorProps) => {
       </CardHeader>
       <CardContent>
         <div className="text-center py-8">
-          <p className="text-red-600 dark:text-red-400">
-            Failed to load payments: {error.message}
-          </p>
+          <p className="text-red-600 dark:text-red-400">Failed to load payments: {error.message}</p>
         </div>
       </CardContent>
     </Card>

@@ -9,11 +9,7 @@ const Controls = () => {
   return (
     <div className="px-1 flex justify-between z-[999999] size-full absolute flex items-center left-0 top-0">
       {activeIndex > 1 && (
-        <button
-          className="text-black"
-          type="button"
-          onClick={() => swiper?.slidePrev()}
-        >
+        <button className="text-black" type="button" onClick={() => swiper?.slidePrev()}>
           <ArrowRight className="rotate-[-180deg] w-6 h-6" />
         </button>
       )}

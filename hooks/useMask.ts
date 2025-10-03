@@ -46,14 +46,7 @@ export const useMask = (isOpenAdvanced: boolean, writingText: string) => {
     updateMasks();
     window.addEventListener("resize", updateMasks);
     return () => window.removeEventListener("resize", updateMasks);
-  }, [
-    inputRef,
-    titleRef,
-    svgRef.current,
-    pathname,
-    isOpenAdvanced,
-    writingText,
-  ]);
+  }, [inputRef, titleRef, svgRef.current, pathname, isOpenAdvanced, writingText]);
 
   return { masks, svgRef, maskId, inputRef, titleRef };
 };

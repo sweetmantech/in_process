@@ -10,8 +10,8 @@ const VideoPlayer = ({ url }: VideoPlayerProps) => {
   };
 
   return (
-    <video 
-      controls 
+    <video
+      controls
       className="w-full rounded-md bg-grey-moss-900"
       onClick={stopPropagation}
       onMouseDown={stopPropagation}

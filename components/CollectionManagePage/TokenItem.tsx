@@ -31,10 +31,7 @@ const TokenItem = ({
   };
 
   return (
-    <section
-      className="col-span-1 aspect-[1/1] flex flex-col cursor-pointer"
-      onClick={handleClick}
-    >
+    <section className="col-span-1 aspect-[1/1] flex flex-col cursor-pointer" onClick={handleClick}>
       {isLoading ? (
         <Skeleton className="size-full" />
       ) : (
@@ -65,7 +62,7 @@ const TokenItem = ({
                   uri: t.uri,
                   admin: connectedAddress as Address,
                   createdAt: new Date().toISOString(),
-                  username: '',
+                  username: "",
                 }}
               />
             )}

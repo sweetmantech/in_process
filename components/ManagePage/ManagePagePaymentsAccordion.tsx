@@ -10,9 +10,7 @@ interface ManagePagePaymentsAccordionProps {
   address?: string;
 }
 
-const ManagePagePaymentsAccordion = ({
-  address,
-}: ManagePagePaymentsAccordionProps) => {
+const ManagePagePaymentsAccordion = ({ address }: ManagePagePaymentsAccordionProps) => {
   return (
     <div className="px-6 md:px-8 pb-6">
       <Accordion type="single" collapsible className="w-full">

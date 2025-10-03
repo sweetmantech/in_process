@@ -14,18 +14,8 @@ interface PaymentsTableProps {
   combined?: boolean;
 }
 
-const PaymentsTable = ({
-  limit = 20,
-  address,
-  combined = false,
-}: PaymentsTableProps) => {
-  const { data, isLoading, error } = usePayments(
-    1,
-    limit,
-    true,
-    address,
-    combined
-  );
+const PaymentsTable = ({ limit = 20, address, combined = false }: PaymentsTableProps) => {
+  const { data, isLoading, error } = usePayments(1, limit, true, address, combined);
 
   if (isLoading) return <PaymentsTableLoading />;
   if (error) return <PaymentsTableError error={error} />;

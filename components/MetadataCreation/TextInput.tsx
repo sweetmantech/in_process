@@ -4,19 +4,13 @@ import { ChangeEvent, useState } from "react";
 type ScrollPosition = "top" | "mid" | "bottom" | null;
 
 const TextInput = () => {
-  const { fileUploading, write, writingText, creating } =
-    useMomentCreateProvider();
+  const { fileUploading, write, writingText, creating } = useMomentCreateProvider();
   const [scrollPosition, setScrollPosition] = useState<ScrollPosition>(null);
 
   const handleScroll = (e: React.UIEvent<HTMLTextAreaElement>) => {
-    const { scrollTop, scrollHeight, clientHeight } =
-      e.target as HTMLTextAreaElement;
+    const { scrollTop, scrollHeight, clientHeight } = e.target as HTMLTextAreaElement;
     const position: ScrollPosition =
-      scrollTop === 0
-        ? "top"
-        : scrollHeight - scrollTop - clientHeight <= 5
-          ? "bottom"
-          : "mid";
+      scrollTop === 0 ? "top" : scrollHeight - scrollTop - clientHeight <= 5 ? "bottom" : "mid";
     setScrollPosition(position);
   };
 

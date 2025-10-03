@@ -13,16 +13,10 @@ export async function POST(req: NextRequest) {
         field: err.path.join("."),
         message: err.message,
       }));
-      return Response.json(
-        { message: "Invalid input", errors: errorDetails },
-        { status: 400 }
-      );
+      return Response.json({ message: "Invalid input", errors: errorDetails }, { status: 400 });
     }
     const data = parseResult.data;
-    const metadataUri = await uploadWritingWithJson(
-      data.contract.name,
-      data.token.tokenContent
-    );
+    const metadataUri = await uploadWritingWithJson(data.contract.name, data.token.tokenContent);
     const convertedData = convertWritingToContractSchema(data, metadataUri);
     const result = await createContract(convertedData);
     return Response.json(result);

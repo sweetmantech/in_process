@@ -8,7 +8,7 @@ export async function GET() {
           "X-CMC_PRO_API_KEY": "b9586936-6f69-4f86-abe8-fa33f34e67f1",
           Accept: "application/json",
         },
-      },
+      }
     );
     const data = await response.json();
     return Response.json(data.data["1027"].quote.USD.price);

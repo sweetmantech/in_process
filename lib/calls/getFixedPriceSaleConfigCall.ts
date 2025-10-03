@@ -2,11 +2,7 @@ import { Address } from "viem";
 import { zoraCreatorFixedPriceSaleStrategyAddress } from "../protocolSdk/constants";
 import { zoraCreatorFixedPriceSaleStrategyABI } from "@zoralabs/protocol-deployments";
 
-const getFixedPriceSaleConfigCall = (
-  tokenContract: Address,
-  tokenId: string,
-  chainId: number,
-) => ({
+const getFixedPriceSaleConfigCall = (tokenContract: Address, tokenId: string, chainId: number) => ({
   address:
     zoraCreatorFixedPriceSaleStrategyAddress[
       chainId as keyof typeof zoraCreatorFixedPriceSaleStrategyAddress

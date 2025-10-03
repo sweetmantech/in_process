@@ -32,8 +32,7 @@ const AudioPlayer = ({ audioUrl, thumbnailUrl }: AudioPlayerProps) => {
 
   const handleTimeUpdate = () => {
     if (audioRef.current) {
-      const progress =
-        (audioRef.current.currentTime / audioRef.current.duration) * 100;
+      const progress = (audioRef.current.currentTime / audioRef.current.duration) * 100;
       setProgress(progress);
     }
   };
@@ -75,11 +74,7 @@ const AudioPlayer = ({ audioUrl, thumbnailUrl }: AudioPlayerProps) => {
             onTouchStart={stopPropagation}
             className="text-primary hover:text-primary-dark"
           >
-            {isPlaying ? (
-              <Pause className="size-6" />
-            ) : (
-              <Play className="size-6" />
-            )}
+            {isPlaying ? <Pause className="size-6" /> : <Play className="size-6" />}
           </Button>
         </div>
         <Slider

@@ -1,12 +1,6 @@
 import { useLayoutProvider } from "@/providers/LayoutProvider";
 import { useRouter } from "next/navigation";
-import {
-  ChangeEvent,
-  KeyboardEvent,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { ChangeEvent, KeyboardEvent, useEffect, useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { searchByQuery, SearchByQueryResponse } from "@/lib/searchByQuery";
 
@@ -15,13 +9,12 @@ const useSearch = () => {
   const { push } = useRouter();
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const { setIsExpandedSearchInput } = useLayoutProvider();
-  const { data: userSearchData, isLoading: isLoadingSearch } =
-    useQuery<SearchByQueryResponse>({
-      queryKey: ["search", searchKey],
-      queryFn: () => searchByQuery(searchKey),
-      enabled: !!searchKey, // Only run if query is non-empty
-      staleTime: 1000 * 30, // 30 seconds (adjust as needed)
-    });
+  const { data: userSearchData, isLoading: isLoadingSearch } = useQuery<SearchByQueryResponse>({
+    queryKey: ["search", searchKey],
+    queryFn: () => searchByQuery(searchKey),
+    enabled: !!searchKey, // Only run if query is non-empty
+    staleTime: 1000 * 30, // 30 seconds (adjust as needed)
+  });
   const suffixHint = useMemo(() => {
     if (!userSearchData?.artist || !userSearchData?.artist?.username) return "";
     return userSearchData?.artist?.username.slice(searchKey.length);
@@ -34,9 +27,7 @@ const useSearch = () => {
     push(`/${userSearchData?.artist?.address}`);
   };
 
-  const onKeyDown = (
-    e: KeyboardEvent<HTMLInputElement | HTMLButtonElement>
-  ) => {
+  const onKeyDown = (e: KeyboardEvent<HTMLInputElement | HTMLButtonElement>) => {
     if (e.key === "Tab") {
       setSearchKey(userSearchData?.artist?.username || "");
       return;

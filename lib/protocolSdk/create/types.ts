@@ -115,14 +115,7 @@ export type New1155Token = {
 };
 
 export type CreateNew1155TokenReturn = {
-  parameters: SimulateContractParameters<
-    any,
-    any,
-    any,
-    any,
-    any,
-    Account | Address
-  >;
+  parameters: SimulateContractParameters<any, any, any, any, any, Account | Address>;
   tokenSetupActions: Hex[];
   newTokenId: bigint;
   newToken: New1155Token;

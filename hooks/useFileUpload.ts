@@ -45,9 +45,7 @@ const useFileUpload = ({
 
       const mimeType = file.type;
       const isImage = mimeType.includes("image");
-      const uri = await clientUploadToArweave(file, (pct: number) =>
-        setPctComplete(pct),
-      );
+      const uri = await clientUploadToArweave(file, (pct: number) => setPctComplete(pct));
       if (isImage) {
         setImageUri(uri);
         setPreviewSrc(URL.createObjectURL(file));
@@ -59,9 +57,7 @@ const useFileUpload = ({
         setAnimationUri(uri);
         setMimeType(mimeType);
         if (mimeType.includes("video")) {
-          const frameBase64: any = await captureImageFromVideo(
-            URL.createObjectURL(file),
-          );
+          const frameBase64: any = await captureImageFromVideo(URL.createObjectURL(file));
           const imageFile = base64ToFile(frameBase64 as string, file.name);
           const imageUri = await clientUploadToArweave(imageFile);
           setImageUri(imageUri);

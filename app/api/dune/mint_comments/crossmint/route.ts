@@ -11,13 +11,11 @@ export async function GET(req: NextRequest) {
   try {
     const crossmintEvents: DuneDecodedEvent[] = await getCrossmintCommentEvents(
       tokenContract as string,
-      chainId as string,
+      chainId as string
     );
 
     const comments = getFormattedMintComments(crossmintEvents);
-    return Response.json(
-      tokenId ? comments.filter((e) => e.tokenId === tokenId) : comments,
-    );
+    return Response.json(tokenId ? comments.filter((e) => e.tokenId === tokenId) : comments);
   } catch (e: any) {
     console.log(e);
     const message = e?.message ?? "failed to get Dune transactions";

@@ -26,12 +26,10 @@ const getTokensAndUris = async (collection: Address, chainId: number) => {
       contracts: uriCalls as any,
     });
 
-    return Array.from({ length: parseInt(nextTokenId.toString(), 10) - 1 }).map(
-      (_, i) => ({
-        tokenId: BigInt(i + 1),
-        uri: returnValues[i].result as string,
-      }),
-    );
+    return Array.from({ length: parseInt(nextTokenId.toString(), 10) - 1 }).map((_, i) => ({
+      tokenId: BigInt(i + 1),
+      uri: returnValues[i].result as string,
+    }));
   } catch (error) {
     console.error(error);
     throw new Error("failed to get tokens");

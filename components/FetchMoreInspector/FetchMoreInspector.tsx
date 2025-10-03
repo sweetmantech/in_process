@@ -6,10 +6,7 @@ interface FetchMoreInspectorProps {
   className?: string;
   children?: React.ReactNode;
 }
-const FetchMoreInspector = ({
-  fetchMore,
-  children,
-}: FetchMoreInspectorProps) => {
+const FetchMoreInspector = ({ fetchMore, children }: FetchMoreInspectorProps) => {
   const [ref, inView] = useInView();
 
   useEffect(() => {

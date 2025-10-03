@@ -2,13 +2,7 @@ import {
   zoraCreator1155FactoryImplABI,
   zoraCreator1155ImplABI,
 } from "@zoralabs/protocol-deployments";
-import type {
-  Account,
-  Address,
-  Hex,
-  PublicClient,
-  TransactionReceipt,
-} from "viem";
+import type { Account, Address, Hex, PublicClient, TransactionReceipt } from "viem";
 import { decodeEventLog } from "viem";
 import { makeContractParameters } from "../utils";
 import {
@@ -34,9 +28,7 @@ import { CHAIN_ID } from "@/lib/consts";
 // Default royalty bps
 const ROYALTY_BPS_DEFAULT = 1000;
 
-export const getTokenIdFromCreateReceipt = (
-  receipt: TransactionReceipt,
-): bigint => {
+export const getTokenIdFromCreateReceipt = (receipt: TransactionReceipt): bigint => {
   for (const data of receipt.logs) {
     try {
       const decodedLog = decodeEventLog({
@@ -51,14 +43,10 @@ export const getTokenIdFromCreateReceipt = (
     } catch (err: any) {}
   }
 
-  throw new Error(
-    "No event found in receipt that could be used to get tokenId",
-  );
+  throw new Error("No event found in receipt that could be used to get tokenId");
 };
 
-export const getContractAddressFromReceipt = (
-  receipt: TransactionReceipt,
-): Address => {
+export const getContractAddressFromReceipt = (receipt: TransactionReceipt): Address => {
   for (const data of receipt.logs) {
     try {
       const decodedLog = decodeEventLog({
@@ -73,9 +61,7 @@ export const getContractAddressFromReceipt = (
     } catch (err: any) {}
   }
 
-  throw new Error(
-    "No event found in receipt that could be used to get contract address",
-  );
+  throw new Error("No event found in receipt that could be used to get contract address");
 };
 
 type MakeContractParametersBase = {
@@ -97,8 +83,7 @@ export function makeCreateContractAndTokenCall({
   royaltyBPS?: number;
   fundsRecipient?: Address;
 } & MakeContractParametersBase) {
-  const accountAddress =
-    typeof account === "string" ? account : account.address;
+  const accountAddress = typeof account === "string" ? account : account.address;
   return makeContractParameters({
     abi: zoraCreator1155FactoryImplABI,
     functionName: "createContractDeterministic",
@@ -155,7 +140,7 @@ export class Create1155Client {
   }
 
   async createNew1155(
-    props: CreateNew1155ContractParams,
+    props: CreateNew1155ContractParams
   ): Promise<CreateNew1155ContractAndTokenReturn> {
     return createNew1155ContractAndToken({
       ...props,
@@ -264,18 +249,15 @@ async function createNew1155Token({
   chainId: number;
 }): Promise<CreateNew1155TokenReturn> {
   const publicClient = getPublicClient(CHAIN_ID);
-  const calls = ["nextTokenId", "contractVersion", "mintFee", "name"].map(
-    (fname: string) => ({
-      address: contractAddress,
-      abi: zoraCreator1155ImplABI,
-      functionName: fname,
-    }),
-  );
+  const calls = ["nextTokenId", "contractVersion", "mintFee", "name"].map((fname: string) => ({
+    address: contractAddress,
+    abi: zoraCreator1155ImplABI,
+    functionName: fname,
+  }));
   const returnValues = await publicClient.multicall({
     contracts: calls as any,
   });
-  const [nextTokenIdValue, contractVersionValue, mintFeeValue, nameValue] =
-    returnValues as any;
+  const [nextTokenIdValue, contractVersionValue, mintFeeValue, nameValue] = returnValues as any;
   const nextTokenId = nextTokenIdValue.result;
   const contractVersion = contractVersionValue.result;
   const mintFee = mintFeeValue.result;

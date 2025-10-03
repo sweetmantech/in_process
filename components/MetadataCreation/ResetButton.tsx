@@ -1,4 +1,4 @@
-import {Pencil1Icon} from "@radix-ui/react-icons";
+import { Pencil1Icon } from "@radix-ui/react-icons";
 
 interface ResetButtonProps {
   onClick: () => void;

@@ -48,22 +48,13 @@ const MaskLines = () => {
           WebkitMaskImage: `url(#${maskId})`,
         }}
       />
-      <svg
-        ref={svgRef}
-        className="absolute inset-0 w-full h-full hidden md:block"
-      >
+      <svg ref={svgRef} className="absolute inset-0 w-full h-full hidden md:block">
         <defs>
           <mask id={maskId}>
             <rect width="100%" height="100%" fill="white" />
             {masks.map((mask, i) => (
               <React.Fragment key={i}>
-                <rect
-                  x={mask.x}
-                  y={mask.y}
-                  width={mask.width}
-                  height={mask.height}
-                  fill="black"
-                />
+                <rect x={mask.x} y={mask.y} width={mask.width} height={mask.height} fill="black" />
               </React.Fragment>
             ))}
           </mask>

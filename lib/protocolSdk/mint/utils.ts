@@ -1,7 +1,5 @@
 import * as semver from "semver";
-export const contractSupportsNewMintFunction = (
-  contractVersion?: string | null,
-) => {
+export const contractSupportsNewMintFunction = (contractVersion?: string | null) => {
   if (!contractVersion) {
     return false;
   }

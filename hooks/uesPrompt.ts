@@ -25,7 +25,7 @@ const usePrompt = () => {
           setPlaceholder(promptOptions[promptIndex].label);
           return promptIndex;
         }),
-      1500,
+      1500
     );
   };
 
@@ -35,10 +35,7 @@ const usePrompt = () => {
     const promptValue = promptOptions[prompt].value;
     setName(promptValue);
     setTimeout(() => {
-      promptRef.current.setSelectionRange(
-        promptValue.length,
-        promptValue.length,
-      );
+      promptRef.current.setSelectionRange(promptValue.length, promptValue.length);
     }, 100);
     clearInterval(timer);
   };

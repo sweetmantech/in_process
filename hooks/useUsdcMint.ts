@@ -1,9 +1,4 @@
-import {
-  CHAIN,
-  CHAIN_ID,
-  ETH_USDC_WRAPPER,
-  UNISWAP_ROUTER_ADDRESS,
-} from "@/lib/consts";
+import { CHAIN, CHAIN_ID, ETH_USDC_WRAPPER, UNISWAP_ROUTER_ADDRESS } from "@/lib/consts";
 import { getPublicClient } from "@/lib/viem/publicClient";
 import { parseEther } from "viem";
 import { Address } from "viem";
@@ -32,15 +27,12 @@ const useUsdcMint = () => {
     mintCount: number = 1
   ) => {
     const usdcPrice = sale.pricePerToken;
-    const hasSufficientUsdc =
-      balances.usdcBalance >= usdcPrice * BigInt(mintCount);
+    const hasSufficientUsdc = balances.usdcBalance >= usdcPrice * BigInt(mintCount);
     const publicClient = getPublicClient(CHAIN_ID);
     if (hasSufficientUsdc) {
       const sufficientAllowance = await hasAllowance(sale, mintCount);
       if (!sufficientAllowance) {
-        toast.error(
-          `Insufficient allowance. please sign initial tx to grant max allowance`
-        );
+        toast.error(`Insufficient allowance. please sign initial tx to grant max allowance`);
         await approve(usdcPrice * BigInt(mintCount));
       }
       const request = getCollectRequest(
@@ -56,10 +48,7 @@ const useUsdcMint = () => {
       return receipt;
     }
 
-    const { amountInMaximum } = await getPoolInfo(
-      connectedAddress as Address,
-      usdcPrice
-    );
+    const { amountInMaximum } = await getPoolInfo(connectedAddress as Address, usdcPrice);
     const ethBalance = parseEther(balances.ethBalance.toString());
     if (ethBalance > amountInMaximum) {
       const hash = await signTransaction({

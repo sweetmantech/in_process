@@ -5,18 +5,15 @@ import { useEffect, useState } from "react";
 
 async function fetchCollections(
   param?: PageParam,
-  artistAddress?: string,
+  artistAddress?: string
 ): Promise<CollectionsResponse> {
-  const response = await fetch(
-    `/api/collections?artistAddress=${artistAddress || ""}`,
-    {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(param || {}),
+  const response = await fetch(`/api/collections?artistAddress=${artistAddress || ""}`, {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
     },
-  );
+    body: JSON.stringify(param || {}),
+  });
   if (!response.ok) {
     throw new Error("Failed to fetch all collections");
   }
@@ -24,50 +21,41 @@ async function fetchCollections(
   return data;
 }
 
-export function useCollections(
-  artistAddress?: string,
-  enabled: boolean = true,
-) {
+export function useCollections(artistAddress?: string, enabled: boolean = true) {
   const [collections, setCollections] = useState<Collection[]>([]);
-  const [isFetchingCollections, setIsFetchingCollections] =
-    useState<boolean>(true);
+  const [isFetchingCollections, setIsFetchingCollections] = useState<boolean>(true);
 
-  const { hasNextPage, fetchNextPage, data, isFetchingNextPage } =
-    useInfiniteQuery({
-      queryKey: ["collectons", artistAddress],
-      queryFn: ({ pageParam }) => fetchCollections(pageParam, artistAddress),
-      getNextPageParam: (lastPage: CollectionsResponse) => {
-        if (
-          Boolean(
-            !lastPage.nextOffsets?.factory && !lastPage.nextOffsets.smartWallet,
-          )
+  const { hasNextPage, fetchNextPage, data, isFetchingNextPage } = useInfiniteQuery({
+    queryKey: ["collectons", artistAddress],
+    queryFn: ({ pageParam }) => fetchCollections(pageParam, artistAddress),
+    getNextPageParam: (lastPage: CollectionsResponse) => {
+      if (Boolean(!lastPage.nextOffsets?.factory && !lastPage.nextOffsets.smartWallet))
+        return undefined;
+      return {
+        offsets: lastPage.nextOffsets,
+        artistAddress: lastPage.artistAddress,
+      };
+    },
+    initialPageParam: undefined,
+    staleTime: 1000 * 60 * 5,
+    refetchInterval(query) {
+      const pages = query.state.data?.pages;
+      if (!pages) return Infinity;
+      if (
+        Boolean(
+          pages[pages.length - 1]?.nextOffsets.factory ||
+            pages[pages.length - 1]?.nextOffsets.smartWallet
         )
-          return undefined;
-        return {
-          offsets: lastPage.nextOffsets,
-          artistAddress: lastPage.artistAddress,
-        };
-      },
-      initialPageParam: undefined,
-      staleTime: 1000 * 60 * 5,
-      refetchInterval(query) {
-        const pages = query.state.data?.pages;
-        if (!pages) return Infinity;
-        if (
-          Boolean(
-            pages[pages.length - 1]?.nextOffsets.factory ||
-              pages[pages.length - 1]?.nextOffsets.smartWallet,
-          )
-        )
-          return Infinity;
-        return Boolean(artistAddress) ? Infinity : 1000 * 5;
-      },
-      refetchOnWindowFocus: false,
-      retry: (failureCount) => {
-        return failureCount < 4;
-      },
-      enabled,
-    });
+      )
+        return Infinity;
+      return Boolean(artistAddress) ? Infinity : 1000 * 5;
+    },
+    refetchOnWindowFocus: false,
+    retry: (failureCount) => {
+      return failureCount < 4;
+    },
+    enabled,
+  });
 
   useEffect(() => {
     if (data?.pages.length) {

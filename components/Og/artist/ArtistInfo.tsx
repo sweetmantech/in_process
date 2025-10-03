@@ -8,10 +8,7 @@ const ArtistInfo = ({ nickName }: { nickName: string }) => {
       }}
     >
       {/* eslint-disable-next-line */}
-      <img
-        src="https://arweave.net/GlRVqkN9sLPSmN09CSLTAgc5lW-GaUg23I0-wRd2MwI"
-        width="100%"
-      />
+      <img src="https://arweave.net/GlRVqkN9sLPSmN09CSLTAgc5lW-GaUg23I0-wRd2MwI" width="100%" />
       <p
         style={{
           fontFamily: "Archivo",

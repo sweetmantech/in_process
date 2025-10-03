@@ -1,10 +1,4 @@
-import {
-  Address,
-  encodeFunctionData,
-  Hash,
-  parseEventLogs,
-  ParseEventLogsReturnType,
-} from "viem";
+import { Address, encodeFunctionData, Hash, parseEventLogs, ParseEventLogsReturnType } from "viem";
 import { z } from "zod";
 import cdp from "@/lib/coinbase/client";
 import { CHAIN_ID, IS_TESTNET } from "@/lib/consts";
@@ -73,8 +67,7 @@ export async function createContract({
   console.log("collectionLogs", collectionLogs);
 
   return {
-    contractAddress: (factoryLogs[0].args as { newContract: Address })
-      .newContract,
+    contractAddress: (factoryLogs[0].args as { newContract: Address }).newContract,
     tokenId: (collectionLogs[0].args as { tokenId: bigint }).tokenId.toString(),
     hash: transaction.transactionHash as Hash,
     chainId: CHAIN_ID,

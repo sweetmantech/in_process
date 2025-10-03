@@ -5,7 +5,7 @@ export const getCatmullRomControlPoints = (
   p1: Point,
   p2: Point,
   p3: Point,
-  tension: number = 0.5,
+  tension: number = 0.5
 ): [Point, Point] => {
   const t = tension;
   const x1 = p1[0] + ((p2[0] - p0[0]) / 6) * t;
@@ -29,12 +29,7 @@ export const createPathData = (points: Point[]): string => {
       points[0][0] - (points[1][0] - points[0][0]),
       points[0][1] - (points[1][1] - points[0][1]),
     ];
-    const [cp1, cp2] = getCatmullRomControlPoints(
-      virtual_p0,
-      points[0],
-      points[1],
-      points[2],
-    );
+    const [cp1, cp2] = getCatmullRomControlPoints(virtual_p0, points[0], points[1], points[2]);
     pathData += ` C ${cp1[0]},${cp1[1]} ${cp2[0]},${cp2[1]} ${points[1][0]},${points[1][1]}`;
   }
 
@@ -44,7 +39,7 @@ export const createPathData = (points: Point[]): string => {
       points[i],
       points[i + 1],
       points[i + 2],
-      points[i + 3],
+      points[i + 3]
     );
     pathData += ` C ${cp1[0]},${cp1[1]} ${cp2[0]},${cp2[1]} ${points[i + 2][0]},${points[i + 2][1]}`;
   }
@@ -60,7 +55,7 @@ export const createPathData = (points: Point[]): string => {
       points[n - 3],
       points[n - 2],
       points[n - 1],
-      virtual_p3,
+      virtual_p3
     );
     pathData += ` C ${cp1[0]},${cp1[1]} ${cp2[0]},${cp2[1]} ${points[n - 1][0]},${points[n - 1][1]}`;
   }

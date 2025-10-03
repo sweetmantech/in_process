@@ -13,10 +13,7 @@ interface HorizontalFeedProps {
   fetchMore?: () => void;
 }
 
-const HorizontalFeed: FC<HorizontalFeedProps> = ({
-  feeds,
-  fetchMore = () => {},
-}) => {
+const HorizontalFeed: FC<HorizontalFeedProps> = ({ feeds, fetchMore = () => {} }) => {
   const {
     getHeight,
     isHovered,

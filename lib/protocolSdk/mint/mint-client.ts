@@ -49,9 +49,7 @@ export class MintClient {
    * @param parameters - Parameters for collecting the token {@link MakeMintParametersArguments}
    * @returns Parameters for simulating/executing the mint transaction, any necessary erc20 approval, and costs to mint
    */
-  async mint(
-    parameters: MakeMintParametersArguments,
-  ): Promise<PrepareMintReturn> {
+  async mint(parameters: MakeMintParametersArguments): Promise<PrepareMintReturn> {
     return mint({
       parameters,
       publicClient: this.publicClient,
@@ -83,10 +81,7 @@ export class MintClient {
    * @param parameters - Contract address to get tokens for {@link GetMintsOfContractParameters}
    * @Returns Array of tokens, each containing information about the token and a function to build a mint transaction.
    */
-  async getOfContract(params: {
-    tokenContract: Address;
-    preferredSaleType?: SaleType;
-  }) {
+  async getOfContract(params: { tokenContract: Address; preferredSaleType?: SaleType }) {
     return getMintsOfContract({
       params,
       mintGetter: this.mintGetter,

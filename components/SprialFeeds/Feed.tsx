@@ -13,13 +13,7 @@ interface FeedProps {
   handleMouseLeave: () => void;
   spacerWidth: number;
 }
-const Feed = ({
-  feed,
-  index,
-  spacerWidth,
-  handleMouseLeave,
-  handleMouseMove,
-}: FeedProps) => {
+const Feed = ({ feed, index, spacerWidth, handleMouseLeave, handleMouseMove }: FeedProps) => {
   const isMobile = useIsMobile();
   const { push } = useRouter();
   const { data } = useMetadata(feed.uri);

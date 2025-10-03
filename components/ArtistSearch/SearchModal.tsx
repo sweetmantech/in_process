@@ -83,15 +83,11 @@ const SearchModal = () => {
             />
             <div className="absolute left-0 top-0 flex pointer-events-none">
               <p className="text-5xl font-archivo opacity-0">{searchKey}</p>
-              <span className="font-archivo text-grey-moss-300 text-5xl">
-                {suffixHint}
-              </span>
+              <span className="font-archivo text-grey-moss-300 text-5xl">{suffixHint}</span>
             </div>
           </div>
         </div>
-        {searchKey && !isLoadingSearch && !userSearchData?.artist && (
-          <SearchNotFound />
-        )}
+        {searchKey && !isLoadingSearch && !userSearchData?.artist && <SearchNotFound />}
       </DialogContent>
     </Dialog>
   );

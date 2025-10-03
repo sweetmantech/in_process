@@ -9,7 +9,7 @@ const useShareMoment = () => {
   const share = async () => {
     const shortNetworkName = getShortNetworkName(CHAIN.name.toLowerCase());
     await navigator.clipboard.writeText(
-      `${PROD_URL}/collect/${shortNetworkName}:${token.tokenContractAddress}/${token.tokenId}`,
+      `${PROD_URL}/collect/${shortNetworkName}:${token.tokenContractAddress}/${token.tokenId}`
     );
     toast.success("copied!");
   };
