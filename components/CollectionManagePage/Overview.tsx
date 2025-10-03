@@ -1,12 +1,10 @@
 import ContentRenderer from "../Renderers";
-import truncateAddress from "@/lib/truncateAddress";
 import { useCollectionProvider } from "@/providers/CollectionProvider";
 import { useRouter } from "next/navigation";
 import { Skeleton } from "../ui/skeleton";
 import { Metadata } from "@/types/token";
 import { networkConfigByChain } from "@/lib/protocolSdk/apis/chain-constants";
-import { toast } from "sonner";
-import { Copy } from "lucide-react";
+import CopyButton from "../CopyButton";
 
 const Overview = () => {
   const { collection } = useCollectionProvider();
@@ -28,7 +26,7 @@ const Overview = () => {
           type="button"
           onClick={() =>
             push(
-              `/manage/${networkConfigByChain[collection.chainId].zoraCollectPathChainName}:${collection.address}`,
+              `/manage/${networkConfigByChain[collection.chainId].zoraCollectPathChainName}:${collection.address}`
             )
           }
           className="px-2 py-1 rounded-md hover:text-grey-eggshell hover:bg-black"
@@ -52,17 +50,7 @@ const Overview = () => {
           <p className="font-archivo-medium text-xl md:text-4xl">
             {data?.name}
           </p>
-          <button
-            className="flex gap-2 items-center font-archivo bg-grey-moss-200 text-grey-eggshell hover:text-tan-primary w-fit px-3 py-1 rounded-md"
-            type="button"
-            onClick={async () => {
-              await navigator.clipboard.writeText(collection.address);
-              toast.success("copied!");
-            }}
-          >
-            {truncateAddress(collection.address)}
-            <Copy className="size-4" />
-          </button>
+          <CopyButton address={collection.address} />
         </div>
       </div>
     </div>

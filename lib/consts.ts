@@ -54,6 +54,7 @@ export const BLOCKLISTS = [
 ];
 
 export const TIMLINE_STEP_OFFSET = 12;
+export const Z_BEHIND_PRIVY = 999999;
 
 export const SPIRAL_POINTS: Point[] = [
   [14, 123],

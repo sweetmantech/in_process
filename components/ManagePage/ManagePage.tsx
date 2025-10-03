@@ -9,6 +9,7 @@ import { Fragment, useEffect, useState } from "react";
 import Collections from "./Collections";
 import TotalEarnings from "../LoginButton/TotalEarnings";
 import ManagePagePaymentsAccordion from "./ManagePagePaymentsAccordion";
+import LinkWalletButton from "./LinkWalletButton";
 
 const ManagePage = () => {
   const { context } = useFrameProvider();
@@ -38,6 +39,7 @@ const ManagePage = () => {
           Note: Earnings calculation is being improved and may not reflect
           accurate totals
         </p>
+        <LinkWalletButton />
       </div>
       <ManagePagePaymentsAccordion address={signedWallet} />
       <Collections />
