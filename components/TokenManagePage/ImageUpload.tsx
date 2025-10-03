@@ -1,13 +1,19 @@
-import ImageBox from "@/components/TokenManagePage/ImageBox";
-import {useRef} from "react";
+import React, {useRef} from "react";
 import {useMomentManageProvider} from "@/providers/MomentManageProvider";
 import {useTokenProvider} from "@/providers/TokenProvider";
+import MediaUploaded from "@/components/MetadataCreation/MediaUploaded";
+import ResetButton from "@/components/MetadataCreation/ResetButton";
 
 const ImageUpload = () => {
     const {isOwner} = useTokenProvider();
     const {
         fileUpload,
         imageUri,
+        fileUploading,
+        mimeType,
+        animationUri,
+        pctComplete,
+        previewSrc,
     } = useMomentManageProvider();
 
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -34,7 +40,16 @@ const ImageUpload = () => {
                     className={`cursor-pointer z-2 size-full absolute opacity-0`}
                     onChange={fileUpload}
                 />
-                <ImageBox handleImageClick={handleImageClick}/>
+                {isOwner && <ResetButton onClick={handleImageClick} disabled={fileUploading} />}
+                <MediaUploaded
+                    handleImageClick={handleImageClick}
+                    fileUploading={fileUploading}
+                    mimeType={mimeType}
+                    animationUri={animationUri}
+                    imageUri={imageUri}
+                    pctComplete={pctComplete}
+                    previewSrc={previewSrc}
+                />
             </div>
         </div>
     );
