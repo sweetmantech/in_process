@@ -7,6 +7,7 @@ import { usePrivy } from "@privy-io/react-auth";
 import { Fragment, ReactNode, useEffect, useState } from "react";
 import { ArrowRight } from "@/components/ui/icons";
 import SignToInProcess from "@/components/ManagePage/SignToInProcess";
+import { useRouter } from "next/navigation";
 
 const ManagePage = ({ children }: { children: ReactNode }) => {
   const { context } = useFrameProvider();
@@ -15,6 +16,7 @@ const ManagePage = ({ children }: { children: ReactNode }) => {
   const { ready } = usePrivy();
   const [loaded, setLoaded] = useState<boolean>(false);
   const signedWallet = context ? address : connectedWallet;
+  const { push } = useRouter()
 
   useEffect(() => {
     if (ready)
@@ -32,6 +34,7 @@ const ManagePage = ({ children }: { children: ReactNode }) => {
         <button
           type="button"
           className="flex items-center justify-between w-full font-archivo-medium text-2xl hover:bg-grey-eggshell px-2 py-1 rounded-md"
+          onClick={() => push("/manage/account")}
         >
           <p>account</p>
           <ArrowRight className="size-4" />
@@ -39,6 +42,7 @@ const ManagePage = ({ children }: { children: ReactNode }) => {
         <button
           type="button"
           className="flex items-center justify-between w-full font-archivo-medium text-2xl hover:bg-grey-eggshell px-2 py-1 rounded-md"
+          onClick={() => push("/manage/payment")}
         >
           <p>payment</p>
           <ArrowRight className="size-4" />
