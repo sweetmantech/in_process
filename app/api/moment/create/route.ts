@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
       }));
       return Response.json(
         { message: "Invalid input", errors: errorDetails },
-        { status: 400, headers: corsHeaders }
+        { status: 400, headers: corsHeaders },
       );
     }
     const data = parseResult.data;

@@ -26,7 +26,7 @@ const Overview = () => {
           type="button"
           onClick={() =>
             push(
-              `/manage/${networkConfigByChain[collection.chainId].zoraCollectPathChainName}:${collection.address}`
+              `/manage/${networkConfigByChain[collection.chainId].zoraCollectPathChainName}:${collection.address}`,
             )
           }
           className="px-2 py-1 rounded-md hover:text-grey-eggshell hover:bg-black"

@@ -5,7 +5,7 @@ import { generateAndUploadPreview } from "./generateAndUploadPreview";
 export const uploadWritingWithJson = async (
   name: string,
   content: string,
-  description = ""
+  description = "",
 ): Promise<string> => {
   const contentUri = await uploadWritingFile(content);
   const previewUri = await generateAndUploadPreview(content);

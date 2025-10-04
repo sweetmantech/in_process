@@ -10,7 +10,7 @@ export async function fetchPayments(
   page = 1,
   limit = 20,
   artist?: string,
-  collector?: string
+  collector?: string,
 ): Promise<PaymentsResponse> {
   const params = new URLSearchParams({
     page: String(page),

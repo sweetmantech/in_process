@@ -17,7 +17,7 @@ interface TimelineContextValue {
 }
 
 const TimelineContext = createContext<TimelineContextValue | undefined>(
-  undefined
+  undefined,
 );
 
 export const TimelineApiProvider = ({
@@ -54,7 +54,7 @@ export const useTimelineApiContext = () => {
   const ctx = useContext(TimelineContext);
   if (!ctx)
     throw new Error(
-      "useTimelineApiContext must be used within TimelineApiProvider"
+      "useTimelineApiContext must be used within TimelineApiProvider",
     );
   return ctx;
 };

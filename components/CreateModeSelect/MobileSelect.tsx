@@ -28,7 +28,8 @@ const MobileSelect = () => {
   const handleClick = (value: string) => {
     if (value === "moment") push(baseRoute);
     if (value === "thought") push(`${baseRoute}/writing`);
-    if (value !== "moment" && value !== "thought") push(`${baseRoute}/${value}`);
+    if (value !== "moment" && value !== "thought")
+      push(`${baseRoute}/${value}`);
     setIsOpenSelect(false);
   };
   return (

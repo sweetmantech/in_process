@@ -17,7 +17,7 @@ export default function useZoraCreate() {
     useZoraCreateParameters(collection);
   const mask = useMask(
     advancedValues.isOpenAdvanced,
-    createMetadata.writingText
+    createMetadata.writingText,
   );
   const { isPrepared } = useUserProvider();
 

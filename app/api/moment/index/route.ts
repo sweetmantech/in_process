@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
       }));
       return Response.json(
         { status: "error", message: "Invalid input", errors: errorDetails },
-        { status: 400 }
+        { status: 400 },
       );
     }
 

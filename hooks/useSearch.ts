@@ -35,7 +35,7 @@ const useSearch = () => {
   };
 
   const onKeyDown = (
-    e: KeyboardEvent<HTMLInputElement | HTMLButtonElement>
+    e: KeyboardEvent<HTMLInputElement | HTMLButtonElement>,
   ) => {
     if (e.key === "Tab") {
       setSearchKey(userSearchData?.artist?.username || "");

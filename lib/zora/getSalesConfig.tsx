@@ -6,7 +6,7 @@ import { MintType } from "@/types/zora";
 const getSalesConfig = (
   saleStrategy: string,
   price: string,
-  saleStart: Date | undefined
+  saleStart: Date | undefined,
 ) => {
   const timedSaleConfig = {
     type: "timed",

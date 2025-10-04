@@ -5,7 +5,7 @@ export interface MarkNotificationsAsViewedResponse {
 }
 
 export async function markNotificationsAsViewed(
-  artist?: string
+  artist?: string,
 ): Promise<MarkNotificationsAsViewedResponse> {
   const params = new URLSearchParams();
   if (artist) params.append("artist", artist);

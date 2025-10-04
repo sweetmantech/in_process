@@ -11,7 +11,7 @@ const useMarkNotificationAsViewed = () => {
         markNotificationsAsViewed(signedAddress.toLowerCase()).catch(
           (error) => {
             console.error("Failed to mark notifications as viewed:", error);
-          }
+          },
         );
       }, 10000); // 10 second delay
 

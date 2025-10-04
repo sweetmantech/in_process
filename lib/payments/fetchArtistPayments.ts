@@ -7,17 +7,17 @@ export interface PaymentsApiResponse {
 }
 
 const fetchArtistPayments = async (
-  artistAddress: Address
+  artistAddress: Address,
 ): Promise<InProcessPayment[]> => {
   try {
     const response = await fetch(
-      `/api/payments?artist=${(artistAddress as string).toLowerCase()}`
+      `/api/payments?artist=${(artistAddress as string).toLowerCase()}`,
     );
 
     if (!response.ok) {
       console.warn(
         `Failed to fetch payments for artist ${artistAddress}:`,
-        response.status
+        response.status,
       );
       return [];
     }
@@ -27,7 +27,7 @@ const fetchArtistPayments = async (
   } catch (error) {
     console.error(
       `Error fetching payments for artist ${artistAddress}:`,
-      error
+      error,
     );
     return [];
   }

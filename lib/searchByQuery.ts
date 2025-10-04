@@ -11,7 +11,7 @@ export type SearchByQueryResponse = {
  * Returns the first artist found, or null if none.
  */
 export async function searchByQuery(
-  query: string
+  query: string,
 ): Promise<SearchByQueryResponse> {
   if (!query) return { artist: null };
   try {

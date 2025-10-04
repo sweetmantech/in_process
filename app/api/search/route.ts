@@ -6,7 +6,7 @@ export async function GET(req: NextRequest) {
   if (!query || query.trim().length === 0) {
     return Response.json(
       { artist: null, error: "Missing param: query" },
-      { status: 400 }
+      { status: 400 },
     );
   }
   try {
@@ -16,13 +16,13 @@ export async function GET(req: NextRequest) {
     }
     return Response.json(
       { artist: null, error: "Artist not found" },
-      { status: 404 }
+      { status: 404 },
     );
   } catch (error) {
     console.error("Error searching artists:", error);
     return Response.json(
       { artist: null, error: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

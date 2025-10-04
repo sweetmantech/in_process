@@ -45,7 +45,7 @@ export default function useCropImage(): UseCropImageReturn {
       const resultUrl = (await getCroppedImg(
         imageSrc,
         croppedAreaPixels,
-        rotation
+        rotation,
       )) as string;
 
       const response = await fetch(resultUrl);

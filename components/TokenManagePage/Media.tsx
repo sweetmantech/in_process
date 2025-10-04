@@ -1,25 +1,19 @@
 "use client";
-import {useEffect} from "react";
+import { useEffect } from "react";
 
-import {useTokenProvider} from "@/providers/TokenProvider";
-import {Input} from "@/components/ui/input";
-import {Textarea} from "@/components/ui/textarea";
+import { useTokenProvider } from "@/providers/TokenProvider";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import MediaSkeleton from "./MediaSkeleton";
 import OwnerWarning from "./OwnerWarning";
 import SaveMediaButton from "./SaveMediaButton";
-import {useMomentManageProvider} from "@/providers/MomentManageProvider";
+import { useMomentManageProvider } from "@/providers/MomentManageProvider";
 import ImageUpload from "@/components/TokenManagePage/ImageUpload";
 
 const Media = () => {
-  const {metadata} = useTokenProvider();
-  const {
-    name,
-    description,
-    setName,
-    setDescription,
-    imageUri,
-    setImageUri,
-  } = useMomentManageProvider();
+  const { metadata } = useTokenProvider();
+  const { name, description, setName, setDescription, imageUri, setImageUri } =
+    useMomentManageProvider();
   const { data: meta, isLoading } = metadata;
 
   useEffect(() => {
@@ -62,8 +56,8 @@ const Media = () => {
             />
           </div>
 
-          <ImageUpload/>
-          <SaveMediaButton/>
+          <ImageUpload />
+          <SaveMediaButton />
           <OwnerWarning />
         </div>
       </div>
