@@ -14,7 +14,7 @@ const PaymentRow = ({ payment }: PaymentRowProps) => {
   const isEarning = isCombinedPayment && payment.type === "earning";
 
   return (
-    <TableRow className="hover:bg-neutral-50 dark:hover:bg-neutral-900">
+    <TableRow className="border border-transparent hover:border-b-grey-moss-200">
       <BuyerCell payment={payment} />
       <MomentCell token={payment.token} />
       <TableCell>
