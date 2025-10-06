@@ -6,10 +6,10 @@ import { Textarea } from "@/components/ui/textarea";
 
 const Account = () => {
   return (
-    <main className="flex flex-col gap-24 font-archivo">
+    <main className="flex flex-col gap-6 md:gap-24 font-archivo">
       <section className="grid grid-cols-12 gap-1">
-        <p className="text-base col-span-2">your info</p>
-        <div className="col-span-10 flex flex-col gap-4">
+        <p className="text-base col-span-12 md:col-span-2">your info</p>
+        <div className="col-span-12 md:col-span-10 flex flex-col gap-4">
           <fieldset>
             <Label>display name</Label>
             <Input
@@ -28,11 +28,11 @@ const Account = () => {
         </div>
       </section>
       <section className="grid grid-cols-12 gap-1">
-        <p className="text-base col-span-2">
-          connected <br />
+        <p className="text-base col-span-12 md:col-span-2">
+          connected <br className="hidden md:block" />
           accounts
         </p>
-        <div className="col-span-10 flex flex-col gap-4">
+        <div className="col-span-12 md:col-span-10 flex flex-col gap-4">
           <fieldset>
             <Label>instagram</Label>
             <Input
