@@ -1,11 +1,4 @@
-import {
-  base,
-  baseSepolia,
-  optimism,
-  optimismSepolia,
-  sepolia,
-  mainnet,
-} from "viem/chains";
+import { base, baseSepolia, optimism, optimismSepolia, sepolia, mainnet } from "viem/chains";
 
 const ETH = "https://eth-mainnet.g.alchemy.com/";
 const SEPOLIA = "https://eth-sepolia.g.alchemy.com/";

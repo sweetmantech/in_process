@@ -9,20 +9,16 @@ import { setupMinters } from "./minter-setup";
 function applyNew1155Defaults(
   props: CreateNew1155TokenProps,
   ownerAddress: Address,
-  contractName: string,
+  contractName: string
 ): New1155Token {
   const { payoutRecipient: fundsRecipient } = props;
   const fundsRecipientOrOwner =
-    fundsRecipient && fundsRecipient !== zeroAddress
-      ? fundsRecipient
-      : ownerAddress;
+    fundsRecipient && fundsRecipient !== zeroAddress ? fundsRecipient : ownerAddress;
   return {
     payoutRecipient: fundsRecipientOrOwner,
     createReferral: props.createReferral || zeroAddress,
     maxSupply:
-      typeof props.maxSupply === "undefined"
-        ? OPEN_EDITION_MINT_SIZE
-        : BigInt(props.maxSupply),
+      typeof props.maxSupply === "undefined" ? OPEN_EDITION_MINT_SIZE : BigInt(props.maxSupply),
     royaltyBPS: props.royaltyBPS || 1000,
     tokenMetadataURI: props.tokenMetadataURI,
     salesConfig: getSalesConfigWithDefaults(props.salesConfig, contractName),
@@ -52,9 +48,7 @@ function buildSetupNewToken({
   }
 
   if (createReferral !== zeroAddress) {
-    throw new Error(
-      "Contract does not support create referral, but one was provided",
-    );
+    throw new Error("Contract does not support create referral, but one was provided");
   }
   return encodeFunctionData({
     abi: zoraCreator1155ImplABI,
@@ -117,24 +111,18 @@ export function constructCreate1155TokenCalls(
       chainId: number;
     } & {
       contractName: string;
-    },
+    }
 ): {
   setupActions: `0x${string}`[];
   newToken: New1155Token;
   minter: Address;
 } {
-  const {
-    chainId,
-    nextTokenId,
-    mintToCreatorCount,
-    ownerAddress,
-    contractVersion,
-  } = props;
+  const { chainId, nextTokenId, mintToCreatorCount, ownerAddress, contractVersion } = props;
 
   const new1155TokenPropsWithDefaults = applyNew1155Defaults(
     props,
     ownerAddress,
-    props.contractName,
+    props.contractName
   );
 
   const verifyTokenIdExpected = encodeFunctionData({
@@ -186,7 +174,7 @@ export function constructCreate1155TokenCalls(
 
 export const contractSupportsMintRewards = (
   contractVersion?: string | null,
-  contractStandard?: "ERC721" | "ERC1155",
+  contractStandard?: "ERC721" | "ERC1155"
 ) => {
   if (!contractStandard || !contractVersion) {
     return false;

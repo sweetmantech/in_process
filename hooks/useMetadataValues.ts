@@ -10,8 +10,7 @@ const useMetadataValues = () => {
   const [mimeType, setMimeType] = useState<string>("");
   const [animationUri, setAnimationUri] = useState<string>("");
   const [previewUri, setPreviewUri] = useState<string>("");
-  const [isOpenPreviewUpload, setIsOpenPreviewUpload] =
-    useState<boolean>(false);
+  const [isOpenPreviewUpload, setIsOpenPreviewUpload] = useState<boolean>(false);
   const [previewSrc, setPreviewSrc] = useState<string>("");
 
   useEffect(() => {

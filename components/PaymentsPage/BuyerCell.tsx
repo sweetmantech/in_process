@@ -16,9 +16,7 @@ const BuyerCell = ({ payment }: BuyerCellProps) => {
   const sellerAddress = payment.token.defaultAdmin;
 
   const buyerDisplayName = buyerUsername || truncateAddress(buyerAddress);
-  const sellerDisplayName = sellerAddress
-    ? truncateAddress(sellerAddress)
-    : "Unknown";
+  const sellerDisplayName = sellerAddress ? truncateAddress(sellerAddress) : "Unknown";
 
   return (
     <TableCell className="font-medium">
@@ -31,9 +29,7 @@ const BuyerCell = ({ payment }: BuyerCellProps) => {
             </span>
           </div>
         ) : (
-          <span className="text-sm font-archivo-medium">
-            {buyerDisplayName}
-          </span>
+          <span className="text-sm font-archivo-medium">{buyerDisplayName}</span>
         )}
       </div>
     </TableCell>

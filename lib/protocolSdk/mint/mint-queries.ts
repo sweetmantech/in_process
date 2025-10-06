@@ -16,15 +16,8 @@ import {
   GetMintableReturn,
 } from "./types";
 import { Address, zeroAddress } from "viem";
-import {
-  getPremintMintCostsWithUnknownTokenPrice,
-  getPremintMintFee,
-} from "../premint/preminter";
-import {
-  PremintFromApi,
-  isPremintConfigV1,
-  isPremintConfigV2,
-} from "../premint/conversions";
+import { getPremintMintCostsWithUnknownTokenPrice, getPremintMintFee } from "../premint/preminter";
+import { PremintFromApi, isPremintConfigV1, isPremintConfigV2 } from "../premint/conversions";
 import { makeOnchainMintCall, parseMintCosts } from "./mint-transactions";
 import { buildPremintMintCall } from "../premint/premint-client";
 import { IPublicClient } from "../types";
@@ -89,9 +82,8 @@ export async function getPremintsOfCollectionWithTokenIds({
 
   const premintsWithTokenId = premints.map((premint) => ({
     ...premint,
-    tokenId: premintUidsAndTokenIds.find(
-      ({ uid }) => uid === premint.premint.premintConfig.uid,
-    )?.tokenId,
+    tokenId: premintUidsAndTokenIds.find(({ uid }) => uid === premint.premint.premintConfig.uid)
+      ?.tokenId,
   }));
 
   return {
@@ -199,7 +191,7 @@ async function getPremintsOfContractMintable({
   const offChainPremints = premints.filter(
     (premint) =>
       // if premint's uid is not in the list of uids from the subgraph, it is offchain
-      typeof premint.tokenId === "undefined",
+      typeof premint.tokenId === "undefined"
   );
 
   if (offChainPremints.length === 0) return [];
@@ -224,9 +216,7 @@ async function getPremintsOfContractMintable({
   });
 }
 
-export function isPrimaryMintActive(
-  premint: Pick<PremintFromApi, "premint">["premint"],
-) {
+export function isPrimaryMintActive(premint: Pick<PremintFromApi, "premint">["premint"]) {
   const currentTime = new Date().getTime() / 1000;
 
   return premint.premintConfig.tokenConfig.mintStart < currentTime;
@@ -237,16 +227,10 @@ function parsePremint({
   premint,
   mintFee,
 }: {
-  premint: Pick<
-    PremintFromApi,
-    "premint" | "signer" | "collectionAddress" | "collection"
-  >;
+  premint: Pick<PremintFromApi, "premint" | "signer" | "collectionAddress" | "collection">;
   mintFee: bigint;
 }): PremintSalesConfigAndTokenInfo {
-  if (
-    isPremintConfigV1(premint.premint) ||
-    isPremintConfigV2(premint.premint)
-  ) {
+  if (isPremintConfigV1(premint.premint) || isPremintConfigV2(premint.premint)) {
     return {
       creator: premint.signer,
       maxSupply: premint.premint.premintConfig.tokenConfig.maxSupply,
@@ -261,8 +245,7 @@ function parsePremint({
       totalMinted: BigInt(0),
       salesConfig: {
         duration: premint.premint.premintConfig.tokenConfig.mintDuration,
-        maxTokensPerAddress:
-          premint.premint.premintConfig.tokenConfig.maxTokensPerAddress,
+        maxTokensPerAddress: premint.premint.premintConfig.tokenConfig.maxTokensPerAddress,
         pricePerToken: premint.premint.premintConfig.tokenConfig.pricePerToken,
         saleType: "premint",
         mintFeePerQuantity: mintFee,
@@ -295,10 +278,7 @@ export const makeOnchainPrepareMint =
     };
   };
 
-function toMintableReturn(
-  result: GetMintableReturn,
-  chainId: number,
-): MintableReturn {
+function toMintableReturn(result: GetMintableReturn, chainId: number): MintableReturn {
   const primaryMintActive = result.primaryMintActive;
   if (!primaryMintActive) {
     return {
@@ -314,10 +294,7 @@ function toMintableReturn(
     primaryMintActive,
     primaryMintEnd: result.primaryMintEnd,
     secondaryMarketActive: result.secondaryMarketActive,
-    prepareMint: makeOnchainPrepareMint(
-      result.salesConfigAndTokenInfo,
-      chainId,
-    ),
+    prepareMint: makeOnchainPrepareMint(result.salesConfigAndTokenInfo, chainId),
   };
 }
 
@@ -327,7 +304,7 @@ const makePremintPrepareMint = (
   premint: Pick<
     PremintFromApi,
     "premint" | "signer" | "collectionAddress" | "collection" | "signature"
-  >,
+  >
 ): PrepareMint => {
   return (params: MintParametersBase) => {
     return {
@@ -377,7 +354,7 @@ function toPremintMintReturn({
 
 export function getRequiredErc20Approvals(
   params: MintParametersBase,
-  salesConfig: OnchainSalesConfigAndTokenInfo["salesConfig"],
+  salesConfig: OnchainSalesConfigAndTokenInfo["salesConfig"]
 ): Erc20Approval | undefined {
   if (salesConfig?.saleType !== "erc20") return undefined;
 

@@ -6,15 +6,8 @@ import ResetButton from "@/components/MetadataCreation/ResetButton";
 
 const ImageUpload = () => {
   const { isOwner } = useTokenProvider();
-  const {
-    fileUpload,
-    imageUri,
-    fileUploading,
-    mimeType,
-    animationUri,
-    pctComplete,
-    previewSrc,
-  } = useMomentManageProvider();
+  const { fileUpload, imageUri, fileUploading, mimeType, animationUri, pctComplete, previewSrc } =
+    useMomentManageProvider();
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const handleImageClick = () => {
@@ -27,9 +20,7 @@ const ImageUpload = () => {
 
   return (
     <div>
-      <label className="font-archivo text-sm text-grey-moss-600 block mb-1">
-        image
-      </label>
+      <label className="font-archivo text-sm text-grey-moss-600 block mb-1">image</label>
       <div className="min-h-[400px] md:min-h-auto md:aspect-[571/692] relative bg-[url('/grid.svg')] bg-contain">
         <input
           ref={fileInputRef}
@@ -38,9 +29,7 @@ const ImageUpload = () => {
           className={`cursor-pointer z-2 size-full absolute opacity-0`}
           onChange={fileUpload}
         />
-        {isOwner && (
-          <ResetButton onClick={handleImageClick} disabled={fileUploading} />
-        )}
+        {isOwner && <ResetButton onClick={handleImageClick} disabled={fileUploading} />}
         <MediaUploaded
           handleImageClick={handleImageClick}
           fileUploading={fileUploading}

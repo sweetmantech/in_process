@@ -29,7 +29,6 @@ export function buildContractInfoQuery({
     variables: {
       contractAddress: contractAddress.toLowerCase(),
     },
-    parseResponseData: (responseData: any | undefined) =>
-      responseData.zoraCreateContract,
+    parseResponseData: (responseData: any | undefined) => responseData.zoraCreateContract,
   };
 }

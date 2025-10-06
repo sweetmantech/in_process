@@ -9,12 +9,9 @@ export function useOnboardingModal() {
 
   useEffect(() => {
     if (!profile || !connectedAddress) return;
-    const onboarded = window.localStorage.getItem(
-      `onboarded:${connectedAddress}`,
-    );
+    const onboarded = window.localStorage.getItem(`onboarded:${connectedAddress}`);
     const shouldOnboard = !Boolean(profile?.username) && !Boolean(onboarded);
-    if (shouldOnboard)
-      window.localStorage.setItem(`onboarded:${connectedAddress}`, "true");
+    if (shouldOnboard) window.localStorage.setItem(`onboarded:${connectedAddress}`, "true");
     setIsOpen(shouldOnboard);
   }, [profile]);
 

@@ -17,10 +17,7 @@ import {
   TimedSaleParamsType,
 } from "./types";
 import { Concrete } from "../utils";
-import {
-  erc20MinterAddresses,
-  zoraCreatorFixedPriceSaleStrategyAddress,
-} from "../constants";
+import { erc20MinterAddresses, zoraCreatorFixedPriceSaleStrategyAddress } from "../constants";
 
 const PERMISSION_BITS = {
   MINTER: BigInt(2) ** BigInt(2),
@@ -52,10 +49,8 @@ function setupErc20Minter({
   minter: Address;
   setupActions: Hex[];
 } {
-  const erc20MinterAddress =
-    erc20MinterAddresses[chainId as keyof typeof erc20MinterAddresses];
-  if (!erc20MinterAddress)
-    throw new Error(`ERC20Minter not deployed on chainId ${chainId}`);
+  const erc20MinterAddress = erc20MinterAddresses[chainId as keyof typeof erc20MinterAddresses];
+  if (!erc20MinterAddress) throw new Error(`ERC20Minter not deployed on chainId ${chainId}`);
 
   const erc20MinterApproval = encodeFunctionData({
     abi: zoraCreator1155ImplABI,
@@ -113,11 +108,7 @@ function setupFixedPriceMinter({
   const fixedPriceApproval = encodeFunctionData({
     abi: zoraCreator1155ImplABI,
     functionName: "addPermission",
-    args: [
-      BigInt(nextTokenId),
-      fixedPriceStrategyAddress,
-      PERMISSION_BITS.MINTER,
-    ],
+    args: [BigInt(nextTokenId), fixedPriceStrategyAddress, PERMISSION_BITS.MINTER],
   });
 
   const saleData = encodeFunctionData({
@@ -165,9 +156,7 @@ function setupTimedSaleMinter({
   setupActions: Hex[];
 } {
   const minterAddress =
-    zoraTimedSaleStrategyAddress[
-      chainId as keyof typeof zoraTimedSaleStrategyAddress
-    ];
+    zoraTimedSaleStrategyAddress[chainId as keyof typeof zoraTimedSaleStrategyAddress];
   const minterApproval = encodeFunctionData({
     abi: zoraCreator1155ImplABI,
     functionName: "addPermission",
@@ -254,18 +243,15 @@ function setupAllowListMinter({
 }
 
 const isAllowList = (
-  salesConfig: ConcreteSalesConfig,
-): salesConfig is Concrete<AllowListParamType> =>
-  salesConfig.type === "allowlistMint";
-const isErc20 = (
-  salesConfig: ConcreteSalesConfig,
-): salesConfig is Concrete<Erc20ParamsType> => salesConfig.type === "erc20Mint";
+  salesConfig: ConcreteSalesConfig
+): salesConfig is Concrete<AllowListParamType> => salesConfig.type === "allowlistMint";
+const isErc20 = (salesConfig: ConcreteSalesConfig): salesConfig is Concrete<Erc20ParamsType> =>
+  salesConfig.type === "erc20Mint";
 const isFixedPrice = (
-  salesConfig: ConcreteSalesConfig,
+  salesConfig: ConcreteSalesConfig
 ): salesConfig is Concrete<FixedPriceParamsType> =>
   salesConfig.type === "fixedPrice" ||
-  (salesConfig as unknown as Concrete<FixedPriceParamsType>).pricePerToken >
-    BigInt(0);
+  (salesConfig as unknown as Concrete<FixedPriceParamsType>).pricePerToken > BigInt(0);
 
 export function setupMinters({ salesConfig, ...rest }: SetupMintersProps): {
   minter: Address;

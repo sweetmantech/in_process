@@ -15,10 +15,7 @@ interface MetaAndCommentsProps {
   commentsHidden?: boolean;
 }
 
-const MetaAndComments = ({
-  priceHidden = false,
-  commentsHidden = false,
-}: MetaAndCommentsProps) => {
+const MetaAndComments = ({ priceHidden = false, commentsHidden = false }: MetaAndCommentsProps) => {
   const { saleConfig, metadata, isLoading, isSetSale } = useTokenProvider();
   const { data: meta } = metadata;
   const { share } = useShareMoment();
@@ -34,9 +31,7 @@ const MetaAndComments = ({
       {!priceHidden && isSetSale && (
         <>
           <div className="space-y-1 md:space-y-2 mt-2 md:mt-4">
-            <p className="font-archivo text-sm md:text-lg">
-              moment collection price
-            </p>
+            <p className="font-archivo text-sm md:text-lg">moment collection price</p>
             {isLoading ? (
               <Skeleton className="w-full h-6" />
             ) : (
@@ -50,20 +45,14 @@ const MetaAndComments = ({
                   type="button"
                   className="border border-grey-moss-900 bg-white p-1 rounded-sm"
                 >
-                  <CopyIcon
-                    onClick={share}
-                    className="size-4 text-grey-moss-900"
-                  />
+                  <CopyIcon onClick={share} className="size-4 text-grey-moss-900" />
                 </button>
                 {balanceOf > 0 && (
                   <button
                     type="button"
                     className="border border-grey-moss-900 bg-white p-1 rounded-sm"
                   >
-                    <DownloadIcon
-                      onClick={download}
-                      className="size-4 text-grey-moss-900"
-                    />
+                    <DownloadIcon onClick={download} className="size-4 text-grey-moss-900" />
                   </button>
                 )}
               </div>

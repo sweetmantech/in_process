@@ -15,9 +15,7 @@ const CropImage = () => {
     setZoom,
     onCropComplete,
   } = useCropImageProvider();
-  const imageSrc = hasUploadedSelectedImage
-    ? previewSrc
-    : arweaveGatewayUrl(imageUri) || "";
+  const imageSrc = hasUploadedSelectedImage ? previewSrc : arweaveGatewayUrl(imageUri) || "";
 
   return (
     <Cropper

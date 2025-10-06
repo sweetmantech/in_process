@@ -5,19 +5,14 @@ interface DescriptionProps {
   truncateLength?: number;
 }
 
-const Description = ({
-  description,
-  truncateLength = 150,
-}: DescriptionProps) => {
+const Description = ({ description, truncateLength = 150 }: DescriptionProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   if (!description) return null;
 
   const shouldTruncate = description.length > truncateLength;
   const displayText =
-    shouldTruncate && !isExpanded
-      ? description.slice(0, truncateLength) + "..."
-      : description;
+    shouldTruncate && !isExpanded ? description.slice(0, truncateLength) + "..." : description;
 
   return (
     <div className="mt-3 md:mt-4">

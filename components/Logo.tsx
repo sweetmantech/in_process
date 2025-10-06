@@ -20,19 +20,9 @@ const Logo = ({ className = "" }: LogoProps) => {
       onClick={() => push("/")}
     >
       {isOpenNavbar && isMobile ? (
-        <Image
-          src="/white_logo.svg"
-          blurDataURL="/white_logo.png"
-          alt="not found logo"
-          fill
-        />
+        <Image src="/white_logo.svg" blurDataURL="/white_logo.png" alt="not found logo" fill />
       ) : (
-        <Image
-          src="/logo.svg"
-          blurDataURL="/logo.png"
-          alt="not found logo"
-          fill
-        />
+        <Image src="/logo.svg" blurDataURL="/logo.png" alt="not found logo" fill />
       )}
     </button>
   );

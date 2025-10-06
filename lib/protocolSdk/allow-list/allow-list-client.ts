@@ -1,14 +1,10 @@
-import {
-  IHttpClient,
-  httpClient as defaultHttpClient,
-} from "../apis/http-api-base";
+import { IHttpClient, httpClient as defaultHttpClient } from "../apis/http-api-base";
 import { paths } from "../apis/generated/allow-list-api-types";
 import { Hex } from "viem";
 import { AllowList } from "./types";
 
 type AllowListCreateType = paths["/allowlist"]["post"];
-type AllowListCreateParameters =
-  AllowListCreateType["requestBody"]["content"]["application/json"];
+type AllowListCreateParameters = AllowListCreateType["requestBody"]["content"]["application/json"];
 type AllowListCreateResponse = {
   existing?: {
     entries: AllowListCreateParameters["entries"];
@@ -46,11 +42,7 @@ export const createAllowList = async ({
     })),
   };
 
-  return (
-    await retries(() =>
-      post<AllowListCreateResponse>(`${baseUrl}allowlist`, data),
-    )
-  ).root;
+  return (await retries(() => post<AllowListCreateResponse>(`${baseUrl}allowlist`, data))).root;
 };
 
 function padHex(value: string): Hex {
@@ -73,9 +65,7 @@ export const getAllowListEntry = async ({
   const { retries, get } = httpClient;
 
   const response = await retries(() =>
-    get<AllowListAllowedResponse>(
-      `${baseUrl}allowed?user=${address}&root=${merkleRoot}`,
-    ),
+    get<AllowListAllowedResponse>(`${baseUrl}allowed?user=${address}&root=${merkleRoot}`)
   );
 
   const entries = response?.map((x) => ({
@@ -85,7 +75,7 @@ export const getAllowListEntry = async ({
   }));
 
   const entry = entries?.sort(
-    (a, b) => Number(a.price) - Number(b.price) || b.maxCanMint - a.maxCanMint,
+    (a, b) => Number(a.price) - Number(b.price) || b.maxCanMint - a.maxCanMint
   )[0];
 
   return {

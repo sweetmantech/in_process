@@ -1,8 +1,5 @@
 import { Account, Address } from "viem";
-import {
-  GenericTokenIdTypes,
-  SimulateContractParametersWithAccount,
-} from "../types";
+import { GenericTokenIdTypes, SimulateContractParametersWithAccount } from "../types";
 import { AllowListEntry } from "../allow-list/types";
 
 export type MintParameters<MintType> = {
@@ -17,9 +14,7 @@ export type Erc1155MintParameters = MintParameters<"1155"> & {
 
 export type Erc721MintParameters = MintParameters<"721">;
 
-export type OnChainMintParameters =
-  | Erc1155MintParameters
-  | Erc721MintParameters;
+export type OnChainMintParameters = Erc1155MintParameters | Erc721MintParameters;
 
 export type PremintMintParameters = MintParameters<"premint"> & {
   /** uid of the Premint to mint */
@@ -28,10 +23,7 @@ export type PremintMintParameters = MintParameters<"premint"> & {
 
 export type MintType = "1155" | "721" | "allowlist" | "premint";
 
-export type MintTypes =
-  | Erc1155MintParameters
-  | Erc721MintParameters
-  | PremintMintParameters;
+export type MintTypes = Erc1155MintParameters | Erc721MintParameters | PremintMintParameters;
 
 export type GetMintParameters = MintTypes & {
   /** Address of the contract that the item belongs to */
@@ -83,12 +75,11 @@ export type Make721MintArguments = MakeMintParametersArgumentsBase &
     preferredSaleType?: SaleType;
   };
 
-export type MakePremintMintParametersArguments =
-  MakeMintParametersArgumentsBase &
-    PremintMintParameters & {
-      /** Account to receive first minter reward, if this mint brings the premint onchain */
-      firstMinter?: Address;
-    };
+export type MakePremintMintParametersArguments = MakeMintParametersArgumentsBase &
+  PremintMintParameters & {
+    /** Account to receive first minter reward, if this mint brings the premint onchain */
+    firstMinter?: Address;
+  };
 
 export type MakeMintParametersArguments =
   | Make1155MintArguments
@@ -102,12 +93,7 @@ export type GetMintCostsParameters = {
   quantityMinted: number | bigint;
 } & MintTypes;
 
-export type SaleType =
-  | "fixedPrice"
-  | "erc20"
-  | "allowlist"
-  | "premint"
-  | "timed";
+export type SaleType = "fixedPrice" | "erc20" | "allowlist" | "premint" | "timed";
 
 type SaleStrategy<T extends SaleType> = {
   saleType: T;
@@ -169,14 +155,12 @@ export type OnchainSalesStrategies =
 
 export type SaleStrategies = OnchainSalesStrategies | PremintSaleStrategy;
 
-export function isErc20SaleStrategy(
-  salesConfig: SaleStrategies,
-): salesConfig is ERC20SaleStrategy {
+export function isErc20SaleStrategy(salesConfig: SaleStrategies): salesConfig is ERC20SaleStrategy {
   return salesConfig.saleType === "erc20";
 }
 
 export function isTimedSaleStrategy(
-  salesConfig: SaleStrategies,
+  salesConfig: SaleStrategies
 ): salesConfig is ZoraTimedSaleStrategy {
   return salesConfig.saleType === "timed";
 }
@@ -222,9 +206,7 @@ export type PremintSalesConfigAndTokenInfo = {
   salesConfig: PremintSaleStrategy;
 } & PremintMintable;
 
-export type SalesConfigAndTokenInfo =
-  | OnchainSalesConfigAndTokenInfo
-  | PremintMintable;
+export type SalesConfigAndTokenInfo = OnchainSalesConfigAndTokenInfo | PremintMintable;
 
 export type GetMintableReturn = {
   salesConfigAndTokenInfo: OnchainSalesConfigAndTokenInfo;
@@ -241,9 +223,7 @@ export interface IOnchainMintGetter {
     blockTime: bigint;
   }): Promise<GetMintableReturn>;
 
-  getContractMintable(params: {
-    tokenAddress: Address;
-  }): Promise<GetMintableReturn[]>;
+  getContractMintable(params: { tokenAddress: Address }): Promise<GetMintableReturn[]>;
 
   getContractPremintTokenIds(params: {
     tokenAddress: Address;
@@ -281,9 +261,7 @@ export type PrepareMintReturn = {
 };
 
 export type PrepareMint = (params: MintParametersBase) => PrepareMintReturn;
-export type AsyncPrepareMint = (
-  params: MintParametersBase,
-) => Promise<PrepareMintReturn>;
+export type AsyncPrepareMint = (params: MintParametersBase) => Promise<PrepareMintReturn>;
 
 export type MintableReturn = {
   /** Token information */

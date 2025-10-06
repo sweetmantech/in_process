@@ -12,7 +12,7 @@ const NotificationCountBadge = () => {
     100, // Get up to 100 unviewed notifications for counting
     !!signedAddress, // Only fetch if user is connected
     signedAddress?.toLowerCase(),
-    false, // viewed = false (unviewed notifications)
+    false // viewed = false (unviewed notifications)
   );
 
   const unviewedCount = unviewedData?.notifications?.length || 0;

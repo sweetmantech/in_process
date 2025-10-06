@@ -7,18 +7,13 @@ const AirdropButton = () => {
   const { airdopToItems, onAirdrop, loading } = useAirdropProvider();
   const { owner } = useTokenProvider();
   const { connectedAddress } = useUserProvider();
-  const isOwner = Boolean(
-    owner?.toLowerCase() === connectedAddress?.toLowerCase(),
-  );
+  const isOwner = Boolean(owner?.toLowerCase() === connectedAddress?.toLowerCase());
 
   return (
     <button
       type="button"
       disabled={
-        Boolean(
-          airdopToItems.filter((item: AirdropItem) => item.status === "invalid")
-            .length,
-        ) ||
+        Boolean(airdopToItems.filter((item: AirdropItem) => item.status === "invalid").length) ||
         loading ||
         !isOwner
       }

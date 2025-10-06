@@ -18,9 +18,7 @@ const ContentRenderer = ({ metadata }: ContentRendererProps) => {
   const isMobile = useIsMobile();
 
   if (mimeType.includes("pdf"))
-    return (
-      <PdfViewer fileUrl={getFetchableUrl(metadata.animation_url) || ""} />
-    );
+    return <PdfViewer fileUrl={getFetchableUrl(metadata.animation_url) || ""} />;
 
   if (mimeType.includes("audio")) {
     return (

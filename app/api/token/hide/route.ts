@@ -24,15 +24,14 @@ export async function POST(req: NextRequest) {
     if (ids.length === 0) {
       return Response.json(
         { success: false, message: "No matching tokens found" },
-        { status: 404 },
+        { status: 404 }
       );
     }
 
-    const { data: updatedRows, error: updateError } =
-      await updateInProcessTokens({
-        ids,
-        update: { hidden: !rows[0].hidden },
-      });
+    const { data: updatedRows, error: updateError } = await updateInProcessTokens({
+      ids,
+      update: { hidden: !rows[0].hidden },
+    });
 
     if (updateError) throw updateError;
 

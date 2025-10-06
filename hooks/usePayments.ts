@@ -32,7 +32,7 @@ export function usePayments(
   limit = 20,
   enabled = true,
   artist?: string,
-  combined = false,
+  combined = false
 ) {
   const [currentPage, setCurrentPage] = useState(page);
 
@@ -47,23 +47,19 @@ export function usePayments(
         ]);
 
         // Combine and type the payments
-        const earnings: PaymentWithType[] = (
-          earningsResponse.payments || []
-        ).map((payment) => ({
+        const earnings: PaymentWithType[] = (earningsResponse.payments || []).map((payment) => ({
           ...payment,
           type: "earning" as const,
         }));
 
-        const expenses: PaymentWithType[] = (
-          expensesResponse.payments || []
-        ).map((payment) => ({
+        const expenses: PaymentWithType[] = (expensesResponse.payments || []).map((payment) => ({
           ...payment,
           type: "expense" as const,
         }));
 
         // Combine and sort by block number (most recent first)
         const combinedPayments = [...earnings, ...expenses].sort(
-          (a, b) => parseInt(b.block) - parseInt(a.block),
+          (a, b) => parseInt(b.block) - parseInt(a.block)
         );
 
         return {

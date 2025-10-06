@@ -1,12 +1,4 @@
-import {
-  mainnet,
-  optimism,
-  sepolia,
-  baseSepolia,
-  optimismSepolia,
-  base,
-  zora,
-} from "viem/chains";
+import { mainnet, optimism, sepolia, baseSepolia, optimismSepolia, base, zora } from "viem/chains";
 
 const getViemNetwork = (chainId: number) => {
   switch (chainId) {

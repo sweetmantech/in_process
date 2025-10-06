@@ -5,10 +5,7 @@ export interface UpdateNotificationsQuery {
   viewed?: boolean;
 }
 
-export async function updateNotifications({
-  artist,
-  viewed = true,
-}: UpdateNotificationsQuery) {
+export async function updateNotifications({ artist, viewed = true }: UpdateNotificationsQuery) {
   let query = supabase.from("in_process_notifications").update({ viewed });
 
   if (artist) {

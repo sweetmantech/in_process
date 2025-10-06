@@ -11,9 +11,7 @@ const LinkedWallet = ({ walletAddress, className }: LinkedWalletProps) => {
     <div className={`mt-4 ${className || ""}`}>
       <div className="bg-grey-eggshell border border-grey-moss-200 rounded-sm p-4">
         <div className="flex items-center justify-between mb-1">
-          <p className="text-sm text-grey-moss-600 font-archivo">
-            Connected Wallet
-          </p>
+          <p className="text-sm text-grey-moss-600 font-archivo">Connected Wallet</p>
           <UnlinkWallet walletAddress={walletAddress} />
         </div>
         <CopyButton

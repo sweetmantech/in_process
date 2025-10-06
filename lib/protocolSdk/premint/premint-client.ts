@@ -43,11 +43,7 @@ import { IPremintAPI, IPremintGetter } from "./premint-api-client";
 import type { DecodeEventLogReturnType } from "viem";
 import { OPEN_EDITION_MINT_SIZE } from "../constants";
 import { getApiNetworkConfigForChain } from "../mint/subgraph-mint-getter";
-import {
-  makeContractParameters,
-  mintRecipientOrAccount,
-  PublicClient,
-} from "../utils";
+import { makeContractParameters, mintRecipientOrAccount, PublicClient } from "../utils";
 import {
   ContractCreationConfigAndAddress,
   ContractCreationConfigOrAddress,
@@ -109,7 +105,7 @@ const pickTokenConfigV2 = (tokenConfig: TokenConfigInput) => ({
 
 const tokenConfigV1WithDefault = (
   tokenConfig: TokenConfigInput,
-  fixedPriceMinter: Address,
+  fixedPriceMinter: Address
 ): TokenCreationConfigV1 => ({
   ...pickTokenConfigV1(tokenConfig),
   ...defaultTokenConfigV1MintArguments(),
@@ -118,7 +114,7 @@ const tokenConfigV1WithDefault = (
 
 const tokenConfigV2WithDefault = (
   tokenConfig: TokenConfigInput,
-  fixedPriceMinter: Address,
+  fixedPriceMinter: Address
 ): TokenCreationConfigV2 => ({
   ...pickTokenConfigV2(tokenConfig),
   ...defaultTokenConfigV2MintArguments(),
@@ -166,9 +162,7 @@ const makeTokenConfigWithDefaults = ({
   chainId: number;
   tokenCreationConfig: TokenConfigInput;
   supportedPremintVersions: PremintConfigVersion[];
-}): TokenConfigWithVersion<
-  PremintConfigVersion.V1 | PremintConfigVersion.V2
-> => {
+}): TokenConfigWithVersion<PremintConfigVersion.V1 | PremintConfigVersion.V2> => {
   const fixedPriceMinter = getDefaultFixedPriceMinterAddress(chainId);
 
   if (!supportedPremintVersions.includes(PremintConfigVersion.V2)) {
@@ -179,19 +173,13 @@ const makeTokenConfigWithDefaults = ({
 
     return {
       premintConfigVersion: PremintConfigVersion.V1,
-      tokenConfig: tokenConfigV1WithDefault(
-        tokenCreationConfig,
-        fixedPriceMinter,
-      ),
+      tokenConfig: tokenConfigV1WithDefault(tokenCreationConfig, fixedPriceMinter),
     };
   }
 
   return {
     premintConfigVersion: PremintConfigVersion.V2,
-    tokenConfig: tokenConfigV2WithDefault(
-      tokenCreationConfig,
-      fixedPriceMinter,
-    ),
+    tokenConfig: tokenConfigV2WithDefault(tokenCreationConfig, fixedPriceMinter),
   };
 };
 
@@ -202,7 +190,7 @@ const makeTokenConfigWithDefaults = ({
  * @returns Premint event arguments
  */
 export function getPremintedLogFromReceipt(
-  receipt: TransactionReceipt,
+  receipt: TransactionReceipt
 ): PremintedV2LogType | undefined {
   for (const data of receipt.logs) {
     try {
@@ -240,10 +228,7 @@ export class PremintClient {
     this.publicClient = publicClient;
   }
 
-  getDataFromPremintReceipt(
-    receipt: TransactionReceipt,
-    blockExplorerUrl?: string,
-  ) {
+  getDataFromPremintReceipt(receipt: TransactionReceipt, blockExplorerUrl?: string) {
     return getDataFromPremintReceipt(receipt, this.chainId, blockExplorerUrl);
   }
 
@@ -268,9 +253,7 @@ export class PremintClient {
    * @param parameters - Parameters for deleting the premint {@link DeletePremintParams}
    * @returns A PremintReturn. {@link PremintReturn}
    */
-  async deletePremint(
-    params: DeletePremintParams,
-  ): Promise<PremintReturn<any>> {
+  async deletePremint(params: DeletePremintParams): Promise<PremintReturn<any>> {
     return deletePremint({
       ...params,
       apiClient: this.apiClient,
@@ -285,9 +268,7 @@ export class PremintClient {
    * @param parameters - Parameters for creating the premint {@link CreatePremintParameters}
    * @returns A PremintReturn. {@link PremintReturn}
    */
-  async createPremint(
-    parameters: CreatePremintParameters,
-  ): Promise<PremintReturn<any>> {
+  async createPremint(parameters: CreatePremintParameters): Promise<PremintReturn<any>> {
     return createPremint({
       ...parameters,
       publicClient: this.publicClient,
@@ -371,7 +352,7 @@ export class PremintClient {
 export function getDataFromPremintReceipt(
   receipt: TransactionReceipt,
   chainId: number,
-  blockExplorerUrl?: string,
+  blockExplorerUrl?: string
 ) {
   const premintedLog = getPremintedLogFromReceipt(receipt);
   return {
@@ -478,11 +459,7 @@ function makePremintReturn<T extends PremintConfigVersion>({
     };
   };
 
-  const submit = async ({
-    signature,
-    checkSignature,
-    account,
-  }: SubmitParams) => {
+  const submit = async ({ signature, checkSignature, account }: SubmitParams) => {
     if (checkSignature) {
       const isAuthorized = await isAuthorizedToCreatePremint({
         collectionAddress,
@@ -833,10 +810,7 @@ export const buildPremintMintCall = ({
   mintArguments: Omit<MakeMintParametersArgumentsBase, "tokenContract"> & {
     firstMinter?: Address;
   };
-  premint: Pick<
-    PremintFromApi,
-    "collection" | "collectionAddress" | "premint" | "signature"
-  >;
+  premint: Pick<PremintFromApi, "collection" | "collectionAddress" | "premint" | "signature">;
   mintFee: bigint;
 }): SimulateContractParametersWithAccount => {
   const mintArgumentsContract: PremintMintArguments = {
@@ -853,21 +827,17 @@ export const buildPremintMintCall = ({
   const collectionOrEmpty: ContractCreationConfig = collection
     ? defaultAdditionalAdmins(collection)
     : emptyContractCreationConfig();
-  const collectionAddressToSubmit = collection
-    ? zeroAddress
-    : collectionAddress;
+  const collectionAddressToSubmit = collection ? zeroAddress : collectionAddress;
 
   const firstMinterToSubmit: Address =
-    firstMinter ||
-    (typeof minterAccount === "string" ? minterAccount : minterAccount.address);
+    firstMinter || (typeof minterAccount === "string" ? minterAccount : minterAccount.address);
 
   if (premint.premintConfigVersion === PremintConfigVersion.V3) {
     throw new Error("PremintV3 not supported in premint SDK");
   }
 
   const value =
-    (mintFee + premint.premintConfig.tokenConfig.pricePerToken) *
-    BigInt(quantityToMint);
+    (mintFee + premint.premintConfig.tokenConfig.pricePerToken) * BigInt(quantityToMint);
 
   return makeContractParameters({
     account: minterAccount,
@@ -910,17 +880,11 @@ export function makeUrls({
   const network = getApiNetworkConfigForChain(chainId);
 
   return {
-    explorer: tokenId
-      ? `https://${blockExplorerUrl}/token/${address}/instance/${tokenId}`
-      : null,
-    zoraCollect: `https://${
-      network.isTestnet ? "testnet." : ""
-    }zora.co/collect/${
+    explorer: tokenId ? `https://${blockExplorerUrl}/token/${address}/instance/${tokenId}` : null,
+    zoraCollect: `https://${network.isTestnet ? "testnet." : ""}zora.co/collect/${
       network.zoraCollectPathChainName
     }:${address}/${zoraTokenPath}`,
-    zoraManage: `https://${
-      network.isTestnet ? "testnet." : ""
-    }zora.co/collect/${
+    zoraManage: `https://${network.isTestnet ? "testnet." : ""}zora.co/collect/${
       network.zoraCollectPathChainName
     }:${address}/${zoraTokenPath}`,
   };

@@ -41,8 +41,7 @@ export function WarpcastButton({ className = "" }: WarpcastButtonProps) {
         />
         {isConnected ? (
           <p className="min-w-20 text-left">
-            {truncated(context?.user.displayName || "", 9) ||
-              truncateAddress(address as string)}
+            {truncated(context?.user.displayName || "", 9) || truncateAddress(address as string)}
           </p>
         ) : (
           "sign in"

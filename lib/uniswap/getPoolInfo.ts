@@ -16,18 +16,13 @@ const getPoolInfo = async (account: Address, swapAmount: bigint) => {
   });
 
   const publicClient = getPublicClient(CHAIN_ID);
-  const poolCalls = [
-    "token0",
-    "token1",
-    "fee",
-    "tickSpacing",
-    "liquidity",
-    "slot0",
-  ].map((functionName: string) => ({
-    address: poolAddress,
-    abi: v3UniswapPoolABI,
-    functionName,
-  }));
+  const poolCalls = ["token0", "token1", "fee", "tickSpacing", "liquidity", "slot0"].map(
+    (functionName: string) => ({
+      address: poolAddress,
+      abi: v3UniswapPoolABI,
+      functionName,
+    })
+  );
 
   const returnValues: any = await publicClient.multicall({
     contracts: poolCalls as any,

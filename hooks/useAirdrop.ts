@@ -84,7 +84,7 @@ const useAirdrop = () => {
           value: BigInt(0),
           chain: getViemNetwork(collection.chainId),
         },
-        collection.chainId,
+        collection.chainId
       );
       const publicClient: any = getPublicClient(collection.chainId);
       const receipt = await publicClient.waitForTransactionReceipt({ hash });

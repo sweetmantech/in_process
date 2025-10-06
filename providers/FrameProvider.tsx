@@ -1,14 +1,7 @@
 "use client";
 
 import sdk, { type Context } from "@farcaster/frame-sdk";
-import React, {
-  useState,
-  useEffect,
-  ReactNode,
-  createContext,
-  useContext,
-  useMemo,
-} from "react";
+import React, { useState, useEffect, ReactNode, createContext, useContext, useMemo } from "react";
 
 interface FrameContextType {
   context: Context.FrameContext | undefined;
@@ -37,12 +30,10 @@ export default function FrameProvider({ children }: { children: ReactNode }) {
     () => ({
       context,
     }),
-    [context],
+    [context]
   );
 
-  return (
-    <FrameContext.Provider value={value}>{children}</FrameContext.Provider>
-  );
+  return <FrameContext.Provider value={value}>{children}</FrameContext.Provider>;
 }
 
 export const useFrameProvider = () => {

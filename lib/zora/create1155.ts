@@ -7,11 +7,7 @@ import { createMomentSchema } from "@/lib/coinbase/createContractSchema";
 
 export type CreateMomentContractInput = z.infer<typeof createMomentSchema>;
 
-export async function create1155({
-  contract,
-  token,
-  account,
-}: CreateMomentContractInput) {
+export async function create1155({ contract, token, account }: CreateMomentContractInput) {
   const creatorClient = getCreatorClient(CHAIN_ID);
   return creatorClient.create1155({
     contract,

@@ -25,16 +25,13 @@ const TokenItem = ({
   const handleClick = () => {
     if (isLoading) return;
     push(
-      `/manage/${networkConfigByChain[collection.chainId].zoraCollectPathChainName}:${collection.address as string}/${t.tokenId.toString()}`,
+      `/manage/${networkConfigByChain[collection.chainId].zoraCollectPathChainName}:${collection.address as string}/${t.tokenId.toString()}`
     );
     return;
   };
 
   return (
-    <section
-      className="col-span-1 aspect-[1/1] flex flex-col cursor-pointer"
-      onClick={handleClick}
-    >
+    <section className="col-span-1 aspect-[1/1] flex flex-col cursor-pointer" onClick={handleClick}>
       {isLoading ? (
         <Skeleton className="size-full" />
       ) : (

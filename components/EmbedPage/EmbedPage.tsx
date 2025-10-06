@@ -5,8 +5,7 @@ import isHtml from "is-html";
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 
 const EmbedPage = () => {
-  const { embedCode, embed, createdContract, animationUri, name } =
-    useMomentCreateProvider();
+  const { embedCode, embed, createdContract, animationUri, name } = useMomentCreateProvider();
 
   if (createdContract)
     return (

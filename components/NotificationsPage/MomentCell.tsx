@@ -43,9 +43,7 @@ const MomentCell = ({ token, className }: MomentCellProps) => {
             )}
             <div className="flex flex-col">
               {metadata?.name && (
-                <span className="text-sm font-archivo-medium">
-                  {metadata.name}
-                </span>
+                <span className="text-sm font-archivo-medium">{metadata.name}</span>
               )}
             </div>
           </>

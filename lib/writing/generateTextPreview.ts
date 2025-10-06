@@ -12,10 +12,7 @@ export const generateTextPreview = async (text: string): Promise<File> => {
   const paragraphs = trimmedText.split("\n");
   let totalLines = 0;
   paragraphs.forEach((paragraph) => {
-    totalLines += Math.max(
-      1,
-      parseInt(Number(paragraph.length / 64).toFixed()) + 1,
-    );
+    totalLines += Math.max(1, parseInt(Number(paragraph.length / 64).toFixed()) + 1);
   });
 
   // Dynamic font size based on line count (same logic as OG route)

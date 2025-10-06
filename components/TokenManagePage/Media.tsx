@@ -32,9 +32,7 @@ const Media = () => {
       <div className="bg-white rounded-lg shadow-sm p-6 max-w-md mt-4">
         <div className="space-y-4">
           <div>
-            <label className="font-archivo text-sm text-grey-moss-600 block mb-1">
-              title
-            </label>
+            <label className="font-archivo text-sm text-grey-moss-600 block mb-1">title</label>
             <Input
               type="text"
               value={name}

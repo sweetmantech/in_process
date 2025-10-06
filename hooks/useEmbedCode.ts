@@ -6,10 +6,7 @@ interface useEmbedCodeProps {
   setAnimationUri: Dispatch<SetStateAction<string>>;
 }
 
-const useEmbedCode = ({
-  setDescription,
-  setAnimationUri,
-}: useEmbedCodeProps) => {
+const useEmbedCode = ({ setDescription, setAnimationUri }: useEmbedCodeProps) => {
   const [embedCode, setEmbedCode] = useState("");
 
   const uploadEmbedCode = async () => {
@@ -19,7 +16,7 @@ const useEmbedCode = ({
       ${embedCode}
       </html>`,
       ],
-      { type: "text/html" },
+      { type: "text/html" }
     );
     const fileName = "embed";
     const fileType = "text/html";

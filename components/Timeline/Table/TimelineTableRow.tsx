@@ -15,9 +15,7 @@ const TimelineTableRow = ({ moment }: { moment: TimelineMoment }) => {
       onClick={() => push(`/${moment.admin}`)}
     >
       <div>
-        <p className="font-spectral-italic text-base text-left">
-          {truncated(data?.name || "")}
-        </p>
+        <p className="font-spectral-italic text-base text-left">{truncated(data?.name || "")}</p>
         <p className="font-archivo text-[11px] text-left">
           {new Date(moment.createdAt).toLocaleString()}
         </p>

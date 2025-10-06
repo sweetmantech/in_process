@@ -12,10 +12,7 @@ const Account = () => {
         <div className="col-span-12 md:col-span-10 flex flex-col gap-4">
           <fieldset>
             <Label>display name</Label>
-            <Input
-              placeholder="ex: ziad.eth"
-              className="resize-none font-spectral mt-1"
-            />
+            <Input placeholder="ex: ziad.eth" className="resize-none font-spectral mt-1" />
           </fieldset>
           <fieldset>
             <Label>bio</Label>

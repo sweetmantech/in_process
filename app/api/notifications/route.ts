@@ -25,7 +25,7 @@ export async function GET(req: NextRequest) {
           status: "error",
           message: error.message,
         },
-        { status: 500 },
+        { status: 500 }
       );
     }
 
@@ -40,7 +40,7 @@ export async function GET(req: NextRequest) {
         status: "error",
         message: "Internal server error",
       },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }
@@ -62,7 +62,7 @@ export async function PUT(req: NextRequest) {
           status: "error",
           message: error.message,
         },
-        { status: 500 },
+        { status: 500 }
       );
     }
 
@@ -78,7 +78,7 @@ export async function PUT(req: NextRequest) {
         status: "error",
         message: "Internal server error",
       },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }

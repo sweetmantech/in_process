@@ -194,9 +194,7 @@ export interface components {
     PremintRequest: {
       collection?: components["schemas"]["CollectionCreationConfig"];
       /** Premint */
-      premint:
-        | components["schemas"]["PremintConfigV1"]
-        | components["schemas"]["PremintConfigV2"];
+      premint: components["schemas"]["PremintConfigV1"] | components["schemas"]["PremintConfigV2"];
       chain_name: components["schemas"]["ChainName"];
       /** Signature */
       signature: string;
@@ -218,9 +216,7 @@ export interface components {
     PremintSignature: {
       collection?: components["schemas"]["CollectionCreationConfig"];
       /** Premint */
-      premint:
-        | components["schemas"]["PremintConfigV1"]
-        | components["schemas"]["PremintConfigV2"];
+      premint: components["schemas"]["PremintConfigV1"] | components["schemas"]["PremintConfigV2"];
       chain_name: components["schemas"]["ChainName"];
       /** Signature */
       signature: string;

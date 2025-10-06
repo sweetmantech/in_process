@@ -5,18 +5,13 @@ import Image from "next/image";
 import { toast } from "sonner";
 
 const Buttons = () => {
-  const {
-    createdContract,
-    setCreatedContract,
-    reset,
-    setCreatedTokenId,
-    createdTokenId,
-  } = useMomentCreateProvider();
+  const { createdContract, setCreatedContract, reset, setCreatedTokenId, createdTokenId } =
+    useMomentCreateProvider();
 
   const share = async () => {
     const shortNetworkName = getShortNetworkName(CHAIN.name.toLowerCase());
     await navigator.clipboard.writeText(
-      `${PROD_URL}/collect/${shortNetworkName}:${createdContract}/${createdTokenId || 1}`,
+      `${PROD_URL}/collect/${shortNetworkName}:${createdContract}/${createdTokenId || 1}`
     );
     toast.success("copied!");
   };

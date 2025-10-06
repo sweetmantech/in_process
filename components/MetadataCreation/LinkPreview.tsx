@@ -34,9 +34,7 @@ const LinkPreview = () => {
               unoptimized
               alt="not found link"
             />
-            <p className="text-center font-archivo-medium">
-              Paste any link from the internet
-            </p>
+            <p className="text-center font-archivo-medium">Paste any link from the internet</p>
           </div>
           <LinkInput />
           {previewSrc && (

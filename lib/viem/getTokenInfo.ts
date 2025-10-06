@@ -15,7 +15,7 @@ import { MintType } from "@/types/zora";
 const getTokenInfo = async (
   tokenContract: Address,
   tokenId: string,
-  chainId: number = CHAIN_ID,
+  chainId: number = CHAIN_ID
 ) => {
   const publicClient: any = getPublicClient(chainId);
   const erc20SaleConfigCall = {

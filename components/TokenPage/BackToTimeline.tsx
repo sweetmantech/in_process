@@ -9,9 +9,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 const BackToTimeline = () => {
   const { owner } = useTokenProvider();
-  const { data: artistProfile, isLoading } = useArtistProfile(
-    owner || undefined,
-  );
+  const { data: artistProfile, isLoading } = useArtistProfile(owner || undefined);
 
   if (!owner) return null;
 
@@ -32,9 +30,7 @@ const BackToTimeline = () => {
         className="inline-flex items-center gap-2 text-grey-moss-700 hover:text-grey-moss-900 transition-colors group"
       >
         <ChevronLeft className="size-4 group-hover:-translate-x-1 transition-transform" />
-        <span className="font-archivo text-sm">
-          back to {displayName}&#39;s timeline
-        </span>
+        <span className="font-archivo text-sm">back to {displayName}&#39;s timeline</span>
       </Link>
     </div>
   );

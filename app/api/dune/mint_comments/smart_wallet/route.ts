@@ -8,15 +8,12 @@ export async function GET(req: NextRequest) {
   const tokenId = req.nextUrl.searchParams.get("tokenId");
   const chainId = req.nextUrl.searchParams.get("chainId");
   try {
-    const smartWalletEvents: DuneDecodedEvent[] =
-      await getSmartWalletMintCommentEvents(
-        tokenContract as string,
-        chainId as string,
-      );
-    const comments = getFormattedMintComments(smartWalletEvents);
-    return Response.json(
-      tokenId ? comments.filter((e) => e.tokenId === tokenId) : comments,
+    const smartWalletEvents: DuneDecodedEvent[] = await getSmartWalletMintCommentEvents(
+      tokenContract as string,
+      chainId as string
     );
+    const comments = getFormattedMintComments(smartWalletEvents);
+    return Response.json(tokenId ? comments.filter((e) => e.tokenId === tokenId) : comments);
   } catch (e: any) {
     console.log(e);
     const message = e?.message ?? "failed to get Dune transactions";

@@ -21,9 +21,7 @@ const Container = ({
 }: {
   children: React.ReactNode;
   className?: string;
-}) => (
-  <div className={`size-full flex justify-center ${className}`}>{children}</div>
-);
+}) => <div className={`size-full flex justify-center ${className}`}>{children}</div>;
 
 const MediaUploaded = ({
   handleImageClick,

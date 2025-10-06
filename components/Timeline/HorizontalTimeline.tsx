@@ -61,13 +61,7 @@ const HorizontalTimeline = () => {
           slideClassName="!w-fit !m-0"
         >
           {tokens.map((token, i) => (
-            <Feed
-              key={i}
-              feed={token}
-              hovered={isHovered(i)}
-              step={1}
-              height={getHeight(i)}
-            />
+            <Feed key={i} feed={token} hovered={isHovered(i)} step={1} height={getHeight(i)} />
           ))}
         </Slider>
       </div>

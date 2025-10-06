@@ -6,7 +6,7 @@ const deploySmartWallet = async (
   admin: Account,
   fatoryAddress: Address,
   factoryCalldata: Address,
-  chainId: number,
+  chainId: number
 ) => {
   const chain = getChain(chainId);
   const walletClient = createWalletClient({
