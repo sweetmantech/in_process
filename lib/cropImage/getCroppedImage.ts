@@ -16,7 +16,7 @@ export default async function getCroppedImg(
   flip: { horizontal: boolean; vertical: boolean } = {
     horizontal: false,
     vertical: false,
-  },
+  }
 ): Promise<string | null> {
   const image = (await createImage(imageSrc)) as HTMLImageElement;
   const canvas = document.createElement("canvas");
@@ -29,11 +29,7 @@ export default async function getCroppedImg(
   const rotRad = getRadianAngle(rotation);
 
   // calculate bounding box of the rotated image
-  const { width: bBoxWidth, height: bBoxHeight } = rotateSize(
-    image.width,
-    image.height,
-    rotation,
-  );
+  const { width: bBoxWidth, height: bBoxHeight } = rotateSize(image.width, image.height, rotation);
 
   // set canvas size to match the bounding box
   canvas.width = bBoxWidth;
@@ -70,7 +66,7 @@ export default async function getCroppedImg(
     0,
     0,
     pixelCrop.width,
-    pixelCrop.height,
+    pixelCrop.height
   );
 
   // As Base64 string

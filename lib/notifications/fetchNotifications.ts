@@ -10,7 +10,7 @@ export async function fetchNotifications(
   page = 1,
   limit = 20,
   artist?: string,
-  viewed?: boolean,
+  viewed?: boolean
 ): Promise<NotificationsResponse> {
   const params = new URLSearchParams({
     page: String(page),

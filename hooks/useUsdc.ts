@@ -30,10 +30,7 @@ const useUsdc = () => {
     return response;
   };
 
-  const hasAllowance = async (
-    sale: SaleConfig | undefined,
-    quantity: number = 1,
-  ) => {
+  const hasAllowance = async (sale: SaleConfig | undefined, quantity: number = 1) => {
     if (!sale) return false;
     if (sale.type !== MintType.ZoraErc20Mint) return true;
     const publicClient = getPublicClient(CHAIN_ID);

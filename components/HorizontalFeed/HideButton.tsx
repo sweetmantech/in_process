@@ -4,8 +4,7 @@ import type { TimelineMoment } from "@/hooks/useTimelineApi";
 import { toggleMoment } from "@/lib/timeline/toggleMoment";
 import { toast } from "sonner";
 
-interface HideButtonProps
-  extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "onClick"> {
+interface HideButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "onClick"> {
   moment: TimelineMoment;
   onClick?: (() => void) | undefined;
 }
@@ -23,9 +22,7 @@ const HideButton: FC<HideButtonProps> = ({
   // Track the current hidden state, initialized from the moment prop
   const [isHidden, setIsHidden] = useState(moment.hidden);
 
-  const handleClick = async (
-    e: MouseEvent<HTMLButtonElement>,
-  ): Promise<void> => {
+  const handleClick = async (e: MouseEvent<HTMLButtonElement>): Promise<void> => {
     e.stopPropagation();
 
     try {

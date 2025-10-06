@@ -21,8 +21,7 @@ export const useWritingScrollbar = () => {
     if (!el) return;
     const can = el.scrollHeight > el.clientHeight;
     setCanScroll(can);
-    const nearBottom =
-      el.scrollHeight - el.scrollTop - el.clientHeight <= SCROLL_EPS;
+    const nearBottom = el.scrollHeight - el.scrollTop - el.clientHeight <= SCROLL_EPS;
     const next: ScrollPos = !can
       ? "top"
       : el.scrollTop === 0

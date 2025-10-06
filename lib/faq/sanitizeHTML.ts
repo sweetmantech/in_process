@@ -6,10 +6,7 @@ export const sanitizeHTML = (text: string): string => {
     .replace(/on\w+\s*=/gi, "")
     .replace(/<[^>]*>/g, (match) => {
       // Only allow <strong> tags
-      if (
-        match.toLowerCase() === "<strong>" ||
-        match.toLowerCase() === "</strong>"
-      ) {
+      if (match.toLowerCase() === "<strong>" || match.toLowerCase() === "</strong>") {
         return match;
       }
       return "";

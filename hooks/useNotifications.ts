@@ -16,7 +16,7 @@ export function useNotifications(
   limit = 20,
   enabled = true,
   artist?: string,
-  viewed?: boolean,
+  viewed?: boolean
 ) {
   const [currentPage, setCurrentPage] = useState(page);
 

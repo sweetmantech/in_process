@@ -32,7 +32,7 @@ export function usePayments(
   limit = 20,
   enabled = true,
   artist?: string,
-  combined = false,
+  combined = false
 ) {
   const [currentPage, setCurrentPage] = useState(page);
 
@@ -59,7 +59,7 @@ export function usePayments(
 
         // Combine and sort by block number (most recent first)
         const combinedPayments = [...earnings, ...expenses].sort(
-          (a, b) => parseInt(b.block) - parseInt(a.block),
+          (a, b) => parseInt(b.block) - parseInt(a.block)
         );
 
         return {

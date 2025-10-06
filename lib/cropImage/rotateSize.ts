@@ -6,7 +6,7 @@ import { getRadianAngle } from "./getRadianAngle";
 export function rotateSize(
   width: number,
   height: number,
-  rotation: number,
+  rotation: number
 ): { width: number; height: number } {
   const rotRad = getRadianAngle(rotation);
 
