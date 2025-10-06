@@ -13,11 +13,7 @@ export type SaleConfig = {
   type: string;
 };
 
-const useTokenInfo = (
-  tokenContract: Address,
-  tokenId: string,
-  chainId: number,
-) => {
+const useTokenInfo = (tokenContract: Address, tokenId: string, chainId: number) => {
   const [saleConfig, setSaleConfig] = useState<SaleConfig | null>(null);
   const [tokenUri, setTokenUri] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -26,11 +22,8 @@ const useTokenInfo = (
   const { connectedAddress } = useUserProvider();
 
   const isOwner = useMemo(() => {
-    return Boolean(
-      connectedAddress && owner &&
-      getAddress(connectedAddress) === getAddress(owner)
-    )
-  }, [connectedAddress, owner])
+    return Boolean(connectedAddress && owner && getAddress(connectedAddress) === getAddress(owner));
+  }, [connectedAddress, owner]);
 
   const fetchTokenInfo = useCallback(async () => {
     const tokenInfo = await getTokenInfo(tokenContract, tokenId, chainId);
@@ -52,7 +45,7 @@ const useTokenInfo = (
     isSetSale,
     fetchTokenInfo,
     owner,
-    isOwner
+    isOwner,
   };
 };
 

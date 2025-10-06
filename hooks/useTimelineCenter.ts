@@ -8,11 +8,7 @@ interface useTimelineCenterProps {
   swiper: Swiper | null;
   feeds: Token[];
 }
-const useTimelineCenter = ({
-  activeIndex,
-  swiper,
-  feeds,
-}: useTimelineCenterProps) => {
+const useTimelineCenter = ({ activeIndex, swiper, feeds }: useTimelineCenterProps) => {
   const centerIndex = useMemo(() => {
     if (!swiper) return 0;
     const totalWidth = swiper.width;

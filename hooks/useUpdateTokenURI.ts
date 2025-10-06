@@ -9,7 +9,7 @@ import { useUserProvider } from "@/providers/UserProvider";
 import { uploadJson } from "@/lib/arweave/uploadJson";
 import { fetchTokenMetadata } from "@/lib/protocolSdk/ipfs/token-metadata";
 import getTokenInfo from "@/lib/viem/getTokenInfo";
-import {useMomentManageProvider} from "@/providers/MomentManageProvider";
+import { useMomentManageProvider } from "@/providers/MomentManageProvider";
 
 const useUpdateTokenURI = () => {
   const { token, fetchTokenInfo } = useTokenProvider();
@@ -29,8 +29,8 @@ const useUpdateTokenURI = () => {
       image: imageUri || current?.image,
       animation_url: imageUri || current?.animation_url,
       ...(current?.content && {
-        content: { ...current.content, uri: imageUri || current.content.uri }
-      })
+        content: { ...current.content, uri: imageUri || current.content.uri },
+      }),
     };
 
     if (!updated.name) throw new Error("Missing token name");

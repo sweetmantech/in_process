@@ -13,11 +13,8 @@ interface FeedbackModalContentsProps {
   submitFeedbackHook: UseSubmitFeedbackReturn;
 }
 
-const FeedbackModalContents = ({
-  submitFeedbackHook,
-}: FeedbackModalContentsProps) => {
-  const { feedback, setFeedback, name, setName, isLoading, submit } =
-    submitFeedbackHook;
+const FeedbackModalContents = ({ submitFeedbackHook }: FeedbackModalContentsProps) => {
+  const { feedback, setFeedback, name, setName, isLoading, submit } = submitFeedbackHook;
 
   return (
     <DialogPortal>
@@ -43,9 +40,7 @@ const FeedbackModalContents = ({
             />
           </svg>
         </DialogClose>
-        <h2 className="font-archivo text-2xl text-center w-full mb-2">
-          let us hear from you
-        </h2>
+        <h2 className="font-archivo text-2xl text-center w-full mb-2">let us hear from you</h2>
         <p className="font-archivo text-sm text-center w-full mb-6 italic text-grey-moss-600">
           how&apos;s your process?
         </p>
@@ -76,9 +71,7 @@ const FeedbackModalContents = ({
             type="button"
             className="py-3 bg-black hover:bg-grey-moss-300 font-archivo text-xl w-full text-grey-eggshell mt-4 disabled:cursor-not-allowed disabled:bg-grey-moss-300 rounded-lg"
             onClick={submit}
-            disabled={
-              !Boolean(feedback.trim()) || !Boolean(name.trim()) || isLoading
-            }
+            disabled={!Boolean(feedback.trim()) || !Boolean(name.trim()) || isLoading}
           >
             {isLoading ? "sending..." : "send"}
           </button>

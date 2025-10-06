@@ -10,10 +10,7 @@ export async function GET(req: NextRequest) {
     const tokenId = req.nextUrl.searchParams.get("tokenId");
 
     const owner = await getOwner(collection as Address);
-    const uri = await getTokenURI(
-      collection as Address,
-      parseInt(tokenId as string, 10),
-    );
+    const uri = await getTokenURI(collection as Address, parseInt(tokenId as string, 10));
     const response = await fetch(getFetchableUrl(uri) || "");
     const metadata = await response.json();
 

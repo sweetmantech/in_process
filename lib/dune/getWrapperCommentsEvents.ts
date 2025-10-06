@@ -4,7 +4,7 @@ import { MINT_COMMENT_EVENT_SIGNATURE } from "../events";
 
 const getWrapperCommentsEvents = async (
   tokenContract: string,
-  chainId: string,
+  chainId: string
 ): Promise<DuneDecodedEvent[]> => {
   const options = {
     method: "GET",
@@ -21,7 +21,7 @@ const getWrapperCommentsEvents = async (
 
   const response = await fetch(
     `https://api.dune.com/api/echo/v1/transactions/evm/${ETH_USDC_WRAPPER}?${urlSearchParams}`,
-    options,
+    options
   );
   if (!response.ok) throw Error("failed to call Dune API.");
 

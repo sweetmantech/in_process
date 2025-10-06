@@ -17,28 +17,16 @@ const DesktopSelect = () => {
   return (
     <div className="w-full lg:max-w-[250px] xl:max-w-[300px] h-fit">
       <div ref={titleRef} className="flex flex-col gap-3 pb-3">
-        <CTAButton
-          isActive={isCreatePage}
-          onClick={() => push(`${baseRoute}${urlQuery}`)}
-        >
+        <CTAButton isActive={isCreatePage} onClick={() => push(`${baseRoute}${urlQuery}`)}>
           new moment
         </CTAButton>
-        <CTAButton
-          isActive={isWritingPage}
-          onClick={() => push(`${baseRoute}/writing${urlQuery}`)}
-        >
+        <CTAButton isActive={isWritingPage} onClick={() => push(`${baseRoute}/writing${urlQuery}`)}>
           new thought
         </CTAButton>
-        <CTAButton
-          isActive={isLinkPage}
-          onClick={() => push(`${baseRoute}/link${urlQuery}`)}
-        >
+        <CTAButton isActive={isLinkPage} onClick={() => push(`${baseRoute}/link${urlQuery}`)}>
           new link
         </CTAButton>
-        <CTAButton
-          isActive={isEmbedPage}
-          onClick={() => push(`${baseRoute}/embed${urlQuery}`)}
-        >
+        <CTAButton isActive={isEmbedPage} onClick={() => push(`${baseRoute}/embed${urlQuery}`)}>
           new embed
         </CTAButton>
       </div>

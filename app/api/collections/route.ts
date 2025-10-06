@@ -29,31 +29,24 @@ export async function POST(req: NextRequest) {
         await getCreatedContractEvents(
           (artistAddress as Address) || FACTORY_ADDRESSES[CHAIN_ID],
           offsets?.factory,
-          artistAddress ? { to: FACTORY_ADDRESSES[CHAIN_ID] } : undefined,
+          artistAddress ? { to: FACTORY_ADDRESSES[CHAIN_ID] } : undefined
         );
       events.push(factoryEvents);
       if (factoryNextOffset) nextOffsets.factory = factoryNextOffset;
     }
     const smartWallet = await getSmartWallet();
     if (smartWallet && (!offsets || offsets.smartWallet)) {
-      const {
-        transactions: smartWalletEvents,
-        nextOffset: smartWalletNextOffset,
-      } = await getCreatedContractEvents(
-        smartWallet.address,
-        offsets?.smartWallet,
-      );
+      const { transactions: smartWalletEvents, nextOffset: smartWalletNextOffset } =
+        await getCreatedContractEvents(smartWallet.address, offsets?.smartWallet);
       events.push(smartWalletEvents);
-      if (smartWalletNextOffset)
-        nextOffsets.smartWallet = smartWalletNextOffset;
+      if (smartWalletNextOffset) nextOffsets.smartWallet = smartWalletNextOffset;
     }
 
     const formattedEvents = getFormattedCollections(events.flat());
     return Response.json({
       collections: Boolean(artistAddress)
         ? formattedEvents.filter(
-            (e) =>
-              e.defaultAdmin.toLowerCase() === artistAddress?.toLowerCase(),
+            (e) => e.defaultAdmin.toLowerCase() === artistAddress?.toLowerCase()
           )
         : formattedEvents,
       nextOffsets,

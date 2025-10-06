@@ -1,10 +1,6 @@
 import { getApiNetworkConfigForChain } from "../mint/subgraph-mint-getter";
 import { NetworkConfig } from "./chain-constants";
-import {
-  ISubgraphQuerier,
-  ISubgraphQuery,
-  SubgraphQuerier,
-} from "./subgraph-querier";
+import { ISubgraphQuerier, ISubgraphQuery, SubgraphQuerier } from "./subgraph-querier";
 import { httpClient as defaultHttpClient } from "../apis/http-api-base";
 
 export class SubgraphGetter {
@@ -12,16 +8,11 @@ export class SubgraphGetter {
   networkConfig: NetworkConfig;
 
   constructor(chainId: number, subgraphQuerier?: ISubgraphQuerier) {
-    this.subgraphQuerier =
-      subgraphQuerier || new SubgraphQuerier(defaultHttpClient);
+    this.subgraphQuerier = subgraphQuerier || new SubgraphQuerier(defaultHttpClient);
     this.networkConfig = getApiNetworkConfigForChain(chainId);
   }
 
-  async querySubgraphWithRetries<T>({
-    query,
-    variables,
-    parseResponseData,
-  }: ISubgraphQuery<T>) {
+  async querySubgraphWithRetries<T>({ query, variables, parseResponseData }: ISubgraphQuery<T>) {
     const responseData = await this.subgraphQuerier.query({
       subgraphUrl: this.networkConfig.subgraphUrl,
       query,

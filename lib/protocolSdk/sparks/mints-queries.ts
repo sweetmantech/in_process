@@ -37,7 +37,7 @@ export type MintAccountBalancesQueryResult = {
  */
 export const selectMintsToCollectWithFromQueryResult = (
   mintAccountBalances: MintAccountBalance[],
-  quantityToCollect: bigint,
+  quantityToCollect: bigint
 ) => {
   const parsed = mintAccountBalances.map((r) => {
     return {
@@ -67,8 +67,7 @@ export const selectMintsToCollectWithFromQueryResult = (
       throw new Error("Not enough MINTs to collect with");
     }
 
-    const quantityToUse =
-      remainingQuantity > next.quantity ? next.quantity : remainingQuantity;
+    const quantityToUse = remainingQuantity > next.quantity ? next.quantity : remainingQuantity;
     tokenIds.push(next.tokenId);
     quantities.push(quantityToUse);
     remainingQuantity -= quantityToUse;
@@ -85,9 +84,7 @@ export const selectMintsToCollectWithFromQueryResult = (
  * @param mintAccountBalances
  * @returns Total balance
  */
-export const sumBalances = (
-  mintAccountBalances: Pick<MintAccountBalance, "balance">[],
-) => {
+export const sumBalances = (mintAccountBalances: Pick<MintAccountBalance, "balance">[]) => {
   return mintAccountBalances.reduce((acc, curr) => {
     return acc + BigInt(curr.balance);
   }, BigInt(0));

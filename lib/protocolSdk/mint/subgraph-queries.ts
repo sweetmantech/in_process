@@ -166,8 +166,7 @@ query ($id: ID!) {
             `${tokenAddress.toLowerCase()}-${tokenId}`
           : `${tokenAddress.toLowerCase()}-0`,
     },
-    parseResponseData: (responseData: any | undefined) =>
-      responseData?.zoraCreateToken,
+    parseResponseData: (responseData: any | undefined) => responseData?.zoraCreateToken,
   };
 }
 
@@ -190,8 +189,7 @@ query ($contract: Bytes!) {
     variables: {
       contract: tokenAddress.toLowerCase(),
     },
-    parseResponseData: (responseData: any | undefined) =>
-      responseData?.zoraCreateTokens,
+    parseResponseData: (responseData: any | undefined) => responseData?.zoraCreateTokens,
   };
 }
 export function buildPremintsOfContractQuery({
@@ -211,7 +209,6 @@ export function buildPremintsOfContractQuery({
     variables: {
       contractAddress: tokenAddress.toLowerCase(),
     },
-    parseResponseData: (responseData: any | undefined) =>
-      responseData?.premints,
+    parseResponseData: (responseData: any | undefined) => responseData?.premints,
   };
 }

@@ -5,7 +5,7 @@ import { MINT_COMMENT_EVENT_SIGNATURE } from "../events";
 
 const getSmartWalletMintCommentEvents = async (
   tokenContract: string,
-  chainId: string,
+  chainId: string
 ): Promise<DuneDecodedEvent[]> => {
   const smartWallet = await getSmartWallet(parseInt(chainId, 10));
   if (!smartWallet) return [];
@@ -24,7 +24,7 @@ const getSmartWalletMintCommentEvents = async (
 
   const response = await fetch(
     `https://api.dune.com/api/echo/v1/transactions/evm/${smartWallet.address}?${urlSearchParams}`,
-    options,
+    options
   );
   if (!response.ok) throw Error("failed to call Dune API.");
 

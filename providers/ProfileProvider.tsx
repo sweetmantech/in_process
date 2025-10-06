@@ -4,7 +4,7 @@ import useProfile from "@/hooks/useProfile";
 import { createContext, useMemo, useContext } from "react";
 
 const ProfileContext = createContext<ReturnType<typeof useProfile>>(
-  {} as ReturnType<typeof useProfile>,
+  {} as ReturnType<typeof useProfile>
 );
 
 const ProfileProvider = ({ children }: { children: React.ReactNode }) => {
@@ -14,12 +14,10 @@ const ProfileProvider = ({ children }: { children: React.ReactNode }) => {
     () => ({
       ...profile,
     }),
-    [profile],
+    [profile]
   );
 
-  return (
-    <ProfileContext.Provider value={value}>{children}</ProfileContext.Provider>
-  );
+  return <ProfileContext.Provider value={value}>{children}</ProfileContext.Provider>;
 };
 
 export const useProfileProvider = () => {

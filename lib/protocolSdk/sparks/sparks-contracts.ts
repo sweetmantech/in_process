@@ -81,10 +81,7 @@ export const mintsBalanceOfAccountParams = ({
 }: {
   account: Address;
   chainId: keyof typeof zoraMints1155Config.address;
-}): ReadContractParameters<
-  typeof zoraMints1155Config.abi,
-  "balanceOfAccount"
-> => ({
+}): ReadContractParameters<typeof zoraMints1155Config.abi, "balanceOfAccount"> => ({
   abi: zoraMints1155Config.abi,
   address: zoraMints1155Config.address[chainId],
   functionName: "balanceOfAccount",
@@ -109,12 +106,7 @@ export const encodeCollectOnManager = ({
   encodeFunctionData({
     abi: zoraMintsManagerImplConfig.abi,
     functionName: "collect",
-    args: [
-      zoraCreator1155Contract,
-      minter,
-      zoraCreator1155TokenId,
-      mintArguments,
-    ],
+    args: [zoraCreator1155Contract, minter, zoraCreator1155TokenId, mintArguments],
   });
 
 /**
@@ -181,14 +173,8 @@ type PermitTransferBatchParameters = {
  * Get the current price to mint a MINT with ETH
  * @param publicClient - The public client to use to read the contract
  */
-export function getMintsEthPrice({
-  publicClient,
-}: {
-  publicClient: PublicClient;
-}) {
-  const chainId = publicClient.chain?.id as
-    | keyof typeof zoraMintsManagerImplAddress
-    | undefined;
+export function getMintsEthPrice({ publicClient }: { publicClient: PublicClient }) {
+  const chainId = publicClient.chain?.id as keyof typeof zoraMintsManagerImplAddress | undefined;
   // if chain id is not in the zoraMintsManagerImplAddress, throw an error:
   if (!chainId || !zoraMintsManagerImplAddress[chainId]) {
     throw new Error(`Chain id ${chainId} not supported`);
@@ -322,13 +308,7 @@ const encodePremintOnManager = ({
   encodeFunctionData({
     abi: zoraMintsManagerImplConfig.abi,
     functionName: "collectPremintV2",
-    args: [
-      contractCreationConfig,
-      premintConfig,
-      premintSignature,
-      mintArguments,
-      signerContract,
-    ],
+    args: [contractCreationConfig, premintConfig, premintSignature, mintArguments, signerContract],
   });
 
 /**
@@ -429,17 +409,11 @@ export function collectPremintV2WithMintsParams({
 }
 
 export type PermitSafeTransferBatch = AbiParametersToPrimitiveTypes<
-  ExtractAbiFunction<
-    typeof zoraMints1155Config.abi,
-    "permitSafeTransferBatch"
-  >["inputs"]
+  ExtractAbiFunction<typeof zoraMints1155Config.abi, "permitSafeTransferBatch">["inputs"]
 >[0];
 
 export type PermitSafeTransfer = AbiParametersToPrimitiveTypes<
-  ExtractAbiFunction<
-    typeof zoraMints1155Config.abi,
-    "permitSafeTransfer"
-  >["inputs"]
+  ExtractAbiFunction<typeof zoraMints1155Config.abi, "permitSafeTransfer">["inputs"]
 >[0];
 
 export type CollectMintArguments = AbiParametersToPrimitiveTypes<
@@ -452,8 +426,7 @@ export type CollectMintArguments = AbiParametersToPrimitiveTypes<
  * @returns
  */
 export function decodeCallFailedError(error: ContractFunctionRevertedError) {
-  if (error.data?.errorName !== "CallFailed")
-    throw new Error("Not a CallFailed error");
+  if (error.data?.errorName !== "CallFailed") throw new Error("Not a CallFailed error");
 
   const internalErrorData = error.data?.args?.[0] as Hex;
 

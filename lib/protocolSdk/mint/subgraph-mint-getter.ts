@@ -38,7 +38,7 @@ type ParsedSalesConfig = {
 function parseFixedPriceSalesConfig(
   fixedPrice: FixedPriceSaleStrategyResult["fixedPrice"],
   contractMintFee: bigint,
-  blockTime: bigint,
+  blockTime: bigint
 ): ParsedSalesConfig {
   const saleEnd = BigInt(fixedPrice.saleEnd);
   return {
@@ -50,14 +50,13 @@ function parseFixedPriceSalesConfig(
       mintFeePerQuantity: contractMintFee,
     },
     saleEnd,
-    saleActive:
-      BigInt(fixedPrice.saleStart) <= blockTime && BigInt(saleEnd) > blockTime,
+    saleActive: BigInt(fixedPrice.saleStart) <= blockTime && BigInt(saleEnd) > blockTime,
   };
 }
 
 function parseERC20SalesConfig(
   erc20Minter: ERC20SaleStrategyResult["erc20Minter"],
-  blockTime: bigint,
+  blockTime: bigint
 ): ParsedSalesConfig {
   const saleEnd = BigInt(erc20Minter.saleEnd);
   return {
@@ -69,15 +68,14 @@ function parseERC20SalesConfig(
       mintFeePerQuantity: BigInt(0),
     },
     saleEnd,
-    saleActive:
-      BigInt(erc20Minter.saleStart) <= blockTime && saleEnd > blockTime,
+    saleActive: BigInt(erc20Minter.saleStart) <= blockTime && saleEnd > blockTime,
   };
 }
 
 function parsePresaleSalesConfig(
   presale: PresaleSalesStrategyResult["presale"],
   contractMintFee: bigint,
-  blockTime: bigint,
+  blockTime: bigint
 ): ParsedSalesConfig {
   const saleEnd = BigInt(presale.presaleEnd);
   return {
@@ -90,14 +88,13 @@ function parsePresaleSalesConfig(
       mintFeePerQuantity: contractMintFee,
     },
     saleEnd,
-    saleActive:
-      BigInt(presale.presaleStart) <= blockTime && saleEnd > blockTime,
+    saleActive: BigInt(presale.presaleStart) <= blockTime && saleEnd > blockTime,
   };
 }
 
 function parseZoraTimedSalesConfig(
   zoraTimedMinter: ZoraTimedMinterSaleStrategyResult["zoraTimedMinter"],
-  blockTime: bigint,
+  blockTime: bigint
 ): ParsedSalesConfig {
   const saleEnd = BigInt(zoraTimedMinter.saleEnd);
   const hasSaleEnd = saleEnd > BigInt(0);
@@ -122,36 +119,24 @@ function parseZoraTimedSalesConfig(
     saleEnd: hasSaleEnd ? saleEnd : undefined,
     secondaryMarketActive: zoraTimedMinter.secondaryActivated,
     saleActive:
-      BigInt(zoraTimedMinter.saleStart) <= blockTime &&
-      (hasSaleEnd ? saleEnd > blockTime : true),
+      BigInt(zoraTimedMinter.saleStart) <= blockTime && (hasSaleEnd ? saleEnd > blockTime : true),
   };
 }
 
 function parseSalesConfig(
   targetStrategy: SalesStrategyResult,
   contractMintFee: bigint,
-  blockTime: bigint,
+  blockTime: bigint
 ): ParsedSalesConfig {
   switch (targetStrategy.type) {
     case "FIXED_PRICE":
-      return parseFixedPriceSalesConfig(
-        targetStrategy.fixedPrice,
-        contractMintFee,
-        blockTime,
-      );
+      return parseFixedPriceSalesConfig(targetStrategy.fixedPrice, contractMintFee, blockTime);
     case "ERC_20_MINTER":
       return parseERC20SalesConfig(targetStrategy.erc20Minter, blockTime);
     case "PRESALE":
-      return parsePresaleSalesConfig(
-        targetStrategy.presale,
-        contractMintFee,
-        blockTime,
-      );
+      return parsePresaleSalesConfig(targetStrategy.presale, contractMintFee, blockTime);
     case "ZORA_TIMED":
-      return parseZoraTimedSalesConfig(
-        targetStrategy.zoraTimedMinter,
-        blockTime,
-      );
+      return parseZoraTimedSalesConfig(targetStrategy.zoraTimedMinter, blockTime);
     default:
       throw new Error("Unknown saleType");
   }
@@ -171,20 +156,18 @@ function getTargetStrategy({
   contractMintFee: bigint;
 }): ParsedSalesConfig | undefined {
   const allStrategies =
-    (typeof tokenId !== "undefined"
-      ? token.salesStrategies
-      : token.contract.salesStrategies) || [];
+    (typeof tokenId !== "undefined" ? token.salesStrategies : token.contract.salesStrategies) || [];
 
   const parsedStrategies = allStrategies.map((strategy) =>
-    parseSalesConfig(strategy, contractMintFee, blockTime),
+    parseSalesConfig(strategy, contractMintFee, blockTime)
   );
 
   const stillValidSalesStrategies = parsedStrategies.filter(
-    (strategy) => strategy.saleActive || strategy.secondaryMarketActive,
+    (strategy) => strategy.saleActive || strategy.secondaryMarketActive
   );
 
   const saleStrategies = stillValidSalesStrategies.sort((a, b) =>
-    (a.saleEnd ?? BigInt(0)) > (b.saleEnd ?? BigInt(0)) ? 1 : -1,
+    (a.saleEnd ?? BigInt(0)) > (b.saleEnd ?? BigInt(0)) ? 1 : -1
   );
 
   let targetStrategy: ParsedSalesConfig | undefined;
@@ -193,14 +176,14 @@ function getTargetStrategy({
     return saleStrategies[0];
   } else {
     targetStrategy = saleStrategies.find(
-      ({ salesStrategy }) => salesStrategy.saleType === preferredSaleType,
+      ({ salesStrategy }) => salesStrategy.saleType === preferredSaleType
     );
     if (!targetStrategy) {
       const targetStrategy = saleStrategies.find(
         ({ salesStrategy }) =>
           salesStrategy.saleType === "timed" ||
           salesStrategy.saleType === "fixedPrice" ||
-          salesStrategy.saleType === "erc20",
+          salesStrategy.saleType === "erc20"
       );
       if (!targetStrategy) throw new Error("Cannot find valid sale strategy");
       return targetStrategy;
@@ -210,10 +193,7 @@ function getTargetStrategy({
   return targetStrategy;
 }
 
-export class SubgraphMintGetter
-  extends SubgraphGetter
-  implements IOnchainMintGetter
-{
+export class SubgraphMintGetter extends SubgraphGetter implements IOnchainMintGetter {
   constructor(chainId: number, subgraphQuerier?: ISubgraphQuerier) {
     super(chainId, subgraphQuerier);
   }
@@ -232,7 +212,7 @@ export class SubgraphMintGetter
       buildNftTokenSalesQuery({
         tokenId,
         tokenAddress,
-      }),
+      })
     );
 
     if (!token) {
@@ -262,7 +242,7 @@ export class SubgraphMintGetter
     const tokens = await this.querySubgraphWithRetries(
       buildContractTokensQuery({
         tokenAddress,
-      }),
+      })
     );
 
     if (!tokens || tokens.length === 0) return [];
@@ -278,19 +258,15 @@ export class SubgraphMintGetter
           preferredSaleType,
           defaultMintFee,
           blockTime,
-        }),
+        })
       );
   }
 
-  async getContractPremintTokenIds({
-    tokenAddress,
-  }: {
-    tokenAddress: Address;
-  }) {
+  async getContractPremintTokenIds({ tokenAddress }: { tokenAddress: Address }) {
     const premints = await this.querySubgraphWithRetries(
       buildPremintsOfContractQuery({
         tokenAddress,
-      }),
+      })
     );
 
     return (
@@ -358,8 +334,7 @@ function parseTokenQueryResult({
     },
     primaryMintActive: salesStrategyAndMintInfo?.saleActive ?? false,
     primaryMintEnd: salesStrategyAndMintInfo?.saleEnd,
-    secondaryMarketActive:
-      salesStrategyAndMintInfo?.secondaryMarketActive ?? false,
+    secondaryMarketActive: salesStrategyAndMintInfo?.secondaryMarketActive ?? false,
   };
 }
 

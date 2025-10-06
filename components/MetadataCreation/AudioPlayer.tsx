@@ -25,8 +25,7 @@ const AudioPlayer = ({ onClick }: { onClick: () => void }) => {
 
   const handleTimeUpdate = () => {
     if (audioRef.current) {
-      const progress =
-        (audioRef.current.currentTime / audioRef.current.duration) * 100;
+      const progress = (audioRef.current.currentTime / audioRef.current.duration) * 100;
       setProgress(progress);
     }
   };
@@ -76,11 +75,7 @@ const AudioPlayer = ({ onClick }: { onClick: () => void }) => {
             onClick={togglePlayPause}
             className="text-primary hover:text-primary-dark"
           >
-            {isPlaying ? (
-              <Pause className="size-6" />
-            ) : (
-              <Play className="size-6" />
-            )}
+            {isPlaying ? <Pause className="size-6" /> : <Play className="size-6" />}
           </Button>
         </div>
         <Slider

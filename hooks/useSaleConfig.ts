@@ -36,11 +36,7 @@ const useSaleConfig = () => {
       address: token.tokenContractAddress,
       abi: zoraCreator1155ImplABI,
       functionName: "callSale",
-      args: [
-        token.tokenId,
-        zoraCreatorFixedPriceSaleStrategyAddress[CHAIN_ID],
-        calldata,
-      ],
+      args: [token.tokenId, zoraCreatorFixedPriceSaleStrategyAddress[CHAIN_ID], calldata],
       account: connectedAddress as Address,
       chain: CHAIN,
     });
@@ -55,7 +51,7 @@ const useSaleConfig = () => {
       setSaleStart(
         sale.saleStart === BigInt(0)
           ? new Date()
-          : new Date(parseInt(sale.saleStart.toString(), 10) * 1000),
+          : new Date(parseInt(sale.saleStart.toString(), 10) * 1000)
       );
     }
   }, [sale]);

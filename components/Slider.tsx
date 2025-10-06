@@ -16,13 +16,7 @@ interface ISlider {
   style?: any;
 }
 
-function Slider({
-  children,
-  sliderProps,
-  className,
-  slideClassName,
-  style = {},
-}: ISlider) {
+function Slider({ children, sliderProps, className, slideClassName, style = {} }: ISlider) {
   return (
     <Swiper
       {...sliderProps}

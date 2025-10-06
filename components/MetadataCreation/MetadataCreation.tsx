@@ -41,13 +41,13 @@ const MetadataCreation = () => {
         <>
           {!createdContract && <ResetButton onClick={handleReset} disabled={fileUploading} />}
           <MediaUploaded
-              handleImageClick={handleImageClick}
-              fileUploading={fileUploading}
-              mimeType={mimeType}
-              animationUri={animationUri}
-              imageUri={imageUri}
-              pctComplete={pctComplete}
-              previewSrc={previewSrc}
+            handleImageClick={handleImageClick}
+            fileUploading={fileUploading}
+            mimeType={mimeType}
+            animationUri={animationUri}
+            imageUri={imageUri}
+            pctComplete={pctComplete}
+            previewSrc={previewSrc}
           />
         </>
       ) : (

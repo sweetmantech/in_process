@@ -1,9 +1,6 @@
 import { SaleConfig } from "@/hooks/useTokenInfo";
 import { TokenInfo } from "@/types/token";
-import {
-  erc20MinterABI,
-  zoraCreator1155ImplABI,
-} from "@zoralabs/protocol-deployments";
+import { erc20MinterABI, zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
 import { Address, encodeAbiParameters, parseAbiParameters } from "viem";
 import { CHAIN, CHAIN_ID, USDC_ADDRESS } from "./consts";
 import { MintType } from "@/types/zora";
@@ -21,10 +18,10 @@ const getCollectRequest = (
 ) => {
   if (!sale) return null;
 
-  const minterArguments = encodeAbiParameters(
-    parseAbiParameters("address, string"),
-    [account as Address, comment]
-  );
+  const minterArguments = encodeAbiParameters(parseAbiParameters("address, string"), [
+    account as Address,
+    comment,
+  ]);
 
   if (sale.type === MintType.ZoraErc20Mint)
     return {

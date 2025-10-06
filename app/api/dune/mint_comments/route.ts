@@ -14,28 +14,25 @@ export async function GET(req: NextRequest) {
   const chainId = chainIdParam || CHAIN_ID;
 
   try {
-    const erc20MinterEvents: DuneDecodedEvent[] =
-      await getErc20MintCommentsEvents(
-        tokenContract as string,
-        chainId as string,
-      );
-    const tokenContractEvents: DuneDecodedEvent[] =
-      await getTokenContractMintCommentEvents(
-        tokenContract as string,
-        chainId as string,
-      );
-    const smartWalletEvents: DuneDecodedEvent[] =
-      await getSmartWalletMintCommentEvents(
-        tokenContract as string,
-        chainId as string,
-      );
+    const erc20MinterEvents: DuneDecodedEvent[] = await getErc20MintCommentsEvents(
+      tokenContract as string,
+      chainId as string
+    );
+    const tokenContractEvents: DuneDecodedEvent[] = await getTokenContractMintCommentEvents(
+      tokenContract as string,
+      chainId as string
+    );
+    const smartWalletEvents: DuneDecodedEvent[] = await getSmartWalletMintCommentEvents(
+      tokenContract as string,
+      chainId as string
+    );
     const crossmintEvents: DuneDecodedEvent[] = await getCrossmintCommentEvents(
       tokenContract as string,
-      chainId as string,
+      chainId as string
     );
     const wrapperEvents: DuneDecodedEvent[] = await getWrapperCommentsEvents(
       tokenContract as string,
-      chainId as string,
+      chainId as string
     );
     const formattedEvents = [
       ...erc20MinterEvents,
@@ -44,9 +41,7 @@ export async function GET(req: NextRequest) {
       ...crossmintEvents,
       ...wrapperEvents,
     ].map((transaction: DuneDecodedEvent) => {
-      const mintCommentEvent = transaction.logs.find(
-        (log) => log?.decoded?.name === "MintComment",
-      );
+      const mintCommentEvent = transaction.logs.find((log) => log?.decoded?.name === "MintComment");
       if (!mintCommentEvent) return;
       const data: any = {
         chainId: transaction.chain_id,
@@ -61,9 +56,7 @@ export async function GET(req: NextRequest) {
       return data;
     });
     return Response.json(
-      tokenId
-        ? formattedEvents.filter((e) => e.tokenId === tokenId)
-        : formattedEvents,
+      tokenId ? formattedEvents.filter((e) => e.tokenId === tokenId) : formattedEvents
     );
   } catch (e: any) {
     console.log(e);

@@ -13,12 +13,8 @@ export default function useZoraCreate() {
   const collection = searchParams.get("collectionAddress") as Address;
   const [createdContract, setCreatedContract] = useState<string>("");
   const [createdTokenId, setCreatedTokenId] = useState<string>("");
-  const { fetchParameters, createMetadata, advancedValues } =
-    useZoraCreateParameters(collection);
-  const mask = useMask(
-    advancedValues.isOpenAdvanced,
-    createMetadata.writingText
-  );
+  const { fetchParameters, createMetadata, advancedValues } = useZoraCreateParameters(collection);
+  const mask = useMask(advancedValues.isOpenAdvanced, createMetadata.writingText);
   const { isPrepared } = useUserProvider();
 
   const create = async () => {

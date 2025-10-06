@@ -15,9 +15,7 @@ const FaqItemComponent = ({ faq, index }: FaqItemComponentProps) => {
         {faq.question}
       </h2>
       <div className="font-spectral whitespace-pre-line lowercase max-w-6xl text-[14px] leading-[200%] md:text-[18px] tracking-[-0.05em] antialiased">
-        {faq.answer
-          .split("\n")
-          .map((line, lineIndex) => RenderLine(line, lineIndex))}
+        {faq.answer.split("\n").map((line, lineIndex) => RenderLine(line, lineIndex))}
       </div>
     </div>
   );

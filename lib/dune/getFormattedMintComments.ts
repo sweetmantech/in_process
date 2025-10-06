@@ -2,9 +2,7 @@ import { DuneDecodedEvent } from "@/types/dune";
 
 const getFormattedMintComments = (events: DuneDecodedEvent[]) => {
   return events.map((transaction: DuneDecodedEvent) => {
-    const mintCommentEvent = transaction.logs.find(
-      (log) => log?.decoded?.name === "MintComment",
-    );
+    const mintCommentEvent = transaction.logs.find((log) => log?.decoded?.name === "MintComment");
     if (!mintCommentEvent) return;
     const data: any = {
       chainId: transaction.chain_id,

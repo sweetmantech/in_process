@@ -13,12 +13,12 @@ import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
 
-const archivoFont = fetch(`${VERCEL_OG}/fonts/Archivo-Regular.ttf`).then(
-  (res) => res.arrayBuffer(),
+const archivoFont = fetch(`${VERCEL_OG}/fonts/Archivo-Regular.ttf`).then((res) =>
+  res.arrayBuffer()
 );
 
-const spectralFont = fetch(`${VERCEL_OG}/fonts/Spectral-Regular.ttf`).then(
-  (res) => res.arrayBuffer(),
+const spectralFont = fetch(`${VERCEL_OG}/fonts/Spectral-Regular.ttf`).then((res) =>
+  res.arrayBuffer()
 );
 
 export async function GET(req: NextRequest) {
@@ -27,17 +27,11 @@ export async function GET(req: NextRequest) {
   const chainId = queryParams.get("chainId");
   const chainIdNum = parseInt(chainId as string, 10);
 
-  const metadata = await getArtistLatestMoment(
-    artistAddress as string,
-    chainIdNum,
-  );
+  const metadata = await getArtistLatestMoment(artistAddress as string, chainIdNum);
   const username = await getUsername(artistAddress as Address);
 
   const { ImageResponse } = await import("@vercel/og");
-  const [archivoFontData, spectralFontData] = await Promise.all([
-    archivoFont,
-    spectralFont,
-  ]);
+  const [archivoFontData, spectralFontData] = await Promise.all([archivoFont, spectralFont]);
 
   let writingText = "";
   let totalLines = 0;
@@ -51,13 +45,10 @@ export async function GET(req: NextRequest) {
       const paragraphs = writingText.split("\n");
       paragraphs.map(
         (paragraph) =>
-          (totalLines =
-            totalLines + parseInt(Number(paragraph.length / 32).toFixed()) + 1),
+          (totalLines = totalLines + parseInt(Number(paragraph.length / 32).toFixed()) + 1)
       );
     } else {
-      imageMetadata = await getImageMetadata(
-        getFetchableUrl(metadata.image) || "",
-      );
+      imageMetadata = await getImageMetadata(getFetchableUrl(metadata.image) || "");
     }
   }
 
@@ -95,10 +86,7 @@ export async function GET(req: NextRequest) {
           {metadata ? (
             <>
               {metadata.content.mime === "text/plain" ? (
-                <TokenWritingPreview
-                  writingText={writingText}
-                  totalLines={totalLines}
-                />
+                <TokenWritingPreview writingText={writingText} totalLines={totalLines} />
               ) : (
                 <TokenImagePreview imageMetadata={imageMetadata} />
               )}
@@ -124,6 +112,6 @@ export async function GET(req: NextRequest) {
           weight: 400,
         },
       ],
-    },
+    }
   );
 }

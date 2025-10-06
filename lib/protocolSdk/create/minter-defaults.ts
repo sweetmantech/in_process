@@ -29,17 +29,13 @@ const DEFAULT_MAX_TOKENS_PER_ADDRESS: Concrete<MaxTokensPerAddress> = {
   maxTokensPerAddress: BigInt(0),
 };
 
-const erc20SaleSettingsWithDefaults = (
-  params: Erc20ParamsType,
-): Concrete<Erc20ParamsType> => ({
+const erc20SaleSettingsWithDefaults = (params: Erc20ParamsType): Concrete<Erc20ParamsType> => ({
   ...DEFAULT_SALE_START_AND_END,
   ...DEFAULT_MAX_TOKENS_PER_ADDRESS,
   ...params,
 });
 
-const allowListWithDefaults = (
-  allowlist: AllowListParamType,
-): Concrete<AllowListParamType> => {
+const allowListWithDefaults = (allowlist: AllowListParamType): Concrete<AllowListParamType> => {
   return {
     ...DEFAULT_SALE_START_AND_END,
     ...allowlist,
@@ -47,7 +43,7 @@ const allowListWithDefaults = (
 };
 
 const fixedPriceSettingsWithDefaults = (
-  params: FixedPriceParamsType,
+  params: FixedPriceParamsType
 ): Concrete<FixedPriceParamsType> => ({
   ...DEFAULT_SALE_START_AND_END,
   ...DEFAULT_MAX_TOKENS_PER_ADDRESS,
@@ -80,10 +76,7 @@ export const parseNameIntoSymbol = (name: string) => {
 };
 
 const getMinimumMarketEth = (
-  params: Pick<
-    TimedSaleParamsType,
-    "minimumMarketEth" | "minimumMintsForCountdown"
-  >,
+  params: Pick<TimedSaleParamsType, "minimumMarketEth" | "minimumMintsForCountdown">
 ) => {
   if (params.minimumMintsForCountdown) {
     return params.minimumMintsForCountdown * parseEther("0.0000111");
@@ -93,7 +86,7 @@ const getMinimumMarketEth = (
 
 const timedSaleSettingsWithDefaults = (
   params: TimedSaleParamsType,
-  contractName: string,
+  contractName: string
 ): Concrete<TimedSaleParamsType> => {
   // If the name is not provided, try to fetch it from the metadata
   const erc20Name = params.erc20Name || contractName;
@@ -114,15 +107,11 @@ const timedSaleSettingsWithDefaults = (
   };
 };
 
-const isAllowList = (
-  salesConfig: SalesConfigParamsType,
-): salesConfig is AllowListParamType => salesConfig.type === "allowlistMint";
-const isErc20 = (
-  salesConfig: SalesConfigParamsType,
-): salesConfig is Erc20ParamsType => salesConfig.type === "erc20Mint";
-const isFixedPrice = (
-  salesConfig: SalesConfigParamsType,
-): salesConfig is FixedPriceParamsType => {
+const isAllowList = (salesConfig: SalesConfigParamsType): salesConfig is AllowListParamType =>
+  salesConfig.type === "allowlistMint";
+const isErc20 = (salesConfig: SalesConfigParamsType): salesConfig is Erc20ParamsType =>
+  salesConfig.type === "erc20Mint";
+const isFixedPrice = (salesConfig: SalesConfigParamsType): salesConfig is FixedPriceParamsType => {
   return (
     salesConfig.type === "fixedPrice" ||
     (salesConfig as FixedPriceParamsType).pricePerToken > BigInt(0)
@@ -131,7 +120,7 @@ const isFixedPrice = (
 
 export const getSalesConfigWithDefaults = (
   salesConfig: SalesConfigParamsType | undefined,
-  contractName: string,
+  contractName: string
 ): ConcreteSalesConfig => {
   if (!salesConfig) return timedSaleSettingsWithDefaults({}, contractName);
   if (isAllowList(salesConfig)) {

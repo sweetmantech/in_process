@@ -1,9 +1,7 @@
 import { Account, Address, PublicClient as BasePublicClient } from "viem";
 import { SimulateContractParametersWithAccount } from "./types";
 
-export const makeContractParameters = (
-  args: SimulateContractParametersWithAccount,
-) => args;
+export const makeContractParameters = (args: SimulateContractParametersWithAccount) => args;
 
 export type PublicClient = Pick<
   BasePublicClient,
@@ -32,8 +30,7 @@ export function mintRecipientOrAccount({
   minterAccount: Address | Account;
 }): Address {
   return (
-    mintRecipient ||
-    (typeof minterAccount === "string" ? minterAccount : minterAccount.address)
+    mintRecipient || (typeof minterAccount === "string" ? minterAccount : minterAccount.address)
   );
 }
 

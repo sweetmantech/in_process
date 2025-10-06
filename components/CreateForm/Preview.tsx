@@ -16,8 +16,7 @@ const PreviewContainer = ({ children }: { children: ReactNode }) => {
   );
 };
 const Preview = () => {
-  const { previewUri, writingText, previewSrc, animationUri } =
-    useMomentCreateProvider();
+  const { previewUri, writingText, previewSrc, animationUri } = useMomentCreateProvider();
   const showPreview = previewUri || animationUri;
   const showWritingPreview = writingText && !previewUri;
   const showImagePreview = showPreview && !showWritingPreview;

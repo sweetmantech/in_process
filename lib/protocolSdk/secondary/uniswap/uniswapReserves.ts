@@ -2,8 +2,7 @@ import { createPublicClient, http } from "viem";
 import { mainnet } from "viem/chains";
 import { uniswapV2USDCAbi } from "./abis";
 
-const uniswapV2USDCMainnetAddress =
-  "0xb4e16d0168e52d35cacd2c6185b44281ec28c9dc";
+const uniswapV2USDCMainnetAddress = "0xb4e16d0168e52d35cacd2c6185b44281ec28c9dc";
 
 export function getUniswapV2USDCReserves() {
   const mainnetClient = createPublicClient({
@@ -17,13 +16,7 @@ export function getUniswapV2USDCReserves() {
   });
 }
 
-function toEthPriceInUSDC({
-  reserve0,
-  reserve1,
-}: {
-  reserve0: bigint;
-  reserve1: bigint;
-}) {
+function toEthPriceInUSDC({ reserve0, reserve1 }: { reserve0: bigint; reserve1: bigint }) {
   return Number((reserve0 * BigInt(1e14)) / reserve1) / 1e2;
 }
 

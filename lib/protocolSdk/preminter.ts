@@ -4,17 +4,9 @@ import {
   zoraCreator1155PremintExecutorImplABI as preminterAbi,
   zoraCreator1155PremintExecutorImplAddress,
 } from "@zoralabs/protocol-deployments";
-import {
-  TypedDataDefinition,
-  recoverTypedDataAddress,
-  Hex,
-  PublicClient,
-} from "viem";
+import { TypedDataDefinition, recoverTypedDataAddress, Hex, PublicClient } from "viem";
 
-type PremintInputs = ExtractAbiFunction<
-  typeof preminterAbi,
-  "premintV1"
->["inputs"];
+type PremintInputs = ExtractAbiFunction<typeof preminterAbi, "premintV1">["inputs"];
 
 type PreminterHashDataTypes = AbiParametersToPrimitiveTypes<PremintInputs>;
 

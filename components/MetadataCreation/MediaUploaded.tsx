@@ -1,7 +1,7 @@
 import AudioPlayer from "./AudioPlayer";
-import {getFetchableUrl} from "@/lib/protocolSdk/ipfs/gateway";
+import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import Image from "next/image";
-import React, {Fragment} from "react";
+import React, { Fragment } from "react";
 import PdfViewer from "../Renderers/PdfViewer";
 import VideoPlayer from "../Renderers/VideoPlayer";
 import UploadSpinner from "@/components/TokenManagePage/UploadSpinner";
@@ -21,21 +21,18 @@ const Container = ({
 }: {
   children: React.ReactNode;
   className?: string;
-}) => (
-  <div className={`size-full flex justify-center ${className}`}>{children}</div>
-);
+}) => <div className={`size-full flex justify-center ${className}`}>{children}</div>;
 
 const MediaUploaded = ({
-                         handleImageClick,
-                         fileUploading,
-                         mimeType,
-                         animationUri,
-                         imageUri,
-                         pctComplete,
-                         previewSrc,
-                       }: MediaUploadedProps) => {
-
-  if (fileUploading)  return <UploadSpinner pctComplete={pctComplete}/>
+  handleImageClick,
+  fileUploading,
+  mimeType,
+  animationUri,
+  imageUri,
+  pctComplete,
+  previewSrc,
+}: MediaUploadedProps) => {
+  if (fileUploading) return <UploadSpinner pctComplete={pctComplete} />;
 
   if (mimeType.includes("pdf"))
     return (
