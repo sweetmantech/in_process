@@ -1,23 +1,28 @@
 import { supabase } from "@/lib/supabase/client";
+import type { Database } from "@/lib/supabase/types";
 
-export interface InProcessPaymentsQuery {
-    limit?: number;
-    page?: number;
-    artist?: string;
-    collector?: string;
+export async function upsertProfile({
+  address,
+  username,
+  bio,
+  twitter_username,
+  farcaster_username,
+  instagram_username,
+  telegram_username,
+}: Database["public"]["Tables"]["in_process_artists"]["Row"]) {
+  const { data, error } = await supabase.from("in_process_artists").upsert({
+    address,
+    username,
+    bio,
+    twitter_username,
+    farcaster_username,
+    instagram_username,
+    telegram_username,
+  });
+
+  if (error) {
+    return { data: null, error };
   }
-  
-export async function upsertProfile() {
-  let query = supabase.from("in_process_artists").select("*");
 
-  if (q && q.trim().length > 0) {
-    query = query.ilike("username", `${q}%`);
-  }
-
-  query = query.limit(limit);
-
-  const { data, error } = await query;
-
-  if (error || !data || data.length === 0) return null;
-  return data;
+  return { data, error: null };
 }
