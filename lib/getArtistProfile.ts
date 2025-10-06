@@ -1,11 +1,11 @@
 import { Address } from "viem";
-import getTag from "./stack/getTag";
 import getEnsName from "./viem/getEnsName";
 import getZoraProfile from "./zora/getZoraProfile";
+import { getProfile } from "./supabase/in_process_artists/getProfile";
 
 const getArtistProfile = async (walletAddress: Address) => {
   try {
-    const tags: any = await getTag(walletAddress as Address, "profile");
+    const tags: any = await getProfile(walletAddress as Address);
     let profile = {
       username: "",
       bio: "",
