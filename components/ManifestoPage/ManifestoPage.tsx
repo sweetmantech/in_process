@@ -25,7 +25,9 @@ const ManifestoPage = () => {
           </p>
           <p className="font-spectral-italic pt-6 relative z-[2] uppercase">
             <em>
-              <strong>THE TIMELINE WAS NEVER THEIRS. IT WAS ALWAYS OURS.</strong>
+              <strong>
+                THE TIMELINE WAS NEVER THEIRS. IT WAS ALWAYS OURS.
+              </strong>
             </em>
           </p>
           <div className="font-spectral text-[11px] md:text-[16px] tracking-[-1px] pt-4 relative z-[2] whitespace-pre-line normal-case">
@@ -56,7 +58,8 @@ We refuse.
 `}
             <em>
               <strong>
-                In Process is a space for process. For lineage. For the drafts that built dynasties.
+                In Process is a space for process. For lineage. For the drafts
+                that built dynasties.
               </strong>
             </em>
             {`
@@ -66,8 +69,8 @@ For the histories that deserve permanence, not expiration dates.
 `}
             <em>
               <strong>
-                In Process is not content—it&rsquo;s record-keeping. It&rsquo;s proof. It&rsquo;s
-                legacy.
+                In Process is not content—it&rsquo;s record-keeping. It&rsquo;s
+                proof. It&rsquo;s legacy.
               </strong>
             </em>
             {`

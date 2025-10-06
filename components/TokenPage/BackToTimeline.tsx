@@ -9,7 +9,9 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 const BackToTimeline = () => {
   const { owner } = useTokenProvider();
-  const { data: artistProfile, isLoading } = useArtistProfile(owner || undefined);
+  const { data: artistProfile, isLoading } = useArtistProfile(
+    owner || undefined,
+  );
 
   if (!owner) return null;
 

@@ -18,7 +18,10 @@ const ImageGallery = ({
     <div className="space-y-4">
       <div className="flex flex-col lg:flex-row gap-4 lg:gap-6 justify-start items-start">
         {images.map((image, index) => (
-          <div key={index} className="space-y-4 items-start w-full lg:w-1/2 lg:max-w-none">
+          <div
+            key={index}
+            className="space-y-4 items-start w-full lg:w-1/2 lg:max-w-none"
+          >
             <div className="flex justify-center md:justify-start">
               <Image
                 src={image.src}
@@ -30,7 +33,9 @@ const ImageGallery = ({
                 className="w-full h-auto rounded-sm -ml-2 md:-ml-5 object-contain"
               />
             </div>
-            <p className={`${captionClassName} ${getCaptionClasses(image.caption)}`}>
+            <p
+              className={`${captionClassName} ${getCaptionClasses(image.caption)}`}
+            >
               {image.caption}
             </p>
           </div>

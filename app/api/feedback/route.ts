@@ -4,11 +4,18 @@ import { Address } from "viem";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  const { feedback, name, wallet }: { feedback: string; name: string; wallet?: Address } = body;
+  const {
+    feedback,
+    name,
+    wallet,
+  }: { feedback: string; name: string; wallet?: Address } = body;
 
   // Validate required fields
   if (!name?.trim() || !feedback?.trim()) {
-    return Response.json({ message: "Name and feedback are required" }, { status: 400 });
+    return Response.json(
+      { message: "Name and feedback are required" },
+      { status: 400 },
+    );
   }
 
   try {

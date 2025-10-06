@@ -1,4 +1,10 @@
-import { useState, useCallback, Dispatch, SetStateAction, RefObject } from "react";
+import {
+  useState,
+  useCallback,
+  Dispatch,
+  SetStateAction,
+  RefObject,
+} from "react";
 import useIsMobile from "./useIsMobile";
 import useFullscreenDetection from "./useFullscreenDetection";
 import { Swiper } from "swiper/types";
@@ -28,7 +34,9 @@ interface NearestButton {
   distance: number;
 }
 
-export const useHorizontalFeedAnimation = (feeds: Token[]): UseHorizontalFeedAnimationReturn => {
+export const useHorizontalFeedAnimation = (
+  feeds: Token[],
+): UseHorizontalFeedAnimationReturn => {
   const isMobile = useIsMobile();
   const { isAnyVideoFullscreen } = useFullscreenDetection();
 
@@ -45,19 +53,26 @@ export const useHorizontalFeedAnimation = (feeds: Token[]): UseHorizontalFeedAni
   const checkTimelineOverflow = useCheckTimelineOverflow();
   const centerIndex = useTimelineCenter({ activeIndex, swiper, feeds });
 
-  const findNearestButtonIndex = useCallback((currentMouseX: number): NearestButton => {
-    const buttons = document.querySelectorAll<HTMLButtonElement>("button[data-feed-button]");
-    return Array.from(buttons).reduce(
-      (nearest, button, idx) => {
-        const rect = button.getBoundingClientRect();
-        const buttonCenterX = rect.left + rect.width / 2;
-        const distance = Math.abs(currentMouseX - buttonCenterX);
+  const findNearestButtonIndex = useCallback(
+    (currentMouseX: number): NearestButton => {
+      const buttons = document.querySelectorAll<HTMLButtonElement>(
+        "button[data-feed-button]",
+      );
+      return Array.from(buttons).reduce(
+        (nearest, button, idx) => {
+          const rect = button.getBoundingClientRect();
+          const buttonCenterX = rect.left + rect.width / 2;
+          const distance = Math.abs(currentMouseX - buttonCenterX);
 
-        return distance < nearest.distance ? { index: idx, distance } : nearest;
-      },
-      { index: -1, distance: Infinity }
-    );
-  }, []);
+          return distance < nearest.distance
+            ? { index: idx, distance }
+            : nearest;
+        },
+        { index: -1, distance: Infinity },
+      );
+    },
+    [],
+  );
 
   const handleMouseMove = useCallback(
     (e: React.MouseEvent) => {
@@ -83,13 +98,15 @@ export const useHorizontalFeedAnimation = (feeds: Token[]): UseHorizontalFeedAni
         setNearestIndex(nearest.index);
       }
     },
-    [findNearestButtonIndex, nearestIndex, isAnyVideoFullscreen]
+    [findNearestButtonIndex, nearestIndex, isAnyVideoFullscreen],
   );
 
   const getHeight = useCallback(
     (index: number): number => {
       if (isMobile) {
-        return (!activeIndex && !index) || activeIndex - 1 === index ? MAX_HEIGHT : MIN_HEIGHT;
+        return (!activeIndex && !index) || activeIndex - 1 === index
+          ? MAX_HEIGHT
+          : MIN_HEIGHT;
       }
 
       if (centerIndex === null || nearestIndex === null) return MIN_HEIGHT;
@@ -110,16 +127,17 @@ export const useHorizontalFeedAnimation = (feeds: Token[]): UseHorizontalFeedAni
       MIN_HEIGHT,
       NEIGHBOR_RANGE,
       HEIGHT_DECREMENT,
-    ]
+    ],
   );
 
   const isHovered = useCallback(
     (index: number): boolean => {
-      if (isMobile) return (!activeIndex && !index) || activeIndex - 1 === index;
+      if (isMobile)
+        return (!activeIndex && !index) || activeIndex - 1 === index;
       if (nearestIndex === 0 && !eventTriggered && index === 0) return true;
       return nearestIndex !== null && index === nearestIndex;
     },
-    [nearestIndex, activeIndex, isMobile, eventTriggered]
+    [nearestIndex, activeIndex, isMobile, eventTriggered],
   );
 
   return {

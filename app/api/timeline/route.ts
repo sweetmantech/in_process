@@ -28,7 +28,10 @@ export async function GET(req: NextRequest) {
     hidden,
   });
   if (error) {
-    return Response.json({ status: "error", message: error.message }, { status: 500 });
+    return Response.json(
+      { status: "error", message: error.message },
+      { status: 500 },
+    );
   }
   const moments = (data || []).map((row) => ({
     ...row,

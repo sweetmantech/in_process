@@ -12,7 +12,11 @@ export interface SendUserOperationParams {
   network: EvmUserOperationNetwork;
 }
 
-export async function sendUserOperation({ smartAccount, calls, network }: SendUserOperationParams) {
+export async function sendUserOperation({
+  smartAccount,
+  calls,
+  network,
+}: SendUserOperationParams) {
   // Send the transaction
   const sendResult = await cdp.evm.sendUserOperation({
     smartAccount,
@@ -34,7 +38,9 @@ export async function sendUserOperation({ smartAccount, calls, network }: SendUs
   });
 
   // Wait for the transaction receipt
-  const publicClient = getPublicClient(network === "base-sepolia" ? 84532 : 8453);
+  const publicClient = getPublicClient(
+    network === "base-sepolia" ? 84532 : 8453,
+  );
   const transaction = await publicClient.waitForTransactionReceipt({
     hash: userOp.transactionHash as Hash,
   });

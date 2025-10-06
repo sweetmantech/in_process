@@ -19,7 +19,8 @@ const useFullscreenDetection = () => {
 
       const isVideoFullscreen =
         fullscreenElement &&
-        (fullscreenElement.tagName === "VIDEO" || fullscreenElement.querySelector("video"));
+        (fullscreenElement.tagName === "VIDEO" ||
+          fullscreenElement.querySelector("video"));
 
       setIsAnyVideoFullscreen(!!isVideoFullscreen);
     };
@@ -33,9 +34,18 @@ const useFullscreenDetection = () => {
 
     return () => {
       document.removeEventListener("fullscreenchange", handleFullscreenChange);
-      document.removeEventListener("webkitfullscreenchange", handleFullscreenChange);
-      document.removeEventListener("mozfullscreenchange", handleFullscreenChange);
-      document.removeEventListener("msfullscreenchange", handleFullscreenChange);
+      document.removeEventListener(
+        "webkitfullscreenchange",
+        handleFullscreenChange,
+      );
+      document.removeEventListener(
+        "mozfullscreenchange",
+        handleFullscreenChange,
+      );
+      document.removeEventListener(
+        "msfullscreenchange",
+        handleFullscreenChange,
+      );
     };
   }, []);
 

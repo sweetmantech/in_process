@@ -22,7 +22,9 @@ export const useClickTimelineFeed = (feed: Token) => {
       }
       return;
     }
-    const shortNetworkName = getShortNetworkName(feed.chain.replaceAll("_", " "));
+    const shortNetworkName = getShortNetworkName(
+      feed.chain.replaceAll("_", " "),
+    );
     const tokenId = feed.tokenId == "0" ? 1 : feed.tokenId;
     push(`/collect/${shortNetworkName}:${feed.collection}/${tokenId}`);
     return;

@@ -1,21 +1,30 @@
-import deleteTag from "@/lib/stack/deleteTag";
-import setTag from "@/lib/stack/setTag";
+import { upsertProfile } from "@/lib/supabase/in_process_artists/upsertProfile";
 import { NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { walletAddress, username, bio, instagram, telegram, twitter } = body;
-    await deleteTag(walletAddress, "profile");
-    await setTag(walletAddress, "profile", {
+    const {
+      address,
       username,
       bio,
-      socials: {
-        instagram,
-        telegram,
-        twitter,
-      },
+      instagram_username,
+      twitter_username,
+      farcaster_username,
+      telegram_username,
+    } = body;
+
+    const { error } = await upsertProfile({
+      address: address.toLowerCase(),
+      username,
+      bio,
+      twitter_username,
+      instagram_username,
+      farcaster_username,
+      telegram_username,
     });
+    if (error) throw new Error();
+
     return Response.json({
       success: true,
     });

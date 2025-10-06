@@ -18,14 +18,17 @@ interface FeedProps {
 }
 
 const Feed: FC<FeedProps> = ({ feed, hovered, step, height }) => {
-  const { isLoading, data, handleClick, formattedDate } = useClickTimelineFeed(feed);
+  const { isLoading, data, handleClick, formattedDate } =
+    useClickTimelineFeed(feed);
   const { connectedAddress } = useUserProvider();
   const { artistAddress } = useParams();
   const [isFadingOut, setIsFadingOut] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
   const isVisibleHideButton =
     Boolean(artistAddress) &&
-    Boolean((artistAddress as any).toLowerCase() === connectedAddress?.toLowerCase());
+    Boolean(
+      (artistAddress as any).toLowerCase() === connectedAddress?.toLowerCase(),
+    );
 
   if (isHidden) return null;
 
@@ -78,7 +81,9 @@ const Feed: FC<FeedProps> = ({ feed, hovered, step, height }) => {
         </button>
         {hovered && isVisibleHideButton && (
           <div className="flex gap-2 items-center relative translate-y-6 pt-2">
-            <p className="font-spectral-italic text-sm md:text-xl">{truncated(data?.name || "")}</p>
+            <p className="font-spectral-italic text-sm md:text-xl">
+              {truncated(data?.name || "")}
+            </p>
             <HideButton
               moment={{
                 address: feed.collection,

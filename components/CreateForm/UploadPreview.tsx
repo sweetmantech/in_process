@@ -9,8 +9,13 @@ import { useCropImageProvider } from "@/providers/CropImageProvider";
 import CropImage from "@/components/CropImage";
 
 const UploadPreview = () => {
-  const { previewUri, setPreviewUri, writingText, setIsOpenPreviewUpload, setPreviewSrc } =
-    useMomentCreateProvider();
+  const {
+    previewUri,
+    setPreviewUri,
+    writingText,
+    setIsOpenPreviewUpload,
+    setPreviewSrc,
+  } = useMomentCreateProvider();
   const [progress, setProgress] = useState<number>(0);
   const previewRef = useRef() as any;
   const [isUploading, setIsUploading] = useState<boolean>(false);
@@ -34,7 +39,9 @@ const UploadPreview = () => {
       toast.error("please, select only image file.");
       return;
     }
-    const previewUri = await clientUploadToArweave(file, (value: number) => setProgress(value));
+    const previewUri = await clientUploadToArweave(file, (value: number) =>
+      setProgress(value),
+    );
     setPreviewSrc(URL.createObjectURL(file));
     setPreviewUri(previewUri);
     setIsUploading(false);
@@ -48,7 +55,9 @@ const UploadPreview = () => {
 
   return (
     <Fragment>
-      <Label className="font-archivo-medium text-2xl text-center w-full">Preview</Label>
+      <Label className="font-archivo-medium text-2xl text-center w-full">
+        Preview
+      </Label>
       <input
         type="file"
         className="hidden"

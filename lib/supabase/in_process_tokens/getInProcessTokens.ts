@@ -2,9 +2,10 @@ import { supabase } from "@/lib/supabase/client";
 import type { Database } from "@/lib/supabase/types";
 import { Address } from "viem";
 
-export type InProcessToken = Database["public"]["Tables"]["in_process_tokens"]["Row"] & {
-  username: Database["public"]["Tables"]["in_process_artists"]["Row"]["username"];
-};
+export type InProcessToken =
+  Database["public"]["Tables"]["in_process_tokens"]["Row"] & {
+    username: Database["public"]["Tables"]["in_process_artists"]["Row"]["username"];
+  };
 
 export interface InProcessTokensQuery {
   limit?: number;
@@ -34,9 +35,12 @@ export async function getInProcessTokens({
   const cappedLimit = Math.min(limit, 100);
   let query = supabase
     .from("in_process_tokens")
-    .select(`*, defaultAdmin, artist:in_process_artists${artist ? "" : "!inner"}(username)`, {
-      count: "exact",
-    });
+    .select(
+      `*, defaultAdmin, artist:in_process_artists${artist ? "" : "!inner"}(username)`,
+      {
+        count: "exact",
+      },
+    );
 
   if (artist) {
     query = query.eq("defaultAdmin", artist);

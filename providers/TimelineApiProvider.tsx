@@ -1,7 +1,11 @@
 "use client";
 
 import { createContext, useContext, ReactNode } from "react";
-import { useTimelineApi, TimelineMoment, TimelineResponse } from "@/hooks/useTimelineApi";
+import {
+  useTimelineApi,
+  TimelineMoment,
+  TimelineResponse,
+} from "@/hooks/useTimelineApi";
 
 interface TimelineContextValue {
   data: TimelineResponse | undefined;
@@ -12,7 +16,9 @@ interface TimelineContextValue {
   setCurrentPage: (page: number) => void;
 }
 
-const TimelineContext = createContext<TimelineContextValue | undefined>(undefined);
+const TimelineContext = createContext<TimelineContextValue | undefined>(
+  undefined,
+);
 
 export const TimelineApiProvider = ({
   children,
@@ -23,13 +29,8 @@ export const TimelineApiProvider = ({
   artistAddress?: string;
   includeHidden?: boolean;
 }) => {
-  const { data, isLoading, error, currentPage, setCurrentPage } = useTimelineApi(
-    1,
-    100,
-    true,
-    artistAddress,
-    includeHidden
-  );
+  const { data, isLoading, error, currentPage, setCurrentPage } =
+    useTimelineApi(1, 100, true, artistAddress, includeHidden);
 
   const reversedMoments = data?.moments ? [...data.moments] : [];
 
@@ -51,6 +52,9 @@ export const TimelineApiProvider = ({
 
 export const useTimelineApiContext = () => {
   const ctx = useContext(TimelineContext);
-  if (!ctx) throw new Error("useTimelineApiContext must be used within TimelineApiProvider");
+  if (!ctx)
+    throw new Error(
+      "useTimelineApiContext must be used within TimelineApiProvider",
+    );
   return ctx;
 };
