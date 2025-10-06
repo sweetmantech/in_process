@@ -29,14 +29,14 @@ const ManagePage = ({ children }: { children: ReactNode }) => {
   if (!signedWallet) return <SignToInProcess />;
 
   return (
-    <main className="w-screen flex flex-col grow pt-10 md:pt-16 grid grid-cols-12 gap-6 px-6 md:px-8">
-      <div className="col-span-3 flex flex-col gap-2">
+    <main className="w-screen flex flex-col grow pt-10 md:pt-16 grid grid-cols-12 gap-0 md:gap-6 px-6 md:px-8">
+      <div className="col-span-12 md:col-span-3 flex flex-col gap-2">
         <button
           type="button"
           className="flex items-center justify-between w-full font-archivo-medium text-2xl hover:bg-grey-eggshell px-2 py-1 rounded-md"
           onClick={() => push("/manage/account")}
         >
-          <p>account</p>
+          <p className="text-base md:text-2xl">account</p>
           <ArrowRight className="size-4" />
         </button>
         <button
@@ -44,18 +44,18 @@ const ManagePage = ({ children }: { children: ReactNode }) => {
           className="flex items-center justify-between w-full font-archivo-medium text-2xl hover:bg-grey-eggshell px-2 py-1 rounded-md"
           onClick={() => push("/manage/payment")}
         >
-          <p>payment</p>
+          <p className="text-base md:text-2xl">payment</p>
           <ArrowRight className="size-4" />
         </button>
         <button
           type="button"
           className="flex items-center justify-between w-full font-archivo-medium text-2xl hover:bg-grey-eggshell px-2 py-1 rounded-md"
         >
-          <p>moments</p>
+          <p className="text-base md:text-2xl">moments</p>
           <ArrowRight className="size-4" />
         </button>
       </div>
-      <div className="col-span-9">{children}</div>
+      <div className="col-span-12 md:col-span-9">{children}</div>
     </main>
   );
 };
