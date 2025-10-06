@@ -8,15 +8,12 @@ interface UserCollectionsContextReturn extends ReturnType<typeof useCollections>
   isLoading: boolean;
 }
 const UserCollectionsContext = createContext<UserCollectionsContextReturn>(
-  {} as UserCollectionsContextReturn,
+  {} as UserCollectionsContextReturn
 );
 
 const UserCollectionsProvider = ({ children }: { children: React.ReactNode }) => {
   const { connectedAddress } = useUserProvider();
-  const userCollections = useCollections(
-    connectedAddress,
-    Boolean(connectedAddress)
-  );
+  const userCollections = useCollections(connectedAddress, Boolean(connectedAddress));
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -30,7 +27,7 @@ const UserCollectionsProvider = ({ children }: { children: React.ReactNode }) =>
       ...userCollections,
       isLoading,
     }),
-    [userCollections, isLoading],
+    [userCollections, isLoading]
   );
 
   return (
@@ -41,9 +38,7 @@ const UserCollectionsProvider = ({ children }: { children: React.ReactNode }) =>
 export const useUserCollectionsProvider = () => {
   const context = useContext(UserCollectionsContext);
   if (!context) {
-    throw new Error(
-      "useUserCollectionsProvider must be used within a UserCollectionsProvider"
-    );
+    throw new Error("useUserCollectionsProvider must be used within a UserCollectionsProvider");
   }
   return context;
 };

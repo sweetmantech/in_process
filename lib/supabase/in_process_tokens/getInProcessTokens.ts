@@ -34,18 +34,9 @@ export async function getInProcessTokens({
   const cappedLimit = Math.min(limit, 100);
   let query = supabase
     .from("in_process_tokens")
-<<<<<<< HEAD
     .select(`*, defaultAdmin, artist:in_process_artists${artist ? "" : "!inner"}(username)`, {
       count: "exact",
     });
-=======
-    .select(
-      `*, defaultAdmin, artist:in_process_artists${artist ? "" : "!inner"}(username)`,
-      {
-        count: "exact",
-      },
-    );
->>>>>>> 8e1db48759342529f34e1b1d337c4a893fcc3c90
 
   if (artist) {
     query = query.eq("defaultAdmin", artist);

@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
     if (ids.length === 0) {
       return Response.json(
         { success: false, message: "No matching tokens found" },
-        { status: 404 },
+        { status: 404 }
       );
     }
 

@@ -12,9 +12,7 @@ interface TimelineContextValue {
   setCurrentPage: (page: number) => void;
 }
 
-const TimelineContext = createContext<TimelineContextValue | undefined>(
-  undefined
-);
+const TimelineContext = createContext<TimelineContextValue | undefined>(undefined);
 
 export const TimelineApiProvider = ({
   children,
@@ -53,9 +51,6 @@ export const TimelineApiProvider = ({
 
 export const useTimelineApiContext = () => {
   const ctx = useContext(TimelineContext);
-  if (!ctx)
-    throw new Error(
-      "useTimelineApiContext must be used within TimelineApiProvider"
-    );
+  if (!ctx) throw new Error("useTimelineApiContext must be used within TimelineApiProvider");
   return ctx;
 };

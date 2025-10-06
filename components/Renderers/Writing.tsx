@@ -24,8 +24,7 @@ const Writing = ({ fileUrl, description }: WritingProps) => {
         }
         setIsLoading(true);
         const response = await fetch(fileUrl, { signal: ac.signal });
-        if (!response.ok)
-          throw new Error(`Failed to fetch writing: ${response.status}`);
+        if (!response.ok) throw new Error(`Failed to fetch writing: ${response.status}`);
         const content = await response.text();
         if (!mounted) return;
         setText(content || description);
@@ -48,8 +47,7 @@ const Writing = ({ fileUrl, description }: WritingProps) => {
     updateScrollState();
   }, [text, isLoading, updateScrollState]);
 
-  if (isLoading && !text)
-    return <Skeleton className="min-h-[200px] size-full" />;
+  if (isLoading && !text) return <Skeleton className="min-h-[200px] size-full" />;
 
   return (
     <div className="size-full !font-spectral shadow-[5px_6px_2px_2px_#0000000f] border border-grey-moss-300 bg-white relative">

@@ -31,7 +31,7 @@ export async function selectPayments({
       `id, amount, hash, block, 
        token:in_process_tokens!inner(*), 
        buyer:in_process_artists!inner(*)`,
-      { count: "exact" },
+      { count: "exact" }
     )
     .order("block", { ascending: false })
     .range((page - 1) * cappedLimit, page * cappedLimit - 1);

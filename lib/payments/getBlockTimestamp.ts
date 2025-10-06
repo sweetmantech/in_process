@@ -2,7 +2,7 @@ import { getPublicClient } from "@/lib/viem/publicClient";
 
 export async function getBlockTimestamp(
   blockNumber: string,
-  chainId: number,
+  chainId: number
 ): Promise<Date | null> {
   try {
     const publicClient = getPublicClient(chainId);

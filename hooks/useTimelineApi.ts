@@ -30,7 +30,7 @@ async function fetchTimeline(
   page = 1,
   limit = 20,
   artistAddress?: string,
-  includeHidden = false,
+  includeHidden = false
 ): Promise<TimelineResponse> {
   const params = new URLSearchParams({
     page: String(page),
@@ -48,13 +48,12 @@ export function useTimelineApi(
   limit = 100,
   enabled = true,
   artistAddress?: string,
-  includeHidden = false,
+  includeHidden = false
 ) {
   const [currentPage, setCurrentPage] = useState(page);
   const query = useQuery({
     queryKey: ["timeline", currentPage, limit, artistAddress, includeHidden],
-    queryFn: () =>
-      fetchTimeline(currentPage, limit, artistAddress, includeHidden),
+    queryFn: () => fetchTimeline(currentPage, limit, artistAddress, includeHidden),
     enabled,
     staleTime: 1000 * 60 * 5,
     retry: (failureCount) => failureCount < 3,

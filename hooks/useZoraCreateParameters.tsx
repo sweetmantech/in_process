@@ -25,7 +25,7 @@ const useZoraCreateParameters = (collection?: Address) => {
     const salesConfig = getSalesConfig(
       getSaleConfigType(isUsdc ? "erc20Mint" : "fixedPrice"),
       createMetadata.price,
-      advancedValues.startDate,
+      advancedValues.startDate
     );
 
     if (collection) {
