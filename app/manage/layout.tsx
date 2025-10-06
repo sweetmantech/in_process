@@ -16,7 +16,7 @@ const ManagePage = ({ children }: { children: ReactNode }) => {
   const { ready } = usePrivy();
   const [loaded, setLoaded] = useState<boolean>(false);
   const signedWallet = context ? address : connectedWallet;
-  const { push } = useRouter()
+  const { push } = useRouter();
 
   useEffect(() => {
     if (ready)

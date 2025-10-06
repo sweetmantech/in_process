@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
-const Accounts = () => {
+const Account = () => {
   return (
     <main className="flex flex-col gap-24 font-archivo">
       <section className="grid grid-cols-12 gap-1">
@@ -60,4 +60,4 @@ const Accounts = () => {
   );
 };
 
-export default Accounts;
+export default Account;
