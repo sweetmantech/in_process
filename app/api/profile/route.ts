@@ -4,8 +4,8 @@ import { Address } from "viem";
 
 export async function GET(req: NextRequest) {
   try {
-    const walletAddress = req.nextUrl.searchParams.get("walletAddress");
-    const profile = await getArtistProfile(walletAddress as Address);
+    const address = req.nextUrl.searchParams.get("address");
+    const profile = await getArtistProfile((address as Address).toLowerCase());
     return Response.json(profile);
   } catch (e: any) {
     console.log(e);
