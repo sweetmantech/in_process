@@ -5,6 +5,7 @@ import { getProfile } from "./supabase/in_process_artists/getProfile";
 
 const getArtistProfile = async (address: string) => {
   const emptyFields = {
+    username: "",
     bio: "",
     farcaster_username: "",
     instagram_username: "",
