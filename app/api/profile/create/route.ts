@@ -13,7 +13,8 @@ export async function POST(req: NextRequest) {
       farcaster_username,
       telegram_username,
     } = body;
-    const { data, error } = await upsertProfile({
+
+    const { error } = await upsertProfile({
       address: address.toLowerCase(),
       username,
       bio,
@@ -23,9 +24,9 @@ export async function POST(req: NextRequest) {
       telegram_username,
     });
     if (error) throw new Error();
+
     return Response.json({
       success: true,
-      data,
     });
   } catch (e: any) {
     console.log(e);

@@ -20,9 +20,7 @@ export async function upsertProfile({
     telegram_username,
   });
 
-  if (error) {
-    return { error };
-  }
+  if (error) return { error };
 
   return { error: null };
 }
