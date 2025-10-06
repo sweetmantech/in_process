@@ -285,7 +285,7 @@ Status: ✅ **COMPLETE** ✅
 [X] **Use existing priceUnit logic**: Using existing `priceUnit` and `setPriceUnit` from `useMetadataValues`
 [X] **Update useZoraCreateParameters**: Modified to use `priceUnit` instead of pathname check
 [X] **Maintain original state management**: Kept existing `useMetadataValues` approach
-[X] **Remove props from CurrencySelect**: Component gets values directly from `useZoraCreateProvider`
+[X] **Remove props from CurrencySelect**: Component gets values directly from `useMomentCreateProvider`
 [X] **REMOVE isUsdcRoute check**: Always show CurrencySelect on ALL /create routes (not just /usdc)
 
 **Latest Changes Made**:
@@ -294,7 +294,7 @@ Status: ✅ **COMPLETE** ✅
 - **Simplified logic**: No more route-based conditional rendering
 
 **Changes Made**:
-- **CurrencySelect.tsx**: Self-contained component with no props, gets values from `useZoraCreateProvider`
+- **CurrencySelect.tsx**: Self-contained component with no props, gets values from `useMomentCreateProvider`
 - **Price.tsx**: Always renders `<CurrencySelect />` (previously only on /usdc routes)
 - **useZoraCreateParameters.tsx**: Uses `createMetadata.priceUnit === "usdc"` instead of pathname
 - **Reverted unnecessary changes**: Removed custom `selectedCurrency` state, using existing logic
