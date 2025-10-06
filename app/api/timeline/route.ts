@@ -30,7 +30,7 @@ export async function GET(req: NextRequest) {
   if (error) {
     return Response.json(
       { status: "error", message: error.message },
-      { status: 500 }
+      { status: 500 },
     );
   }
   const moments = (data || []).map((row) => ({

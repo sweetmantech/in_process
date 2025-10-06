@@ -14,7 +14,7 @@ const CollectionItem = ({ c }: { c: TimelineMoment }) => {
 
   const handleClick = () => {
     const shortNetworkName = getShortNetworkName(
-      c.chainId === 8453 ? "base" : "base sepolia"
+      c.chainId === 8453 ? "base" : "base sepolia",
     );
     push(`/manage/${shortNetworkName}:${c.address}`);
     return;

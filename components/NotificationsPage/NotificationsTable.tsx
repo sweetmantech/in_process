@@ -24,7 +24,7 @@ const NotificationsTable = ({
     limit,
     true,
     artist,
-    viewed
+    viewed,
   );
 
   if (isLoading) return <NotificationsTableLoading />;

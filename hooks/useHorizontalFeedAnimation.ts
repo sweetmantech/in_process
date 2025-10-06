@@ -86,12 +86,12 @@ export const useHorizontalFeedAnimation = (
         setNearestIndex(null);
         return;
       }
-      
+
       const target = e.target as Element | null;
-      if (target && target.closest('[data-video-hover-area]')) {
+      if (target && target.closest("[data-video-hover-area]")) {
         return;
       }
-      
+
       setEventTriggered(true);
       const nearest = findNearestButtonIndex(currentMouseX);
       if (nearest.index !== nearestIndex) {
@@ -118,7 +118,16 @@ export const useHorizontalFeedAnimation = (
       }
       return MIN_HEIGHT;
     },
-    [centerIndex, isMobile, activeIndex, nearestIndex, MAX_HEIGHT, MIN_HEIGHT, NEIGHBOR_RANGE, HEIGHT_DECREMENT],
+    [
+      centerIndex,
+      isMobile,
+      activeIndex,
+      nearestIndex,
+      MAX_HEIGHT,
+      MIN_HEIGHT,
+      NEIGHBOR_RANGE,
+      HEIGHT_DECREMENT,
+    ],
   );
 
   const isHovered = useCallback(

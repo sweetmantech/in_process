@@ -9,7 +9,7 @@ interface UserCollectionsContextReturn
   isLoading: boolean;
 }
 const UserCollectionsContext = createContext<UserCollectionsContextReturn>(
-  {} as UserCollectionsContextReturn
+  {} as UserCollectionsContextReturn,
 );
 
 const UserCollectionsProvider = ({
@@ -20,7 +20,7 @@ const UserCollectionsProvider = ({
   const { connectedAddress } = useUserProvider();
   const userCollections = useCollections(
     connectedAddress,
-    Boolean(connectedAddress)
+    Boolean(connectedAddress),
   );
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -35,7 +35,7 @@ const UserCollectionsProvider = ({
       ...userCollections,
       isLoading,
     }),
-    [userCollections, isLoading]
+    [userCollections, isLoading],
   );
 
   return (
@@ -49,7 +49,7 @@ export const useUserCollectionsProvider = () => {
   const context = useContext(UserCollectionsContext);
   if (!context) {
     throw new Error(
-      "useUserCollectionsProvider must be used within a UserCollectionsProvider"
+      "useUserCollectionsProvider must be used within a UserCollectionsProvider",
     );
   }
   return context;

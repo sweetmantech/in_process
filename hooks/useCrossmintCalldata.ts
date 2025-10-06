@@ -34,7 +34,10 @@ const useCrossmintCalldata = () => {
         tokenId: token.tokenId,
         comment,
         mintReferral: address as Address,
-        totalPrice: formatUnits(saleConfig.pricePerToken * BigInt(mintCount), 6),
+        totalPrice: formatUnits(
+          saleConfig.pricePerToken * BigInt(mintCount),
+          6,
+        ),
       };
     return {
       quantity: mintCount,

@@ -10,7 +10,13 @@ interface WritingProps {
 const Writing = ({ fileUrl, description }: WritingProps) => {
   const [text, setText] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const { scrollPosition, canScroll, scrollerRef, handleScroll, updateScrollState } = useWritingScrollbar();
+  const {
+    scrollPosition,
+    canScroll,
+    scrollerRef,
+    handleScroll,
+    updateScrollState,
+  } = useWritingScrollbar();
 
   useEffect(() => {
     let mounted = true;
@@ -23,7 +29,8 @@ const Writing = ({ fileUrl, description }: WritingProps) => {
         }
         setIsLoading(true);
         const response = await fetch(fileUrl, { signal: ac.signal });
-        if (!response.ok) throw new Error(`Failed to fetch writing: ${response.status}`);
+        if (!response.ok)
+          throw new Error(`Failed to fetch writing: ${response.status}`);
         const content = await response.text();
         if (!mounted) return;
         setText(content || description);
@@ -46,7 +53,8 @@ const Writing = ({ fileUrl, description }: WritingProps) => {
     updateScrollState();
   }, [text, isLoading, updateScrollState]);
 
-  if (isLoading && !text) return <Skeleton className="min-h-[200px] size-full" />;
+  if (isLoading && !text)
+    return <Skeleton className="min-h-[200px] size-full" />;
 
   return (
     <div className="size-full !font-spectral shadow-[5px_6px_2px_2px_#0000000f] border border-grey-moss-300 bg-white relative">
@@ -61,10 +69,16 @@ const Writing = ({ fileUrl, description }: WritingProps) => {
         {text}
       </div>
       {canScroll && scrollPosition !== "top" && (
-        <div aria-hidden="true" className="pointer-events-none absolute z-[3] left-0 top-0 bg-gradientTopBottom w-full h-24" />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute z-[3] left-0 top-0 bg-gradientTopBottom w-full h-24"
+        />
       )}
       {canScroll && scrollPosition !== "bottom" && (
-        <div aria-hidden="true" className="pointer-events-none absolute z-[3] left-0 bottom-0 bg-gradientBottomTop w-full h-24" />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute z-[3] left-0 bottom-0 bg-gradientBottomTop w-full h-24"
+        />
       )}
     </div>
   );

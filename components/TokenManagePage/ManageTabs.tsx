@@ -18,7 +18,7 @@ const ManageTabs = ({ selectedTab, onChangeTab }: ManageTabsProps) => {
           className={cn(
             "font-archivo-medium min-w-[80px]",
             selectedTab === MANAGE_TABS.AIRDROP &&
-              "border-b-[2px] border-b-grey-moss-300"
+              "border-b-[2px] border-b-grey-moss-300",
           )}
           onClick={() => onChangeTab(MANAGE_TABS.AIRDROP)}
         >
@@ -29,7 +29,7 @@ const ManageTabs = ({ selectedTab, onChangeTab }: ManageTabsProps) => {
           className={cn(
             "font-archivo-medium min-w-[80px]",
             selectedTab === MANAGE_TABS.SALE &&
-              "border-b-[2px] border-b-grey-moss-300"
+              "border-b-[2px] border-b-grey-moss-300",
           )}
           onClick={() => onChangeTab(MANAGE_TABS.SALE)}
         >
@@ -40,7 +40,7 @@ const ManageTabs = ({ selectedTab, onChangeTab }: ManageTabsProps) => {
           className={cn(
             "font-archivo-medium min-w-[80px]",
             selectedTab === MANAGE_TABS.MEDIA &&
-              "border-b-[2px] border-b-grey-moss-300"
+              "border-b-[2px] border-b-grey-moss-300",
           )}
           onClick={() => onChangeTab(MANAGE_TABS.MEDIA)}
         >
