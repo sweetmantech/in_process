@@ -10,7 +10,7 @@ export async function upsertProfile({
   instagram_username,
   telegram_username,
 }: Database["public"]["Tables"]["in_process_artists"]["Row"]) {
-  const { data, error } = await supabase.from("in_process_artists").upsert({
+  const { error } = await supabase.from("in_process_artists").upsert({
     address,
     username,
     bio,
@@ -21,8 +21,8 @@ export async function upsertProfile({
   });
 
   if (error) {
-    return { data: null, error };
+    return { error };
   }
 
-  return { data, error: null };
+  return { error: null };
 }
