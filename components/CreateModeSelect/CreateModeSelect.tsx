@@ -1,6 +1,6 @@
 "use client";
 
-import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
+import { useMomentCreateProvider } from "@/providers/MomentCreateProvider";
 import CreatedMoment from "../CreatedMoment/CreatedMoment";
 import DesktopSelect from "./DesktopSelect";
 import useIsMobile from "@/hooks/useIsMobile";
@@ -8,7 +8,7 @@ import { Fragment } from "react";
 import MobileSelect from "./MobileSelect";
 
 const CreateModeSelect = () => {
-  const { createdContract } = useZoraCreateProvider();
+  const { createdContract } = useMomentCreateProvider();
   const isMobile = useIsMobile();
 
   return (

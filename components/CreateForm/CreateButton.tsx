@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
+import { useMomentCreateProvider } from "@/providers/MomentCreateProvider";
 import { toast } from "sonner";
 
 const CreateButton = () => {
@@ -15,7 +15,7 @@ const CreateButton = () => {
     writingText,
     embedCode,
     imageUri,
-  } = useZoraCreateProvider();
+  } = useMomentCreateProvider();
 
   const canCreate = Boolean(
     !creating &&

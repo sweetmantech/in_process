@@ -1,10 +1,10 @@
-import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
+import { useMomentCreateProvider } from "@/providers/MomentCreateProvider";
 import { Label } from "@/components/ui/label";
 import { Input } from "../ui/input";
 import usePrompt from "@/hooks/uesPrompt";
 
 const Prompt = () => {
-  const { name, setName, fileUploading, creating } = useZoraCreateProvider();
+  const { name, setName, fileUploading, creating } = useMomentCreateProvider();
   const { placeholder, onActive, promptRef } = usePrompt();
 
   return (

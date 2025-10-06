@@ -1,4 +1,4 @@
-import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
+import { useMomentCreateProvider } from "@/providers/MomentCreateProvider";
 import { X } from "lucide-react";
 import Image from "next/image";
 import isHtml from "is-html";
@@ -6,7 +6,7 @@ import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 
 const EmbedPage = () => {
   const { embedCode, embed, createdContract, animationUri, name } =
-    useZoraCreateProvider();
+    useMomentCreateProvider();
 
   if (createdContract)
     return (

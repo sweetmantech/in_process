@@ -1,4 +1,4 @@
-import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
+import { useMomentCreateProvider } from "@/providers/MomentCreateProvider";
 import { Label } from "../ui/label";
 import Image from "next/image";
 import PreviewModal from "./PreviewModal";
@@ -17,7 +17,7 @@ const PreviewContainer = ({ children }: { children: ReactNode }) => {
 };
 const Preview = () => {
   const { previewUri, writingText, previewSrc, animationUri } =
-    useZoraCreateProvider();
+    useMomentCreateProvider();
   const showPreview = previewUri || animationUri;
   const showWritingPreview = writingText && !previewUri;
   const showImagePreview = showPreview && !showWritingPreview;

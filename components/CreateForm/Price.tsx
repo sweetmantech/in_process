@@ -2,11 +2,12 @@
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
+import { useMomentCreateProvider } from "@/providers/MomentCreateProvider";
 import CurrencySelect from "./CurrencySelect";
 
 export default function Price() {
-  const { price, setPrice, fileUploading, creating } = useZoraCreateProvider();
+  const { price, setPrice, fileUploading, creating } =
+    useMomentCreateProvider();
 
   return (
     <div className="w-full pt-2">

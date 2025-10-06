@@ -1,9 +1,9 @@
-import { useZoraCreateProvider } from "@/providers/ZoraCreateProvider";
+import { useMomentCreateProvider } from "@/providers/MomentCreateProvider";
 import CTAButton from "./CTAButton";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const DesktopSelect = () => {
-  const { titleRef } = useZoraCreateProvider();
+  const { titleRef } = useMomentCreateProvider();
   const pathname = usePathname();
   const { push } = useRouter();
   const searchParams = useSearchParams();
