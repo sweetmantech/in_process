@@ -1,55 +1,40 @@
 import { Address } from "viem";
-import getTag from "./stack/getTag";
 import getEnsName from "./viem/getEnsName";
 import getZoraProfile from "./zora/getZoraProfile";
+import { getProfile } from "./supabase/in_process_artists/getProfile";
 
-const getArtistProfile = async (walletAddress: Address) => {
+const getArtistProfile = async (address: string) => {
+  const emptyFields = {
+    username: "",
+    bio: "",
+    farcaster_username: "",
+    instagram_username: "",
+    twitter_username: "",
+    telegram_username: "",
+  };
   try {
-    const tags: any = await getTag(walletAddress as Address, "profile");
-    let profile = {
-      username: "",
-      bio: "",
-      socials: {
-        instagram: "",
-        twitter: "",
-        telegram: "",
-      },
-    };
-
-    if (tags?.tagData) {
-      profile = {
-        ...profile,
-        ...tags?.tagData,
+    const profile = await getProfile(address as Address);
+    if (profile) return profile;
+    const zora = await getZoraProfile(address as Address);
+    if (zora)
+      return {
+        ...emptyFields,
+        username: zora.displayName,
+        bio: zora.description,
+        twitter_username: zora.socialAccounts.twitter?.username || "",
+        instagram_username: zora.socialAccounts.instagram?.username || "",
       };
-    } else {
-      const zora = await getZoraProfile(walletAddress as Address);
-      if (zora) {
-        profile = {
-          ...profile,
-          username: zora.displayName,
-          bio: zora.description,
-          socials: {
-            ...profile.socials,
-            twitter: zora.socialAccounts.twitter?.username || "",
-            instagram: zora.socialAccounts.instagram?.username || "",
-          },
-        };
-      } else {
-        const ensName = await getEnsName(walletAddress as Address);
-        if (ensName)
-          profile = {
-            ...profile,
-            username: ensName,
-          };
-      }
-    }
-    return profile;
+
+    const ensName = await getEnsName(address as Address);
+    if (ensName)
+      return {
+        ...emptyFields,
+        username: ensName,
+      };
+    return emptyFields;
   } catch (error) {
     console.error(error);
-    return {
-      username: "",
-      bio: "",
-    };
+    return emptyFields;
   }
 };
 
