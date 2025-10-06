@@ -24,7 +24,7 @@ const useUsdcMint = () => {
     sale: SaleConfig,
     token: TokenInfo,
     comment: string,
-    mintCount: number = 1
+    mintCount: number = 1,
   ) => {
     const usdcPrice = sale.pricePerToken;
     const hasSufficientUsdc = balances.usdcBalance >= usdcPrice * BigInt(mintCount);
@@ -32,7 +32,9 @@ const useUsdcMint = () => {
     if (hasSufficientUsdc) {
       const sufficientAllowance = await hasAllowance(sale, mintCount);
       if (!sufficientAllowance) {
-        toast.error(`Insufficient allowance. please sign initial tx to grant max allowance`);
+        toast.error(
+          `Insufficient allowance. please sign initial tx to grant max allowance`
+        );
         await approve(usdcPrice * BigInt(mintCount));
       }
       const request = getCollectRequest(
@@ -40,7 +42,7 @@ const useUsdcMint = () => {
         sale,
         connectedAddress as Address,
         comment,
-        mintCount
+        mintCount,
       );
       if (!request) throw new Error();
       const hash = await signTransaction(request);
@@ -48,7 +50,10 @@ const useUsdcMint = () => {
       return receipt;
     }
 
-    const { amountInMaximum } = await getPoolInfo(connectedAddress as Address, usdcPrice);
+    const { amountInMaximum } = await getPoolInfo(
+      connectedAddress as Address,
+      usdcPrice
+    );
     const ethBalance = parseEther(balances.ethBalance.toString());
     if (ethBalance > amountInMaximum) {
       const hash = await signTransaction({

@@ -34,7 +34,13 @@ export async function sendUserOperation({ smartAccount, calls, network }: SendUs
   });
 
   // Wait for the transaction receipt
+<<<<<<< HEAD
   const publicClient = getPublicClient(network === "base-sepolia" ? 84532 : 8453);
+=======
+  const publicClient = getPublicClient(
+    network === "base-sepolia" ? 84532 : 8453,
+  );
+>>>>>>> 8e1db48759342529f34e1b1d337c4a893fcc3c90
   const transaction = await publicClient.waitForTransactionReceipt({
     hash: userOp.transactionHash as Hash,
   });

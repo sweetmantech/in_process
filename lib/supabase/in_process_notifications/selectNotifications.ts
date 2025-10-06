@@ -41,7 +41,7 @@ export async function selectNotifications({
        artist:in_process_artists!inner(
          address, username, bio, instagram_username, twitter_username, telegram_username
        )`,
-      { count: "exact" }
+      { count: "exact" },
     )
     .order("created_at", { ascending: false })
     .range((page - 1) * cappedLimit, page * cappedLimit - 1);

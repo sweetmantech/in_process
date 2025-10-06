@@ -35,7 +35,7 @@ const Feed = ({ feed, index, spacerWidth, handleMouseLeave, handleMouseMove }: F
           feed.username || truncateAddress(feed.creator),
           (data?.name || "").slice(0, 111),
           feed.released_at,
-          isMobile ? 14 : 20
+          isMobile ? 14 : 20,
         )}
       </tspan>
     </React.Fragment>

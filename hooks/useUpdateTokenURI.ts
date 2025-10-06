@@ -19,7 +19,11 @@ const useUpdateTokenURI = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const updateTokenURI = async () => {
-    const tokenInfo = await getTokenInfo(token.tokenContractAddress, token.tokenId, CHAIN_ID);
+    const tokenInfo = await getTokenInfo(
+      token.tokenContractAddress,
+      token.tokenId,
+      CHAIN_ID,
+    );
     const current = await fetchTokenMetadata(tokenInfo.tokenUri);
 
     const updated = {

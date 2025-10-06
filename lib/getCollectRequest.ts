@@ -14,14 +14,21 @@ const getCollectRequest = (
   sale: SaleConfig | undefined,
   account: Address,
   comment: string,
-  mintAmount: number = 1
+  mintAmount: number = 1,
 ) => {
   if (!sale) return null;
 
+<<<<<<< HEAD
   const minterArguments = encodeAbiParameters(parseAbiParameters("address, string"), [
     account as Address,
     comment,
   ]);
+=======
+  const minterArguments = encodeAbiParameters(
+    parseAbiParameters("address, string"),
+    [account as Address, comment],
+  );
+>>>>>>> 8e1db48759342529f34e1b1d337c4a893fcc3c90
 
   if (sale.type === MintType.ZoraErc20Mint)
     return {

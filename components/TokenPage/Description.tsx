@@ -5,7 +5,10 @@ interface DescriptionProps {
   truncateLength?: number;
 }
 
-const Description = ({ description, truncateLength = 150 }: DescriptionProps) => {
+const Description = ({
+  description,
+  truncateLength = 150,
+}: DescriptionProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   if (!description) return null;

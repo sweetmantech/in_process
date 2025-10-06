@@ -1,4 +1,14 @@
+<<<<<<< HEAD
 export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[];
+=======
+export type Json =
+  | string
+  | number
+  | boolean
+  | null
+  | { [key: string]: Json | undefined }
+  | Json[];
+>>>>>>> 8e1db48759342529f34e1b1d337c4a893fcc3c90
 
 export type Database = {
   // Allows to automatically instantiate createClient with right options
@@ -175,7 +185,14 @@ export type Database = {
 
 type DatabaseWithoutInternals = Omit<Database, "__InternalSupabase">;
 
+<<<<<<< HEAD
 type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, "public">];
+=======
+type DefaultSchema = DatabaseWithoutInternals[Extract<
+  keyof Database,
+  "public"
+>];
+>>>>>>> 8e1db48759342529f34e1b1d337c4a893fcc3c90
 
 export type Tables<
   DefaultSchemaTableNameOrOptions extends
@@ -196,8 +213,15 @@ export type Tables<
     }
     ? R
     : never
+<<<<<<< HEAD
   : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
     ? (DefaultSchema["Tables"] & DefaultSchema["Views"])[DefaultSchemaTableNameOrOptions] extends {
+=======
+  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema["Tables"] &
+        DefaultSchema["Views"])
+    ? (DefaultSchema["Tables"] &
+        DefaultSchema["Views"])[DefaultSchemaTableNameOrOptions] extends {
+>>>>>>> 8e1db48759342529f34e1b1d337c4a893fcc3c90
         Row: infer R;
       }
       ? R
