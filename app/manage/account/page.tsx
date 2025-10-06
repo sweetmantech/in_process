@@ -6,7 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 
 const Account = () => {
   return (
-    <main className="flex flex-col gap-12 md:gap-24 font-archivo">
+    <main className="flex flex-col gap-6 md:gap-24 font-archivo">
       <section className="grid grid-cols-12 gap-1">
         <p className="text-base col-span-12 md:col-span-2">your info</p>
         <div className="col-span-12 md:col-span-10 flex flex-col gap-4">
