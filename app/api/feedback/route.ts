@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
   if (!name?.trim() || !feedback?.trim()) {
     return Response.json(
       { message: "Name and feedback are required" },
-      { status: 400 }
+      { status: 400 },
     );
   }
 

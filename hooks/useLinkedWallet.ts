@@ -10,7 +10,7 @@ export const useLinkedWallet = (): UseLinkedWalletReturn => {
   const externalWallets =
     user?.linkedAccounts?.filter(
       (account) =>
-        account.type === "wallet" && account.walletClientType !== "privy"
+        account.type === "wallet" && account.walletClientType !== "privy",
     ) || [];
 
   const walletAddress =

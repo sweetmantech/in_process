@@ -39,7 +39,7 @@ export async function sendUserOperation({
 
   // Wait for the transaction receipt
   const publicClient = getPublicClient(
-    network === "base-sepolia" ? 84532 : 8453
+    network === "base-sepolia" ? 84532 : 8453,
   );
   const transaction = await publicClient.waitForTransactionReceipt({
     hash: userOp.transactionHash as Hash,

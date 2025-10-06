@@ -12,7 +12,10 @@ export const generateTextPreview = async (text: string): Promise<File> => {
   const paragraphs = trimmedText.split("\n");
   let totalLines = 0;
   paragraphs.forEach((paragraph) => {
-    totalLines += Math.max(1, parseInt(Number(paragraph.length / 64).toFixed()) + 1);
+    totalLines += Math.max(
+      1,
+      parseInt(Number(paragraph.length / 64).toFixed()) + 1,
+    );
   });
 
   // Dynamic font size based on line count (same logic as OG route)
@@ -55,14 +58,14 @@ export const generateTextPreview = async (text: string): Promise<File> => {
         lines.push("");
         return;
       }
-      
+
       const words = paragraph.split(" ");
       let currentLine = "";
-      
+
       words.forEach((word) => {
         const testLine = currentLine + (currentLine ? " " : "") + word;
         const metrics = ctx.measureText(testLine);
-        
+
         if (metrics.width > availableWidth && currentLine) {
           lines.push(currentLine);
           currentLine = word;
@@ -70,7 +73,7 @@ export const generateTextPreview = async (text: string): Promise<File> => {
           currentLine = testLine;
         }
       });
-      
+
       if (currentLine) {
         lines.push(currentLine);
       }
@@ -78,14 +81,16 @@ export const generateTextPreview = async (text: string): Promise<File> => {
 
     // Calculate starting Y position for centering (for short text) or top alignment
     const totalTextHeight = lines.length * lineHeight * dpr;
-    const startY = totalLines <= WRITING_SHORT_LINES 
-      ? padding * dpr + Math.max(0, (availableHeight - totalTextHeight) / 2)
-      : padding * dpr;
+    const startY =
+      totalLines <= WRITING_SHORT_LINES
+        ? padding * dpr + Math.max(0, (availableHeight - totalTextHeight) / 2)
+        : padding * dpr;
 
     // Draw text lines
     lines.forEach((line, index) => {
-      const y = startY + (index * lineHeight * dpr);
-      if (y < height * dpr - padding * dpr) { // Don't draw below bottom padding
+      const y = startY + index * lineHeight * dpr;
+      if (y < height * dpr - padding * dpr) {
+        // Don't draw below bottom padding
         ctx.fillText(line, textX, y);
       }
     });

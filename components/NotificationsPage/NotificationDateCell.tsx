@@ -14,7 +14,7 @@ const NotificationDateCell = ({
 }: NotificationDateCellProps) => {
   const { data: blockTime, isLoading } = useBlock(
     payment.block,
-    payment.token.chainId
+    payment.token.chainId,
   );
 
   return (

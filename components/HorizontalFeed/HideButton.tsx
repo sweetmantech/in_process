@@ -24,7 +24,7 @@ const HideButton: FC<HideButtonProps> = ({
   const [isHidden, setIsHidden] = useState(moment.hidden);
 
   const handleClick = async (
-    e: MouseEvent<HTMLButtonElement>
+    e: MouseEvent<HTMLButtonElement>,
   ): Promise<void> => {
     e.stopPropagation();
 

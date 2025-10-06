@@ -7,13 +7,13 @@ import getTokenInfo from "../viem/getTokenInfo";
 const indexMoment = async (
   address: Address,
   tokenId: number,
-  chainId: number
+  chainId: number,
 ) => {
   // Fetch onchain details
   const { tokenUri: uri, owner: admin } = await getTokenInfo(
     address,
     tokenId.toString(),
-    chainId
+    chainId,
   );
 
   // Look for existing moment

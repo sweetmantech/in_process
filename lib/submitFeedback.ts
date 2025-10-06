@@ -1,7 +1,11 @@
 import { toast } from "sonner";
 import { Address } from "viem";
 
-const submitFeedback = async (feedback: string, name: string, wallet?: Address) => {
+const submitFeedback = async (
+  feedback: string,
+  name: string,
+  wallet?: Address,
+) => {
   try {
     const response = await fetch(`/api/feedback`, {
       method: "POST",

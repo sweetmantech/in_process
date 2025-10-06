@@ -6,7 +6,7 @@ import {
 
 export const convertWritingToContractSchema = (
   writingData: z.infer<typeof createWritingMomentSchema>,
-  contentUri: string
+  contentUri: string,
 ): z.infer<typeof createMomentSchema> => {
   return {
     contract: {

@@ -40,7 +40,7 @@ const UploadPreview = () => {
       return;
     }
     const previewUri = await clientUploadToArweave(file, (value: number) =>
-      setProgress(value)
+      setProgress(value),
     );
     setPreviewSrc(URL.createObjectURL(file));
     setPreviewUri(previewUri);

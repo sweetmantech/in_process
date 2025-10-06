@@ -39,7 +39,7 @@ export async function getInProcessTokens({
       `*, defaultAdmin, artist:in_process_artists${artist ? "" : "!inner"}(username)`,
       {
         count: "exact",
-      }
+      },
     );
 
   if (artist) {

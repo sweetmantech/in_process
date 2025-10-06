@@ -24,7 +24,7 @@ const PaymentsTable = ({
     limit,
     true,
     address,
-    combined
+    combined,
   );
 
   if (isLoading) return <PaymentsTableLoading />;

@@ -27,7 +27,7 @@ const Feed: FC<FeedProps> = ({ feed, hovered, step, height }) => {
   const isVisibleHideButton =
     Boolean(artistAddress) &&
     Boolean(
-      (artistAddress as any).toLowerCase() === connectedAddress?.toLowerCase()
+      (artistAddress as any).toLowerCase() === connectedAddress?.toLowerCase(),
     );
 
   if (isHidden) return null;

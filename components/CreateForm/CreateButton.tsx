@@ -21,7 +21,7 @@ const CreateButton = () => {
     !creating &&
       name &&
       (previewUri || writingText) &&
-      Boolean(animationUri || link || embedCode || imageUri || writingText)
+      Boolean(animationUri || link || embedCode || imageUri || writingText),
   );
 
   const toastCreateError = () => {

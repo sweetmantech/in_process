@@ -4,7 +4,6 @@ import { useMomentCreateProvider } from "@/providers/MomentCreateProvider";
 
 export default function CurrencySelect() {
   const { priceUnit, setPriceUnit, fileUploading, creating } = useMomentCreateProvider();
-  
   return (
     <select
       value={priceUnit === "usdc" ? "USD" : "ETH"}

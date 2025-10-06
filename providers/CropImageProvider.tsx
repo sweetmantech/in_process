@@ -23,7 +23,7 @@ const useCropImageProvider = () => {
   const context = useContext(CropImageContext);
   if (!context) {
     throw new Error(
-      "useCropImageProvider must be used within a CropImageProvider"
+      "useCropImageProvider must be used within a CropImageProvider",
     );
   }
   return context;

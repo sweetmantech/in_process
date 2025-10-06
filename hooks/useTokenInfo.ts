@@ -27,10 +27,11 @@ const useTokenInfo = (
 
   const isOwner = useMemo(() => {
     return Boolean(
-      connectedAddress && owner &&
-      getAddress(connectedAddress) === getAddress(owner)
-    )
-  }, [connectedAddress, owner])
+      connectedAddress &&
+        owner &&
+        getAddress(connectedAddress) === getAddress(owner),
+    );
+  }, [connectedAddress, owner]);
 
   const fetchTokenInfo = useCallback(async () => {
     const tokenInfo = await getTokenInfo(tokenContract, tokenId, chainId);
@@ -52,7 +53,7 @@ const useTokenInfo = (
     isSetSale,
     fetchTokenInfo,
     owner,
-    isOwner
+    isOwner,
   };
 };
 
