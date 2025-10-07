@@ -9,9 +9,9 @@ const saveIndentify = async (
   artistAddress: Address,
   username: string,
   bio: string,
-  instagram: string,
-  telegram: string,
-  twitter: string
+  instagram_username: string,
+  telegram_username: string,
+  twitter_username: string
 ) => {
   await fetch("/api/profile/create", {
     method: "POST",
@@ -22,9 +22,9 @@ const saveIndentify = async (
       address: artistAddress,
       username,
       bio,
-      instagram,
-      telegram,
-      twitter,
+      instagram_username,
+      telegram_username,
+      twitter_username,
     }),
   });
 };
