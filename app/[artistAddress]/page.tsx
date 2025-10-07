@@ -1,6 +1,5 @@
 import { Metadata, NextPage } from "next";
 import ArtistPage from "@/components/ArtistPage";
-import ProfileProvider from "@/providers/ProfileProvider";
 import { APP_URL, VERCEL_OG } from "@/lib/og/consts";
 import truncateAddress from "@/lib/truncateAddress";
 import { Address } from "viem";
@@ -46,10 +45,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-const Artist: NextPage = () => (
-  <ProfileProvider>
-    <ArtistPage />
-  </ProfileProvider>
-);
+const Artist: NextPage = () => <ArtistPage />;
 
 export default Artist;

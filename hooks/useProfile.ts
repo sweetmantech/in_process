@@ -1,4 +1,4 @@
-import { useParams, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useArtistProfile } from "./useArtistProfile";
 import { Address } from "viem";
@@ -29,16 +29,15 @@ const saveIndentify = async (
   });
 };
 
-const useProfile = () => {
+const useProfile = (artistAddress?: Address) => {
   const usernameRef = useRef() as any;
   const bioRef = useRef() as any;
   const statusRef = useRef() as any;
   const socialRef = useRef() as any;
   const { getProfile, connectedAddress } = useUserProvider();
-  const { data, isLoading } = useArtistProfile();
+  const { data, isLoading } = useArtistProfile(artistAddress);
   const [username, setUserName] = useState<string>("");
   const [bio, setBio] = useState<string>("");
-  const { artistAddress } = useParams();
   const searchParams = useSearchParams();
   const canEdit =
     connectedAddress?.toLowerCase() === new String((artistAddress as string) || "").toLowerCase() &&
@@ -54,7 +53,7 @@ const useProfile = () => {
   useEffect(() => {
     if (data) {
       setUserName(data.username || truncateAddress(artistAddress as string));
-      setBio(data?.bio || "");
+      setBio(data.bio || "");
       setTwitter(data.twitter_username || "");
       setTelegram(data.telegram_username || "");
       setInstagram(data.instagram_username || "");
