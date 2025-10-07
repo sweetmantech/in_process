@@ -1,11 +1,14 @@
 "use client";
 
-import { createContext, useContext, ReactNode, useState, useEffect } from "react";
+import { createContext, useContext, ReactNode, useState, useEffect, useMemo } from "react";
 import { useTimelineApi, TimelineMoment, TimelineResponse } from "@/hooks/useTimelineApi";
+import { Token } from "@/types/token";
+import { mapMomentsToTokens } from "@/lib/timeline/mapMomentToToken";
 
 interface TimelineContextValue {
   data: TimelineResponse | undefined;
   moments: TimelineMoment[];
+  feeds: Token[];
   isLoading: boolean;
   error: unknown;
   currentPage: number;
@@ -43,10 +46,13 @@ export const TimelineApiProvider = ({
     }
   }, [data]);
 
+  const feeds = useMemo(() => mapMomentsToTokens(allMoments).reverse(), [allMoments]);
+
   return (
     <TimelineContext.Provider
       value={{
         data,
+        feeds,
         moments: allMoments,
         isLoading,
         error,

@@ -2,7 +2,6 @@ import HorizontalFeed from "../HorizontalFeed";
 import { HorizontalFeedAnimationProvider } from "@/providers/HorizontalFeedAnimationProvider";
 import Loading from "../Loading";
 import { useTimelineApiContext } from "@/providers/TimelineApiProvider";
-import { mapMomentsToTokens } from "@/lib/timeline/mapMomentToToken";
 import FetchMoreInspector from "../FetchMoreInspector";
 import useIsMobile from "@/hooks/useIsMobile";
 import VerticalFeed from "../VerticalFeed";
@@ -14,8 +13,8 @@ interface TimelineFeedProps {
 
 const TimelineFeed = ({ alt }: TimelineFeedProps) => {
   const isMobile = useIsMobile();
-  const { data, moments, isLoading, currentPage, setCurrentPage } = useTimelineApiContext();
-  const feeds = mapMomentsToTokens(moments.reverse());
+  const { data, feeds, isLoading, currentPage, setCurrentPage } = useTimelineApiContext();
+
   const fetchMore = () => {
     if (data && data.pagination.page < data.pagination.total_pages) {
       setCurrentPage(currentPage + 1);
