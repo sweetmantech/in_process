@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, ReactNode } from "react";
+import { createContext, useContext, ReactNode, useState, useEffect } from "react";
 import { useTimelineApi, TimelineMoment, TimelineResponse } from "@/hooks/useTimelineApi";
 
 interface TimelineContextValue {
@@ -30,14 +30,24 @@ export const TimelineApiProvider = ({
     artistAddress,
     includeHidden
   );
+  const [allMoments, setAllMoments] = useState<TimelineMoment[]>([]);
 
-  const reversedMoments = data?.moments ? [...data.moments] : [];
+  // Whenever data changes, merge new moments into allMoments (avoid duplicates)
+  useEffect(() => {
+    if (data?.moments?.length) {
+      setAllMoments((prev) => {
+        const existingIds = new Set(prev.map((m) => m.id));
+        const newMoments = data.moments.filter((m) => !existingIds.has(m.id));
+        return [...prev, ...newMoments];
+      });
+    }
+  }, [data]);
 
   return (
     <TimelineContext.Provider
       value={{
         data,
-        moments: reversedMoments,
+        moments: allMoments,
         isLoading,
         error,
         currentPage,
