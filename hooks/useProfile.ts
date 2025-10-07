@@ -19,7 +19,7 @@ const saveIndentify = async (
       "content-type": "application/json",
     },
     body: JSON.stringify({
-      walletAddress: artistAddress,
+      address: artistAddress,
       username,
       bio,
       instagram,
@@ -48,15 +48,17 @@ const useProfile = () => {
   const toggleEditing = () => setIsEditing(!isEditing);
   const [twitter, setTwitter] = useState<string>("");
   const [instagram, setInstagram] = useState<string>("");
+  const [farcaster, setFarcaster] = useState<string>("");
   const [telegram, setTelegram] = useState("");
 
   useEffect(() => {
     if (data) {
       setUserName(data.username || truncateAddress(artistAddress as string));
       setBio(data?.bio || "");
-      setTwitter(data.socials.twitter);
-      setTelegram(data.socials.telegram);
-      setInstagram(data.socials.instagram);
+      setTwitter(data.twitter_username || "");
+      setTelegram(data.telegram_username || "");
+      setInstagram(data.instagram_username || "");
+      setFarcaster(data.farcaster_username || "");
     }
   }, [data, artistAddress]);
 
@@ -114,6 +116,7 @@ const useProfile = () => {
     setTelegram,
     setInstagram,
     socialRef,
+    farcaster,
   };
 };
 
