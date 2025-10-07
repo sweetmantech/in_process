@@ -1,7 +1,7 @@
 import { Address, encodeFunctionData, Hash, parseEventLogs, ParseEventLogsReturnType } from "viem";
 import { z } from "zod";
 import cdp from "@/lib/coinbase/client";
-import { CHAIN_ID, IS_TESTNET } from "@/lib/consts";
+import { CHAIN_ID, IS_TESTNET, PERMISSION_BIT_ADMIN } from "@/lib/consts";
 import { createMomentSchema } from "@/lib/coinbase/createContractSchema";
 import { create1155 } from "@/lib/zora/create1155";
 import { sendUserOperation } from "@/lib/coinbase/sendUserOperation";
@@ -32,7 +32,15 @@ export async function createContract({
   const smartAccount = await cdp.evm.createSmartAccount({ owner: evmAccount });
 
   // Use the protocol SDK to generate calldata
-  const { parameters } = await create1155({ contract, token, account });
+  const { parameters, tokenSetupActions } = await create1155({ contract, token, account });
+
+  const adminPermissionCall = encodeFunctionData({
+    abi: zoraCreator1155ImplABI,
+    functionName: "addPermission",
+    args: [BigInt(1), smartAccount.address, BigInt(PERMISSION_BIT_ADMIN)],
+  });
+
+  parameters.args[4] = [...tokenSetupActions, adminPermissionCall];
 
   // Encode the function call data
   const createContractData = encodeFunctionData({
