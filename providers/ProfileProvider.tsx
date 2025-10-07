@@ -2,13 +2,18 @@
 
 import useProfile from "@/hooks/useProfile";
 import { createContext, useMemo, useContext } from "react";
+import { Address } from "viem";
 
 const ProfileContext = createContext<ReturnType<typeof useProfile>>(
   {} as ReturnType<typeof useProfile>
 );
 
-const ProfileProvider = ({ children }: { children: React.ReactNode }) => {
-  const profile = useProfile();
+interface IProfileProvider {
+  children: React.ReactNode;
+  address: Address | undefined;
+}
+const ProfileProvider = ({ children, address }: IProfileProvider) => {
+  const profile = useProfile(address);
 
   const value = useMemo(
     () => ({
