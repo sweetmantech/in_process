@@ -7,7 +7,7 @@ import useZoraCreateParameters from "./useZoraCreateParameters";
 import { useMask } from "./useMask";
 import { useUserProvider } from "@/providers/UserProvider";
 
-export default function useZoraCreate() {
+export default function useCreateMoment() {
   const [creating, setCreating] = useState<boolean>(false);
   const searchParams = useSearchParams();
   const collection = searchParams.get("collectionAddress") as Address;
