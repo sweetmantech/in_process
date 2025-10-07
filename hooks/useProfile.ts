@@ -4,27 +4,30 @@ import { useArtistProfile } from "./useArtistProfile";
 import { Address } from "viem";
 import truncateAddress from "@/lib/truncateAddress";
 import { useUserProvider } from "@/providers/UserProvider";
+import { Database } from "@/lib/supabase/types";
 
-const saveIndentify = async (
-  artistAddress: Address,
-  username: string,
-  bio: string,
-  instagram_username: string,
-  telegram_username: string,
-  twitter_username: string
-) => {
+export const saveIndentify = async ({
+  address,
+  username,
+  bio,
+  instagram_username,
+  telegram_username,
+  twitter_username,
+  farcaster_username,
+}: Database["public"]["Tables"]["in_process_artists"]["Row"]) => {
   await fetch("/api/profile/create", {
     method: "POST",
     headers: {
       "content-type": "application/json",
     },
     body: JSON.stringify({
-      address: artistAddress,
+      address,
       username,
       bio,
       instagram_username,
       telegram_username,
       twitter_username,
+      farcaster_username,
     }),
   });
 };
@@ -81,7 +84,15 @@ const useProfile = (artistAddress?: Address) => {
       )
         return;
       setSaving(true);
-      await saveIndentify(artistAddress as Address, username, bio, instagram, telegram, twitter);
+      await saveIndentify({
+        address: artistAddress as Address,
+        username,
+        bio,
+        instagram_username: instagram,
+        twitter_username: twitter,
+        farcaster_username: farcaster,
+        telegram_username: telegram,
+      });
       setTimeout(() => {
         toggleEditing();
         setSaving(false);
@@ -116,6 +127,7 @@ const useProfile = (artistAddress?: Address) => {
     setInstagram,
     socialRef,
     farcaster,
+    setFarcaster,
   };
 };
 
