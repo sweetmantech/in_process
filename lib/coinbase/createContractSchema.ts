@@ -31,7 +31,7 @@ export const contractSchema = z.object({
 export const createMomentSchema = z.object({
   contract: contractSchema,
   token: tokenSchema,
-  account: addressSchema, // Address
+  account: addressSchema,
 });
 
 export const writingContractSchema = z.object({
