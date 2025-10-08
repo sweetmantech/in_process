@@ -16,7 +16,7 @@ const Overview = () => {
       <div className="flex gap-2 text-lg font-archivo items-center cursor-pointer">
         <button
           type="button"
-          onClick={() => push("/manage")}
+          onClick={() => push("/manage/moments")}
           className="px-2 py-1 rounded-md hover:text-grey-moss-100 hover:text-grey-eggshell hover:bg-black"
         >
           collections
