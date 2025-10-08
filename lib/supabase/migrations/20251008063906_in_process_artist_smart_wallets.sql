@@ -1,7 +1,6 @@
 create table "public"."in_process_artist_smart_wallets" (
     "smart_wallet_address" text not null,
     "artist_address" text not null,
-    "external_wallet" text,
     "created_at" timestamp with time zone not null default now()
 );
 
