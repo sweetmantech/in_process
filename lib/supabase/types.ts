@@ -28,6 +28,32 @@ export type Database = {
   };
   public: {
     Tables: {
+      in_process_artist_smart_wallets: {
+        Row: {
+          artist_address: string;
+          created_at: string;
+          smart_wallet_address: string;
+        };
+        Insert: {
+          artist_address: string;
+          created_at?: string;
+          smart_wallet_address: string;
+        };
+        Update: {
+          artist_address?: string;
+          created_at?: string;
+          smart_wallet_address?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "in_process_artist_smart_wallets_artist_address_fkey";
+            columns: ["artist_address"];
+            isOneToOne: false;
+            referencedRelation: "in_process_artists";
+            referencedColumns: ["address"];
+          },
+        ];
+      };
       in_process_artists: {
         Row: {
           address: string;
