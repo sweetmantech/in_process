@@ -7,11 +7,9 @@ import { saveIndentify } from "@/hooks/useProfile";
 import { useProfileProvider } from "@/providers/ProfileProvider";
 import { useUserProvider } from "@/providers/UserProvider";
 import { useState } from "react";
-import { useConnectWallet } from "@privy-io/react-auth";
+import ConnectButton from "./ConnectButton";
 
 const AccountPage = () => {
-  const { connectWallet } = useConnectWallet();
-
   const {
     twitter,
     instagram,
@@ -103,12 +101,7 @@ const AccountPage = () => {
         </div>
       </section>
       <section className="flex justify-end gap-3 mt-4">
-        <button
-          onClick={connectWallet}
-          className="self-end px-4 py-2 rounded-md flex items-center gap-2 bg-grey-moss-900 font-archivo text-grey-eggshell hover:bg-grey-eggshell hover:text-grey-moss-900"
-        >
-          connect
-        </button>
+        <ConnectButton />
         <button
           className="mr-4 self-end px-4 py-2 rounded-md flex items-center gap-2 bg-grey-moss-900 font-archivo text-grey-eggshell hover:bg-grey-eggshell hover:text-grey-moss-900"
           onClick={onSave}
