@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { Address } from "viem";
-import useZoraCreateParameters from "./useZoraCreateParameters";
+import useMomentCreateParameters from "./useMomentCreateParameters";
 import { useMask } from "./useMask";
 import { useUserProvider } from "@/providers/UserProvider";
 
@@ -13,7 +13,7 @@ export default function useCreateMoment() {
   const collection = searchParams.get("collectionAddress") as Address;
   const [createdContract, setCreatedContract] = useState<string>("");
   const [createdTokenId, setCreatedTokenId] = useState<string>("");
-  const { fetchParameters, createMetadata, advancedValues } = useZoraCreateParameters(collection);
+  const { fetchParameters, createMetadata, advancedValues } = useMomentCreateParameters(collection);
   const mask = useMask(advancedValues.isOpenAdvanced, createMetadata.writingText);
   const { isPrepared } = useUserProvider();
 
