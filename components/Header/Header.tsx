@@ -7,7 +7,6 @@ import { DropdownMenu } from "../LoginButton/DropdownMenu";
 import { useLayoutProvider } from "@/providers/LayoutProvider";
 import CreateCTAButton from "./CreateCTAButton";
 import useIsMobile from "@/hooks/useIsMobile";
-import ArtistSearch from "../ArtistSearch";
 import NotificationButton from "./NotificationButton";
 import { Z_BEHIND_PRIVY } from "@/lib/consts";
 
@@ -24,7 +23,6 @@ const Header = () => {
       <div className="flex justify-between items-center px-6 md:px-10 py-8">
         <Logo />
         <div className="flex items-center gap-1 md:gap-2" ref={menuRef}>
-          <ArtistSearch />
           {signedAddress && <NotificationButton />}
           {!isMobile && <CreateCTAButton />}
           <div className="md:relative flex items-center gap-1 md:gap-2">
