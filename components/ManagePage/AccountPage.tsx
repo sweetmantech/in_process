@@ -7,7 +7,7 @@ import { saveIndentify } from "@/hooks/useProfile";
 import { useProfileProvider } from "@/providers/ProfileProvider";
 import { useUserProvider } from "@/providers/UserProvider";
 import { useState } from "react";
-import ExternalWalletInputModal from "./ExternalWalletInputModal";
+import SearchModal from "../ArtistSearch/SearchModal";
 
 const AccountPage = () => {
   const {
@@ -101,7 +101,13 @@ const AccountPage = () => {
         </div>
       </section>
       <section className="flex justify-end gap-3 mt-4">
-        <ExternalWalletInputModal />
+        <SearchModal
+          renderTriggerEle={
+            <button className="self-end px-4 py-2 rounded-md flex items-center gap-2 bg-grey-moss-900 font-archivo text-grey-eggshell hover:bg-grey-eggshell hover:text-grey-moss-900">
+              connect
+            </button>
+          }
+        />
         <button
           className="mr-4 self-end px-4 py-2 rounded-md flex items-center gap-2 bg-grey-moss-900 font-archivo text-grey-eggshell hover:bg-grey-eggshell hover:text-grey-moss-900"
           onClick={onSave}
