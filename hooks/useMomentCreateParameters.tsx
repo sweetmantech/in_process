@@ -8,7 +8,7 @@ import { useFrameProvider } from "@/providers/FrameProvider";
 import getSaleConfigType from "@/lib/getSaleConfigType";
 import useCreateAdvancedValues from "./useCreateAdvancedValues";
 
-const useZoraCreateParameters = (collection?: Address) => {
+const useMomentCreateParameters = (collection?: Address) => {
   const { connectedWallet } = useConnectedWallet();
   const { address } = useAccount();
   const createMetadata = useCreateMetadata();
@@ -59,4 +59,4 @@ const useZoraCreateParameters = (collection?: Address) => {
   return { createMetadata, fetchParameters, advancedValues };
 };
 
-export default useZoraCreateParameters;
+export default useMomentCreateParameters;
