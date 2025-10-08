@@ -7,6 +7,7 @@ import { saveIndentify } from "@/hooks/useProfile";
 import { useProfileProvider } from "@/providers/ProfileProvider";
 import { useUserProvider } from "@/providers/UserProvider";
 import { useState } from "react";
+import ExternalWalletInputModal from "./ExternalWalletInputModal";
 
 const AccountPage = () => {
   const {
@@ -99,12 +100,15 @@ const AccountPage = () => {
           </fieldset>
         </div>
       </section>
-      <button
-        className="mt-4 mr-4 self-end px-4 py-2 rounded-md flex items-center gap-2 bg-grey-moss-900 font-archivo text-grey-eggshell hover:bg-grey-eggshell hover:text-grey-moss-900"
-        onClick={onSave}
-      >
-        {isLoading ? "saving..." : "save"}
-      </button>
+      <section className="flex justify-end gap-3 mt-4">
+        <ExternalWalletInputModal />
+        <button
+          className="mr-4 self-end px-4 py-2 rounded-md flex items-center gap-2 bg-grey-moss-900 font-archivo text-grey-eggshell hover:bg-grey-eggshell hover:text-grey-moss-900"
+          onClick={onSave}
+        >
+          {isLoading ? "saving..." : "save"}
+        </button>
+      </section>
     </main>
   );
 };
