@@ -10,7 +10,7 @@ import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import Image from "next/image";
 import SearchNotFound from "./SearchNotFound";
 
-const SearchModal = ({ renderTriggerEle }: { renderTriggerEle?: React.ReactNode }) => {
+const SearchModal = () => {
   const {
     userSearchData,
     isLoadingSearch,
@@ -34,17 +34,9 @@ const SearchModal = ({ renderTriggerEle }: { renderTriggerEle?: React.ReactNode 
         className="disabled:cursor-not-allowed disabled:bg-grey-moss-300"
         onClick={() => setIsOpenModal(true)}
       >
-        {renderTriggerEle || (
-          <button type="button" className="hover:bg-grey-eggshell rounded-md p-2">
-            <Image
-              src="/search_icon.svg"
-              blurDataURL="/search_icon.png"
-              alt="search icon"
-              width={24}
-              height={24}
-            />
-          </button>
-        )}
+        <button className="self-end px-4 py-2 rounded-md flex items-center gap-2 bg-grey-moss-900 font-archivo text-grey-eggshell hover:bg-grey-eggshell hover:text-grey-moss-900">
+          connect
+        </button>
       </DialogTrigger>
       <DialogOverlay className="opacity-80 !pointer-events-none" />
       <DialogContent className="max-w-xl !rounded-3xl !bg-white border-none py-10 px-8 flex flex-col items-center !gap-0 shadow-lg overflow-hidden bg-transparent">
