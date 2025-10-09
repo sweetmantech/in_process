@@ -1,15 +1,18 @@
 import connectExternalWallet from "@/lib/connectExternalWallet";
 import { useUserProvider } from "@/providers/UserProvider";
 import { useConnectWallet } from "@privy-io/react-auth";
+import { Fragment } from "react";
 import { Address } from "viem";
 
 const ConnectButton = () => {
   const { connectedAddress, email } = useUserProvider();
   const { connectWallet } = useConnectWallet({
     onSuccess: async ({ wallet }) => {
-      connectExternalWallet(connectedAddress as Address, wallet.address as Address)
+      connectExternalWallet(connectedAddress as Address, wallet.address as Address);
     },
   });
+
+  if (!email || !connectedAddress) return <Fragment />;
 
   return (
     <button
