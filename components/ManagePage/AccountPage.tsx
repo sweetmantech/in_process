@@ -7,9 +7,7 @@ import { saveIndentify } from "@/hooks/useProfile";
 import { useProfileProvider } from "@/providers/ProfileProvider";
 import { useUserProvider } from "@/providers/UserProvider";
 import { useState } from "react";
-import { useConnectWallet } from "@privy-io/react-auth";
-import fetchArtistProfile from "@/lib/fetchArtistProfile";
-import { Address } from "viem";
+import ConnectButton from "./ConnectButton";
 
 const AccountPage = () => {
   const {
@@ -25,19 +23,7 @@ const AccountPage = () => {
     setFarcaster,
     setUserName,
   } = useProfileProvider();
-  const { connectedAddress, email } = useUserProvider();
-  const { connectWallet } = useConnectWallet({
-    onSuccess: async ({ wallet }) => {
-      const profile = await fetchArtistProfile(wallet.address as Address);
-      if (profile.storage !== "supabase") {
-        await saveIndentify({
-          ...profile,
-          address: wallet.address as Address,
-        })
-      }
-      
-    },
-  });
+  const { connectedAddress } = useUserProvider();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const onSave = async () => {
     setIsLoading(true);
@@ -115,12 +101,7 @@ const AccountPage = () => {
         </div>
       </section>
       <section className="flex justify-end gap-3 mt-4">
-        {email && connectedAddress && <button
-          onClick={connectWallet}
-          className="self-end px-4 py-2 rounded-md flex items-center gap-2 bg-grey-moss-900 font-archivo text-grey-eggshell hover:bg-grey-eggshell hover:text-grey-moss-900"
-        >
-          connect
-        </button>}
+        <ConnectButton />
         <button
           className="mr-4 self-end px-4 py-2 rounded-md flex items-center gap-2 bg-grey-moss-900 font-archivo text-grey-eggshell hover:bg-grey-eggshell hover:text-grey-moss-900"
           onClick={onSave}
