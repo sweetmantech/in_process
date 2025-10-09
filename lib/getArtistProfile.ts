@@ -15,10 +15,7 @@ const getArtistProfile = async (address: string) => {
   try {
     const profile = await getProfile(address as Address);
     if (profile)
-      return {
-        ...profile,
-        storage: "supabase",
-      };
+      return profile
     const zora = await getZoraProfile(address as Address);
     if (zora)
       return {
@@ -27,7 +24,6 @@ const getArtistProfile = async (address: string) => {
         bio: zora.description,
         twitter_username: zora.socialAccounts.twitter?.username || "",
         instagram_username: zora.socialAccounts.instagram?.username || "",
-        storage: "zora",
       };
 
     const ensName = await getEnsName(address as Address);
@@ -35,7 +31,6 @@ const getArtistProfile = async (address: string) => {
       return {
         ...emptyFields,
         username: ensName,
-        storage: "ens",
       };
     return emptyFields;
   } catch (error) {

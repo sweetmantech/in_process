@@ -1,7 +1,7 @@
 import { Address } from "viem";
 import { Database } from "./supabase/types";
 
-const fetchArtistProfile = async (
+const fetchExternalWallets = async (
   artistAddress: Address
 ): Promise<
   Database["public"]["Tables"]["in_process_artists"]["Row"]
@@ -11,4 +11,4 @@ const fetchArtistProfile = async (
   return data;
 };
 
-export default fetchArtistProfile;
+export default fetchExternalWallets;
