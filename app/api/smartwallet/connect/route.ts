@@ -1,6 +1,6 @@
 import { getOrCreateAccount } from "@/lib/coinbase/getOrCreateAccount";
-import { connectSmartWalletToArtist } from "@/lib/supabase/in_process_artist_smart_wallets/connectSmartWalletToArtist";
 import { getProfile } from "@/lib/supabase/in_process_artists/getProfile";
+import { insertArtistSmartWallet } from "@/lib/supabase/in_process_artist_smart_wallets/insertArtistSmartWallet";
 import { upsertProfile } from "@/lib/supabase/in_process_artists/upsertProfile";
 import { NextRequest } from "next/server";
 import { Address } from "viem";
@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
         telegram_username: "",
       });
     }
-    const { error } = await connectSmartWalletToArtist({
+    const { error } = await insertArtistSmartWallet({
       artist_address: external_wallet_address,
       smart_wallet_address: smartWallet.address.toLowerCase() as Address,
     });
