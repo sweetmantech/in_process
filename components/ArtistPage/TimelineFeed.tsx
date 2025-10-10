@@ -14,13 +14,9 @@ interface TimelineFeedProps {
 
 const TimelineFeed = ({ alt }: TimelineFeedProps) => {
   const isMobile = useIsMobile();
-  const { data, moments, isLoading, currentPage, setCurrentPage } = useTimelineApiContext();
-  const feeds = mapMomentsToTokens(moments.reverse());
-  const fetchMore = () => {
-    if (data && data.pagination.page < data.pagination.total_pages) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
+  const { moments, isLoading, fetchMore } = useTimelineApiContext();
+  const reversedMoments = [...moments].reverse();
+  const feeds = mapMomentsToTokens(reversedMoments);
 
   if (!Boolean(feeds.length))
     return (
@@ -43,7 +39,7 @@ const TimelineFeed = ({ alt }: TimelineFeedProps) => {
 
   return (
     <HorizontalFeedAnimationProvider feeds={feeds}>
-      <HorizontalFeed feeds={feeds} fetchMore={fetchMore} />
+      <HorizontalFeed feeds={feeds} />
     </HorizontalFeedAnimationProvider>
   );
 };
