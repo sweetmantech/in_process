@@ -6,7 +6,7 @@ const FaqHeader = () => {
         in process: faq
       </h1>
       <div className="font-spectral italic lowercase text-left md:text-right mt-4 text-[16px] leading-[100%] md:text-[24px] font-medium tracking-[-0.05em] text-[#1b1504] md:text-[#4e4e4e]">
-        a collective timeline for creative culture onchain
+        a collective timeline for creative culture
       </div>
       <div className="flex justify-center md:mt-10 mt-5 md:hidden">
         <Image
