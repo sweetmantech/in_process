@@ -1,5 +1,4 @@
-import { sendMessage } from "@/lib/telegram/sendMessage";
-import { sendPhoto, sendDocument, sendVideo } from "@/lib/telegram/sendMedia";
+import { sendMessageOrAttachment } from "@/lib/telegram/sendMessageAttachment";
 import { NextRequest } from "next/server";
 import { Address } from "viem";
 
@@ -20,22 +19,16 @@ export async function POST(req: NextRequest) {
       ? `New Feedback\n\nName: ${name}\n\nWallet: ${wallet}\n\nMessage:\n${feedback}`
       : `New Feedback\n\nName: ${name}\n\nMessage:\n${feedback}`;
 
-    // Handle media upload if present
-    if (mediaFile) {
-      const buffer = Buffer.from(await mediaFile.arrayBuffer());
-      const mimeType = mediaFile.type;
-      const filename = mediaFile.name;
+    const attachment = mediaFile
+      ? {
+          buffer: Buffer.from(await mediaFile.arrayBuffer()),
+          filename: mediaFile.name,
+          mimeType: mediaFile.type,
+          caption: message,
+        }
+      : undefined;
 
-      if (mimeType.startsWith("image/")) {
-        await sendPhoto(buffer, message);
-      } else if (mimeType.startsWith("video/")) {
-        await sendVideo(buffer, message);
-      } else {
-        await sendDocument(buffer, filename, message);
-      }
-    } else {
-      await sendMessage(message);
-    }
+    await sendMessageOrAttachment(message, attachment);
 
     return Response.json({ success: true });
   } catch (e: any) {
