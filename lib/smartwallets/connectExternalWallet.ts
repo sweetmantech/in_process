@@ -1,10 +1,10 @@
 import { Address } from "viem";
 
-const connectExternalWallet = async (account: Address, external_wallet: Address) => {
+const connectExternalWallet = async (smart_wallet: Address, external_wallet: Address) => {
   const response = await fetch(`/api/smartwallet/connect`, {
     method: "POST",
     body: JSON.stringify({
-      account,
+      smart_wallet,
       external_wallet,
     }),
   });
