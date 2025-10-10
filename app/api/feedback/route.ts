@@ -1,4 +1,4 @@
-import { sendMessageOrAttachment } from "@/lib/telegram/sendMessageAttachment";
+import { sendMessageOrAttachment } from "@/lib/telegram/sendMessageOrAttachment";
 import { NextRequest } from "next/server";
 import { Address } from "viem";
 

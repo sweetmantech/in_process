@@ -1,4 +1,3 @@
-import { sendMessage } from "./sendMessage";
 import { sendPhoto } from "./sendPhoto";
 import { sendDocument } from "./sendDocument";
 import { sendVideo } from "./sendVideo";
@@ -16,7 +15,7 @@ export interface RawMediaFile {
   type: string;
 }
 
-export const sendMessageWithAttachment = async (attachment: MessageAttachment): Promise<void> => {
+export const sendMessageAttachment = async (attachment: MessageAttachment): Promise<void> => {
   const { buffer, filename, mimeType, caption } = attachment;
 
   if (mimeType.startsWith("image/")) {
@@ -25,23 +24,5 @@ export const sendMessageWithAttachment = async (attachment: MessageAttachment): 
     await sendVideo(buffer, caption);
   } else {
     await sendDocument(buffer, filename || "attachment", caption);
-  }
-};
-
-export const sendMessageOrAttachment = async (
-  message: string,
-  mediaFile?: RawMediaFile | null
-): Promise<void> => {
-  if (mediaFile) {
-    const buffer = Buffer.from(await mediaFile.arrayBuffer());
-    const attachment: MessageAttachment = {
-      buffer,
-      filename: mediaFile.name,
-      mimeType: mediaFile.type,
-      caption: message,
-    };
-    await sendMessageWithAttachment(attachment);
-  } else {
-    await sendMessage(message);
   }
 };
