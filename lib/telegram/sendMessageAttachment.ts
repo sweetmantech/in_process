@@ -1,5 +1,7 @@
 import { sendMessage } from "./sendMessage";
-import { sendPhoto, sendDocument, sendVideo } from "./sendMedia";
+import { sendPhoto } from "./sendPhoto";
+import { sendDocument } from "./sendDocument";
+import { sendVideo } from "./sendVideo";
 
 export interface MessageAttachment {
   buffer: Buffer;
