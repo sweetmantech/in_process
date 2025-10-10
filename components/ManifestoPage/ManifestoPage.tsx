@@ -49,7 +49,7 @@ The stream is silent without our sound.
 The feed is nothing but a blinking cursor, waiting on us to move.
 Yet they hold the archive hostage.
 Rewrite history in real time.
-Bury what doesn&rsquo;t fit their metrics.
+Bury what doesn't fit their metrics.
 And call it discovery.
 We refuse.
 
