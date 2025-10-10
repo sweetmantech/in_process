@@ -19,16 +19,7 @@ export async function POST(req: NextRequest) {
       ? `New Feedback\n\nName: ${name}\n\nWallet: ${wallet}\n\nMessage:\n${feedback}`
       : `New Feedback\n\nName: ${name}\n\nMessage:\n${feedback}`;
 
-    const attachment = mediaFile
-      ? {
-          buffer: Buffer.from(await mediaFile.arrayBuffer()),
-          filename: mediaFile.name,
-          mimeType: mediaFile.type,
-          caption: message,
-        }
-      : undefined;
-
-    await sendMessageOrAttachment(message, attachment);
+    await sendMessageOrAttachment(message, mediaFile);
 
     return Response.json({ success: true });
   } catch (e: any) {

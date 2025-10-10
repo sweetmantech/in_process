@@ -8,6 +8,12 @@ export interface MessageAttachment {
   caption: string;
 }
 
+export interface RawMediaFile {
+  arrayBuffer(): Promise<ArrayBuffer>;
+  name: string;
+  type: string;
+}
+
 export const sendMessageWithAttachment = async (attachment: MessageAttachment): Promise<void> => {
   const { buffer, filename, mimeType, caption } = attachment;
 
@@ -22,9 +28,16 @@ export const sendMessageWithAttachment = async (attachment: MessageAttachment): 
 
 export const sendMessageOrAttachment = async (
   message: string,
-  attachment?: MessageAttachment
+  mediaFile?: RawMediaFile | null
 ): Promise<void> => {
-  if (attachment) {
+  if (mediaFile) {
+    const buffer = Buffer.from(await mediaFile.arrayBuffer());
+    const attachment: MessageAttachment = {
+      buffer,
+      filename: mediaFile.name,
+      mimeType: mediaFile.type,
+      caption: message,
+    };
     await sendMessageWithAttachment(attachment);
   } else {
     await sendMessage(message);
