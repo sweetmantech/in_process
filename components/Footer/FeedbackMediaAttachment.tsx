@@ -80,7 +80,6 @@ const FeedbackMediaAttachment = ({
         {mediaFile ? "change media" : "click to add media"}
       </label>
 
-      {/* Media Preview */}
       {mediaPreview && mediaFile && (
         <div className="mt-2 relative">
           {renderMediaPreview()}
