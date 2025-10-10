@@ -1,7 +1,7 @@
 import { useMetadata } from "@/hooks/useMetadata";
 import { useRouter } from "next/navigation";
 import truncateAddress from "@/lib/truncateAddress";
-import { TimelineMoment } from "@/hooks/useTimelineApi";
+import { type TimelineMoment } from "@/lib/timeline/fetchTimeline";
 import truncated from "@/lib/truncated";
 
 const TimelineTableRow = ({ moment }: { moment: TimelineMoment }) => {

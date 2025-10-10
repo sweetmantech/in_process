@@ -1,7 +1,8 @@
 "use client";
 
 import { createContext, useContext, ReactNode } from "react";
-import { useTimelineApi, TimelineMoment, TimelineResponse } from "@/hooks/useTimelineApi";
+import { useTimelineApi } from "@/hooks/useTimelineApi";
+import { TimelineMoment, TimelineResponse } from "@/lib/timeline/fetchTimeline";
 
 interface TimelineContextValue {
   data: TimelineResponse | undefined;
@@ -10,6 +11,7 @@ interface TimelineContextValue {
   error: unknown;
   currentPage: number;
   setCurrentPage: (page: number) => void;
+  fetchMore: () => void;
 }
 
 const TimelineContext = createContext<TimelineContextValue | undefined>(undefined);
@@ -23,7 +25,7 @@ export const TimelineApiProvider = ({
   artistAddress?: string;
   includeHidden?: boolean;
 }) => {
-  const { data, isLoading, error, currentPage, setCurrentPage } = useTimelineApi(
+  const { data, isLoading, error, currentPage, setCurrentPage, fetchMore } = useTimelineApi(
     1,
     100,
     true,
@@ -31,17 +33,18 @@ export const TimelineApiProvider = ({
     includeHidden
   );
 
-  const reversedMoments = data?.moments ? [...data.moments] : [];
+  const moments = data?.moments || [];
 
   return (
     <TimelineContext.Provider
       value={{
         data,
-        moments: reversedMoments,
+        moments,
         isLoading,
         error,
         currentPage,
         setCurrentPage,
+        fetchMore,
       }}
     >
       {children}

@@ -6,7 +6,7 @@ import { getShortNetworkName } from "@/lib/zora/zoraToViem";
 import { useRouter } from "next/navigation";
 import truncated from "@/lib/truncated";
 import HideButton from "../HorizontalFeed/HideButton";
-import { TimelineMoment } from "@/hooks/useTimelineApi";
+import { type TimelineMoment } from "@/lib/timeline/fetchTimeline";
 
 const CollectionItem = ({ c }: { c: TimelineMoment }) => {
   const { data, isLoading } = useMetadata(c.uri);
