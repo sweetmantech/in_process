@@ -14,8 +14,7 @@ const getArtistProfile = async (address: string) => {
   };
   try {
     const profile = await getProfile(address as Address);
-    if (profile)
-      return profile
+    if (profile) return profile;
     const zora = await getZoraProfile(address as Address);
     if (zora)
       return {
