@@ -13,7 +13,7 @@ export async function GET(req: NextRequest) {
     });
   } catch (e: any) {
     console.log(e);
-    const message = e?.message ?? "failed to create collection";
+    const message = e?.message ?? "failed to get external wallet.";
     return Response.json({ message }, { status: 500 });
   }
 }
