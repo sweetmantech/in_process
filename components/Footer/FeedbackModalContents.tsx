@@ -8,8 +8,8 @@ import {
 import { Label } from "@/components/ui/label";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { UseSubmitFeedbackReturn } from "@/hooks/useSubmitFeedback";
-import { useState } from "react";
 import { toast } from "sonner";
+import FeedbackMediaAttachment from "./FeedbackMediaAttachment";
 
 interface FeedbackModalContentsProps {
   submitFeedbackHook: UseSubmitFeedbackReturn;
@@ -28,7 +28,6 @@ const FeedbackModalContents = ({ submitFeedbackHook }: FeedbackModalContentsProp
     mediaPreview,
     setMediaPreview,
   } = submitFeedbackHook;
-  const [isUploading, setIsUploading] = useState(false);
 
   return (
     <DialogPortal>
@@ -108,40 +107,18 @@ const FeedbackModalContents = ({ submitFeedbackHook }: FeedbackModalContentsProp
             htmlFor="media-upload"
             className="cursor-pointer bg-grey-moss-50 w-full p-3 font-spectral border border-black border-dashed flex items-center justify-center text-grey-moss-600 hover:bg-grey-moss-100 transition-colors"
           >
-            {isUploading ? "uploading..." : mediaFile ? "change media" : "click to add media"}
+            {mediaFile ? "change media" : "click to add media"}
           </label>
 
-          {/* Media Preview */}
           {mediaPreview && mediaFile && (
-            <div className="mt-2 relative">
-              {mediaFile.type.startsWith("image/") ? (
-                <img
-                  src={mediaPreview}
-                  alt="Preview"
-                  className="w-full h-32 object-cover border border-black"
-                />
-              ) : mediaFile.type.startsWith("video/") ? (
-                <video
-                  src={mediaPreview}
-                  className="w-full h-32 object-cover border border-black"
-                  controls
-                />
-              ) : (
-                <div className="w-full h-32 bg-grey-moss-50 border border-black flex items-center justify-center">
-                  <span className="font-spectral text-sm">{mediaFile.name}</span>
-                </div>
-              )}
-              <button
-                type="button"
-                onClick={() => {
-                  setMediaFile(null);
-                  setMediaPreview(null);
-                }}
-                className="absolute top-1 right-1 w-6 h-6 bg-black text-white rounded-full flex items-center justify-center text-xs hover:bg-grey-moss-300"
-              >
-                ×
-              </button>
-            </div>
+            <FeedbackMediaAttachment
+              mediaFile={mediaFile}
+              mediaPreview={mediaPreview}
+              onRemove={() => {
+                setMediaFile(null);
+                setMediaPreview(null);
+              }}
+            />
           )}
         </div>
 
