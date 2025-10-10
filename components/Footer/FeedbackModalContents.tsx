@@ -8,13 +8,27 @@ import {
 import { Label } from "@/components/ui/label";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { UseSubmitFeedbackReturn } from "@/hooks/useSubmitFeedback";
+import { useState } from "react";
+import { toast } from "sonner";
 
 interface FeedbackModalContentsProps {
   submitFeedbackHook: UseSubmitFeedbackReturn;
 }
 
 const FeedbackModalContents = ({ submitFeedbackHook }: FeedbackModalContentsProps) => {
-  const { feedback, setFeedback, name, setName, isLoading, submit } = submitFeedbackHook;
+  const {
+    feedback,
+    setFeedback,
+    name,
+    setName,
+    isLoading,
+    submit,
+    mediaFile,
+    setMediaFile,
+    mediaPreview,
+    setMediaPreview,
+  } = submitFeedbackHook;
+  const [isUploading, setIsUploading] = useState(false);
 
   return (
     <DialogPortal>
@@ -66,6 +80,71 @@ const FeedbackModalContents = ({ submitFeedbackHook }: FeedbackModalContentsProp
           onChange={(e) => setFeedback(e.target.value)}
           required
         />
+
+        {/* Media Upload Field */}
+        <Label className="pt-3 font-archivo text-sm text-left w-full mb-1 text-grey-moss-600">
+          add media (optional)
+        </Label>
+        <div className="w-full mb-3">
+          <input
+            type="file"
+            accept="image/*,video/*,.pdf,.doc,.docx,.txt"
+            className="hidden"
+            id="media-upload"
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (file) {
+                if (file.size > 50 * 1024 * 1024) {
+                  // 50MB limit
+                  toast.error("File size must be less than 50MB");
+                  return;
+                }
+                setMediaFile(file);
+                setMediaPreview(URL.createObjectURL(file));
+              }
+            }}
+          />
+          <label
+            htmlFor="media-upload"
+            className="cursor-pointer bg-grey-moss-50 w-full p-3 font-spectral border border-black border-dashed flex items-center justify-center text-grey-moss-600 hover:bg-grey-moss-100 transition-colors"
+          >
+            {isUploading ? "uploading..." : mediaFile ? "change media" : "click to add media"}
+          </label>
+
+          {/* Media Preview */}
+          {mediaPreview && mediaFile && (
+            <div className="mt-2 relative">
+              {mediaFile.type.startsWith("image/") ? (
+                <img
+                  src={mediaPreview}
+                  alt="Preview"
+                  className="w-full h-32 object-cover border border-black"
+                />
+              ) : mediaFile.type.startsWith("video/") ? (
+                <video
+                  src={mediaPreview}
+                  className="w-full h-32 object-cover border border-black"
+                  controls
+                />
+              ) : (
+                <div className="w-full h-32 bg-grey-moss-50 border border-black flex items-center justify-center">
+                  <span className="font-spectral text-sm">{mediaFile.name}</span>
+                </div>
+              )}
+              <button
+                type="button"
+                onClick={() => {
+                  setMediaFile(null);
+                  setMediaPreview(null);
+                }}
+                className="absolute top-1 right-1 w-6 h-6 bg-black text-white rounded-full flex items-center justify-center text-xs hover:bg-grey-moss-300"
+              >
+                ×
+              </button>
+            </div>
+          )}
+        </div>
+
         <div className="w-full ">
           <button
             type="button"
