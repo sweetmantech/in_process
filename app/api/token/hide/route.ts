@@ -2,7 +2,7 @@ import { NextRequest } from "next/server";
 import { getInProcessTokens } from "@/lib/supabase/in_process_tokens/getInProcessTokens";
 import { updateInProcessTokens } from "@/lib/supabase/in_process_tokens/updateInProcessTokens";
 import { CHAIN_ID } from "@/lib/consts";
-import { TimelineMoment } from "@/hooks/useTimelineApi";
+import { type TimelineMoment } from "@/lib/timeline/fetchTimeline";
 import { Address } from "viem";
 
 export async function POST(req: NextRequest) {

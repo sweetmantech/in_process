@@ -1,5 +1,5 @@
 import { Token } from "@/types/token";
-import { TimelineMoment } from "@/hooks/useTimelineApi";
+import { type TimelineMoment } from "@/lib/timeline/fetchTimeline";
 import { CHAIN } from "@/lib/consts";
 
 // Maps a TimelineMoment to a Token for spiral/feed compatibility
