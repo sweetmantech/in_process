@@ -1,4 +1,5 @@
 import connectExternalWallet from "@/lib/smartwallets/connectExternalWallet";
+import getSmartWallet from "@/lib/smartwallets/getSmartWallet";
 import { useUserProvider } from "@/providers/UserProvider";
 import { useConnectWallet } from "@privy-io/react-auth";
 import { Fragment } from "react";
@@ -8,7 +9,8 @@ const ConnectButton = () => {
   const { connectedAddress, email } = useUserProvider();
   const { connectWallet } = useConnectWallet({
     onSuccess: async ({ wallet }) => {
-      connectExternalWallet(connectedAddress as Address, wallet.address as Address);
+      const smartWalletAddress = await getSmartWallet(connectedAddress as Address);
+      connectExternalWallet(smartWalletAddress, wallet.address as Address);
     },
   });
 
