@@ -1,7 +1,7 @@
 import { supabase } from "@/lib/supabase/client";
 import { Address } from "viem";
 
-export async function connectSmartWalletToArtist({
+export async function insertArtistSmartWallet({
   artist_address,
   smart_wallet_address,
 }: {

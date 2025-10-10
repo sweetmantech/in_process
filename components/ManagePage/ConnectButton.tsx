@@ -1,4 +1,4 @@
-import connectExternalWallet from "@/lib/connectExternalWallet";
+import connectExternalWallet from "@/lib/smartwallets/connectExternalWallet";
 import { useUserProvider } from "@/providers/UserProvider";
 import { useConnectWallet } from "@privy-io/react-auth";
 import { Fragment } from "react";
