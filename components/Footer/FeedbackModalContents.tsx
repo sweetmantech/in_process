@@ -8,13 +8,25 @@ import {
 import { Label } from "@/components/ui/label";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { UseSubmitFeedbackReturn } from "@/hooks/useSubmitFeedback";
+import FeedbackMediaAttachment from "./FeedbackMediaAttachment";
 
 interface FeedbackModalContentsProps {
   submitFeedbackHook: UseSubmitFeedbackReturn;
 }
 
 const FeedbackModalContents = ({ submitFeedbackHook }: FeedbackModalContentsProps) => {
-  const { feedback, setFeedback, name, setName, isLoading, submit } = submitFeedbackHook;
+  const {
+    feedback,
+    setFeedback,
+    name,
+    setName,
+    isLoading,
+    submit,
+    mediaFile,
+    setMediaFile,
+    mediaPreview,
+    setMediaPreview,
+  } = submitFeedbackHook;
 
   return (
     <DialogPortal>
@@ -66,6 +78,16 @@ const FeedbackModalContents = ({ submitFeedbackHook }: FeedbackModalContentsProp
           onChange={(e) => setFeedback(e.target.value)}
           required
         />
+
+        <FeedbackMediaAttachment
+          mediaFile={mediaFile}
+          mediaPreview={mediaPreview}
+          onMediaChange={(file, preview) => {
+            setMediaFile(file);
+            setMediaPreview(preview);
+          }}
+        />
+
         <div className="w-full ">
           <button
             type="button"

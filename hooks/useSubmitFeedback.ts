@@ -11,6 +11,10 @@ export type UseSubmitFeedbackReturn = {
   feedback: string;
   setName: (value: string) => void;
   name: string;
+  setMediaFile: (file: File | null) => void;
+  mediaFile: File | null;
+  setMediaPreview: (url: string | null) => void;
+  mediaPreview: string | null;
 };
 
 const useSubmitFeedback = (): UseSubmitFeedbackReturn => {
@@ -18,6 +22,8 @@ const useSubmitFeedback = (): UseSubmitFeedbackReturn => {
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const [feedback, setFeedback] = useState<string>("");
   const [name, setName] = useState<string>("");
+  const [mediaFile, setMediaFile] = useState<File | null>(null);
+  const [mediaPreview, setMediaPreview] = useState<string | null>(null);
   const { connectedWallet } = useConnectedWallet();
 
   const submit = async () => {
@@ -26,9 +32,11 @@ const useSubmitFeedback = (): UseSubmitFeedbackReturn => {
     }
     setIsLoading(true);
 
-    await submitFeedback(feedback, name, connectedWallet);
+    await submitFeedback(feedback, name, connectedWallet, mediaFile);
     setFeedback("");
     setName("");
+    setMediaFile(null);
+    setMediaPreview(null);
     setIsOpenModal(false);
     setIsLoading(false);
   };
@@ -42,6 +50,10 @@ const useSubmitFeedback = (): UseSubmitFeedbackReturn => {
     feedback,
     setName,
     name,
+    setMediaFile,
+    mediaFile,
+    setMediaPreview,
+    mediaPreview,
   };
 };
 
