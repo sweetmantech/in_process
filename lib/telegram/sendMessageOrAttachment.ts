@@ -9,8 +9,6 @@ export const sendMessageOrAttachment = async (
     const buffer = Buffer.from(await mediaFile.arrayBuffer());
     const attachment = {
       buffer,
-      filename: mediaFile.name,
-      mimeType: mediaFile.type,
       caption: message,
     };
     await sendMessageAttachment(attachment);

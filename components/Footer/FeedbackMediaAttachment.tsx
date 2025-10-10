@@ -28,37 +28,6 @@ const FeedbackMediaAttachment = ({
     onMediaChange(null, null);
   };
 
-  const renderMediaPreview = () => {
-    if (!mediaFile || !mediaPreview) return null;
-
-    if (mediaFile.type.startsWith("image/")) {
-      return (
-        <img
-          src={mediaPreview}
-          alt="Preview"
-          className="w-full h-32 object-cover border border-black"
-        />
-      );
-    }
-
-    if (mediaFile.type.startsWith("video/")) {
-      return (
-        <video
-          src={mediaPreview}
-          className="w-full h-32 object-cover border border-black"
-          controls
-        />
-      );
-    }
-
-    // Default case for documents and other file types
-    return (
-      <div className="w-full h-32 bg-grey-moss-50 border border-black flex items-center justify-center">
-        <span className="font-spectral text-sm">{mediaFile.name}</span>
-      </div>
-    );
-  };
-
   return (
     <div className="w-full mb-3">
       <Label className="pt-3 font-archivo text-sm text-left w-full mb-1 text-grey-moss-600">
@@ -67,7 +36,7 @@ const FeedbackMediaAttachment = ({
 
       <input
         type="file"
-        accept="image/*,video/*,.pdf,.doc,.docx,.txt"
+        accept="image/*"
         className="hidden"
         id="media-upload"
         onChange={handleFileChange}
@@ -82,7 +51,13 @@ const FeedbackMediaAttachment = ({
 
       {mediaPreview && mediaFile && (
         <div className="mt-2 relative">
-          {renderMediaPreview()}
+          {mediaFile && mediaPreview && (
+            <img
+              src={mediaPreview}
+              alt="Preview"
+              className="w-full h-32 object-cover border border-black"
+            />
+          )}
           <button
             type="button"
             onClick={handleRemove}
