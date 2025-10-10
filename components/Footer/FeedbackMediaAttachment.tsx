@@ -1,4 +1,5 @@
 import { Label } from "@/components/ui/label";
+import { TELEGRAM_MAX_FILE_SIZE } from "@/lib/consts";
 import { toast } from "sonner";
 
 interface FeedbackMediaAttachmentProps {
@@ -15,8 +16,7 @@ const FeedbackMediaAttachment = ({
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      if (file.size > 50 * 1024 * 1024) {
-        // 50MB limit
+      if (file.size > TELEGRAM_MAX_FILE_SIZE) {
         toast.error("File size must be less than 50MB");
         return;
       }
