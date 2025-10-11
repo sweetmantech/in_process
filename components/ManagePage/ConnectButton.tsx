@@ -4,6 +4,7 @@ import { useUserProvider } from "@/providers/UserProvider";
 import { useConnectWallet } from "@privy-io/react-auth";
 import { Fragment, useState } from "react";
 import { Address } from "viem";
+import CopyButton from "../CopyButton";
 
 const ConnectButton = () => {
   const { smartWalletAddress, email, fetchAddresses, externalWallet } = useUserProvider();
@@ -15,7 +16,7 @@ const ConnectButton = () => {
       if (!smartWalletAddress) return;
       setIsLoading(true);
       await connectExternalWallet(smartWalletAddress, wallet.address as Address);
-      fetchAddresses();
+      await fetchAddresses();
       setIsLoading(false);
     },
   });
@@ -24,20 +25,23 @@ const ConnectButton = () => {
     if (!smartWalletAddress || !externalWallet) return;
     setIsLoading(true);
     await disconnectExternalWallet(smartWalletAddress, externalWallet);
-    fetchAddresses();
+    await fetchAddresses();
     setIsLoading(false);
   };
 
   if (!email || !smartWalletAddress) return <Fragment />;
 
   return (
-    <button
-      disabled={isLoading}
-      onClick={isConnected ? disconnect : connectWallet}
-      className="self-end px-4 py-2 rounded-md flex items-center gap-2 bg-grey-moss-900 font-archivo text-grey-eggshell hover:bg-grey-eggshell hover:text-grey-moss-900"
-    >
-      {isLoading ? `${buttonText}ing...` : buttonText}
-    </button>
+    <div className="flex flex-col gap-2">
+      {isConnected && <CopyButton address={externalWallet as Address} />}
+      <button
+        disabled={isLoading}
+        onClick={isConnected ? disconnect : connectWallet}
+        className="self-end w-full px-3 py-2 rounded-md flex justify-center items-center gap-2 bg-grey-moss-900 font-archivo text-grey-eggshell hover:bg-grey-eggshell hover:text-grey-moss-900"
+      >
+        {isLoading ? `${buttonText}ing...` : buttonText}
+      </button>
+    </div>
   );
 };
 
