@@ -1,16 +1,21 @@
+import useSmartWallets from "@/hooks/useSmartWallets";
 import useUser from "@/hooks/useUser";
 import { createContext, useMemo, useContext } from "react";
 
-const UserContext = createContext<ReturnType<typeof useUser>>({} as ReturnType<typeof useUser>);
+const UserContext = createContext<ReturnType<typeof useUser> & ReturnType<typeof useSmartWallets>>(
+  {} as ReturnType<typeof useUser> & ReturnType<typeof useSmartWallets>
+);
 
 const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const user = useUser();
+  const smartWallets = useSmartWallets();
 
   const value = useMemo(
     () => ({
       ...user,
+      ...smartWallets,
     }),
-    [user]
+    [user, smartWallets]
   );
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

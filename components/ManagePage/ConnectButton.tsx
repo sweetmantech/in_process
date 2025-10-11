@@ -7,6 +7,8 @@ import { Address } from "viem";
 
 const ConnectButton = () => {
   const { smartWalletAddress, email, fetchAddresses, externalWallet } = useUserProvider();
+  const isConnected = Boolean(externalWallet);
+  const buttonText = isConnected ? "disconnect" : "connect";
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { connectWallet } = useConnectWallet({
     onSuccess: async ({ wallet }) => {
@@ -28,24 +30,13 @@ const ConnectButton = () => {
 
   if (!email || !smartWalletAddress) return <Fragment />;
 
-  if (externalWallet)
-    return (
-      <button
-        disabled={isLoading}
-        onClick={disconnect}
-        className="self-end px-4 py-2 rounded-md flex items-center gap-2 bg-grey-moss-900 font-archivo text-grey-eggshell hover:bg-grey-eggshell hover:text-grey-moss-900"
-      >
-        {isLoading ? "disconnecting..." : "disconnect"}
-      </button>
-    );
-
   return (
     <button
       disabled={isLoading}
-      onClick={connectWallet}
+      onClick={isConnected ? disconnect : connectWallet}
       className="self-end px-4 py-2 rounded-md flex items-center gap-2 bg-grey-moss-900 font-archivo text-grey-eggshell hover:bg-grey-eggshell hover:text-grey-moss-900"
     >
-      {isLoading ? "connecting..." : "connect"}
+      {isLoading ? `${buttonText}ing...` : buttonText}
     </button>
   );
 };
