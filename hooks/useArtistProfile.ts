@@ -1,6 +1,5 @@
 import fetchArtistProfile from "@/lib/fetchArtistProfile";
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "next/navigation";
 import { Address } from "viem";
 
 export function useArtistProfile(address?: Address) {
