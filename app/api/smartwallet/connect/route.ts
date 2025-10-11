@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
     }
     const { error } = await insertArtistSmartWallet({
       artist_address: external_wallet_address,
-      smart_wallet_address: smart_wallet_address,
+      smart_wallet_address,
     });
     if (error) throw new Error();
     return Response.json({ success: true });
