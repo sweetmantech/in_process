@@ -20,8 +20,10 @@ const ConnectButton = () => {
 
   const disconnect = async () => {
     if (!smartWalletAddress || !externalWallet) return;
+    setIsLoading(true);
     await disconnectExternalWallet(smartWalletAddress, externalWallet);
     fetchAddresses();
+    setIsLoading(false);
   };
 
   if (!email || !smartWalletAddress) return <Fragment />;
@@ -29,6 +31,7 @@ const ConnectButton = () => {
   if (externalWallet)
     return (
       <button
+        disabled={isLoading}
         onClick={disconnect}
         className="self-end px-4 py-2 rounded-md flex items-center gap-2 bg-grey-moss-900 font-archivo text-grey-eggshell hover:bg-grey-eggshell hover:text-grey-moss-900"
       >
@@ -38,6 +41,7 @@ const ConnectButton = () => {
 
   return (
     <button
+      disabled={isLoading}
       onClick={connectWallet}
       className="self-end px-4 py-2 rounded-md flex items-center gap-2 bg-grey-moss-900 font-archivo text-grey-eggshell hover:bg-grey-eggshell hover:text-grey-moss-900"
     >
