@@ -5,9 +5,9 @@ import ProfileProvider from "@/providers/ProfileProvider";
 import { useUserProvider } from "@/providers/UserProvider";
 
 const Account = () => {
-  const { connectedAddress } = useUserProvider();
+  const { connectedAddress, externalWallet } = useUserProvider();
   return (
-    <ProfileProvider address={connectedAddress}>
+    <ProfileProvider address={externalWallet || connectedAddress}>
       <AccountPage />
     </ProfileProvider>
   );
