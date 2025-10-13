@@ -1,11 +1,11 @@
 import { Address, encodeFunctionData, Hash, parseEventLogs, ParseEventLogsReturnType } from "viem";
 import { z } from "zod";
-import cdp from "@/lib/coinbase/client";
 import { CHAIN_ID, IS_TESTNET } from "@/lib/consts";
 import { createMomentSchema } from "@/lib/coinbase/createContractSchema";
 import { create1155 } from "@/lib/zora/create1155";
 import { sendUserOperation } from "@/lib/coinbase/sendUserOperation";
 import { zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
+import { getOrCreateSmartWallet } from "./getOrCreateSmartWallet";
 
 export type CreateMomentContractInput = z.infer<typeof createMomentSchema>;
 
@@ -25,11 +25,10 @@ export async function createContract({
   token,
   account,
 }: CreateMomentContractInput): Promise<CreateContractResult> {
-  // Create a new EOA
-  const evmAccount = await cdp.evm.createAccount();
-
   // Create a smart account (contract wallet)
-  const smartAccount = await cdp.evm.createSmartAccount({ owner: evmAccount });
+  const smartAccount = await getOrCreateSmartWallet({
+    address: account as Address,
+  });
 
   // Use the protocol SDK to generate calldata
   const { parameters } = await create1155({
