@@ -1,10 +1,9 @@
 import { Address, encodeFunctionData } from "viem";
 import { SalesConfigParamsType } from "@/lib/protocolSdk";
 import { getCreatorClient } from "@/lib/zora/getCreatorClient";
-import { CHAIN_ID, PERMISSION_BIT_ADMIN } from "@/lib/consts";
+import { CHAIN_ID } from "@/lib/consts";
 import { z } from "zod";
 import { createMomentSchema } from "@/lib/coinbase/createContractSchema";
-import { zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
 
 export type CreateMomentContractInput = z.infer<typeof createMomentSchema> & {
   smartAccount: Address;
@@ -14,7 +13,6 @@ export async function create1155({
   contract,
   token,
   account,
-  smartAccount,
 }: CreateMomentContractInput) {
   const creatorClient = getCreatorClient(CHAIN_ID);
   return creatorClient.create1155({
@@ -35,15 +33,6 @@ export async function create1155({
         saleEnd: BigInt(token.salesConfig.saleEnd),
       } as SalesConfigParamsType,
     },
-    account: account as Address,
-    getAdditionalSetupActions: (args) => {
-      return [
-        encodeFunctionData({
-          abi: zoraCreator1155ImplABI,
-          functionName: "addPermission",
-          args: [args.tokenId, smartAccount, BigInt(PERMISSION_BIT_ADMIN)],
-        }),
-      ];
-    },
+    account: account as Address
   });
 }
