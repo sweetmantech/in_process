@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
       address,
     });
     return Response.json({
-      address: smartAccount.address,
+      address: smartAccount.address.toLowerCase(),
     });
   } catch (e: any) {
     console.log(e);
