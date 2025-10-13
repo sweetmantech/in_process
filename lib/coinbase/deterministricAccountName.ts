@@ -8,7 +8,7 @@ import encodeWithAlphabet from "./encodeWithAlphabet";
  * - Alphabet is the shuffled first `radix` characters of 0-9a-z
  * - Output length clamped to [2..36]
  */
-export function deterministicAccountName(address: string, desiredLength = 12): string {
+export function deterministicAccountName(address: string, desiredLength = 36): string {
   const addr: Address = getAddress(address); // checksum & normalize
   const hex = addr.toLowerCase();
 
