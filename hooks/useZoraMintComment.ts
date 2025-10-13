@@ -1,41 +1,16 @@
 import { useEffect, useState } from "react";
-import { useAccount } from "wagmi";
-import { zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
-import { zoraCreatorFixedPriceSaleStrategyAddress } from "@/lib/protocolSdk/constants";
-import { CHAIN } from "@/lib/consts";
-import { Address, encodeAbiParameters, parseAbiParameters } from "viem";
+import { Address } from "viem";
 import { useTokenProvider } from "@/providers/TokenProvider";
 import { useUserProvider } from "@/providers/UserProvider";
 import { useCrossmintCheckout } from "@crossmint/client-sdk-react-ui";
-import useConnectedWallet from "./useConnectedWallet";
-import { useFrameProvider } from "@/providers/FrameProvider";
 import { toast } from "sonner";
 import { MintType } from "@/types/zora";
 import useUsdcMint from "./useUsdcMint";
 import useNativeMint from "./useNativeMint";
-
-const mintOnSmartWallet = async (parameters: any) => {
-  const response = await fetch(`/api/smartwallet/sendUserOperation`, {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-      accept: "application/json",
-    },
-    body: JSON.stringify({
-      parameters,
-    }),
-  });
-
-  const data = await response.json();
-
-  return data.transactionHash;
-};
+import mintOnSmartWallet from "@/lib/smartwallets/mintOnSmartWallet";
 
 const useZoraMintComment = () => {
   const [isOpenCrossmint, setIsOpenCrossmint] = useState(false);
-  const { connectedWallet } = useConnectedWallet();
-  const { address } = useAccount();
-  const { context } = useFrameProvider();
   const [isLoading, setIsLoading] = useState(false);
   const {
     token,
@@ -47,7 +22,8 @@ const useZoraMintComment = () => {
     setCollected,
     mintCount,
   } = useTokenProvider();
-  const { isPrepared } = useUserProvider();
+  const { isPrepared, externalWallet, connectedAddress } = useUserProvider();
+  const account = externalWallet || connectedAddress;
   const { order } = useCrossmintCheckout();
   const { mintWithUsdc } = useUsdcMint();
   const { mintWithNativeToken } = useNativeMint();
@@ -62,24 +38,16 @@ const useZoraMintComment = () => {
       if (!isPrepared()) return;
       if (!saleConfig) return;
       setIsLoading(true);
-      const account = context ? address : connectedWallet;
-      const minterArguments = encodeAbiParameters(parseAbiParameters("address, string"), [
-        account as Address,
-        comment,
-      ]);
-
       if (saleConfig.pricePerToken === BigInt(0)) {
         await mintOnSmartWallet({
-          address: token.tokenContractAddress,
-          abi: zoraCreator1155ImplABI,
-          functionName: "mint",
-          args: [
-            zoraCreatorFixedPriceSaleStrategyAddress[CHAIN.id],
-            token.tokenId,
-            mintCount,
-            [],
-            minterArguments,
-          ],
+          token: {
+            tokenId: Number(token.tokenId),
+            tokenContractAddress: token.tokenContractAddress,
+          },
+          account: connectedAddress as Address,
+          to: (externalWallet || connectedAddress) as Address,
+          comment,
+          amount: mintCount,
         });
       } else {
         let receipt = null;
