@@ -34,7 +34,8 @@ export async function createContract({
   const { parameters } = await create1155({
     contract,
     token,
-    account
+    account,
+    smartAccount: smartAccount.address,
   });
 
   // Encode the function call data
