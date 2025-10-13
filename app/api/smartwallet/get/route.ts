@@ -1,4 +1,4 @@
-import { getOrCreateAccount } from "@/lib/coinbase/getOrCreateAccount";
+import { getOrCreateSmartWallet } from "@/lib/coinbase/getOrCreateSmartWallet";
 import { NextRequest } from "next/server";
 import { Address } from "viem";
 
@@ -6,11 +6,11 @@ export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const address = searchParams.get("address") as Address;
   try {
-    const smartAccount = await getOrCreateAccount({
+    const smartAccount = await getOrCreateSmartWallet({
       address,
     });
     return Response.json({
-      address: smartAccount.address,
+      address: smartAccount.address.toLowerCase(),
     });
   } catch (e: any) {
     console.log(e);
