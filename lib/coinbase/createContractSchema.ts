@@ -1,11 +1,5 @@
 import { z } from "zod";
-
-// Address schema: type-exact for Viem (0x-prefixed, 40 hex chars)
-export const addressSchema = z
-  .string()
-  .regex(/^0x[a-fA-F0-9]{40}$/)
-  .brand<`0x${string}`>();
-
+import addressSchema from "./addressSchema";
 export const bigIntString = z.union([z.string(), z.number()]).transform((val) => BigInt(val));
 
 export const salesConfigSchema = z.object({
