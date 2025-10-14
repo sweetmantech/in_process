@@ -5,13 +5,10 @@ export async function insertSocialWallet({
   artist_address,
   social_wallet,
 }: Database["public"]["Tables"]["in_process_artist_social_wallets"]["Insert"]) {
-  const { error } = await supabase.from("in_process_artist_social_wallets").upsert(
+  const { error } = await supabase.from("in_process_artist_social_wallets").insert(
     {
       artist_address,
       social_wallet,
-    },
-    {
-      onConflict: "social_wallet",
     }
   );
 

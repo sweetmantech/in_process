@@ -22,7 +22,8 @@ export async function POST(req: NextRequest) {
       artist_address: artist_wallet_address,
       social_wallet: social_wallet_address,
     });
-    if (upsertError || insertError) throw new Error();
+    if (insertError) throw Error('social_wallet is connected already.')
+    if (upsertError) throw Error();
     return Response.json({ success: true });
   } catch (e: any) {
     console.log(e);
