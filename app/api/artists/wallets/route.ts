@@ -12,7 +12,7 @@ export async function GET(req: NextRequest) {
     const { data, error } = await getArtistWallet({
       social_wallet: social_wallet_address as Address
     })
-    if (error) throw new Error()
+    if (error) throw new Error("artist is not connected.")
     return Response.json({
       address: data.artist_address
     });
