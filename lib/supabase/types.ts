@@ -28,25 +28,25 @@ export type Database = {
   };
   public: {
     Tables: {
-      in_process_artist_smart_wallets: {
+      in_process_artist_social_wallets: {
         Row: {
           artist_address: string;
           created_at: string;
-          smart_wallet_address: string;
+          social_wallet: string;
         };
         Insert: {
           artist_address: string;
           created_at?: string;
-          smart_wallet_address: string;
+          social_wallet: string;
         };
         Update: {
           artist_address?: string;
           created_at?: string;
-          smart_wallet_address?: string;
+          social_wallet?: string;
         };
         Relationships: [
           {
-            foreignKeyName: "in_process_artist_smart_wallets_artist_address_fkey";
+            foreignKeyName: "in_process_artist_social_wallets_artist_address_fkey";
             columns: ["artist_address"];
             isOneToOne: false;
             referencedRelation: "in_process_artists";
@@ -60,6 +60,7 @@ export type Database = {
           bio: string | null;
           farcaster_username: string | null;
           instagram_username: string | null;
+          smart_wallet: string | null;
           telegram_username: string | null;
           twitter_username: string | null;
           username: string | null;
@@ -69,6 +70,7 @@ export type Database = {
           bio?: string | null;
           farcaster_username?: string | null;
           instagram_username?: string | null;
+          smart_wallet?: string | null;
           telegram_username?: string | null;
           twitter_username?: string | null;
           username?: string | null;
@@ -78,6 +80,7 @@ export type Database = {
           bio?: string | null;
           farcaster_username?: string | null;
           instagram_username?: string | null;
+          smart_wallet?: string | null;
           telegram_username?: string | null;
           twitter_username?: string | null;
           username?: string | null;
