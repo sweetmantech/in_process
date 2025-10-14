@@ -4,17 +4,18 @@ import { getOrCreateSmartWallet } from "@/lib/coinbase/getOrCreateSmartWallet";
 import { Address } from "viem";
 import { insertSocialWallet } from "@/lib/supabase/in_process_artist_social_wallets/insertSocialWallet";
 import { getArtistWallet } from "@/lib/supabase/in_process_artist_social_wallets/getArtistWallet";
+import { removeSocialWallet } from "@/lib/supabase/in_process_artist_social_wallets/removeSocialWallet";
 
 export async function GET(req: NextRequest) {
   try {
     const social_wallet = req.nextUrl.searchParams.get("social_wallet");
     const social_wallet_address = social_wallet?.toLowerCase();
     const { data, error } = await getArtistWallet({
-      social_wallet: social_wallet_address as Address
-    })
-    if (error) throw new Error("artist is not connected.")
+      social_wallet: social_wallet_address as Address,
+    });
+    if (error) throw new Error("artist is not connected.");
     return Response.json({
-      address: data.artist_address
+      address: data.artist_address,
     });
   } catch (e: any) {
     console.log(e);
@@ -41,12 +42,33 @@ export async function POST(req: NextRequest) {
       artist_address: artist_wallet_address,
       social_wallet: social_wallet_address,
     });
-    if (insertError) throw Error('social_wallet is connected already.')
+    if (insertError) throw Error("social_wallet is connected already.");
     if (upsertError) throw Error();
     return Response.json({ success: true });
   } catch (e: any) {
     console.log(e);
     const message = e?.message ?? "failed to connect.";
+    return Response.json({ message }, { status: 500 });
+  }
+}
+
+export async function DELETE(req: NextRequest) {
+  const body = await req.json();
+  const { artist_wallet, social_wallet } = body;
+  try {
+    const artist_wallet_address = artist_wallet.toLowerCase();
+    const social_wallet_address = social_wallet.toLowerCase();
+    const { error } = await removeSocialWallet({
+      social_wallet: social_wallet_address as Address,
+      artist_address: artist_wallet_address as Address,
+    });
+    if (error) throw new Error("social wallet is not connected.");
+    return Response.json({
+      success: true,
+    });
+  } catch (e: any) {
+    console.log(e);
+    const message = e?.message ?? "failed to disconnect a social wallet";
     return Response.json({ message }, { status: 500 });
   }
 }
