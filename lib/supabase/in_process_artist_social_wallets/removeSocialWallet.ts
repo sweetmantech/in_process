@@ -5,7 +5,7 @@ export async function removeSocialWallet({
   artist_address,
   social_wallet,
 }: Database["public"]["Tables"]["in_process_artist_social_wallets"]["Insert"]) {
-  const { data, error } = await supabase
+  const { error } = await supabase
     .from("in_process_artist_social_wallets")
     .delete()
     .eq("artist_address", artist_address)
