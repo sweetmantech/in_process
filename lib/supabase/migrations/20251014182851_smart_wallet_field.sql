@@ -1,0 +1,1 @@
+alter table "public"."in_process_artists" add column "smart_wallet" text;
