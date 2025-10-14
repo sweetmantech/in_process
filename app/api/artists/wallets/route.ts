@@ -3,6 +3,25 @@ import { NextRequest } from "next/server";
 import { getOrCreateSmartWallet } from "@/lib/coinbase/getOrCreateSmartWallet";
 import { Address } from "viem";
 import { insertSocialWallet } from "@/lib/supabase/in_process_artist_social_wallets/insertSocialWallet";
+import { getArtistWallet } from "@/lib/supabase/in_process_artist_social_wallets/getArtistWallet";
+
+export async function GET(req: NextRequest) {
+  try {
+    const social_wallet = req.nextUrl.searchParams.get("social_wallet");
+    const social_wallet_address = social_wallet?.toLowerCase();
+    const { data, error } = await getArtistWallet({
+      social_wallet: social_wallet_address as Address
+    })
+    if (error) throw new Error("artist is not connected.")
+    return Response.json({
+      address: data.artist_address
+    });
+  } catch (e: any) {
+    console.log(e);
+    const message = e?.message ?? "failed to get an artist wallet.";
+    return Response.json({ message }, { status: 500 });
+  }
+}
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
