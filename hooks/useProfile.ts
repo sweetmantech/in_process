@@ -14,7 +14,7 @@ export const saveIndentify = async ({
   telegram_username,
   twitter_username,
   farcaster_username,
-}: Database["public"]["Tables"]["in_process_artists"]["Row"]) => {
+}: Database["public"]["Tables"]["in_process_artists"]["Insert"]) => {
   await fetch("/api/profile/create", {
     method: "POST",
     headers: {
