@@ -3,11 +3,12 @@
 import AccountPage from "@/components/ManagePage/AccountPage";
 import ProfileProvider from "@/providers/ProfileProvider";
 import { useUserProvider } from "@/providers/UserProvider";
+import { Address } from "viem";
 
 const Account = () => {
-  const { connectedAddress, externalWallet } = useUserProvider();
+  const { artistWallet } = useUserProvider();
   return (
-    <ProfileProvider address={externalWallet || connectedAddress}>
+    <ProfileProvider address={artistWallet as Address}>
       <AccountPage />
     </ProfileProvider>
   );

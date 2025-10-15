@@ -1,31 +1,44 @@
 import { useCallback, useEffect, useState } from "react";
 import getSmartWallet from "@/lib/smartwallets/getSmartWallet";
-import getExternalWallet from "@/lib/smartwallets/getExternalWallet";
 import { Address } from "viem";
-import useSignedAddress from "./useSignedAddress";
+import getArtistWallet from "@/lib/artists/getArtistWallet";
 
-const useSmartWallets = () => {
-  const signedAddress = useSignedAddress();
+const useSmartWallets = ({
+  connectedAddress,
+  isSocialWallet,
+}: {
+  connectedAddress: Address | undefined;
+  isSocialWallet: boolean;
+}) => {
+  const [smartWallet, setSmartWallet] = useState<Address | null>(null);
+  const [artistWallet, setArtistWallet] = useState<Address | null>(null);
 
-  const [smartWalletAddress, setSmartWalletAddress] = useState<Address | undefined>();
-  const [externalWallet, setExternalWallet] = useState<Address | undefined>();
-
-  const fetchAddresses = useCallback(async () => {
-    if (!signedAddress) return;
-    const smartWallet = await getSmartWallet(signedAddress as Address);
-    setSmartWalletAddress(smartWallet.toLowerCase() as Address);
-    const externalWallet = await getExternalWallet(smartWallet);
-    setExternalWallet(externalWallet);
-  }, [signedAddress]);
+  const fetchSmartWallet = useCallback(async () => {
+    if (!connectedAddress) {
+      setSmartWallet(null);
+      setArtistWallet(null);
+      return;
+    }
+    const artistWallet = isSocialWallet
+      ? await getArtistWallet(connectedAddress)
+      : connectedAddress;
+    setArtistWallet(artistWallet);
+    if (!artistWallet) {
+      setSmartWallet(null);
+      return;
+    }
+    const smartWallet = await getSmartWallet(artistWallet);
+    setSmartWallet(smartWallet);
+  }, [connectedAddress, isSocialWallet]);
 
   useEffect(() => {
-    fetchAddresses();
-  }, [fetchAddresses]);
+    fetchSmartWallet();
+  }, [fetchSmartWallet]);
 
   return {
-    smartWalletAddress,
-    externalWallet,
-    fetchAddresses,
+    smartWallet,
+    artistWallet,
+    fetchSmartWallet,
   };
 };
 

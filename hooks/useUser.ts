@@ -16,6 +16,7 @@ const useUser = () => {
   const signedAddress = useSignedAddress();
   const userProfile = useArtistProfile(signedAddress);
   const balances = useBalance();
+  const isSocialWallet = Boolean(context || user?.email?.address);
 
   const isPrepared = () => {
     if (context) {
@@ -37,6 +38,7 @@ const useUser = () => {
     isPrepared,
     profile: userProfile.data,
     connectedAddress: signedAddress,
+    isSocialWallet,
     getProfile: () => userProfile.refetch(),
     balances,
   };
