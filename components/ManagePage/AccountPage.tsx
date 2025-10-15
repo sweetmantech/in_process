@@ -23,12 +23,12 @@ const AccountPage = () => {
     setFarcaster,
     setUserName,
   } = useProfileProvider();
-  const { connectedAddress, externalWallet } = useUserProvider();
+  const { artistWallet } = useUserProvider();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const onSave = async () => {
     setIsLoading(true);
     await saveIndentify({
-      address: (externalWallet || connectedAddress) as string,
+      address: artistWallet as string,
       username,
       bio,
       farcaster_username: farcaster,

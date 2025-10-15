@@ -1,42 +1,41 @@
-import connectExternalWallet from "@/lib/smartwallets/connectExternalWallet";
-import disconnectExternalWallet from "@/lib/smartwallets/disconnectExternalWallet";
+import connectSocialWallet from "@/lib/artists/connectSocialWallet";
 import { useUserProvider } from "@/providers/UserProvider";
 import { useConnectWallet } from "@privy-io/react-auth";
 import { Fragment, useState } from "react";
 import { Address } from "viem";
 import CopyButton from "../CopyButton";
+import disconnectSocialWallet from "@/lib/artists/disconnectSocialWallet";
 
 const ConnectButton = () => {
-  const { smartWalletAddress, email, fetchAddresses, externalWallet } = useUserProvider();
-  const isConnected = Boolean(externalWallet);
-  const buttonText = isConnected ? "disconnect" : "connect";
+  const { artistWallet, fetchSmartWallet, isSocialWallet, connectedAddress } =
+    useUserProvider();
+  const buttonText = artistWallet ? "disconnect" : "connect";
+  
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { connectWallet } = useConnectWallet({
     onSuccess: async ({ wallet }) => {
-      if (!smartWalletAddress) return;
       setIsLoading(true);
-      await connectExternalWallet(smartWalletAddress, wallet.address as Address);
-      await fetchAddresses();
+      await connectSocialWallet(wallet.address as Address, connectedAddress as Address);
+      await fetchSmartWallet();
       setIsLoading(false);
     },
   });
 
   const disconnect = async () => {
-    if (!smartWalletAddress || !externalWallet) return;
     setIsLoading(true);
-    await disconnectExternalWallet(smartWalletAddress, externalWallet);
-    await fetchAddresses();
+    await disconnectSocialWallet(connectedAddress as Address);
+    await fetchSmartWallet();
     setIsLoading(false);
   };
 
-  if (!email || !smartWalletAddress) return <Fragment />;
+  if (!isSocialWallet) return <Fragment />;
 
   return (
     <div className="flex flex-col gap-2">
-      {isConnected && <CopyButton address={externalWallet as Address} />}
+      {artistWallet && <CopyButton address={artistWallet as Address} />}
       <button
         disabled={isLoading}
-        onClick={isConnected ? disconnect : connectWallet}
+        onClick={artistWallet ? disconnect : connectWallet}
         className="self-end w-full px-3 py-2 rounded-md flex justify-center items-center gap-2 bg-grey-moss-900 font-archivo text-grey-eggshell hover:bg-grey-eggshell hover:text-grey-moss-900"
       >
         {isLoading ? `${buttonText}ing...` : buttonText}
