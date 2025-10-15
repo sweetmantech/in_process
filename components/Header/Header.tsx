@@ -17,8 +17,8 @@ const Header = () => {
 
   return (
     <div
-      className={`${isOpenNavbar ? "bg-grey-moss-900" : "bg-grey-moss-100/90"} md:bg-grey-moss-100/90 opacity-99 
-      z-[${Z_BEHIND_PRIVY}] sticky top-0 w-screen`}
+      className={`${isOpenNavbar ? "bg-grey-moss-900" : "bg-grey-moss-100/90"} md:bg-transparent opacity-99 
+      z-[${Z_BEHIND_PRIVY}] w-screen`}
     >
       <div className="flex justify-between items-center px-6 md:px-10 py-8">
         <Logo />
