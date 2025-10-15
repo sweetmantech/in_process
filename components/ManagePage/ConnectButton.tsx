@@ -30,12 +30,12 @@ const ConnectButton = () => {
   if (!isSocialWallet) return <Fragment />;
 
   return (
-    <div className="flex gap-2">
+    <div className="w-full flex flex-col items-end md:justify-end md:flex-row gap-2">
       {artistWallet && <CopyButton address={artistWallet as Address} />}
       <button
         disabled={isLoading}
         onClick={artistWallet ? disconnect : connectWallet}
-        className="self-end min-w-[150px] py-2 rounded-md flex justify-center items-center gap-2 bg-grey-moss-900 font-archivo text-grey-eggshell hover:bg-grey-eggshell hover:text-grey-moss-900"
+        className="w-full md:w-fit md:min-w-[150px] py-2 rounded-md flex justify-center items-center gap-2 bg-grey-moss-900 font-archivo text-grey-eggshell hover:bg-grey-eggshell hover:text-grey-moss-900"
       >
         {isLoading ? `${buttonText}ing...` : buttonText}
       </button>
