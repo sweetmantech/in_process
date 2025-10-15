@@ -34,7 +34,7 @@ const SearchModal = () => {
         className="disabled:cursor-not-allowed disabled:bg-grey-moss-300"
         onClick={() => setIsOpenModal(true)}
       >
-        <button type="button">
+        <button type="button" className="hover:bg-grey-eggshell rounded-md p-2">
           <Image
             src="/search_icon.svg"
             blurDataURL="/search_icon.png"
