@@ -7,10 +7,9 @@ import CopyButton from "../CopyButton";
 import disconnectSocialWallet from "@/lib/artists/disconnectSocialWallet";
 
 const ConnectButton = () => {
-  const { artistWallet, fetchSmartWallet, isSocialWallet, connectedAddress } =
-    useUserProvider();
+  const { artistWallet, fetchSmartWallet, isSocialWallet, connectedAddress } = useUserProvider();
   const buttonText = artistWallet ? "disconnect" : "connect";
-  
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { connectWallet } = useConnectWallet({
     onSuccess: async ({ wallet }) => {
@@ -36,7 +35,7 @@ const ConnectButton = () => {
       <button
         disabled={isLoading}
         onClick={artistWallet ? disconnect : connectWallet}
-        className="self-end w-full px-3 py-2 rounded-md flex justify-center items-center gap-2 bg-grey-moss-900 font-archivo text-grey-eggshell hover:bg-grey-eggshell hover:text-grey-moss-900"
+        className="self-end min-w-[150px] py-2 rounded-md flex justify-center items-center gap-2 bg-grey-moss-900 font-archivo text-grey-eggshell hover:bg-grey-eggshell hover:text-grey-moss-900"
       >
         {isLoading ? `${buttonText}ing...` : buttonText}
       </button>
