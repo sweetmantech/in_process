@@ -6,7 +6,7 @@ export function useArtistProfile(address?: Address) {
   return useQuery({
     queryKey: ["artist_profile", address],
     queryFn: () => fetchArtistProfile(address as Address),
-    staleTime: 1000 * 60 * 5,
+    staleTime: 0,
     enabled: Boolean(address),
     refetchOnMount: true,
   });
