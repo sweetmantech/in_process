@@ -6,7 +6,7 @@ import truncateAddress from "@/lib/truncateAddress";
 import { useUserProvider } from "@/providers/UserProvider";
 import { Database } from "@/lib/supabase/types";
 
-export const saveIndentify = async ({
+export const updateProfile = async ({
   address,
   username,
   bio,
@@ -84,7 +84,7 @@ const useProfile = (artistAddress?: Address) => {
       )
         return;
       setSaving(true);
-      await saveIndentify({
+      await updateProfile({
         address: artistAddress as Address,
         username,
         bio,
