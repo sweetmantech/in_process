@@ -6,9 +6,9 @@ import { useUserProvider } from "@/providers/UserProvider";
 import { Address } from "viem";
 
 const Account = () => {
-  const { artistWallet } = useUserProvider();
+  const { connectedAddress, artistWallet } = useUserProvider();
   return (
-    <ProfileProvider address={artistWallet as Address}>
+    <ProfileProvider address={(artistWallet as Address) || connectedAddress}>
       <AccountPage />
     </ProfileProvider>
   );
