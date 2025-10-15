@@ -30,7 +30,7 @@ const ConnectButton = () => {
   if (!isSocialWallet) return <Fragment />;
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex gap-2">
       {artistWallet && <CopyButton address={artistWallet as Address} />}
       <button
         disabled={isLoading}
