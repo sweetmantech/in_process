@@ -1,25 +1,20 @@
 import { Address } from "viem";
 import { REFERRAL_RECIPIENT } from "@/lib/consts";
-import { useAccount } from "wagmi";
 import getSalesConfig from "@/lib/zora/getSalesConfig";
 import useCreateMetadata from "@/hooks/useCreateMetadata";
-import useConnectedWallet from "./useConnectedWallet";
-import { useFrameProvider } from "@/providers/FrameProvider";
 import getSaleConfigType from "@/lib/getSaleConfigType";
 import useCreateAdvancedValues from "./useCreateAdvancedValues";
+import { useUserProvider } from "@/providers/UserProvider";
 
 const useZoraCreateParameters = (collection?: Address) => {
-  const { connectedWallet } = useConnectedWallet();
-  const { address } = useAccount();
+  const { artistWallet } = useUserProvider();
   const createMetadata = useCreateMetadata();
-  const { context } = useFrameProvider();
   const advancedValues = useCreateAdvancedValues();
 
   // Use priceUnit to determine if USDC
   const isUsdc = createMetadata.priceUnit === "usdc";
 
   const fetchParameters = async () => {
-    const creator = context ? address : connectedWallet;
     const cc0MusicArweaveUri = await createMetadata.getUri();
     if (!createMetadata.name) return;
     const salesConfig = getSalesConfig(
@@ -37,7 +32,7 @@ const useZoraCreateParameters = (collection?: Address) => {
           salesConfig,
           mintToCreatorCount: 1,
         },
-        account: creator as Address,
+        account: artistWallet as Address,
       };
     } else {
       return {
@@ -51,7 +46,7 @@ const useZoraCreateParameters = (collection?: Address) => {
           salesConfig,
           mintToCreatorCount: 1,
         },
-        account: creator as Address,
+        account: artistWallet as Address,
       };
     }
   };
