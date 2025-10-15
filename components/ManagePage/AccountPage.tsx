@@ -105,7 +105,7 @@ const AccountPage = () => {
           </section>
         </>
       )}
-      <section className={cn("flex gap-3 mt-4", artistWallet ? "justify-end" : "justify-start")}>
+      <section className={cn("flex items-end gap-3 mt-4", artistWallet ? "justify-end" : "justify-start")}>
         <ConnectButton />
         {artistWallet && (
           <button
