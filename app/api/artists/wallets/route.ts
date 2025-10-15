@@ -54,13 +54,11 @@ export async function POST(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   const body = await req.json();
-  const { artist_wallet, social_wallet } = body;
+  const { social_wallet } = body;
   try {
-    const artist_wallet_address = artist_wallet.toLowerCase();
     const social_wallet_address = social_wallet.toLowerCase();
     const { error } = await removeSocialWallet({
       social_wallet: social_wallet_address as Address,
-      artist_address: artist_wallet_address as Address,
     });
     if (error) throw new Error("social wallet is not connected.");
     return Response.json({
