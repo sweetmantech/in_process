@@ -100,10 +100,10 @@ const AccountPage = () => {
           </fieldset>
         </div>
       </section>
-      <section className="flex items-end gap-3 mt-4 justify-end">
+      <section className="flex flex-col md:flex-row items-end gap-3 mt-4 justify-end">
         <ConnectButton />
         <button
-          className="mr-4 min-w-[100px] py-2 rounded-md flex items-center justify-center gap-2 bg-grey-moss-900 font-archivo text-grey-eggshell hover:bg-grey-eggshell hover:text-grey-moss-900"
+          className="md:mr-4 w-full md:w-fit md:min-w-[100px] py-2 rounded-md flex items-center justify-center gap-2 bg-grey-moss-900 font-archivo text-grey-eggshell hover:bg-grey-eggshell hover:text-grey-moss-900"
           onClick={onSave}
         >
           {isLoading ? "saving..." : "save"}

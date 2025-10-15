@@ -2,16 +2,14 @@ import { toast } from "sonner";
 import truncateAddress from "@/lib/truncateAddress";
 import { useState } from "react";
 import AnimatedCopyIcon from "./AnimatedCopyIcon";
+import { cn } from "@/lib/utils";
 
 interface CopyButtonProps {
   address: string;
   className?: string;
 }
 
-const CopyButton = ({
-  address,
-  className = "flex gap-2 items-center font-archivo bg-grey-moss-200 text-grey-eggshell hover:text-tan-primary w-fit px-3 py-1 rounded-md",
-}: CopyButtonProps) => {
+const CopyButton = ({ address, className = "" }: CopyButtonProps) => {
   const [isCopied, setIsCopied] = useState(false);
 
   const handleCopy = async () => {
@@ -22,7 +20,14 @@ const CopyButton = ({
   };
 
   return (
-    <button className={className} type="button" onClick={handleCopy}>
+    <button
+      className={cn(
+        "flex gap-2 items-center font-archivo bg-grey-moss-200 text-grey-eggshell hover:text-tan-primary w-fit px-3 py-1 rounded-md",
+        className
+      )}
+      type="button"
+      onClick={handleCopy}
+    >
       {truncateAddress(address)}
       <AnimatedCopyIcon isCopied={isCopied} />
     </button>
