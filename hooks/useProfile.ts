@@ -1,4 +1,3 @@
-import { useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useArtistProfile } from "./useArtistProfile";
 import { Address } from "viem";
@@ -32,20 +31,10 @@ export const updateProfile = async ({
 };
 
 const useProfile = (artistAddress?: Address) => {
-  const usernameRef = useRef() as any;
-  const bioRef = useRef() as any;
-  const statusRef = useRef() as any;
-  const socialRef = useRef() as any;
   const { data, isLoading } = useArtistProfile(artistAddress);
   const [username, setUserName] = useState<string>("");
   const [bio, setBio] = useState<string>("");
-  const searchParams = useSearchParams();
-  const canEdit =
-    artistAddress?.toLowerCase() === new String((artistAddress as string) || "").toLowerCase() &&
-    Boolean(artistAddress);
-  const [isEditing, setIsEditing] = useState<boolean>(false);
   const [saving, setSaving] = useState<boolean>(false);
-  const toggleEditing = () => setIsEditing(!isEditing);
   const [twitter, setTwitter] = useState<string>("");
   const [instagram, setInstagram] = useState<string>("");
   const [farcaster, setFarcaster] = useState<string>("");
@@ -62,50 +51,7 @@ const useProfile = (artistAddress?: Address) => {
     }
   }, [data, artistAddress]);
 
-  useEffect(() => {
-    if (searchParams.get("editing") === "true" && canEdit) {
-      setIsEditing(true);
-    } else {
-      setIsEditing(false);
-    }
-  }, [canEdit, searchParams, artistAddress]);
-
-  useEffect(() => {
-    if (!usernameRef.current || !bioRef.current || !statusRef.current || !socialRef.current) return;
-    if (!isEditing) return;
-    const handleMouseDown = async (e: MouseEvent) => {
-      if (
-        usernameRef.current.contains(e.target) ||
-        bioRef.current.contains(e.target) ||
-        statusRef.current.contains(e.target) ||
-        socialRef.current.contains(e.target)
-      )
-        return;
-      setSaving(true);
-      await updateProfile({
-        address: artistAddress as Address,
-        username,
-        bio,
-        instagram_username: instagram,
-        twitter_username: twitter,
-        farcaster_username: farcaster,
-        telegram_username: telegram,
-      });
-      setTimeout(() => {
-        toggleEditing();
-        setSaving(false);
-      }, 500);
-    };
-
-    document.addEventListener("mousedown", handleMouseDown);
-
-    return () => document.removeEventListener("mousedown", handleMouseDown);
-  }, [isEditing, twitter, instagram, telegram, bio, username]);
-
   return {
-    canEdit,
-    isEditing,
-    toggleEditing,
     username,
     setUserName,
     bio,
@@ -113,16 +59,12 @@ const useProfile = (artistAddress?: Address) => {
     isLoading,
     saving,
     setSaving,
-    usernameRef,
-    bioRef,
-    statusRef,
     twitter,
     telegram,
     instagram,
     setTwitter,
     setTelegram,
     setInstagram,
-    socialRef,
     farcaster,
     setFarcaster,
   };

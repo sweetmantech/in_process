@@ -5,10 +5,10 @@ import FeedHover from "./FeedHover";
 import { useClickTimelineFeed } from "@/hooks/useClickTimelineFeed";
 import truncated from "@/lib/truncated";
 import { useUserProvider } from "@/providers/UserProvider";
-import { useParams } from "next/navigation";
 import { TIMLINE_STEP_OFFSET } from "@/lib/consts";
 import HideButton from "./HideButton";
 import { Address } from "viem";
+import useArtistEditable from "@/hooks/useArtistEditable";
 
 interface FeedProps {
   feed: Token;
@@ -19,13 +19,10 @@ interface FeedProps {
 
 const Feed: FC<FeedProps> = ({ feed, hovered, step, height }) => {
   const { isLoading, data, handleClick, formattedDate } = useClickTimelineFeed(feed);
-  const { connectedAddress } = useUserProvider();
-  const { artistAddress } = useParams();
+  const { connectedAddress, artistWallet } = useUserProvider();
   const [isFadingOut, setIsFadingOut] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
-  const isVisibleHideButton =
-    Boolean(artistAddress) &&
-    Boolean((artistAddress as any).toLowerCase() === connectedAddress?.toLowerCase());
+  const { isEditable } = useArtistEditable();
 
   if (isHidden) return null;
 
@@ -76,7 +73,7 @@ const Feed: FC<FeedProps> = ({ feed, hovered, step, height }) => {
             </div>
           </div>
         </button>
-        {hovered && isVisibleHideButton && (
+        {hovered && isEditable && (
           <div className="flex gap-2 items-center relative translate-y-6 pt-2">
             <p className="font-spectral-italic text-sm md:text-xl">{truncated(data?.name || "")}</p>
             <HideButton
@@ -86,7 +83,7 @@ const Feed: FC<FeedProps> = ({ feed, hovered, step, height }) => {
                 chainId: feed.chainId,
                 id: `${feed.collection}-${feed.tokenId}`,
                 uri: feed.uri,
-                admin: connectedAddress as Address,
+                admin: (artistWallet || connectedAddress) as Address,
                 createdAt: new Date(feed.created_at * 1000).toISOString(),
                 username: feed.username || "",
               }}
