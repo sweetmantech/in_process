@@ -1,35 +1,35 @@
 import useProfile from "@/hooks/useProfile";
-import useSmartWallets from "@/hooks/useSmartWallets";
+import useArtistWallet from "@/hooks/useArtistWallet";
 import useUser from "@/hooks/useUser";
 import { createContext, useMemo, useContext } from "react";
 
 const UserContext = createContext<
   ReturnType<typeof useUser> &
-    ReturnType<typeof useSmartWallets> & {
+    ReturnType<typeof useArtistWallet> & {
       profile: ReturnType<typeof useProfile>;
     }
 >(
   {} as ReturnType<typeof useUser> &
-    ReturnType<typeof useSmartWallets> & {
+    ReturnType<typeof useArtistWallet> & {
       profile: ReturnType<typeof useProfile>;
     }
 );
 
 const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const user = useUser();
-  const smartWallets = useSmartWallets({
+  const artistwallet = useArtistWallet({
     connectedAddress: user.connectedAddress,
     isSocialWallet: user.isSocialWallet,
   });
-  const profile = useProfile(smartWallets.artistWallet || user.connectedAddress);
+  const profile = useProfile(artistwallet.artistWallet || user.connectedAddress);
 
   const value = useMemo(
     () => ({
       ...user,
-      ...smartWallets,
+      ...artistwallet,
       profile,
     }),
-    [user, smartWallets, profile]
+    [user, artistwallet, profile]
   );
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
