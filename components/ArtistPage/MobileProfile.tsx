@@ -3,10 +3,10 @@ import { useProfileProvider } from "@/providers/ProfileProvider";
 import SocialAccounts from "./SocialAccounts";
 import { Skeleton } from "../ui/skeleton";
 import EditingStatus from "./EditingStatus";
+import useArtistEditable from "@/hooks/useArtistEditable";
 
 const MobileProfile = () => {
   const {
-    canEdit,
     isEditing,
     toggleEditing,
     username,
@@ -17,6 +17,7 @@ const MobileProfile = () => {
     usernameRef,
     bioRef,
   } = useProfileProvider();
+  const { isEditable } = useArtistEditable();
 
   if (isEditing)
     return (
@@ -49,7 +50,7 @@ const MobileProfile = () => {
         <p className="text-xl md:text-5xl font-archivo-medium tracking-[-1px]">
           {isLoading ? <Skeleton className="w-[150px] h-12" /> : username}
         </p>
-        {canEdit && !isEditing && (
+        {isEditable && !isEditing && (
           <button
             type="button"
             className="border border-grey-moss-900 rounded-xs p-1 bg-grey-moss-200"

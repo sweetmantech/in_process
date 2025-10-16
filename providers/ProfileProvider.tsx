@@ -1,12 +1,13 @@
 "use client";
 
+import useArtistEdit from "@/hooks/useArtistEdit";
 import useProfile from "@/hooks/useProfile";
 import { createContext, useMemo, useContext } from "react";
 import { Address } from "viem";
 
-const ProfileContext = createContext<ReturnType<typeof useProfile>>(
-  {} as ReturnType<typeof useProfile>
-);
+const ProfileContext = createContext<
+  ReturnType<typeof useProfile> & ReturnType<typeof useArtistEdit>
+>({} as ReturnType<typeof useProfile> & ReturnType<typeof useArtistEdit>);
 
 interface IProfileProvider {
   children: React.ReactNode;
@@ -14,12 +15,14 @@ interface IProfileProvider {
 }
 const ProfileProvider = ({ children, address }: IProfileProvider) => {
   const profile = useProfile(address);
+  const artistEdit = useArtistEdit(profile, address);
 
   const value = useMemo(
     () => ({
       ...profile,
+      ...artistEdit,
     }),
-    [profile]
+    [profile, artistEdit]
   );
 
   return <ProfileContext.Provider value={value}>{children}</ProfileContext.Provider>;

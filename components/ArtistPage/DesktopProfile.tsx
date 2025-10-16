@@ -4,10 +4,10 @@ import SocialAccounts from "./SocialAccounts";
 import { Skeleton } from "../ui/skeleton";
 import { Fragment } from "react";
 import EditingStatus from "./EditingStatus";
+import useArtistEditable from "@/hooks/useArtistEditable";
 
 const DesktopProfile = () => {
   const {
-    canEdit,
     isEditing,
     toggleEditing,
     username,
@@ -18,6 +18,7 @@ const DesktopProfile = () => {
     usernameRef,
     bioRef,
   } = useProfileProvider();
+  const { isEditable } = useArtistEditable();
 
   return (
     <Fragment>
@@ -37,7 +38,7 @@ const DesktopProfile = () => {
               {isLoading ? <Skeleton className="w-[150px] h-12" /> : username}
             </p>
           )}
-          {canEdit && !isEditing && (
+          {isEditable && !isEditing && (
             <button
               type="button"
               className="border border-grey-moss-900 rounded-xs p-1 bg-grey-moss-200"
