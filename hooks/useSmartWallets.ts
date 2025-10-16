@@ -12,7 +12,6 @@ const useSmartWallets = ({
 }) => {
   const [smartWallet, setSmartWallet] = useState<Address | null>(null);
   const [artistWallet, setArtistWallet] = useState<Address | null>(null);
-
   const fetchSmartWallet = useCallback(async () => {
     if (!connectedAddress) {
       setSmartWallet(null);

@@ -3,7 +3,6 @@ import { useEffect, useRef, useState } from "react";
 import { useArtistProfile } from "./useArtistProfile";
 import { Address } from "viem";
 import truncateAddress from "@/lib/truncateAddress";
-import { useUserProvider } from "@/providers/UserProvider";
 import { Database } from "@/lib/supabase/types";
 
 export const updateProfile = async ({
@@ -37,14 +36,13 @@ const useProfile = (artistAddress?: Address) => {
   const bioRef = useRef() as any;
   const statusRef = useRef() as any;
   const socialRef = useRef() as any;
-  const { getProfile, connectedAddress } = useUserProvider();
   const { data, isLoading } = useArtistProfile(artistAddress);
   const [username, setUserName] = useState<string>("");
   const [bio, setBio] = useState<string>("");
   const searchParams = useSearchParams();
   const canEdit =
-    connectedAddress?.toLowerCase() === new String((artistAddress as string) || "").toLowerCase() &&
-    Boolean(connectedAddress);
+    artistAddress?.toLowerCase() === new String((artistAddress as string) || "").toLowerCase() &&
+    Boolean(artistAddress);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [saving, setSaving] = useState<boolean>(false);
   const toggleEditing = () => setIsEditing(!isEditing);
@@ -96,7 +94,6 @@ const useProfile = (artistAddress?: Address) => {
       setTimeout(() => {
         toggleEditing();
         setSaving(false);
-        getProfile();
       }, 500);
     };
 
