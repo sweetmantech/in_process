@@ -1,20 +1,17 @@
 import { useCallback, useEffect, useState } from "react";
-import getSmartWallet from "@/lib/smartwallets/getSmartWallet";
 import { Address } from "viem";
 import getArtistWallet from "@/lib/artists/getArtistWallet";
 
-const useSmartWallets = ({
+const useArtistWallet = ({
   connectedAddress,
   isSocialWallet,
 }: {
   connectedAddress: Address | undefined;
   isSocialWallet: boolean;
 }) => {
-  const [smartWallet, setSmartWallet] = useState<Address | null>(null);
   const [artistWallet, setArtistWallet] = useState<Address | null>(null);
-  const fetchSmartWallet = useCallback(async () => {
+  const fetchArtistWallet = useCallback(async () => {
     if (!connectedAddress) {
-      setSmartWallet(null);
       setArtistWallet(null);
       return;
     }
@@ -22,23 +19,16 @@ const useSmartWallets = ({
       ? await getArtistWallet(connectedAddress)
       : connectedAddress;
     setArtistWallet(artistWallet);
-    if (!artistWallet) {
-      setSmartWallet(null);
-      return;
-    }
-    const smartWallet = await getSmartWallet(artistWallet);
-    setSmartWallet(smartWallet);
   }, [connectedAddress, isSocialWallet]);
 
   useEffect(() => {
-    fetchSmartWallet();
-  }, [fetchSmartWallet]);
+    fetchArtistWallet();
+  }, [fetchArtistWallet]);
 
   return {
-    smartWallet,
     artistWallet,
-    fetchSmartWallet,
+    fetchArtistWallet,
   };
 };
 
-export default useSmartWallets;
+export default useArtistWallet;
