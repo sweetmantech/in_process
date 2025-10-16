@@ -7,7 +7,7 @@ import useCreateAdvancedValues from "./useCreateAdvancedValues";
 import { useUserProvider } from "@/providers/UserProvider";
 
 const useZoraCreateParameters = (collection?: Address) => {
-  const { artistWallet } = useUserProvider();
+  const { artistWallet, connectedAddress } = useUserProvider();
   const createMetadata = useCreateMetadata();
   const advancedValues = useCreateAdvancedValues();
 
@@ -32,7 +32,7 @@ const useZoraCreateParameters = (collection?: Address) => {
           salesConfig,
           mintToCreatorCount: 1,
         },
-        account: artistWallet as Address,
+        account: (artistWallet || connectedAddress) as Address,
       };
     } else {
       return {
@@ -46,7 +46,7 @@ const useZoraCreateParameters = (collection?: Address) => {
           salesConfig,
           mintToCreatorCount: 1,
         },
-        account: artistWallet as Address,
+        account: (artistWallet || connectedAddress) as Address,
       };
     }
   };
