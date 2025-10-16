@@ -9,7 +9,7 @@ import { useState } from "react";
 import ConnectButton from "./ConnectButton";
 
 const AccountPage = () => {
-  const { profile } = useUserProvider();
+  const { profile, artistWallet, connectedAddress } = useUserProvider();
   const {
     twitter,
     instagram,
@@ -23,7 +23,6 @@ const AccountPage = () => {
     setFarcaster,
     setUserName,
   } = profile;
-  const { artistWallet, connectedAddress } = useUserProvider();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const onSave = async () => {
     setIsLoading(true);

@@ -3,7 +3,6 @@ import { useEffect, useRef, useState } from "react";
 import { useArtistProfile } from "./useArtistProfile";
 import { Address } from "viem";
 import truncateAddress from "@/lib/truncateAddress";
-import { useUserProvider } from "@/providers/UserProvider";
 import { Database } from "@/lib/supabase/types";
 
 export const updateProfile = async ({
@@ -104,8 +103,7 @@ const useProfile = (artistAddress?: Address) => {
   }, [isEditing, twitter, instagram, telegram, bio, username]);
 
   return {
-    // canEdit,
-    canEdit: true,
+    canEdit,
     isEditing,
     toggleEditing,
     username,
