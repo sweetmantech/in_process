@@ -10,6 +10,8 @@ import { useParams } from "next/navigation";
 import { mainnet } from "viem/chains";
 import { normalize } from "viem/ens";
 import getViemNetwork from "@/lib/viem/getViemNetwork";
+import { toast } from "sonner";
+import getSmartWallet from "@/lib/smartwallets/getSmartWallet";
 
 export interface AirdropItem {
   address: string;
@@ -19,7 +21,7 @@ export interface AirdropItem {
 const useAirdrop = () => {
   const { collection } = useCollectionProvider();
   const [airdopToItems, setAirdropToItems] = useState<AirdropItem[]>([]);
-  const { isPrepared } = useUserProvider();
+  const { isPrepared, artistWallet, connectedAddress } = useUserProvider();
   const [loading, setLoading] = useState<boolean>(false);
   const { signTransaction } = useSignTransaction();
   const signedAddress = useSignedAddress();
@@ -60,36 +62,29 @@ const useAirdrop = () => {
     try {
       if (!isPrepared()) return;
       setLoading(true);
-      const calls = [];
-      for (let i = 0; i < airdopToItems.length; i++) {
-        const callData = encodeFunctionData({
-          abi: zoraCreator1155ImplABI,
-          functionName: "adminMint",
-          args: [
-            airdopToItems[i].address as Address,
-            BigInt(params.tokenId as string),
-            BigInt(1),
-            "0x",
-          ],
-        });
-        calls.push(callData);
-      }
-      const hash = await signTransaction(
-        {
-          account: signedAddress as Address,
-          abi: zoraCreator1155ImplABI,
-          functionName: "multicall",
-          args: [calls],
-          address: collection.address,
-          value: BigInt(0),
-          chain: getViemNetwork(collection.chainId),
+      const address = artistWallet || connectedAddress
+      const smartwallet = await getSmartWallet(address as Address)
+      
+      const airdrop = Array.from({length: airdopToItems.length}).map((_, i) => ({
+        address: airdopToItems[i].address,
+        tokenId: params.tokenId
+      }))
+      const response = await fetch("/api/moment/airdrop", {
+        method: "POST",
+        body: JSON.stringify({
+          airdrop,
+          account: signedAddress,
+          collection: collection.address
+        }),
+        headers: {
+          "content-type": "application/json",
         },
-        collection.chainId
-      );
-      const publicClient: any = getPublicClient(collection.chainId);
-      const receipt = await publicClient.waitForTransactionReceipt({ hash });
+      })
+
+      const data = await response.json()
       setLoading(false);
-      return receipt;
+      toast.success("airdropped!")
+      return data.hash
     } catch (error) {
       console.error(error);
       setLoading(false);
