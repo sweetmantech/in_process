@@ -4,12 +4,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { updateProfile } from "@/hooks/useProfile";
-import { useProfileProvider } from "@/providers/ProfileProvider";
 import { useUserProvider } from "@/providers/UserProvider";
 import { useState } from "react";
 import ConnectButton from "./ConnectButton";
 
 const AccountPage = () => {
+  const { profile } = useUserProvider();
   const {
     twitter,
     instagram,
@@ -22,7 +22,7 @@ const AccountPage = () => {
     setInstagram,
     setFarcaster,
     setUserName,
-  } = useProfileProvider();
+  } = profile;
   const { artistWallet, connectedAddress } = useUserProvider();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const onSave = async () => {
