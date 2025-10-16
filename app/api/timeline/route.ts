@@ -23,7 +23,7 @@ export async function GET(req: NextRequest) {
     limit,
     page,
     latest,
-    artist,
+    artist: artist?.toLowerCase(),
     chainId,
     hidden,
   });
