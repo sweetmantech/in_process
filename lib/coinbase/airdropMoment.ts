@@ -1,6 +1,6 @@
 import { Address, encodeFunctionData, Hash } from "viem";
 import { z } from "zod";
-import { IS_TESTNET, PERMISSION_BIT_ADMIN } from "@/lib/consts";
+import { CHAIN_ID, IS_TESTNET, PERMISSION_BIT_ADMIN } from "@/lib/consts";
 import { sendUserOperation } from "@/lib/coinbase/sendUserOperation";
 import { zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
 import { getOrCreateSmartWallet } from "./getOrCreateSmartWallet";
@@ -11,6 +11,7 @@ export type AirdropMomentInput = z.infer<typeof airdropMomentSchema>;
 
 export interface AirdropResult {
   hash: Hash;
+  chainId: number;
 }
 
 /**
@@ -61,5 +62,6 @@ export async function airdropMoment({
 
   return {
     hash: transaction.transactionHash as Hash,
+    chainId: CHAIN_ID,
   };
 }
