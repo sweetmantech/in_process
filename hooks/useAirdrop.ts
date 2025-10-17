@@ -2,7 +2,6 @@ import { useCollectionProvider } from "@/providers/CollectionProvider";
 import { useUserProvider } from "@/providers/UserProvider";
 import { useState } from "react";
 import { Address, isAddress } from "viem";
-import useSignTransaction from "./useSignTransaction";
 import { getPublicClient } from "@/lib/viem/publicClient";
 import { useParams } from "next/navigation";
 import { mainnet } from "viem/chains";
@@ -11,8 +10,6 @@ import { toast } from "sonner";
 import getSmartWallet from "@/lib/smartwallets/getSmartWallet";
 import getPermission from "@/lib/zora/getPermission";
 import { PERMISSION_BIT_ADMIN } from "@/lib/consts";
-import { zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
-import getViemNetwork from "@/lib/viem/getViemNetwork";
 
 export interface AirdropItem {
   address: string;
@@ -24,7 +21,6 @@ const useAirdrop = () => {
   const [airdopToItems, setAirdropToItems] = useState<AirdropItem[]>([]);
   const { isPrepared, artistWallet, connectedAddress } = useUserProvider();
   const [loading, setLoading] = useState<boolean>(false);
-  const { signTransaction } = useSignTransaction();
   const params = useParams();
 
   const onChangeAddress = async (value: string) => {
