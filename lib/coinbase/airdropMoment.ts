@@ -59,7 +59,6 @@ export async function airdropMoment({
       },
     ],
   });
-
   return {
     hash: transaction.transactionHash as Hash,
     chainId: CHAIN_ID,
