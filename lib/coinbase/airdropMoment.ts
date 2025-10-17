@@ -28,11 +28,14 @@ export async function airdropMoment({
     address: account as Address,
   });
 
-  const permissionBit = await getPermission(collection as Address, smartAccount.address);
+  // Check admin permission of artist wallet and smart wallet
+  const smartWalletPermissionBit = await getPermission(collection as Address, smartAccount.address);
 
-  if (permissionBit !== BigInt(PERMISSION_BIT_ADMIN))
-    throw Error(`admin permission are not yet granted to smart wallet.`);
-
+  if (smartWalletPermissionBit !== BigInt(PERMISSION_BIT_ADMIN)) {
+    const accountPermissionBit = await getPermission(collection  as Address, account as Address);
+    if (accountPermissionBit !== BigInt(PERMISSION_BIT_ADMIN)) throw Error("The account does not have admin permission for this collection.")
+  }
+  
   const calls = airdrop.map((item) =>
     encodeFunctionData({
       abi: zoraCreator1155ImplABI,
