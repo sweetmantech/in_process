@@ -7,9 +7,9 @@ import { getOrCreateSmartWallet } from "./getOrCreateSmartWallet";
 import { airdropMomentSchema } from "./airdropMomentSchema";
 import getPermission from "../zora/getPermission";
 
-export type CreateMomentContractInput = z.infer<typeof airdropMomentSchema>;
+export type AirdropMomentInput = z.infer<typeof airdropMomentSchema>;
 
-export interface CreateContractResult {
+export interface AirdropResult {
   hash: Hash;
 }
 
@@ -21,7 +21,7 @@ export async function airdropMoment({
   airdrop,
   account,
   collection,
-}: CreateMomentContractInput): Promise<CreateContractResult> {
+}: AirdropMomentInput): Promise<AirdropResult> {
   // Get or create a smart account (contract wallet)
   const smartAccount = await getOrCreateSmartWallet({
     address: account as Address,
