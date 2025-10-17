@@ -1,10 +1,11 @@
 import { Address, encodeFunctionData, Hash } from "viem";
 import { z } from "zod";
-import { IS_TESTNET } from "@/lib/consts";
+import { IS_TESTNET, PERMISSION_BIT_ADMIN } from "@/lib/consts";
 import { sendUserOperation } from "@/lib/coinbase/sendUserOperation";
 import { zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
 import { getOrCreateSmartWallet } from "./getOrCreateSmartWallet";
 import { airdropMomentSchema } from "./airdropMomentSchema";
+import getPermission from "../zora/getPermission";
 
 export type CreateMomentContractInput = z.infer<typeof airdropMomentSchema>;
 
@@ -19,25 +20,25 @@ export interface CreateContractResult {
 export async function airdropMoment({
   airdrop,
   account,
-  collection
+  collection,
 }: CreateMomentContractInput): Promise<CreateContractResult> {
   // Get or create a smart account (contract wallet)
   const smartAccount = await getOrCreateSmartWallet({
     address: account as Address,
   });
 
-  const calls = airdrop.map((item) => (
+  const permissionBit = await getPermission(collection as Address, smartAccount.address);
+
+  if (permissionBit !== BigInt(PERMISSION_BIT_ADMIN))
+    throw Error(`admin permission are not yet granted to smart wallet.`);
+
+  const calls = airdrop.map((item) =>
     encodeFunctionData({
       abi: zoraCreator1155ImplABI,
       functionName: "adminMint",
-      args: [
-          item.address as Address,
-          BigInt(item.tokenId),
-          BigInt(1),
-          "0x",
-      ],
+      args: [item.address as Address, BigInt(item.tokenId), BigInt(1), "0x"],
     })
-  ))
+  );
 
   // Encode the function call data
   const airdropCall = encodeFunctionData({

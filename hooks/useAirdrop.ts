@@ -62,29 +62,29 @@ const useAirdrop = () => {
     try {
       if (!isPrepared()) return;
       setLoading(true);
-      const address = artistWallet || connectedAddress
-      const smartwallet = await getSmartWallet(address as Address)
-      
-      const airdrop = Array.from({length: airdopToItems.length}).map((_, i) => ({
+      const address = artistWallet || connectedAddress;
+      const smartwallet = await getSmartWallet(address as Address);
+
+      const airdrop = Array.from({ length: airdopToItems.length }).map((_, i) => ({
         address: airdopToItems[i].address,
-        tokenId: params.tokenId
-      }))
+        tokenId: params.tokenId,
+      }));
       const response = await fetch("/api/moment/airdrop", {
         method: "POST",
         body: JSON.stringify({
           airdrop,
-          account: signedAddress,
-          collection: collection.address
+          account: address,
+          collection: collection.address,
         }),
         headers: {
           "content-type": "application/json",
         },
-      })
+      });
 
-      const data = await response.json()
+      const data = await response.json();
       setLoading(false);
-      toast.success("airdropped!")
-      return data.hash
+      toast.success("airdropped!");
+      return data.hash;
     } catch (error) {
       console.error(error);
       setLoading(false);

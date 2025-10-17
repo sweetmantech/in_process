@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
       );
     }
     const data = parseResult.data;
-    const result = await airdropMoment(data)
+    const result = await airdropMoment(data);
     return Response.json(result, { headers: corsHeaders });
   } catch (e: any) {
     console.log(e);
