@@ -7,7 +7,9 @@ const AirdropButton = () => {
   const { airdopToItems, onAirdrop, loading } = useAirdropProvider();
   const { owner } = useTokenProvider();
   const { connectedAddress, artistWallet } = useUserProvider();
-  const isOwner = Boolean(owner?.toLowerCase() === connectedAddress?.toLowerCase()) || Boolean(owner?.toLowerCase() === artistWallet?.toLowerCase());
+  const isOwner =
+    Boolean(owner?.toLowerCase() === connectedAddress?.toLowerCase()) ||
+    Boolean(owner?.toLowerCase() === artistWallet?.toLowerCase());
 
   return (
     <button

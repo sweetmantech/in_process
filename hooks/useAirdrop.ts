@@ -11,6 +11,8 @@ import { toast } from "sonner";
 import getSmartWallet from "@/lib/smartwallets/getSmartWallet";
 import getPermission from "@/lib/zora/getPermission";
 import { PERMISSION_BIT_ADMIN } from "@/lib/consts";
+import { zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
+import getViemNetwork from "@/lib/viem/getViemNetwork";
 
 export interface AirdropItem {
   address: string;
@@ -60,40 +62,37 @@ const useAirdrop = () => {
     try {
       if (!isPrepared()) return;
       setLoading(true);
-      const address = artistWallet || connectedAddress
-      const smartWalletPermissionBit = await getSmartWallet(address as Address)
+      const address = artistWallet || connectedAddress;
+      const smartWallet = await getSmartWallet(address as Address);
+      const smartWalletPermissionBit = await getPermission(collection.address, smartWallet);
       if (smartWalletPermissionBit !== BigInt(PERMISSION_BIT_ADMIN)) {
         const accountPermissionBit = await getPermission(collection.address, address as Address);
         if (accountPermissionBit !== BigInt(PERMISSION_BIT_ADMIN))
           throw Error("The account does not have admin permission for this collection.");
-        else {
-          await signTransaction({
-            
-          })
-        }
+        else throw Error("Admin permission are not yet granted to smart wallet.");
       }
-      const airdrop = Array.from({length: airdopToItems.length}).map((_, i) => ({
+      const airdrop = Array.from({ length: airdopToItems.length }).map((_, i) => ({
         address: airdopToItems[i].address,
-        tokenId: params.tokenId
-      }))
+        tokenId: params.tokenId,
+      }));
       const response = await fetch("/api/moment/airdrop", {
         method: "POST",
         body: JSON.stringify({
           airdrop,
           account: address as Address,
-          collection: collection.address
+          collection: collection.address,
         }),
         headers: {
           "content-type": "application/json",
         },
-      })
+      });
 
-      const data = await response.json()
+      const data = await response.json();
       setLoading(false);
-      toast.success("airdropped!")
-      return data.hash
+      toast.success("airdropped!");
+      return data.hash;
     } catch (error) {
-      toast.error((error as any)?.message)
+      toast.error((error as any)?.message);
       console.error(error);
       setLoading(false);
     }
