@@ -1,15 +1,16 @@
 import { useCollectionProvider } from "@/providers/CollectionProvider";
 import { useUserProvider } from "@/providers/UserProvider";
-import { zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
 import { useState } from "react";
-import { Address, encodeFunctionData, isAddress } from "viem";
+import { Address, isAddress } from "viem";
 import useSignTransaction from "./useSignTransaction";
-import useSignedAddress from "./useSignedAddress";
 import { getPublicClient } from "@/lib/viem/publicClient";
 import { useParams } from "next/navigation";
 import { mainnet } from "viem/chains";
 import { normalize } from "viem/ens";
-import getViemNetwork from "@/lib/viem/getViemNetwork";
+import { toast } from "sonner";
+import getSmartWallet from "@/lib/smartwallets/getSmartWallet";
+import getPermission from "@/lib/zora/getPermission";
+import { PERMISSION_BIT_ADMIN } from "@/lib/consts";
 
 export interface AirdropItem {
   address: string;
@@ -19,10 +20,9 @@ export interface AirdropItem {
 const useAirdrop = () => {
   const { collection } = useCollectionProvider();
   const [airdopToItems, setAirdropToItems] = useState<AirdropItem[]>([]);
-  const { isPrepared } = useUserProvider();
+  const { isPrepared, artistWallet, connectedAddress } = useUserProvider();
   const [loading, setLoading] = useState<boolean>(false);
   const { signTransaction } = useSignTransaction();
-  const signedAddress = useSignedAddress();
   const params = useParams();
 
   const onChangeAddress = async (value: string) => {
@@ -60,37 +60,40 @@ const useAirdrop = () => {
     try {
       if (!isPrepared()) return;
       setLoading(true);
-      const calls = [];
-      for (let i = 0; i < airdopToItems.length; i++) {
-        const callData = encodeFunctionData({
-          abi: zoraCreator1155ImplABI,
-          functionName: "adminMint",
-          args: [
-            airdopToItems[i].address as Address,
-            BigInt(params.tokenId as string),
-            BigInt(1),
-            "0x",
-          ],
-        });
-        calls.push(callData);
+      const address = artistWallet || connectedAddress
+      const smartWalletPermissionBit = await getSmartWallet(address as Address)
+      if (smartWalletPermissionBit !== BigInt(PERMISSION_BIT_ADMIN)) {
+        const accountPermissionBit = await getPermission(collection.address, address as Address);
+        if (accountPermissionBit !== BigInt(PERMISSION_BIT_ADMIN))
+          throw Error("The account does not have admin permission for this collection.");
+        else {
+          await signTransaction({
+            
+          })
+        }
       }
-      const hash = await signTransaction(
-        {
-          account: signedAddress as Address,
-          abi: zoraCreator1155ImplABI,
-          functionName: "multicall",
-          args: [calls],
-          address: collection.address,
-          value: BigInt(0),
-          chain: getViemNetwork(collection.chainId),
+      const airdrop = Array.from({length: airdopToItems.length}).map((_, i) => ({
+        address: airdopToItems[i].address,
+        tokenId: params.tokenId
+      }))
+      const response = await fetch("/api/moment/airdrop", {
+        method: "POST",
+        body: JSON.stringify({
+          airdrop,
+          account: address as Address,
+          collection: collection.address
+        }),
+        headers: {
+          "content-type": "application/json",
         },
-        collection.chainId
-      );
-      const publicClient: any = getPublicClient(collection.chainId);
-      const receipt = await publicClient.waitForTransactionReceipt({ hash });
+      })
+
+      const data = await response.json()
       setLoading(false);
-      return receipt;
+      toast.success("airdropped!")
+      return data.hash
     } catch (error) {
+      toast.error((error as any)?.message)
       console.error(error);
       setLoading(false);
     }
