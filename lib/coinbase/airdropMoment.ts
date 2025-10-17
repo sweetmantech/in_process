@@ -35,6 +35,7 @@ export async function airdropMoment({
     const accountPermissionBit = await getPermission(collection as Address, account as Address);
     if (accountPermissionBit !== BigInt(PERMISSION_BIT_ADMIN))
       throw Error("The account does not have admin permission for this collection.");
+    else throw Error("Admin permission are not yet granted to smart wallet.");
   }
 
   const calls = airdrop.map((item) =>
