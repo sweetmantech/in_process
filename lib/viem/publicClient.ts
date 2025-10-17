@@ -5,7 +5,7 @@ import { CHAIN_ID } from "@/lib/consts";
 import getAlchemyRpcUrl from "../alchemy/getAlchemyRpcUrl";
 
 export const getPublicClient = (chainId: number = CHAIN_ID) => {
-  const chain = getViemNetwork(chainId);
+  const chain = getViemNetwork(chainId) as any;
   const RPC_URL = getAlchemyRpcUrl(chainId);
   return createPublicClient({
     chain,
