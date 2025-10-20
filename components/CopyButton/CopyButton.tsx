@@ -7,9 +7,10 @@ import { cn } from "@/lib/utils";
 interface CopyButtonProps {
   address: string;
   className?: string;
+  shorten?: boolean;
 }
 
-const CopyButton = ({ address, className = "" }: CopyButtonProps) => {
+const CopyButton = ({ address, className = "", shorten = true }: CopyButtonProps) => {
   const [isCopied, setIsCopied] = useState(false);
 
   const handleCopy = async () => {
@@ -28,7 +29,7 @@ const CopyButton = ({ address, className = "" }: CopyButtonProps) => {
       type="button"
       onClick={handleCopy}
     >
-      {truncateAddress(address)}
+      {shorten ? truncateAddress(address) : address}
       <AnimatedCopyIcon isCopied={isCopied} />
     </button>
   );
