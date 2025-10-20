@@ -10,6 +10,7 @@ import FrameProvider from "./FrameProvider";
 import LayoutProvider from "./LayoutProvider";
 import UserCollectionsProvider from "./UserCollectionsProvider";
 import EthPriceProvider from "./EthPriceProvider";
+import SmartWalletProvider from "./SmartWalletProvider";
 
 interface ProvidersProps {
   children: ReactNode;
@@ -23,11 +24,13 @@ export function Providers({ children }: ProvidersProps): JSX.Element {
           <PrivyProvider>
             <FrameProvider>
               <UserProvider>
-                <MomentCreateProvider>
-                  <UserCollectionsProvider>
-                    <LayoutProvider>{children}</LayoutProvider>
-                  </UserCollectionsProvider>
-                </MomentCreateProvider>
+                <SmartWalletProvider>
+                  <MomentCreateProvider>
+                    <UserCollectionsProvider>
+                      <LayoutProvider>{children}</LayoutProvider>
+                    </UserCollectionsProvider>
+                  </MomentCreateProvider>
+                </SmartWalletProvider>
               </UserProvider>
             </FrameProvider>
           </PrivyProvider>
