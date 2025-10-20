@@ -66,7 +66,7 @@ export type SalesConfigParamsType =
 
 export type CreateNew1155ParamsBase = {
   account: Address | Account;
-  getAdditionalSetupActions?: (args: { tokenId: bigint }) => Hex[];
+  getAdditionalSetupActions?: Hex[];
   token: CreateNew1155TokenProps;
 };
 

@@ -332,12 +332,7 @@ function prepareSetupActions({
   });
 
   const setupActions = getAdditionalSetupActions
-    ? [
-        ...getAdditionalSetupActions({
-          tokenId: nextTokenId,
-        }),
-        ...tokenSetupActions,
-      ]
+    ? [...getAdditionalSetupActions, ...tokenSetupActions]
     : tokenSetupActions;
 
   return { minter, newToken, setupActions };
