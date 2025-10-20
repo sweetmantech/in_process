@@ -36,14 +36,12 @@ export async function create1155({
       } as SalesConfigParamsType,
     },
     account: account as Address,
-    getAdditionalSetupActions: () => {
-      return [
-        encodeFunctionData({
-          abi: zoraCreator1155ImplABI,
-          functionName: "addPermission",
-          args: [BigInt(0), smartAccount, BigInt(PERMISSION_BIT_ADMIN)],
-        }),
-      ];
-    },
+    getAdditionalSetupActions: [
+      encodeFunctionData({
+        abi: zoraCreator1155ImplABI,
+        functionName: "addPermission",
+        args: [BigInt(0), smartAccount, BigInt(PERMISSION_BIT_ADMIN)],
+      }),
+    ],
   });
 }
