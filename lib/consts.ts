@@ -35,6 +35,7 @@ export const UNISWAP_ROUTER_ADDRESS = "0x2626664c2603336E57B271c5C0b26F421741e48
 export const MULTICALL3_ADDRESS = "0xcA11bde05977b3631167028862bE2a173976CA11";
 export const FIXED_PRICE_CROSSMINT_COLLECTION_ID = `crossmint:${IS_TESTNET ? "4b386283-a16d-44a6-afcc-c44244643ecf" : "60073c68-5c30-462f-a9ba-81d44cfe02e2"}`;
 export const ERC20_CROSSMINT_COLLECTION_ID = `crossmint:${IS_TESTNET ? "cbd4646a-dbbe-4818-a3c9-ba65ec5f9be0" : "6b130435-9a57-45ef-a530-d97314d49b24"}`;
+export const TOPUP_CROSSMINT_COLLECTION_ID = `crossmint:${IS_TESTNET ? "abf6fce9-4b2d-48a8-bfd9-c3247b0c99fd" : "abf6fce9-4b2d-48a8-bfd9-c3247b0c99fd"}`;
 export const CROSSMINT_SIGNER_ADDRESS = {
   [`${baseSepolia.id}`]: "0xa105C311fA72b8Fb78c992EcbDb8b02Ea5bd394d",
   [`${base.id}`]: "0xa66b23D9a8a46C284fa5b3f2E2b59Eb5cc3817F4",
