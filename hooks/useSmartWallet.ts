@@ -1,7 +1,7 @@
 import getSmartWallet from "@/lib/smartwallets/getSmartWallet";
 import getBalance from "@/lib/viem/getBalance";
 import { useUserProvider } from "@/providers/UserProvider";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Address } from "viem";
 
 const useSmartWallet = () => {
@@ -29,6 +29,7 @@ const useSmartWallet = () => {
     smartWallet,
     isLoading,
     balance,
+    fetchSmartWallet,
   };
 };
 
