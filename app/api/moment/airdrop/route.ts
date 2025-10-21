@@ -1,13 +1,10 @@
 import { NextRequest } from "next/server";
 import { airdropMomentSchema } from "@/lib/coinbase/airdropMomentSchema";
 import { airdropMoment } from "@/lib/coinbase/airdropMoment";
+import getCorsHeader from "@/lib/getCorsHeader";
 
 // CORS headers for allowing cross-origin requests
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type, Authorization",
-};
+const corsHeaders = getCorsHeader();
 
 export async function OPTIONS() {
   return new Response(null, {
