@@ -87,8 +87,6 @@ const useZoraMintComment = () => {
           receipt = await mintWithUsdc(saleConfig, token, comment, mintCount);
         else receipt = await mintWithNativeToken(saleConfig, token, comment, mintCount);
 
-        setIsLoading(false);
-        return
         if (!Boolean(receipt)) {
           mintWithCrossmint();
           return;
