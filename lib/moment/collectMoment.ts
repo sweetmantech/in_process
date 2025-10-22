@@ -3,8 +3,8 @@ import { z } from "zod";
 import { CHAIN_ID, IS_TESTNET, USDC_ADDRESS } from "@/lib/consts";
 import { sendUserOperation } from "@/lib/coinbase/sendUserOperation";
 import { erc20MinterABI } from "@zoralabs/protocol-deployments";
-import { getOrCreateSmartWallet } from "./getOrCreateSmartWallet";
-import { collectSchema } from "./collectSchema";
+import { getOrCreateSmartWallet } from "../coinbase/getOrCreateSmartWallet";
+import { collectSchema } from "../schema/collectSchema";
 import getTokenInfo from "../viem/getTokenInfo";
 import getBalance from "../viem/getBalance";
 import getAllowance from "../viem/getAllowance";
@@ -18,7 +18,7 @@ export interface CollectResult {
 }
 
 /**
- * Collect a Zora 1155 token using a smart account via Coinbase CDP.
+ * Collect a In Process 1155 token using a smart account via Coinbase CDP.
  * Accepts the full API input shape to collect a Moment.
  */
 export async function collectMoment({

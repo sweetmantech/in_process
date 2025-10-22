@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import getCorsHeader from "@/lib/getCorsHeader";
-import { collectSchema } from "@/lib/schema/collectSchema";
-import { collectMoment } from "@/lib/moment/collectMoment";
+import { commentsSchema } from "@/lib/schema/commentsSchema";
+import { momentComments } from "@/lib/moment/momentComments";
 
 // CORS headers for allowing cross-origin requests
 const corsHeaders = getCorsHeader();
@@ -16,7 +16,7 @@ export async function OPTIONS() {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const parseResult = collectSchema.safeParse(body);
+    const parseResult = commentsSchema.safeParse(body);
     if (!parseResult.success) {
       const errorDetails = parseResult.error.errors.map((err) => ({
         field: err.path.join("."),
@@ -28,11 +28,11 @@ export async function POST(req: NextRequest) {
       );
     }
     const data = parseResult.data;
-    const result = await collectMoment(data);
+    const result = await momentComments(data);
     return Response.json(result, { headers: corsHeaders });
   } catch (e: any) {
     console.log(e);
-    const message = e?.message ?? "failed to create moment";
+    const message = e?.message ?? "failed to get comments";
     return Response.json({ message }, { status: 500, headers: corsHeaders });
   }
 }

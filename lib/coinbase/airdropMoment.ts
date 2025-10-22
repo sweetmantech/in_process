@@ -4,7 +4,7 @@ import { CHAIN_ID, IS_TESTNET, PERMISSION_BIT_ADMIN } from "@/lib/consts";
 import { sendUserOperation } from "@/lib/coinbase/sendUserOperation";
 import { zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
 import { getOrCreateSmartWallet } from "./getOrCreateSmartWallet";
-import { airdropMomentSchema } from "./airdropMomentSchema";
+import { airdropMomentSchema } from "../schema/airdropMomentSchema";
 import getPermission from "../zora/getPermission";
 
 export type AirdropMomentInput = z.infer<typeof airdropMomentSchema>;

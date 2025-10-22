@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import { airdropMomentSchema } from "@/lib/coinbase/airdropMomentSchema";
+import { airdropMomentSchema } from "@/lib/schema/airdropMomentSchema";
 import { airdropMoment } from "@/lib/coinbase/airdropMoment";
 import getCorsHeader from "@/lib/getCorsHeader";
 
