@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { createContract } from "@/lib/coinbase/createContract";
-import { createMomentSchema } from "@/lib/coinbase/createContractSchema";
+import { createMomentSchema } from "@/lib/schema/createContractSchema";
 import getCorsHeader from "@/lib/getCorsHeader";
 
 // CORS headers for allowing cross-origin requests

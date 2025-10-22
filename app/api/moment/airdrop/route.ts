@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { airdropMomentSchema } from "@/lib/schema/airdropMomentSchema";
-import { airdropMoment } from "@/lib/coinbase/airdropMoment";
+import { airdropMoment } from "@/lib/moment/airdropMoment";
 import getCorsHeader from "@/lib/getCorsHeader";
 
 // CORS headers for allowing cross-origin requests
