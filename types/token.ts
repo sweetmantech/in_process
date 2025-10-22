@@ -52,17 +52,3 @@ export interface Token {
   created_at: number;
   username?: string;
 }
-
-export interface MintCommentEvent {
-  blockNumber: number;
-  chain: string;
-  chainId: number;
-  comment: string;
-  quantity: string;
-  sender: Address;
-  timestamp: number;
-  tokenId: string;
-  transactionHash: string;
-  tokenContract?: string;
-  collection?: Address;
-}

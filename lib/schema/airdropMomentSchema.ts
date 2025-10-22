@@ -1,6 +1,6 @@
 import { z } from "zod";
 import addressSchema from "./addressSchema";
-export const bigIntString = z.union([z.string(), z.number()]).transform((val) => BigInt(val));
+import bigIntString from "./bigIntSchema";
 
 export const airdropSchema = z.array(
   z.object({
