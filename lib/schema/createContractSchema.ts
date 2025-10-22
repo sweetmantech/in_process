@@ -1,6 +1,6 @@
 import { z } from "zod";
-import addressSchema from "../schema/addressSchema";
-export const bigIntString = z.union([z.string(), z.number()]).transform((val) => BigInt(val));
+import addressSchema from "./addressSchema";
+import bigIntString from "./bigIntSchema";
 
 export const salesConfigSchema = z.object({
   type: z.string(),

@@ -4,12 +4,12 @@ import { Address } from "viem";
 
 interface CommentProps {
   comment: string;
-  sender: Address;
+  sender: string;
   timestamp: number;
 }
 
 export const Comment = ({ comment, sender, timestamp }: CommentProps) => {
-  const { data: artistProfile, isLoading, error } = useArtistProfile(sender);
+  const { data: artistProfile, isLoading, error } = useArtistProfile(sender as Address);
 
   const truncatedAddress = truncateAddress(sender);
   const displayName = isLoading
@@ -24,7 +24,9 @@ export const Comment = ({ comment, sender, timestamp }: CommentProps) => {
         <p className="text-base font-spectral tracking-[-1px]">{comment}</p>
         <p className="text-base font-archivo-medium">{displayName}</p>
       </div>
-      <p className="text-sm font-archivo lowercase">{new Date(timestamp).toLocaleString()}</p>
+      <p className="text-sm font-archivo lowercase">
+        {new Date(timestamp * 1000).toLocaleString()}
+      </p>
     </div>
   );
 };

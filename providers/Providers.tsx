@@ -8,7 +8,6 @@ import UserProvider from "./UserProvider";
 import { CrossmintProvider } from "./CrossmintProvider";
 import FrameProvider from "./FrameProvider";
 import LayoutProvider from "./LayoutProvider";
-import UserCollectionsProvider from "./UserCollectionsProvider";
 import EthPriceProvider from "./EthPriceProvider";
 import SmartWalletProvider from "./SmartWalletProvider";
 
@@ -26,9 +25,7 @@ export function Providers({ children }: ProvidersProps): JSX.Element {
               <UserProvider>
                 <SmartWalletProvider>
                   <MomentCreateProvider>
-                    <UserCollectionsProvider>
-                      <LayoutProvider>{children}</LayoutProvider>
-                    </UserCollectionsProvider>
+                    <LayoutProvider>{children}</LayoutProvider>
                   </MomentCreateProvider>
                 </SmartWalletProvider>
               </UserProvider>

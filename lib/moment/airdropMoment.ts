@@ -3,7 +3,7 @@ import { z } from "zod";
 import { CHAIN_ID, IS_TESTNET, PERMISSION_BIT_ADMIN } from "@/lib/consts";
 import { sendUserOperation } from "@/lib/coinbase/sendUserOperation";
 import { zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
-import { getOrCreateSmartWallet } from "./getOrCreateSmartWallet";
+import { getOrCreateSmartWallet } from "../coinbase/getOrCreateSmartWallet";
 import { airdropMomentSchema } from "../schema/airdropMomentSchema";
 import getPermission from "../zora/getPermission";
 
@@ -15,7 +15,7 @@ export interface AirdropResult {
 }
 
 /**
- * Airdrop a Zora 1155 token  using a smart account via Coinbase CDP.
+ * Airdrop a In Process 1155 token  using a smart account via Coinbase CDP.
  * Accepts the full API input shape for airdrop a Moment.
  */
 export async function airdropMoment({
