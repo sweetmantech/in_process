@@ -48,3 +48,7 @@ export async function GET(req: NextRequest) {
     return Response.json({ message }, { status: 500, headers: corsHeaders });
   }
 }
+
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
+export const revalidate = 0;
