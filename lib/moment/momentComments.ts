@@ -22,7 +22,7 @@ export async function momentComments({
       ERC20Minter_MintComment(
         limit: 10
         offset: ${offset}
-        where: {tokenContract: {_eq: "${moment.contractAddress}"}, tokenId: {_eq: "${moment.tokenId}"}, chainId: {_eq: ${chainId}}}
+        where: {tokenContract: {_eq: "${moment.contractAddress.toLowerCase()}"}, tokenId: {_eq: "${moment.tokenId}"}, chainId: {_eq: ${chainId}}}
         order_by: {timestamp: desc}
       ) {
         comment
