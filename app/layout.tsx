@@ -1,4 +1,3 @@
-import "@xyflow/react/dist/style.css";
 import "./globals.css";
 import { Providers } from "@/providers/Providers";
 import { Toaster } from "@/components/ui/sonner";
