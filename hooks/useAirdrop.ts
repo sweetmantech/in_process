@@ -7,9 +7,9 @@ import { useParams } from "next/navigation";
 import { mainnet } from "viem/chains";
 import { normalize } from "viem/ens";
 import { toast } from "sonner";
-import getSmartWallet from "@/lib/smartwallets/getSmartWallet";
 import getPermission from "@/lib/zora/getPermission";
 import { PERMISSION_BIT_ADMIN } from "@/lib/consts";
+import { useSmartWalletProvider } from "@/providers/SmartWalletProvider";
 
 export interface AirdropItem {
   address: string;
@@ -19,7 +19,8 @@ export interface AirdropItem {
 const useAirdrop = () => {
   const { collection } = useCollectionProvider();
   const [airdopToItems, setAirdropToItems] = useState<AirdropItem[]>([]);
-  const { isPrepared, artistWallet, connectedAddress } = useUserProvider();
+  const { artistWallet, isPrepared } = useUserProvider();
+  const { smartWallet } = useSmartWalletProvider();
   const [loading, setLoading] = useState<boolean>(false);
   const params = useParams();
 
@@ -57,12 +58,17 @@ const useAirdrop = () => {
   const onAirdrop = async () => {
     try {
       if (!isPrepared()) return;
+      if (!Boolean(artistWallet) || !smartWallet) return;
       setLoading(true);
-      const address = artistWallet || connectedAddress;
-      const smartWallet = await getSmartWallet(address as Address);
-      const smartWalletPermissionBit = await getPermission(collection.address, smartWallet);
+      const smartWalletPermissionBit = await getPermission(
+        collection.address,
+        smartWallet as Address
+      );
       if (smartWalletPermissionBit !== BigInt(PERMISSION_BIT_ADMIN)) {
-        const accountPermissionBit = await getPermission(collection.address, address as Address);
+        const accountPermissionBit = await getPermission(
+          collection.address,
+          artistWallet as Address
+        );
         if (accountPermissionBit !== BigInt(PERMISSION_BIT_ADMIN))
           throw Error("The account does not have admin permission for this collection.");
         else throw Error("Admin permission are not yet granted to smart wallet.");
@@ -75,7 +81,7 @@ const useAirdrop = () => {
         method: "POST",
         body: JSON.stringify({
           airdrop,
-          account: address as Address,
+          account: artistWallet as Address,
           collection: collection.address,
         }),
         headers: {
