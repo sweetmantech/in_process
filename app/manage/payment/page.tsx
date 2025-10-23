@@ -1,13 +1,13 @@
 "use client";
 
 import PaymentsTable from "@/components/PaymentsPage/PaymentsTable";
-import useSignedAddress from "@/hooks/useSignedAddress";
+import { useUserProvider } from "@/providers/UserProvider";
 
 const Accounts = () => {
-  const signedAddress = useSignedAddress();
+  const { artistWallet } = useUserProvider();
   return (
     <main className="flex flex-col gap-24 font-archivo">
-      <PaymentsTable limit={50} address={signedAddress} combined={true} />
+      <PaymentsTable limit={50} address={artistWallet} combined={true} />
     </main>
   );
 };

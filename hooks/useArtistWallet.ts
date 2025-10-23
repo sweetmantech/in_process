@@ -9,10 +9,10 @@ const useArtistWallet = ({
   connectedAddress: Address | undefined;
   isSocialWallet: boolean;
 }) => {
-  const [artistWallet, setArtistWallet] = useState<Address | null>(null);
+  const [artistWallet, setArtistWallet] = useState<Address | undefined>(undefined);
   const fetchArtistWallet = useCallback(async () => {
     if (!connectedAddress) {
-      setArtistWallet(null);
+      setArtistWallet(undefined);
       return;
     }
     const artistWallet = isSocialWallet
