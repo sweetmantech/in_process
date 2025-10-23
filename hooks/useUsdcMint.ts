@@ -17,7 +17,7 @@ const useUsdcMint = () => {
   ) => {
     const usdcPrice = formatUnits(sale.pricePerToken, 6);
     if (Number(balance) < Number(usdcPrice)) {
-      toast.error("Insufficient balance. please topup USDC to your smart wallet.", {
+      toast.error("Insufficient balance. Please add funds to collect.", {
         action: {
           label: "Topup",
           onClick: () => {
@@ -25,7 +25,7 @@ const useUsdcMint = () => {
           },
         },
       });
-      throw new Error("Insufficient balance. please topup USDC to your smart wallet.");
+      throw new Error("Insufficient balance. Please add funds to collect.");
     }
     const response = await fetch("/api/moment/collect", {
       method: "POST",
