@@ -86,7 +86,7 @@ const useZoraMintComment = () => {
       toast.success("collected!");
       setIsLoading(false);
     } catch (error) {
-      toast.error((error as any)?.message);
+      console.error(error);
       setIsLoading(false);
     }
   };
