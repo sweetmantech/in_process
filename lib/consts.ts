@@ -2,16 +2,12 @@ import { Point } from "@/types/spiral";
 import { baseSepolia, base } from "viem/chains";
 
 export const INPROCESS_GROUP_CHAT_ID = "-1002592953370";
-export const COLLECTION_ADDRESS = "0xf0b2ab81056c8e2fdc40e46e32fae895f809c90d";
-export const MINT_FEE_RECIPIENT = "0xcfBf34d385EA2d5Eb947063b67eA226dcDA3DC38";
 
 export const ETH_USDC_WRAPPER = "0x8b7e5b73a187aA50B1660455566E4818f88Fdd72";
 export const NULL_DATA = "0x0000000000000000000000000000000000000000000000000000000000000000";
 
 export const ERC1967_IMPLEMENTATION_SLOT =
   "0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc";
-
-export const JSON_EXTENSION_REGISTRY = "0xabcdefed93200601e1dfe26d6644758801d732e8";
 
 export const IS_TESTNET = process.env.NEXT_PUBLIC_IS_TESTNET === "true" ? true : false;
 
@@ -29,12 +25,11 @@ export const MAX_FILE_SIZE = 222 * ONE_MB;
 // TELEGRAM
 export const TELEGRAM_MAX_FILE_SIZE = 50 * 1024 * 1024;
 
-export const PERMISSION_BIT_MINTER = 4;
 export const PERMISSION_BIT_ADMIN = 2;
-export const UNISWAP_ROUTER_ADDRESS = "0x2626664c2603336E57B271c5C0b26F421741e481";
 export const MULTICALL3_ADDRESS = "0xcA11bde05977b3631167028862bE2a173976CA11";
 export const FIXED_PRICE_CROSSMINT_COLLECTION_ID = `crossmint:${IS_TESTNET ? "4b386283-a16d-44a6-afcc-c44244643ecf" : "60073c68-5c30-462f-a9ba-81d44cfe02e2"}`;
 export const ERC20_CROSSMINT_COLLECTION_ID = `crossmint:${IS_TESTNET ? "cbd4646a-dbbe-4818-a3c9-ba65ec5f9be0" : "6b130435-9a57-45ef-a530-d97314d49b24"}`;
+export const TOPUP_CROSSMINT_COLLECTION_ID = `crossmint:${IS_TESTNET ? "abf6fce9-4b2d-48a8-bfd9-c3247b0c99fd" : "7206def5-5377-4187-bc0e-a3049a20f3e5"}`;
 export const CROSSMINT_SIGNER_ADDRESS = {
   [`${baseSepolia.id}`]: "0xa105C311fA72b8Fb78c992EcbDb8b02Ea5bd394d",
   [`${base.id}`]: "0xa66b23D9a8a46C284fa5b3f2E2b59Eb5cc3817F4",

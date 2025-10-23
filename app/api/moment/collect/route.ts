@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
-import { airdropMomentSchema } from "@/lib/schema/airdropMomentSchema";
-import { airdropMoment } from "@/lib/moment/airdropMoment";
 import getCorsHeader from "@/lib/getCorsHeader";
+import { collectSchema } from "@/lib/schema/collectSchema";
+import { collectMoment } from "@/lib/moment/collectMoment";
 
 // CORS headers for allowing cross-origin requests
 const corsHeaders = getCorsHeader();
@@ -16,7 +16,7 @@ export async function OPTIONS() {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const parseResult = airdropMomentSchema.safeParse(body);
+    const parseResult = collectSchema.safeParse(body);
     if (!parseResult.success) {
       const errorDetails = parseResult.error.errors.map((err) => ({
         field: err.path.join("."),
@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
       );
     }
     const data = parseResult.data;
-    const result = await airdropMoment(data);
+    const result = await collectMoment(data);
     return Response.json(result, { headers: corsHeaders });
   } catch (e: any) {
     console.log(e);

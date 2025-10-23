@@ -3,7 +3,7 @@ import { SalesConfigParamsType } from "@/lib/protocolSdk";
 import { getCreatorClient } from "@/lib/zora/getCreatorClient";
 import { CHAIN_ID, PERMISSION_BIT_ADMIN } from "@/lib/consts";
 import { z } from "zod";
-import { createMomentSchema } from "@/lib/coinbase/createContractSchema";
+import { createMomentSchema } from "@/lib/schema/createContractSchema";
 import { zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
 
 export type CreateMomentContractInput = z.infer<typeof createMomentSchema> & {

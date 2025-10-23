@@ -1,7 +1,7 @@
 import { Address, encodeFunctionData, Hash, parseEventLogs, ParseEventLogsReturnType } from "viem";
 import { z } from "zod";
 import { CHAIN_ID, IS_TESTNET } from "@/lib/consts";
-import { createMomentSchema } from "@/lib/coinbase/createContractSchema";
+import { createMomentSchema } from "@/lib/schema/createContractSchema";
 import { create1155 } from "@/lib/zora/create1155";
 import { sendUserOperation } from "@/lib/coinbase/sendUserOperation";
 import { zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
