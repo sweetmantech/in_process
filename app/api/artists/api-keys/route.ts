@@ -1,5 +1,7 @@
 import { NextRequest } from "next/server";
-import { generateApiKey, hashApiKey, getBearerToken } from "@/lib/api-keys";
+import { generateApiKey } from "@/lib/api-keys/generateApiKey";
+import { hashApiKey } from "@/lib/api-keys/hashApiKey";
+import { getBearerToken } from "@/lib/api-keys/getBearerToken";
 import { insertApiKey } from "@/lib/supabase/in_process_api_keys/insertApiKey";
 import { createApiKeySchema } from "@/lib/schema/apiKeySchema";
 import { PROJECT_SECRET } from "@/lib/consts";

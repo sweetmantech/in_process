@@ -1,0 +1,5 @@
+[Cursor] Refactor API key imports to individual imports and clean up unused files
+
+- Changed from barrel import to individual imports in api-keys route
+- Removed unused extractKeyPrefix.ts and index.ts files
+- Updated package.json and pnpm-lock.yaml dependencies
