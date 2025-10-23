@@ -1,11 +1,11 @@
 "use client";
 
 import NotificationsTable from "@/components/NotificationsPage/NotificationsTable";
-import useSignedAddress from "@/hooks/useSignedAddress";
+import { useUserProvider } from "@/providers/UserProvider";
 import useMarkNotificationAsViewed from "@/hooks/useMarkNotificationAsViewed";
 
 const NotificationsPage = () => {
-  const signedAddress = useSignedAddress();
+  const { artistWallet } = useUserProvider();
 
   useMarkNotificationAsViewed();
 
@@ -15,13 +15,13 @@ const NotificationsPage = () => {
         <div className="mb-8">
           <h1 className="text-3xl font-bold font-archivo-medium mb-2">Notifications</h1>
           <p className="text-neutral-600 dark:text-neutral-400">
-            {signedAddress
+            {artistWallet
               ? "Your notifications on In Process"
               : "View all notifications on In Process"}
           </p>
         </div>
 
-        <NotificationsTable limit={50} artist={signedAddress?.toLowerCase()} />
+        <NotificationsTable limit={50} artist={artistWallet?.toLowerCase()} />
       </div>
     </div>
   );
