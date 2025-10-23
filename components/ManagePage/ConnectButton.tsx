@@ -8,7 +8,10 @@ import disconnectSocialWallet from "@/lib/artists/disconnectSocialWallet";
 
 const ConnectButton = () => {
   const { artistWallet, fetchArtistWallet, isSocialWallet, connectedAddress } = useUserProvider();
-  const buttonText = artistWallet ? "disconnect" : "connect";
+  const shouldConnect =
+    !Boolean(artistWallet) ||
+    (isSocialWallet && connectedAddress === artistWallet && Boolean(connectedAddress));
+  const buttonText = shouldConnect ? "connect" : "disconnect";
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { connectWallet } = useConnectWallet({
@@ -31,10 +34,10 @@ const ConnectButton = () => {
 
   return (
     <div className="w-full flex flex-col items-end md:justify-end md:flex-row gap-2">
-      {artistWallet && <CopyButton address={artistWallet as Address} />}
+      {!shouldConnect && <CopyButton address={artistWallet as Address} />}
       <button
         disabled={isLoading}
-        onClick={artistWallet ? disconnect : connectWallet}
+        onClick={!shouldConnect ? disconnect : connectWallet}
         className="w-full md:w-fit md:min-w-[150px] py-2 rounded-md flex justify-center items-center gap-2 bg-grey-moss-900 font-archivo text-grey-eggshell hover:bg-grey-eggshell hover:text-grey-moss-900"
       >
         {isLoading ? `${buttonText}ing...` : buttonText}

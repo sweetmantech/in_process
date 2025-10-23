@@ -5,6 +5,7 @@ import PrivyProvider from "./PrivyProvider";
 import { WagmiProvider } from "./WagmiProvider";
 import { MomentCreateProvider } from "./MomentCreateProvider";
 import UserProvider from "./UserProvider";
+import ApiKeyProvider from "./ApiKeyProvider";
 import { CrossmintProvider } from "./CrossmintProvider";
 import FrameProvider from "./FrameProvider";
 import LayoutProvider from "./LayoutProvider";
@@ -24,9 +25,11 @@ export function Providers({ children }: ProvidersProps): JSX.Element {
             <FrameProvider>
               <UserProvider>
                 <SmartWalletProvider>
-                  <MomentCreateProvider>
-                    <LayoutProvider>{children}</LayoutProvider>
-                  </MomentCreateProvider>
+                  <ApiKeyProvider>
+                    <MomentCreateProvider>
+                      <LayoutProvider>{children}</LayoutProvider>
+                    </MomentCreateProvider>
+                  </ApiKeyProvider>
                 </SmartWalletProvider>
               </UserProvider>
             </FrameProvider>
