@@ -43,12 +43,10 @@ export async function POST(req: NextRequest) {
     });
   } catch (e: any) {
     console.log(e);
-    // const message = e?.message ?? "failed to create an api key";
+    const message = e?.message ?? "failed to create an api key";
     return Response.json(
       {
-        appId: process.env.NEXT_PUBLIC_PRIVY_APP_ID,
-        appSecret: process.env.PRIVY_API_KEY,
-        jwtVerificationKey: process.env.PRIVY_JWT_VERIFICATION_KEY,
+        message,
       },
       { status: 500 }
     );
