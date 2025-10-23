@@ -11,6 +11,7 @@ export const ERC1967_IMPLEMENTATION_SLOT =
 
 export const IS_TESTNET = process.env.NEXT_PUBLIC_IS_TESTNET === "true" ? true : false;
 
+export const PROJECT_SECRET = process.env.PROJECT_SECRET || "inprocess_secret";
 // Coinbase
 export const CDP_PAYMASTER_URL = `https://api.developer.coinbase.com/rpc/v1/base${IS_TESTNET ? "-sepolia" : ""}/${process.env.CDP_PAYMASTER_KEY}`;
 

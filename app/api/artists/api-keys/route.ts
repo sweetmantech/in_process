@@ -1,63 +1,41 @@
 import { NextRequest } from "next/server";
-import { generateApiKey, hashApiKey, validateApiKeyFormat } from "@/lib/crypto/apiKeyGeneration";
+import { generateApiKey, hashApiKey, validateApiKeyFormat } from "@/lib/api-keys";
 import { insertApiKey } from "@/lib/supabase/in_process_api_keys/insertApiKey";
-import { getApiKeysByArtist } from "@/lib/supabase/in_process_api_keys/getApiKeysByArtist";
-import { deleteApiKey } from "@/lib/supabase/in_process_api_keys/deleteApiKey";
+import { createApiKeySchema } from "@/lib/schema/apiKeySchema";
+import { PROJECT_SECRET } from "@/lib/consts";
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { name, artist_address } = body;
-
-    // Validate input
-    if (!name || !artist_address) {
+    const parseResult = createApiKeySchema.safeParse(body);
+    if (!parseResult.success) {
+      const errorDetails = parseResult.error.errors.map((err) => ({
+        field: err.path.join("."),
+        message: err.message,
+      }));
       return Response.json(
-        { error: "Name and artist_address are required" },
+        { message: "Invalid input", errors: errorDetails },
         { status: 400 }
       );
     }
+    const { key_name, artist_address } = parseResult.data;
 
-    if (typeof name !== 'string' || name.trim().length === 0) {
-      return Response.json(
-        { error: "Name must be a non-empty string" },
-        { status: 400 }
-      );
-    }
-
-    if (typeof artist_address !== 'string') {
-      return Response.json(
-        { error: "Artist address must be a string" },
-        { status: 400 }
-      );
-    }
-
-    // Check for project secret
-    const projectSecret = process.env.API_KEY_PROJECT_SECRET;
-    if (!projectSecret) {
-      console.error("API_KEY_PROJECT_SECRET environment variable not set");
-      return Response.json(
-        { error: "API key generation not configured" },
-        { status: 500 }
-      );
-    }
-
-    // Generate secure API key
-    const rawApiKey = generateApiKey('art_pk');
+    const rawApiKey = generateApiKey('art_sk');
     
-    // Validate the generated key format
-    if (!validateApiKeyFormat(rawApiKey, 'art_pk')) {
+    if (!validateApiKeyFormat(rawApiKey, 'art_sk')) {
       return Response.json(
-        { error: "Failed to generate valid API key" },
+        { 
+          success: false,
+          error: "Failed to generate valid API key" 
+        },
         { status: 500 }
       );
     }
 
-    // Hash the key for storage
-    const keyHash = hashApiKey(rawApiKey, projectSecret);
+    const keyHash = hashApiKey(rawApiKey, PROJECT_SECRET);
 
-    // Store in database
     const { data, error } = await insertApiKey({
-      name: name.trim(),
+      name: key_name.trim(),
       artist_address: artist_address.toLowerCase(),
       key_hash: keyHash,
     });
@@ -65,7 +43,10 @@ export async function POST(req: NextRequest) {
     if (error) {
       console.error("Database error:", error);
       return Response.json(
-        { error: "Failed to store API key" },
+        { 
+          success: false,
+          error: "Failed to store API key" 
+        },
         { status: 500 }
       );
     }
@@ -82,80 +63,12 @@ export async function POST(req: NextRequest) {
   } catch (e: any) {
     console.error("API key creation error:", e);
     return Response.json(
-      { error: "Failed to create API key" },
+      { 
+        success: false,
+        error: "Failed to create API key" 
+      },
       { status: 500 }
     );
   }
 }
 
-export async function GET(req: NextRequest) {
-  try {
-    const { searchParams } = new URL(req.url);
-    const artist_address = searchParams.get('artist_address');
-
-    if (!artist_address) {
-      return Response.json(
-        { error: "artist_address parameter is required" },
-        { status: 400 }
-      );
-    }
-
-    const { data, error } = await getApiKeysByArtist(artist_address.toLowerCase());
-
-    if (error) {
-      console.error("Database error:", error);
-      return Response.json(
-        { error: "Failed to fetch API keys" },
-        { status: 500 }
-      );
-    }
-
-    return Response.json({
-      success: true,
-      keys: data,
-    });
-
-  } catch (e: any) {
-    console.error("API key fetch error:", e);
-    return Response.json(
-      { error: "Failed to fetch API keys" },
-      { status: 500 }
-    );
-  }
-}
-
-export async function DELETE(req: NextRequest) {
-  try {
-    const body = await req.json();
-    const { key_id, artist_address } = body;
-
-    if (!key_id || !artist_address) {
-      return Response.json(
-        { error: "key_id and artist_address are required" },
-        { status: 400 }
-      );
-    }
-
-    const { error } = await deleteApiKey(key_id, artist_address.toLowerCase());
-
-    if (error) {
-      console.error("Database error:", error);
-      return Response.json(
-        { error: "Failed to delete API key" },
-        { status: 500 }
-      );
-    }
-
-    return Response.json({
-      success: true,
-      message: "API key deleted successfully",
-    });
-
-  } catch (e: any) {
-    console.error("API key deletion error:", e);
-    return Response.json(
-      { error: "Failed to delete API key" },
-      { status: 500 }
-    );
-  }
-}
