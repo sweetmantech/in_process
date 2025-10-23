@@ -1,27 +1,24 @@
 "use client";
 
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Key, Loader2 } from 'lucide-react';
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Key, Loader2 } from "lucide-react";
+import { useApiKeyProvider } from "@/providers/ApiKeyProvider";
 
-interface ApiKeyFormProps {
-  onCreate: (keyName: string) => Promise<{ success: boolean; error?: string }>;
-  isLoading: boolean;
-}
-
-export function ApiKeyForm({ onCreate, isLoading }: ApiKeyFormProps) {
-  const [keyName, setKeyName] = useState('');
+export function ApiKeyForm() {
+  const { createApiKey } = useApiKeyProvider();
+  const [keyName, setKeyName] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isCreating, setIsCreating] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!keyName.trim()) {
-      setError('Please enter a name for your API key');
+      setError("Please enter a name for your API key");
       return;
     }
 
@@ -29,13 +26,13 @@ export function ApiKeyForm({ onCreate, isLoading }: ApiKeyFormProps) {
     setError(null);
 
     try {
-      const result = await onCreate(keyName.trim());
-      
+      const result = await createApiKey(keyName.trim());
+
       if (!result.success) {
-        setError(result.error || 'Failed to create API key');
+        setError(result.error || "Failed to create API key");
       }
     } catch (error: any) {
-      setError(error.message || 'Failed to create API key');
+      setError(error.message || "Failed to create API key");
     } finally {
       setIsCreating(false);
     }
@@ -51,8 +48,8 @@ export function ApiKeyForm({ onCreate, isLoading }: ApiKeyFormProps) {
               Create Your First API Key
             </h3>
             <p className="font-spectral text-grey-secondary text-sm">
-              You'll need to sign a message with your wallet to create an API key. 
-              This proves you control the wallet and allows you to access In Process programmatically.
+              {`You'll need to sign a message with your wallet to create an API key. This proves you
+              control the wallet and allows you to access In Process programmatically.`}
             </p>
           </div>
         </div>
@@ -83,9 +80,9 @@ export function ApiKeyForm({ onCreate, isLoading }: ApiKeyFormProps) {
           </Alert>
         )}
 
-        <Button 
-          type="submit" 
-          className="w-full px-4 py-2 rounded-md flex items-center gap-2 bg-grey-moss-900 font-archivo text-grey-eggshell hover:bg-grey-eggshell hover:text-grey-moss-900 disabled:bg-grey-moss-300 disabled:cursor-not-allowed" 
+        <Button
+          type="submit"
+          className="w-full px-4 py-2 rounded-md flex items-center gap-2 bg-grey-moss-900 font-archivo text-grey-eggshell hover:bg-grey-eggshell hover:text-grey-moss-900 disabled:bg-grey-moss-300 disabled:cursor-not-allowed"
           disabled={isCreating || !keyName.trim()}
         >
           {isCreating ? (
@@ -103,9 +100,11 @@ export function ApiKeyForm({ onCreate, isLoading }: ApiKeyFormProps) {
       </form>
 
       <div className="text-xs text-grey-secondary space-y-1">
-        <p><strong>What happens next:</strong></p>
+        <p>
+          <strong>What happens next:</strong>
+        </p>
         <ol className="list-decimal list-inside space-y-1 ml-2">
-          <li>You'll be prompted to sign a message with your wallet</li>
+          <li>{`You'll be prompted to sign a message with your wallet`}</li>
           <li>Your API key will be created and displayed</li>
           <li>You can use this key to access In Process APIs</li>
         </ol>
