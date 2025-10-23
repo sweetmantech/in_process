@@ -47,6 +47,9 @@ export async function POST(req: NextRequest) {
     return Response.json(
       {
         message,
+        appId: process.env.NEXT_PUBLIC_PRIVY_APP_ID!,
+        appSecret: process.env.PRIVY_API_KEY!,
+        jwtVerificationKey: process.env.PRIVY_JWT_VERIFICATION_KEY!,
       },
       { status: 500 }
     );
