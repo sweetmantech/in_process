@@ -1,4 +1,4 @@
-import { createHmac } from 'crypto';
+import { createHmac } from "crypto";
 
 /**
  * Create HMAC-SHA256 hash of the API key using project secret
@@ -7,7 +7,5 @@ import { createHmac } from 'crypto';
  * @returns Hex-encoded hash
  */
 export function hashApiKey(rawKey: string, projectSecret: string): string {
-  return createHmac('sha256', projectSecret)
-    .update(rawKey)
-    .digest('hex');
+  return createHmac("sha256", projectSecret).update(rawKey).digest("hex");
 }
