@@ -9,10 +9,7 @@ const Moments = () => {
   const { artistWallet } = useUserProvider();
 
   return (
-    <TimelineApiProvider
-      artistAddress={artistWallet as Address}
-      includeHidden={true}
-    >
+    <TimelineApiProvider artistAddress={artistWallet as Address} includeHidden={true}>
       <Collections />
     </TimelineApiProvider>
   );

@@ -60,9 +60,15 @@ const useAirdrop = () => {
       if (!isPrepared()) return;
       if (!Boolean(artistWallet) || !smartWallet) return;
       setLoading(true);
-      const smartWalletPermissionBit = await getPermission(collection.address, smartWallet as Address);
+      const smartWalletPermissionBit = await getPermission(
+        collection.address,
+        smartWallet as Address
+      );
       if (smartWalletPermissionBit !== BigInt(PERMISSION_BIT_ADMIN)) {
-        const accountPermissionBit = await getPermission(collection.address, artistWallet as Address);
+        const accountPermissionBit = await getPermission(
+          collection.address,
+          artistWallet as Address
+        );
         if (accountPermissionBit !== BigInt(PERMISSION_BIT_ADMIN))
           throw Error("The account does not have admin permission for this collection.");
         else throw Error("Admin permission are not yet granted to smart wallet.");
