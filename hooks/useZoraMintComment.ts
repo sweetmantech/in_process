@@ -52,17 +52,13 @@ const useZoraMintComment = () => {
   const { mintWithUsdc } = useUsdcMint();
   const { mintWithNativeToken } = useNativeMint();
 
-  const mintWithCrossmint = () => {
-    setIsLoading(false);
-    setIsOpenCrossmint(true);
-    setIsOpenCommentModal(false);
-  };
   const mintComment = async () => {
     try {
       if (!isPrepared()) return;
       if (!saleConfig) return;
       setIsLoading(true);
       const account = context ? address : connectedWallet;
+      console.log('ziad here', account)
       const minterArguments = encodeAbiParameters(parseAbiParameters("address, string"), [
         account as Address,
         comment,
@@ -82,15 +78,9 @@ const useZoraMintComment = () => {
           ],
         });
       } else {
-        let receipt = null;
         if (saleConfig.type === MintType.ZoraErc20Mint)
-          receipt = await mintWithUsdc(saleConfig, token, comment, mintCount);
-        else receipt = await mintWithNativeToken(saleConfig, token, comment, mintCount);
-
-        if (!Boolean(receipt)) {
-          mintWithCrossmint();
-          return;
-        }
+          await mintWithUsdc(saleConfig, token, comment, mintCount);
+        else await mintWithNativeToken(saleConfig, token, comment, mintCount);
       }
       addComment({
         sender: account as Address,
@@ -103,7 +93,7 @@ const useZoraMintComment = () => {
       toast.success("collected!");
       setIsLoading(false);
     } catch (error) {
-      console.error(error);
+      toast.error((error as any)?.message);
       setIsLoading(false);
     }
   };

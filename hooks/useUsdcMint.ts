@@ -1,6 +1,5 @@
-import { formatUnits, parseEther } from "viem";
+import { formatUnits } from "viem";
 import { SaleConfig } from "./useTokenInfo";
-import { toast } from "sonner";
 import { TokenInfo } from "@/types/token";
 import { useUserProvider } from "@/providers/UserProvider";
 import { useSmartWalletProvider } from "@/providers/SmartWalletProvider";
@@ -18,7 +17,7 @@ const useUsdcMint = () => {
     try {
       const usdcPrice = formatUnits(sale.pricePerToken, 6);
       if (Number(balance) < Number(usdcPrice)) {
-        toast.error(`Insufficient balance. please topup USDC to your smart wallet.`);
+        throw new Error("Insufficient balance. please topup USDC to your smart wallet. \n https://inprocess.fun/topup");
       }
       const response = await fetch("/api/moment/collect", {
         method: "POST",
