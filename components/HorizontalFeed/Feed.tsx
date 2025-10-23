@@ -19,7 +19,7 @@ interface FeedProps {
 
 const Feed: FC<FeedProps> = ({ feed, hovered, step, height }) => {
   const { isLoading, data, handleClick, formattedDate } = useClickTimelineFeed(feed);
-  const { connectedAddress, artistWallet } = useUserProvider();
+  const { artistWallet } = useUserProvider();
   const [isFadingOut, setIsFadingOut] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
   const { isEditable } = useArtistEditable();
@@ -83,7 +83,7 @@ const Feed: FC<FeedProps> = ({ feed, hovered, step, height }) => {
                 chainId: feed.chainId,
                 id: `${feed.collection}-${feed.tokenId}`,
                 uri: feed.uri,
-                admin: (artistWallet || connectedAddress) as Address,
+                admin: artistWallet as Address,
                 createdAt: new Date(feed.created_at * 1000).toISOString(),
                 username: feed.username || "",
               }}

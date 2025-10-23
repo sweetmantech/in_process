@@ -7,8 +7,6 @@ import { Address, encodeAbiParameters, parseAbiParameters } from "viem";
 import { useTokenProvider } from "@/providers/TokenProvider";
 import { useUserProvider } from "@/providers/UserProvider";
 import { useCrossmintCheckout } from "@crossmint/client-sdk-react-ui";
-import useConnectedWallet from "./useConnectedWallet";
-import { useFrameProvider } from "@/providers/FrameProvider";
 import { toast } from "sonner";
 import { MintType } from "@/types/zora";
 import useUsdcMint from "./useUsdcMint";
@@ -33,9 +31,7 @@ const mintOnSmartWallet = async (parameters: any) => {
 
 const useZoraMintComment = () => {
   const [isOpenCrossmint, setIsOpenCrossmint] = useState(false);
-  const { connectedWallet } = useConnectedWallet();
-  const { address } = useAccount();
-  const { context } = useFrameProvider();
+  const { artistWallet } = useUserProvider();
   const [isLoading, setIsLoading] = useState(false);
   const {
     token,
@@ -47,24 +43,17 @@ const useZoraMintComment = () => {
     setCollected,
     mintCount,
   } = useTokenProvider();
-  const { isPrepared } = useUserProvider();
   const { order } = useCrossmintCheckout();
   const { mintWithUsdc } = useUsdcMint();
   const { mintWithNativeToken } = useNativeMint();
 
-  const mintWithCrossmint = () => {
-    setIsLoading(false);
-    setIsOpenCrossmint(true);
-    setIsOpenCommentModal(false);
-  };
   const mintComment = async () => {
     try {
-      if (!isPrepared()) return;
       if (!saleConfig) return;
+      if (!artistWallet) return;
       setIsLoading(true);
-      const account = context ? address : connectedWallet;
       const minterArguments = encodeAbiParameters(parseAbiParameters("address, string"), [
-        account as Address,
+        artistWallet,
         comment,
       ]);
 
@@ -82,18 +71,12 @@ const useZoraMintComment = () => {
           ],
         });
       } else {
-        let receipt = null;
         if (saleConfig.type === MintType.ZoraErc20Mint)
-          receipt = await mintWithUsdc(saleConfig, token, comment, mintCount);
-        else receipt = await mintWithNativeToken(saleConfig, token, comment, mintCount);
-
-        if (!Boolean(receipt)) {
-          mintWithCrossmint();
-          return;
-        }
+          await mintWithUsdc(saleConfig, token, comment, mintCount);
+        else await mintWithNativeToken(saleConfig, token, comment, mintCount);
       }
       addComment({
-        sender: account as Address,
+        sender: artistWallet as Address,
         comment,
         timestamp: new Date().getTime(),
       } as any);
@@ -103,7 +86,7 @@ const useZoraMintComment = () => {
       toast.success("collected!");
       setIsLoading(false);
     } catch (error) {
-      console.error(error);
+      toast.error((error as any)?.message);
       setIsLoading(false);
     }
   };
