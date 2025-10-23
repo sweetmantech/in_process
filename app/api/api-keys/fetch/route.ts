@@ -5,7 +5,6 @@ import getCorsHeader from '@/lib/getCorsHeader';
 
 const corsHeaders = getCorsHeader();
 
-// POST /api/api-keys/fetch - Get existing API key using wallet signature
 // This endpoint is for artists who want to fetch their existing API key
 export async function POST(req: NextRequest) {
   return withWalletAuth(async (authenticatedReq) => {
