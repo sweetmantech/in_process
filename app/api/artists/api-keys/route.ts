@@ -4,7 +4,7 @@ import { hashApiKey } from "@/lib/api-keys/hashApiKey";
 import { getBearerToken } from "@/lib/api-keys/getBearerToken";
 import { insertApiKey } from "@/lib/supabase/in_process_api_keys/insertApiKey";
 import { createApiKeySchema } from "@/lib/schema/apiKeySchema";
-import { PROJECT_SECRET } from "@/lib/consts";
+import { PRIVY_PROJECT_SECRET } from "@/lib/consts";
 import privyClient from "@/lib/privy/client";
 
 export async function POST(req: NextRequest) {
@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
     const { key_name, artist_address } = parseResult.data;
 
     const rawApiKey = generateApiKey("art_sk");
-    const keyHash = hashApiKey(rawApiKey, PROJECT_SECRET);
+    const keyHash = hashApiKey(rawApiKey, PRIVY_PROJECT_SECRET);
 
     const { error } = await insertApiKey({
       name: key_name.trim(),
