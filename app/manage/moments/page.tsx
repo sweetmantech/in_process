@@ -6,11 +6,11 @@ import { useUserProvider } from "@/providers/UserProvider";
 import { Address } from "viem";
 
 const Moments = () => {
-  const { connectedAddress, artistWallet } = useUserProvider();
+  const { artistWallet } = useUserProvider();
 
   return (
     <TimelineApiProvider
-      artistAddress={(artistWallet || connectedAddress) as Address}
+      artistAddress={artistWallet as Address}
       includeHidden={true}
     >
       <Collections />

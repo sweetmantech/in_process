@@ -9,7 +9,7 @@ import { useState } from "react";
 import ConnectButton from "./ConnectButton";
 
 const AccountPage = () => {
-  const { profile, artistWallet, connectedAddress } = useUserProvider();
+  const { profile, artistWallet } = useUserProvider();
   const {
     twitter,
     instagram,
@@ -27,7 +27,7 @@ const AccountPage = () => {
   const onSave = async () => {
     setIsLoading(true);
     await updateProfile({
-      address: (artistWallet || connectedAddress) as string,
+      address: artistWallet as string,
       username,
       bio,
       farcaster_username: farcaster,
