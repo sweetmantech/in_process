@@ -73,7 +73,7 @@ const useAirdrop = () => {
           throw Error("The account does not have admin permission for this collection.");
         else throw Error("Admin permission are not yet granted to smart wallet.");
       }
-      const airdrop = Array.from({ length: airdopToItems.length }).map((_, i) => ({
+      const receipts = Array.from({ length: airdopToItems.length }).map((_, i) => ({
         address: airdopToItems[i].address,
         tokenId: params.tokenId,
       }));
