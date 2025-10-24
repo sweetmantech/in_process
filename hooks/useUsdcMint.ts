@@ -4,12 +4,13 @@ import { TokenInfo } from "@/types/token";
 import { useUserProvider } from "@/providers/UserProvider";
 import { useSmartWalletProvider } from "@/providers/SmartWalletProvider";
 import { toast } from "sonner";
+import { usePrivy } from "@privy-io/react-auth";
+import { collectMomentApi } from "@/lib/moment/collectMomentApi";
 
 const useUsdcMint = () => {
   const { balance } = useSmartWalletProvider();
-  const { artistWallet } = useUserProvider();
-
-  const mintWithUsdc = async (
+  const { getAccessToken } = usePrivy();
+  const collectWithUsdc = async (
     sale: SaleConfig,
     token: TokenInfo,
     comment: string,
@@ -27,27 +28,24 @@ const useUsdcMint = () => {
       });
       throw new Error("Insufficient balance. Please add funds to collect.");
     }
-    const response = await fetch("/api/moment/collect", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    const accessToken = await getAccessToken();
+    if (!accessToken) {
+      throw new Error("Failed to get access token");
+    }
+    const hash = await collectMomentApi(
+      {
+        contractAddress: token.tokenContractAddress,
+        tokenId: token.tokenId,
       },
-      body: JSON.stringify({
-        token: {
-          tokenContractAddress: token.tokenContractAddress,
-          tokenId: token.tokenId,
-        },
-        account: artistWallet,
-        amount: mintCount,
-        comment,
-      }),
-    });
-    const data = await response.json();
-    return data.hash;
+      mintCount,
+      comment,
+      accessToken
+    );
+    return hash;
   };
 
   return {
-    mintWithUsdc,
+    collectWithUsdc,
   };
 };
 

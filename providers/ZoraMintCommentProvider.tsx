@@ -1,14 +1,14 @@
 "use client";
 
-import useZoraMintComment from "@/hooks/useZoraMintComment";
+import useMomentCollect from "@/hooks/useMomentCollect";
 import React, { createContext, useContext, useMemo } from "react";
 
-const ZoraMintCommentContext = createContext<ReturnType<typeof useZoraMintComment> | undefined>(
+const ZoraMintCommentContext = createContext<ReturnType<typeof useMomentCollect> | undefined>(
   undefined
 );
 
 const ZoraMintCommentProvider = ({ children }: { children: React.ReactNode }) => {
-  const zoraMintComment = useZoraMintComment();
+  const zoraMintComment = useMomentCollect();
 
   const value = useMemo(() => ({ ...zoraMintComment }), [zoraMintComment]);
 
@@ -17,12 +17,12 @@ const ZoraMintCommentProvider = ({ children }: { children: React.ReactNode }) =>
   );
 };
 
-const useZoraMintCommentProvider = () => {
+const useMomentCollectProvider = () => {
   const context = useContext(ZoraMintCommentContext);
   if (!context) {
-    throw new Error("useZoraMintCommentProvider must be used within a ZoraMintCommentProvider");
+    throw new Error("useMomentCollectProvider must be used within a ZoraMintCommentProvider");
   }
   return context;
 };
 
-export { ZoraMintCommentProvider, useZoraMintCommentProvider };
+export { ZoraMintCommentProvider, useMomentCollectProvider };

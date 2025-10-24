@@ -1,13 +1,13 @@
 "use client";
 
-import { useZoraMintCommentProvider } from "@/providers/ZoraMintCommentProvider";
+import { useMomentCollectProvider } from "@/providers/ZoraMintCommentProvider";
 
 export default function CommentButton() {
-  const { mintComment, isLoading } = useZoraMintCommentProvider();
+  const { collectWithComment, isLoading } = useMomentCollectProvider();
 
   return (
     <button
-      onClick={mintComment}
+      onClick={collectWithComment}
       type="button"
       className="py-3 bg-black hover:bg-grey-moss-300 font-archivo text-xl w-full text-grey-eggshell"
       disabled={isLoading}
