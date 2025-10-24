@@ -8,7 +8,6 @@ export async function deleteApiKey(keyId: string, accessToken: string): Promise<
   const response = await fetch(`/api/artists/api-keys?keyId=${keyId}`, {
     method: "DELETE",
     headers: {
-      "Content-Type": "application/json",
       Authorization: `Bearer ${accessToken}`,
     },
   });

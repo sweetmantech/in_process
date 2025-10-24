@@ -4,6 +4,7 @@ import { hashApiKey } from "@/lib/api-keys/hashApiKey";
 import { getBearerToken } from "@/lib/api-keys/getBearerToken";
 import { insertApiKey } from "@/lib/supabase/in_process_api_keys/insertApiKey";
 import { getApiKeys } from "@/lib/supabase/in_process_api_keys/getApiKeys";
+import { deleteApiKey } from "@/lib/supabase/in_process_api_keys/deleteApiKey";
 import { createApiKeySchema } from "@/lib/schema/apiKeySchema";
 import { PRIVY_PROJECT_SECRET } from "@/lib/consts";
 import privyClient from "@/lib/privy/client";
@@ -79,6 +80,40 @@ export async function POST(req: NextRequest) {
   } catch (e: any) {
     console.log(e);
     const message = e?.message ?? "failed to create an api key";
+    return Response.json(
+      {
+        message,
+      },
+      { status: 500 }
+    );
+  }
+}
+
+export async function DELETE(req: NextRequest) {
+  try {
+    const authHeader = req.headers.get("authorization");
+    const authToken = getBearerToken(authHeader);
+    if (!authToken) throw new Error("Authorization header with Bearer token required");
+
+    await privyClient.utils().auth().verifyAuthToken(authToken);
+
+    const { searchParams } = new URL(req.url);
+    const keyId = searchParams.get("keyId");
+
+    if (!keyId) {
+      return Response.json({ message: "keyId parameter required" }, { status: 400 });
+    }
+
+    const { error } = await deleteApiKey(keyId);
+
+    if (error) throw new Error("Failed to delete API key");
+
+    return Response.json({
+      message: "API key deleted successfully",
+    });
+  } catch (e: any) {
+    console.log(e);
+    const message = e?.message ?? "failed to delete API key";
     return Response.json(
       {
         message,

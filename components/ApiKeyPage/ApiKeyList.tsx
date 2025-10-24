@@ -19,10 +19,6 @@ export function ApiKeyList() {
     });
   };
 
-  const handleDelete = async (keyId: string) => {
-    await deleteApiKey(keyId);
-  };
-
   if (loadingKeys) {
     return (
       <div className="space-y-4">
@@ -66,7 +62,7 @@ export function ApiKeyList() {
                 type="button"
                 variant="outline"
                 size="sm"
-                onClick={() => handleDelete(key.id)}
+                onClick={() => deleteApiKey(key.id)}
                 className="text-red-600 border-red-300 hover:bg-red-50"
               >
                 <Trash2 className="h-4 w-4" />
