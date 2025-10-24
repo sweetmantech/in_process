@@ -7,7 +7,6 @@ import { deleteApiKey } from "@/lib/api-keys/deleteApiKey";
 import { usePrivy } from "@privy-io/react-auth";
 
 interface UseApiKeyReturn {
-  isLoading: boolean;
   createApiKey: (keyName: string) => Promise<void>;
   apiKey: string | null;
   showApiKeyModal: boolean;
@@ -19,46 +18,35 @@ interface UseApiKeyReturn {
 }
 
 export default function useApiKey(): UseApiKeyReturn {
-  const [isLoading, setIsLoading] = useState(false);
   const [apiKey, setApiKey] = useState<string | null>(null);
   const [showApiKeyModal, setShowApiKeyModal] = useState(false);
   const [apiKeys, setApiKeys] = useState<any[]>([]);
   const [loadingKeys, setLoadingKeys] = useState(true);
-  const { artistWallet } = useUserProvider();
   const { getAccessToken } = usePrivy();
+  const { artistWallet } = useUserProvider();
 
   const createApiKeyHandler = async (keyName: string): Promise<void> => {
-    if (!artistWallet) {
-      toast.error("No wallet connected");
-      return;
-    }
-
     if (apiKeys.length >= 5) {
       toast.error("Maximum 5 API keys allowed per artist. Please delete an existing key first.");
       return;
     }
 
-    setIsLoading(true);
     try {
       const accessToken = await getAccessToken();
       if (accessToken) {
-        const key = await createApiKey(keyName, artistWallet, accessToken);
+        const key = await createApiKey(keyName, accessToken);
         setApiKey(key);
         setShowApiKeyModal(true);
         await loadApiKeys();
-        setIsLoading(false);
         return;
       }
       toast.error("No access token found");
     } catch (error: any) {
       toast.error(error.message || "Failed to create API key");
     }
-    setIsLoading(false);
   };
 
   const loadApiKeys = async (): Promise<void> => {
-    if (!artistWallet) return;
-
     setLoadingKeys(true);
     try {
       const accessToken = await getAccessToken();
@@ -67,7 +55,7 @@ export default function useApiKey(): UseApiKeyReturn {
         return;
       }
 
-      const keys = await fetchApiKeys(artistWallet, accessToken);
+      const keys = await fetchApiKeys(accessToken);
       setApiKeys(keys);
     } catch (error: any) {
       toast.error(error.message || "Failed to load API keys");
@@ -97,7 +85,6 @@ export default function useApiKey(): UseApiKeyReturn {
   }, [artistWallet]);
 
   return {
-    isLoading,
     createApiKey: createApiKeyHandler,
     apiKey,
     showApiKeyModal,

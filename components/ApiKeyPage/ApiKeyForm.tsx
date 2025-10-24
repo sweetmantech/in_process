@@ -29,21 +29,6 @@ export function ApiKeyForm() {
 
   return (
     <div className="space-y-4">
-      <div className="bg-grey-moss-50 border border-grey-secondary rounded-lg p-4">
-        <div className="flex items-start gap-3">
-          <Key className="h-5 w-5 text-grey-moss-600 mt-0.5" />
-          <div>
-            <h3 className="font-archivo-medium text-grey-moss-900 mb-1">
-              Create Your First API Key
-            </h3>
-            <p className="font-spectral text-grey-secondary text-sm">
-              {`You'll need to sign a message with your wallet to create an API key. This proves you
-              control the wallet and allows you to access In Process programmatically.`}
-            </p>
-          </div>
-        </div>
-      </div>
-
       {apiKeys.length >= 5 && (
         <div className="bg-red-50 border border-red-200 rounded-lg p-4">
           <p className="text-red-800 text-sm font-archivo-medium">
