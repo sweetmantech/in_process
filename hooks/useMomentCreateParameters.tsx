@@ -6,7 +6,7 @@ import getSaleConfigType from "@/lib/getSaleConfigType";
 import useCreateAdvancedValues from "./useCreateAdvancedValues";
 import { useUserProvider } from "@/providers/UserProvider";
 
-const useZoraCreateParameters = (collection?: Address) => {
+const useMomentCreateParameters = (collection?: Address) => {
   const { artistWallet } = useUserProvider();
   const createMetadata = useCreateMetadata();
   const advancedValues = useCreateAdvancedValues();
@@ -54,4 +54,4 @@ const useZoraCreateParameters = (collection?: Address) => {
   return { createMetadata, fetchParameters, advancedValues };
 };
 
-export default useZoraCreateParameters;
+export default useMomentCreateParameters;

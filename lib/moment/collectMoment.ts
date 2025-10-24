@@ -10,7 +10,7 @@ import getBalance from "../viem/getBalance";
 import getAllowance from "../viem/getAllowance";
 import { erc20MinterAddresses } from "../protocolSdk/constants";
 
-export type CollectMomentInput = z.infer<typeof collectSchema>;
+export type CollectMomentInput = z.infer<typeof collectSchema> & { artistAddress: Address };
 
 export interface CollectResult {
   hash: Hash;
@@ -22,20 +22,20 @@ export interface CollectResult {
  * Accepts the full API input shape to collect a Moment.
  */
 export async function collectMoment({
-  account,
-  token,
+  moment,
   comment,
   amount,
+  artistAddress,
 }: CollectMomentInput): Promise<CollectResult> {
   // Get or create a smart account (contract wallet)
   const smartAccount = await getOrCreateSmartWallet({
-    address: account as Address,
+    address: artistAddress,
   });
 
   // Check smart wallet balance
   const { saleConfig } = await getTokenInfo(
-    token.tokenContractAddress as Address,
-    token.tokenId,
+    moment.contractAddress as Address,
+    moment.tokenId,
     CHAIN_ID
   );
   const pricePerToken = formatUnits(saleConfig.pricePerToken, 6);
@@ -63,13 +63,13 @@ export async function collectMoment({
       abi: erc20MinterABI,
       functionName: "mint",
       args: [
-        account as Address,
+        artistAddress,
         BigInt(amount),
-        token.tokenContractAddress as Address,
-        BigInt(token.tokenId),
+        moment.contractAddress as Address,
+        BigInt(moment.tokenId),
         parseUnits(totalPrice.toString(), 6),
         USDC_ADDRESS,
-        account as Address,
+        artistAddress,
         comment,
       ],
     }),

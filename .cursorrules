@@ -283,7 +283,7 @@ Status: ✅ **COMPLETE** ✅
 [X] **Create CurrencySelect component**: Created `components/CreateForm/CurrencySelect.tsx` with ETH/USD options
 [X] **Correct placement in Price.tsx**: CurrencySelect replaces priceUnit text (not placed before label)
 [X] **Use existing priceUnit logic**: Using existing `priceUnit` and `setPriceUnit` from `useMetadataValues`
-[X] **Update useZoraCreateParameters**: Modified to use `priceUnit` instead of pathname check
+[X] **Update useMomentCreateParameters**: Modified to use `priceUnit` instead of pathname check
 [X] **Maintain original state management**: Kept existing `useMetadataValues` approach
 [X] **Remove props from CurrencySelect**: Component gets values directly from `useMomentCreateProvider`
 [X] **REMOVE isUsdcRoute check**: Always show CurrencySelect on ALL /create routes (not just /usdc)
@@ -296,14 +296,14 @@ Status: ✅ **COMPLETE** ✅
 **Changes Made**:
 - **CurrencySelect.tsx**: Self-contained component with no props, gets values from `useMomentCreateProvider`
 - **Price.tsx**: Always renders `<CurrencySelect />` (previously only on /usdc routes)
-- **useZoraCreateParameters.tsx**: Uses `createMetadata.priceUnit === "usdc"` instead of pathname
+- **useMomentCreateParameters.tsx**: Uses `createMetadata.priceUnit === "usdc"` instead of pathname
 - **Reverted unnecessary changes**: Removed custom `selectedCurrency` state, using existing logic
 
 **Technical Flow**:
 1. **All routes**: Currency dropdown now appears on ALL `/create` routes (not just /usdc)
 2. **Currency selection**: User selects ETH or USD in dropdown  
 3. **State update**: Updates existing `priceUnit` state via `setPriceUnit` ("eth" or "usdc")
-4. **Parameter calculation**: `useZoraCreateParameters` reads `priceUnit` to determine `isUsdc`
+4. **Parameter calculation**: `useMomentCreateParameters` reads `priceUnit` to determine `isUsdc`
 5. **Mint type**: `isUsdc = priceUnit === "usdc"` determines sale configuration
 
 **Key Changes**:
