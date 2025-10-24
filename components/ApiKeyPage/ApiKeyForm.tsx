@@ -75,17 +75,6 @@ export function ApiKeyForm() {
         </Button>
       </form>
 
-      <div className="text-xs font-spectral-italic text-grey-secondary space-y-1">
-        <p>
-          <strong>What happens next:</strong>
-        </p>
-        <ol className="list-decimal list-inside space-y-1 ml-2">
-          <li>{`You'll be prompted to sign a message with your wallet`}</li>
-          <li>Your API key will be created and displayed</li>
-          <li>You can use this key to access In Process APIs</li>
-        </ol>
-      </div>
-
       <ApiKeyModal
         isOpen={showApiKeyModal}
         onClose={() => setShowApiKeyModal(false)}
