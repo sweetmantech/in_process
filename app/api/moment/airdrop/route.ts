@@ -2,6 +2,8 @@ import { NextRequest } from "next/server";
 import { airdropMomentSchema } from "@/lib/schema/airdropMomentSchema";
 import { airdropMoment } from "@/lib/moment/airdropMoment";
 import getCorsHeader from "@/lib/getCorsHeader";
+import { authMiddleware } from "@/middleware/authMiddleware";
+import { Address } from "viem";
 
 // CORS headers for allowing cross-origin requests
 const corsHeaders = getCorsHeader();
@@ -15,6 +17,11 @@ export async function OPTIONS() {
 
 export async function POST(req: NextRequest) {
   try {
+    const authResult = await authMiddleware(req, { corsHeaders });
+    if (authResult instanceof Response) {
+      return authResult;
+    }
+    const { artistAddress } = authResult;
     const body = await req.json();
     const parseResult = airdropMomentSchema.safeParse(body);
     if (!parseResult.success) {
@@ -28,7 +35,10 @@ export async function POST(req: NextRequest) {
       );
     }
     const data = parseResult.data;
-    const result = await airdropMoment(data);
+    const result = await airdropMoment({
+      ...data,
+      artistAddress: artistAddress as Address,
+    });
     return Response.json(result, { headers: corsHeaders });
   } catch (e: any) {
     console.log(e);
