@@ -29,7 +29,7 @@ const mintOnSmartWallet = async (parameters: any) => {
   return data.transactionHash;
 };
 
-const useZoraMintComment = () => {
+const useMomentCollect = () => {
   const [isOpenCrossmint, setIsOpenCrossmint] = useState(false);
   const { artistWallet } = useUserProvider();
   const [isLoading, setIsLoading] = useState(false);
@@ -44,10 +44,10 @@ const useZoraMintComment = () => {
     mintCount,
   } = useTokenProvider();
   const { order } = useCrossmintCheckout();
-  const { mintWithUsdc } = useUsdcMint();
+  const { collectWithUsdc } = useUsdcMint();
   const { mintWithNativeToken } = useNativeMint();
 
-  const mintComment = async () => {
+  const collectWithComment = async () => {
     try {
       if (!saleConfig) return;
       if (!artistWallet) return;
@@ -72,7 +72,7 @@ const useZoraMintComment = () => {
         });
       } else {
         if (saleConfig.type === MintType.ZoraErc20Mint)
-          await mintWithUsdc(saleConfig, token, comment, mintCount);
+          await collectWithUsdc(saleConfig, token, comment, mintCount);
         else await mintWithNativeToken(saleConfig, token, comment, mintCount);
       }
       addComment({
@@ -86,7 +86,10 @@ const useZoraMintComment = () => {
       toast.success("collected!");
       setIsLoading(false);
     } catch (error) {
-      console.error(error);
+      const errorMessage = (error as any).message || "Failed to collect moment";
+      if (!errorMessage.includes("Insufficient balance")) {
+        toast.error(errorMessage);
+      }
       setIsLoading(false);
     }
   };
@@ -105,11 +108,11 @@ const useZoraMintComment = () => {
   }, [order]);
 
   return {
-    mintComment,
+    collectWithComment,
     isOpenCrossmint,
     setIsOpenCrossmint,
     isLoading,
   };
 };
 
-export default useZoraMintComment;
+export default useMomentCollect;

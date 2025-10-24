@@ -22,6 +22,7 @@ export async function POST(req: NextRequest) {
       return authResult;
     }
     const { artistAddress } = authResult;
+
     const body = await req.json();
     const parseResult = collectSchema.safeParse(body);
     if (!parseResult.success) {
