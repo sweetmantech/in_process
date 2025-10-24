@@ -7,7 +7,9 @@ import { getOrCreateSmartWallet } from "../coinbase/getOrCreateSmartWallet";
 import { airdropMomentSchema } from "../schema/airdropMomentSchema";
 import getPermission from "../zora/getPermission";
 
-export type AirdropMomentInput = z.infer<typeof airdropMomentSchema>;
+export type AirdropMomentInput = z.infer<typeof airdropMomentSchema> & {
+  artistAddress: Address;
+};
 
 export interface AirdropResult {
   hash: Hash;
@@ -19,30 +21,33 @@ export interface AirdropResult {
  * Accepts the full API input shape for airdrop a Moment.
  */
 export async function airdropMoment({
-  airdrop,
-  account,
-  collection,
+  recipients,
+  momentContract,
+  artistAddress,
 }: AirdropMomentInput): Promise<AirdropResult> {
   // Get or create a smart account (contract wallet)
   const smartAccount = await getOrCreateSmartWallet({
-    address: account as Address,
+    address: artistAddress,
   });
 
   // Check admin permission of artist wallet and smart wallet
-  const smartWalletPermissionBit = await getPermission(collection as Address, smartAccount.address);
+  const smartWalletPermissionBit = await getPermission(
+    momentContract as Address,
+    smartAccount.address
+  );
 
   if (smartWalletPermissionBit !== BigInt(PERMISSION_BIT_ADMIN)) {
-    const accountPermissionBit = await getPermission(collection as Address, account as Address);
+    const accountPermissionBit = await getPermission(momentContract as Address, artistAddress);
     if (accountPermissionBit !== BigInt(PERMISSION_BIT_ADMIN))
       throw Error("The account does not have admin permission for this collection.");
     else throw Error("Admin permission are not yet granted to smart wallet.");
   }
 
-  const calls = airdrop.map((item) =>
+  const calls = recipients.map((recipient) =>
     encodeFunctionData({
       abi: zoraCreator1155ImplABI,
       functionName: "adminMint",
-      args: [item.address as Address, BigInt(item.tokenId), BigInt(1), "0x"],
+      args: [recipient.recipientAddress as Address, BigInt(recipient.tokenId), BigInt(1), "0x"],
     })
   );
 
@@ -59,7 +64,7 @@ export async function airdropMoment({
     network: IS_TESTNET ? "base-sepolia" : "base",
     calls: [
       {
-        to: collection as Address,
+        to: momentContract as Address,
         data: airdropCall,
       },
     ],

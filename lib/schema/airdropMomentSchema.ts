@@ -2,15 +2,14 @@ import { z } from "zod";
 import addressSchema from "./addressSchema";
 import bigIntString from "./bigIntSchema";
 
-export const airdropSchema = z.array(
+export const recipientsSchema = z.array(
   z.object({
-    address: addressSchema,
+    recipientAddress: addressSchema,
     tokenId: bigIntString,
   })
 );
 
 export const airdropMomentSchema = z.object({
-  airdrop: airdropSchema,
-  account: addressSchema,
-  collection: addressSchema,
+  recipients: recipientsSchema,
+  momentContract: addressSchema,
 });
