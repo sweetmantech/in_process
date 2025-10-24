@@ -86,7 +86,10 @@ const useMomentCollect = () => {
       toast.success("collected!");
       setIsLoading(false);
     } catch (error) {
-      toast.error((error as any).message || "Failed to collect moment");
+      const errorMessage = (error as any).message || "Failed to collect moment";
+      if (!errorMessage.includes("Insufficient balance")) {
+        toast.error(errorMessage);
+      }
       setIsLoading(false);
     }
   };
