@@ -6,7 +6,7 @@ import { Fragment, MouseEvent, Suspense } from "react";
 import { Skeleton } from "../ui/skeleton";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import dynamic from "next/dynamic";
-import { useZoraMintCommentProvider } from "@/providers/ZoraMintCommentProvider";
+import { useMomentCollectProvider } from "@/providers/ZoraMintCommentProvider";
 import { useUserProvider } from "@/providers/UserProvider";
 import getPrice from "@/lib/getPrice";
 import getPriceUnit from "@/lib/getPriceUnit";
@@ -36,7 +36,7 @@ const CollectModal = () => {
     mintCount,
   } = useTokenProvider();
   const { data: meta } = metadata;
-  const { setIsOpenCrossmint, isOpenCrossmint } = useZoraMintCommentProvider();
+  const { setIsOpenCrossmint, isOpenCrossmint } = useMomentCollectProvider();
   const { isPrepared } = useUserProvider();
   const isSaleActive =
     parseInt(BigInt(saleConfig?.saleStart?.toString() || 0).toString(), 10) * 1000 < Date.now();

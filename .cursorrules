@@ -188,13 +188,13 @@ Status: ✅ **COMPLETE** ✅
   1. `lib/getCollectRequest.ts` line 32: hardcoded `1` in args for USDC (should use `mintAmount`)
   2. `hooks/useUsdcMint.ts` line 43: `getCollectRequest` called without `mintAmount` parameter
   3. `hooks/useUsdcMint.ts` line 71: ETH_USDC_WRAPPER mint call hardcoded quantity to `1`
-  4. `hooks/useZoraMintComment.ts` line 86: `mintWithUsdc` called without `mintCount` parameter
+  4. `hooks/useMomentCollect.ts` line 86: `mintWithUsdc` called without `mintCount` parameter
   5. `hooks/useCrossmintCalldata.ts` line 30: USDC quantity hardcoded to `1` (should use `mintCount`)
 
 **Implementation Plan**:
 [X] **Fix `lib/getCollectRequest.ts`**: Use `mintAmount` instead of hardcoded `1` for USDC mints
 [X] **Fix `hooks/useUsdcMint.ts`**: Accept `mintCount` parameter and pass it to `getCollectRequest` and ETH_USDC_WRAPPER
-[X] **Fix `hooks/useZoraMintComment.ts`**: Pass `mintCount` to `mintWithUsdc` call
+[X] **Fix `hooks/useMomentCollect.ts`**: Pass `mintCount` to `mintWithUsdc` call
 [X] **Fix `hooks/useCrossmintCalldata.ts`**: Use `mintCount` instead of hardcoded `1` for USDC
 [X] **Fix USDC pricing**: Ensure total price calculation and balance check account for quantity
 
@@ -210,7 +210,7 @@ Status: ✅ **COMPLETE** ✅
   - Pass `mintCount` to `getCollectRequest` call (line 43)
   - Changed hardcoded `1` to `mintCount` in ETH_USDC_WRAPPER mint call (line 71)  
   - Fixed USDC balance check to multiply by `mintCount` for total cost validation
-[X] **Updated `hooks/useZoraMintComment.ts`**: Pass `mintCount` parameter to `mintWithUsdc` call (line 86)
+[X] **Updated `hooks/useMomentCollect.ts`**: Pass `mintCount` parameter to `mintWithUsdc` call (line 86)
 [X] **Updated `hooks/useCrossmintCalldata.ts`**: 
   - Changed hardcoded quantity `1` to `mintCount` (line 30)
   - Fixed `totalPrice` calculation to multiply by `mintCount` for accurate pricing
