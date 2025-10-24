@@ -1,12 +1,14 @@
 "use client";
 
-import useZoraCreate from "@/hooks/useZoraCreate";
+import useMomentCreate from "@/hooks/useMomentCreate";
 import React, { createContext, useContext, useMemo } from "react";
 
-const MomentCreateContext = createContext<ReturnType<typeof useZoraCreate> | undefined>(undefined);
+const MomentCreateContext = createContext<ReturnType<typeof useMomentCreate> | undefined>(
+  undefined
+);
 
 const MomentCreateProvider = ({ children }: { children: React.ReactNode }) => {
-  const zoraCreate = useZoraCreate();
+  const zoraCreate = useMomentCreate();
 
   const value = useMemo(() => ({ ...zoraCreate }), [zoraCreate]);
 

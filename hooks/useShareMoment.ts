@@ -1,4 +1,4 @@
-import { CHAIN, PROD_URL } from "@/lib/consts";
+import { CHAIN, SITE_ORIGINAL_URL } from "@/lib/consts";
 import { getShortNetworkName } from "@/lib/zora/zoraToViem";
 import { useTokenProvider } from "@/providers/TokenProvider";
 import { toast } from "sonner";
@@ -9,7 +9,7 @@ const useShareMoment = () => {
   const share = async () => {
     const shortNetworkName = getShortNetworkName(CHAIN.name.toLowerCase());
     await navigator.clipboard.writeText(
-      `${PROD_URL}/collect/${shortNetworkName}:${token.tokenContractAddress}/${token.tokenId}`
+      `${SITE_ORIGINAL_URL}/collect/${shortNetworkName}:${token.tokenContractAddress}/${token.tokenId}`
     );
     toast.success("copied!");
   };
