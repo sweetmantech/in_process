@@ -5,7 +5,7 @@
  * @returns Promise with the deletion result
  */
 export async function deleteApiKey(keyId: string, accessToken: string): Promise<void> {
-  const response = await fetch(`/api/artists/api-keys/${keyId}`, {
+  const response = await fetch(`/api/artists/api-keys?keyId=${keyId}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
