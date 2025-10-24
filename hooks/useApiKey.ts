@@ -1,58 +1,110 @@
 import { useState, useEffect } from "react";
-import { ApiKeyClient } from "@/lib/api-key/client-utils";
 import { useUserProvider } from "@/providers/UserProvider";
-import { useSignMessage } from "@privy-io/react-auth";
-
-interface ApiKeyData {
-  id: string;
-  keyName: string;
-  artistAddress: string;
-  isActive: boolean;
-  createdAt: string;
-  updatedAt: string;
-}
+import { toast } from "sonner";
+import { createApiKey } from "@/lib/api-keys/createApiKey";
+import { fetchApiKeys } from "@/lib/api-keys/fetchApiKeys";
+import { deleteApiKey } from "@/lib/api-keys/deleteApiKey";
+import { usePrivy } from "@privy-io/react-auth";
 
 interface UseApiKeyReturn {
   isLoading: boolean;
-  error: string | null;
-  createApiKey: (keyName: string) => Promise<{ success: boolean; error?: string }>;
+  createApiKey: (keyName: string) => Promise<void>;
+  apiKey: string | null;
+  showApiKeyModal: boolean;
+  setShowApiKeyModal: (show: boolean) => void;
+  apiKeys: any[];
+  loadingKeys: boolean;
+  loadApiKeys: () => Promise<void>;
+  deleteApiKey: (keyId: string) => Promise<void>;
 }
 
 export default function useApiKey(): UseApiKeyReturn {
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [apiKey, setApiKey] = useState<string | null>(null);
+  const [showApiKeyModal, setShowApiKeyModal] = useState(false);
+  const [apiKeys, setApiKeys] = useState<any[]>([]);
+  const [loadingKeys, setLoadingKeys] = useState(true);
+  const { artistWallet } = useUserProvider();
+  const { getAccessToken } = usePrivy();
 
-  const { artistWallet, connectedAddress } = useUserProvider();
-  const { signMessage } = useSignMessage();
-  const address = artistWallet || connectedAddress;
+  const createApiKeyHandler = async (keyName: string): Promise<void> => {
+    if (!artistWallet) {
+      toast.error("No wallet connected");
+      return;
+    }
 
-  // Create new API key
-  const createApiKey = async (keyName: string): Promise<{ success: boolean; error?: string }> => {
-    if (!address) {
-      return { success: false, error: "No wallet connected" };
+    if (apiKeys.length >= 5) {
+      toast.error("Maximum 5 API keys allowed per artist. Please delete an existing key first.");
+      return;
     }
 
     setIsLoading(true);
-    setError(null);
-
     try {
-      const message = ApiKeyClient.getSignMessage(address);
-      const { signature } = await signMessage({ message }, { address });
-
-      console.log("signature", signature);
-      return { success: true };
+      const accessToken = await getAccessToken();
+      if (accessToken) {
+        const key = await createApiKey(keyName, artistWallet, accessToken);
+        setApiKey(key);
+        setShowApiKeyModal(true);
+        await loadApiKeys();
+        setIsLoading(false);
+        return;
+      }
+      toast.error("No access token found");
     } catch (error: any) {
-      const errorMessage = error.message || "Failed to create API key";
-      setError(errorMessage);
-      return { success: false, error: errorMessage };
+      toast.error(error.message || "Failed to create API key");
+    }
+    setIsLoading(false);
+  };
+
+  const loadApiKeys = async (): Promise<void> => {
+    if (!artistWallet) return;
+
+    setLoadingKeys(true);
+    try {
+      const accessToken = await getAccessToken();
+      if (!accessToken) {
+        toast.error("No access token found");
+        return;
+      }
+
+      const keys = await fetchApiKeys(artistWallet, accessToken);
+      setApiKeys(keys);
+    } catch (error: any) {
+      toast.error(error.message || "Failed to load API keys");
     } finally {
-      setIsLoading(false);
+      setLoadingKeys(false);
     }
   };
 
+  const deleteApiKeyHandler = async (keyId: string): Promise<void> => {
+    try {
+      const accessToken = await getAccessToken();
+      if (!accessToken) {
+        toast.error("No access token found");
+        return;
+      }
+
+      await deleteApiKey(keyId, accessToken);
+      toast.success("API key deleted successfully");
+      await loadApiKeys();
+    } catch (error: any) {
+      toast.error(error.message || "Failed to delete API key");
+    }
+  };
+
+  useEffect(() => {
+    loadApiKeys();
+  }, [artistWallet]);
+
   return {
     isLoading,
-    error,
-    createApiKey,
+    createApiKey: createApiKeyHandler,
+    apiKey,
+    showApiKeyModal,
+    setShowApiKeyModal,
+    apiKeys,
+    loadingKeys,
+    loadApiKeys,
+    deleteApiKey: deleteApiKeyHandler,
   };
 }

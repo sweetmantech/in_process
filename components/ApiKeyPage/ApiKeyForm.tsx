@@ -4,38 +4,27 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Key, Loader2 } from "lucide-react";
 import { useApiKeyProvider } from "@/providers/ApiKeyProvider";
+import { toast } from "sonner";
+import { ApiKeyModal } from "./ApiKeyModal";
 
 export function ApiKeyForm() {
-  const { createApiKey } = useApiKeyProvider();
+  const { createApiKey, apiKey, showApiKeyModal, setShowApiKeyModal, apiKeys } =
+    useApiKeyProvider();
   const [keyName, setKeyName] = useState("");
-  const [error, setError] = useState<string | null>(null);
   const [isCreating, setIsCreating] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     if (!keyName.trim()) {
-      setError("Please enter a name for your API key");
+      toast.error("Please enter a name for your API key");
       return;
     }
-
     setIsCreating(true);
-    setError(null);
-
-    try {
-      const result = await createApiKey(keyName.trim());
-
-      if (!result.success) {
-        setError(result.error || "Failed to create API key");
-      }
-    } catch (error: any) {
-      setError(error.message || "Failed to create API key");
-    } finally {
-      setIsCreating(false);
-    }
+    await createApiKey(keyName.trim());
+    setIsCreating(false);
+    setKeyName("");
   };
 
   return (
@@ -55,6 +44,14 @@ export function ApiKeyForm() {
         </div>
       </div>
 
+      {apiKeys.length >= 5 && (
+        <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+          <p className="text-red-800 text-sm font-archivo-medium">
+            Maximum 5 API keys reached. Please delete an existing key to create a new one.
+          </p>
+        </div>
+      )}
+
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <Label htmlFor="keyName" className="font-archivo-medium text-grey-moss-900">
@@ -67,23 +64,17 @@ export function ApiKeyForm() {
             value={keyName}
             onChange={(e) => setKeyName(e.target.value)}
             className="mt-1"
-            disabled={isCreating}
+            disabled={isCreating || apiKeys.length >= 5}
           />
-          <p className="text-xs text-grey-secondary mt-1">
+          <p className="text-xs font-spectral-italic text-grey-secondary mt-1">
             Choose a descriptive name to identify this API key
           </p>
         </div>
 
-        {error && (
-          <Alert variant="destructive">
-            <AlertDescription>{error}</AlertDescription>
-          </Alert>
-        )}
-
         <Button
           type="submit"
           className="w-full px-4 py-2 rounded-md flex items-center gap-2 bg-grey-moss-900 font-archivo text-grey-eggshell hover:bg-grey-eggshell hover:text-grey-moss-900 disabled:bg-grey-moss-300 disabled:cursor-not-allowed"
-          disabled={isCreating || !keyName.trim()}
+          disabled={isCreating || !keyName.trim() || apiKeys.length >= 5}
         >
           {isCreating ? (
             <>
@@ -99,7 +90,7 @@ export function ApiKeyForm() {
         </Button>
       </form>
 
-      <div className="text-xs text-grey-secondary space-y-1">
+      <div className="text-xs font-spectral-italic text-grey-secondary space-y-1">
         <p>
           <strong>What happens next:</strong>
         </p>
@@ -109,6 +100,12 @@ export function ApiKeyForm() {
           <li>You can use this key to access In Process APIs</li>
         </ol>
       </div>
+
+      <ApiKeyModal
+        isOpen={showApiKeyModal}
+        onClose={() => setShowApiKeyModal(false)}
+        apiKey={apiKey || ""}
+      />
     </div>
   );
 }

@@ -3,9 +3,44 @@ import { generateApiKey } from "@/lib/api-keys/generateApiKey";
 import { hashApiKey } from "@/lib/api-keys/hashApiKey";
 import { getBearerToken } from "@/lib/api-keys/getBearerToken";
 import { insertApiKey } from "@/lib/supabase/in_process_api_keys/insertApiKey";
+import { getApiKeys } from "@/lib/supabase/in_process_api_keys/getApiKeys";
 import { createApiKeySchema } from "@/lib/schema/apiKeySchema";
 import { PRIVY_PROJECT_SECRET } from "@/lib/consts";
 import privyClient from "@/lib/privy/client";
+
+export async function GET(req: NextRequest) {
+  try {
+    const authHeader = req.headers.get("authorization");
+    const authToken = getBearerToken(authHeader);
+    if (!authToken) throw new Error("Authorization header with Bearer token required");
+
+    await privyClient.utils().auth().verifyAuthToken(authToken);
+
+    const { searchParams } = new URL(req.url);
+    const artistAddress = searchParams.get("artist_address");
+
+    if (!artistAddress) {
+      return Response.json({ message: "artist_address parameter required" }, { status: 400 });
+    }
+
+    const { data, error } = await getApiKeys(artistAddress.toLowerCase());
+
+    if (error) throw new Error("Failed to fetch API keys");
+
+    return Response.json({
+      keys: data || [],
+    });
+  } catch (e: any) {
+    console.log(e);
+    const message = e?.message ?? "failed to fetch API keys";
+    return Response.json(
+      {
+        message,
+      },
+      { status: 500 }
+    );
+  }
+}
 
 export async function POST(req: NextRequest) {
   try {
