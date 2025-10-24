@@ -12,30 +12,34 @@ const clientUploadToArweave = async (
   file: File,
   getProgress: (progress: number) => void = () => {}
 ): Promise<string> => {
-  const ARWEAVE_KEY = JSON.parse(
-    Buffer.from(process.env.NEXT_PUBLIC_ARWEAVE_KEY as string, "base64").toString()
-  );
-  const buffer = await file.arrayBuffer();
-
-  const transaction = await arweave.createTransaction(
-    {
-      data: buffer,
-    },
-    ARWEAVE_KEY
-  );
-  transaction.addTag("Content-Type", file.type);
-  await arweave.transactions.sign(transaction, ARWEAVE_KEY);
-  const uploader = await arweave.transactions.getUploader(transaction);
-
-  while (!uploader.isComplete) {
-    console.log(
-      `${uploader.pctComplete}% complete, ${uploader.uploadedChunks}/${uploader.totalChunks}`
+  try {
+    const ARWEAVE_KEY = JSON.parse(
+      Buffer.from(process.env.NEXT_PUBLIC_ARWEAVE_KEY as string, "base64").toString()
     );
-    getProgress(uploader.pctComplete);
-    await uploader.uploadChunk();
-  }
+    const buffer = await file.arrayBuffer();
 
-  return `ar://${transaction.id}`;
+    const transaction = await arweave.createTransaction(
+      {
+        data: buffer,
+      },
+      ARWEAVE_KEY
+    );
+    transaction.addTag("Content-Type", file.type);
+    await arweave.transactions.sign(transaction, ARWEAVE_KEY);
+    const uploader = await arweave.transactions.getUploader(transaction);
+
+    while (!uploader.isComplete) {
+      console.log(
+        `${uploader.pctComplete}% complete, ${uploader.uploadedChunks}/${uploader.totalChunks}`
+      );
+      getProgress(uploader.pctComplete);
+      await uploader.uploadChunk();
+    }
+
+    return `ar://${transaction.id}`;
+  } catch (error) {
+    throw new Error((error as any).message || "Failed to upload to Arweave");
+  }
 };
 
 export default clientUploadToArweave;

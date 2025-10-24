@@ -7,6 +7,7 @@ import useMomentCreateParameters from "./useMomentCreateParameters";
 import { useMask } from "./useMask";
 import { useUserProvider } from "@/providers/UserProvider";
 import { createMoment } from "@/lib/moment/createMoment";
+import { toast } from "sonner";
 
 export default function useMomentCreate() {
   const [creating, setCreating] = useState<boolean>(false);
@@ -33,8 +34,8 @@ export default function useMomentCreate() {
       return result;
     } catch (err) {
       setCreating(false);
-      console.error(err);
-      throw err;
+      const errorMessage = (err as any)?.message || "Failed to create moment";
+      toast.error(errorMessage);
     }
   };
 
