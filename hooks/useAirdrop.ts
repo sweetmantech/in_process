@@ -7,9 +7,9 @@ import { useParams } from "next/navigation";
 import { mainnet } from "viem/chains";
 import { normalize } from "viem/ens";
 import { toast } from "sonner";
-import getPermission from "@/lib/zora/getPermission";
-import { PERMISSION_BIT_ADMIN } from "@/lib/consts";
 import { useSmartWalletProvider } from "@/providers/SmartWalletProvider";
+import { usePrivy } from "@privy-io/react-auth";
+import { executeAirdrop } from "@/lib/moment/executeAirdrop";
 
 export interface AirdropItem {
   address: string;
@@ -23,6 +23,7 @@ const useAirdrop = () => {
   const { smartWallet } = useSmartWalletProvider();
   const [loading, setLoading] = useState<boolean>(false);
   const params = useParams();
+  const { getAccessToken } = usePrivy();
 
   const onChangeAddress = async (value: string) => {
     if (!value) return;
@@ -60,42 +61,24 @@ const useAirdrop = () => {
       if (!isPrepared()) return;
       if (!Boolean(artistWallet) || !smartWallet) return;
       setLoading(true);
-      const smartWalletPermissionBit = await getPermission(
-        collection.address,
-        smartWallet as Address
-      );
-      if (smartWalletPermissionBit !== BigInt(PERMISSION_BIT_ADMIN)) {
-        const accountPermissionBit = await getPermission(
-          collection.address,
-          artistWallet as Address
-        );
-        if (accountPermissionBit !== BigInt(PERMISSION_BIT_ADMIN))
-          throw Error("The account does not have admin permission for this collection.");
-        else throw Error("Admin permission are not yet granted to smart wallet.");
-      }
-      const receipts = Array.from({ length: airdopToItems.length }).map((_, i) => ({
-        address: airdopToItems[i].address,
-        tokenId: params.tokenId,
-      }));
-      const response = await fetch("/api/moment/airdrop", {
-        method: "POST",
-        body: JSON.stringify({
-          airdrop,
-          account: artistWallet as Address,
-          collection: collection.address,
-        }),
-        headers: {
-          "content-type": "application/json",
-        },
+
+      const accessToken = await getAccessToken();
+      if (!accessToken) throw Error("No access token found");
+
+      const hash = await executeAirdrop({
+        airdropToItems: airdopToItems,
+        tokenId: params.tokenId as string,
+        momentContract: collection.address,
+        smartWallet: smartWallet as Address,
+        artistWallet: artistWallet as Address,
+        accessToken,
       });
 
-      const data = await response.json();
       setLoading(false);
       toast.success("airdropped!");
-      return data.hash;
+      return hash;
     } catch (error) {
       toast.error((error as any)?.message);
-      console.error(error);
       setLoading(false);
     }
   };
