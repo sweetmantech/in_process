@@ -15,9 +15,10 @@ interface FeedProps {
   hovered: boolean;
   step: number;
   height: number;
+  index: number;
 }
 
-const Feed: FC<FeedProps> = ({ feed, hovered, step, height }) => {
+const Feed: FC<FeedProps> = ({ feed, hovered, step, height, index }) => {
   const { isLoading, data, handleClick, formattedDate } = useClickTimelineFeed(feed);
   const { artistWallet } = useUserProvider();
   const [isFadingOut, setIsFadingOut] = useState(false);
@@ -44,6 +45,7 @@ const Feed: FC<FeedProps> = ({ feed, hovered, step, height }) => {
       <fieldset className="flex flex-col items-center">
         <button
           data-feed-button
+          data-feed-index={index}
           className="relative z-10 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-opacity-75 transition-transform hover:scale-110"
           onClick={handleClick}
         >
