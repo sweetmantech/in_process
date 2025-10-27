@@ -50,34 +50,37 @@ export const useHorizontalFeedAnimation = (feeds: Token[]): UseHorizontalFeedAni
     // Reset nearest index when feeds change to prevent stale references
     setNearestIndex(null);
     setEventTriggered(false);
-    
+
     // Reset active index if it's beyond the new feeds length
     if (activeIndex >= feeds.length) {
       setActiveIndex(Math.max(0, feeds.length - 1));
     }
   }, [feeds.length, activeIndex]);
 
-  const findNearestButtonIndex = useCallback((currentMouseX: number): NearestButton => {
-    const buttons = document.querySelectorAll<HTMLButtonElement>("button[data-feed-button]");
-    const buttonArray = Array.from(buttons);
-    
-    return buttonArray.reduce(
-      (nearest, button) => {
-        // Get the actual feeds array index from the data attribute
-        const feedIndex = parseInt(button.getAttribute('data-feed-index') || '-1', 10);
-        
-        // Skip if index is invalid or beyond feeds length
-        if (feedIndex < 0 || feedIndex >= feeds.length) return nearest;
-        
-        const rect = button.getBoundingClientRect();
-        const buttonCenterX = rect.left + rect.width / 2;
-        const distance = Math.abs(currentMouseX - buttonCenterX);
+  const findNearestButtonIndex = useCallback(
+    (currentMouseX: number): NearestButton => {
+      const buttons = document.querySelectorAll<HTMLButtonElement>("button[data-feed-button]");
+      const buttonArray = Array.from(buttons);
 
-        return distance < nearest.distance ? { index: feedIndex, distance } : nearest;
-      },
-      { index: -1, distance: Infinity }
-    );
-  }, [feeds.length]);
+      return buttonArray.reduce(
+        (nearest, button) => {
+          // Get the actual feeds array index from the data attribute
+          const feedIndex = parseInt(button.getAttribute("data-feed-index") || "-1", 10);
+
+          // Skip if index is invalid or beyond feeds length
+          if (feedIndex < 0 || feedIndex >= feeds.length) return nearest;
+
+          const rect = button.getBoundingClientRect();
+          const buttonCenterX = rect.left + rect.width / 2;
+          const distance = Math.abs(currentMouseX - buttonCenterX);
+
+          return distance < nearest.distance ? { index: feedIndex, distance } : nearest;
+        },
+        { index: -1, distance: Infinity }
+      );
+    },
+    [feeds.length]
+  );
 
   const handleMouseMove = useCallback(
     (e: React.MouseEvent) => {
@@ -99,7 +102,7 @@ export const useHorizontalFeedAnimation = (feeds: Token[]): UseHorizontalFeedAni
 
       setEventTriggered(true);
       const nearest = findNearestButtonIndex(currentMouseX);
-      
+
       // Only update if we found a valid index within bounds
       if (nearest.index >= 0 && nearest.index < feeds.length && nearest.index !== nearestIndex) {
         setNearestIndex(nearest.index);
@@ -115,7 +118,7 @@ export const useHorizontalFeedAnimation = (feeds: Token[]): UseHorizontalFeedAni
     (index: number): number => {
       // Return minimum height if index is out of bounds
       if (index < 0 || index >= feeds.length) return MIN_HEIGHT;
-      
+
       if (isMobile) {
         return (!activeIndex && !index) || activeIndex - 1 === index ? MAX_HEIGHT : MIN_HEIGHT;
       }
@@ -146,7 +149,7 @@ export const useHorizontalFeedAnimation = (feeds: Token[]): UseHorizontalFeedAni
     (index: number): boolean => {
       // Return false if index is out of bounds
       if (index < 0 || index >= feeds.length) return false;
-      
+
       if (isMobile) return (!activeIndex && !index) || activeIndex - 1 === index;
       if (nearestIndex === 0 && !eventTriggered && index === 0) return true;
       return nearestIndex !== null && index === nearestIndex;
