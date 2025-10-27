@@ -73,6 +73,7 @@ const HorizontalFeed: FC<HorizontalFeedProps> = ({ feeds, fetchMore = () => {} }
                   hovered={isHovered(i)}
                   step={1}
                   height={getHeight(i)}
+                  index={i}
                 />
               ) : (
                 <FetchMoreInspector fetchMore={fetchMore} />
