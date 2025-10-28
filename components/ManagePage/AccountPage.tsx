@@ -91,7 +91,7 @@ const AccountPage = () => {
           <fieldset>
             <Label>farcaster</Label>
             <Input
-              placeholder="ex: https://farcaster.com/helly"
+              placeholder="ex: https://farcaster.xyz/helly"
               className="resize-none font-spectral mt-1"
               value={farcaster}
               onChange={(e) => setFarcaster(e.target.value)}
