@@ -14,7 +14,7 @@ export function DropdownMenu() {
   const { artistWallet } = useUserProvider();
 
   return (
-    <div className="absolute top-full left-0 right-0 h-screen md:h-fit bg-grey-moss-900 shadow-lg font-archivo z-[999999999] rounded-b-sm border-t-0">
+    <div className="fixed md:absolute top-[100px] md:top-full left-0 right-0 h-screen md:h-fit bg-grey-moss-900 shadow-lg font-archivo z-[999999999] rounded-b-sm border-t-0">
       <Divider />
       <button
         onClick={() => {
