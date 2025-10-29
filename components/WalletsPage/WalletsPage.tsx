@@ -1,7 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { usePrivy } from "@privy-io/react-auth";
 import {
   Table,
   TableBody,
@@ -12,36 +10,10 @@ import {
 } from "@/components/ui/table";
 import UserName from "./UserName";
 import { Address } from "viem";
-import { fetchWalletUsers, type WalletUser } from "@/lib/admin/fetchWalletUsers";
+import { useWalletUsers } from "@/hooks/useWalletUsers";
 
 const WalletsPage = () => {
-  const [users, setUsers] = useState<WalletUser[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const { getAccessToken } = usePrivy();
-
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const accessToken = await getAccessToken();
-        if (!accessToken) {
-          setError("No access token found");
-          setLoading(false);
-          return;
-        }
-
-        const walletUsers = await fetchWalletUsers(accessToken);
-        setUsers(walletUsers);
-      } catch (err: any) {
-        setError(err.message || "Failed to load wallet users");
-        console.error("Error fetching wallet users:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUsers();
-  }, [getAccessToken]);
+  const { data: users = [], isLoading: loading, error } = useWalletUsers();
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -67,7 +39,9 @@ const WalletsPage = () => {
     return (
       <div className="min-h-screen px-6 md:px-12 py-4 md:py-16">
         <h1 className="text-2xl font-archivo-bold mb-6">Wallet Sign-Ins</h1>
-        <p className="text-red-500 font-archivo">Error: {error}</p>
+        <p className="text-red-500 font-archivo">
+          Error: {error instanceof Error ? error.message : "Failed to load wallet users"}
+        </p>
       </div>
     );
   }

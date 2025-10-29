@@ -40,9 +40,7 @@ export const USDC_ADDRESS = IS_TESTNET
   ? "0x14196F08a4Fa0B66B7331bC40dd6bCd8A1dEeA9F"
   : "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913";
 
-export const SITE_ORIGINAL_URL = IS_TESTNET
-  ? "https://in-process-git-test-sweetmantechs-projects.vercel.app"
-  : "https://inprocess.fun";
+export const SITE_ORIGINAL_URL = IS_TESTNET ? "http://localhost:3000" : "https://inprocess.fun";
 export const BLOCKLISTS = [
   "0x323e8bcb41ae2454c3f4899e094c599aab6b84bc",
   "0x51027631b9def86e088c33368ec4e3a4be0ad264",

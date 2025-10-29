@@ -1,15 +1,10 @@
+import { type WalletUser } from "@/types/wallet";
+
 /**
  * Fetch wallet users for admin
  * @param accessToken - The access token for authentication
  * @returns Promise with the list of wallet users
  */
-export interface WalletUser {
-  walletAddress: string;
-  walletType: string;
-  signInMethod: "email_then_wallet" | "wallet_direct";
-  lastSeen: string;
-  userId: string;
-}
 
 export async function fetchWalletUsers(accessToken: string): Promise<WalletUser[]> {
   const response = await fetch("/api/admin/wallets", {
