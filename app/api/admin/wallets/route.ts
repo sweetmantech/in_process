@@ -2,21 +2,7 @@ import { NextRequest } from "next/server";
 import { getWalletUsers } from "@/lib/privy/getWalletUsers";
 import { authMiddleware } from "@/middleware/authMiddleware";
 import getCorsHeader from "@/lib/getCorsHeader";
-
-const getAdminAddresses = (): string[] => {
-  const adminAddresses = process.env.ADMIN_ADDRESSES;
-  if (!adminAddresses) return [];
-  return adminAddresses.split(",").map((addr) => addr.toLowerCase().trim());
-};
-
-const isAdmin = (address: string): boolean => {
-  const adminAddresses = getAdminAddresses();
-  if (adminAddresses.length === 0) {
-    console.warn("ADMIN_ADDRESSES environment variable is not set");
-    return false;
-  }
-  return adminAddresses.includes(address.toLowerCase());
-};
+import { isAdmin } from "@/lib/admin/isAdmin";
 
 export async function POST(req: NextRequest) {
   const corsHeaders = getCorsHeader();
