@@ -18,7 +18,7 @@ const isAdmin = (address: string): boolean => {
   return adminAddresses.includes(address.toLowerCase());
 };
 
-export async function GET(req: NextRequest) {
+export async function POST(req: NextRequest) {
   const corsHeaders = getCorsHeader();
 
   // Authenticate user

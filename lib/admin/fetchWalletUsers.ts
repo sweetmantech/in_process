@@ -13,7 +13,7 @@ export interface WalletUser {
 
 export async function fetchWalletUsers(accessToken: string): Promise<WalletUser[]> {
   const response = await fetch("/api/admin/wallets", {
-    method: "GET",
+    method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${accessToken}`,
