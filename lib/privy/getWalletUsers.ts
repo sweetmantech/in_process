@@ -1,12 +1,6 @@
 import { type User } from "@privy-io/node";
 import { type WalletUser } from "@/types/wallet";
 
-// API responses may return dates as strings while SDK types use numbers
-type PrivyUser = User & {
-  // API responses may have string dates even though SDK types use numbers
-  created_at?: string | number;
-};
-
 // Type guard for wallet accounts
 type WalletLinkedAccount =
   | User.LinkedAccountEthereum
@@ -36,7 +30,7 @@ export async function getWalletUsers(): Promise<WalletUser[]> {
   }
 
   const data = await response.json();
-  const users: PrivyUser[] = data.data || [];
+  const users: User[] = data.data || [];
 
   const walletUsers: WalletUser[] = [];
 
