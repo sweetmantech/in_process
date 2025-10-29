@@ -9,22 +9,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import UserName from "./UserName";
-import { Address } from "viem";
 import { useWalletUsers } from "@/hooks/useWalletUsers";
+import { Address } from "viem";
 
 const WalletsPage = () => {
   const { data: users = [], isLoading: loading, error } = useWalletUsers();
-
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  };
 
   if (loading) {
     return (
@@ -55,32 +44,30 @@ const WalletsPage = () => {
             <TableRow>
               <TableHead className="font-archivo-medium">Username</TableHead>
               <TableHead className="font-archivo-medium">Wallet Address</TableHead>
-              <TableHead className="font-archivo-medium">Wallet Type</TableHead>
-              <TableHead className="font-archivo-medium">Sign-In Method</TableHead>
               <TableHead className="font-archivo-medium">Last Seen</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {users.length === 0 ? (
+            {Boolean(users.length) ? (
+              users.map((user) => {
+                return (
+                  <TableRow key={user.id}>
+                    <TableCell className="font-archivo">
+                      <UserName walletAddress={user.walletAddress as Address} />
+                    </TableCell>
+                    <TableCell className="font-spectral text-sm">{user.walletAddress}</TableCell>
+                    <TableCell className="font-archivo">
+                      {new Date(user.lastSeen * 1000).toLocaleString()}
+                    </TableCell>
+                  </TableRow>
+                );
+              })
+            ) : (
               <TableRow>
                 <TableCell colSpan={5} className="text-center text-neutral-500 font-archivo">
                   No wallet sign-ins found
                 </TableCell>
               </TableRow>
-            ) : (
-              users.map((user) => (
-                <TableRow key={`${user.userId}-${user.walletAddress}`}>
-                  <TableCell className="font-archivo">
-                    <UserName walletAddress={user.walletAddress as Address} />
-                  </TableCell>
-                  <TableCell className="font-spectral text-sm">{user.walletAddress}</TableCell>
-                  <TableCell className="font-archivo">{user.walletType}</TableCell>
-                  <TableCell className="font-archivo">
-                    {user.signInMethod === "email_then_wallet" ? "Email → Wallet" : "Wallet Direct"}
-                  </TableCell>
-                  <TableCell className="font-archivo">{formatDate(user.lastSeen)}</TableCell>
-                </TableRow>
-              ))
             )}
           </TableBody>
         </Table>

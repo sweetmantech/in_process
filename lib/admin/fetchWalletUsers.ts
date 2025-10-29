@@ -1,12 +1,11 @@
-import { type WalletUser } from "@/types/wallet";
+import { type User } from "@privy-io/node";
 
 /**
  * Fetch wallet users for admin
  * @param accessToken - The access token for authentication
- * @returns Promise with the list of wallet users
+ * @returns Promise with the list of Privy users
  */
-
-export async function fetchWalletUsers(accessToken: string): Promise<WalletUser[]> {
+export async function fetchWalletUsers(accessToken: string): Promise<User[]> {
   const response = await fetch("/api/admin/wallets", {
     method: "POST",
     headers: {

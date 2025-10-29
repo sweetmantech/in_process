@@ -22,8 +22,8 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const walletUsers = await getWalletUsers();
-    return Response.json({ users: walletUsers }, { headers: corsHeaders });
+    const users = await getWalletUsers();
+    return Response.json({ users }, { headers: corsHeaders });
   } catch (error: any) {
     console.error("Failed to fetch wallet users:", error);
     return Response.json(
