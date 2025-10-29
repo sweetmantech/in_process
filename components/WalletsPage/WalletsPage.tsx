@@ -11,9 +11,12 @@ import {
 import UserName from "./UserName";
 import { useWalletUsers } from "@/hooks/useWalletUsers";
 import { Address } from "viem";
+import { transformWalletUsers } from "@/lib/admin/transformWalletUsers";
 
 const WalletsPage = () => {
   const { data: users = [], isLoading: loading, error } = useWalletUsers();
+
+  const formattedUsers = transformWalletUsers(users);
 
   if (loading) {
     return (
@@ -48,8 +51,8 @@ const WalletsPage = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {Boolean(users.length) ? (
-              users.map((user) => {
+            {Boolean(formattedUsers.length) ? (
+              formattedUsers.map((user) => {
                 return (
                   <TableRow key={user.id}>
                     <TableCell className="font-archivo">
