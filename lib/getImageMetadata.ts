@@ -22,7 +22,6 @@ const getImageMetadata = async (previewBackgroundUrl: string | undefined) => {
       previewUrl: fetchableUrl,
     };
   } catch (error) {
-    console.log("ziad here error", error);
     console.error(error);
     return null;
   }
