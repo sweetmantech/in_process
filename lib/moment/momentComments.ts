@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { commentsSchema } from "../schema/commentsSchema";
 import fetchGraphQL from "../envio/fetchGraphQL";
+import { INDEXER_ID } from "../consts";
 
 export type GetCommentsInput = z.infer<typeof commentsSchema>;
 
@@ -32,7 +33,7 @@ export async function momentComments({
     }
   `;
 
-  const data = await fetchGraphQL(operation, "inprocess_mint_indexer", {});
+  const data = await fetchGraphQL(INDEXER_ID, operation, "inprocess_mint_indexer", {});
 
   return {
     comments: data.data.ERC20Minter_MintComment,

@@ -7,6 +7,7 @@ import useMomentCreateParameters from "./useMomentCreateParameters";
 import { useMask } from "./useMask";
 import { useUserProvider } from "@/providers/UserProvider";
 import { createMoment } from "@/lib/moment/createMoment";
+import { syncMomentApi } from "@/lib/moment/syncMomentApi";
 
 export default function useMomentCreate() {
   const [creating, setCreating] = useState<boolean>(false);
@@ -27,6 +28,8 @@ export default function useMomentCreate() {
         throw new Error("Parameters not ready");
       }
       const result = await createMoment(parameters);
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+      await syncMomentApi();
       setCreating(false);
       setCreatedContract(result.contractAddress);
       setCreatedTokenId(result.tokenId?.toString() || "");
