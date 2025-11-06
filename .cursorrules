@@ -93,41 +93,7 @@ The goal is to help you maintain a big picture as well as the progress of the ta
 
 # Scratchpad
 
-## Current Task: Sync Moments API - Call /api/sync after moment creation
-
-Status: ✅ **COMPLETE** ✅
-
-**Requirement**: 
-- Create new API `/api/sync` which syncs new moments from indexer to Supabase ✅ (already existed)
-- Call `/api/sync` in `onCreateSuccess` and wait for it to finish before showing success page ✅
-- This ensures newly created moments appear immediately on home/manage pages instead of waiting ~1 minute for cron ✅
-
-**Implementation COMPLETED**:
-[X] **Created `syncMoment` function**: Created `lib/moment/syncMoment.ts` to call `/api/sync` endpoint
-[X] **Updated `useMomentCreate` hook**: Added `syncMoment()` call after `createMoment()` succeeds, before setting `createdContract`
-[X] **Maintained loading state**: `creating` state stays true during both creation and sync, showing "creating..." button text
-
-**Changes Made**:
-- **lib/moment/syncMoment.ts**: NEW file - Client-side function to call `/api/sync` endpoint
-- **hooks/useMomentCreate.tsx**: Line 10 - Added import for `syncMoment`
-- **hooks/useMomentCreate.tsx**: Line 31 - Added `await syncMoment()` after `createMoment()` succeeds
-
-**Technical Flow**:
-1. User clicks "create" → `create()` function called
-2. `createMoment()` creates the moment on-chain
-3. `syncMoment()` syncs new moments from indexer to Supabase
-4. Only after sync completes, `createdContract` is set
-5. Success page appears (CreatedMoment component)
-6. New moment is immediately available on home/manage pages
-
-**Key Benefits**:
-- **Immediate availability**: New moments appear instantly instead of waiting for cron (~1 min)
-- **Better UX**: User sees "creating..." during both creation and sync phases
-- **Consistent state**: Success page only shows after moment is fully synced to database
-
-**Status**: ✅ **SYNC API INTEGRATION COMPLETE**
-
-## Previous Task: useUsdc - hasAllowance - include quantity param (MYC-2457)
+## Current Task: useUsdc - hasAllowance - include quantity param (MYC-2457)
 
 Status: ✅ **COMPLETE** ✅
 
