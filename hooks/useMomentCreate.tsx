@@ -8,6 +8,7 @@ import { useMask } from "./useMask";
 import { useUserProvider } from "@/providers/UserProvider";
 import { createMoment } from "@/lib/moment/createMoment";
 import { syncMomentApi } from "@/lib/moment/syncMomentApi";
+import { usePrivy } from "@privy-io/react-auth";
 
 export default function useMomentCreate() {
   const [creating, setCreating] = useState<boolean>(false);
@@ -18,6 +19,7 @@ export default function useMomentCreate() {
   const { fetchParameters, createMetadata, advancedValues } = useMomentCreateParameters(collection);
   const mask = useMask(advancedValues.isOpenAdvanced, createMetadata.writingText);
   const { isPrepared } = useUserProvider();
+  const { getAccessToken } = usePrivy();
 
   const create = async () => {
     try {
@@ -29,7 +31,11 @@ export default function useMomentCreate() {
       }
       const result = await createMoment(parameters);
       await new Promise((resolve) => setTimeout(resolve, 3000));
-      await syncMomentApi();
+      const accessToken = await getAccessToken();
+      if (!accessToken) {
+        throw new Error("No access token found");
+      }
+      await syncMomentApi(accessToken as string);
       setCreating(false);
       setCreatedContract(result.contractAddress);
       setCreatedTokenId(result.tokenId?.toString() || "");
