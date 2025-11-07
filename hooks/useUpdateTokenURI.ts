@@ -15,7 +15,7 @@ const useUpdateTokenURI = () => {
   const { token, fetchTokenInfo } = useTokenProvider();
   const { signTransaction } = useSignTransaction();
   const { name, description, imageUri } = useMomentManageProvider();
-  const { connectedAddress } = useUserProvider();
+  const { artistWallet } = useUserProvider();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const updateTokenURI = async () => {
@@ -27,10 +27,6 @@ const useUpdateTokenURI = () => {
       name,
       description,
       image: imageUri || current?.image,
-      animation_url: imageUri || current?.animation_url,
-      ...(current?.content && {
-        content: { ...current.content, uri: imageUri || current.content.uri },
-      }),
     };
 
     if (!updated.name) throw new Error("Missing token name");
@@ -38,7 +34,7 @@ const useUpdateTokenURI = () => {
 
     const newUri = await uploadJson(updated);
 
-    if (!connectedAddress) throw new Error("Wallet not connected");
+    if (!artistWallet) throw new Error("Wallet not connected");
     if (!token?.tokenContractAddress || !token?.tokenId) {
       throw new Error("Missing token context");
     }
@@ -50,7 +46,7 @@ const useUpdateTokenURI = () => {
         abi: zoraCreator1155ImplABI,
         functionName: "updateTokenURI",
         args: [BigInt(token.tokenId), newUri],
-        account: connectedAddress as Address,
+        account: artistWallet as Address,
         chain: CHAIN,
       });
       const receipt = await publicClient.waitForTransactionReceipt({ hash });
