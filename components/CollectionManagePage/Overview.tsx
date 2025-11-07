@@ -12,7 +12,7 @@ const Overview = () => {
   const { push } = useRouter();
 
   return (
-    <div className="w-screen pt-8 px-4 md:px-10">
+    <div className="w-full pt-8 px-4 md:px-10">
       <div className="flex gap-2 text-lg font-archivo items-center cursor-pointer">
         <button
           type="button"
