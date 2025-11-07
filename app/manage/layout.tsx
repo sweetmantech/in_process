@@ -29,7 +29,7 @@ const ManagePage = ({ children }: { children: ReactNode }) => {
   if (!signedWallet) return <SignToInProcess />;
 
   return (
-    <main className="w-screen flex flex-col grow pt-10 md:pt-16 grid grid-cols-12 gap-4 md:gap-6 px-6 md:px-8">
+    <main className="w-screen flex flex-col grow pt-10 md:pt-16 grid grid-cols-12 gap-4 md:gap-6 px-2 md:px-8">
       <div className="col-span-12 md:col-span-3 flex flex-col gap-2">
         <button
           type="button"
