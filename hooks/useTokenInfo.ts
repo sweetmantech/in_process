@@ -19,11 +19,11 @@ const useTokenInfo = (tokenContract: Address, tokenId: string, chainId: number) 
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isSetSale, setIsSetSale] = useState<boolean>(false);
   const [owner, setOwner] = useState<Address | null>(null);
-  const { connectedAddress } = useUserProvider();
+  const { artistWallet } = useUserProvider();
 
   const isOwner = useMemo(() => {
-    return Boolean(connectedAddress && owner && getAddress(connectedAddress) === getAddress(owner));
-  }, [connectedAddress, owner]);
+    return Boolean(artistWallet && owner && getAddress(artistWallet) === getAddress(owner));
+  }, [artistWallet, owner]);
 
   const fetchTokenInfo = useCallback(async () => {
     const tokenInfo = await getTokenInfo(tokenContract, tokenId, chainId);
