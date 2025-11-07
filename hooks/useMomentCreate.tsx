@@ -9,6 +9,7 @@ import { useUserProvider } from "@/providers/UserProvider";
 import { createMoment } from "@/lib/moment/createMoment";
 import { syncMomentApi } from "@/lib/moment/syncMomentApi";
 import { usePrivy } from "@privy-io/react-auth";
+import { toast } from "sonner";
 
 export default function useMomentCreate() {
   const [creating, setCreating] = useState<boolean>(false);
@@ -32,18 +33,14 @@ export default function useMomentCreate() {
       const result = await createMoment(parameters);
       await new Promise((resolve) => setTimeout(resolve, 3000));
       const accessToken = await getAccessToken();
-      if (!accessToken) {
-        throw new Error("No access token found");
-      }
       await syncMomentApi(accessToken as string);
       setCreating(false);
       setCreatedContract(result.contractAddress);
       setCreatedTokenId(result.tokenId?.toString() || "");
       return result;
-    } catch (err) {
+    } catch (err: any) {
       setCreating(false);
-      console.error(err);
-      throw err;
+      toast.error(err?.message || "Error creating");
     }
   };
 

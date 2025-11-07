@@ -35,15 +35,11 @@ const CreateButton = () => {
   };
 
   const handleCreate = async () => {
-    try {
-      if (!canCreate) {
-        toastCreateError();
-        return;
-      }
-      await create();
-    } catch (error) {
-      console.error("Error creating:", error);
+    if (!canCreate) {
+      toastCreateError();
+      return;
     }
+    await create();
   };
 
   return (
