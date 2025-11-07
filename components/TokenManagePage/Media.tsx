@@ -12,7 +12,7 @@ import ImageUpload from "@/components/TokenManagePage/ImageUpload";
 
 const Media = () => {
   const { metadata } = useTokenProvider();
-  const { name, description, setName, setDescription, imageUri, setImageUri } =
+  const { name, description, setName, setDescription, imageUri, setImageUri, setMimeType } =
     useMomentManageProvider();
   const { data: meta, isLoading } = metadata;
 
@@ -21,7 +21,7 @@ const Media = () => {
     if (!name) setName(meta.name || "");
     if (!description) setDescription(meta.description || "");
     if (!imageUri) setImageUri(meta.image || "");
-  }, [meta, name, description, setName, setDescription, imageUri, setImageUri]);
+  }, [meta, name, description, setName, setDescription, imageUri, setImageUri, setMimeType]);
 
   if (isLoading || !meta) {
     return <MediaSkeleton />;

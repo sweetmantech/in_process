@@ -27,10 +27,6 @@ const useUpdateTokenURI = () => {
       name,
       description,
       image: imageUri || current?.image,
-      animation_url: imageUri || current?.animation_url,
-      ...(current?.content && {
-        content: { ...current.content, uri: imageUri || current.content.uri },
-      }),
     };
 
     if (!updated.name) throw new Error("Missing token name");
