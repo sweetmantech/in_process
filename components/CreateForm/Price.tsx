@@ -27,6 +27,9 @@ export default function Price() {
               setPrice(val);
             }
           }}
+          onWheel={(e) => {
+            e.currentTarget.blur();
+          }}
           className="flex-grow !font-spectral !rounded-[0px] !border-none bg-white focus-visible:ring-0 focus-visible:ring-offset-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
           disabled={Boolean(fileUploading || creating)}
         />
