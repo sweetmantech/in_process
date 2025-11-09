@@ -6,7 +6,7 @@ import { Address } from "viem";
 import useMomentCreateParameters from "./useMomentCreateParameters";
 import { useMask } from "./useMask";
 import { useUserProvider } from "@/providers/UserProvider";
-import { createMoment } from "@/lib/moment/createMoment";
+import { createMomentApi } from "@/lib/moment/createMomentApi";
 import { syncMomentApi } from "@/lib/moment/syncMomentApi";
 import { usePrivy } from "@privy-io/react-auth";
 import { toast } from "sonner";
@@ -40,7 +40,7 @@ export default function useMomentCreate() {
       if (!parameters) {
         throw new Error("Parameters not ready");
       }
-      const result = await createMoment(parameters);
+      const result = await createMomentApi(parameters);
       await new Promise((resolve) => setTimeout(resolve, 3000));
       const accessToken = await getAccessToken();
       await syncMomentApi(accessToken as string);
