@@ -12,6 +12,7 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@0xsplits/splits-sdk": "^6.1.0",
     "@ardrive/turbo-sdk": "^1.22.1",
     "@coinbase/cdp-sdk": "^1.38.4",
     "@coinbase/coinbase-sdk": "^0.21.0",

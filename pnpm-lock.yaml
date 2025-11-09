@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@0xsplits/splits-sdk':
+        specifier: ^6.1.0
+        version: 6.1.0(viem@2.22.8(bufferutil@4.0.9)(typescript@5.7.3)(utf-8-validate@5.0.10)(zod@3.25.51))
       '@ardrive/turbo-sdk':
         specifier: ^1.22.1
         version: 1.23.0(bufferutil@4.0.9)(encoding@0.1.13)(utf-8-validate@5.0.10)
@@ -295,6 +298,14 @@ packages:
     peerDependencies:
       graphql: ^15.5.0 || ^16.0.0 || ^17.0.0
       typescript: ^5.0.0
+
+  '@0xsplits/splits-sdk@6.1.0':
+    resolution: {integrity: sha512-10yAZDaRwQkcAJMc6mMO4EtrYv/qEh1FcGdKOxEd03TkOO4wxbYPZU+wcpUcY3FBrQ4LT2E9V57OMHYIzZyfTQ==}
+    peerDependencies:
+      viem: ^2.0.0
+    peerDependenciesMeta:
+      viem:
+        optional: true
 
   '@adraffy/ens-normalize@1.10.1':
     resolution: {integrity: sha512-96Z2IP3mYmF1Xg2cDm8f1gWGf/HUVedQ3FMifV4kG/PQ4yEP51xDtRAEfhVNt5f/uzpNkZHwWQuUcu6D6K+Ekw==}
@@ -4273,6 +4284,9 @@ packages:
     engines: {node: '>=10'}
     deprecated: Please upgrade to 1.0.1
 
+  '@urql/core@4.3.0':
+    resolution: {integrity: sha512-wT+FeL8DG4x5o6RfHEnONNFVDM3616ouzATMYUClB6CB+iIu2mwfBKd7xSUxYOZmwtxna5/hDRQdMl3nbQZlnw==}
+
   '@vanilla-extract/css@1.17.1':
     resolution: {integrity: sha512-tOHQXHm10FrJeXKFeWE09JfDGN/tvV6mbjwoNB9k03u930Vg021vTnbrCwVLkECj9Zvh/SHLBHJ4r2flGqfovw==}
 
@@ -5003,6 +5017,9 @@ packages:
 
   balanced-match@1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
+
+  base-64@1.0.0:
+    resolution: {integrity: sha512-kwDPIFCGx0NZHog36dj+tHiwP4QMzsZ3AgMViUBKI0+V5n4U0ufTCUMhnQ04diaRI8EX/QcPfql7zlhZ7j4zgg==}
 
   base-x@3.0.10:
     resolution: {integrity: sha512-7d0s06rR9rYaIWHkpfLIFICM/tkSVdoPC9qYAQRpxn9DdKNWNsKC0uk++akckyLq16Tx2WIinnZ6WRriAt6njQ==}
@@ -10576,6 +10593,9 @@ packages:
     resolution: {integrity: sha512-DLiFIXYC5fMPxaRg832S6F5mJYvePtmO5G9v9IgUFPhXm9/GkXarH/TUrBAVzhTCzAj9anE/+GjrgXp/54nOgw==}
     engines: {node: '>= 12.0.0'}
 
+  wonka@6.3.5:
+    resolution: {integrity: sha512-SSil+ecw6B4/Dm7Pf2sAshKQ5hWFvfyGlfPbEd6A14dOH6VDjrmbY86u6nZvy9omGwwIPFR8V41+of1EezgoUw==}
+
   word-wrap@1.2.5:
     resolution: {integrity: sha512-BN22B5eaMMI9UMtjrGd5g5eCYPpCPDUy0FJXbYsaT5zYxjFOckS53SQDE3pWkVoWpHXVb3BrYcEN4Twa55B5cA==}
     engines: {node: '>=0.10.0'}
@@ -10822,6 +10842,15 @@ snapshots:
       '@gql.tada/internal': 1.0.8(graphql@16.10.0)(typescript@5.7.3)
       graphql: 16.10.0
       typescript: 5.7.3
+
+  '@0xsplits/splits-sdk@6.1.0(viem@2.22.8(bufferutil@4.0.9)(typescript@5.7.3)(utf-8-validate@5.0.10)(zod@3.25.51))':
+    dependencies:
+      '@urql/core': 4.3.0(graphql@16.10.0)
+      base-64: 1.0.0
+      graphql: 16.10.0
+      lodash: 4.17.21
+    optionalDependencies:
+      viem: 2.22.8(bufferutil@4.0.9)(typescript@5.7.3)(utf-8-validate@5.0.10)(zod@3.25.51)
 
   '@adraffy/ens-normalize@1.10.1': {}
 
@@ -16873,6 +16902,13 @@ snapshots:
       '@uniswap/v3-core': 1.0.0
       '@uniswap/v3-periphery': 1.4.4
 
+  '@urql/core@4.3.0(graphql@16.10.0)':
+    dependencies:
+      '@0no-co/graphql.web': 1.1.2(graphql@16.10.0)
+      wonka: 6.3.5
+    transitivePeerDependencies:
+      - graphql
+
   '@vanilla-extract/css@1.17.1':
     dependencies:
       '@emotion/hash': 0.9.2
@@ -18629,6 +18665,8 @@ snapshots:
       - '@babel/core'
 
   balanced-match@1.0.2: {}
+
+  base-64@1.0.0: {}
 
   base-x@3.0.10:
     dependencies:
@@ -23937,7 +23975,7 @@ snapshots:
     dependencies:
       color: 4.2.3
       detect-libc: 2.0.3
-      semver: 7.6.3
+      semver: 7.7.2
     optionalDependencies:
       '@img/sharp-darwin-arm64': 0.33.5
       '@img/sharp-darwin-x64': 0.33.5
@@ -25414,6 +25452,8 @@ snapshots:
       stack-trace: 0.0.10
       triple-beam: 1.4.1
       winston-transport: 4.9.0
+
+  wonka@6.3.5: {}
 
   word-wrap@1.2.5: {}
 
