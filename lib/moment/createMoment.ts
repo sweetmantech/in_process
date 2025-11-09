@@ -65,11 +65,11 @@ export async function createMoment({
 
   // Generate admin permission setup actions
   // (Note: create1155 also uses this internally via callback)
-  const additionalSetupActions = getAdminPermissionSetupActions({
-    smartAccount: smartAccount.address,
-    splitAddresses,
-    splitSmartWallets,
-  });
+  const additionalSetupActions = getAdminPermissionSetupActions([
+    smartAccount.address,
+    ...splitAddresses,
+    ...splitSmartWallets,
+  ]);
 
   // Use the protocol SDK to generate calldata
   const { parameters } = await create1155({
