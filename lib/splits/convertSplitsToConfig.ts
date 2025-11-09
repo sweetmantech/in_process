@@ -1,10 +1,9 @@
-import { CreateSplitV2Config } from "@0xsplits/splits-sdk";
+import { CreateSplitV2Config, SplitRecipient } from "@0xsplits/splits-sdk";
 import { Address, getAddress, zeroAddress } from "viem";
-import { Split } from "@/hooks/useSplits";
 import resolveEnsToAddress from "@/lib/ens/resolveEnsToAddress";
 
 export const convertSplitsToConfig = async (
-  splits: Split[]
+  splits: SplitRecipient[]
 ): Promise<CreateSplitV2Config | null> => {
   if (splits.length === 0) {
     return null;
@@ -28,7 +27,7 @@ export const convertSplitsToConfig = async (
 
       return {
         address,
-        percentAllocation: split.percentage,
+        percentAllocation: split.percentAllocation,
       };
     })
   );

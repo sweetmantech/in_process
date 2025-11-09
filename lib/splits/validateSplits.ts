@@ -1,10 +1,10 @@
 import { isAddress } from "viem";
-import { Split } from "@/hooks/useSplits";
+import { SplitRecipient } from "@0xsplits/splits-sdk";
 import isValidEnsName from "@/lib/ens/isValidEnsName";
 import validateAddress from "@/lib/ens/validateAddress";
 
 export const validateSplits = (
-  splits: Split[],
+  splits: SplitRecipient[],
   addressErrors: Record<number, string>
 ): string | null => {
   if (splits.length === 0) {
@@ -12,7 +12,7 @@ export const validateSplits = (
   }
 
   // Check total percentage
-  const totalPercentage = splits.reduce((sum, split) => sum + (split.percentage || 0), 0);
+  const totalPercentage = splits.reduce((sum, split) => sum + (split.percentAllocation || 0), 0);
   if (totalPercentage !== 100) {
     return "Splits total percentage must equal 100%";
   }
@@ -51,11 +51,11 @@ export const validateSplits = (
     }
 
     // Check percentage is valid
-    if (split.percentage === undefined || split.percentage === null || isNaN(split.percentage)) {
+    if (split.percentAllocation === undefined || split.percentAllocation === null || isNaN(split.percentAllocation)) {
       return `Split ${i + 1}: Percentage is required`;
     }
 
-    if (split.percentage < 0 || split.percentage > 100) {
+    if (split.percentAllocation < 0 || split.percentAllocation > 100) {
       return `Split ${i + 1}: Percentage must be between 0 and 100`;
     }
   }

@@ -1,15 +1,15 @@
 import { Address } from "viem";
+import { SplitRecipient } from "@0xsplits/splits-sdk";
 import { convertSplitsToConfig } from "./convertSplitsToConfig";
 import { getSplitAddress } from "./getSplitAddress";
 import { createSplitContract } from "./createSplitContract";
-import { Split } from "@/hooks/useSplits";
 
 export interface ProcessSplitsResult {
   splitAddress: Address | null;
 }
 
 export const processSplits = async (
-  splits: Split[],
+  splits: SplitRecipient[],
   account: Address
 ): Promise<ProcessSplitsResult> => {
   // If no splits configured, return null

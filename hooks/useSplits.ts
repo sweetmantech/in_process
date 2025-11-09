@@ -5,19 +5,15 @@ import isValidEnsName from "@/lib/ens/isValidEnsName";
 import resolveAddressToEns from "@/lib/ens/resolveAddressToEns";
 import resolveEnsToAddress from "@/lib/ens/resolveEnsToAddress";
 import validateAddress from "@/lib/ens/validateAddress";
-
-export type Split = {
-  address: string;
-  percentage: number;
-};
+import { SplitRecipient } from "@0xsplits/splits-sdk";
 
 const useSplits = () => {
-  const [splits, setSplits] = useState<Split[]>([]);
+  const [splits, setSplits] = useState<SplitRecipient[]>([]);
   const [addressErrors, setAddressErrors] = useState<Record<number, string>>({});
   const resolveTimeouts = useRef<Record<number, ReturnType<typeof setTimeout>>>({});
 
   const addSplit = () => {
-    setSplits([...splits, { address: "", percentage: 0 }]);
+    setSplits([...splits, { address: "", percentAllocation: 0 }]);
   };
 
   const removeSplit = (index: number) => {
@@ -54,12 +50,12 @@ const useSplits = () => {
     resolveTimeouts.current = shiftedTimeouts;
   };
 
-  const updateSplit = (index: number, field: keyof Split, value: string | number) => {
+  const updateSplit = (index: number, field: keyof SplitRecipient, value: string | number) => {
     setSplits(splits.map((split, i) => (i === index ? { ...split, [field]: value } : split)));
   };
 
   const totalPercentage = useMemo(
-    () => splits.reduce((sum, split) => sum + (split.percentage || 0), 0),
+    () => splits.reduce((sum, split) => sum + (split.percentAllocation || 0), 0),
     [splits]
   );
 
@@ -171,7 +167,7 @@ const useSplits = () => {
   const handlePercentageChange = (index: number, value: string) => {
     const numValue = value === "" ? 0 : parseFloat(value);
     if (!isNaN(numValue) && numValue >= 0 && numValue <= 100) {
-      updateSplit(index, "percentage", numValue);
+      updateSplit(index, "percentAllocation", numValue);
     }
   };
 

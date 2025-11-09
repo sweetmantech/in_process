@@ -14,7 +14,7 @@ export const salesConfigSchema = z.object({
 
 export const splitSchema = z.object({
   address: z.string().min(1, "Address is required"),
-  percentage: z.number().min(0).max(100),
+  percentAllocation: z.number().min(0).max(100),
 });
 
 export const tokenSchema = z.object({

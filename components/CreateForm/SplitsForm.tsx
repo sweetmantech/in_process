@@ -54,7 +54,7 @@ const SplitsForm = () => {
                   min="0"
                   max="100"
                   step="0.01"
-                  value={split.percentage || ""}
+                  value={split.percentAllocation || ""}
                   onChange={(e) => handlePercentageChange(index, e.target.value)}
                   className="w-20 font-spectral"
                 />
