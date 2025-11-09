@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import { createContract } from "@/lib/coinbase/createContract";
+import { createContract } from "@/lib/moment/createMoment";
 import { createWritingMomentSchema } from "@/lib/schema/createContractSchema";
 import { convertWritingToContractSchema } from "@/lib/coinbase/convertWritingToContractSchema";
 import { uploadWritingWithJson } from "@/lib/writing/uploadWritingWithJson";
