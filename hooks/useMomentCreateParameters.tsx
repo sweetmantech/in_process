@@ -4,12 +4,14 @@ import getSalesConfig from "@/lib/zora/getSalesConfig";
 import useCreateMetadata from "@/hooks/useCreateMetadata";
 import getSaleConfigType from "@/lib/getSaleConfigType";
 import useCreateAdvancedValues from "./useCreateAdvancedValues";
+import useSplits from "./useSplits";
 import { useUserProvider } from "@/providers/UserProvider";
 
 const useMomentCreateParameters = (collection?: Address) => {
   const { artistWallet } = useUserProvider();
   const createMetadata = useCreateMetadata();
   const advancedValues = useCreateAdvancedValues();
+  const splits = useSplits();
 
   // Use priceUnit to determine if USDC
   const isUsdc = createMetadata.priceUnit === "usdc";
@@ -51,7 +53,7 @@ const useMomentCreateParameters = (collection?: Address) => {
     }
   };
 
-  return { createMetadata, fetchParameters, advancedValues };
+  return { createMetadata, fetchParameters, advancedValues, splits };
 };
 
 export default useMomentCreateParameters;

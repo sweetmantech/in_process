@@ -4,6 +4,7 @@ import { ChevronDown } from "lucide-react";
 import { useMomentCreateProvider } from "@/providers/MomentCreateProvider";
 import { Textarea } from "../ui/textarea";
 import Price from "./Price";
+import SplitsForm from "./SplitsForm";
 
 const Advanced = () => {
   const {
@@ -38,6 +39,7 @@ const Advanced = () => {
             className="resize-none font-spectral"
           />
           <Price />
+          <SplitsForm />
           <p className="font-medium font-archivo pt-2">time</p>
           <DateTimePicker date={startDate} setDate={onChangeStartDate} />
         </div>
