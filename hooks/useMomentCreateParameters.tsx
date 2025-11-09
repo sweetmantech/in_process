@@ -25,6 +25,9 @@ const useMomentCreateParameters = (collection?: Address) => {
       advancedValues.startDate
     );
 
+    // Include splits in request if configured and valid
+    const splitsData = splits.splits.length > 0 && splits.isValid ? splits.splits : undefined;
+
     if (collection) {
       return {
         contractAddress: collection,
@@ -35,6 +38,7 @@ const useMomentCreateParameters = (collection?: Address) => {
           mintToCreatorCount: 1,
         },
         account: artistWallet as Address,
+        ...(splitsData && { splits: splitsData }),
       };
     } else {
       return {
@@ -49,6 +53,7 @@ const useMomentCreateParameters = (collection?: Address) => {
           mintToCreatorCount: 1,
         },
         account: artistWallet as Address,
+        ...(splitsData && { splits: splitsData }),
       };
     }
   };
