@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import { createContract } from "@/lib/moment/createMoment";
+import { createMoment } from "@/lib/moment/createMoment";
 import { createWritingMomentSchema } from "@/lib/schema/createContractSchema";
 import { convertWritingToContractSchema } from "@/lib/coinbase/convertWritingToContractSchema";
 import { uploadWritingWithJson } from "@/lib/writing/uploadWritingWithJson";
@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
     const data = parseResult.data;
     const metadataUri = await uploadWritingWithJson(data.contract.name, data.token.tokenContent);
     const convertedData = convertWritingToContractSchema(data, metadataUri);
-    const result = await createContract(convertedData);
+    const result = await createMoment(convertedData);
     return Response.json(result);
   } catch (e: any) {
     console.log(e);
