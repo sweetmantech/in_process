@@ -10,6 +10,7 @@ import { createMoment } from "@/lib/moment/createMoment";
 import { syncMomentApi } from "@/lib/moment/syncMomentApi";
 import { usePrivy } from "@privy-io/react-auth";
 import { toast } from "sonner";
+import { validateSplits } from "@/lib/splits/validateSplits";
 
 export default function useMomentCreate() {
   const [creating, setCreating] = useState<boolean>(false);
@@ -17,7 +18,8 @@ export default function useMomentCreate() {
   const collection = searchParams.get("collectionAddress") as Address;
   const [createdContract, setCreatedContract] = useState<string>("");
   const [createdTokenId, setCreatedTokenId] = useState<string>("");
-  const { fetchParameters, createMetadata, advancedValues } = useMomentCreateParameters(collection);
+  const { fetchParameters, createMetadata, advancedValues, splits } =
+    useMomentCreateParameters(collection);
   const mask = useMask(advancedValues.isOpenAdvanced, createMetadata.writingText);
   const { isPrepared } = useUserProvider();
   const { getAccessToken } = usePrivy();
@@ -25,6 +27,14 @@ export default function useMomentCreate() {
   const create = async () => {
     try {
       if (!isPrepared()) return;
+
+      // Validate splits before creating
+      const splitsValidationError = validateSplits(splits.splits, splits.addressErrors);
+      if (splitsValidationError) {
+        toast.error(splitsValidationError);
+        return;
+      }
+
       setCreating(true);
       const parameters = await fetchParameters();
       if (!parameters) {
@@ -54,5 +64,6 @@ export default function useMomentCreate() {
     ...createMetadata,
     ...mask,
     ...advancedValues,
+    ...splits,
   };
 }
