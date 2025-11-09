@@ -14,6 +14,7 @@ import { sendUserOperation } from "@/lib/coinbase/sendUserOperation";
 import { zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
 import { getOrCreateSmartWallet } from "../coinbase/getOrCreateSmartWallet";
 import { processSplits } from "@/lib/splits/processSplits";
+import { resolveSplitAddresses } from "@/lib/splits/resolveSplitAddresses";
 
 export type CreateMomentContractInput = z.infer<typeof createMomentSchema>;
 
@@ -36,10 +37,13 @@ export async function createMoment({
   splits,
 }: CreateMomentContractInput): Promise<CreateContractResult> {
   let payoutRecipient = token.payoutRecipient;
+  let splitAddress: Address | null = null;
+  const resolvedSplits = await resolveSplitAddresses(splits || []);
 
-  if (splits && splits.length >= 2) {
-    const { splitAddress } = await processSplits(splits, account as Address);
-    if (splitAddress) {
+  if (resolvedSplits && resolvedSplits.length >= 2) {
+    const result = await processSplits(resolvedSplits, account as Address);
+    if (result.splitAddress) {
+      splitAddress = result.splitAddress;
       payoutRecipient = getAddress(splitAddress) as typeof token.payoutRecipient;
     }
   }
@@ -59,6 +63,7 @@ export async function createMoment({
     token: tokenWithPayout,
     account,
     smartAccount: smartAccount.address,
+    splits: resolvedSplits,
   });
 
   // Encode the function call data
