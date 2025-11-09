@@ -22,6 +22,7 @@ export async function create1155({
     token: {
       ...token,
       createReferral: token.createReferral as Address,
+      payoutRecipient: token.payoutRecipient as Address | undefined,
       salesConfig: {
         ...token.salesConfig,
         type: token.salesConfig.type as

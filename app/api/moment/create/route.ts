@@ -1,8 +1,7 @@
 import { NextRequest } from "next/server";
-import { createContract } from "@/lib/coinbase/createContract";
 import { createMomentSchema } from "@/lib/schema/createContractSchema";
 import getCorsHeader from "@/lib/getCorsHeader";
-
+import { createMoment } from "@/lib/moment/createMoment";
 // CORS headers for allowing cross-origin requests
 const corsHeaders = getCorsHeader();
 
@@ -28,7 +27,7 @@ export async function POST(req: NextRequest) {
       );
     }
     const data = parseResult.data;
-    const result = await createContract(data);
+    const result = await createMoment(data);
     return Response.json(result, { headers: corsHeaders });
   } catch (e: any) {
     console.log(e);
