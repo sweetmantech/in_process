@@ -15,6 +15,8 @@ import { zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
 import { getOrCreateSmartWallet } from "../coinbase/getOrCreateSmartWallet";
 import { processSplits } from "@/lib/splits/processSplits";
 import { resolveSplitAddresses } from "@/lib/splits/resolveSplitAddresses";
+import { getAdminPermissionSetupActions } from "@/lib/zora/getAdminPermissionSetupActions";
+import { getSplitAdminAddresses } from "@/lib/splits/getSplitAdminAddresses";
 
 export type CreateMomentContractInput = z.infer<typeof createMomentSchema>;
 
@@ -57,13 +59,24 @@ export async function createMoment({
     address: account as Address,
   });
 
+  // Get split addresses for admin permissions
+  const { addresses: splitAddresses, smartWallets: splitSmartWallets } =
+    await getSplitAdminAddresses(resolvedSplits);
+
+  // Generate admin permission setup actions
+  // (Note: create1155 also uses this internally via callback)
+  const additionalSetupActions = getAdminPermissionSetupActions({
+    smartAccount: smartAccount.address,
+    splitAddresses,
+    splitSmartWallets,
+  });
+
   // Use the protocol SDK to generate calldata
   const { parameters } = await create1155({
     contract,
     token: tokenWithPayout,
     account,
-    smartAccount: smartAccount.address,
-    splits: resolvedSplits,
+    additionalSetupActions,
   });
 
   // Encode the function call data
