@@ -100,7 +100,53 @@ The goal is to help you maintain a big picture as well as the progress of the ta
 
 # Scratchpad
 
-## Current Task: Sync Moments API - Call /api/sync after moment creation
+## Current Task: Add 0xSplits Logic to Moment Creation
+
+Status: ✅ **COMPLETE** ✅
+
+**Requirement**: 
+- Integrate 0xSplits SDK into moment creation flow
+- When splits are configured, create/predict split contract and use split address as payoutRecipient
+- Reference: mesa-music project implementation
+
+**Implementation COMPLETED**:
+[X] **Installed @0xsplits/splits-sdk package**: Added via pnpm
+[X] **Created splits client helper**: `lib/splits/getSplitsClient.ts` - Creates SplitsClient instance
+[X] **Created splits conversion utility**: `lib/splits/convertSplitsToConfig.ts` - Converts Split[] to CreateSplitConfig with ENS resolution
+[X] **Created usePredictedSplits hook**: `hooks/usePredictedSplits.tsx` - Predicts split address and provides create mutation
+[X] **Created useSplitsConfig hook**: `hooks/useSplitsConfig.tsx` - Wraps usePredictedSplits and handles conversion
+[X] **Updated schema**: Added optional `payoutRecipient` to `tokenSchema` in `lib/schema/createContractSchema.ts`
+[X] **Updated useMomentCreateParameters**: Uses split address as payoutRecipient when splits are configured
+[X] **Updated create1155**: Passes payoutRecipient to token config
+[X] **Updated useMomentCreate**: Validates split address availability before creating moment
+
+**Changes Made**:
+- **lib/splits/getSplitsClient.ts**: NEW - Creates SplitsClient instance
+- **lib/splits/convertSplitsToConfig.ts**: NEW - Converts Split[] to CreateSplitConfig format
+- **hooks/usePredictedSplits.tsx**: NEW - React Query hook for predicting/creating splits
+- **hooks/useSplitsConfig.tsx**: NEW - Wrapper hook that combines conversion and prediction
+- **lib/schema/createContractSchema.ts**: Added optional `payoutRecipient` field to tokenSchema
+- **hooks/useMomentCreateParameters.tsx**: Uses splitsConfig.splitAddress as payoutRecipient
+- **lib/zora/create1155.ts**: Passes payoutRecipient to creator client
+- **hooks/useMomentCreate.tsx**: Validates split address availability before creation
+
+**Technical Flow**:
+1. **User configures splits** → SplitsForm updates splits state
+2. **useSplitsConfig hook** → Converts splits to CreateSplitConfig format (with ENS resolution)
+3. **usePredictedSplits hook** → Predicts split contract address using 0xSplits SDK
+4. **useMomentCreateParameters** → Uses split address as payoutRecipient in token config
+5. **Moment creation** → Token is created with split address as payout recipient
+6. **Payment distribution** → Payments automatically distributed via split contract
+
+**Key Features**:
+- **Automatic split address prediction**: Uses 0xSplits SDK to predict immutable split address
+- **ENS name support**: Automatically resolves ENS names to addresses in splits
+- **Validation**: Ensures split address is available before creating moment
+- **Optional**: Only uses splits if configured (backward compatible)
+
+**Status**: ✅ **0XSPLITS INTEGRATION COMPLETE**
+
+## Previous Task: Sync Moments API - Call /api/sync after moment creation
 
 Status: ✅ **COMPLETE** ✅
 
