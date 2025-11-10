@@ -203,6 +203,42 @@ export type Database = {
           },
         ];
       };
+      in_process_token_admins: {
+        Row: {
+          artist_address: string | null;
+          created_at: string;
+          id: string;
+          token_id: string | null;
+        };
+        Insert: {
+          artist_address?: string | null;
+          created_at?: string;
+          id?: string;
+          token_id?: string | null;
+        };
+        Update: {
+          artist_address?: string | null;
+          created_at?: string;
+          id?: string;
+          token_id?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "in_process_token_admins_artist_address_fkey";
+            columns: ["artist_address"];
+            isOneToOne: false;
+            referencedRelation: "in_process_artists";
+            referencedColumns: ["address"];
+          },
+          {
+            foreignKeyName: "in_process_token_admins_token_id_fkey";
+            columns: ["token_id"];
+            isOneToOne: false;
+            referencedRelation: "in_process_tokens";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       in_process_tokens: {
         Row: {
           address: string;
