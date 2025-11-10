@@ -1,5 +1,6 @@
 import { Address } from "viem";
 import { SplitRecipient } from "@0xsplits/splits-sdk";
+import { getOrCreateSmartWallet } from "@/lib/coinbase/getOrCreateSmartWallet";
 import { convertSplitsToConfig } from "./convertSplitsToConfig";
 import { getSplitAddress } from "./getSplitAddress";
 import { createSplitContract } from "./createSplitContract";
@@ -17,8 +18,13 @@ export const processSplits = async (
     return { splitAddress: null };
   }
 
+  // Get smart wallet address to use as owner
+  const smartAccount = await getOrCreateSmartWallet({
+    address: account,
+  });
+
   // Convert splits to CreateSplitConfig format
-  const splitConfig = await convertSplitsToConfig(splits);
+  const splitConfig = await convertSplitsToConfig(splits, smartAccount.address);
   if (!splitConfig) {
     return { splitAddress: null };
   }

@@ -14,6 +14,9 @@ import { sendUserOperation } from "@/lib/coinbase/sendUserOperation";
 import { zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
 import { getOrCreateSmartWallet } from "../coinbase/getOrCreateSmartWallet";
 import { processSplits } from "@/lib/splits/processSplits";
+import { resolveSplitAddresses } from "@/lib/splits/resolveSplitAddresses";
+import { getAdminPermissionSetupActions } from "@/lib/zora/getAdminPermissionSetupActions";
+import { getSplitAdminAddresses } from "@/lib/splits/getSplitAdminAddresses";
 
 export type CreateMomentContractInput = z.infer<typeof createMomentSchema>;
 
@@ -36,10 +39,13 @@ export async function createMoment({
   splits,
 }: CreateMomentContractInput): Promise<CreateContractResult> {
   let payoutRecipient = token.payoutRecipient;
+  let splitAddress: Address | null = null;
+  const resolvedSplits = await resolveSplitAddresses(splits || []);
 
-  if (splits && splits.length >= 2) {
-    const { splitAddress } = await processSplits(splits, account as Address);
-    if (splitAddress) {
+  if (resolvedSplits && resolvedSplits.length >= 2) {
+    const result = await processSplits(resolvedSplits, account as Address);
+    if (result.splitAddress) {
+      splitAddress = result.splitAddress;
       payoutRecipient = getAddress(splitAddress) as typeof token.payoutRecipient;
     }
   }
@@ -53,12 +59,24 @@ export async function createMoment({
     address: account as Address,
   });
 
+  // Get split addresses for admin permissions
+  const { addresses: splitAddresses, smartWallets: splitSmartWallets } =
+    await getSplitAdminAddresses(resolvedSplits);
+
+  // Generate admin permission setup actions
+  // (Note: create1155 also uses this internally via callback)
+  const additionalSetupActions = getAdminPermissionSetupActions([
+    smartAccount.address,
+    ...splitAddresses,
+    ...splitSmartWallets,
+  ]);
+
   // Use the protocol SDK to generate calldata
   const { parameters } = await create1155({
     contract,
     token: tokenWithPayout,
     account,
-    smartAccount: smartAccount.address,
+    additionalSetupActions,
   });
 
   // Encode the function call data

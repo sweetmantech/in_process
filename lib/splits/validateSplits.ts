@@ -51,7 +51,11 @@ export const validateSplits = (
     }
 
     // Check percentage is valid
-    if (split.percentAllocation === undefined || split.percentAllocation === null || isNaN(split.percentAllocation)) {
+    if (
+      split.percentAllocation === undefined ||
+      split.percentAllocation === null ||
+      isNaN(split.percentAllocation)
+    ) {
       return `Split ${i + 1}: Percentage is required`;
     }
 
