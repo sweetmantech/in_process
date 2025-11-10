@@ -5,7 +5,6 @@ create table "public"."in_process_token_admins" (
     "created_at" timestamp with time zone not null default now()
 );
 
-
 alter table "public"."in_process_token_admins" enable row level security;
 
 CREATE UNIQUE INDEX in_process_token_admins_pkey ON public.in_process_token_admins USING btree (id);
@@ -19,4 +18,6 @@ alter table "public"."in_process_token_admins" validate constraint "in_process_t
 alter table "public"."in_process_token_admins" add constraint "in_process_token_admins_token_id_fkey" FOREIGN KEY (token_id) REFERENCES in_process_tokens(id) ON UPDATE CASCADE ON DELETE CASCADE not valid;
 
 alter table "public"."in_process_token_admins" validate constraint "in_process_token_admins_token_id_fkey";
+
+alter table "public"."in_process_token_admins" add constraint "in_process_token_admins_token_id_artist_address_unique" UNIQUE (token_id, artist_address);
 
