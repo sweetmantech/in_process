@@ -38,12 +38,16 @@ export async function createMoment({
   account,
   splits,
 }: CreateMomentContractInput): Promise<CreateContractResult> {
+  const smartAccount = await getOrCreateSmartWallet({
+    address: account as Address,
+  });
+
   let payoutRecipient = token.payoutRecipient;
   let splitAddress: Address | null = null;
   const resolvedSplits = await resolveSplitAddresses(splits || []);
 
   if (resolvedSplits && resolvedSplits.length >= 2) {
-    const result = await processSplits(resolvedSplits, account as Address);
+    const result = await processSplits(resolvedSplits, smartAccount);
     if (result.splitAddress) {
       splitAddress = result.splitAddress;
       payoutRecipient = getAddress(splitAddress) as typeof token.payoutRecipient;
@@ -54,10 +58,6 @@ export async function createMoment({
     ...token,
     ...(payoutRecipient && { payoutRecipient }),
   };
-  // Create a smart account (contract wallet)
-  const smartAccount = await getOrCreateSmartWallet({
-    address: account as Address,
-  });
 
   // Get split addresses for admin permissions
   const { addresses: splitAddresses, smartWallets: splitSmartWallets } =
