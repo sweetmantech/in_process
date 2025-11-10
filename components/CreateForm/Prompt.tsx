@@ -10,7 +10,7 @@ const Prompt = () => {
   return (
     <div className="flex flex-col items-start w-full gap-2">
       <Label htmlFor="title" className="font-archivo text-md">
-        prompt
+        title
       </Label>
       <Input
         {...form.register("name")}
