@@ -1,15 +1,13 @@
 import { Address } from "viem";
 import { REFERRAL_RECIPIENT } from "@/lib/consts";
 import getSalesConfig from "@/lib/zora/getSalesConfig";
-import useCreateMetadata from "@/hooks/useCreateMetadata";
 import getSaleConfigType from "@/lib/getSaleConfigType";
-import useCreateAdvancedValues from "./useCreateAdvancedValues";
 import { useUserProvider } from "@/providers/UserProvider";
+import useCreateForm from "./useCreateForm";
 
 const useMomentCreateParameters = (collection?: Address) => {
   const { artistWallet } = useUserProvider();
-  const createMetadata = useCreateMetadata();
-  const advancedValues = useCreateAdvancedValues();
+  const { form, createMetadata, advancedValues } = useCreateForm();
 
   // Use priceUnit to determine if USDC
   const isUsdc = createMetadata.priceUnit === "usdc";
@@ -23,6 +21,9 @@ const useMomentCreateParameters = (collection?: Address) => {
       advancedValues.startDate
     );
 
+    const formSplits = form.getValues("splits");
+    const splitsData = formSplits && formSplits.length > 0 ? formSplits : undefined;
+
     if (collection) {
       return {
         contractAddress: collection,
@@ -33,6 +34,7 @@ const useMomentCreateParameters = (collection?: Address) => {
           mintToCreatorCount: 1,
         },
         account: artistWallet as Address,
+        ...(splitsData && { splits: splitsData }),
       };
     } else {
       return {
@@ -47,11 +49,12 @@ const useMomentCreateParameters = (collection?: Address) => {
           mintToCreatorCount: 1,
         },
         account: artistWallet as Address,
+        ...(splitsData && { splits: splitsData }),
       };
     }
   };
 
-  return { createMetadata, fetchParameters, advancedValues };
+  return { createMetadata, fetchParameters, advancedValues, form };
 };
 
 export default useMomentCreateParameters;

@@ -4,16 +4,11 @@ import { ChevronDown } from "lucide-react";
 import { useMomentCreateProvider } from "@/providers/MomentCreateProvider";
 import { Textarea } from "../ui/textarea";
 import Price from "./Price";
+import SplitsForm from "./SplitsForm";
+import { Controller } from "react-hook-form";
 
 const Advanced = () => {
-  const {
-    isOpenAdvanced,
-    setIsOpenAdvanced,
-    onChangeStartDate,
-    startDate,
-    description,
-    setDescription,
-  } = useMomentCreateProvider();
+  const { isOpenAdvanced, setIsOpenAdvanced, form } = useMomentCreateProvider();
 
   return (
     <div className="flex flex-col gap-2 pt-2 z-10">
@@ -31,15 +26,26 @@ const Advanced = () => {
         <div className="relative mx-[-16px] px-[16px] bg-grey-moss-100">
           <p className="font-medium font-archivo ">Description</p>
           <Textarea
+            {...form.register("description")}
             placeholder="enter a description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
             minRows={3}
             className="resize-none font-spectral"
           />
+          {form.formState.errors.description && (
+            <p className="text-xs text-red-500 font-spectral mt-1">
+              {form.formState.errors.description.message}
+            </p>
+          )}
           <Price />
+          <SplitsForm />
           <p className="font-medium font-archivo pt-2">time</p>
-          <DateTimePicker date={startDate} setDate={onChangeStartDate} />
+          <Controller
+            name="startDate"
+            control={form.control}
+            render={({ field }) => (
+              <DateTimePicker date={field.value} setDate={(date) => field.onChange(date)} />
+            )}
+          />
         </div>
       )}
     </div>

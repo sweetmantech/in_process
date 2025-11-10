@@ -6,7 +6,7 @@ import { Address } from "viem";
 import useMomentCreateParameters from "./useMomentCreateParameters";
 import { useMask } from "./useMask";
 import { useUserProvider } from "@/providers/UserProvider";
-import { createMoment } from "@/lib/moment/createMoment";
+import { createMomentApi } from "@/lib/moment/createMomentApi";
 import { syncMomentApi } from "@/lib/moment/syncMomentApi";
 import { usePrivy } from "@privy-io/react-auth";
 import { toast } from "sonner";
@@ -17,7 +17,8 @@ export default function useMomentCreate() {
   const collection = searchParams.get("collectionAddress") as Address;
   const [createdContract, setCreatedContract] = useState<string>("");
   const [createdTokenId, setCreatedTokenId] = useState<string>("");
-  const { fetchParameters, createMetadata, advancedValues } = useMomentCreateParameters(collection);
+  const { fetchParameters, createMetadata, advancedValues, form } =
+    useMomentCreateParameters(collection);
   const mask = useMask(advancedValues.isOpenAdvanced, createMetadata.writingText);
   const { isPrepared } = useUserProvider();
   const { getAccessToken } = usePrivy();
@@ -25,12 +26,13 @@ export default function useMomentCreate() {
   const create = async () => {
     try {
       if (!isPrepared()) return;
+
       setCreating(true);
       const parameters = await fetchParameters();
       if (!parameters) {
         throw new Error("Parameters not ready");
       }
-      const result = await createMoment(parameters);
+      const result = await createMomentApi(parameters);
       await new Promise((resolve) => setTimeout(resolve, 3000));
       const accessToken = await getAccessToken();
       await syncMomentApi(accessToken as string);
@@ -51,6 +53,7 @@ export default function useMomentCreate() {
     setCreatedContract,
     create,
     creating,
+    form,
     ...createMetadata,
     ...mask,
     ...advancedValues,

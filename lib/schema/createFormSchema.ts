@@ -1,41 +1,34 @@
 import { z } from "zod";
-import addressSchema from "./addressSchema";
-import bigIntString from "./bigIntSchema";
 import { validateSplitAddress } from "@/lib/splits/validateSplitAddress";
 import { calculateTotalPercentage } from "@/lib/splits/calculateTotalPercentage";
 
-export const salesConfigSchema = z.object({
-  type: z.string(),
-  pricePerToken: z.string(),
-  saleStart: bigIntString,
-  saleEnd: bigIntString,
-  currency: addressSchema.optional(),
-});
-
-export const splitSchema = z.object({
+export const formSplitSchema = z.object({
   address: z.string().min(1, "Address is required"),
-  percentAllocation: z.number().min(0).max(100),
+  percentAllocation: z
+    .number()
+    .min(0, "Percentage must be at least 0")
+    .max(100, "Percentage must be at most 100"),
 });
 
-export const tokenSchema = z.object({
-  tokenMetadataURI: z.string(),
-  createReferral: addressSchema,
-  salesConfig: salesConfigSchema,
-  mintToCreatorCount: z.number(),
-  payoutRecipient: addressSchema.optional(),
-});
-
-export const contractSchema = z.object({
-  name: z.string(),
-  uri: z.string(),
-});
-
-export const createMomentSchema = z
+export const createFormSchema = z
   .object({
-    contract: contractSchema,
-    token: tokenSchema,
-    account: addressSchema,
-    splits: z.array(splitSchema).optional(),
+    name: z.string().min(1, "Name is required"),
+    price: z
+      .string()
+      .min(1, "Price is required")
+      .refine(
+        (val) => {
+          const num = parseFloat(val);
+          return !isNaN(num) && num >= 0;
+        },
+        { message: "Price must be a valid number" }
+      ),
+    priceUnit: z.enum(["eth", "usdc"], {
+      required_error: "Currency is required",
+    }),
+    description: z.string().optional(),
+    startDate: z.date().optional(),
+    splits: z.array(formSplitSchema).optional(),
   })
   .refine(
     (data) => {
@@ -88,19 +81,4 @@ export const createMomentSchema = z
     }
   );
 
-export const writingContractSchema = z.object({
-  name: z.string(),
-});
-
-export const writingTokenSchema = z.object({
-  tokenContent: z.string(),
-  createReferral: addressSchema,
-  salesConfig: salesConfigSchema,
-  mintToCreatorCount: z.number(),
-});
-
-export const createWritingMomentSchema = z.object({
-  contract: writingContractSchema,
-  token: writingTokenSchema,
-  account: addressSchema,
-});
+export type CreateFormData = z.infer<typeof createFormSchema>;

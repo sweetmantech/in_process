@@ -1,27 +1,28 @@
-import { Address, encodeFunctionData } from "viem";
+import { Address, Hex } from "viem";
 import { SalesConfigParamsType } from "@/lib/protocolSdk";
 import { getCreatorClient } from "@/lib/zora/getCreatorClient";
-import { CHAIN_ID, PERMISSION_BIT_ADMIN } from "@/lib/consts";
+import { CHAIN_ID } from "@/lib/consts";
 import { z } from "zod";
 import { createMomentSchema } from "@/lib/schema/createContractSchema";
-import { zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
 
 export type CreateMomentContractInput = z.infer<typeof createMomentSchema> & {
-  smartAccount: Address;
+  additionalSetupActions?: Hex[];
 };
 
 export async function create1155({
   contract,
   token,
   account,
-  smartAccount,
+  additionalSetupActions,
 }: CreateMomentContractInput) {
   const creatorClient = getCreatorClient(CHAIN_ID);
+
   return creatorClient.create1155({
     contract,
     token: {
       ...token,
       createReferral: token.createReferral as Address,
+      payoutRecipient: token.payoutRecipient as Address | undefined,
       salesConfig: {
         ...token.salesConfig,
         type: token.salesConfig.type as
@@ -36,14 +37,6 @@ export async function create1155({
       } as SalesConfigParamsType,
     },
     account: account as Address,
-    getAdditionalSetupActions: () => {
-      return [
-        encodeFunctionData({
-          abi: zoraCreator1155ImplABI,
-          functionName: "addPermission",
-          args: [BigInt(0), smartAccount, BigInt(PERMISSION_BIT_ADMIN)],
-        }),
-      ];
-    },
+    getAdditionalSetupActions: additionalSetupActions ? () => additionalSetupActions : undefined,
   });
 }
