@@ -25,7 +25,7 @@ const CreateButton = () => {
     if (!formIsValid) {
       const errors = form.formState.errors;
       if (errors.name) {
-        toast.error(errors.name.message || "Name is required");
+        toast.error(errors.name.message || "Title is required");
       } else if (errors.price) {
         toast.error(errors.price.message || "Price is required");
       } else if (errors.splits) {
