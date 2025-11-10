@@ -7,7 +7,7 @@ import useCreateForm from "./useCreateForm";
 
 const useMomentCreateParameters = (collection?: Address) => {
   const { artistWallet } = useUserProvider();
-  const { form, splits, createMetadata, advancedValues } = useCreateForm();
+  const { form, createMetadata, advancedValues } = useCreateForm();
 
   // Use priceUnit to determine if USDC
   const isUsdc = createMetadata.priceUnit === "usdc";
@@ -21,10 +21,8 @@ const useMomentCreateParameters = (collection?: Address) => {
       advancedValues.startDate
     );
 
-    // Include splits in request if configured and valid
     const formSplits = form.getValues("splits");
-    const splitsData =
-      formSplits && formSplits.length > 0 && splits.isValid ? formSplits : undefined;
+    const splitsData = formSplits && formSplits.length > 0 ? formSplits : undefined;
 
     if (collection) {
       return {

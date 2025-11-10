@@ -1,8 +1,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createFormSchema, CreateFormData } from "@/lib/schema/createFormSchema";
-import { useEffect, useMemo } from "react";
-import { calculateTotalPercentage } from "@/lib/splits/calculateTotalPercentage";
+import { useEffect } from "react";
 import useCreateMetadata from "@/hooks/useCreateMetadata";
 import useCreateAdvancedValues from "./useCreateAdvancedValues";
 
@@ -10,7 +9,6 @@ const useCreateForm = () => {
   const createMetadata = useCreateMetadata();
   const advancedValues = useCreateAdvancedValues();
 
-  // Initialize react-hook-form
   const form = useForm<CreateFormData>({
     resolver: zodResolver(createFormSchema),
     defaultValues: {
@@ -78,18 +76,7 @@ const useCreateForm = () => {
     }
   }, [advancedValues.startDate, form]);
 
-  // Get splits from form state and validate
-  const formSplits = form.watch("splits");
-  const splits = useMemo(() => {
-    const splitsArray = formSplits || [];
-    const totalPercentage = calculateTotalPercentage(splitsArray);
-    return {
-      splits: splitsArray,
-      isValid: splitsArray.length === 0 || (splitsArray.length >= 2 && totalPercentage === 100),
-    };
-  }, [formSplits]);
-
-  return { form, splits, createMetadata, advancedValues };
+  return { form, createMetadata, advancedValues };
 };
 
 export default useCreateForm;
