@@ -7,7 +7,7 @@ import { toast } from "sonner";
 const CreateButton = () => {
   const {
     create,
-    name,
+    form,
     previewUri,
     creating,
     link,
@@ -17,17 +17,25 @@ const CreateButton = () => {
     imageUri,
   } = useMomentCreateProvider();
 
-  const canCreate = Boolean(
-    !creating &&
-      name &&
-      (previewUri || writingText) &&
-      Boolean(animationUri || link || embedCode || imageUri || writingText)
-  );
+  const hasMedia = Boolean(animationUri || link || embedCode || imageUri || writingText);
+  const hasPreview = Boolean(previewUri || writingText);
 
   const toastCreateError = () => {
-    if (!previewUri && !writingText) {
+    const formIsValid = form.formState.isValid;
+    if (!formIsValid) {
+      const errors = form.formState.errors;
+      if (errors.name) {
+        toast.error(errors.name.message || "Name is required");
+      } else if (errors.price) {
+        toast.error(errors.price.message || "Price is required");
+      } else if (errors.splits) {
+        toast.error(errors.splits.message || "Splits validation failed");
+      } else {
+        toast.error("Please fix form errors");
+      }
+    } else if (!hasPreview) {
       toast.error("Missing a preview image");
-    } else if (!animationUri && !link && !embedCode && !imageUri) {
+    } else if (!hasMedia) {
       toast.error("Missing media");
     } else {
       toast.error("Error creating");
@@ -35,6 +43,9 @@ const CreateButton = () => {
   };
 
   const handleCreate = async () => {
+    const isValid = await form.trigger();
+    const canCreate = Boolean(!creating && isValid && hasPreview && hasMedia);
+
     if (!canCreate) {
       toastCreateError();
       return;

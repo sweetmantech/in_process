@@ -6,7 +6,7 @@ import { useMomentCreateProvider } from "@/providers/MomentCreateProvider";
 import CurrencySelect from "./CurrencySelect";
 
 export default function Price() {
-  const { price, setPrice, fileUploading, creating } = useMomentCreateProvider();
+  const { form, fileUploading, creating } = useMomentCreateProvider();
 
   return (
     <div className="w-full pt-2">
@@ -20,13 +20,14 @@ export default function Price() {
           inputMode="decimal"
           min="0"
           step="0.01"
-          value={price}
-          onChange={(e) => {
-            const val = e.target.value;
-            if (/^\d*\.?\d*$/.test(val)) {
-              setPrice(val);
-            }
-          }}
+          {...form.register("price", {
+            onChange: (e) => {
+              const val = e.target.value;
+              if (/^\d*\.?\d*$/.test(val)) {
+                form.setValue("price", val, { shouldValidate: true });
+              }
+            },
+          })}
           onWheel={(e) => {
             e.currentTarget.blur();
           }}
@@ -38,6 +39,11 @@ export default function Price() {
         </div>
         <CurrencySelect />
       </div>
+      {form.formState.errors.price && (
+        <p className="text-xs text-red-500 font-spectral mt-1">
+          {form.formState.errors.price.message}
+        </p>
+      )}
     </div>
   );
 }
