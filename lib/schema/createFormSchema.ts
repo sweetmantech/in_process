@@ -12,7 +12,7 @@ export const formSplitSchema = z.object({
 
 export const createFormSchema = z
   .object({
-    name: z.string().min(1, "Name is required"),
+    name: z.string().min(1, "Title is required"),
     price: z
       .string()
       .min(1, "Price is required")
