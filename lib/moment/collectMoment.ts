@@ -9,6 +9,8 @@ import getTokenInfo from "../viem/getTokenInfo";
 import getBalance from "../viem/getBalance";
 import getAllowance from "../viem/getAllowance";
 import { erc20MinterAddresses } from "../protocolSdk/constants";
+import { distributeSplitFunds } from "../splits/distributeSplitFunds";
+import { isSplitContract } from "../splits/isSplitContract";
 
 export type CollectMomentInput = z.infer<typeof collectSchema> & { artistAddress: Address };
 
@@ -33,11 +35,12 @@ export async function collectMoment({
   });
 
   // Check smart wallet balance
-  const { saleConfig } = await getTokenInfo(
+  const { saleConfig, owner } = await getTokenInfo(
     moment.contractAddress as Address,
     moment.tokenId,
     CHAIN_ID
   );
+
   const pricePerToken = formatUnits(saleConfig.pricePerToken, 6);
   const balance = await getBalance(smartAccount.address);
   const totalPrice = Number(pricePerToken) * amount;
@@ -82,6 +85,18 @@ export async function collectMoment({
     network: IS_TESTNET ? "base-sepolia" : "base",
     calls,
   });
+
+  // Distribute funds from split contract if fundsRecipient is a split
+  if (saleConfig.fundsRecipient) {
+    const isSplit = await isSplitContract(saleConfig.fundsRecipient, CHAIN_ID);
+    if (isSplit) {
+      await distributeSplitFunds({
+        splitAddress: saleConfig.fundsRecipient,
+        tokenAddress: USDC_ADDRESS,
+        distributorAddress: owner,
+      });
+    }
+  }
 
   return {
     hash: transaction.transactionHash as Hash,

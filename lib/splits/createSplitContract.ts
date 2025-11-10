@@ -3,12 +3,12 @@ import { Address, Hash } from "viem";
 import { getSplitsClient } from "./getSplitsClient";
 import { getPublicClient } from "@/lib/viem/publicClient";
 import { CHAIN_ID, IS_TESTNET } from "@/lib/consts";
-import { getOrCreateSmartWallet } from "@/lib/coinbase/getOrCreateSmartWallet";
 import { sendUserOperation } from "@/lib/coinbase/sendUserOperation";
+import { EvmSmartAccount } from "@coinbase/cdp-sdk";
 
 export const createSplitContract = async (
   splitConfig: CreateSplitV2Config,
-  account: Address
+  smartAccount: EvmSmartAccount
 ): Promise<Hash> => {
   const publicClient = getPublicClient(CHAIN_ID);
   const splitsClient = getSplitsClient({
@@ -18,11 +18,6 @@ export const createSplitContract = async (
 
   // Get split creation call data
   const { data, address } = await splitsClient.callData.createSplit(splitConfig);
-
-  // Create smart wallet for the account
-  const smartAccount = await getOrCreateSmartWallet({
-    address: account,
-  });
 
   // Send transaction via smart wallet
   const transaction = await sendUserOperation({

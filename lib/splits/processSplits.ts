@@ -1,9 +1,9 @@
 import { Address } from "viem";
 import { SplitRecipient } from "@0xsplits/splits-sdk";
-import { getOrCreateSmartWallet } from "@/lib/coinbase/getOrCreateSmartWallet";
 import { convertSplitsToConfig } from "./convertSplitsToConfig";
 import { getSplitAddress } from "./getSplitAddress";
 import { createSplitContract } from "./createSplitContract";
+import { EvmSmartAccount } from "@coinbase/cdp-sdk";
 
 export interface ProcessSplitsResult {
   splitAddress: Address | null;
@@ -11,17 +11,12 @@ export interface ProcessSplitsResult {
 
 export const processSplits = async (
   splits: SplitRecipient[],
-  account: Address
+  smartAccount: EvmSmartAccount
 ): Promise<ProcessSplitsResult> => {
   // If no splits configured, return null
   if (splits.length === 0) {
     return { splitAddress: null };
   }
-
-  // Get smart wallet address to use as owner
-  const smartAccount = await getOrCreateSmartWallet({
-    address: account,
-  });
 
   // Convert splits to CreateSplitConfig format
   const splitConfig = await convertSplitsToConfig(splits, smartAccount.address);
@@ -34,7 +29,7 @@ export const processSplits = async (
 
   // Create split contract if it doesn't exist
   if (!splitExists) {
-    await createSplitContract(splitConfig, account);
+    await createSplitContract(splitConfig, smartAccount);
   }
 
   return { splitAddress };
