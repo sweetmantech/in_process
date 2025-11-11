@@ -45,10 +45,6 @@ export async function GET(req: NextRequest) {
   return Response.json({
     status: "success",
     moments,
-    pagination: response?.pagination || {
-      page,
-      limit,
-      total_pages: 1,
-    },
+    pagination: response.pagination,
   });
 }
