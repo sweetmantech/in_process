@@ -1,0 +1,1 @@
+alter table "public"."in_process_tokens" add column "payoutRecipientNotDefaultAdmin" text;
