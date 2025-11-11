@@ -1,8 +1,7 @@
 import { NextRequest } from "next/server";
-import { getInProcessTokens } from "@/lib/supabase/in_process_tokens/getInProcessTokens";
-import { getInprocessMomentsCount } from "@/lib/supabase/in_process_tokens/getInprocessMomentsCount";
 import { CHAIN_ID } from "@/lib/consts";
 import type { Database } from "@/lib/supabase/types";
+import { supabase } from "@/lib/supabase/client";
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -15,36 +14,41 @@ export async function GET(req: NextRequest) {
   const hidden: Database["public"]["Tables"]["in_process_tokens"]["Row"]["hidden"] =
     hiddenParam === null ? false : hiddenParam === "true";
 
-  const {
-    data,
-    count: artistCount,
-    error,
-  } = await getInProcessTokens({
-    limit,
-    page,
-    latest,
-    artist: artist?.toLowerCase(),
-    chainId,
-    hidden,
+  // I need supabase rpc function to get the data
+  const { data, error } = await supabase.rpc("get_in_process_tokens", {
+    p_artist: artist?.toLowerCase(),
+    p_limit: limit,
+    p_page: page,
+    p_latest: latest,
+    p_chainid: chainId,
+    p_hidden: hidden,
   });
   if (error) {
     return Response.json({ status: "error", message: error.message }, { status: 500 });
   }
-  const moments = (data || []).map((row) => ({
-    ...row,
-    tokenId: String(row.tokenId),
-    admin: row.defaultAdmin,
-  }));
-  const { count } = await getInprocessMomentsCount();
-  const finalCount = artist ? artistCount || 0 : count || 0;
+
+  // RPC function returns { moments, pagination }
+  const response = data as {
+    moments: any[];
+    pagination: { page: number; limit: number; total_pages: number };
+  };
+
+  const moments = (response?.moments || []).map((row) => {
+    const { defaultAdmin, ...rest } = row;
+    return {
+      ...rest,
+      tokenId: String(row.tokenId),
+      admin: defaultAdmin,
+    };
+  });
+
   return Response.json({
     status: "success",
     moments,
-    pagination: {
-      total_count: finalCount,
+    pagination: response?.pagination || {
       page,
       limit,
-      total_pages: finalCount ? Math.ceil(finalCount / limit) : 1,
+      total_pages: 1,
     },
   });
 }
