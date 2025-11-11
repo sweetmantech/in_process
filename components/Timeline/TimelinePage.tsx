@@ -12,7 +12,7 @@ import { mapMomentsToTokens } from "@/lib/timeline/mapMomentToToken";
 import TimelineGrid from "@/components/Timeline/TimelineGrid";
 
 const TimelinePage = () => {
-  const { data, isLoading, error, moments } = useTimelineApiContext();
+  const { isLoading, error, moments } = useTimelineApiContext();
   const tokens = mapMomentsToTokens(moments);
 
   if (isLoading)
@@ -23,13 +23,11 @@ const TimelinePage = () => {
     );
   if (error) return <main>Error loading timeline.</main>;
 
-  const totalCount = data?.pagination.total_count ?? 0;
-
   return (
     <main className="px-2 md:px-10 relative grow flex flex-col">
-      <TimelineHero totalCount={totalCount} />
+      <TimelineHero />
       <TimelineSpiral />
-      <MobileMomentsSection totalCount={totalCount} />
+      <MobileMomentsSection />
       <div className="pt-8 md:pt-28">
         <TimelineMobileMoon />
       </div>

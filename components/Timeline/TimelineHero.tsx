@@ -2,11 +2,7 @@ import React from "react";
 import MomentCount from "@/components/Timeline/MomentCount";
 import CreateButton from "@/components/Timeline/CreateButton";
 
-interface TimelineHeroProps {
-  totalCount: number;
-}
-
-const TimelineHero = ({ totalCount }: TimelineHeroProps) => {
+const TimelineHero = () => {
   return (
     <div className="pt-12 pb-6 md:pt-16 md:pb-8 lg:pt-20 lg:pb-12 md:flex md:justify-between md:items-start md:gap-8 lg:gap-12">
       {/* Description Text - Centered on mobile, left on desktop */}
@@ -21,7 +17,7 @@ const TimelineHero = ({ totalCount }: TimelineHeroProps) => {
 
       {/* Desktop: Moments Count + Create Button (Right side) */}
       <div className="hidden md:flex flex-col items-end md:flex-shrink-0 md:min-w-fit">
-        <MomentCount count={totalCount} />
+        <MomentCount />
         <div className="mt-2 md:mt-3">
           <CreateButton />
         </div>
