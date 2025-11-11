@@ -247,6 +247,7 @@ export type Database = {
           defaultAdmin: string;
           hidden: boolean;
           id: string;
+          payoutRecipientNotDefaultAdmin: string | null;
           tokenId: number;
           uri: string;
         };
@@ -257,6 +258,7 @@ export type Database = {
           defaultAdmin?: string;
           hidden?: boolean;
           id?: string;
+          payoutRecipientNotDefaultAdmin?: string | null;
           tokenId: number;
           uri?: string;
         };
@@ -267,6 +269,7 @@ export type Database = {
           defaultAdmin?: string;
           hidden?: boolean;
           id?: string;
+          payoutRecipientNotDefaultAdmin?: string | null;
           tokenId?: number;
           uri?: string;
         };
