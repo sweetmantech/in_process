@@ -288,7 +288,19 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
-      [_ in never]: never;
+      get_in_process_tokens: {
+        Args: {
+          p_addresses?: string[];
+          p_artist?: string;
+          p_chainid?: number;
+          p_hidden?: boolean;
+          p_latest?: boolean;
+          p_limit?: number;
+          p_page?: number;
+          p_tokenids?: number[];
+        };
+        Returns: Json;
+      };
     };
     Enums: {
       [_ in never]: never;
