@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { getInProcessTokens } from "@/lib/supabase/in_process_tokens/getInProcessTokens";
-import { getInProcessTokensCount } from "@/lib/supabase/in_process_tokens/getInProcessTokensCount";
+import { getInprocessMomentsCount } from "@/lib/supabase/in_process_tokens/getInprocessMomentsCount";
 import { CHAIN_ID } from "@/lib/consts";
 import type { Database } from "@/lib/supabase/types";
 
@@ -35,7 +35,7 @@ export async function GET(req: NextRequest) {
     tokenId: String(row.tokenId),
     admin: row.defaultAdmin,
   }));
-  const { count } = await getInProcessTokensCount();
+  const { count } = await getInprocessMomentsCount();
   const finalCount = artist ? artistCount || 0 : count || 0;
   return Response.json({
     status: "success",
