@@ -1,7 +1,7 @@
 import { supabase } from "@/lib/supabase/client";
 import { CHAIN_ID } from "@/lib/consts";
 
-export async function getInProcessTokensCount(): Promise<{
+export async function getInprocessMomentsCount(): Promise<{
   count: number | null;
   error: Error | null;
 }> {
