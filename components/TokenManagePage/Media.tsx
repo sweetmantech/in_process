@@ -1,6 +1,6 @@
 "use client";
-import { Fragment, useRef } from "react";
 
+import { Fragment } from "react";
 import { useTokenProvider } from "@/providers/TokenProvider";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -8,47 +8,17 @@ import MediaSkeleton from "./MediaSkeleton";
 import OwnerWarning from "./OwnerWarning";
 import SaveMediaButton from "./SaveMediaButton";
 import { useMomentManageProvider } from "@/providers/MomentManageProvider";
-import NoFileSelected from "@/components/MetadataCreation/NoFileSelected";
-import MediaUploaded from "@/components/MetadataCreation/MediaUploaded";
-import ResetButton from "@/components/MetadataCreation/ResetButton";
 import useUpdateMomentURI from "@/hooks/useUpdateMomentURI";
 import useMediaInitialization from "@/hooks/useMediaInitialization";
+import AnimationUpload from "./AnimationUpload";
 
 const Media = () => {
   const { metadata, isOwner } = useTokenProvider();
-  const {
-    imageUri,
-    animationUri,
-    mimeType,
-    fileUpload,
-    fileUploading,
-    pctComplete,
-    previewSrc,
-    form,
-    setImageUri,
-    setAnimationUri,
-  } = useMomentManageProvider();
+  const { form } = useMomentManageProvider();
   const { data: meta, isLoading } = metadata;
   const { isLoading: isSaving } = useUpdateMomentURI();
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useMediaInitialization(meta);
-
-  const hasMedia = imageUri || animationUri || fileUploading;
-
-  const openFileDialog = () => {
-    if (isOwner && !isSaving) {
-      fileInputRef.current?.click();
-    }
-  };
-
-  const handleReset = () => {
-    setImageUri("");
-    setAnimationUri("");
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
-    }
-  };
 
   if (isLoading || !meta) {
     return <MediaSkeleton />;
@@ -92,34 +62,7 @@ const Media = () => {
               )}
             </div>
 
-            <div className="min-h-[400px] md:min-h-auto md:aspect-[571/692] relative bg-[url('/grid.svg')] bg-contain">
-              <input
-                ref={fileInputRef}
-                id="media"
-                type="file"
-                className={`cursor-pointer ${hasMedia ? "hidden" : "z-2 size-full absolute opacity-0"}`}
-                onChange={fileUpload}
-                disabled={!isOwner || isSaving}
-              />
-              {hasMedia ? (
-                <>
-                  {isOwner && !isSaving && (
-                    <ResetButton onClick={handleReset} disabled={fileUploading} />
-                  )}
-                  <MediaUploaded
-                    handleImageClick={openFileDialog}
-                    fileUploading={fileUploading}
-                    mimeType={mimeType || ""}
-                    animationUri={animationUri}
-                    imageUri={imageUri}
-                    pctComplete={pctComplete}
-                    previewSrc={previewSrc}
-                  />
-                </>
-              ) : (
-                <NoFileSelected />
-              )}
-            </div>
+            <AnimationUpload />
 
             <SaveMediaButton />
             <OwnerWarning />
