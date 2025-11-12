@@ -1,4 +1,5 @@
 import { Address } from "viem";
+import type { Database } from "@/lib/supabase/types";
 
 export interface Moment {
   contractAddress: Address;
@@ -26,4 +27,22 @@ export interface MintComment {
   sender: string;
   comment: string;
   timestamp: number;
+}
+
+export interface GetInProcessMomentsRpcParams {
+  artist?: string;
+  limit?: number;
+  page?: number;
+  latest?: boolean;
+  chainId?: number;
+  hidden?: Database["public"]["Tables"]["in_process_tokens"]["Row"]["hidden"];
+}
+
+export interface GetInProcessMomentsRpcResponse {
+  moments: any[];
+  pagination: {
+    page: number;
+    limit: number;
+    total_pages: number;
+  };
 }
