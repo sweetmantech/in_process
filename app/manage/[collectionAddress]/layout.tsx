@@ -6,7 +6,6 @@ import { ZORA_TO_VIEM, ZoraChains } from "@/lib/zora/zoraToViem";
 import { ReactNode } from "react";
 import { CollectionProvider } from "@/providers/CollectionProvider";
 import { Address } from "viem";
-import Overview from "@/components/CollectionManagePage/Overview";
 import { MomentManageProvider } from "@/providers/MomentManageProvider";
 
 const RootLayout = ({ children }: { children: ReactNode }) => {
@@ -22,10 +21,7 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
         chainId: viemChain.id,
       }}
     >
-      <MomentManageProvider>
-        <Overview />
-        {children}
-      </MomentManageProvider>
+      <MomentManageProvider>{children}</MomentManageProvider>
     </CollectionProvider>
   );
 };
