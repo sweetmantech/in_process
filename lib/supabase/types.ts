@@ -1,4 +1,4 @@
-export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[];
+﻿export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[];
 
 export type Database = {
   graphql_public: {
@@ -247,7 +247,7 @@ export type Database = {
           defaultAdmin: string;
           hidden: boolean;
           id: string;
-          payoutRecipientNotDefaultAdmin: string | null;
+          payoutRecipient: string | null;
           tokenId: number;
           uri: string;
         };
@@ -258,7 +258,7 @@ export type Database = {
           defaultAdmin?: string;
           hidden?: boolean;
           id?: string;
-          payoutRecipientNotDefaultAdmin?: string | null;
+          payoutRecipient?: string | null;
           tokenId: number;
           uri?: string;
         };
@@ -269,7 +269,7 @@ export type Database = {
           defaultAdmin?: string;
           hidden?: boolean;
           id?: string;
-          payoutRecipientNotDefaultAdmin?: string | null;
+          payoutRecipient?: string | null;
           tokenId?: number;
           uri?: string;
         };
