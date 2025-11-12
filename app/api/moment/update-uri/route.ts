@@ -22,6 +22,7 @@ export async function POST(req: NextRequest) {
       return authResult;
     }
     const { artistAddress } = authResult;
+
     const body = await req.json();
     const parseResult = updateMomentURISchema.safeParse(body);
     if (!parseResult.success) {
@@ -36,8 +37,8 @@ export async function POST(req: NextRequest) {
     }
     const data = parseResult.data;
     const result = await updateMomentURI({
-      tokenContractAddress: data.tokenContractAddress as Address,
-      tokenId: data.tokenId,
+      tokenContractAddress: data.moment.contractAddress as Address,
+      tokenId: data.moment.tokenId,
       newUri: data.newUri,
       artistAddress: artistAddress as Address,
     });
