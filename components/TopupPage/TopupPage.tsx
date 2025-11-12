@@ -1,6 +1,7 @@
 "use client";
 
 import { Balance } from "./Balance";
+import { EthBalance } from "./EthBalance";
 import { Wallet } from "./Wallet";
 import { Deposit } from "./Deposit";
 import { useUserProvider } from "@/providers/UserProvider";
@@ -36,7 +37,10 @@ const TopupPage = () => {
         </div>
         <div className="grid gap-6 md:grid-cols-2">
           <Wallet />
-          <Balance />
+          <div className="space-y-6">
+            <Balance />
+            <EthBalance />
+          </div>
         </div>
         <Deposit />
       </div>

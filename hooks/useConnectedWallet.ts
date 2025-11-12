@@ -14,6 +14,7 @@ const useConnectedWallet = () => {
     if (ready && !wallets.length) logout();
   }, [ready, wallets]);
   return {
+    externalWallet,
     connectedWallet,
     wallet,
   };
