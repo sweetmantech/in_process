@@ -1,16 +1,23 @@
 "use client";
 
 import React, { createContext, useContext, useMemo } from "react";
-import useCreateMetadata from "@/hooks/useCreateMetadata";
+import useCreateForm from "@/hooks/useCreateForm";
 
-const MomentManageContext = createContext<ReturnType<typeof useCreateMetadata> | undefined>(
-  undefined
-);
+type MomentManageContextValue = ReturnType<typeof useCreateForm> &
+  ReturnType<typeof useCreateForm>["createMetadata"];
+
+const MomentManageContext = createContext<MomentManageContextValue | undefined>(undefined);
 
 const MomentManageProvider = ({ children }: { children: React.ReactNode }) => {
-  const editMetadata = useCreateMetadata();
+  const createForm = useCreateForm();
 
-  const value = useMemo(() => ({ ...editMetadata }), [editMetadata]);
+  const value = useMemo(
+    () => ({
+      ...createForm,
+      ...createForm.createMetadata,
+    }),
+    [createForm]
+  );
 
   return <MomentManageContext.Provider value={value}>{children}</MomentManageContext.Provider>;
 };

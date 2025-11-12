@@ -1,14 +1,14 @@
 "use client";
 import { useTokenProvider } from "@/providers/TokenProvider";
-import useUpdateTokenURI from "@/hooks/useUpdateTokenURI";
+import useUpdateMomentURI from "@/hooks/useUpdateMomentURI";
 import { toast } from "sonner";
 import { useFormState } from "react-hook-form";
-import { useTokenManageFormProvider } from "@/providers/TokenManageFormProvider";
+import { useMomentManageProvider } from "@/providers/MomentManageProvider";
 
 const SaveMediaButton = () => {
   const { isOwner } = useTokenProvider();
-  const { updateTokenURI, isLoading: isSaving } = useUpdateTokenURI();
-  const { form } = useTokenManageFormProvider();
+  const { updateTokenURI, isLoading: isSaving } = useUpdateMomentURI();
+  const { form } = useMomentManageProvider();
   const { errors } = useFormState({ control: form.control });
 
   const handleSave = async () => {

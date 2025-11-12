@@ -11,9 +11,8 @@ import { useMomentManageProvider } from "@/providers/MomentManageProvider";
 import NoFileSelected from "@/components/MetadataCreation/NoFileSelected";
 import MediaUploaded from "@/components/MetadataCreation/MediaUploaded";
 import ResetButton from "@/components/MetadataCreation/ResetButton";
-import useUpdateTokenURI from "@/hooks/useUpdateTokenURI";
+import useUpdateMomentURI from "@/hooks/useUpdateMomentURI";
 import useMediaInitialization from "@/hooks/useMediaInitialization";
-import { useTokenManageFormProvider } from "@/providers/TokenManageFormProvider";
 
 const Media = () => {
   const { metadata, isOwner } = useTokenProvider();
@@ -25,11 +24,12 @@ const Media = () => {
     fileUploading,
     pctComplete,
     previewSrc,
-    reset,
+    form,
+    setImageUri,
+    setAnimationUri,
   } = useMomentManageProvider();
-  const { form } = useTokenManageFormProvider();
   const { data: meta, isLoading } = metadata;
-  const { isLoading: isSaving } = useUpdateTokenURI();
+  const { isLoading: isSaving } = useUpdateMomentURI();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useMediaInitialization(meta);
@@ -43,7 +43,8 @@ const Media = () => {
   };
 
   const handleReset = () => {
-    reset();
+    setImageUri("");
+    setAnimationUri("");
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
