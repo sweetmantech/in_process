@@ -120,7 +120,7 @@ const Media = () => {
               )}
             </div>
 
-            <SaveMediaButton />
+            <SaveMediaButton form={form} />
             <OwnerWarning />
           </div>
         </div>

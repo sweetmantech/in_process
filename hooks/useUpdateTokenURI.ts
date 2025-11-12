@@ -25,7 +25,7 @@ const useUpdateTokenURI = () => {
   const { artistWallet } = useUserProvider();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const updateTokenURI = async (options?: { name?: string; description?: string }) => {
+  const updateTokenURI = async () => {
     setIsLoading(true);
     try {
       const tokenInfo = await getTokenInfo(token.tokenContractAddress, token.tokenId, CHAIN_ID);
@@ -34,12 +34,8 @@ const useUpdateTokenURI = () => {
       const updatedAnimationUrl = animationUri || current?.animation_url;
       const updatedMimeType = mimeType || current?.content?.mime;
 
-      // Use form values if provided, otherwise fall back to provider values, then current values
-      const name = options?.name !== undefined ? options.name : providerName || current?.name;
-      const description =
-        options?.description !== undefined
-          ? options.description
-          : providerDescription || current?.description;
+      const name = providerName || current?.name;
+      const description = providerDescription || current?.description;
 
       const updated = {
         ...(current || {}),

@@ -16,6 +16,12 @@ const useTokenManageForm = () => {
     mode: "onChange",
   });
 
+  // Trigger validation on mount to ensure isValid is accurate
+  useEffect(() => {
+    form.trigger();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   // Sync form values to existing hooks
   useEffect(() => {
     const subscription = form.watch((value, { name }) => {
@@ -35,7 +41,7 @@ const useTokenManageForm = () => {
 
     // Only sync if values are different AND provider has a value (don't clear form)
     if (formName !== providerName && providerName) {
-      form.setValue("name", providerName, { shouldValidate: false });
+      form.setValue("name", providerName, { shouldValidate: true });
     }
   }, [manageMetadata.name, form]);
 
@@ -46,7 +52,7 @@ const useTokenManageForm = () => {
     // Only sync if values are different AND provider has a value (don't clear form)
     if (currentDesc !== providerDesc && providerDesc) {
       form.setValue("description", providerDesc || undefined, {
-        shouldValidate: false,
+        shouldValidate: true,
       });
     }
   }, [manageMetadata.description, form]);
