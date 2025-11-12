@@ -9,6 +9,7 @@ import Media from "./Media";
 import { useParams } from "next/navigation";
 import { TokenProvider } from "@/providers/TokenProvider";
 import { useCollectionProvider } from "@/providers/CollectionProvider";
+import { TokenManageFormProvider } from "@/providers/TokenManageFormProvider";
 
 const TokenManagePage = () => {
   const [selectedTab, setSelectedTab] = useState<number>(MANAGE_TABS.AIRDROP);
@@ -31,7 +32,11 @@ const TokenManagePage = () => {
       <AirdropProvider>
         {selectedTab === MANAGE_TABS.AIRDROP && <Airdrop />}
         {selectedTab === MANAGE_TABS.SALE && <Sale />}
-        {selectedTab === MANAGE_TABS.MEDIA && <Media />}
+        {selectedTab === MANAGE_TABS.MEDIA && (
+          <TokenManageFormProvider>
+            <Media />
+          </TokenManageFormProvider>
+        )}
       </AirdropProvider>
     </TokenProvider>
   );

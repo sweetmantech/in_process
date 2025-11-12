@@ -2,16 +2,13 @@
 import { useTokenProvider } from "@/providers/TokenProvider";
 import useUpdateTokenURI from "@/hooks/useUpdateTokenURI";
 import { toast } from "sonner";
-import { useFormState, UseFormReturn } from "react-hook-form";
-import { ManageFormData } from "@/lib/schema/manageFormSchema";
+import { useFormState } from "react-hook-form";
+import { useTokenManageFormProvider } from "@/providers/TokenManageFormProvider";
 
-interface SaveMediaButtonProps {
-  form: UseFormReturn<ManageFormData>;
-}
-
-const SaveMediaButton = ({ form }: SaveMediaButtonProps) => {
+const SaveMediaButton = () => {
   const { isOwner } = useTokenProvider();
   const { updateTokenURI, isLoading: isSaving } = useUpdateTokenURI();
+  const { form } = useTokenManageFormProvider();
   const { errors } = useFormState({ control: form.control });
 
   const handleSave = async () => {
@@ -20,8 +17,6 @@ const SaveMediaButton = ({ form }: SaveMediaButtonProps) => {
       const errors = form.formState.errors;
       if (errors.name) {
         toast.error(errors.name.message || "Title is required");
-      } else if (!nameValue) {
-        toast.error("Title is required");
       } else {
         toast.error("Please fix form errors");
       }

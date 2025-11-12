@@ -12,8 +12,8 @@ import NoFileSelected from "@/components/MetadataCreation/NoFileSelected";
 import MediaUploaded from "@/components/MetadataCreation/MediaUploaded";
 import ResetButton from "@/components/MetadataCreation/ResetButton";
 import useUpdateTokenURI from "@/hooks/useUpdateTokenURI";
-import useTokenManageForm from "@/hooks/useTokenManageForm";
 import useMediaInitialization from "@/hooks/useMediaInitialization";
+import { useTokenManageFormProvider } from "@/providers/TokenManageFormProvider";
 
 const Media = () => {
   const { metadata, isOwner } = useTokenProvider();
@@ -27,7 +27,7 @@ const Media = () => {
     previewSrc,
     reset,
   } = useMomentManageProvider();
-  const { form } = useTokenManageForm();
+  const { form } = useTokenManageFormProvider();
   const { data: meta, isLoading } = metadata;
   const { isLoading: isSaving } = useUpdateTokenURI();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -120,7 +120,7 @@ const Media = () => {
               )}
             </div>
 
-            <SaveMediaButton form={form} />
+            <SaveMediaButton />
             <OwnerWarning />
           </div>
         </div>
