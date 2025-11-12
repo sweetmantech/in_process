@@ -1,20 +1,42 @@
 "use client";
 import { useTokenProvider } from "@/providers/TokenProvider";
 import useUpdateTokenURI from "@/hooks/useUpdateTokenURI";
+import { toast } from "sonner";
+import { useFormState } from "react-hook-form";
+import { useTokenManageFormProvider } from "@/providers/TokenManageFormProvider";
 
 const SaveMediaButton = () => {
   const { isOwner } = useTokenProvider();
   const { updateTokenURI, isLoading: isSaving } = useUpdateTokenURI();
+  const { form } = useTokenManageFormProvider();
+  const { errors } = useFormState({ control: form.control });
 
-  const saveHandler = () => {
-    updateTokenURI();
+  const handleSave = async () => {
+    const isValid = await form.trigger();
+    if (!isValid) {
+      const errors = form.formState.errors;
+      if (errors.name) {
+        toast.error(errors.name.message || "Title is required");
+      } else {
+        toast.error("Please fix form errors");
+      }
+      return;
+    }
+
+    await updateTokenURI();
   };
+
+  // Watch name value reactively
+  const nameValue = form.watch("name");
+  const nameError = errors.name;
+  const hasValidName = nameValue && typeof nameValue === "string" && nameValue.trim().length > 0;
+  const isFormValid = hasValidName && !nameError;
 
   return (
     <button
       className="bg-black text-grey-eggshell w-fit px-8 py-2 rounded-md disabled:opacity-50"
-      onClick={saveHandler}
-      disabled={isSaving || !isOwner}
+      onClick={handleSave}
+      disabled={isSaving || !isOwner || !isFormValid}
     >
       {isSaving ? "saving..." : "Save"}
     </button>
