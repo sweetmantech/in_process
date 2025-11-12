@@ -1,13 +1,19 @@
 "use client";
 import { useTokenProvider } from "@/providers/TokenProvider";
 import useUpdateTokenURI from "@/hooks/useUpdateTokenURI";
+import useTokenManageForm from "@/hooks/useTokenManageForm";
 
 const SaveMediaButton = () => {
   const { isOwner } = useTokenProvider();
   const { updateTokenURI, isLoading: isSaving } = useUpdateTokenURI();
+  const { form } = useTokenManageForm();
 
   const saveHandler = () => {
-    updateTokenURI();
+    const formValues = form.getValues();
+    updateTokenURI({
+      name: formValues.name,
+      description: formValues.description,
+    });
   };
 
   return (
