@@ -22,8 +22,10 @@ export async function callUpdateMomentURI({
       authorization: `Bearer ${accessToken}`,
     },
     body: JSON.stringify({
-      tokenContractAddress,
-      tokenId,
+      moment: {
+        contractAddress: tokenContractAddress,
+        tokenId: tokenId,
+      },
       newUri,
     }),
   });

@@ -11,7 +11,7 @@ import { useMomentManageProvider } from "@/providers/MomentManageProvider";
 import NoFileSelected from "@/components/MetadataCreation/NoFileSelected";
 import MediaUploaded from "@/components/MetadataCreation/MediaUploaded";
 import ResetButton from "@/components/MetadataCreation/ResetButton";
-import useUpdateTokenURI from "@/hooks/useUpdateTokenURI";
+import useUpdateMomentURI from "@/hooks/useUpdateMomentURI";
 import useMediaInitialization from "@/hooks/useMediaInitialization";
 
 const Media = () => {
@@ -29,7 +29,7 @@ const Media = () => {
     setAnimationUri,
   } = useMomentManageProvider();
   const { data: meta, isLoading } = metadata;
-  const { isLoading: isSaving } = useUpdateTokenURI();
+  const { isLoading: isSaving } = useUpdateMomentURI();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useMediaInitialization(meta);

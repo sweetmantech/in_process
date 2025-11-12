@@ -9,7 +9,7 @@ import { useMomentManageProvider } from "@/providers/MomentManageProvider";
 import { toast } from "sonner";
 import { callUpdateMomentURI } from "@/lib/moment/callUpdateMomentURI";
 
-const useUpdateTokenURI = () => {
+const useUpdateMomentURI = () => {
   const { token, fetchTokenInfo } = useTokenProvider();
   const {
     name: providerName,
@@ -85,4 +85,4 @@ const useUpdateTokenURI = () => {
   };
 };
 
-export default useUpdateTokenURI;
+export default useUpdateMomentURI;
