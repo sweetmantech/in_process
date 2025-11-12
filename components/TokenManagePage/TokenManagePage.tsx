@@ -9,6 +9,8 @@ import Media from "./Media";
 import { useParams } from "next/navigation";
 import { TokenProvider } from "@/providers/TokenProvider";
 import { useCollectionProvider } from "@/providers/CollectionProvider";
+import TokenOverview from "../CollectionManagePage/TokenOverview";
+
 const TokenManagePage = () => {
   const [selectedTab, setSelectedTab] = useState<number>(MANAGE_TABS.AIRDROP);
   const { collection } = useCollectionProvider();
@@ -23,6 +25,7 @@ const TokenManagePage = () => {
       }}
       chainId={collection.chainId}
     >
+      <TokenOverview />
       <ManageTabs
         selectedTab={selectedTab}
         onChangeTab={(value: number) => setSelectedTab(value)}

@@ -1,15 +1,19 @@
 import ContentRenderer from "../Renderers";
-import { useCollectionProvider } from "@/providers/CollectionProvider";
 import { useRouter } from "next/navigation";
 import { Skeleton } from "../ui/skeleton";
 import { Metadata } from "@/types/token";
 import { networkConfigByChain } from "@/lib/protocolSdk/apis/chain-constants";
 import CopyButton from "../CopyButton";
+import { useTokenProvider } from "@/providers/TokenProvider";
+import { useCollectionProvider } from "@/providers/CollectionProvider";
 
-const Overview = () => {
-  const { collection } = useCollectionProvider();
-  const { data, isLoading } = collection.metadata;
+const TokenOverview = () => {
+  const { metadata } = useTokenProvider();
+  const { data, isLoading } = metadata;
   const { push } = useRouter();
+  const { collection } = useCollectionProvider();
+
+  if (isLoading || !data) return <Skeleton className="w-full h-[200px]" />;
 
   return (
     <div className="w-full pt-8 px-4 md:px-10">
@@ -31,8 +35,16 @@ const Overview = () => {
           }
           className="px-2 py-1 rounded-md hover:text-grey-eggshell hover:bg-black"
         >
-          {isLoading ? <Skeleton className="w-12 h-4 rounded-sm" /> : data?.name}
+          {isLoading ? (
+            <Skeleton className="w-12 h-4 rounded-sm" />
+          ) : (
+            collection.metadata.data?.name
+          )}
         </button>
+        /
+        <p className="px-2 py-1 rounded-md hover:text-grey-eggshell hover:bg-black">
+          {isLoading ? <Skeleton className="w-12 h-4 rounded-sm" /> : data?.name}
+        </p>
       </div>
       <div className="w-fit pt-4 flex flex-col md:flex-row items-center gap-2">
         <div className="w-full md:w-fit md:max-w-[200px] aspect-[1/1] relative">
@@ -51,4 +63,4 @@ const Overview = () => {
   );
 };
 
-export default Overview;
+export default TokenOverview;
