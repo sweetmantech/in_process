@@ -15,21 +15,16 @@ const useMediaInitialization = (meta: Metadata | undefined) => {
     setMimeType,
   } = useMomentManageProvider();
 
-  const lastMetaRef = useRef<string | null>(null);
-  const initializedRef = useRef(false);
+  const initializedRef = useRef<string | null>(null);
 
   useEffect(() => {
     if (!meta) return;
 
-    const metaKey = meta.animation_url || meta.image || "";
+    // Create a simple key from metadata to track if we've initialized
+    const metaKey = meta.animation_url || meta.image || meta.name || "";
+    if (initializedRef.current === metaKey) return;
 
-    if (lastMetaRef.current !== metaKey) {
-      initializedRef.current = false;
-      lastMetaRef.current = metaKey;
-    }
-
-    if (initializedRef.current) return;
-
+    // Only initialize if fields are empty (don't overwrite user edits)
     if ((!name || name === "") && meta.name) {
       setName(meta.name);
     }
@@ -38,8 +33,8 @@ const useMediaInitialization = (meta: Metadata | undefined) => {
       setDescription(meta.description);
     }
 
-    if (!imageUri) {
-      setImageUri(meta.image || "");
+    if (!imageUri && meta.image) {
+      setImageUri(meta.image);
     }
 
     if (meta.animation_url) {
@@ -53,7 +48,8 @@ const useMediaInitialization = (meta: Metadata | undefined) => {
       setAnimationUri("");
     }
 
-    initializedRef.current = true;
+    initializedRef.current = metaKey;
+    // Only depend on meta - state values are checked in conditions but don't need to trigger re-runs
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [meta]);
 };
