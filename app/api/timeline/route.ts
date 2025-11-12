@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import { CHAIN_ID } from "@/lib/consts";
 import type { Database } from "@/lib/supabase/types";
-import { supabase } from "@/lib/supabase/client";
+import { getInProcessTokensRpc } from "@/lib/supabase/in_process_tokens/getInProcessTokensRpc";
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -14,26 +14,24 @@ export async function GET(req: NextRequest) {
   const hidden: Database["public"]["Tables"]["in_process_tokens"]["Row"]["hidden"] =
     hiddenParam === null ? false : hiddenParam === "true";
 
-  // I need supabase rpc function to get the data
-  const { data, error } = await supabase.rpc("get_in_process_tokens", {
-    p_artist: artist?.toLowerCase(),
-    p_limit: limit,
-    p_page: page,
-    p_latest: latest,
-    p_chainid: chainId,
-    p_hidden: hidden,
+  const { data, error } = await getInProcessTokensRpc({
+    artist,
+    limit,
+    page,
+    latest,
+    chainId,
+    hidden,
   });
+
   if (error) {
     return Response.json({ status: "error", message: error.message }, { status: 500 });
   }
 
-  // RPC function returns { moments, pagination }
-  const response = data as {
-    moments: any[];
-    pagination: { page: number; limit: number; total_pages: number };
-  };
+  if (!data) {
+    return Response.json({ status: "error", message: "No data returned" }, { status: 500 });
+  }
 
-  const moments = (response?.moments || []).map((row) => {
+  const moments = (data.moments || []).map((row) => {
     const { defaultAdmin, ...rest } = row;
     return {
       ...rest,
@@ -45,6 +43,6 @@ export async function GET(req: NextRequest) {
   return Response.json({
     status: "success",
     moments,
-    pagination: response.pagination,
+    pagination: data.pagination,
   });
 }
