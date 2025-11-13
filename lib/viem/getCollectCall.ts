@@ -1,18 +1,12 @@
 import { SaleConfig } from "@/hooks/useTokenInfo";
 import { erc20MinterABI, zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
-import { Address, encodeAbiParameters, encodeFunctionData, Hash, parseAbiParameters } from "viem";
-import { CHAIN_ID, USDC_ADDRESS } from "./consts";
+import { Address, encodeAbiParameters, encodeFunctionData, parseAbiParameters } from "viem";
+import { CHAIN_ID, USDC_ADDRESS } from "../consts";
 import { MintType } from "@/types/zora";
 import {
   erc20MinterAddresses,
   zoraCreatorFixedPriceSaleStrategyAddress,
-} from "./protocolSdk/constants";
-
-export interface CollectCall {
-  to: Address;
-  data: Hash;
-  value?: bigint;
-}
+} from "../protocolSdk/constants";
 
 const getCollectCall = (
   contractAddress: Address,
@@ -21,7 +15,7 @@ const getCollectCall = (
   account: Address,
   comment: string,
   amount: number
-): CollectCall => {
+) => {
   const minterArguments = encodeAbiParameters(parseAbiParameters("address, string"), [
     account,
     comment,
