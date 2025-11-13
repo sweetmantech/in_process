@@ -1,8 +1,7 @@
 import { supabase } from "@/lib/supabase/client";
 import type { Database } from "@/lib/supabase/types";
 import { CHAIN_ID } from "@/lib/consts";
-import { Address, zeroAddress } from "viem";
-import { getOrCreateSmartWallet } from "@/lib/coinbase/getOrCreateSmartWallet";
+import { zeroAddress } from "viem";
 
 export type InProcessPayment = {
   id: string;
@@ -28,28 +27,21 @@ export async function selectPayments({
 }: InProcessPaymentsQuery = {}) {
   const cappedLimit = Math.min(limit, 100);
 
-  let query = supabase.from("in_process_payments").select(
-    `id, amount, hash, block, 
+  let query = supabase
+    .from("in_process_payments")
+    .select(
+      `id, amount, hash, block, 
        token:in_process_tokens!inner(*), 
        buyer:in_process_artists!inner(*)`,
-    { count: "exact" }
-  );
+      { count: "exact" }
+    )
+    .eq("token.chainId", CHAIN_ID)
+    .neq("buyer.address", zeroAddress)
+    .order("block", { ascending: false })
+    .range((page - 1) * cappedLimit, page * cappedLimit - 1);
 
-  if (artist) {
-    query = query.eq("token.defaultAdmin", artist);
-  }
-  if (collector) {
-    const smartAccount = await getOrCreateSmartWallet({
-      address: collector as Address,
-    });
-    const addresses = [smartAccount.address.toLowerCase(), collector.toLowerCase()];
-    query = query.in("buyer.address", addresses);
-  }
-
-  query = query.eq("token.chainId", CHAIN_ID);
-  query = query.neq("buyer.address", zeroAddress);
-  query = query.order("block", { ascending: false });
-  query = query.range((page - 1) * cappedLimit, page * cappedLimit - 1);
+  if (artist) query = query.eq("token.defaultAdmin", artist);
+  if (collector) query = query.eq("buyer.address", collector);
 
   const { data, count, error } = await query;
   if (error) return { data: null, count: null, error };
