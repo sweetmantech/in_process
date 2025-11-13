@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useAccount } from "wagmi";
 import { zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
 import { zoraCreatorFixedPriceSaleStrategyAddress } from "@/lib/protocolSdk/constants";
 import { CHAIN } from "@/lib/consts";
@@ -8,9 +7,9 @@ import { useTokenProvider } from "@/providers/TokenProvider";
 import { useUserProvider } from "@/providers/UserProvider";
 import { useCrossmintCheckout } from "@crossmint/client-sdk-react-ui";
 import { toast } from "sonner";
-import { MintType } from "@/types/zora";
-import useUsdcMint from "./useUsdcMint";
-import useNativeMint from "./useNativeMint";
+import useCollectBalanceValidation from "./useCollectBalanceValidation";
+import { usePrivy } from "@privy-io/react-auth";
+import { collectMomentApi } from "@/lib/moment/collectMomentApi";
 
 const mintOnSmartWallet = async (parameters: any) => {
   const response = await fetch(`/api/smartwallet/sendUserOperation`, {
@@ -44,8 +43,8 @@ const useMomentCollect = () => {
     mintCount,
   } = useTokenProvider();
   const { order } = useCrossmintCheckout();
-  const { collectWithUsdc } = useUsdcMint();
-  const { mintWithNativeToken } = useNativeMint();
+  const { validateBalance } = useCollectBalanceValidation();
+  const { getAccessToken } = usePrivy();
 
   const collectWithComment = async () => {
     try {
@@ -71,9 +70,20 @@ const useMomentCollect = () => {
           ],
         });
       } else {
-        if (saleConfig.type === MintType.ZoraErc20Mint)
-          await collectWithUsdc(saleConfig, token, comment, mintCount);
-        else await mintWithNativeToken(saleConfig, token, comment, mintCount);
+        validateBalance(saleConfig, mintCount);
+        const accessToken = await getAccessToken();
+        if (!accessToken) {
+          throw new Error("Failed to get access token");
+        }
+        await collectMomentApi(
+          {
+            contractAddress: token.tokenContractAddress,
+            tokenId: token.tokenId,
+          },
+          mintCount,
+          comment,
+          accessToken
+        );
       }
       addComment({
         sender: artistWallet as Address,
@@ -87,7 +97,7 @@ const useMomentCollect = () => {
       setIsLoading(false);
     } catch (error) {
       const errorMessage = (error as any).message || "Failed to collect moment";
-      if (!errorMessage.includes("Insufficient balance")) {
+      if (!errorMessage.includes("funds")) {
         toast.error(errorMessage);
       }
       setIsLoading(false);

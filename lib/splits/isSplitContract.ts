@@ -1,32 +1,15 @@
+import { getPublicClient } from "../viem/publicClient";
 import { Address } from "viem";
-import { getSplitsClient } from "./getSplitsClient";
-import { getPublicClient } from "@/lib/viem/publicClient";
-import { CHAIN_ID } from "@/lib/consts";
 
-/**
- * Checks if an address is a split contract by attempting to read split metadata.
- * Returns true if the address is a valid split contract, false otherwise.
- */
-export const isSplitContract = async (
-  address: Address,
-  chainId: number = CHAIN_ID
-): Promise<boolean> => {
-  try {
-    const publicClient = getPublicClient(chainId);
-    const splitsClient = getSplitsClient({
-      chainId,
-      publicClient,
-    });
-
-    // Try to get split metadata - if it succeeds, it's a split contract
-    await splitsClient.getSplitMetadataViaProvider({
-      splitAddress: address,
-      chainId,
-    });
-
-    return true;
-  } catch {
-    // If getting metadata fails, it's not a split contract
-    return false;
-  }
+const isSplitContract = async (address: Address, chainId: number) => {
+  const publicClient = getPublicClient(chainId);
+  const bytecode = await publicClient.getCode({
+    address,
+  });
+  return (
+    bytecode ===
+    "0x36602c57343d527f9e4ac34f21c619cefc926c8bd93b54bf5a39c7ab2127a895af1cc0691d7e3dff593da1005b3d3d3d3d363d3d37363d731e2086a7e84a32482ac03000d56925f607ccb7085af43d3d93803e605757fd5bf3"
+  );
 };
+
+export default isSplitContract;

@@ -1,8 +1,8 @@
 import { Address, erc20Abi, formatUnits } from "viem";
-import { getPublicClient } from "./publicClient";
+import { getPublicClient } from "../viem/publicClient";
 import { CHAIN_ID, USDC_ADDRESS } from "../consts";
 
-const getBalance = async (address: Address) => {
+const getUsdcBalance = async (address: Address): Promise<string> => {
   const publicClient = getPublicClient(CHAIN_ID);
   const balance = await publicClient.readContract({
     address: USDC_ADDRESS,
@@ -14,4 +14,4 @@ const getBalance = async (address: Address) => {
   return formatUnits(balance, 6);
 };
 
-export default getBalance;
+export default getUsdcBalance;
