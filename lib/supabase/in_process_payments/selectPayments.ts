@@ -1,6 +1,7 @@
 import { supabase } from "@/lib/supabase/client";
 import type { Database } from "@/lib/supabase/types";
 import { CHAIN_ID } from "@/lib/consts";
+import { zeroAddress } from "viem";
 
 export type InProcessPayment = {
   id: string;
@@ -35,6 +36,7 @@ export async function selectPayments({
       { count: "exact" }
     )
     .eq("token.chainId", CHAIN_ID)
+    .neq("buyer.address", zeroAddress)
     .order("block", { ascending: false })
     .range((page - 1) * cappedLimit, page * cappedLimit - 1);
 
