@@ -19,22 +19,26 @@ const usePaymentAmount = (payment: Payment | PaymentWithType): string => {
         return;
       }
 
-      const isSplit = await isSplitContract(
-        payment.token.payoutRecipient as Address,
-        payment.token.chainId
-      );
-
-      if (isSplit) {
-        const artistAddress = payment.token.defaultAdmin as Address;
-        const splitAmount = await getSplitRecipientAmount(
+      try {
+        const isSplit = await isSplitContract(
           payment.token.payoutRecipient as Address,
-          payment.token.chainId,
-          artistAddress,
-          payment.amount
+          payment.token.chainId
         );
-        setAmount(splitAmount);
-      } else {
-        setAmount(payment.amount);
+
+        if (isSplit) {
+          const artistAddress = payment.token.defaultAdmin as Address;
+          const splitAmount = await getSplitRecipientAmount(
+            payment.token.payoutRecipient as Address,
+            payment.token.chainId,
+            artistAddress,
+            payment.amount
+          );
+          setAmount(splitAmount);
+        } else {
+          setAmount(payment.amount);
+        }
+      } catch (error) {
+        console.error(error);
       }
     };
 
