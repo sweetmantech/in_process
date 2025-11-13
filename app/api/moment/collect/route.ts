@@ -17,13 +17,12 @@ export async function OPTIONS() {
 
 export async function POST(req: NextRequest) {
   try {
-    // const authResult = await authMiddleware(req, { corsHeaders });
-    // if (authResult instanceof Response) {
-    //   return authResult;
-    // }
-    // const { artistAddress } = authResult;
+    const authResult = await authMiddleware(req, { corsHeaders });
+    if (authResult instanceof Response) {
+      return authResult;
+    }
+    const { artistAddress } = authResult;
 
-    const artistAddress = "0xAF1452d289E22FbD0DEA9d5097353c72a90FAC33";
     const body = await req.json();
     const parseResult = collectSchema.safeParse(body);
     if (!parseResult.success) {
