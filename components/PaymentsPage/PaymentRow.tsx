@@ -4,6 +4,7 @@ import type { Payment, PaymentWithType } from "@/hooks/usePayments";
 import MomentCell from "@/components/NotificationsPage/MomentCell";
 import NotificationDateCell from "@/components/NotificationsPage/NotificationDateCell";
 import BuyerCell from "./BuyerCell";
+import usePaymentAmount from "@/hooks/usePaymentAmount";
 
 interface PaymentRowProps {
   payment: Payment | PaymentWithType;
@@ -12,7 +13,7 @@ interface PaymentRowProps {
 const PaymentRow = ({ payment }: PaymentRowProps) => {
   const isCombinedPayment = "type" in payment;
   const isEarning = isCombinedPayment && payment.type === "earning";
-
+  const amount = usePaymentAmount(payment);
   return (
     <TableRow className="border border-transparent hover:border-b-grey-moss-200">
       <BuyerCell payment={payment} />
@@ -28,7 +29,7 @@ const PaymentRow = ({ payment }: PaymentRowProps) => {
               : ""
           }`}
         >
-          {isCombinedPayment ? (isEarning ? "+" : "-") : ""}${payment.amount}
+          {isCombinedPayment ? (isEarning ? "+" : "-") : ""}${amount}
         </Badge>
       </TableCell>
       <NotificationDateCell payment={payment} />
