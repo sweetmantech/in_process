@@ -37,7 +37,7 @@ const useDeposit = ({ currency, depositAmount, currencyLabel }: UseDepositParams
         transport: custom(provider),
       });
 
-      let hash: `0x${string}`;
+      let hash: Address;
 
       if (currency === "eth") {
         // Send native ETH
