@@ -1,7 +1,7 @@
 import { ensureArtists } from "@/lib/supabase/in_process_artists/ensureArtists";
 import { upsertTokenAdmins } from "@/lib/supabase/in_process_token_admins/upsertTokenAdmins";
 import isSplitContract from "@/lib/splits/isSplitContract";
-import getSplitRecipients from "@/lib/splits/getSplitRecipients.js";
+import getSplitRecipients from "@/lib/splits/getSplitRecipients";
 import { Database } from "../types";
 import { Address } from "viem";
 
