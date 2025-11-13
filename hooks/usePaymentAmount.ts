@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Address } from "viem";
 import type { Payment, PaymentWithType } from "./usePayments";
 import isSplitContract from "@/lib/splits/isSplitContract";
@@ -10,45 +10,39 @@ import getSplitRecipientAmount from "@/lib/splits/getSplitRecipientAmount";
  * Otherwise, returns the full payment amount.
  */
 const usePaymentAmount = (payment: Payment | PaymentWithType): string => {
-  const [amount, setAmount] = useState("0");
-
-  useEffect(() => {
-    const calculateAmount = async () => {
+  const { data: amount = "0" } = useQuery({
+    queryKey: [
+      "paymentAmount",
+      payment.token.payoutRecipient,
+      payment.token.chainId,
+      payment.token.defaultAdmin,
+      payment.amount,
+    ],
+    queryFn: async () => {
       if (!payment.token.payoutRecipient) {
-        setAmount(payment.amount);
-        return;
+        return payment.amount;
       }
 
-      try {
-        const isSplit = await isSplitContract(
+      const isSplit = await isSplitContract(
+        payment.token.payoutRecipient as Address,
+        payment.token.chainId
+      );
+
+      if (isSplit) {
+        const artistAddress = payment.token.defaultAdmin as Address;
+        return await getSplitRecipientAmount(
           payment.token.payoutRecipient as Address,
-          payment.token.chainId
+          payment.token.chainId,
+          artistAddress,
+          payment.amount
         );
-
-        if (isSplit) {
-          const artistAddress = payment.token.defaultAdmin as Address;
-          const splitAmount = await getSplitRecipientAmount(
-            payment.token.payoutRecipient as Address,
-            payment.token.chainId,
-            artistAddress,
-            payment.amount
-          );
-          setAmount(splitAmount);
-        } else {
-          setAmount(payment.amount);
-        }
-      } catch (error) {
-        console.error(error);
       }
-    };
 
-    calculateAmount();
-  }, [
-    payment.token.payoutRecipient,
-    payment.token.chainId,
-    payment.token.defaultAdmin,
-    payment.amount,
-  ]);
+      return payment.amount;
+    },
+    staleTime: 1000 * 60 * 5, // 5 minutes
+    retry: (failureCount) => failureCount < 3,
+  });
 
   return amount;
 };
