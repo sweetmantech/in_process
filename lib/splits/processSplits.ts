@@ -19,7 +19,7 @@ export const processSplits = async (
   }
 
   // Convert splits to CreateSplitConfig format
-  const splitConfig = await convertSplitsToConfig(splits, smartAccount.address);
+  const splitConfig = await convertSplitsToConfig(splits);
   if (!splitConfig) {
     return { splitAddress: null };
   }
