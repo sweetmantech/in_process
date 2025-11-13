@@ -21,3 +21,4 @@ export const isUserRejection = (error: unknown): boolean => {
     Boolean(err.shortMessage?.toLowerCase().includes("denied"))
   );
 };
+

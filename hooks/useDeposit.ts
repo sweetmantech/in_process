@@ -7,7 +7,7 @@ import getViemNetwork from "@/lib/viem/getViemNetwork";
 import { getPublicClient } from "@/lib/viem/publicClient";
 import { toast } from "sonner";
 import { DepositCurrency } from "./useTopup";
-import { isUserRejection } from "@/lib/utils/isUserRejection";
+import { isUserRejection } from "@/lib/viem/isUserRejection";
 
 interface UseDepositParams {
   currency: DepositCurrency;
