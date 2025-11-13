@@ -35,7 +35,7 @@ export async function collectMoment({
   });
 
   // Get token info and sale config
-  const { saleConfig, owner } = await getTokenInfo(
+  const { saleConfig } = await getTokenInfo(
     moment.contractAddress as Address,
     moment.tokenId,
     CHAIN_ID
@@ -70,7 +70,7 @@ export async function collectMoment({
       await distributeSplitFunds({
         splitAddress: saleConfig.fundsRecipient,
         tokenAddress: saleConfig.type === MintType.ZoraErc20Mint ? USDC_ADDRESS : zeroAddress, // zeroAddress for native ETH
-        distributorAddress: owner,
+        smartAccount,
       });
     }
   }

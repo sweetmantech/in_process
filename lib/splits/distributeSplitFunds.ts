@@ -2,8 +2,8 @@ import { Address, Hash } from "viem";
 import { CHAIN_ID, IS_TESTNET, USDC_ADDRESS } from "@/lib/consts";
 import { getSplitsClient } from "./getSplitsClient";
 import { getPublicClient } from "@/lib/viem/publicClient";
-import { getOrCreateSmartWallet } from "@/lib/coinbase/getOrCreateSmartWallet";
 import { sendUserOperation } from "@/lib/coinbase/sendUserOperation";
+import { EvmSmartAccount } from "@coinbase/cdp-sdk";
 
 /**
  * Distributes funds from a split contract to its recipients.
@@ -12,11 +12,11 @@ import { sendUserOperation } from "@/lib/coinbase/sendUserOperation";
 export async function distributeSplitFunds({
   splitAddress,
   tokenAddress = USDC_ADDRESS,
-  distributorAddress,
+  smartAccount,
 }: {
   splitAddress: Address;
   tokenAddress?: Address;
-  distributorAddress: Address;
+  smartAccount: EvmSmartAccount;
 }): Promise<Hash> {
   const publicClient = getPublicClient(CHAIN_ID);
   const splitsClient = getSplitsClient({
@@ -24,18 +24,14 @@ export async function distributeSplitFunds({
     publicClient,
   });
 
-  const splitOwner = await getOrCreateSmartWallet({
-    address: distributorAddress,
-  });
-
   const distributeCallData = await splitsClient.callData.distribute({
     splitAddress,
     tokenAddress,
-    distributorAddress: splitOwner.address,
+    distributorAddress: smartAccount.address,
   });
 
   const distributeTransaction = await sendUserOperation({
-    smartAccount: splitOwner,
+    smartAccount,
     network: IS_TESTNET ? "base-sepolia" : "base",
     calls: [
       {
