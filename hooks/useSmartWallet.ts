@@ -1,5 +1,5 @@
 import getSmartWallet from "@/lib/smartwallets/getSmartWallet";
-import getBalance from "@/lib/viem/getBalance";
+import getUsdcBalance from "@/lib/balance/getUsdcBalance";
 import { useUserProvider } from "@/providers/UserProvider";
 import { useCallback, useEffect, useState } from "react";
 import { Address, formatEther } from "viem";
@@ -19,7 +19,7 @@ const useSmartWallet = () => {
     setSmartWallet(smartWallet as Address);
 
     // Fetch USDC balance
-    const usdcBalance = await getBalance(smartWallet);
+    const usdcBalance = await getUsdcBalance(smartWallet);
     setBalance(usdcBalance);
 
     // Fetch ETH balance

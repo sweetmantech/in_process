@@ -9,7 +9,7 @@ import { sendUserOperation } from "@/lib/coinbase/sendUserOperation";
  * Distributes funds from a split contract to its recipients.
  * Uses 0xSplits SDK to generate the distribution call data and executes it via smart wallet.
  */
-export const distributeSplitFunds = async ({
+export async function distributeSplitFunds({
   splitAddress,
   tokenAddress = USDC_ADDRESS,
   distributorAddress,
@@ -17,7 +17,7 @@ export const distributeSplitFunds = async ({
   splitAddress: Address;
   tokenAddress?: Address;
   distributorAddress: Address;
-}): Promise<Hash> => {
+}): Promise<Hash> {
   const publicClient = getPublicClient(CHAIN_ID);
   const splitsClient = getSplitsClient({
     chainId: CHAIN_ID,
@@ -46,4 +46,4 @@ export const distributeSplitFunds = async ({
   });
 
   return distributeTransaction.transactionHash as Hash;
-};
+}
