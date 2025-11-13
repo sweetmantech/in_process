@@ -1,9 +1,8 @@
 import { encodeFunctionData, erc20Abi, parseUnits } from "viem";
-import { CHAIN_ID, USDC_ADDRESS } from "./consts";
-import { erc20MinterAddresses } from "./protocolSdk/constants";
-import { CollectCall } from "./getCollectCall";
+import { CHAIN_ID, USDC_ADDRESS } from "../consts";
+import { erc20MinterAddresses } from "../protocolSdk/constants";
 
-const getApproveCall = (totalPrice: number): CollectCall => {
+const getApproveCall = (totalPrice: number) => {
   return {
     to: USDC_ADDRESS,
     data: encodeFunctionData({
