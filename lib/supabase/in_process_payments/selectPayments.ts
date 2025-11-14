@@ -5,7 +5,9 @@ import { zeroAddress } from "viem";
 
 export type InProcessPayment = {
   id: string;
-  token: Database["public"]["Tables"]["in_process_tokens"]["Row"];
+  token: Database["public"]["Tables"]["in_process_tokens"]["Row"] & {
+    fee_recipients: Database["public"]["Tables"]["in_process_token_fee_recipients"]["Row"][];
+  };
   buyer: Database["public"]["Tables"]["in_process_artists"]["Row"];
   amount: string;
   hash: string;
@@ -29,8 +31,10 @@ export async function selectPayments({
 
   let query = supabase.from("in_process_payments").select(
     `id, amount, hash, block, 
-       token:in_process_tokens!inner(*), 
-       buyer:in_process_artists!inner(*)`,
+      token:in_process_tokens!inner(*, 
+        fee_recipients:in_process_token_fee_recipients!inner(*)
+      ), 
+      buyer:in_process_artists!inner(*)`,
     { count: "exact" }
   );
 

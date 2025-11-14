@@ -1,8 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { Address } from "viem";
 import type { Payment, PaymentWithType } from "./usePayments";
-import isSplitContract from "@/lib/splits/isSplitContract";
-import getSplitRecipientAmount from "@/lib/splits/getSplitRecipientAmount";
+import { useUserProvider } from "@/providers/UserProvider";
 
 /**
  * Calculates the payment amount, accounting for split contracts.
@@ -10,6 +8,7 @@ import getSplitRecipientAmount from "@/lib/splits/getSplitRecipientAmount";
  * Otherwise, returns the full payment amount.
  */
 const usePaymentAmount = (payment: Payment | PaymentWithType): string => {
+  const { artistWallet } = useUserProvider();
   const { data: amount = "0" } = useQuery({
     queryKey: [
       "paymentAmount",
@@ -17,29 +16,21 @@ const usePaymentAmount = (payment: Payment | PaymentWithType): string => {
       payment.token.chainId,
       payment.token.defaultAdmin,
       payment.amount,
+      artistWallet,
     ],
     queryFn: async () => {
-      if (!payment.token.payoutRecipient) {
-        return payment.amount;
+      const feeRecipients = payment.token.fee_recipients;
+      const percentAllocation = feeRecipients.find(
+        (recipient) =>
+          recipient.artist_address?.toLowerCase() === payment.token.defaultAdmin?.toLowerCase()
+      )?.percentAllocation;
+
+      if (percentAllocation) {
+        return ((parseFloat(payment.amount) * percentAllocation) / 100).toFixed(2);
       }
-
-      const isSplit = await isSplitContract(
-        payment.token.payoutRecipient as Address,
-        payment.token.chainId
-      );
-
-      if (isSplit) {
-        const artistAddress = payment.token.defaultAdmin as Address;
-        return await getSplitRecipientAmount(
-          payment.token.payoutRecipient as Address,
-          payment.token.chainId,
-          artistAddress,
-          payment.amount
-        );
-      }
-
       return payment.amount;
     },
+    enabled: Boolean(artistWallet && payment.token.defaultAdmin),
     staleTime: 1000 * 60 * 5, // 5 minutes
     retry: (failureCount) => failureCount < 3,
   });
