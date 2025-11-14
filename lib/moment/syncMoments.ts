@@ -17,6 +17,7 @@ export async function syncMoments() {
       address
       contractURI
       defaultAdmin
+      payoutRecipient
       transactionHash
       blockNumber
       blockTimestamp
