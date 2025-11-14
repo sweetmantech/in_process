@@ -14,7 +14,9 @@ export async function processTokenFeeRecipients(
 ) {
   const recipientsInserts = [];
   const recipientAddresses = [];
-  const tokensWithSplitRecipients = upsertedTokens.filter((token) => token.payoutRecipient);
+  const tokensWithSplitRecipients = upsertedTokens.filter(
+    (token) => token.payoutRecipient && token.chainId
+  );
   for (const token of tokensWithSplitRecipients) {
     try {
       const isSplit = await isSplitContract(token.payoutRecipient as Address, token.chainId);
