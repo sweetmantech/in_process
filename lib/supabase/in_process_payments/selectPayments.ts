@@ -39,11 +39,14 @@ export async function selectPayments({
   if (artist) {
     query = query.eq("token.defaultAdmin", artist);
   }
+  const addresses = [];
   if (collector) {
-    const addresses = [
-      ...(smartAccountAddress ? [smartAccountAddress.toLowerCase()] : []),
-      collector.toLowerCase(),
-    ];
+    addresses.push(collector.toLowerCase());
+  }
+  if (smartAccountAddress) {
+    addresses.push(smartAccountAddress.toLowerCase());
+  }
+  if (addresses.length > 0) {
     query = query.in("buyer.address", addresses);
   }
 
