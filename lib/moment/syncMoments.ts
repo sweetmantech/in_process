@@ -6,7 +6,7 @@ import { ensureArtists } from "@/lib/supabase/in_process_artists/ensureArtists";
 import { upsertTokens } from "@/lib/supabase/in_process_tokens/upsertTokens";
 import { GraphQLResponse } from "@/types/envio";
 import { Database } from "@/lib/supabase/types";
-import { processTokenAdmins } from "../supabase/in_process_token_admins/processTokenAdmins";
+import { processTokenFeeRecipients } from "../supabase/in_process_token_fee_recipients/processTokenFeeRecipients";
 
 export async function syncMoments() {
   const maxBlockTimestamp = await getMaxBlockTimestamp(CHAIN_ID);
@@ -43,7 +43,7 @@ export async function syncMoments() {
   await ensureArtists(adminAddresses);
   const upsertedTokens = await upsertTokens(validMoments);
 
-  await processTokenAdmins(upsertedTokens);
+  await processTokenFeeRecipients(upsertedTokens);
 
   const addresses = validMoments
     .map((moment) => moment.address!)
