@@ -18,8 +18,8 @@ export async function GET(req: NextRequest) {
       const smartAccount = await getOrCreateSmartWallet({
         address: collector as Address,
       });
-      collectors.push(smartAccount.address);
-      collectors.push(collector);
+      collectors.push(smartAccount.address.toLowerCase());
+      collectors.push(collector.toLowerCase());
     }
 
     const { data, error } = await selectPayments({
