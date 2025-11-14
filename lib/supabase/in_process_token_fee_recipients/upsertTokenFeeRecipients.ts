@@ -6,6 +6,7 @@ import { Database } from "@/lib/supabase/types";
  * @param {Array<Object>} tokenFeeRecipients - Array of token fee recipient data objects to upsert.
  * Each object should have: { token: string, artist_address: string, percentAllocation?: number }
  * @returns {Promise<Array>} - The upserted records or error.
+ * @throws {Error} - Throws if the database operation fails.
  */
 export async function upsertTokenFeeRecipients(
   tokenFeeRecipients: Database["public"]["Tables"]["in_process_token_fee_recipients"]["Insert"][]
