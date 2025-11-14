@@ -239,6 +239,45 @@ export type Database = {
           },
         ];
       };
+      in_process_token_fee_recipients: {
+        Row: {
+          artist_address: string | null;
+          created_at: string;
+          id: string;
+          percentAllocation: number | null;
+          token: string | null;
+        };
+        Insert: {
+          artist_address?: string | null;
+          created_at?: string;
+          id?: string;
+          percentAllocation?: number | null;
+          token?: string | null;
+        };
+        Update: {
+          artist_address?: string | null;
+          created_at?: string;
+          id?: string;
+          percentAllocation?: number | null;
+          token?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "in_process_token_fee_recipients_artist_address_fkey";
+            columns: ["artist_address"];
+            isOneToOne: false;
+            referencedRelation: "in_process_artists";
+            referencedColumns: ["address"];
+          },
+          {
+            foreignKeyName: "in_process_token_fee_recipients_token_fkey";
+            columns: ["token"];
+            isOneToOne: false;
+            referencedRelation: "in_process_tokens";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       in_process_tokens: {
         Row: {
           address: string;

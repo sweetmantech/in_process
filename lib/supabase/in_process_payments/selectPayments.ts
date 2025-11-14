@@ -16,32 +16,36 @@ export interface InProcessPaymentsQuery {
   limit?: number;
   page?: number;
   artist?: string;
-  collector?: string;
+  collectors: string[];
 }
 
 export async function selectPayments({
   limit = 20,
   page = 1,
   artist,
-  collector,
-}: InProcessPaymentsQuery = {}) {
+  collectors,
+}: InProcessPaymentsQuery) {
   const cappedLimit = Math.min(limit, 100);
 
-  let query = supabase
-    .from("in_process_payments")
-    .select(
-      `id, amount, hash, block, 
+  let query = supabase.from("in_process_payments").select(
+    `id, amount, hash, block, 
        token:in_process_tokens!inner(*), 
        buyer:in_process_artists!inner(*)`,
-      { count: "exact" }
-    )
-    .eq("token.chainId", CHAIN_ID)
-    .neq("buyer.address", zeroAddress)
-    .order("block", { ascending: false })
-    .range((page - 1) * cappedLimit, page * cappedLimit - 1);
+    { count: "exact" }
+  );
 
-  if (artist) query = query.eq("token.defaultAdmin", artist);
-  if (collector) query = query.eq("buyer.address", collector);
+  if (artist) {
+    query = query.eq("token.defaultAdmin", artist);
+  }
+
+  if (collectors.length > 0) {
+    query = query.in("buyer.address", collectors);
+  }
+
+  query = query.eq("token.chainId", CHAIN_ID);
+  query = query.neq("buyer.address", zeroAddress);
+  query = query.order("block", { ascending: false });
+  query = query.range((page - 1) * cappedLimit, page * cappedLimit - 1);
 
   const { data, count, error } = await query;
   if (error) return { data: null, count: null, error };

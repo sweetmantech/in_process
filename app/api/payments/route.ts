@@ -1,5 +1,7 @@
 import { NextRequest } from "next/server";
 import { selectPayments } from "@/lib/supabase/in_process_payments/selectPayments";
+import { getOrCreateSmartWallet } from "@/lib/coinbase/getOrCreateSmartWallet";
+import { Address } from "viem";
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -11,11 +13,20 @@ export async function GET(req: NextRequest) {
   const collector = searchParams.get("collector")?.toLowerCase() || undefined;
 
   try {
+    const collectors: string[] = [];
+    if (collector) {
+      const smartAccount = await getOrCreateSmartWallet({
+        address: collector as Address,
+      });
+      collectors.push(smartAccount.address.toLowerCase());
+      collectors.push(collector);
+    }
+
     const { data, error } = await selectPayments({
       limit,
       page,
       artist,
-      collector,
+      collectors,
     });
 
     if (error) {
