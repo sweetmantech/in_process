@@ -19,7 +19,7 @@ export async function GET(req: NextRequest) {
         address: collector as Address,
       });
       collectors.push(smartAccount.address.toLowerCase());
-      collectors.push(collector.toLowerCase());
+      collectors.push(collector);
     }
 
     const { data, error } = await selectPayments({
