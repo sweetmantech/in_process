@@ -32,7 +32,7 @@ export async function selectPayments({
   let query = supabase.from("in_process_payments").select(
     `id, amount, hash, block, 
       token:in_process_tokens!inner(*, 
-        fee_recipients:in_process_token_fee_recipients!inner(*)
+        fee_recipients:in_process_token_fee_recipients(*)
       ), 
       buyer:in_process_artists!inner(*)`,
     { count: "exact" }
