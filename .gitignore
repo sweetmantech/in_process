@@ -40,6 +40,7 @@ yarn-error.log*
 # supabase
 /lib/supabase/.branches
 /lib/supabase/.temp
+/lib/supabase/config.toml
 
 # typescript
 *.tsbuildinfo
