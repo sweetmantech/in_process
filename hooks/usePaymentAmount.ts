@@ -1,8 +1,6 @@
-import { useEffect, useState } from "react";
-import { Address } from "viem";
+import { useQuery } from "@tanstack/react-query";
 import type { Payment, PaymentWithType } from "./usePayments";
-import isSplitContract from "@/lib/splits/isSplitContract";
-import getSplitRecipientAmount from "@/lib/splits/getSplitRecipientAmount";
+import { useUserProvider } from "@/providers/UserProvider";
 
 /**
  * Calculates the payment amount, accounting for split contracts.
@@ -10,45 +8,32 @@ import getSplitRecipientAmount from "@/lib/splits/getSplitRecipientAmount";
  * Otherwise, returns the full payment amount.
  */
 const usePaymentAmount = (payment: Payment | PaymentWithType): string => {
-  const [amount, setAmount] = useState("0");
+  const { artistWallet } = useUserProvider();
+  const { data: amount = "0" } = useQuery({
+    queryKey: [
+      "paymentAmount",
+      payment.token.payoutRecipient,
+      payment.token.chainId,
+      payment.token.defaultAdmin,
+      payment.amount,
+      artistWallet,
+    ],
+    queryFn: async () => {
+      const feeRecipients = payment.token.fee_recipients;
+      const percentAllocation = feeRecipients.find(
+        (recipient) =>
+          recipient.artist_address?.toLowerCase() === payment.token.defaultAdmin?.toLowerCase()
+      )?.percentAllocation;
 
-  useEffect(() => {
-    const calculateAmount = async () => {
-      if (!payment.token.payoutRecipient) {
-        setAmount(payment.amount);
-        return;
+      if (percentAllocation) {
+        return ((parseFloat(payment.amount) * percentAllocation) / 100).toFixed(2);
       }
-
-      try {
-        const isSplit = await isSplitContract(
-          payment.token.payoutRecipient as Address,
-          payment.token.chainId
-        );
-
-        if (isSplit) {
-          const artistAddress = payment.token.defaultAdmin as Address;
-          const splitAmount = await getSplitRecipientAmount(
-            payment.token.payoutRecipient as Address,
-            payment.token.chainId,
-            artistAddress,
-            payment.amount
-          );
-          setAmount(splitAmount);
-        } else {
-          setAmount(payment.amount);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    calculateAmount();
-  }, [
-    payment.token.payoutRecipient,
-    payment.token.chainId,
-    payment.token.defaultAdmin,
-    payment.amount,
-  ]);
+      return payment.amount;
+    },
+    enabled: Boolean(artistWallet && payment.token.defaultAdmin),
+    staleTime: 1000 * 60 * 5, // 5 minutes
+    retry: (failureCount) => failureCount < 3,
+  });
 
   return amount;
 };
