@@ -6,7 +6,7 @@ import { ensureArtists } from "@/lib/supabase/in_process_artists/ensureArtists";
 import { upsertTokens } from "@/lib/supabase/in_process_tokens/upsertTokens";
 import { GraphQLResponse } from "@/types/envio";
 import { Database } from "@/lib/supabase/types";
-import { processTokenFeeRecipients } from "../supabase/in_process_token_fee_recipients/processTokenFeeRecipients";
+import { processTokenFeeRecipients } from "@/lib/splits/processTokenFeeRecipients";
 
 export async function syncMoments() {
   const maxBlockTimestamp = await getMaxBlockTimestamp(CHAIN_ID);
