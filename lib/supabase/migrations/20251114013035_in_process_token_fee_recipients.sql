@@ -1,7 +1,7 @@
 create table "public"."in_process_token_fee_recipients" (
     "id" uuid not null default gen_random_uuid(),
     "token" uuid not null,
-     "artist_address" text not null,
+    "artist_address" text not null,
     "percentAllocation" numeric,
     "created_at" timestamp with time zone not null default now()
 );
