@@ -7,7 +7,6 @@ import { Address } from "viem";
 
 /**
  * Processes token fee recipients for tokens with payout recipients (split or non-split).
- * @param {string} network - The network name (for logging purposes)
  * @param {Array<Object>} upsertedTokens - Tokens returned from upsertTokens, including payoutRecipient and chainId.
  */
 export async function processTokenFeeRecipients(
