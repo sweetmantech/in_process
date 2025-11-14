@@ -16,17 +16,15 @@ export interface InProcessPaymentsQuery {
   limit?: number;
   page?: number;
   artist?: string;
-  collector?: string;
-  smartAccountAddress?: string;
+  collectors: string[];
 }
 
 export async function selectPayments({
   limit = 20,
   page = 1,
   artist,
-  collector,
-  smartAccountAddress,
-}: InProcessPaymentsQuery = {}) {
+  collectors,
+}: InProcessPaymentsQuery) {
   const cappedLimit = Math.min(limit, 100);
 
   let query = supabase.from("in_process_payments").select(
@@ -39,15 +37,9 @@ export async function selectPayments({
   if (artist) {
     query = query.eq("token.defaultAdmin", artist);
   }
-  const addresses = [];
-  if (collector) {
-    addresses.push(collector.toLowerCase());
-  }
-  if (smartAccountAddress) {
-    addresses.push(smartAccountAddress.toLowerCase());
-  }
-  if (addresses.length > 0) {
-    query = query.in("buyer.address", addresses);
+
+  if (collectors.length > 0) {
+    query = query.in("buyer.address", collectors);
   }
 
   query = query.eq("token.chainId", CHAIN_ID);

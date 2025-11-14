@@ -13,20 +13,20 @@ export async function GET(req: NextRequest) {
   const collector = searchParams.get("collector")?.toLowerCase() || undefined;
 
   try {
-    let smartAccountAddress: string | undefined;
+    const collectors: string[] = [];
     if (collector) {
       const smartAccount = await getOrCreateSmartWallet({
         address: collector as Address,
       });
-      smartAccountAddress = smartAccount.address;
+      collectors.push(smartAccount.address);
+      collectors.push(collector);
     }
 
     const { data, error } = await selectPayments({
       limit,
       page,
       artist,
-      collector,
-      smartAccountAddress,
+      collectors,
     });
 
     if (error) {
