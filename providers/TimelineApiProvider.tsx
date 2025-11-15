@@ -16,21 +16,26 @@ interface TimelineContextValue {
 
 const TimelineContext = createContext<TimelineContextValue | undefined>(undefined);
 
+interface TimelineApiProviderProps {
+  children: ReactNode;
+  artistAddress?: string;
+  includeHidden?: boolean;
+  type?: "mutual" | "artist" | "timeline";
+}
+
 export const TimelineApiProvider = ({
   children,
   artistAddress,
   includeHidden = false,
-}: {
-  children: ReactNode;
-  artistAddress?: string;
-  includeHidden?: boolean;
-}) => {
+  type = "timeline",
+}: TimelineApiProviderProps) => {
   const { data, isLoading, error, currentPage, setCurrentPage, fetchMore } = useTimelineApi(
     1,
     100,
     true,
     artistAddress,
-    includeHidden
+    includeHidden,
+    type
   );
 
   const moments = data?.moments || [];
