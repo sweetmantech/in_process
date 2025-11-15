@@ -64,9 +64,9 @@ const ManagePage = ({ children }: { children: ReactNode }) => {
           <button
             type="button"
             className="flex items-center justify-between w-full font-archivo-medium text-2xl hover:bg-grey-eggshell px-2 py-1 rounded-md"
-            onClick={() => push("/manage/mutual")}
+            onClick={() => push("/manage/mutual-moments")}
           >
-            <p className="text-base md:text-2xl">mutual</p>
+            <p className="text-base md:text-2xl">mutual moments</p>
             <ArrowRight className="size-4" />
           </button>
         )}
