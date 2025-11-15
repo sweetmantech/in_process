@@ -13,7 +13,7 @@ export function useTimelineApi(
   const [currentPage, setCurrentPage] = useState(page);
 
   const query = useInfiniteQuery({
-    queryKey: ["timeline", limit, artistAddress, includeHidden],
+    queryKey: ["timeline", limit, artistAddress, includeHidden, type],
     queryFn: ({ pageParam = 1 }) =>
       fetchTimeline(pageParam, limit, artistAddress, includeHidden, type),
     enabled,

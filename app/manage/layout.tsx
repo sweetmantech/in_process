@@ -8,6 +8,9 @@ import { Fragment, ReactNode, useEffect, useState } from "react";
 import { ArrowRight } from "@/components/ui/icons";
 import SignToInProcess from "@/components/ManagePage/SignToInProcess";
 import { useRouter } from "next/navigation";
+import { useUserProvider } from "@/providers/UserProvider";
+import { useHasMutualMoments } from "@/hooks/useHasMutualMoments";
+import { Address } from "viem";
 
 const ManagePage = ({ children }: { children: ReactNode }) => {
   const { context } = useFrameProvider();
@@ -17,6 +20,8 @@ const ManagePage = ({ children }: { children: ReactNode }) => {
   const [loaded, setLoaded] = useState<boolean>(false);
   const signedWallet = context ? address : connectedWallet;
   const { push } = useRouter();
+  const { artistWallet } = useUserProvider();
+  const { hasMutualMoments } = useHasMutualMoments(artistWallet as Address);
 
   useEffect(() => {
     if (ready)
@@ -55,6 +60,16 @@ const ManagePage = ({ children }: { children: ReactNode }) => {
           <p className="text-base md:text-2xl">moments</p>
           <ArrowRight className="size-4" />
         </button>
+        {hasMutualMoments && (
+          <button
+            type="button"
+            className="flex items-center justify-between w-full font-archivo-medium text-2xl hover:bg-grey-eggshell px-2 py-1 rounded-md"
+            onClick={() => push("/manage/mutual")}
+          >
+            <p className="text-base md:text-2xl">mutual</p>
+            <ArrowRight className="size-4" />
+          </button>
+        )}
       </div>
       <div className="col-span-12 md:col-span-9">{children}</div>
     </main>
