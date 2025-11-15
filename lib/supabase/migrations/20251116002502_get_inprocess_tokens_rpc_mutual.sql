@@ -1,6 +1,20 @@
 set check_function_bodies = off;
 
-CREATE OR REPLACE FUNCTION public.get_in_process_tokens(p_artist text DEFAULT NULL::text, p_limit integer DEFAULT 20, p_page integer DEFAULT 1, p_latest boolean DEFAULT true, p_chainid numeric DEFAULT NULL::numeric, p_addresses text[] DEFAULT NULL::text[], p_tokenids integer[] DEFAULT NULL::integer[], p_hidden boolean DEFAULT NULL::boolean)
+DO $$
+DECLARE
+  r record;
+BEGIN
+  FOR r IN 
+    SELECT pg_get_function_identity_arguments(oid) as args
+    FROM pg_proc
+    WHERE proname = 'get_in_process_tokens'
+      AND pronamespace = 'public'::regnamespace
+  LOOP
+    EXECUTE format('DROP FUNCTION IF EXISTS public.get_in_process_tokens(%s) CASCADE', r.args);
+  END LOOP;
+END $$;
+
+CREATE OR REPLACE FUNCTION public.get_in_process_tokens(p_artist text DEFAULT NULL::text, p_limit integer DEFAULT 20, p_page integer DEFAULT 1, p_latest boolean DEFAULT true, p_chainid numeric DEFAULT NULL::numeric, p_addresses text[] DEFAULT NULL::text[], p_tokenids integer[] DEFAULT NULL::integer[], p_hidden boolean DEFAULT NULL::boolean, p_type text DEFAULT NULL::text)
  RETURNS json
  LANGUAGE plpgsql
 AS $function$
@@ -23,14 +37,40 @@ BEGIN
       (
         (p_artist IS NULL AND a.username != '')
         OR
+        -- Case 2: artist_address & type = "mutual" -> artist != defaultAdmin AND artist in tokenAdmins
         (
           p_artist IS NOT NULL
+          AND p_type = 'mutual'
+          AND t."defaultAdmin" != p_artist
+          AND EXISTS (
+            SELECT 1 FROM in_process_token_admins ta2
+            WHERE ta2.token = t.id AND ta2.artist_address = p_artist
+          )
+        )
+        OR
+        -- Case 3: artist_address & type = "artist" -> artist == defaultAdmin
+        (
+          p_artist IS NOT NULL
+          AND p_type = 'artist'
+          AND t."defaultAdmin" = p_artist
+        )
+        OR
+        -- Case 4: artist_address & type = "timeline" -> return both (mutual OR artist owned)
+        (
+          p_artist IS NOT NULL
+          AND p_type = 'timeline'
           AND (
-            t."defaultAdmin" = p_artist
-            OR EXISTS (
-              SELECT 1 FROM in_process_token_admins ta2
-              WHERE ta2.token = t.id AND ta2.artist_address = p_artist
+            -- Mutual: artist != defaultAdmin AND artist in tokenAdmins
+            (
+              t."defaultAdmin" != p_artist
+              AND EXISTS (
+                SELECT 1 FROM in_process_token_admins ta3
+                WHERE ta3.token = t.id AND ta3.artist_address = p_artist
+              )
             )
+            OR
+            -- Artist owned: artist == defaultAdmin
+            t."defaultAdmin" = p_artist
           )
         )
       )
@@ -68,14 +108,40 @@ BEGIN
       (
         (p_artist IS NULL AND a.username != '')
         OR
+        -- Case 2: artist_address & type = "mutual" -> artist != defaultAdmin AND artist in tokenAdmins
         (
           p_artist IS NOT NULL
+          AND p_type = 'mutual'
+          AND t."defaultAdmin" != p_artist
+          AND EXISTS (
+            SELECT 1 FROM in_process_token_admins ta2
+            WHERE ta2.token = t.id AND ta2.artist_address = p_artist
+          )
+        )
+        OR
+        -- Case 3: artist_address & type = "artist" -> artist == defaultAdmin
+        (
+          p_artist IS NOT NULL
+          AND p_type = 'artist'
+          AND t."defaultAdmin" = p_artist
+        )
+        OR
+        -- Case 4: artist_address & type = "timeline" -> return both (mutual OR artist owned)
+        (
+          p_artist IS NOT NULL
+          AND p_type = 'timeline'
           AND (
-            t."defaultAdmin" = p_artist
-            OR EXISTS (
-              SELECT 1 FROM in_process_token_admins ta2
-              WHERE ta2.token = t.id AND ta2.artist_address = p_artist
+            -- Mutual: artist != defaultAdmin AND artist in tokenAdmins
+            (
+              t."defaultAdmin" != p_artist
+              AND EXISTS (
+                SELECT 1 FROM in_process_token_admins ta3
+                WHERE ta3.token = t.id AND ta3.artist_address = p_artist
+              )
             )
+            OR
+            -- Artist owned: artist == defaultAdmin
+            t."defaultAdmin" = p_artist
           )
         )
       )
@@ -137,5 +203,3 @@ BEGIN
 END;
 $function$
 ;
-
-
