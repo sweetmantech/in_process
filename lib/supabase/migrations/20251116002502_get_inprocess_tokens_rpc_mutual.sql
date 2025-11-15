@@ -7,7 +7,7 @@ AS $function$
 DECLARE
   capped_limit int := LEAST(p_limit, 100);
   offset_val int := (p_page - 1) * capped_limit;
-  v_chain_id numeric := p_chainId;
+  v_chain_id numeric := p_chainid;
   v_moments json;
   v_total_count int;
   v_total_pages int;
@@ -44,7 +44,7 @@ BEGIN
       )
       AND (v_chain_id IS NULL OR t."chainId" = v_chain_id)
       AND (p_addresses IS NULL OR t.address = ANY(p_addresses))
-      AND (p_tokenIds IS NULL OR t."tokenId" = ANY(p_tokenIds))
+      AND (p_tokenids IS NULL OR t."tokenId" = ANY(p_tokenids))
       AND (p_hidden = true OR t.hidden = false)
     GROUP BY
       t.id, t.address, t."tokenId", t.uri, t."defaultAdmin",
@@ -97,7 +97,7 @@ BEGIN
       )
       AND (v_chain_id IS NULL OR t."chainId" = v_chain_id)
       AND (p_addresses IS NULL OR t.address = ANY(p_addresses))
-      AND (p_tokenIds IS NULL OR t."tokenId" = ANY(p_tokenIds))
+      AND (p_tokenids IS NULL OR t."tokenId" = ANY(p_tokenids))
       AND (p_hidden = true OR t.hidden = false)
     GROUP BY
       t.id, t.address, t."tokenId", t.uri, t."defaultAdmin",
