@@ -3,7 +3,7 @@ import { fetchTimeline } from "@/lib/timeline/fetchTimeline";
 import { Address } from "viem";
 
 export function useHasMutualMoments(artistAddress?: Address) {
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["mutual-moments-check", artistAddress],
     queryFn: () => fetchTimeline(1, 1, artistAddress, true, "mutual"),
     enabled: !!artistAddress,
@@ -12,6 +12,6 @@ export function useHasMutualMoments(artistAddress?: Address) {
 
   return {
     hasMutualMoments: (data?.moments?.length ?? 0) > 0,
-    isLoading: !data,
+    isLoading,
   };
 }
