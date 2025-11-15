@@ -1,7 +1,7 @@
 import { ensureArtists } from "@/lib/supabase/in_process_artists/ensureArtists";
 import getSplitRecipients from "@/lib/splits/getSplitRecipients";
 import isSplitContract from "@/lib/splits/isSplitContract";
-import { Database } from "@/lib/supabase/types";
+import { Database } from "../supabase/types";
 import { upsertTokenFeeRecipients } from "@/lib/supabase/in_process_token_fee_recipients/upsertTokenFeeRecipients";
 import { Address } from "viem";
 
@@ -10,12 +10,16 @@ import { Address } from "viem";
  * @param {Array<Object>} upsertedTokens - Tokens returned from upsertTokens, including payoutRecipient and chainId.
  */
 export async function processTokenFeeRecipients(
-  upsertedTokens: Database["public"]["Tables"]["in_process_tokens"]["Insert"][]
+  upsertedTokens: Database["public"]["Tables"]["in_process_tokens"]["Row"][]
 ) {
-  const recipientsInserts = [];
+  const recipientsInserts: Array<{
+    token: string;
+    artist_address: string;
+    percentAllocation: number;
+  }> = [];
   const recipientAddresses = [];
   const tokensWithSplitRecipients = upsertedTokens.filter(
-    (token) => token.payoutRecipient && token.chainId
+    (token) => token.id && token.payoutRecipient && token.chainId
   );
   for (const token of tokensWithSplitRecipients) {
     try {
@@ -29,7 +33,7 @@ export async function processTokenFeeRecipients(
           for (const recipient of recipients) {
             const address = recipient.recipient.address.toLowerCase();
             recipientsInserts.push({
-              token: token.id,
+              token: token.id!,
               artist_address: address,
               percentAllocation: recipient.percentAllocation,
             });
@@ -40,7 +44,7 @@ export async function processTokenFeeRecipients(
         const address = token.payoutRecipient?.toLowerCase();
         if (address) {
           recipientsInserts.push({
-            token: token.id,
+            token: token.id!,
             artist_address: address,
             percentAllocation: 100,
           });

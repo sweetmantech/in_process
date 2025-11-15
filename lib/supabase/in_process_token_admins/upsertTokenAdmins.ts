@@ -1,5 +1,5 @@
 import { supabase } from "@/lib/supabase/client";
-import { Database } from "../types";
+import { Database } from "@/lib/supabase/types";
 
 export async function upsertTokenAdmins(
   tokenAdmins: Database["public"]["Tables"]["in_process_token_admins"]["Insert"][]
@@ -12,8 +12,7 @@ export async function upsertTokenAdmins(
     (tokenAdmin, index, self) =>
       index ===
       self.findIndex(
-        (ta) =>
-          ta.token_id === tokenAdmin.token_id && ta.artist_address === tokenAdmin.artist_address
+        (ta) => ta.token === tokenAdmin.token && ta.artist_address === tokenAdmin.artist_address
       )
   );
 
