@@ -206,21 +206,21 @@ export type Database = {
       in_process_token_admins: {
         Row: {
           artist_address: string | null;
-          created_at: string;
+          createdAt: string | null;
           id: string;
-          token_id: string | null;
+          token: string | null;
         };
         Insert: {
           artist_address?: string | null;
-          created_at?: string;
+          createdAt?: string | null;
           id?: string;
-          token_id?: string | null;
+          token?: string | null;
         };
         Update: {
           artist_address?: string | null;
-          created_at?: string;
+          createdAt?: string | null;
           id?: string;
-          token_id?: string | null;
+          token?: string | null;
         };
         Relationships: [
           {
@@ -231,8 +231,8 @@ export type Database = {
             referencedColumns: ["address"];
           },
           {
-            foreignKeyName: "in_process_token_admins_token_id_fkey";
-            columns: ["token_id"];
+            foreignKeyName: "in_process_token_admins_token_fkey";
+            columns: ["token"];
             isOneToOne: false;
             referencedRelation: "in_process_tokens";
             referencedColumns: ["id"];
@@ -241,25 +241,25 @@ export type Database = {
       };
       in_process_token_fee_recipients: {
         Row: {
-          artist_address: string | null;
+          artist_address: string;
           created_at: string;
           id: string;
           percentAllocation: number | null;
-          token: string | null;
+          token: string;
         };
         Insert: {
-          artist_address?: string | null;
+          artist_address: string;
           created_at?: string;
           id?: string;
           percentAllocation?: number | null;
-          token?: string | null;
+          token: string;
         };
         Update: {
-          artist_address?: string | null;
+          artist_address?: string;
           created_at?: string;
           id?: string;
           percentAllocation?: number | null;
-          token?: string | null;
+          token?: string;
         };
         Relationships: [
           {
