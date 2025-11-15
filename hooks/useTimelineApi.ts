@@ -7,13 +7,15 @@ export function useTimelineApi(
   limit = 100,
   enabled = true,
   artistAddress?: string,
-  includeHidden = false
+  includeHidden = false,
+  mutual = false
 ) {
   const [currentPage, setCurrentPage] = useState(page);
 
   const query = useInfiniteQuery({
-    queryKey: ["timeline", limit, artistAddress, includeHidden],
-    queryFn: ({ pageParam = 1 }) => fetchTimeline(pageParam, limit, artistAddress, includeHidden),
+    queryKey: ["timeline", limit, artistAddress, includeHidden, mutual, true], // Include latest=true in query key
+    queryFn: ({ pageParam = 1 }) =>
+      fetchTimeline(pageParam, limit, artistAddress, includeHidden, mutual, true),
     enabled,
     staleTime: 1000 * 60 * 5,
     retry: (failureCount) => failureCount < 3,

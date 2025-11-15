@@ -28,14 +28,18 @@ export async function fetchTimeline(
   page = 1,
   limit = 20,
   artistAddress?: string,
-  includeHidden = false
+  includeHidden = false,
+  mutual = false,
+  latest = true
 ): Promise<TimelineResponse> {
   const params = new URLSearchParams({
     page: String(page),
     limit: String(limit),
+    latest: String(latest),
   });
   if (artistAddress) params.append("artist", artistAddress);
   if (includeHidden) params.append("hidden", "true");
+  if (mutual) params.append("mutual", "true");
 
   const res = await fetch(`/api/timeline?${params.toString()}`);
   if (!res.ok) throw new Error("Failed to fetch timeline");

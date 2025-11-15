@@ -36,6 +36,7 @@ export interface GetInProcessMomentsRpcParams {
   latest?: boolean;
   chainId?: number;
   hidden?: Database["public"]["Tables"]["in_process_tokens"]["Row"]["hidden"];
+  mutual?: boolean;
 }
 
 export interface GetInProcessMomentsRpcResponse {

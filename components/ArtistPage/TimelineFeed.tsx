@@ -15,6 +15,7 @@ interface TimelineFeedProps {
 const TimelineFeed = ({ alt }: TimelineFeedProps) => {
   const isMobile = useIsMobile();
   const { moments, isLoading, fetchMore } = useTimelineApiContext();
+  // Reverse so timeline flows left->right: old->latest
   const reversedMoments = [...moments].reverse();
   const feeds = mapMomentsToTokens(reversedMoments);
 
@@ -37,8 +38,15 @@ const TimelineFeed = ({ alt }: TimelineFeedProps) => {
       </>
     );
 
+  // Use first and last moment IDs + length as key to force remount when mutual changes
+  // This ensures the key changes when switching between mutual and regular views
+  const feedKey =
+    feeds.length > 0
+      ? `${feeds[0]?.collection}-${feeds[0]?.tokenId}-${feeds[feeds.length - 1]?.collection}-${feeds[feeds.length - 1]?.tokenId}-${feeds.length}`
+      : "empty";
+
   return (
-    <HorizontalFeedAnimationProvider feeds={feeds}>
+    <HorizontalFeedAnimationProvider key={feedKey} feeds={feeds}>
       <HorizontalFeed feeds={feeds} />
     </HorizontalFeedAnimationProvider>
   );

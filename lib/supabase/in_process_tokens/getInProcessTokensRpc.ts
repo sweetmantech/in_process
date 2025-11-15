@@ -8,6 +8,7 @@ export async function getInProcessTokensRpc({
   latest = true,
   chainId,
   hidden = false,
+  mutual = false,
 }: GetInProcessMomentsRpcParams): Promise<{
   data: GetInProcessMomentsRpcResponse | null;
   error: Error | null;
@@ -19,6 +20,7 @@ export async function getInProcessTokensRpc({
     p_latest: latest,
     p_chainid: chainId,
     p_hidden: hidden,
+    p_mutual: mutual,
   });
 
   if (error) {

@@ -20,17 +20,20 @@ export const TimelineApiProvider = ({
   children,
   artistAddress,
   includeHidden = false,
+  mutual = false,
 }: {
   children: ReactNode;
   artistAddress?: string;
   includeHidden?: boolean;
+  mutual?: boolean;
 }) => {
   const { data, isLoading, error, currentPage, setCurrentPage, fetchMore } = useTimelineApi(
     1,
     100,
     true,
     artistAddress,
-    includeHidden
+    includeHidden,
+    mutual
   );
 
   const moments = data?.moments || [];
