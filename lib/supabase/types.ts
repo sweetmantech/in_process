@@ -337,6 +337,7 @@ export type Database = {
           p_limit?: number;
           p_page?: number;
           p_tokenids?: number[];
+          p_type?: string;
         };
         Returns: Json;
       };
