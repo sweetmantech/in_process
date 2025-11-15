@@ -1,13 +1,13 @@
 set check_function_bodies = off;
 
-CREATE OR REPLACE FUNCTION public.get_in_process_tokens(p_artist text DEFAULT NULL::text, p_limit integer DEFAULT 20, p_page integer DEFAULT 1, p_latest boolean DEFAULT true, p_chainid numeric DEFAULT NULL::numeric, p_addresses text[] DEFAULT NULL::text[], p_tokenids integer[] DEFAULT NULL::integer[], p_hidden boolean DEFAULT NULL::boolean, p_mutual boolean DEFAULT false)
+CREATE OR REPLACE FUNCTION public.get_in_process_tokens(p_artist text DEFAULT NULL::text, p_limit integer DEFAULT 20, p_page integer DEFAULT 1, p_latest boolean DEFAULT true, p_chainid numeric DEFAULT NULL::numeric, p_addresses text[] DEFAULT NULL::text[], p_tokenids integer[] DEFAULT NULL::integer[], p_hidden boolean DEFAULT NULL::boolean)
  RETURNS json
  LANGUAGE plpgsql
 AS $function$
 DECLARE
   capped_limit int := LEAST(p_limit, 100);
   offset_val int := (p_page - 1) * capped_limit;
-  v_chain_id numeric := p_chainid;
+  v_chain_id numeric := p_chainId;
   v_moments json;
   v_total_count int;
   v_total_pages int;
@@ -21,30 +21,22 @@ BEGIN
     LEFT JOIN in_process_token_admins ta ON t.id = ta.token
     WHERE
       (
-        -- Case 1: artist_address is undefined -> normal pagination
         (p_artist IS NULL AND a.username != '')
         OR
-        -- Case 2: artist_address & mutual = true -> artist != defaultAdmin AND artist in tokenAdmins
         (
           p_artist IS NOT NULL
-          AND p_mutual = true
-          AND t."defaultAdmin" != p_artist
-          AND EXISTS (
-            SELECT 1 FROM in_process_token_admins ta2
-            WHERE ta2.token = t.id AND ta2.artist_address = p_artist
+          AND (
+            t."defaultAdmin" = p_artist
+            OR EXISTS (
+              SELECT 1 FROM in_process_token_admins ta2
+              WHERE ta2.token = t.id AND ta2.artist_address = p_artist
+            )
           )
-        )
-        OR
-        -- Case 3: artist_address & mutual = false -> artist == defaultAdmin
-        (
-          p_artist IS NOT NULL
-          AND p_mutual = false
-          AND t."defaultAdmin" = p_artist
         )
       )
       AND (v_chain_id IS NULL OR t."chainId" = v_chain_id)
       AND (p_addresses IS NULL OR t.address = ANY(p_addresses))
-      AND (p_tokenids IS NULL OR t."tokenId" = ANY(p_tokenids))
+      AND (p_tokenIds IS NULL OR t."tokenId" = ANY(p_tokenIds))
       AND (p_hidden = true OR t.hidden = false)
     GROUP BY
       t.id, t.address, t."tokenId", t.uri, t."defaultAdmin",
@@ -74,30 +66,22 @@ BEGIN
     LEFT JOIN in_process_token_admins ta ON t.id = ta.token
     WHERE
       (
-        -- Case 1: artist_address is undefined -> normal pagination
         (p_artist IS NULL AND a.username != '')
         OR
-        -- Case 2: artist_address & mutual = true -> artist != defaultAdmin AND artist in tokenAdmins
         (
           p_artist IS NOT NULL
-          AND p_mutual = true
-          AND t."defaultAdmin" != p_artist
-          AND EXISTS (
-            SELECT 1 FROM in_process_token_admins ta2
-            WHERE ta2.token = t.id AND ta2.artist_address = p_artist
+          AND (
+            t."defaultAdmin" = p_artist
+            OR EXISTS (
+              SELECT 1 FROM in_process_token_admins ta2
+              WHERE ta2.token = t.id AND ta2.artist_address = p_artist
+            )
           )
-        )
-        OR
-        -- Case 3: artist_address & mutual = false -> artist == defaultAdmin
-        (
-          p_artist IS NOT NULL
-          AND p_mutual = false
-          AND t."defaultAdmin" = p_artist
         )
       )
       AND (v_chain_id IS NULL OR t."chainId" = v_chain_id)
       AND (p_addresses IS NULL OR t.address = ANY(p_addresses))
-      AND (p_tokenids IS NULL OR t."tokenId" = ANY(p_tokenids))
+      AND (p_tokenIds IS NULL OR t."tokenId" = ANY(p_tokenIds))
       AND (p_hidden = true OR t.hidden = false)
     GROUP BY
       t.id, t.address, t."tokenId", t.uri, t."defaultAdmin",
