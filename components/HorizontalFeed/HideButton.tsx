@@ -3,6 +3,7 @@ import { FC, ButtonHTMLAttributes, MouseEvent, useState } from "react";
 import { type TimelineMoment } from "@/lib/timeline/fetchTimeline";
 import { toggleMoment } from "@/lib/timeline/toggleMoment";
 import { toast } from "sonner";
+import { usePrivy } from "@privy-io/react-auth";
 
 interface HideButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "onClick"> {
   moment: TimelineMoment;
@@ -21,12 +22,18 @@ const HideButton: FC<HideButtonProps> = ({
 }): JSX.Element => {
   // Track the current hidden state, initialized from the moment prop
   const [isHidden, setIsHidden] = useState(moment.hidden);
+  const { getAccessToken } = usePrivy();
 
   const handleClick = async (e: MouseEvent<HTMLButtonElement>): Promise<void> => {
     e.stopPropagation();
 
     try {
-      const response = await toggleMoment(moment);
+      const accessToken = await getAccessToken();
+      if (!accessToken) {
+        toast("No access token found");
+        return;
+      }
+      const response = await toggleMoment(accessToken, moment);
 
       // Use the actual updated data from the server response
       if (response.success && response.updated && response.updated.length > 0) {

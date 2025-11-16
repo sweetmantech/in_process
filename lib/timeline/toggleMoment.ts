@@ -7,6 +7,7 @@ import { InProcessToken } from "../supabase/in_process_tokens/updateInProcessTok
  * @returns Promise with the API response containing updated row data
  */
 export const toggleMoment = async (
+  accessToken: string,
   moment: TimelineMoment
 ): Promise<{
   success: boolean;
@@ -16,6 +17,7 @@ export const toggleMoment = async (
     method: "POST",
     headers: {
       "content-type": "application/json",
+      authorization: `Bearer ${accessToken}`,
     },
     body: JSON.stringify({ moment }),
   });
