@@ -51,4 +51,5 @@ export interface Token {
   chainId: number;
   created_at: number;
   username?: string;
+  id: string;
 }

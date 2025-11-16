@@ -3,13 +3,13 @@
 import { FC } from "react";
 import Feed from "./Feed";
 import Slider from "../Slider";
-import { Token } from "@/types/token";
+import { TimelineMoment } from "@/lib/timeline/fetchTimeline";
 import { useHorizontalFeedAnimationProvider } from "@/providers/HorizontalFeedAnimationProvider";
 import Controls from "./Controls";
 import FetchMoreInspector from "../FetchMoreInspector";
 
 interface HorizontalFeedProps {
-  feeds: Token[];
+  feeds: TimelineMoment[];
   fetchMore?: () => void;
 }
 

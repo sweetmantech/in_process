@@ -25,7 +25,7 @@ export async function getSplitAdminAddresses(
     addresses.push(...resolvedAddresses);
 
     // Get smart wallets for each split recipient address
-    for (let i = 0; i < resolvedAddresses.length; i++) {  
+    for (let i = 0; i < resolvedAddresses.length; i++) {
       const address = resolvedAddresses[i];
       const smartAccount = await getOrCreateSmartWallet({ address });
       smartWallets.push(getAddress(smartAccount.address));

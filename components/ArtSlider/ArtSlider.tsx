@@ -6,13 +6,12 @@ import { ArrowRight } from "../ui/icons";
 import { useState } from "react";
 import { Swiper } from "swiper/types";
 import { useTimelineApiContext } from "@/providers/TimelineApiProvider";
-import { mapMomentsToTokens } from "@/lib/timeline/mapMomentToToken";
 
 const ArtSlider = () => {
   const isMobile = useIsMobile();
   const { moments } = useTimelineApiContext();
   const [swiper, setSwiper] = useState<Swiper | null>(null);
-  const slides = mapMomentsToTokens(moments).slice(0, 55);
+  const slides = moments.slice(0, 55);
 
   return (
     <div className="relative h-full">

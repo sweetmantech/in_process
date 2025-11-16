@@ -1,12 +1,12 @@
 import { useMemo } from "react";
 import { Swiper } from "swiper/types";
-import { Token } from "@/types/token";
 import { TIMLINE_STEP_OFFSET } from "@/lib/consts";
+import { TimelineMoment } from "@/lib/timeline/fetchTimeline";
 
 interface useTimelineCenterProps {
   activeIndex: number;
   swiper: Swiper | null;
-  feeds: Token[];
+  feeds: TimelineMoment[];
 }
 const useTimelineCenter = ({ activeIndex, swiper, feeds }: useTimelineCenterProps) => {
   const centerIndex = useMemo(() => {
