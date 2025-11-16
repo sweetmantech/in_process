@@ -10,7 +10,6 @@ export interface TimelineMoment {
   createdAt: string;
   username: string;
   hidden?: boolean;
-  tokenAdmins: Address[];
 }
 
 export interface TimelineResponse {
