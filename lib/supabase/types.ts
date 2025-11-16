@@ -207,18 +207,21 @@ export type Database = {
         Row: {
           artist_address: string | null;
           createdAt: string | null;
+          hidden: boolean | null;
           id: string;
           token: string | null;
         };
         Insert: {
           artist_address?: string | null;
           createdAt?: string | null;
+          hidden?: boolean | null;
           id?: string;
           token?: string | null;
         };
         Update: {
           artist_address?: string | null;
           createdAt?: string | null;
+          hidden?: boolean | null;
           id?: string;
           token?: string | null;
         };
@@ -337,6 +340,7 @@ export type Database = {
           p_limit?: number;
           p_page?: number;
           p_tokenids?: number[];
+          p_type?: string;
         };
         Returns: Json;
       };
