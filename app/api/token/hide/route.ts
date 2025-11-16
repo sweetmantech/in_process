@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import getCorsHeader from "@/lib/getCorsHeader";
-// import { authMiddleware } from "@/middleware/authMiddleware";
+import { authMiddleware } from "@/middleware/authMiddleware";
 import { type TimelineMoment } from "@/lib/timeline/fetchTimeline";
 import { getTokenAdmin } from "@/lib/supabase/in_process_token_admins/getTokenAdmin";
 import { updateTokenAdmin } from "@/lib/supabase/in_process_token_admins/updateTokenAdmin";
@@ -17,12 +17,12 @@ export async function OPTIONS() {
 
 export async function POST(req: NextRequest) {
   try {
-    // const authResult = await authMiddleware(req, { corsHeaders });
-    // if (authResult instanceof Response) {
-    //   return authResult;
-    // }
-    // const { artistAddress } = authResult;
-    const artistAddress = "0xAF1452d289E22FbD0DEA9d5097353c72a90FAC33";
+    const authResult = await authMiddleware(req, { corsHeaders });
+    if (authResult instanceof Response) {
+      return authResult;
+    }
+    const { artistAddress } = authResult;
+
     const body = await req.json();
     const { moment } = body as { moment: TimelineMoment };
 
