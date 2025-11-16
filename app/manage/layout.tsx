@@ -10,7 +10,6 @@ import SignToInProcess from "@/components/ManagePage/SignToInProcess";
 import { useRouter } from "next/navigation";
 import { useUserProvider } from "@/providers/UserProvider";
 import { useHasMutualMoments } from "@/hooks/useHasMutualMoments";
-import { Address } from "viem";
 
 const ManagePage = ({ children }: { children: ReactNode }) => {
   const { context } = useFrameProvider();
@@ -21,7 +20,7 @@ const ManagePage = ({ children }: { children: ReactNode }) => {
   const signedWallet = context ? address : connectedWallet;
   const { push } = useRouter();
   const { artistWallet } = useUserProvider();
-  const { hasMutualMoments } = useHasMutualMoments(artistWallet as Address);
+  const { hasMutualMoments } = useHasMutualMoments(artistWallet);
 
   useEffect(() => {
     if (ready)
