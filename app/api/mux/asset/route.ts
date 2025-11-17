@@ -20,12 +20,22 @@ export async function GET(request: Request) {
 
     const asset = await mux.video.assets.retrieve(upload.asset_id);
 
-    const playbackUrl = asset.playback_ids?.[0]
-      ? `https://stream.mux.com/${asset.playback_ids[0].id}.m3u8`
-      : null;
+    // If master is not ready, return status for polling
+    if (asset.master?.status && asset.master?.status !== "ready") {
+      return Response.json({
+        status: asset.master?.status,
+        message: "Asset is being processed",
+        assetId: upload.asset_id,
+      });
+    }
 
     return Response.json({
-      playbackUrl,
+      playbackUrl: asset.playback_ids?.[0]
+        ? `https://stream.mux.com/${asset.playback_ids[0].id}.m3u8`
+        : null,
+      assetId: upload.asset_id,
+      downloadUrl: asset.master?.url,
+      status: asset.master?.status,
     });
   } catch (e: any) {
     console.log(e);
