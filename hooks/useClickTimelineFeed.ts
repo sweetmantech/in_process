@@ -22,7 +22,8 @@ export const useClickTimelineFeed = (feed: TimelineMoment) => {
       }
       return;
     }
-    const shortNetworkName = getShortNetworkName(feed.chainId === 8453 ? "base" : "base sepolia");
+    console.log("ziad here", feed);
+    const shortNetworkName = getShortNetworkName(feed.chain_id === 8453 ? "base" : "base sepolia");
     const tokenId = feed.tokenId == "0" ? 1 : feed.tokenId;
     push(`/collect/${shortNetworkName}:${feed.address}/${tokenId}`);
     return;

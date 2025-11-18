@@ -3,7 +3,7 @@ import { Address } from "viem";
 export interface TimelineMoment {
   address: Address;
   tokenId: string;
-  chainId: number;
+  chain_id: number;
   id: string;
   uri: string;
   admin: Address;
