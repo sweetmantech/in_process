@@ -20,6 +20,9 @@ const useFileUpload = () => {
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [pctComplete, setPctComplete] = useState<number>(0);
+  const [pendingVideoFile, setPendingVideoFile] = useState<File | null>(null);
+  const muxUpload = useMuxUpload();
+  const processedVideoRef = useRef<string | null>(null);
 
   // Handle Mux video upload completion
   useEffect(() => {
@@ -141,10 +144,10 @@ const useFileUpload = () => {
 
   return {
     fileUpload,
-    fileUploading: loading,
+    fileUploading: loading || muxUpload.uploading,
     error,
     setFileUploading: setLoading,
-    pctComplete,
+    pctComplete: muxUpload.uploading ? muxUpload.pctComplete : pctComplete,
   };
 };
 

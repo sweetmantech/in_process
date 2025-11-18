@@ -9,8 +9,17 @@ import { usePathname } from "next/navigation";
 
 const useMomentMetadata = () => {
   const pathname = usePathname();
-  const { animationUri, description, imageUri, mimeType, name, previewUri, link, writingText, downloadUrl } =
-    useMomentFormProvider();
+  const {
+    animationUri,
+    description,
+    imageUri,
+    mimeType,
+    name,
+    previewUri,
+    link,
+    writingText,
+    downloadUrl,
+  } = useMomentFormProvider();
   const { uploadWriting } = useWriting();
   const { uploadEmbedCode } = useEmbedCode();
   const fileUpload = useFileUpload();

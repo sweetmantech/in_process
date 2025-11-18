@@ -9,6 +9,7 @@ import { createMomentApi } from "@/lib/moment/createMomentApi";
 import { syncMomentApi } from "@/lib/moment/syncMomentApi";
 import { usePrivy } from "@privy-io/react-auth";
 import { toast } from "sonner";
+import { migrateMuxToArweaveApi } from "@/lib/mux/migrateMuxToArweaveApi";
 
 export default function useMomentCreate() {
   const [creating, setCreating] = useState<boolean>(false);
