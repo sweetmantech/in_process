@@ -1,6 +1,7 @@
 import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
 import { useQuery } from "@tanstack/react-query";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { useMomentCreateFormProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateFormProvider";
 
 export interface LinkPreview {
   siteName: string;
@@ -9,13 +10,6 @@ export interface LinkPreview {
   url: string;
   images: string[];
   favicons: string[];
-}
-
-interface useLinkPreviewProps {
-  setImageUri: Dispatch<SetStateAction<string>>;
-  setFileUploading: Dispatch<SetStateAction<boolean>>;
-  setPreviewUri: Dispatch<SetStateAction<string>>;
-  setPreviewSrc: Dispatch<SetStateAction<string>>;
 }
 
 async function fetchLinkPreview(link: string): Promise<LinkPreview> {
@@ -35,13 +29,8 @@ async function fetchBlob(link: string): Promise<File> {
   return file;
 }
 
-const useLinkPreview = ({
-  setImageUri,
-  setPreviewUri,
-  setFileUploading,
-  setPreviewSrc,
-}: useLinkPreviewProps) => {
-  const [link, setLink] = useState<string>("");
+const useLinkPreview = () => {
+  const { setImageUri, setPreviewUri, setPreviewSrc, link } = useMomentCreateFormProvider();
 
   const { data } = useQuery({
     queryKey: ["link_preview", link],
@@ -56,27 +45,19 @@ const useLinkPreview = ({
       if (!data) return;
       if (data.images?.[0] || data.favicons?.[0]) {
         try {
-          setFileUploading(true);
           const file = await fetchBlob(data.images?.[0] || data.favicons?.[0]);
           const uri = await clientUploadToArweave(file);
           setPreviewSrc(URL.createObjectURL(file));
           setPreviewUri(uri);
-          setFileUploading(false);
         } catch (error) {
           console.error(error);
-          setFileUploading(false);
         }
       }
       return;
     };
     uploadImage();
     setImageUri("");
-  }, [data]);
-
-  return {
-    link,
-    setLink,
-  };
+  }, [data, setPreviewSrc, setPreviewUri, setImageUri]);
 };
 
 export default useLinkPreview;
