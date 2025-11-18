@@ -3,7 +3,6 @@
 import { ReactNode } from "react";
 import PrivyProvider from "./PrivyProvider";
 import { WagmiProvider } from "./WagmiProvider";
-import { MomentCreateProvider } from "./MomentCreateProviderWrapper/MomentCreateProvider";
 import UserProvider from "./UserProvider";
 import { CrossmintProvider } from "./CrossmintProvider";
 import FrameProvider from "./FrameProvider";
