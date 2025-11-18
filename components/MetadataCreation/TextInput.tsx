@@ -1,10 +1,14 @@
-import { useMomentCreateProvider } from "@/providers/MomentCreateProvider";
+import { useMomentCreateFormProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateFormProvider";
+import { useMomentCreateProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateProvider";
+import { useMomentMetadataProvider } from "@/providers/MomentCreateProviderWrapper/MomentMetadataProvider";
 import { ChangeEvent, useState } from "react";
 
 type ScrollPosition = "top" | "mid" | "bottom" | null;
 
 const TextInput = () => {
-  const { fileUploading, write, writingText, creating } = useMomentCreateProvider();
+  const { writingText, setWritingText } = useMomentCreateFormProvider();
+  const { fileUploading } = useMomentMetadataProvider();
+  const { creating } = useMomentCreateProvider();
   const [scrollPosition, setScrollPosition] = useState<ScrollPosition>(null);
 
   const handleScroll = (e: React.UIEvent<HTMLTextAreaElement>) => {
@@ -21,7 +25,7 @@ const TextInput = () => {
         value={writingText}
         disabled={Boolean(fileUploading || creating)}
         onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
-          write(e.target.value);
+          setWritingText(e.target.value);
         }}
         onScroll={handleScroll}
       />

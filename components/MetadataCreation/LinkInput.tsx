@@ -1,9 +1,11 @@
-import { useMomentCreateProvider } from "@/providers/MomentCreateProvider";
 import { Input } from "@/components/ui/input";
 import { LinkIcon } from "../ui/icons";
+import { useMomentCreateFormProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateFormProvider";
+import { useMomentMetadataProvider } from "@/providers/MomentCreateProviderWrapper/MomentMetadataProvider";
 
 const LinkInput = () => {
-  const { link, setLink, fileUploading } = useMomentCreateProvider();
+  const { fileUploading } = useMomentMetadataProvider();
+  const { link, setLink } = useMomentCreateFormProvider();
 
   return (
     <div className="mt-4 flex bg-grey-moss-50 border border-grey-moss-100 items-center px-4">

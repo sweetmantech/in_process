@@ -1,13 +1,15 @@
-import { useMomentCreateProvider } from "@/providers/MomentCreateProvider";
+import { useMomentCreateProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateProvider";
 import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Pause, Play } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import Image from "next/image";
+import { useMomentCreateFormProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateFormProvider";
 
 const AudioPlayer = ({ onClick }: { onClick: () => void }) => {
-  const { imageUri, animationUri, createdContract } = useMomentCreateProvider();
+  const { createdContract } = useMomentCreateProvider();
+  const { imageUri, animationUri } = useMomentCreateFormProvider();
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const audioRef = useRef<HTMLAudioElement>(null);
