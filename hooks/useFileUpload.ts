@@ -1,5 +1,6 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import useMuxUpload from "./useMuxUpload";
+import useMuxUploadCallback from "./useMuxUploadCallback";
 import { validateFile } from "@/lib/fileUpload/validateFile";
 import { handleVideoUpload } from "@/lib/fileUpload/handleVideoUpload";
 import { handleImageUpload } from "@/lib/fileUpload/handleImageUpload";
@@ -22,49 +23,14 @@ const useFileUpload = () => {
   const [pctComplete, setPctComplete] = useState<number>(0);
   const [pendingVideoFile, setPendingVideoFile] = useState<File | null>(null);
   const muxUpload = useMuxUpload();
-  const processedVideoRef = useRef<string | null>(null);
 
-  // Handle Mux video upload completion
-  useEffect(() => {
-    if (pendingVideoFile && muxUpload.playbackUrl && !muxUpload.uploading) {
-      // Prevent processing the same video twice
-      const videoKey = `${pendingVideoFile.name}-${pendingVideoFile.size}`;
-      if (processedVideoRef.current === videoKey) {
-        return;
-      }
-      processedVideoRef.current = videoKey;
-
-      // Set animation URI to Mux playback URL (not Arweave - video stays on Mux)
-      setAnimationUri(muxUpload.playbackUrl);
-
-      // Set download URL for content.uri (master video file)
-      if (muxUpload.downloadUrl) {
-        setDownloadUrl(muxUpload.downloadUrl);
-      }
-
-      // Set mimeType for video
-      setMimeType(pendingVideoFile.type);
-
-      // Clean up
-      setPendingVideoFile(null);
-      setLoading(false);
-    }
-  }, [
-    muxUpload.playbackUrl,
-    muxUpload.downloadUrl,
-    muxUpload.uploading,
+  const { processedVideoRef } = useMuxUploadCallback({
     pendingVideoFile,
-    setAnimationUri,
-    setDownloadUrl,
-    setMimeType,
-  ]);
-
-  // Sync Mux upload progress
-  useEffect(() => {
-    if (muxUpload.uploading) {
-      setPctComplete(muxUpload.pctComplete);
-    }
-  }, [muxUpload.pctComplete, muxUpload.uploading]);
+    setPendingVideoFile,
+    setLoading,
+    setPctComplete,
+    muxUpload,
+  });
 
   // Sync Mux upload errors
   useEffect(() => {
