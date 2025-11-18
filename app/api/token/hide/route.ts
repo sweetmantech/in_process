@@ -1,48 +1,62 @@
 import { NextRequest } from "next/server";
-import { getInProcessTokens } from "@/lib/supabase/in_process_tokens/getInProcessTokens";
-import { updateInProcessTokens } from "@/lib/supabase/in_process_tokens/updateInProcessTokens";
-import { CHAIN_ID } from "@/lib/consts";
+import getCorsHeader from "@/lib/getCorsHeader";
+import { authMiddleware } from "@/middleware/authMiddleware";
 import { type TimelineMoment } from "@/lib/timeline/fetchTimeline";
-import { Address } from "viem";
+import { getTokenAdmin } from "@/lib/supabase/in_process_token_admins/getTokenAdmin";
+import { updateTokenAdmin } from "@/lib/supabase/in_process_token_admins/updateTokenAdmin";
+
+// CORS headers for allowing cross-origin requests
+const corsHeaders = getCorsHeader();
+
+export async function OPTIONS() {
+  return new Response(null, {
+    status: 200,
+    headers: corsHeaders,
+  });
+}
 
 export async function POST(req: NextRequest) {
   try {
+    const authResult = await authMiddleware(req, { corsHeaders });
+    if (authResult instanceof Response) {
+      return authResult;
+    }
+    const { artistAddress } = authResult;
+
     const body = await req.json();
     const { moment } = body as { moment: TimelineMoment };
 
-    const { data: rows, error: fetchError } = await getInProcessTokens({
-      addresses: [moment.address.toLowerCase() as Address],
-      tokenIds: [Number(moment.tokenId)],
-      chainId: CHAIN_ID,
-      hidden: true,
+    const { data: tokenAdmin, error: fetchError } = await getTokenAdmin({
+      token: moment.id,
+      artistAddress: artistAddress.toLowerCase(),
     });
     if (fetchError) throw fetchError;
-    if (!rows) throw new Error("No tokens found");
-
-    const ids = rows.map((row) => row.id);
-
-    if (ids.length === 0) {
+    if (!tokenAdmin) {
       return Response.json(
-        { success: false, message: "No matching tokens found" },
-        { status: 404 }
+        { success: false, message: "No matching token admin found" },
+        { status: 404, headers: corsHeaders }
       );
     }
 
-    const { data: updatedRows, error: updateError } = await updateInProcessTokens({
-      ids,
-      update: { hidden: !rows[0].hidden },
+    const { data: updatedRows, error: updateError } = await updateTokenAdmin({
+      token: moment.id,
+      artistAddress: artistAddress.toLowerCase(),
+      update: { hidden: !(tokenAdmin.hidden ?? false) },
     });
 
     if (updateError) throw updateError;
 
-    return Response.json({
-      success: true,
-      updated: updatedRows,
-    });
+    return Response.json(
+      {
+        success: true,
+        updated: updatedRows,
+      },
+      { headers: corsHeaders }
+    );
   } catch (e: any) {
     console.log(e);
     const message = e?.message ?? "failed to hide tokens";
-    return Response.json({ message }, { status: 500 });
+    return Response.json({ message }, { status: 500, headers: corsHeaders });
   }
 }
 

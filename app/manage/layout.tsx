@@ -8,6 +8,9 @@ import { Fragment, ReactNode, useEffect, useState } from "react";
 import { ArrowRight } from "@/components/ui/icons";
 import SignToInProcess from "@/components/ManagePage/SignToInProcess";
 import { useRouter } from "next/navigation";
+import { useUserProvider } from "@/providers/UserProvider";
+import { useHasMutualMoments } from "@/hooks/useHasMutualMoments";
+import MutualMomentsButton from "@/components/ManagePage/MutualMomentsButton";
 
 const ManagePage = ({ children }: { children: ReactNode }) => {
   const { context } = useFrameProvider();
@@ -17,6 +20,8 @@ const ManagePage = ({ children }: { children: ReactNode }) => {
   const [loaded, setLoaded] = useState<boolean>(false);
   const signedWallet = context ? address : connectedWallet;
   const { push } = useRouter();
+  const { artistWallet } = useUserProvider();
+  const { hasMutualMoments } = useHasMutualMoments(artistWallet);
 
   useEffect(() => {
     if (ready)
@@ -55,6 +60,7 @@ const ManagePage = ({ children }: { children: ReactNode }) => {
           <p className="text-base md:text-2xl">moments</p>
           <ArrowRight className="size-4" />
         </button>
+        {hasMutualMoments && <MutualMomentsButton />}
       </div>
       <div className="col-span-12 md:col-span-9">{children}</div>
     </main>

@@ -11,13 +11,22 @@ export interface VideoPreviewResult {
 export const captureVideoPreview = async (file: File): Promise<VideoPreviewResult> => {
   const videoUrl = URL.createObjectURL(file);
 
-  const frameBase64 = await captureImageFromVideo(videoUrl);
-  const imageFile = base64ToFile(frameBase64 as string, file.name);
-  const imageUri = await clientUploadToArweave(imageFile);
+  try {
+    const frameBase64 = await captureImageFromVideo(videoUrl);
 
-  return {
-    imageUri,
-    previewSrc: URL.createObjectURL(imageFile),
-    previewUri: imageUri,
-  };
+    if (!frameBase64) {
+      throw new Error("Unable to capture preview frame from video");
+    }
+
+    const imageFile = base64ToFile(frameBase64 as string, file.name);
+    const imageUri = await clientUploadToArweave(imageFile);
+
+    return {
+      imageUri,
+      previewSrc: URL.createObjectURL(imageFile),
+      previewUri: imageUri,
+    };
+  } finally {
+    URL.revokeObjectURL(videoUrl);
+  }
 };

@@ -1,9 +1,9 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useMetadata } from "./useMetadata";
-import { Token } from "@/types/token";
 import { getShortNetworkName } from "@/lib/zora/zoraToViem";
+import { TimelineMoment } from "@/lib/timeline/fetchTimeline";
 
-export const useClickTimelineFeed = (feed: Token) => {
+export const useClickTimelineFeed = (feed: TimelineMoment) => {
   const { push } = useRouter();
   const pathname = usePathname();
   const isHomePage = pathname === "/" || pathname === "/timeline";
@@ -12,7 +12,7 @@ export const useClickTimelineFeed = (feed: Token) => {
 
   const handleClick = () => {
     if (isHomePage) {
-      push(`/${feed.creator}`);
+      push(`/${feed.admin}`);
       return;
     }
     if (data?.external_url) {
@@ -22,9 +22,9 @@ export const useClickTimelineFeed = (feed: Token) => {
       }
       return;
     }
-    const shortNetworkName = getShortNetworkName(feed.chain.replaceAll("_", " "));
+    const shortNetworkName = getShortNetworkName(feed.chainId === 8453 ? "base" : "base sepolia");
     const tokenId = feed.tokenId == "0" ? 1 : feed.tokenId;
-    push(`/collect/${shortNetworkName}:${feed.collection}/${tokenId}`);
+    push(`/collect/${shortNetworkName}:${feed.address}/${tokenId}`);
     return;
   };
 
@@ -32,6 +32,6 @@ export const useClickTimelineFeed = (feed: Token) => {
     isLoading,
     data,
     handleClick,
-    formattedDate: new Date(feed.released_at).toLocaleString().toLowerCase(),
+    formattedDate: new Date(feed.createdAt).toLocaleString().toLowerCase(),
   };
 };

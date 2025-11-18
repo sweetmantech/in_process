@@ -3,8 +3,8 @@ import useIsMobile from "./useIsMobile";
 import useFullscreenDetection from "./useFullscreenDetection";
 import { Swiper } from "swiper/types";
 import useCheckTimelineOverflow from "./useCheckTimelineOverflow";
-import { Token } from "@/types/token";
 import useTimelineCenter from "./useTimelineCenter";
+import { TimelineMoment } from "@/lib/timeline/fetchTimeline";
 
 interface UseHorizontalFeedAnimationReturn {
   nearestIndex: number | null;
@@ -28,7 +28,9 @@ interface NearestButton {
   distance: number;
 }
 
-export const useHorizontalFeedAnimation = (feeds: Token[]): UseHorizontalFeedAnimationReturn => {
+export const useHorizontalFeedAnimation = (
+  feeds: TimelineMoment[]
+): UseHorizontalFeedAnimationReturn => {
   const isMobile = useIsMobile();
   const { isAnyVideoFullscreen } = useFullscreenDetection();
 

@@ -1,10 +1,10 @@
 import { useMetadata } from "@/hooks/useMetadata";
-import { Token } from "@/types/token";
+import { TimelineMoment } from "@/lib/timeline/fetchTimeline";
 import Loading from "../Loading";
 import ContentRenderer from "../Renderers";
 
 interface GridItemProps {
-  feed: Token;
+  feed: TimelineMoment;
 }
 
 const GridItem = ({ feed }: GridItemProps) => {
@@ -21,7 +21,7 @@ const GridItem = ({ feed }: GridItemProps) => {
           </div>
           <div className="pt-2 px-2">
             <p className="font-archivo text-sm">{data.name}</p>
-            <p className="font-archivo text-sm">{new Date(feed.released_at).toLocaleString()}</p>
+            <p className="font-archivo text-sm">{new Date(feed.createdAt).toLocaleString()}</p>
           </div>
         </>
       )}

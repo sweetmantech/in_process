@@ -8,12 +8,10 @@ import TimelineSpiral from "@/components/Timeline/TimelineSpiral";
 import TimelineMobileMoon from "@/components/Timeline/TimelineMobileMoon";
 import HorizontalTimeline from "@/components/Timeline/HorizontalTimeline";
 import { HorizontalFeedAnimationProvider } from "@/providers/HorizontalFeedAnimationProvider";
-import { mapMomentsToTokens } from "@/lib/timeline/mapMomentToToken";
 import TimelineGrid from "@/components/Timeline/TimelineGrid";
 
 const TimelinePage = () => {
   const { isLoading, error, moments } = useTimelineApiContext();
-  const tokens = mapMomentsToTokens(moments);
 
   if (isLoading)
     return (
@@ -33,7 +31,7 @@ const TimelinePage = () => {
       </div>
       <TimelineGrid />
       <div className="block md:hidden overflow-hidden h-[300px] pb-20">
-        <HorizontalFeedAnimationProvider feeds={tokens}>
+        <HorizontalFeedAnimationProvider feeds={moments}>
           <HorizontalTimeline />
         </HorizontalFeedAnimationProvider>
       </div>
