@@ -6,7 +6,7 @@ import { useMomentCreateProvider } from "@/providers/MomentCreateProviderWrapper
 import { toast } from "sonner";
 
 const CreateButton = () => {
-  const { create, creating } = useMomentCreateProvider();
+  const { create, creating  } = useMomentCreateProvider();
   const { animationUri, link, embedCode, imageUri, writingText, previewUri, form } =
     useMomentCreateFormProvider();
 

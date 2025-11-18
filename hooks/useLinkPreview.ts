@@ -1,6 +1,6 @@
 import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useMomentCreateFormProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateFormProvider";
 
 export interface LinkPreview {
@@ -41,6 +41,8 @@ const useLinkPreview = () => {
   });
 
   useEffect(() => {
+    // TODO: Centralize upload+preview logic with handleImageUpload helper to avoid duplication
+    // Note: This flow differs slightly as it fetches blob from URL first, then uploads
     const uploadImage = async () => {
       if (!data) return;
       if (data.images?.[0] || data.favicons?.[0]) {

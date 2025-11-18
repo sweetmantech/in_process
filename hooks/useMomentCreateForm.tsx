@@ -37,6 +37,10 @@ const useMomentCreateForm = () => {
     setAnimationUri("");
     setDownloadUrl("");
     setPreviewUri("");
+    // Revoke previewSrc blob URL before clearing
+    if (previewSrc && previewSrc.startsWith("blob:")) {
+      URL.revokeObjectURL(previewSrc);
+    }
     setPreviewSrc("");
     setEmbedCode("");
     setLink("");
