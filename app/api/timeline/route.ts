@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import { CHAIN_ID } from "@/lib/consts";
 import type { Database } from "@/lib/supabase/types";
-import { getInProcessTokens } from "@/lib/supabase/in_process_tokens/getInProcessTokens";
+import { getInProcessTokensRpc } from "@/lib/supabase/in_process_tokens/getInProcessTokensRpc";
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -13,14 +13,16 @@ export async function GET(req: NextRequest) {
   const hiddenParam = searchParams.get("hidden");
   const hidden: Database["public"]["Tables"]["in_process_tokens"]["Row"]["hidden"] =
     hiddenParam === null ? false : hiddenParam === "true";
+  const type = searchParams.get("type") as "mutual" | "artist" | "timeline" | undefined;
 
-  const { data, count, error } = await getInProcessTokens({
+  const { data, error } = await getInProcessTokensRpc({
     artist,
     limit,
     page,
     latest,
     chainId,
     hidden,
+    type,
   });
 
   if (error) {
@@ -31,10 +33,7 @@ export async function GET(req: NextRequest) {
     return Response.json({ status: "error", message: "No data returned" }, { status: 500 });
   }
 
-  const totalCount = count || 0;
-  const totalPages = totalCount > 0 ? Math.ceil(totalCount / limit) : 1;
-
-  const moments = data.map((row) => {
+  const moments = data.moments.map((row: any) => {
     const { defaultAdmin, ...rest } = row;
     return {
       ...rest,
@@ -46,10 +45,6 @@ export async function GET(req: NextRequest) {
   return Response.json({
     status: "success",
     moments,
-    pagination: {
-      page,
-      limit,
-      total_pages: totalPages,
-    },
+    pagination: data.pagination,
   });
 }

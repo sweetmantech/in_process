@@ -1,11 +1,11 @@
 import { useMetadata } from "@/hooks/useMetadata";
-import { Token } from "@/types/token";
 import Loading from "../Loading";
 import { useRouter } from "next/navigation";
 import CarouselItem from "./CarouselItem";
+import { TimelineMoment } from "@/lib/timeline/fetchTimeline";
 
 interface SliderFeedProps {
-  feed: Token;
+  feed: TimelineMoment;
 }
 
 const SliderFeed = ({ feed }: SliderFeedProps) => {
@@ -13,7 +13,7 @@ const SliderFeed = ({ feed }: SliderFeedProps) => {
   const { push } = useRouter();
 
   const handleClick = () => {
-    push(`/${feed.creator}`);
+    push(`/${feed.admin}`);
   };
 
   return (

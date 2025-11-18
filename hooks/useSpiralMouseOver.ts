@@ -1,13 +1,13 @@
-import { Token } from "@/types/token";
 import { useState, useCallback } from "react";
+import { TimelineMoment } from "@/lib/timeline/fetchTimeline";
 
 const useSpiralMouseOver = () => {
   const [hoveredFeed, setHoveredFeed] = useState<{
-    feed: Token;
+    feed: TimelineMoment;
     position: { x: number; y: number };
   } | null>(null);
 
-  const handleMouseMove = useCallback((event: React.MouseEvent, feed: Token) => {
+  const handleMouseMove = useCallback((event: React.MouseEvent, feed: TimelineMoment) => {
     const svgElement = event.currentTarget.closest("svg");
     if (!svgElement) return;
 

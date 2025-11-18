@@ -1,6 +1,6 @@
 import { createContext, useContext, ReactNode, useMemo } from "react";
 import { useHorizontalFeedAnimation } from "@/hooks/useHorizontalFeedAnimation";
-import { Token } from "@/types/token";
+import { TimelineMoment } from "@/lib/timeline/fetchTimeline";
 
 const HorizontalFeedAnimationContext = createContext<ReturnType<
   typeof useHorizontalFeedAnimation
@@ -11,7 +11,7 @@ export function HorizontalFeedAnimationProvider({
   feeds,
 }: {
   children: ReactNode;
-  feeds: Token[];
+  feeds: TimelineMoment[];
 }) {
   const horizontalFeedAnimation = useHorizontalFeedAnimation(feeds);
 

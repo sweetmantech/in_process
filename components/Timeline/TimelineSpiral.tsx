@@ -9,7 +9,6 @@ import { FeedTooltip } from "@/components/SprialFeeds/FeedTooltip";
 import useSpiralMouseOver from "@/hooks/useSpiralMouseOver";
 import Feed from "@/components/SprialFeeds/Feed";
 import { useTimelineApiContext } from "@/providers/TimelineApiProvider";
-import { mapMomentToToken } from "@/lib/timeline/mapMomentToToken";
 
 const TimelineSpiral = () => {
   const { offset, viewBox, animationConfig, points } = useSpiralAnimation();
@@ -24,7 +23,7 @@ const TimelineSpiral = () => {
           <textPath xlinkHref="#curve" startOffset={`${offset}%`}>
             {[...moments, ...moments].map((moment, index) => (
               <Feed
-                feed={mapMomentToToken(moment)}
+                feed={moment}
                 index={index}
                 handleMouseLeave={handleMouseLeave}
                 handleMouseMove={handleMouseMove}

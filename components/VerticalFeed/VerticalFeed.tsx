@@ -3,12 +3,10 @@ import { Autoplay } from "swiper/modules";
 import useIsMobile from "@/hooks/useIsMobile";
 import SliderFeed from "./SliderFeed";
 import { useTimelineApiContext } from "@/providers/TimelineApiProvider";
-import { mapMomentsToTokens } from "@/lib/timeline/mapMomentToToken";
 
 const VerticalFeed = () => {
   const isMobile = useIsMobile();
   const { moments } = useTimelineApiContext();
-  const feeds = mapMomentsToTokens(moments);
 
   return (
     <Slider
@@ -34,7 +32,7 @@ const VerticalFeed = () => {
       slideClassName="!h-fit md:!h-auto"
       className="w-full h-[770px] md:h-auto md:max-h-[100vh] !overflow-hidden"
     >
-      {feeds.map((feed, i) => (
+      {moments.map((feed, i) => (
         <SliderFeed feed={feed} key={i} />
       ))}
     </Slider>
