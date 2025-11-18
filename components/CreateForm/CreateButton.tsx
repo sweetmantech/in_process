@@ -6,10 +6,9 @@ import { useMomentCreateProvider } from "@/providers/MomentCreateProviderWrapper
 import { toast } from "sonner";
 
 const CreateButton = () => {
-  const { create, creating } = useMomentCreateProvider();
-  const { animationUri, link, embedCode, imageUri, writingText, previewUri } =
+  const { create, creating  } = useMomentCreateProvider();
+  const { animationUri, link, embedCode, imageUri, writingText, previewUri, form } =
     useMomentCreateFormProvider();
-  const { form } = useMomentCreateFormProvider();
 
   const hasMedia = Boolean(animationUri || link || embedCode || imageUri || writingText);
   const hasPreview = Boolean(previewUri || writingText);

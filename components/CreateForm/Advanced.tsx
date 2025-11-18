@@ -8,8 +8,7 @@ import { Controller } from "react-hook-form";
 import { useMomentCreateFormProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateFormProvider";
 
 const Advanced = () => {
-  const { isOpenAdvanced } = useMomentCreateFormProvider();
-  const { form, setIsOpenAdvanced } = useMomentCreateFormProvider();
+  const { isOpenAdvanced, form, setIsOpenAdvanced } = useMomentCreateFormProvider();
 
   return (
     <div className="flex flex-col gap-2 pt-2 z-10">
