@@ -12,12 +12,9 @@ export const captureVideoPreview = async (file: File): Promise<VideoPreviewResul
   const videoUrl = URL.createObjectURL(file);
 
   const frameBase64 = await captureImageFromVideo(videoUrl);
-  console.log("ziad here", frameBase64);
   const imageFile = base64ToFile(frameBase64 as string, file.name);
-
   const imageUri = await clientUploadToArweave(imageFile);
 
-  console.log("ziad here", imageUri);
   return {
     imageUri,
     previewSrc: URL.createObjectURL(imageFile),

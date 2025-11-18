@@ -56,8 +56,8 @@ const useMomentCreateForm = () => {
   const form = useForm<CreateFormData>({
     resolver: zodResolver(createFormSchema),
     defaultValues: {
-      name: name,
-      price: price,
+      name,
+      price,
       priceUnit: priceUnit as "eth" | "usdc",
       description: description || undefined,
       startDate: startDate,

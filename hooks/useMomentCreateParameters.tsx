@@ -14,7 +14,7 @@ const useMomentCreateParameters = () => {
   // Use priceUnit to determine if USDC
   const isUsdc = priceUnit === "usdc";
   const fetchParameters = async (collection: Address | undefined) => {
-    const cc0MusicArweaveUri = await getUri();
+    const momentMetadataUri = await getUri();
     if (!name) return;
     const salesConfig = getSalesConfig(
       getSaleConfigType(isUsdc ? "erc20Mint" : "fixedPrice"),
@@ -29,7 +29,7 @@ const useMomentCreateParameters = () => {
       return {
         contractAddress: collection,
         token: {
-          tokenMetadataURI: cc0MusicArweaveUri,
+          tokenMetadataURI: momentMetadataUri,
           createReferral: REFERRAL_RECIPIENT,
           salesConfig,
           mintToCreatorCount: 1,
@@ -40,11 +40,11 @@ const useMomentCreateParameters = () => {
     } else {
       return {
         contract: {
-          name: name,
-          uri: cc0MusicArweaveUri,
+          name,
+          uri: momentMetadataUri,
         },
         token: {
-          tokenMetadataURI: cc0MusicArweaveUri,
+          tokenMetadataURI: momentMetadataUri,
           createReferral: REFERRAL_RECIPIENT,
           salesConfig,
           mintToCreatorCount: 1,
