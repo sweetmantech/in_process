@@ -1,16 +1,16 @@
 import { Fragment } from "react";
 import { ChangeEvent, useRef, useState } from "react";
-import { useMomentCreateProvider } from "@/providers/MomentCreateProvider";
 import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
 import { toast } from "sonner";
 import WritingPreview from "./WritingPreview";
 import { Label } from "../ui/label";
 import { useCropImageProvider } from "@/providers/CropImageProvider";
 import CropImage from "@/components/CropImage";
+import { useMomentCreateFormProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateFormProvider";
 
 const UploadPreview = () => {
   const { previewUri, setPreviewUri, writingText, setIsOpenPreviewUpload, setPreviewSrc } =
-    useMomentCreateProvider();
+    useMomentCreateFormProvider();
   const [progress, setProgress] = useState<number>(0);
   const previewRef = useRef() as any;
   const [isUploading, setIsUploading] = useState<boolean>(false);

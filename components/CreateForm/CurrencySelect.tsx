@@ -1,9 +1,13 @@
 "use client";
 
-import { useMomentCreateProvider } from "@/providers/MomentCreateProvider";
+import { useMomentCreateProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateProvider";
+import { useMomentCreateFormProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateFormProvider";
+import { useMomentMetadataProvider } from "@/providers/MomentCreateProviderWrapper/MomentMetadataProvider";
 
 export default function CurrencySelect() {
-  const { form, fileUploading, creating } = useMomentCreateProvider();
+  const { form } = useMomentCreateFormProvider();
+  const { fileUploading } = useMomentMetadataProvider();
+  const { creating} = useMomentCreateProvider()
 
   return (
     <select

@@ -1,11 +1,15 @@
-import { useMomentCreateProvider } from "@/providers/MomentCreateProvider";
+import { useMomentCreateProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateProvider";
 import { Label } from "@/components/ui/label";
 import { Input } from "../ui/input";
 import usePrompt from "@/hooks/uesPrompt";
+import { useMomentCreateFormProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateFormProvider";
+import { useMomentMetadataProvider } from "@/providers/MomentCreateProviderWrapper/MomentMetadataProvider";
 
 const Prompt = () => {
-  const { form, fileUploading, creating } = useMomentCreateProvider();
+  const { creating } = useMomentCreateProvider();
+  const { form } = useMomentCreateFormProvider();
   const { placeholder, onActive, promptRef } = usePrompt();
+  const { fileUploading } = useMomentMetadataProvider();
 
   return (
     <div className="flex flex-col items-start w-full gap-2">

@@ -1,21 +1,17 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useMomentCreateProvider } from "@/providers/MomentCreateProvider";
+import { useMomentCreateFormProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateFormProvider";
+import { useMomentCreateProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateProvider";
 import { toast } from "sonner";
 
 const CreateButton = () => {
   const {
     create,
-    form,
-    previewUri,
-    creating,
-    link,
-    animationUri,
-    writingText,
-    embedCode,
-    imageUri,
+    creating
   } = useMomentCreateProvider();
+  const { animationUri, link, embedCode, imageUri, writingText, previewUri } = useMomentCreateFormProvider();
+  const { form } = useMomentCreateFormProvider();
 
   const hasMedia = Boolean(animationUri || link || embedCode || imageUri || writingText);
   const hasPreview = Boolean(previewUri || writingText);
