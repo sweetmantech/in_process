@@ -7,6 +7,7 @@ import useMomentCreateParameters from "./useMomentCreateParameters";
 import { useUserProvider } from "@/providers/UserProvider";
 import { createMomentApi } from "@/lib/moment/createMomentApi";
 import { syncMomentApi } from "@/lib/moment/syncMomentApi";
+import { migrateMuxToArweaveApi } from "@/lib/mux/migrateMuxToArweaveApi";
 import { usePrivy } from "@privy-io/react-auth";
 import { toast } from "sonner";
 
@@ -33,9 +34,15 @@ export default function useMomentCreate() {
       await new Promise((resolve) => setTimeout(resolve, 3000));
       const accessToken = await getAccessToken();
       await syncMomentApi(accessToken as string);
+
       setCreating(false);
       setCreatedContract(result.contractAddress);
       setCreatedTokenId(result.tokenId?.toString() || "");
+      migrateMuxToArweaveApi({
+        tokenContractAddress: result.contractAddress as Address,
+        tokenId: result.tokenId.toString(),
+        accessToken: accessToken as string,
+      });
       return result;
     } catch (err: any) {
       setCreating(false);
