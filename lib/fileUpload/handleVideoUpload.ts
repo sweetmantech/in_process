@@ -1,36 +1,35 @@
 import { captureVideoPreview, VideoPreviewResult } from "./captureVideoPreview";
+import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
 
 export interface VideoUploadHandlers {
-  setPendingVideoFile: (file: File | null) => void;
   setImageUri: (uri: string) => void;
   setPreviewSrc: (src: string) => void;
   setPreviewUri: (uri: string) => void;
+  setAnimationUri: (uri: string) => void;
   setMimeType: (mimeType: string) => void;
-  muxUpload: {
-    upload: (file: File) => Promise<void>;
-  };
+  setLoading: (loading: boolean) => void;
+  setPctComplete: (pct: number) => void;
 }
 
 export const handleVideoUpload = async (
   file: File,
   handlers: VideoUploadHandlers
 ): Promise<void> => {
-  handlers.setPendingVideoFile(file);
-
-  // Capture frame from video and upload to Arweave for preview (thumbnail only)
-  // Do this BEFORE Mux upload so preview appears immediately
+  // Capture frame from video and upload to Arweave for preview (thumbnail)
   try {
     const preview: VideoPreviewResult = await captureVideoPreview(file);
     handlers.setImageUri(preview.imageUri);
     handlers.setPreviewSrc(preview.previewSrc);
     handlers.setPreviewUri(preview.previewUri);
-    handlers.setMimeType(file.type);
   } catch (previewErr: unknown) {
     console.error("Failed to capture video preview:", previewErr);
-    // Continue with Mux upload even if preview fails
+    // Continue with video upload even if preview fails
   }
 
-  // Start Mux upload (happens in background while preview is already shown)
-  await handlers.muxUpload.upload(file);
-  // The useEffect will handle completion when playbackUrl is available
+  // Upload video to Arweave
+  const uri = await clientUploadToArweave(file, (pct: number) => handlers.setPctComplete(pct));
+
+  handlers.setAnimationUri(uri);
+  handlers.setMimeType(file.type);
+  handlers.setLoading(false);
 };

@@ -1,7 +1,7 @@
 import { useMomentCreateProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateProvider";
 import { Label } from "@/components/ui/label";
 import { Input } from "../ui/input";
-import usePrompt from "@/hooks/uesPrompt";
+import usePrompt from "@/hooks/usePrompt";
 import { useMomentCreateFormProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateFormProvider";
 import { useMomentMetadataProvider } from "@/providers/MomentCreateProviderWrapper/MomentMetadataProvider";
 

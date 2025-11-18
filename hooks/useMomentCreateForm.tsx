@@ -14,7 +14,6 @@ const useMomentCreateForm = () => {
   const [imageUri, setImageUri] = useState<string>("");
   const [mimeType, setMimeType] = useState<string>("");
   const [animationUri, setAnimationUri] = useState<string>("");
-  const [downloadUrl, setDownloadUrl] = useState<string>("");
   const [previewUri, setPreviewUri] = useState<string>("");
   const [isOpenPreviewUpload, setIsOpenPreviewUpload] = useState<boolean>(false);
   const [previewSrc, setPreviewSrc] = useState<string>("");
@@ -35,7 +34,6 @@ const useMomentCreateForm = () => {
     setImageUri("");
     setMimeType("");
     setAnimationUri("");
-    setDownloadUrl("");
     setPreviewUri("");
     setPreviewSrc("");
     setEmbedCode("");
@@ -143,8 +141,6 @@ const useMomentCreateForm = () => {
     setMimeType,
     animationUri,
     setAnimationUri,
-    downloadUrl,
-    setDownloadUrl,
     previewUri,
     setPreviewUri,
     isOpenPreviewUpload,
