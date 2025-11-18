@@ -35,14 +35,15 @@ export default function useMomentCreate() {
       const accessToken = await getAccessToken();
       await syncMomentApi(accessToken as string);
 
-      setCreating(false);
-      setCreatedContract(result.contractAddress);
-      setCreatedTokenId(result.tokenId?.toString() || "");
       migrateMuxToArweaveApi({
         tokenContractAddress: result.contractAddress as Address,
         tokenId: result.tokenId.toString(),
         accessToken: accessToken as string,
       });
+
+      setCreating(false);
+      setCreatedContract(result.contractAddress);
+      setCreatedTokenId(result.tokenId?.toString() || "");
       return result;
     } catch (err: any) {
       setCreating(false);
