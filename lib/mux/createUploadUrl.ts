@@ -3,8 +3,12 @@ type CreateUploadUrlResponse = {
   uploadId: string;
 };
 
-const createUploadUrl = async (): Promise<CreateUploadUrlResponse> => {
-  const response = await fetch("/api/mux/create");
+const createUploadUrl = async (accessToken: string): Promise<CreateUploadUrlResponse> => {
+  const response = await fetch("/api/mux/create", {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
 
   if (!response.ok) {
     throw new Error("Failed to create upload URL");
