@@ -19,9 +19,7 @@ const Container = ({
   className?: string;
 }) => <div className={`size-full flex justify-center ${className}`}>{children}</div>;
 
-const MediaUploaded = ({
-  handleImageClick,
-}: MediaUploadedProps) => {
+const MediaUploaded = ({ handleImageClick }: MediaUploadedProps) => {
   const { animationUri, imageUri, mimeType, previewSrc } = useMomentCreateFormProvider();
   const { pctComplete, fileUploading } = useMomentMetadataProvider();
 

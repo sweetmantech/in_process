@@ -10,7 +10,7 @@ import { useMomentCreateProvider } from "@/providers/MomentCreateProviderWrapper
 export default function Price() {
   const { form } = useMomentCreateFormProvider();
   const { fileUploading } = useMomentMetadataProvider();
-  const { creating} = useMomentCreateProvider()
+  const { creating } = useMomentCreateProvider();
 
   return (
     <div className="w-full pt-2">
