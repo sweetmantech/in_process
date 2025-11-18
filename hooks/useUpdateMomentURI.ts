@@ -5,9 +5,9 @@ import { usePrivy } from "@privy-io/react-auth";
 import { uploadJson } from "@/lib/arweave/uploadJson";
 import { fetchTokenMetadata } from "@/lib/protocolSdk/ipfs/token-metadata";
 import getTokenInfo from "@/lib/viem/getTokenInfo";
-import { useMomentManageProvider } from "@/providers/MomentManageProvider";
 import { toast } from "sonner";
 import { callUpdateMomentURI } from "@/lib/moment/callUpdateMomentURI";
+import { useMomentCreateFormProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateFormProvider";
 
 const useUpdateMomentURI = () => {
   const { token, fetchTokenInfo } = useTokenProvider();
@@ -17,7 +17,7 @@ const useUpdateMomentURI = () => {
     imageUri,
     animationUri,
     mimeType,
-  } = useMomentManageProvider();
+  } = useMomentCreateFormProvider();
   const { getAccessToken } = usePrivy();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 

@@ -1,13 +1,8 @@
 import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
-import { Dispatch, SetStateAction, useState } from "react";
+import { useMomentCreateFormProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateFormProvider";
 
-interface useEmbedCodeProps {
-  setDescription: Dispatch<SetStateAction<string>>;
-  setAnimationUri: Dispatch<SetStateAction<string>>;
-}
-
-const useEmbedCode = ({ setDescription, setAnimationUri }: useEmbedCodeProps) => {
-  const [embedCode, setEmbedCode] = useState("");
+const useEmbedCode = () => {
+  const { setAnimationUri, embedCode } = useMomentCreateFormProvider();
 
   const uploadEmbedCode = async () => {
     const blob = new Blob(
@@ -26,14 +21,7 @@ const useEmbedCode = ({ setDescription, setAnimationUri }: useEmbedCodeProps) =>
     return uri;
   };
 
-  const embed = (value: string) => {
-    setEmbedCode(value);
-  };
-
   return {
-    embedCode,
-    setEmbedCode,
-    embed,
     uploadEmbedCode,
   };
 };

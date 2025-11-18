@@ -2,24 +2,15 @@ import NoFileSelected from "@/components/MetadataCreation/NoFileSelected";
 import MediaUploaded from "@/components/MetadataCreation/MediaUploaded";
 import ResetButton from "@/components/MetadataCreation/ResetButton";
 import useUpdateMomentURI from "@/hooks/useUpdateMomentURI";
-import { useMomentManageProvider } from "@/providers/MomentManageProvider";
 import { useTokenProvider } from "@/providers/TokenProvider";
 import { useRef } from "react";
+import { useMomentMetadataProvider } from "@/providers/MomentCreateProviderWrapper/MomentMetadataProvider";
+import { useMomentCreateFormProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateFormProvider";
 
 const AnimationUpload = () => {
   const { isOwner } = useTokenProvider();
-  const {
-    imageUri,
-    animationUri,
-    mimeType,
-    fileUpload,
-    fileUploading,
-    pctComplete,
-    previewSrc,
-    setImageUri,
-    setAnimationUri,
-  } = useMomentManageProvider();
-
+  const { imageUri, animationUri, setImageUri, setAnimationUri } = useMomentCreateFormProvider();
+  const { fileUpload, fileUploading } = useMomentMetadataProvider();
   const { isLoading: isSaving } = useUpdateMomentURI();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -51,15 +42,7 @@ const AnimationUpload = () => {
       {hasMedia ? (
         <>
           {isOwner && !isSaving && <ResetButton onClick={handleReset} disabled={fileUploading} />}
-          <MediaUploaded
-            handleImageClick={openFileDialog}
-            fileUploading={fileUploading}
-            mimeType={mimeType || ""}
-            animationUri={animationUri}
-            imageUri={imageUri}
-            pctComplete={pctComplete}
-            previewSrc={previewSrc}
-          />
+          <MediaUploaded handleImageClick={openFileDialog} />
         </>
       ) : (
         <NoFileSelected />

@@ -3,7 +3,6 @@
 import { ReactNode } from "react";
 import PrivyProvider from "./PrivyProvider";
 import { WagmiProvider } from "./WagmiProvider";
-import { MomentCreateProvider } from "./MomentCreateProvider";
 import UserProvider from "./UserProvider";
 import { CrossmintProvider } from "./CrossmintProvider";
 import FrameProvider from "./FrameProvider";
@@ -24,9 +23,7 @@ export function Providers({ children }: ProvidersProps): JSX.Element {
             <FrameProvider>
               <UserProvider>
                 <SmartWalletProvider>
-                  <MomentCreateProvider>
-                    <LayoutProvider>{children}</LayoutProvider>
-                  </MomentCreateProvider>
+                  <LayoutProvider>{children}</LayoutProvider>
                 </SmartWalletProvider>
               </UserProvider>
             </FrameProvider>
