@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import * as UpChunk from "@mux/upchunk";
+import { usePrivy } from "@privy-io/react-auth";
 import { useMuxAsset } from "@/hooks/useMuxAsset";
 import createUploadUrl from "@/lib/mux/createUploadUrl";
 
 const useMuxUpload = () => {
+  const { getAccessToken } = usePrivy();
   const [uploading, setUploading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
   const [pctComplete, setPctComplete] = useState<number>(0);
@@ -42,8 +44,15 @@ const useMuxUpload = () => {
     setUploadId(null);
 
     try {
-      // Step 1: Get the direct upload URL from our API
-      const { uploadURL, uploadId: newUploadId } = await createUploadUrl();
+      // Step 1: Get access token and create upload URL
+      const accessToken = await getAccessToken();
+      if (!accessToken) {
+        setError("Authentication required");
+        setUploading(false);
+        return;
+      }
+
+      const { uploadURL, uploadId: newUploadId } = await createUploadUrl(accessToken);
 
       // Step 2: Upload the file directly to Mux using UpChunk
       const upload = UpChunk.createUpload({
