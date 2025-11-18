@@ -1,11 +1,13 @@
-import { useMomentCreateProvider } from "@/providers/MomentCreateProvider";
+import { useMomentCreateProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateProvider";
 import { X } from "lucide-react";
 import Image from "next/image";
 import isHtml from "is-html";
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
+import { useMomentCreateFormProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateFormProvider";
 
 const EmbedPage = () => {
-  const { embedCode, embed, createdContract, animationUri, name } = useMomentCreateProvider();
+  const { createdContract } = useMomentCreateProvider();
+  const { embedCode, setEmbedCode, animationUri, name } = useMomentCreateFormProvider();
 
   if (createdContract)
     return (
@@ -44,7 +46,7 @@ const EmbedPage = () => {
           <textarea
             className="bg-grey-moss-50 w-full grow !outline-none !ring-0 p-2 font-spectral"
             value={embedCode}
-            onChange={(e) => embed(e.target.value)}
+            onChange={(e) => setEmbedCode(e.target.value)}
           />
           {isHtml(embedCode) && embedCode && (
             <Image
