@@ -1,9 +1,9 @@
-import { useMomentCreateProvider } from "@/providers/MomentCreateProvider";
 import { Label } from "../ui/label";
 import Image from "next/image";
 import PreviewModal from "./PreviewModal";
 import WritingPreview from "./WritingPreview";
 import { Fragment, ReactNode } from "react";
+import { useMomentCreateFormProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateFormProvider";
 
 const PreviewContainer = ({ children }: { children: ReactNode }) => {
   return (
@@ -16,7 +16,7 @@ const PreviewContainer = ({ children }: { children: ReactNode }) => {
   );
 };
 const Preview = () => {
-  const { previewUri, writingText, previewSrc, animationUri } = useMomentCreateProvider();
+  const { previewUri, writingText, previewSrc, animationUri } = useMomentCreateFormProvider();
   const showPreview = previewUri || animationUri;
   const showWritingPreview = writingText && !previewUri;
   const showImagePreview = showPreview && !showWritingPreview;

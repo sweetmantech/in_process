@@ -1,14 +1,14 @@
 import { Button } from "../ui/button";
 import { DateTimePicker } from "../ui/date-time-picker";
 import { ChevronDown } from "lucide-react";
-import { useMomentCreateProvider } from "@/providers/MomentCreateProvider";
 import { Textarea } from "../ui/textarea";
 import Price from "./Price";
 import SplitsForm from "./SplitsForm";
 import { Controller } from "react-hook-form";
+import { useMomentCreateFormProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateFormProvider";
 
 const Advanced = () => {
-  const { isOpenAdvanced, setIsOpenAdvanced, form } = useMomentCreateProvider();
+  const { isOpenAdvanced, form, setIsOpenAdvanced } = useMomentCreateFormProvider();
 
   return (
     <div className="flex flex-col gap-2 pt-2 z-10">

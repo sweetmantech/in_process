@@ -3,22 +3,23 @@ import { REFERRAL_RECIPIENT } from "@/lib/consts";
 import getSalesConfig from "@/lib/zora/getSalesConfig";
 import getSaleConfigType from "@/lib/getSaleConfigType";
 import { useUserProvider } from "@/providers/UserProvider";
-import useCreateForm from "./useCreateForm";
+import { useMomentCreateFormProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateFormProvider";
+import { useMomentMetadataProvider } from "@/providers/MomentCreateProviderWrapper/MomentMetadataProvider";
 
-const useMomentCreateParameters = (collection?: Address) => {
+const useMomentCreateParameters = () => {
   const { artistWallet } = useUserProvider();
-  const { form, createMetadata, advancedValues } = useCreateForm();
+  const { form, priceUnit, price, startDate, name } = useMomentCreateFormProvider();
+  const { getUri } = useMomentMetadataProvider();
 
   // Use priceUnit to determine if USDC
-  const isUsdc = createMetadata.priceUnit === "usdc";
-
-  const fetchParameters = async () => {
-    const cc0MusicArweaveUri = await createMetadata.getUri();
-    if (!createMetadata.name) return;
+  const isUsdc = priceUnit === "usdc";
+  const fetchParameters = async (collection: Address | undefined) => {
+    const cc0MusicArweaveUri = await getUri();
+    if (!name) return;
     const salesConfig = getSalesConfig(
       getSaleConfigType(isUsdc ? "erc20Mint" : "fixedPrice"),
-      createMetadata.price,
-      advancedValues.startDate
+      price,
+      startDate
     );
 
     const formSplits = form.getValues("splits");
@@ -39,7 +40,7 @@ const useMomentCreateParameters = (collection?: Address) => {
     } else {
       return {
         contract: {
-          name: createMetadata.name,
+          name: name,
           uri: cc0MusicArweaveUri,
         },
         token: {
@@ -54,7 +55,7 @@ const useMomentCreateParameters = (collection?: Address) => {
     }
   };
 
-  return { createMetadata, fetchParameters, advancedValues, form };
+  return { fetchParameters };
 };
 
 export default useMomentCreateParameters;

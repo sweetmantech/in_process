@@ -7,14 +7,14 @@ import { Textarea } from "@/components/ui/textarea";
 import MediaSkeleton from "./MediaSkeleton";
 import OwnerWarning from "./OwnerWarning";
 import SaveMediaButton from "./SaveMediaButton";
-import { useMomentManageProvider } from "@/providers/MomentManageProvider";
 import useUpdateMomentURI from "@/hooks/useUpdateMomentURI";
 import useMediaInitialization from "@/hooks/useMediaInitialization";
 import AnimationUpload from "./AnimationUpload";
+import { useMomentCreateFormProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateFormProvider";
 
 const Media = () => {
   const { metadata, isOwner } = useTokenProvider();
-  const { form } = useMomentManageProvider();
+  const { form } = useMomentCreateFormProvider();
   const { data: meta, isLoading } = metadata;
   const { isLoading: isSaving } = useUpdateMomentURI();
 

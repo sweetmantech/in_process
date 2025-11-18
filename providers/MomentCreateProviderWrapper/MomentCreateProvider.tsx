@@ -3,14 +3,19 @@
 import useMomentCreate from "@/hooks/useMomentCreate";
 import React, { createContext, useContext, useMemo } from "react";
 
-const MomentCreateContext = createContext<ReturnType<typeof useMomentCreate> | undefined>(
-  undefined
-);
+type MomentCreateContextValue = ReturnType<typeof useMomentCreate>;
+
+const MomentCreateContext = createContext<MomentCreateContextValue | undefined>(undefined);
 
 const MomentCreateProvider = ({ children }: { children: React.ReactNode }) => {
-  const zoraCreate = useMomentCreate();
+  const momentCreate = useMomentCreate();
 
-  const value = useMemo(() => ({ ...zoraCreate }), [zoraCreate]);
+  const value = useMemo(
+    () => ({
+      ...momentCreate,
+    }),
+    [momentCreate]
+  );
 
   return <MomentCreateContext.Provider value={value}>{children}</MomentCreateContext.Provider>;
 };

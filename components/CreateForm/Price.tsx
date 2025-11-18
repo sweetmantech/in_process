@@ -2,11 +2,15 @@
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useMomentCreateProvider } from "@/providers/MomentCreateProvider";
+import { useMomentCreateFormProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateFormProvider";
 import CurrencySelect from "./CurrencySelect";
+import { useMomentMetadataProvider } from "@/providers/MomentCreateProviderWrapper/MomentMetadataProvider";
+import { useMomentCreateProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateProvider";
 
 export default function Price() {
-  const { form, fileUploading, creating } = useMomentCreateProvider();
+  const { form } = useMomentCreateFormProvider();
+  const { fileUploading } = useMomentMetadataProvider();
+  const { creating } = useMomentCreateProvider();
 
   return (
     <div className="w-full pt-2">

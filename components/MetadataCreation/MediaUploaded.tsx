@@ -5,15 +5,11 @@ import React, { Fragment } from "react";
 import PdfViewer from "../Renderers/PdfViewer";
 import VideoPlayer from "../Renderers/VideoPlayer";
 import UploadSpinner from "@/components/TokenManagePage/UploadSpinner";
+import { useMomentMetadataProvider } from "@/providers/MomentCreateProviderWrapper/MomentMetadataProvider";
+import { useMomentCreateFormProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateFormProvider";
 
 interface MediaUploadedProps {
   handleImageClick: () => void;
-  fileUploading: boolean;
-  mimeType: string;
-  animationUri: string;
-  imageUri: string;
-  pctComplete: number;
-  previewSrc: string;
 }
 const Container = ({
   children,
@@ -23,15 +19,10 @@ const Container = ({
   className?: string;
 }) => <div className={`size-full flex justify-center ${className}`}>{children}</div>;
 
-const MediaUploaded = ({
-  handleImageClick,
-  fileUploading,
-  mimeType,
-  animationUri,
-  imageUri,
-  pctComplete,
-  previewSrc,
-}: MediaUploadedProps) => {
+const MediaUploaded = ({ handleImageClick }: MediaUploadedProps) => {
+  const { animationUri, imageUri, mimeType, previewSrc } = useMomentCreateFormProvider();
+  const { pctComplete, fileUploading } = useMomentMetadataProvider();
+
   if (fileUploading) return <UploadSpinner pctComplete={pctComplete} />;
 
   if (mimeType.includes("pdf"))
