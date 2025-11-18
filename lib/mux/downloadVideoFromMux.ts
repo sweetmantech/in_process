@@ -27,8 +27,27 @@ export const downloadVideoFromMux = async (
     const contentType = response.headers.get("content-type") || "video/mp4";
 
     // Extract filename from URL or use default
-    const urlParts = downloadUrl.split("/");
-    const filename = urlParts[urlParts.length - 1] || "video.mp4";
+    // Parse URL to handle query strings and fragments properly
+    let filename = "video.mp4";
+    try {
+      const url = new URL(downloadUrl);
+      const pathname = url.pathname;
+      const lastSegment = pathname.split("/").filter(Boolean).pop();
+      if (lastSegment) {
+        filename = decodeURIComponent(lastSegment) || "video.mp4";
+      }
+    } catch {
+      // Fallback: strip query/fragment manually if URL parsing fails
+      const withoutQuery = downloadUrl.split("?")[0].split("#")[0];
+      const lastSegment = withoutQuery.split("/").filter(Boolean).pop();
+      if (lastSegment) {
+        try {
+          filename = decodeURIComponent(lastSegment) || "video.mp4";
+        } catch {
+          filename = lastSegment || "video.mp4";
+        }
+      }
+    }
 
     return new File([blob], filename, { type: contentType });
   } catch (err) {
