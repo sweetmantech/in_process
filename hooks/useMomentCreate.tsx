@@ -35,7 +35,7 @@ export default function useMomentCreate() {
       const accessToken = await getAccessToken();
       await syncMomentApi(accessToken as string);
 
-      await migrateMuxToArweaveApi({
+      migrateMuxToArweaveApi({
         tokenContractAddress: result.contractAddress as Address,
         tokenId: result.tokenId.toString(),
         accessToken: accessToken as string,

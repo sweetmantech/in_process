@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
       return authResult;
     }
     const { artistAddress } = authResult;
-    
+
     const body = await req.json();
     const parseResult = migrateMuxSchema.safeParse(body);
 
@@ -37,6 +37,8 @@ export async function POST(req: NextRequest) {
     }
 
     const data = parseResult.data;
+
+    Response.json({ success: true, message: "Migration started" }, { headers: corsHeaders });
 
     // Start migration in background (fire-and-forget)
     const result = await migrateMuxToArweave({
