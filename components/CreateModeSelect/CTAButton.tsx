@@ -1,4 +1,4 @@
-import { useMomentCreateProvider } from "@/providers/MomentCreateProvider";
+import { useMomentMetadataProvider } from "@/providers/MomentCreateProviderWrapper/MomentMetadataProvider";
 import { ReactNode, useState } from "react";
 
 interface CTAButtonProps {
@@ -9,7 +9,7 @@ interface CTAButtonProps {
 
 const CTAButton = ({ children, onClick, isActive }: CTAButtonProps) => {
   const [hovered, setHovered] = useState<boolean>(false);
-  const { fileUploading } = useMomentCreateProvider();
+  const { fileUploading } = useMomentMetadataProvider();
 
   return (
     <button
