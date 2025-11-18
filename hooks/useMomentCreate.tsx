@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { Address } from "viem";
 import useMomentCreateParameters from "./useMomentCreateParameters";
-import { useMask } from "./useMask";
 import { useUserProvider } from "@/providers/UserProvider";
 import { createMomentApi } from "@/lib/moment/createMomentApi";
 import { syncMomentApi } from "@/lib/moment/syncMomentApi";
@@ -17,9 +16,7 @@ export default function useMomentCreate() {
   const collection = searchParams.get("collectionAddress") as Address;
   const [createdContract, setCreatedContract] = useState<string>("");
   const [createdTokenId, setCreatedTokenId] = useState<string>("");
-  const { fetchParameters, createMetadata, advancedValues, form } =
-    useMomentCreateParameters(collection);
-  const mask = useMask(advancedValues.isOpenAdvanced, createMetadata.writingText);
+  const { fetchParameters } = useMomentCreateParameters();
   const { isPrepared } = useUserProvider();
   const { getAccessToken } = usePrivy();
 
@@ -28,7 +25,7 @@ export default function useMomentCreate() {
       if (!isPrepared()) return;
 
       setCreating(true);
-      const parameters = await fetchParameters();
+      const parameters = await fetchParameters(collection);
       if (!parameters) {
         throw new Error("Parameters not ready");
       }
@@ -53,9 +50,5 @@ export default function useMomentCreate() {
     setCreatedContract,
     create,
     creating,
-    form,
-    ...createMetadata,
-    ...mask,
-    ...advancedValues,
   };
 }
