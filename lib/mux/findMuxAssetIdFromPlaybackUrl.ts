@@ -1,7 +1,7 @@
 import mux from "./index";
 
 /**
- * Finds MUX asset ID from playback URL by listing assets and matching playback IDs
+ * Finds MUX asset ID from playback URL using direct playback ID lookup
  */
 export const findMuxAssetIdFromPlaybackUrl = async (
   playbackUrl: string
@@ -14,30 +14,9 @@ export const findMuxAssetIdFromPlaybackUrl = async (
     }
     const playbackId = playbackIdMatch[1];
 
-    // List assets and find the one with matching playback ID
-    // Note: This might be slow if there are many assets, but MUX API doesn't provide
-    // a direct way to find asset by playback ID
-    const assets = await mux.video.assets.list({ limit: 100 });
-
-    for (const asset of assets.data) {
-      if (asset.playback_ids?.some((pid) => pid.id === playbackId)) {
-        return asset.id;
-      }
-    }
-
-    // If not found in first page, try pagination (but limit to reasonable number)
-    let page = 1;
-    while (assets.data.length === 100 && page < 10) {
-      const nextPage = await mux.video.assets.list({ limit: 100, page });
-      for (const asset of nextPage.data) {
-        if (asset.playback_ids?.some((pid) => pid.id === playbackId)) {
-          return asset.id;
-        }
-      }
-      page++;
-    }
-
-    return null;
+    // Direct lookup using playbackIds.retrieve endpoint
+    const playbackInfo = await mux.video.playbackIds.retrieve(playbackId);
+    return playbackInfo.object?.id || null;
   } catch (error) {
     console.error("Error finding MUX asset ID:", error);
     return null;
