@@ -73,7 +73,7 @@ const useFileUpload = () => {
     fileUploading: loading,
     error,
     setFileUploading: setLoading,
-    pctComplete: pctComplete,
+    pctComplete,
   };
 };
 
