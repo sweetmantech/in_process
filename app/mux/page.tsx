@@ -51,7 +51,7 @@ const MuxPage = () => {
         onClick={handleUpload}
         disabled={uploading || !selectedFile}
       >
-        {uploading ? `Uploading... ${Math.round(pctComplete)}%` : "Upload Video"}
+        {uploading ? `Uploading... ${Math.round(pctComplete).toFixed(2)}%` : "Upload Video"}
       </button>
 
       {error && <p className="text-red-600 mt-4">Error: {error}</p>}

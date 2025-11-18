@@ -6,8 +6,8 @@ function base64ToFile(base64String: string, fileName: string) {
     byteNumbers[i] = byteCharacters.charCodeAt(i);
   }
   const byteArray = new Uint8Array(byteNumbers);
-  const blob = new Blob([byteArray], { type: "image/png" });
-  const imageFile = new File([blob], fileName, { type: "image/png" });
+  const blob = new Blob([byteArray], { type: "image/jpeg" });
+  const imageFile = new File([blob], fileName, { type: "image/jpeg" });
 
   return imageFile;
 }

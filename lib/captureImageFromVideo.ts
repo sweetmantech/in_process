@@ -9,7 +9,7 @@ const captureImageFromVideo = async (videoUrl: string) => {
       video.muted = true;
 
       video.addEventListener("loadeddata", () => {
-        video.currentTime = 0;
+        video.currentTime = 1;
       });
 
       video.addEventListener("seeked", function () {
@@ -17,7 +17,7 @@ const captureImageFromVideo = async (videoUrl: string) => {
           canvas.width = video.videoWidth;
           canvas.height = video.videoHeight;
           context.drawImage(video, 0, 0, canvas.width, canvas.height);
-          const frame = canvas.toDataURL("image/png");
+          const frame = canvas.toDataURL("image/jpeg");
           resolve(frame);
         } else {
           reject("Error: Unable to get canvas context.");

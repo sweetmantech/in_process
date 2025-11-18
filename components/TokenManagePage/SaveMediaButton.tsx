@@ -3,12 +3,12 @@ import { useTokenProvider } from "@/providers/TokenProvider";
 import useUpdateMomentURI from "@/hooks/useUpdateMomentURI";
 import { toast } from "sonner";
 import { useFormState } from "react-hook-form";
-import { useMomentManageProvider } from "@/providers/MomentManageProvider";
+import { useMomentCreateFormProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateFormProvider";
 
 const SaveMediaButton = () => {
   const { isOwner } = useTokenProvider();
   const { updateTokenURI, isLoading: isSaving } = useUpdateMomentURI();
-  const { form } = useMomentManageProvider();
+  const { form } = useMomentCreateFormProvider();
   const { errors } = useFormState({ control: form.control });
 
   const handleSave = async () => {
