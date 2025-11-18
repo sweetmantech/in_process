@@ -1,12 +1,12 @@
 import React from "react";
-import { Token } from "@/types/token";
 import { useMetadata } from "@/hooks/useMetadata";
 import Loading from "../Loading";
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import Image from "next/image";
+import { TimelineMoment } from "@/lib/timeline/fetchTimeline";
 
 interface FeedTooltipProps {
-  feed: Token | null;
+  feed: TimelineMoment | null;
   position: { x: number; y: number } | null;
   isVisible: boolean;
 }

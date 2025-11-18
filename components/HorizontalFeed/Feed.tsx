@@ -1,17 +1,15 @@
 import { FC, useState } from "react";
 import { motion } from "framer-motion";
-import { Token } from "@/types/token";
 import FeedHover from "./FeedHover";
 import { useClickTimelineFeed } from "@/hooks/useClickTimelineFeed";
 import truncated from "@/lib/truncated";
-import { useUserProvider } from "@/providers/UserProvider";
 import { TIMLINE_STEP_OFFSET } from "@/lib/consts";
 import HideButton from "./HideButton";
-import { Address } from "viem";
 import useArtistEditable from "@/hooks/useArtistEditable";
+import { TimelineMoment } from "@/lib/timeline/fetchTimeline";
 
 interface FeedProps {
-  feed: Token;
+  feed: TimelineMoment;
   hovered: boolean;
   step: number;
   height: number;
@@ -20,7 +18,6 @@ interface FeedProps {
 
 const Feed: FC<FeedProps> = ({ feed, hovered, step, height, index }) => {
   const { isLoading, data, handleClick, formattedDate } = useClickTimelineFeed(feed);
-  const { artistWallet } = useUserProvider();
   const [isFadingOut, setIsFadingOut] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
   const { isEditable } = useArtistEditable();
@@ -78,19 +75,7 @@ const Feed: FC<FeedProps> = ({ feed, hovered, step, height, index }) => {
         {hovered && isEditable && (
           <div className="flex gap-2 items-center relative translate-y-6 pt-2">
             <p className="font-spectral-italic text-sm md:text-xl">{truncated(data?.name || "")}</p>
-            <HideButton
-              moment={{
-                address: feed.collection,
-                tokenId: feed.tokenId,
-                chainId: feed.chainId,
-                id: `${feed.collection}-${feed.tokenId}`,
-                uri: feed.uri,
-                admin: artistWallet as Address,
-                createdAt: new Date(feed.created_at * 1000).toISOString(),
-                username: feed.username || "",
-              }}
-              onClick={() => setIsFadingOut(true)}
-            />
+            <HideButton moment={feed} onClick={() => setIsFadingOut(true)} />
           </div>
         )}
         <p

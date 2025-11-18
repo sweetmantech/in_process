@@ -1,15 +1,15 @@
 import React from "react";
 import useIsMobile from "@/hooks/useIsMobile";
 import { formatFeedText, generateSpacer } from "@/lib/spiralUtils";
-import { Token } from "@/types/token";
+import { TimelineMoment } from "@/lib/timeline/fetchTimeline";
 import { useRouter } from "next/navigation";
 import { useMetadata } from "@/hooks/useMetadata";
 import truncateAddress from "@/lib/truncateAddress";
 
 interface FeedProps {
-  feed: Token;
+  feed: TimelineMoment;
   index: number;
-  handleMouseMove: (event: React.MouseEvent, feed: Token) => void;
+  handleMouseMove: (event: React.MouseEvent, feed: TimelineMoment) => void;
   handleMouseLeave: () => void;
   spacerWidth: number;
 }
@@ -24,7 +24,7 @@ const Feed = ({ feed, index, spacerWidth, handleMouseLeave, handleMouseMove }: F
       <tspan
         onMouseMove={(e) => handleMouseMove(e, feed)}
         onMouseLeave={handleMouseLeave}
-        onClick={() => push(`/${feed.creator}`)}
+        onClick={() => push(`/${feed.admin}`)}
         dominant-baseline="middle"
       >
         <tspan fill="#1B1504" fontSize={isMobile ? 3 : 6} textAnchor="middle">
@@ -32,9 +32,9 @@ const Feed = ({ feed, index, spacerWidth, handleMouseLeave, handleMouseMove }: F
         </tspan>{" "}
         &nbsp;&nbsp;&nbsp;&nbsp;
         {formatFeedText(
-          feed.username || truncateAddress(feed.creator),
+          feed.username || truncateAddress(feed.admin),
           (data?.name || "").slice(0, 111),
-          feed.released_at,
+          Date.parse(feed.createdAt),
           isMobile ? 14 : 20
         )}
       </tspan>

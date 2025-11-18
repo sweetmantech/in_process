@@ -5,11 +5,9 @@ import Feed from "@/components/HorizontalFeed/Feed";
 import Slider from "@/components/Slider";
 import { useHorizontalFeedAnimationProvider } from "@/providers/HorizontalFeedAnimationProvider";
 import Controls from "@/components/HorizontalFeed/Controls";
-import { mapMomentsToTokens } from "@/lib/timeline/mapMomentToToken";
 
 const HorizontalTimeline = () => {
   const { moments } = useTimelineApiContext();
-  const tokens = mapMomentsToTokens(moments);
   const {
     getHeight,
     isHovered,
@@ -43,7 +41,7 @@ const HorizontalTimeline = () => {
           sliderProps={{
             slidesPerView: "auto",
             grabCursor: true,
-            initialSlide: Math.max(0, tokens.length - 1),
+            initialSlide: Math.max(0, moments.length - 1),
             mousewheel: {
               sensitivity: 1,
             },
@@ -60,10 +58,10 @@ const HorizontalTimeline = () => {
           className="w-full !overflow-visible !h-0"
           slideClassName="!w-fit !m-0"
         >
-          {tokens.map((token, i) => (
+          {moments.map((moment, i) => (
             <Feed
               key={i}
-              feed={token}
+              feed={moment}
               hovered={isHovered(i)}
               step={1}
               height={getHeight(i)}

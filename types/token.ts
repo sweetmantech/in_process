@@ -40,15 +40,3 @@ export interface Collection {
   chain: string;
   chainId: number;
 }
-
-export interface Token {
-  uri: string;
-  creator: Address;
-  tokenId: string;
-  collection: Address;
-  released_at: number;
-  chain: string;
-  chainId: number;
-  created_at: number;
-  username?: string;
-}

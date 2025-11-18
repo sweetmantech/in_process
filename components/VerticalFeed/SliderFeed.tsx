@@ -1,10 +1,10 @@
 import { useMetadata } from "@/hooks/useMetadata";
-import { Token } from "@/types/token";
+import { TimelineMoment } from "@/lib/timeline/fetchTimeline";
 import { Skeleton } from "../ui/skeleton";
 import ContentRenderer from "../Renderers";
 
 interface SliderFeedProps {
-  feed: Token;
+  feed: TimelineMoment;
 }
 
 const SliderFeed = ({ feed }: SliderFeedProps) => {
@@ -25,7 +25,7 @@ const SliderFeed = ({ feed }: SliderFeedProps) => {
               <p className="font-spectral text-sm">{data?.name || ""}</p>
             </div>
             <p className="font-archivo text-sm lowercase">
-              {new Date(feed.released_at).toLocaleString()}
+              {new Date(feed.createdAt).toLocaleString()}
             </p>
           </div>
         </div>
