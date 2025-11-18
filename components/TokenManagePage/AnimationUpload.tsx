@@ -5,21 +5,17 @@ import useUpdateMomentURI from "@/hooks/useUpdateMomentURI";
 import { useMomentManageProvider } from "@/providers/MomentManageProvider";
 import { useTokenProvider } from "@/providers/TokenProvider";
 import { useRef } from "react";
+import { useMomentMetadataProvider } from "@/providers/MomentCreateProviderWrapper/MomentMetadataProvider";
 
 const AnimationUpload = () => {
   const { isOwner } = useTokenProvider();
   const {
     imageUri,
     animationUri,
-    mimeType,
-    fileUpload,
-    fileUploading,
-    pctComplete,
-    previewSrc,
     setImageUri,
     setAnimationUri,
   } = useMomentManageProvider();
-
+  const { fileUpload, fileUploading } = useMomentMetadataProvider();
   const { isLoading: isSaving } = useUpdateMomentURI();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -53,12 +49,6 @@ const AnimationUpload = () => {
           {isOwner && !isSaving && <ResetButton onClick={handleReset} disabled={fileUploading} />}
           <MediaUploaded
             handleImageClick={openFileDialog}
-            fileUploading={fileUploading}
-            mimeType={mimeType || ""}
-            animationUri={animationUri}
-            imageUri={imageUri}
-            pctComplete={pctComplete}
-            previewSrc={previewSrc}
           />
         </>
       ) : (
