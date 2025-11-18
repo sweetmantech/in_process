@@ -1,4 +1,4 @@
-import { useMomentCreateProvider } from "@/providers/MomentCreateProvider";
+import { useMomentCreateProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateProvider";
 import TextInput from "./TextInput";
 
 const TextCreation = () => {

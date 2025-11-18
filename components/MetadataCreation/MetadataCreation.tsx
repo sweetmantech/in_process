@@ -1,29 +1,25 @@
-import { useMomentCreateProvider } from "@/providers/MomentCreateProvider";
+import { useMomentCreateProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateProvider";
 import { Fragment, useRef } from "react";
 import NoFileSelected from "./NoFileSelected";
 import ResetButton from "./ResetButton";
 import MediaUploaded from "./MediaUploaded";
+import { useMomentMetadataProvider } from "@/providers/MomentCreateProviderWrapper/MomentMetadataProvider";
+import { useMomentCreateFormProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateFormProvider";
 
 const MetadataCreation = () => {
   const {
-    imageUri,
-    animationUri,
-    mimeType,
-    pctComplete,
-    previewSrc,
-    reset,
-    fileUpload,
+    fileUpload, 
     fileUploading,
-    createdContract,
-  } = useMomentCreateProvider();
-
+  } = useMomentMetadataProvider();
+  const { createdContract } = useMomentCreateProvider();
+  const { imageUri, animationUri, resetForm } = useMomentCreateFormProvider();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const selected = imageUri || animationUri || fileUploading;
 
   const handleImageClick = () => fileInputRef.current?.click();
 
   const handleReset = () => {
-    reset();
+    resetForm();
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
@@ -42,12 +38,6 @@ const MetadataCreation = () => {
           {!createdContract && <ResetButton onClick={handleReset} disabled={fileUploading} />}
           <MediaUploaded
             handleImageClick={handleImageClick}
-            fileUploading={fileUploading}
-            mimeType={mimeType}
-            animationUri={animationUri}
-            imageUri={imageUri}
-            pctComplete={pctComplete}
-            previewSrc={previewSrc}
           />
         </>
       ) : (
