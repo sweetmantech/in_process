@@ -5,7 +5,9 @@ type CreateUploadUrlResponse = {
 
 const createUploadUrl = async (accessToken: string): Promise<CreateUploadUrlResponse> => {
   const response = await fetch("/api/mux/create", {
+    method: "POST",
     headers: {
+      "Content-Type": "application/json",
       Authorization: `Bearer ${accessToken}`,
     },
   });
