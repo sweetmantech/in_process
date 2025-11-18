@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import useMuxUpload from "./useMuxUpload";
-import { useMomentCreateFormProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateFormProvider";
 import { validateFile } from "@/lib/fileUpload/validateFile";
 import { handleVideoUpload } from "@/lib/fileUpload/handleVideoUpload";
 import { handleImageUpload } from "@/lib/fileUpload/handleImageUpload";
 import { handleOtherFileUpload } from "@/lib/fileUpload/handleOtherFileUpload";
+import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 
 const useFileUpload = () => {
   const {
@@ -15,13 +15,11 @@ const useFileUpload = () => {
     setDownloadUrl,
     setMimeType,
     animationUri,
-  } = useMomentCreateFormProvider();
+  } = useMomentFormProvider();
+
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [pctComplete, setPctComplete] = useState<number>(0);
-  const [pendingVideoFile, setPendingVideoFile] = useState<File | null>(null);
-  const muxUpload = useMuxUpload();
-  const processedVideoRef = useRef<string | null>(null);
 
   // Handle Mux video upload completion
   useEffect(() => {
@@ -143,10 +141,10 @@ const useFileUpload = () => {
 
   return {
     fileUpload,
-    fileUploading: loading || muxUpload.uploading,
+    fileUploading: loading,
     error,
     setFileUploading: setLoading,
-    pctComplete: muxUpload.uploading ? muxUpload.pctComplete : pctComplete,
+    pctComplete,
   };
 };
 

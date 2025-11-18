@@ -1,13 +1,13 @@
-import { useMomentCreateProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateProvider";
+import { useMomentCreateProvider } from "@/providers/MomentCreateProvider/MomentCreateProvider";
 import { Label } from "@/components/ui/label";
 import { Input } from "../ui/input";
 import usePrompt from "@/hooks/usePrompt";
-import { useMomentCreateFormProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateFormProvider";
-import { useMomentMetadataProvider } from "@/providers/MomentCreateProviderWrapper/MomentMetadataProvider";
+import { useMomentFormProvider } from "@/providers/MomentFormProvider";
+import { useMomentMetadataProvider } from "@/providers/MomentMetadataProvider";
 
 const Prompt = () => {
   const { creating } = useMomentCreateProvider();
-  const { form } = useMomentCreateFormProvider();
+  const { form } = useMomentFormProvider();
   const { placeholder, onActive, promptRef } = usePrompt();
   const { fileUploading } = useMomentMetadataProvider();
 

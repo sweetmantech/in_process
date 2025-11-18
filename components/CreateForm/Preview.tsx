@@ -3,7 +3,7 @@ import Image from "next/image";
 import PreviewModal from "./PreviewModal";
 import WritingPreview from "./WritingPreview";
 import { Fragment, ReactNode } from "react";
-import { useMomentCreateFormProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateFormProvider";
+import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 
 const PreviewContainer = ({ children }: { children: ReactNode }) => {
   return (
@@ -16,7 +16,7 @@ const PreviewContainer = ({ children }: { children: ReactNode }) => {
   );
 };
 const Preview = () => {
-  const { previewUri, writingText, previewSrc, animationUri } = useMomentCreateFormProvider();
+  const { previewUri, writingText, previewSrc, animationUri } = useMomentFormProvider();
   const showPreview = previewUri || animationUri;
   const showWritingPreview = writingText && !previewUri;
   const showImagePreview = showPreview && !showWritingPreview;

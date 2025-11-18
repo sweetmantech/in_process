@@ -1,15 +1,15 @@
-import { useMomentCreateProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateProvider";
+import { useMomentCreateProvider } from "@/providers/MomentCreateProvider/MomentCreateProvider";
 import { Fragment, useRef } from "react";
 import NoFileSelected from "./NoFileSelected";
 import ResetButton from "./ResetButton";
 import MediaUploaded from "./MediaUploaded";
-import { useMomentMetadataProvider } from "@/providers/MomentCreateProviderWrapper/MomentMetadataProvider";
-import { useMomentCreateFormProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateFormProvider";
+import { useMomentMetadataProvider } from "@/providers/MomentMetadataProvider";
+import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 
 const MetadataCreation = () => {
   const { fileUpload, fileUploading } = useMomentMetadataProvider();
   const { createdContract } = useMomentCreateProvider();
-  const { imageUri, animationUri, resetForm } = useMomentCreateFormProvider();
+  const { imageUri, animationUri, resetForm } = useMomentFormProvider();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const selected = imageUri || animationUri || fileUploading;
 

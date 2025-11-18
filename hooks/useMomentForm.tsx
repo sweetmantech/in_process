@@ -4,7 +4,7 @@ import { createFormSchema, CreateFormData } from "@/lib/schema/createFormSchema"
 import { useState, useEffect } from "react";
 import { useMask } from "./useMask";
 
-const useMomentCreateForm = () => {
+const useMomentForm = () => {
   // Metadata values state
   const [name, setName] = useState<string>("");
   const [priceUnit, setPriceUnit] = useState<string>("usdc");
@@ -174,4 +174,4 @@ const useMomentCreateForm = () => {
   };
 };
 
-export default useMomentCreateForm;
+export default useMomentForm;

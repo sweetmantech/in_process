@@ -3,23 +3,14 @@ import useLinkPreview from "./useLinkPreview";
 import useEmbedCode from "./useEmbedCode";
 import useWriting from "./useWriting";
 import useFileUpload from "./useFileUpload";
-import { useMomentCreateFormProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateFormProvider";
+import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 import { generateAndUploadPreview } from "@/lib/writing/generateAndUploadPreview";
 import { usePathname } from "next/navigation";
 
 const useMomentMetadata = () => {
   const pathname = usePathname();
-  const {
-    animationUri,
-    downloadUrl,
-    description,
-    imageUri,
-    mimeType,
-    name,
-    previewUri,
-    link,
-    writingText,
-  } = useMomentCreateFormProvider();
+  const { animationUri, description, imageUri, mimeType, name, previewUri, link, writingText, downloadUrl } =
+    useMomentFormProvider();
   const { uploadWriting } = useWriting();
   const { uploadEmbedCode } = useEmbedCode();
   const fileUpload = useFileUpload();

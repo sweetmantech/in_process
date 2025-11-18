@@ -2,10 +2,10 @@ import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import UploadPreview from "./UploadPreview";
 import { CropImageProvider } from "@/providers/CropImageProvider";
-import { useMomentCreateFormProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateFormProvider";
+import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 
 const PreviewModal = () => {
-  const { setIsOpenPreviewUpload, isOpenPreviewUpload } = useMomentCreateFormProvider();
+  const { setIsOpenPreviewUpload, isOpenPreviewUpload } = useMomentFormProvider();
 
   return (
     <Dialog

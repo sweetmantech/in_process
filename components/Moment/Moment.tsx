@@ -1,5 +1,5 @@
 import useIsMobile from "@/hooks/useIsMobile";
-import { useMomentCreateProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateProvider";
+import { useMomentCreateProvider } from "@/providers/MomentCreateProvider/MomentCreateProvider";
 import { usePathname } from "next/navigation";
 import { ReactNode, useMemo } from "react";
 

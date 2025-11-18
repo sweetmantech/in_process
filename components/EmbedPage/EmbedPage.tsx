@@ -1,13 +1,13 @@
-import { useMomentCreateProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateProvider";
+import { useMomentCreateProvider } from "@/providers/MomentCreateProvider/MomentCreateProvider";
 import { X } from "lucide-react";
 import Image from "next/image";
 import isHtml from "is-html";
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
-import { useMomentCreateFormProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateFormProvider";
+import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 
 const EmbedPage = () => {
   const { createdContract } = useMomentCreateProvider();
-  const { embedCode, setEmbedCode, animationUri, name } = useMomentCreateFormProvider();
+  const { embedCode, setEmbedCode, animationUri, name } = useMomentFormProvider();
 
   if (createdContract)
     return (

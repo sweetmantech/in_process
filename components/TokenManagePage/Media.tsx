@@ -10,11 +10,11 @@ import SaveMediaButton from "./SaveMediaButton";
 import useUpdateMomentURI from "@/hooks/useUpdateMomentURI";
 import useMediaInitialization from "@/hooks/useMediaInitialization";
 import AnimationUpload from "./AnimationUpload";
-import { useMomentCreateFormProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateFormProvider";
+import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 
 const Media = () => {
   const { metadata, isOwner } = useTokenProvider();
-  const { form } = useMomentCreateFormProvider();
+  const { form } = useMomentFormProvider();
   const { data: meta, isLoading } = metadata;
   const { isLoading: isSaving } = useUpdateMomentURI();
 

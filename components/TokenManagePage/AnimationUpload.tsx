@@ -4,12 +4,12 @@ import ResetButton from "@/components/MetadataCreation/ResetButton";
 import useUpdateMomentURI from "@/hooks/useUpdateMomentURI";
 import { useTokenProvider } from "@/providers/TokenProvider";
 import { useRef } from "react";
-import { useMomentMetadataProvider } from "@/providers/MomentCreateProviderWrapper/MomentMetadataProvider";
-import { useMomentCreateFormProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateFormProvider";
+import { useMomentMetadataProvider } from "@/providers/MomentMetadataProvider";
+import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 
 const AnimationUpload = () => {
   const { isOwner } = useTokenProvider();
-  const { imageUri, animationUri, setImageUri, setAnimationUri } = useMomentCreateFormProvider();
+  const { imageUri, animationUri, setImageUri, setAnimationUri } = useMomentFormProvider();
   const { fileUpload, fileUploading } = useMomentMetadataProvider();
   const { isLoading: isSaving } = useUpdateMomentURI();
   const fileInputRef = useRef<HTMLInputElement>(null);

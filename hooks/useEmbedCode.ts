@@ -1,8 +1,8 @@
 import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
-import { useMomentCreateFormProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateFormProvider";
+import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 
 const useEmbedCode = () => {
-  const { setAnimationUri, embedCode } = useMomentCreateFormProvider();
+  const { setAnimationUri, embedCode } = useMomentFormProvider();
 
   const uploadEmbedCode = async () => {
     const blob = new Blob(

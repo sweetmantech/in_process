@@ -1,8 +1,8 @@
 import { uploadWritingFile } from "@/lib/arweave/uploadWritingFile";
-import { useMomentCreateFormProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateFormProvider";
+import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 
 const useWriting = () => {
-  const { writingText } = useMomentCreateFormProvider();
+  const { writingText } = useMomentFormProvider();
   const uploadWriting = async () => {
     const uri = await uploadWritingFile(writingText);
     return uri;

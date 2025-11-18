@@ -1,9 +1,9 @@
-import { useMomentCreateFormProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateFormProvider";
+import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 import CTAButton from "./CTAButton";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const DesktopSelect = () => {
-  const { titleRef } = useMomentCreateFormProvider();
+  const { titleRef } = useMomentFormProvider();
   const pathname = usePathname();
   const { push } = useRouter();
   const searchParams = useSearchParams();
