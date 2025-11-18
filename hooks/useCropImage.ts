@@ -3,7 +3,7 @@ import { Area } from "react-easy-crop";
 import getCroppedImg from "@/lib/cropImage/getCroppedImage";
 import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
 import { arweaveGatewayUrl } from "@/lib/protocolSdk/ipfs/gateway";
-import { useMomentCreateFormProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateFormProvider";
+import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 
 interface UseCropImageReturn {
   crop: { x: number; y: number };
@@ -20,7 +20,7 @@ interface UseCropImageReturn {
 }
 
 export default function useCropImage(): UseCropImageReturn {
-  const { setPreviewUri, setPreviewSrc, previewSrc, imageUri } = useMomentCreateFormProvider();
+  const { setPreviewUri, setPreviewSrc, previewSrc, imageUri } = useMomentFormProvider();
   const [crop, setCrop] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
   const [rotation, setRotation] = useState<number>(0);
   const [zoom, setZoom] = useState<number>(1);

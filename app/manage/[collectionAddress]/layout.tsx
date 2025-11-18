@@ -6,8 +6,8 @@ import { ZORA_TO_VIEM, ZoraChains } from "@/lib/zora/zoraToViem";
 import { ReactNode } from "react";
 import { CollectionProvider } from "@/providers/CollectionProvider";
 import { Address } from "viem";
-import { MomentMetadataProvider } from "@/providers/MomentCreateProviderWrapper/MomentMetadataProvider";
-import { MomentCreateFormProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateFormProvider";
+import { MomentMetadataProvider } from "@/providers/MomentMetadataProvider";
+import { MomentFormProvider } from "@/providers/MomentFormProvider";
 
 const RootLayout = ({ children }: { children: ReactNode }) => {
   const params = useParams();
@@ -22,9 +22,9 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
         chainId: viemChain.id,
       }}
     >
-      <MomentCreateFormProvider>
+      <MomentFormProvider>
         <MomentMetadataProvider>{children}</MomentMetadataProvider>
-      </MomentCreateFormProvider>
+      </MomentFormProvider>
     </CollectionProvider>
   );
 };

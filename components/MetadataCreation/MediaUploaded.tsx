@@ -5,8 +5,8 @@ import React, { Fragment } from "react";
 import PdfViewer from "../Renderers/PdfViewer";
 import VideoPlayer from "../Renderers/VideoPlayer";
 import UploadSpinner from "@/components/TokenManagePage/UploadSpinner";
-import { useMomentMetadataProvider } from "@/providers/MomentCreateProviderWrapper/MomentMetadataProvider";
-import { useMomentCreateFormProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateFormProvider";
+import { useMomentMetadataProvider } from "@/providers/MomentMetadataProvider";
+import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 
 interface MediaUploadedProps {
   handleImageClick: () => void;
@@ -20,7 +20,7 @@ const Container = ({
 }) => <div className={`size-full flex justify-center ${className}`}>{children}</div>;
 
 const MediaUploaded = ({ handleImageClick }: MediaUploadedProps) => {
-  const { animationUri, imageUri, mimeType, previewSrc } = useMomentCreateFormProvider();
+  const { animationUri, imageUri, mimeType, previewSrc } = useMomentFormProvider();
   const { pctComplete, fileUploading } = useMomentMetadataProvider();
 
   if (fileUploading) return <UploadSpinner pctComplete={pctComplete} />;

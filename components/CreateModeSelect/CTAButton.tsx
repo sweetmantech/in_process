@@ -1,4 +1,4 @@
-import { useMomentMetadataProvider } from "@/providers/MomentCreateProviderWrapper/MomentMetadataProvider";
+import { useMomentMetadataProvider } from "@/providers/MomentMetadataProvider";
 import { ReactNode, useState } from "react";
 
 interface CTAButtonProps {

@@ -1,9 +1,9 @@
 import { useFieldArray } from "react-hook-form";
 import useSplitAddressHandler from "@/hooks/useSplitAddressHandler";
-import { useMomentCreateFormProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateFormProvider";
+import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 
 const useSplitsForm = () => {
-  const { form } = useMomentCreateFormProvider();
+  const { form } = useMomentFormProvider();
 
   const { fields, append, remove } = useFieldArray({
     control: form.control,

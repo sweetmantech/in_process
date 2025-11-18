@@ -5,10 +5,10 @@ import { Textarea } from "../ui/textarea";
 import Price from "./Price";
 import SplitsForm from "./SplitsForm";
 import { Controller } from "react-hook-form";
-import { useMomentCreateFormProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateFormProvider";
+import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 
 const Advanced = () => {
-  const { isOpenAdvanced, form, setIsOpenAdvanced } = useMomentCreateFormProvider();
+  const { isOpenAdvanced, form, setIsOpenAdvanced } = useMomentFormProvider();
 
   return (
     <div className="flex flex-col gap-2 pt-2 z-10">

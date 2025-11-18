@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
-import { MomentCreateFormProvider } from "./MomentCreateFormProvider";
-import { MomentMetadataProvider } from "./MomentMetadataProvider";
+import { MomentFormProvider } from "../MomentFormProvider";
+import { MomentMetadataProvider } from "../MomentMetadataProvider";
 import { MomentCreateProvider } from "./MomentCreateProvider";
 
 interface MomentCreateProviderWrapperProps {
@@ -11,11 +11,11 @@ interface MomentCreateProviderWrapperProps {
 
 const MomentCreateProviderWrapper = ({ children }: MomentCreateProviderWrapperProps) => {
   return (
-    <MomentCreateFormProvider>
+    <MomentFormProvider>
       <MomentMetadataProvider>
         <MomentCreateProvider>{children}</MomentCreateProvider>
       </MomentMetadataProvider>
-    </MomentCreateFormProvider>
+    </MomentFormProvider>
   );
 };
 

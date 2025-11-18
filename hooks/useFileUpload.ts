@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { useMomentCreateFormProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateFormProvider";
+import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 import { validateFile } from "@/lib/fileUpload/validateFile";
 import { handleVideoUpload } from "@/lib/fileUpload/handleVideoUpload";
 import { handleImageUpload } from "@/lib/fileUpload/handleImageUpload";
@@ -7,7 +7,7 @@ import { handleOtherFileUpload } from "@/lib/fileUpload/handleOtherFileUpload";
 
 const useFileUpload = () => {
   const { setImageUri, setPreviewUri, setPreviewSrc, setAnimationUri, setMimeType, animationUri } =
-    useMomentCreateFormProvider();
+    useMomentFormProvider();
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [pctComplete, setPctComplete] = useState<number>(0);

@@ -1,14 +1,14 @@
 import { CHAIN, SITE_ORIGINAL_URL } from "@/lib/consts";
 import { getShortNetworkName } from "@/lib/zora/zoraToViem";
-import { useMomentCreateProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateProvider";
+import { useMomentCreateProvider } from "@/providers/MomentCreateProvider/MomentCreateProvider";
 import Image from "next/image";
 import { toast } from "sonner";
-import { useMomentCreateFormProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateFormProvider";
+import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 
 const Buttons = () => {
   const { createdContract, setCreatedContract, setCreatedTokenId, createdTokenId } =
     useMomentCreateProvider();
-  const { resetForm } = useMomentCreateFormProvider();
+  const { resetForm } = useMomentFormProvider();
 
   const share = async () => {
     const shortNetworkName = getShortNetworkName(CHAIN.name.toLowerCase());
