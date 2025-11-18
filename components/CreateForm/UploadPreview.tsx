@@ -6,11 +6,11 @@ import WritingPreview from "./WritingPreview";
 import { Label } from "../ui/label";
 import { useCropImageProvider } from "@/providers/CropImageProvider";
 import CropImage from "@/components/CropImage";
-import { useMomentCreateFormProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateFormProvider";
+import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 
 const UploadPreview = () => {
   const { previewUri, setPreviewUri, writingText, setIsOpenPreviewUpload, setPreviewSrc } =
-    useMomentCreateFormProvider();
+    useMomentFormProvider();
   const [progress, setProgress] = useState<number>(0);
   const previewRef = useRef() as any;
   const [isUploading, setIsUploading] = useState<boolean>(false);

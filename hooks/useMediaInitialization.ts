@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { Metadata } from "@/types/token";
-import { useMomentCreateFormProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateFormProvider";
+import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 
 const useMediaInitialization = (meta: Metadata | undefined) => {
   const {
@@ -13,7 +13,7 @@ const useMediaInitialization = (meta: Metadata | undefined) => {
     setImageUri,
     setAnimationUri,
     setMimeType,
-  } = useMomentCreateFormProvider();
+  } = useMomentFormProvider();
 
   const initializedRef = useRef<string | null>(null);
 

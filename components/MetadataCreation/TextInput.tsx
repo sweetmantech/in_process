@@ -1,12 +1,12 @@
-import { useMomentCreateFormProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateFormProvider";
-import { useMomentCreateProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateProvider";
-import { useMomentMetadataProvider } from "@/providers/MomentCreateProviderWrapper/MomentMetadataProvider";
+import { useMomentFormProvider } from "@/providers/MomentFormProvider";
+import { useMomentCreateProvider } from "@/providers/MomentCreateProvider/MomentCreateProvider";
+import { useMomentMetadataProvider } from "@/providers/MomentMetadataProvider";
 import { ChangeEvent, useState } from "react";
 
 type ScrollPosition = "top" | "mid" | "bottom" | null;
 
 const TextInput = () => {
-  const { writingText, setWritingText } = useMomentCreateFormProvider();
+  const { writingText, setWritingText } = useMomentFormProvider();
   const { fileUploading } = useMomentMetadataProvider();
   const { creating } = useMomentCreateProvider();
   const [scrollPosition, setScrollPosition] = useState<ScrollPosition>(null);

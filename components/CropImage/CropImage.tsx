@@ -1,10 +1,10 @@
 import Cropper from "react-easy-crop";
 import { useCropImageProvider } from "@/providers/CropImageProvider";
 import { arweaveGatewayUrl } from "@/lib/protocolSdk/ipfs/gateway";
-import { useMomentCreateFormProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateFormProvider";
+import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 
 const CropImage = () => {
-  const { previewSrc, imageUri } = useMomentCreateFormProvider();
+  const { previewSrc, imageUri } = useMomentFormProvider();
   const {
     hasUploadedSelectedImage,
     crop,

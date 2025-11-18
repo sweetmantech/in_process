@@ -7,7 +7,7 @@ import { fetchTokenMetadata } from "@/lib/protocolSdk/ipfs/token-metadata";
 import getTokenInfo from "@/lib/viem/getTokenInfo";
 import { toast } from "sonner";
 import { callUpdateMomentURI } from "@/lib/moment/callUpdateMomentURI";
-import { useMomentCreateFormProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateFormProvider";
+import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 
 const useUpdateMomentURI = () => {
   const { token, fetchTokenInfo } = useTokenProvider();
@@ -17,7 +17,7 @@ const useUpdateMomentURI = () => {
     imageUri,
     animationUri,
     mimeType,
-  } = useMomentCreateFormProvider();
+  } = useMomentFormProvider();
   const { getAccessToken } = usePrivy();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 

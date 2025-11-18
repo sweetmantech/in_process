@@ -4,7 +4,7 @@ import CreateForm from "@/components/CreateForm";
 import CreateModeSelect from "@/components/CreateModeSelect";
 import MaskLines from "@/components/CreateModeSelect/MaskLines";
 import Moment from "@/components/Moment";
-import MomentCreateProviderWrapper from "@/providers/MomentCreateProviderWrapper";
+import MomentCreateProviderWrapper from "@/providers/MomentCreateProvider/MomentCreateProviderWrapper";
 import { ReactNode } from "react";
 
 const RootLayout = ({ children }: { children: ReactNode }) => {
