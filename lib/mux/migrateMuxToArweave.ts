@@ -38,7 +38,7 @@ export async function migrateMuxToArweave({
   try {
     // Step 1: Get current token metadata using viem
     const tokenInfo = await getTokenInfo(tokenContractAddress, tokenId, CHAIN_ID);
-    console.log("currentMetadata", tokenInfo);
+
     const currentMetadata = await fetchTokenMetadata(tokenInfo.tokenUri);
     if (!currentMetadata) {
       throw new Error("Failed to fetch current token metadata");

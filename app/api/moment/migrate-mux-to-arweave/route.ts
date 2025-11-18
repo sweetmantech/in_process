@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
       return authResult;
     }
     const { artistAddress } = authResult;
-
+    
     const body = await req.json();
     const parseResult = migrateMuxSchema.safeParse(body);
 
@@ -39,15 +39,13 @@ export async function POST(req: NextRequest) {
     const data = parseResult.data;
 
     // Start migration in background (fire-and-forget)
-    migrateMuxToArweave({
+    const result = await migrateMuxToArweave({
       tokenContractAddress: data.tokenContractAddress as Address,
       tokenId: data.tokenId,
       artistAddress: artistAddress as Address,
-    }).catch((error) => {
-      console.error("Background migration error:", error);
     });
 
-    return Response.json({ success: true, message: "Migration started" }, { headers: corsHeaders });
+    return Response.json({ result }, { headers: corsHeaders });
   } catch (e: any) {
     console.error("Error migrating MUX to Arweave:", e);
     const message = e?.message ?? "Failed to migrate MUX to Arweave";
