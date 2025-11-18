@@ -2,12 +2,12 @@ import { Address } from "viem";
 import { downloadVideoFromMux } from "@/lib/mux/downloadVideoFromMux";
 import { deleteMuxAsset } from "@/lib/mux/deleteMuxAsset";
 import { findMuxAssetIdFromPlaybackUrl } from "@/lib/mux/findMuxAssetIdFromPlaybackUrl";
-import uploadToArweave from "@/lib/arweave/uploadToArweave";
 import { updateMomentURI } from "@/lib/moment/updateMomentURI";
 import { fetchTokenMetadata } from "@/lib/protocolSdk/ipfs/token-metadata";
 import getTokenInfo from "@/lib/viem/getTokenInfo";
 import { CHAIN_ID } from "@/lib/consts";
 import { uploadJson } from "../arweave/uploadJson";
+import clientUploadToArweave from "../arweave/clientUploadToArweave";
 
 export interface MigrateMuxToArweaveInput {
   tokenContractAddress: Address;
@@ -38,8 +38,8 @@ export async function migrateMuxToArweave({
   try {
     // Step 1: Get current token metadata using viem
     const tokenInfo = await getTokenInfo(tokenContractAddress, tokenId, CHAIN_ID);
+    console.log("currentMetadata", tokenInfo);
     const currentMetadata = await fetchTokenMetadata(tokenInfo.tokenUri);
-
     if (!currentMetadata) {
       throw new Error("Failed to fetch current token metadata");
     }
@@ -60,7 +60,7 @@ export async function migrateMuxToArweave({
     const videoFile = await downloadVideoFromMux(downloadUrl);
 
     // Step 4: Upload video to Arweave
-    const arweaveUri = await uploadToArweave(videoFile);
+    const arweaveUri = await clientUploadToArweave(videoFile);
 
     if (!arweaveUri) {
       throw new Error("Failed to upload video to Arweave");
