@@ -7,10 +7,7 @@ import { useMomentMetadataProvider } from "@/providers/MomentCreateProviderWrapp
 import { useMomentCreateFormProvider } from "@/providers/MomentCreateProviderWrapper/MomentCreateFormProvider";
 
 const MetadataCreation = () => {
-  const {
-    fileUpload, 
-    fileUploading,
-  } = useMomentMetadataProvider();
+  const { fileUpload, fileUploading } = useMomentMetadataProvider();
   const { createdContract } = useMomentCreateProvider();
   const { imageUri, animationUri, resetForm } = useMomentCreateFormProvider();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -36,9 +33,7 @@ const MetadataCreation = () => {
       {selected ? (
         <>
           {!createdContract && <ResetButton onClick={handleReset} disabled={fileUploading} />}
-          <MediaUploaded
-            handleImageClick={handleImageClick}
-          />
+          <MediaUploaded handleImageClick={handleImageClick} />
         </>
       ) : (
         <NoFileSelected />

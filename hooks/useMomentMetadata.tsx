@@ -9,8 +9,17 @@ import { usePathname } from "next/navigation";
 
 const useMomentMetadata = () => {
   const pathname = usePathname();
-  const { animationUri, description, imageUri, mimeType, name, previewUri, link, writingText } =
-    useMomentCreateFormProvider();
+  const {
+    animationUri,
+    downloadUrl,
+    description,
+    imageUri,
+    mimeType,
+    name,
+    previewUri,
+    link,
+    writingText,
+  } = useMomentCreateFormProvider();
   const { uploadWriting } = useWriting();
   const { uploadEmbedCode } = useEmbedCode();
   const fileUpload = useFileUpload();
@@ -19,16 +28,24 @@ const useMomentMetadata = () => {
   const getUri = async () => {
     let mime = mimeType;
     let animation_url = animationUri || imageUri;
+    let contentUri = animation_url;
     let image = previewUri;
 
     if (pathname === "/create/writing" || pathname === "/create/usdc/writing") {
       mime = "text/plain";
       animation_url = await uploadWriting();
+      contentUri = animation_url;
       image = await generateAndUploadPreview(writingText);
     }
     if (pathname === "/create/embed" || pathname === "/create/usdc/embed") {
       mime = "text/html";
       animation_url = await uploadEmbedCode();
+      contentUri = animation_url;
+    }
+
+    // For videos uploaded to Mux: use playbackUrl for animation_url and downloadUrl for content.uri
+    if (downloadUrl && mimeType.includes("video")) {
+      contentUri = downloadUrl;
     }
 
     return uploadJson({
@@ -39,7 +56,7 @@ const useMomentMetadata = () => {
       animation_url,
       content: {
         mime,
-        uri: animation_url,
+        uri: contentUri,
       },
     });
   };

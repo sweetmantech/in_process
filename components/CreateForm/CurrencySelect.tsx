@@ -7,7 +7,7 @@ import { useMomentMetadataProvider } from "@/providers/MomentCreateProviderWrapp
 export default function CurrencySelect() {
   const { form } = useMomentCreateFormProvider();
   const { fileUploading } = useMomentMetadataProvider();
-  const { creating} = useMomentCreateProvider()
+  const { creating } = useMomentCreateProvider();
 
   return (
     <select
