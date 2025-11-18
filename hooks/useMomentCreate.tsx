@@ -36,7 +36,7 @@ export default function useMomentCreate() {
       setCreating(false);
       setCreatedContract(result.contractAddress);
       setCreatedTokenId(result.tokenId?.toString() || "");
-      
+
       return result;
     } catch (err: any) {
       setCreating(false);
