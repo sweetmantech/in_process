@@ -7,6 +7,7 @@ import { updateMomentURI } from "@/lib/moment/updateMomentURI";
 import { fetchTokenMetadata } from "@/lib/protocolSdk/ipfs/token-metadata";
 import getTokenInfo from "@/lib/viem/getTokenInfo";
 import { CHAIN_ID } from "@/lib/consts";
+import { uploadJson } from "../arweave/uploadJson";
 
 export interface MigrateMuxToArweaveInput {
   tokenContractAddress: Address;
@@ -79,7 +80,6 @@ export async function migrateMuxToArweave({
     };
 
     // Step 6: Upload updated metadata JSON to Arweave
-    const { uploadJson } = await import("@/lib/arweave/uploadJson");
     const newMetadataUri = await uploadJson(updatedMetadata);
 
     // Step 7: Update token URI on-chain
@@ -90,18 +90,19 @@ export async function migrateMuxToArweave({
       artistAddress,
     });
 
-    // Step 8: Find and delete video from MUX (cleanup)
-    // Extract asset ID from playback URL (animation_url) if available
-    const playbackUrl = currentMetadata.animation_url;
-    if (playbackUrl && playbackUrl.includes("stream.mux.com")) {
-      try {
-        const assetId = await findMuxAssetIdFromPlaybackUrl(playbackUrl);
-        if (assetId) {
-          await deleteMuxAsset(assetId);
+    // Step 8: Delete video from MUX only after on-chain update is confirmed successful
+    if (updateResult && updateResult.hash) {
+      const playbackUrl = currentMetadata.animation_url;
+      if (playbackUrl && playbackUrl.includes("stream.mux.com")) {
+        try {
+          const assetId = await findMuxAssetIdFromPlaybackUrl(playbackUrl);
+          if (assetId) {
+            await deleteMuxAsset(assetId);
+          }
+        } catch (deleteError) {
+          // Log error but don't fail the migration if deletion fails
+          console.error(`Failed to delete MUX asset:`, deleteError);
         }
-      } catch (deleteError) {
-        // Log error but don't fail the migration if deletion fails
-        console.error(`Failed to delete MUX asset:`, deleteError);
       }
     }
 

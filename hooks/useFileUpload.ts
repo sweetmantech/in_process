@@ -1,9 +1,11 @@
-import { useState, useCallback } from "react";
-import { useMomentFormProvider } from "@/providers/MomentFormProvider";
+import { useState, useEffect, useCallback } from "react";
+import useMuxUpload from "./useMuxUpload";
+import useMuxUploadCallback from "./useMuxUploadCallback";
 import { validateFile } from "@/lib/fileUpload/validateFile";
 import { handleVideoUpload } from "@/lib/fileUpload/handleVideoUpload";
 import { handleImageUpload } from "@/lib/fileUpload/handleImageUpload";
 import { handleOtherFileUpload } from "@/lib/fileUpload/handleOtherFileUpload";
+import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 
 const useFileUpload = () => {
   const { setImageUri, setPreviewUri, setPreviewSrc, setAnimationUri, setMimeType, animationUri } =
@@ -13,7 +15,23 @@ const useFileUpload = () => {
   const [pctComplete, setPctComplete] = useState<number>(0);
   const [pendingVideoFile, setPendingVideoFile] = useState<File | null>(null);
   const muxUpload = useMuxUpload();
-  const processedVideoRef = useRef<string | null>(null);
+
+  const { processedVideoRef } = useMuxUploadCallback({
+    pendingVideoFile,
+    setPendingVideoFile,
+    setLoading,
+    setPctComplete,
+    muxUpload,
+  });
+
+  // Sync Mux upload errors
+  useEffect(() => {
+    if (muxUpload.error) {
+      setError(muxUpload.error);
+      setLoading(false);
+      setPendingVideoFile(null);
+    }
+  }, [muxUpload.error]);
 
   const fileUpload = useCallback(
     async (event: any) => {
@@ -34,13 +52,12 @@ const useFileUpload = () => {
 
         if (isVideo) {
           await handleVideoUpload(file, {
+            setPendingVideoFile,
             setImageUri,
             setPreviewSrc,
             setPreviewUri,
-            setAnimationUri,
             setMimeType,
-            setLoading,
-            setPctComplete,
+            muxUpload,
           });
         } else if (isImage) {
           await handleImageUpload(file, {
