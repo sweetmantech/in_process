@@ -57,7 +57,7 @@ const TokenItem = ({
                 moment={{
                   address: collection.address,
                   tokenId: t.tokenId.toString(),
-                  chainId: collection.chainId,
+                  chain_id: collection.chainId,
                   id: `${collection.address}-${t.tokenId.toString()}`,
                   uri: t.uri,
                   admin: connectedAddress as Address,
