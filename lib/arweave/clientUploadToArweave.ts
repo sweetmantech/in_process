@@ -16,8 +16,7 @@ const clientUploadToArweave = async (
     Buffer.from(process.env.NEXT_PUBLIC_ARWEAVE_KEY as string, "base64").toString()
   );
   const buffer = await file.arrayBuffer();
-  await arweave.wallets.jwkToAddress(ARWEAVE_KEY);
-  console.log("ziad address", process.env.NEXT_PUBLIC_ARWEAVE_KEY);
+
   const transaction = await arweave.createTransaction(
     {
       data: buffer,
