@@ -10,6 +10,8 @@ import { syncMomentApi } from "@/lib/moment/syncMomentApi";
 import { usePrivy } from "@privy-io/react-auth";
 import { toast } from "sonner";
 import { migrateMuxToArweaveApi } from "@/lib/mux/migrateMuxToArweaveApi";
+import { useMomentFormProvider } from "@/providers/MomentFormProvider";
+import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 
 export default function useMomentCreate() {
   const [creating, setCreating] = useState<boolean>(false);
@@ -20,6 +22,7 @@ export default function useMomentCreate() {
   const { fetchParameters } = useMomentCreateParameters();
   const { isPrepared } = useUserProvider();
   const { getAccessToken } = usePrivy();
+  const { setAnimationUri } = useMomentFormProvider();
 
   const create = async () => {
     try {
@@ -35,15 +38,16 @@ export default function useMomentCreate() {
       const accessToken = await getAccessToken();
       await syncMomentApi(accessToken as string);
 
-      migrateMuxToArweaveApi({
+      setCreating(false);
+      setCreatedContract(result.contractAddress);
+      setCreatedTokenId(result.tokenId?.toString() || "");
+
+      const migrateMuxToArweaveResult = await migrateMuxToArweaveApi({
         tokenContractAddress: result.contractAddress as Address,
         tokenId: result.tokenId.toString(),
         accessToken: accessToken as string,
       });
-
-      setCreating(false);
-      setCreatedContract(result.contractAddress);
-      setCreatedTokenId(result.tokenId?.toString() || "");
+      setAnimationUri(getFetchableUrl(migrateMuxToArweaveResult.arweaveUri) || "");
       return result;
     } catch (err: any) {
       setCreating(false);
