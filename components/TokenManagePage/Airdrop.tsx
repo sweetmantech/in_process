@@ -10,7 +10,7 @@ const Airdrop = () => {
   const { airdopToItems } = useAirdropProvider();
 
   return (
-    <div className="px-4 md:px-10 w-full">
+    <div className="w-full">
       <div className="pt-4 w-full flex flex-col gap-2 bg-white max-w-xl rounded-2xl mt-4 p-4 min-h-[400px]">
         <div className="flex w-full h-fit flex-wrap gap-2 items-start overflow-hidden">
           {airdopToItems.map((item: AirdropItem, i) => (

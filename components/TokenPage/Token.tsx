@@ -8,9 +8,13 @@ import useIsMobile from "@/hooks/useIsMobile";
 import CommentSection from "./CommentSection";
 import ContentRenderer from "../Renderers";
 import BackToTimeline from "./BackToTimeline";
+import { CollectionProvider } from "@/providers/CollectionProvider";
+import AirdropProvider from "@/providers/AirdropProvider";
+import Airdrop from "@/components/TokenManagePage/Airdrop";
+import { CHAIN_ID } from "@/lib/consts";
 
 const Token = () => {
-  const { metadata, collected } = useTokenProvider();
+  const { metadata, collected, token, isOwner } = useTokenProvider();
   const { data: meta } = metadata;
   const isMobile = useIsMobile();
 
@@ -31,6 +35,18 @@ const Token = () => {
             <div className="md:!min-w-[420px]">
               {collected ? <MetaAndComments priceHidden /> : <CollectModal />}
               {!collected && isMobile && <CommentSection />}
+              {!collected && isOwner && (
+                <CollectionProvider
+                  collection={{
+                    address: token.tokenContractAddress,
+                    chainId: token.chainId || CHAIN_ID,
+                  }}
+                >
+                  <AirdropProvider>
+                    <Airdrop />
+                  </AirdropProvider>
+                </CollectionProvider>
+              )}
             </div>
           </>
         )}

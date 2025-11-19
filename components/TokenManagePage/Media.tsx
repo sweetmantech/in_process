@@ -26,7 +26,7 @@ const Media = () => {
 
   return (
     <Fragment>
-      <div className="px-4 md:px-10 w-full font-archivo">
+      <div className="w-full font-archivo">
         <div className="bg-white rounded-lg shadow-sm p-6 max-w-md mt-4">
           <div className="space-y-4">
             <div>
