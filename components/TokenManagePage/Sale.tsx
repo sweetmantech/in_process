@@ -9,7 +9,7 @@ const Sale = () => {
 
   if (!saleConfig) return <Fragment />;
   return (
-    <div className="px-4 md:px-10 w-full font-archivo">
+    <div className="w-full font-archivo">
       <div className="pt-4 w-full flex flex-col gap-2 bg-white max-w-md rounded-2xl mt-4 p-4">
         {saleConfig.saleEnd === BigInt(0) ? (
           <div>sale is not yet activated.</div>
