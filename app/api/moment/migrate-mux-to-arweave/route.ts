@@ -39,7 +39,7 @@ export async function POST(req: NextRequest) {
     const data = parseResult.data;
 
     // Start migration in background (fire-and-forget)
-    await migrateMuxToArweave({
+    migrateMuxToArweave({
       tokenContractAddress: data.tokenContractAddress as Address,
       tokenId: data.tokenId,
       artistAddress: artistAddress as Address,
