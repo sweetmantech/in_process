@@ -1,7 +1,7 @@
-import { Address, encodeFunctionData, Hash } from "viem";
+import { Address, Hash } from "viem";
 import { CHAIN_ID, IS_TESTNET } from "@/lib/consts";
 import { sendUserOperation } from "@/lib/coinbase/sendUserOperation";
-import { zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
+import getUpdateTokenURICall from "@/lib/viem/getUpdateTokenURICall";
 import { getOrCreateSmartWallet } from "@/lib/coinbase/getOrCreateSmartWallet";
 
 export interface UpdateMomentURIInput {
@@ -30,23 +30,13 @@ export async function updateMomentURI({
     address: artistAddress,
   });
 
-  // Encode the updateTokenURI function call
-  const updateTokenURIData = encodeFunctionData({
-    abi: zoraCreator1155ImplABI,
-    functionName: "updateTokenURI",
-    args: [BigInt(tokenId), newUri],
-  });
+  const updateTokenURICall = getUpdateTokenURICall(tokenContractAddress, tokenId, newUri);
 
   // Send the transaction and wait for receipt using the helper
   const transaction = await sendUserOperation({
     smartAccount,
     network: IS_TESTNET ? "base-sepolia" : "base",
-    calls: [
-      {
-        to: tokenContractAddress,
-        data: updateTokenURIData,
-      },
-    ],
+    calls: [updateTokenURICall],
   });
 
   return {
