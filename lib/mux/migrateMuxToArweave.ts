@@ -2,12 +2,15 @@ import { Address } from "viem";
 import { downloadVideoFromMux } from "@/lib/mux/downloadVideoFromMux";
 import { deleteMuxAsset } from "@/lib/mux/deleteMuxAsset";
 import { findMuxAssetIdFromPlaybackUrl } from "@/lib/mux/findMuxAssetIdFromPlaybackUrl";
-import { updateMomentURI } from "@/lib/moment/updateMomentURI";
 import { fetchTokenMetadata } from "@/lib/protocolSdk/ipfs/token-metadata";
 import getTokenInfo from "@/lib/viem/getTokenInfo";
-import { CHAIN_ID } from "@/lib/consts";
+import getUpdateTokenURICall from "@/lib/viem/getUpdateTokenURICall";
+import getUpdateContractMetadataCall from "@/lib/viem/getUpdateContractMetadataCall";
+import { CHAIN_ID, IS_TESTNET } from "@/lib/consts";
 import { uploadJson } from "../arweave/uploadJson";
 import clientUploadToArweave from "../arweave/clientUploadToArweave";
+import { getOrCreateSmartWallet } from "../coinbase/getOrCreateSmartWallet";
+import { sendUserOperation } from "../coinbase/sendUserOperation";
 
 export interface MigrateMuxToArweaveInput {
   tokenContractAddress: Address;
@@ -18,8 +21,7 @@ export interface MigrateMuxToArweaveInput {
 export interface MigrateMuxToArweaveResult {
   success: boolean;
   arweaveUri: string;
-  tokenTransactionHash: string;
-  contractTransactionHash: string;
+  transactionHash: string;
 }
 
 /**
@@ -83,24 +85,26 @@ export async function migrateMuxToArweave({
     // Step 6: Upload updated metadata JSON to Arweave
     const newMetadataUri = await uploadJson(updatedMetadata);
 
-    // Step 7: Update ContractURI on-chain
-    const updateContractResult = await updateMomentURI({
-      tokenContractAddress,
-      tokenId: "0",
-      newUri: newMetadataUri,
-      artistAddress,
+    // Step 7: Get the update token URI and contract metadata calls
+    const smartAccount = await getOrCreateSmartWallet({
+      address: artistAddress,
     });
 
-    // Step 7: Update token URI on-chain
-    const updateResult = await updateMomentURI({
+    const updateTokenURICall = getUpdateTokenURICall(tokenContractAddress, tokenId, newMetadataUri);
+    const updateContractURICall = getUpdateContractMetadataCall(
       tokenContractAddress,
-      tokenId,
-      newUri: newMetadataUri,
-      artistAddress,
+      newMetadataUri,
+      currentMetadata.name
+    );
+
+    const transaction = await sendUserOperation({
+      smartAccount,
+      network: IS_TESTNET ? "base-sepolia" : "base",
+      calls: [updateContractURICall, updateTokenURICall],
     });
 
     // Step 8: Delete video from MUX only after on-chain update is confirmed successful
-    if (updateResult && updateResult.hash) {
+    if (transaction && transaction.transactionHash) {
       const playbackUrl = currentMetadata.animation_url;
       if (playbackUrl && playbackUrl.includes("stream.mux.com")) {
         try {
@@ -118,8 +122,7 @@ export async function migrateMuxToArweave({
     return {
       success: true,
       arweaveUri,
-      tokenTransactionHash: updateResult.hash,
-      contractTransactionHash: updateContractResult.hash,
+      transactionHash: transaction.transactionHash,
     };
   } catch (error: any) {
     throw new Error(`Failed to migrate MUX to Arweave: ${error?.message || "Unknown error"}`);
