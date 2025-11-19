@@ -112,7 +112,7 @@ export async function migrateMuxToArweave({
       try {
         await updateTokenContractURI({
           tokenContractAddress,
-          tokenId: Number(tokenId),
+          tokenId: 0,
           chainId: CHAIN_ID,
           uri: newMetadataUri,
         });
