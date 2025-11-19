@@ -30,11 +30,13 @@ const TokenManagePage = () => {
         selectedTab={selectedTab}
         onChangeTab={(value: number) => setSelectedTab(value)}
       />
-      <AirdropProvider>
-        {selectedTab === MANAGE_TABS.AIRDROP && <Airdrop />}
-        {selectedTab === MANAGE_TABS.SALE && <Sale />}
-        {selectedTab === MANAGE_TABS.MEDIA && <Media />}
-      </AirdropProvider>
+      <div className="px-4 md:px-10">
+        <AirdropProvider>
+          {selectedTab === MANAGE_TABS.AIRDROP && <Airdrop />}
+          {selectedTab === MANAGE_TABS.SALE && <Sale />}
+          {selectedTab === MANAGE_TABS.MEDIA && <Media />}
+        </AirdropProvider>
+      </div>
     </TokenProvider>
   );
 };
