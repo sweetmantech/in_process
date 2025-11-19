@@ -18,7 +18,8 @@ export interface MigrateMuxToArweaveInput {
 export interface MigrateMuxToArweaveResult {
   success: boolean;
   arweaveUri: string;
-  transactionHash: string;
+  tokenTransactionHash: string;
+  contractTransactionHash: string;
 }
 
 /**
@@ -82,6 +83,14 @@ export async function migrateMuxToArweave({
     // Step 6: Upload updated metadata JSON to Arweave
     const newMetadataUri = await uploadJson(updatedMetadata);
 
+    // Step 7: Update ContractURI on-chain
+    const updateContractResult = await updateMomentURI({
+      tokenContractAddress,
+      tokenId: "0",
+      newUri: newMetadataUri,
+      artistAddress,
+    });
+
     // Step 7: Update token URI on-chain
     const updateResult = await updateMomentURI({
       tokenContractAddress,
@@ -109,7 +118,8 @@ export async function migrateMuxToArweave({
     return {
       success: true,
       arweaveUri,
-      transactionHash: updateResult.hash,
+      tokenTransactionHash: updateResult.hash,
+      contractTransactionHash: updateContractResult.hash,
     };
   } catch (error: any) {
     throw new Error(`Failed to migrate MUX to Arweave: ${error?.message || "Unknown error"}`);
