@@ -37,5 +37,7 @@ export async function migrateMuxToArweaveApi({
     throw new Error(error.message || "Failed to migrate MUX to Arweave");
   }
 
-  return response.json();
+  const data = await response.json();
+
+  return data;
 }
