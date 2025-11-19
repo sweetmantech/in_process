@@ -5,7 +5,7 @@ import CommentSection from "./CommentSection";
 import Description from "./Description";
 import getPrice from "@/lib/getPrice";
 import getPriceUnit from "@/lib/getPriceUnit";
-import { CopyIcon, DownloadIcon } from "lucide-react";
+import { DownloadIcon, ShareIcon } from "lucide-react";
 import useShareMoment from "@/hooks/useShareMoment";
 import useBalanceOf from "@/hooks/useBalanceOf";
 import useDownload from "@/hooks/useDownload";
@@ -45,7 +45,7 @@ const MetaAndComments = ({ priceHidden = false, commentsHidden = false }: MetaAn
                   type="button"
                   className="border border-grey-moss-900 bg-white p-1 rounded-sm"
                 >
-                  <CopyIcon onClick={share} className="size-4 text-grey-moss-900" />
+                  <ShareIcon onClick={share} className="size-4 text-grey-moss-900" />
                 </button>
                 {balanceOf > 0 && (
                   <button
