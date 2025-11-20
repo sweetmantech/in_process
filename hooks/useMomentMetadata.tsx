@@ -34,6 +34,7 @@ const useMomentMetadata = () => {
     if (pathname === "/create/writing" || pathname === "/create/usdc/writing") {
       mime = "text/plain";
       animation_url = await uploadWriting();
+
       contentUri = animation_url;
       image = await generateAndUploadPreview(writingText);
     }
