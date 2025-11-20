@@ -22,7 +22,7 @@ export default function useMomentCreate() {
   const { fetchParameters } = useMomentCreateParameters();
   const { isPrepared } = useUserProvider();
   const { getAccessToken } = usePrivy();
-  const { setAnimationUri } = useMomentFormProvider();
+  const { setAnimationUri, mimeType } = useMomentFormProvider();
 
   const create = async () => {
     try {
@@ -42,12 +42,14 @@ export default function useMomentCreate() {
       setCreatedContract(result.contractAddress);
       setCreatedTokenId(result.tokenId?.toString() || "");
 
-      const migrateMuxToArweaveResult = await migrateMuxToArweaveApi({
-        tokenContractAddress: result.contractAddress as Address,
-        tokenId: result.tokenId.toString(),
-        accessToken: accessToken as string,
-      });
-      setAnimationUri(getFetchableUrl(migrateMuxToArweaveResult.arweaveUri) || "");
+      if (mimeType.includes("video")) {
+        const migrateMuxToArweaveResult = await migrateMuxToArweaveApi({
+          tokenContractAddress: result.contractAddress as Address,
+          tokenId: result.tokenId.toString(),
+          accessToken: accessToken as string,
+        });
+        setAnimationUri(getFetchableUrl(migrateMuxToArweaveResult.arweaveUri) || "");
+      }
       return result;
     } catch (err: any) {
       setCreating(false);
