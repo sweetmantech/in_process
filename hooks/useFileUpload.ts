@@ -10,6 +10,7 @@ import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 const useFileUpload = () => {
   const { setImageUri, setPreviewUri, setPreviewSrc, setAnimationUri, setMimeType, animationUri } =
     useMomentFormProvider();
+
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [pctComplete, setPctComplete] = useState<number>(0);
@@ -38,6 +39,7 @@ const useFileUpload = () => {
       setPctComplete(0);
       setError("");
       setLoading(true);
+      processedVideoRef.current = null; // Reset processed video ref for new upload
 
       try {
         const file: File = event.target.files[0];
@@ -50,6 +52,7 @@ const useFileUpload = () => {
         const isImage = mimeType.includes("image");
         const isVideo = mimeType.includes("video");
 
+        // Route videos to Mux, everything else to Arweave
         if (isVideo) {
           await handleVideoUpload(file, {
             setPendingVideoFile,
@@ -83,9 +86,18 @@ const useFileUpload = () => {
           err instanceof Error ? err.message : "Failed to upload the file. Please try again.";
         setError(errorMessage);
         setLoading(false);
+        setPendingVideoFile(null);
       }
     },
-    [setImageUri, setPreviewSrc, setPreviewUri, setAnimationUri, setMimeType, animationUri]
+    [
+      muxUpload,
+      setImageUri,
+      setPreviewSrc,
+      setPreviewUri,
+      setAnimationUri,
+      setMimeType,
+      animationUri,
+    ]
   );
 
   return {
