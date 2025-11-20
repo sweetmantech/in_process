@@ -5,10 +5,10 @@ import CommentSection from "./CommentSection";
 import Description from "./Description";
 import getPrice from "@/lib/getPrice";
 import getPriceUnit from "@/lib/getPriceUnit";
-import { DownloadIcon, ShareIcon } from "lucide-react";
-import useShareMoment from "@/hooks/useShareMoment";
+import { DownloadIcon } from "lucide-react";
 import useBalanceOf from "@/hooks/useBalanceOf";
 import useDownload from "@/hooks/useDownload";
+import ShareButton from "./ShareButton";
 
 interface MetaAndCommentsProps {
   priceHidden?: boolean;
@@ -18,7 +18,6 @@ interface MetaAndCommentsProps {
 const MetaAndComments = ({ priceHidden = false, commentsHidden = false }: MetaAndCommentsProps) => {
   const { saleConfig, metadata, isLoading, isSetSale } = useTokenProvider();
   const { data: meta } = metadata;
-  const { share } = useShareMoment();
   const { balanceOf } = useBalanceOf();
   const { download } = useDownload();
 
@@ -41,12 +40,7 @@ const MetaAndComments = ({ priceHidden = false, commentsHidden = false }: MetaAn
                     ? "free"
                     : `${getPrice(saleConfig?.pricePerToken || BigInt(0), saleConfig?.type)} ${getPriceUnit(saleConfig?.type || "")}`}
                 </p>
-                <button
-                  type="button"
-                  className="border border-grey-moss-900 bg-white p-1 rounded-sm"
-                >
-                  <ShareIcon onClick={share} className="size-4 text-grey-moss-900" />
-                </button>
+                <ShareButton />
                 {balanceOf > 0 && (
                   <button
                     type="button"
