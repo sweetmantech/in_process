@@ -1,9 +1,7 @@
-import { useCollectionProvider } from "@/providers/CollectionProvider";
 import { useUserProvider } from "@/providers/UserProvider";
 import { useState } from "react";
 import { Address, isAddress } from "viem";
 import { getPublicClient } from "@/lib/viem/publicClient";
-import { useParams } from "next/navigation";
 import { mainnet } from "viem/chains";
 import { normalize } from "viem/ens";
 import { toast } from "sonner";
@@ -16,13 +14,11 @@ export interface AirdropItem {
   status: "validating" | "invalid" | "valid";
   ensName: string;
 }
-const useAirdrop = () => {
-  const { collection } = useCollectionProvider();
+const useAirdrop = (momentContract: Address, tokenId: string) => {
   const [airdopToItems, setAirdropToItems] = useState<AirdropItem[]>([]);
   const { artistWallet, isPrepared } = useUserProvider();
   const { smartWallet } = useSmartWalletProvider();
   const [loading, setLoading] = useState<boolean>(false);
-  const params = useParams();
   const { getAccessToken } = usePrivy();
 
   const onChangeAddress = async (value: string) => {
@@ -67,8 +63,8 @@ const useAirdrop = () => {
 
       const hash = await executeAirdrop({
         airdropToItems: airdopToItems,
-        tokenId: params.tokenId as string,
-        momentContract: collection.address,
+        tokenId,
+        momentContract,
         smartWallet: smartWallet as Address,
         artistWallet: artistWallet as Address,
         accessToken,
