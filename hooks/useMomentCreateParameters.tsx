@@ -40,7 +40,7 @@ const useMomentCreateParameters = () => {
     } else {
       return {
         contract: {
-          name: name,
+          name,
           uri: momentMetadataUri,
         },
         token: {

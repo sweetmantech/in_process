@@ -14,6 +14,7 @@ const useMomentForm = () => {
   const [imageUri, setImageUri] = useState<string>("");
   const [mimeType, setMimeType] = useState<string>("");
   const [animationUri, setAnimationUri] = useState<string>("");
+  const [downloadUrl, setDownloadUrl] = useState<string>("");
   const [previewUri, setPreviewUri] = useState<string>("");
   const [isOpenPreviewUpload, setIsOpenPreviewUpload] = useState<boolean>(false);
   const [previewSrc, setPreviewSrc] = useState<string>("");
@@ -34,6 +35,7 @@ const useMomentForm = () => {
     setImageUri("");
     setMimeType("");
     setAnimationUri("");
+    setDownloadUrl("");
     setPreviewUri("");
     // Revoke previewSrc blob URL before clearing
     if (previewSrc && previewSrc.startsWith("blob:")) {
@@ -58,8 +60,8 @@ const useMomentForm = () => {
   const form = useForm<CreateFormData>({
     resolver: zodResolver(createFormSchema),
     defaultValues: {
-      name: name,
-      price: price,
+      name,
+      price,
       priceUnit: priceUnit as "eth" | "usdc",
       description: description || undefined,
       startDate: startDate,
@@ -145,6 +147,8 @@ const useMomentForm = () => {
     setMimeType,
     animationUri,
     setAnimationUri,
+    downloadUrl,
+    setDownloadUrl,
     previewUri,
     setPreviewUri,
     isOpenPreviewUpload,
