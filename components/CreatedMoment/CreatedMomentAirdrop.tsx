@@ -10,9 +10,7 @@ const CreatedMomentAirdrop = () => {
 
   if (!createdContract || !createdTokenId) return <Fragment />;
 
-  return (
-    <MomentAirdrop momentContract={createdContract as Address} tokenId={createdTokenId as string} />
-  );
+  return <MomentAirdrop momentContract={createdContract as Address} tokenId={createdTokenId} />;
 };
 
 export default CreatedMomentAirdrop;

@@ -8,15 +8,8 @@ import { handleOtherFileUpload } from "@/lib/fileUpload/handleOtherFileUpload";
 import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 
 const useFileUpload = () => {
-  const {
-    setImageUri,
-    setPreviewUri,
-    setPreviewSrc,
-    setAnimationUri,
-    setDownloadUrl,
-    setMimeType,
-    animationUri,
-  } = useMomentFormProvider();
+  const { setImageUri, setPreviewUri, setPreviewSrc, setAnimationUri, setMimeType, animationUri } =
+    useMomentFormProvider();
 
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
@@ -102,7 +95,6 @@ const useFileUpload = () => {
       setPreviewSrc,
       setPreviewUri,
       setAnimationUri,
-      setDownloadUrl,
       setMimeType,
       animationUri,
     ]
