@@ -30,7 +30,6 @@ const mintOnSmartWallet = async (parameters: any) => {
 };
 
 const useMomentCollect = () => {
-  const [isOpenCrossmint, setIsOpenCrossmint] = useState(false);
   const [amountToCollect, setAmountToCollect] = useState(1);
   const [collected, setCollected] = useState(false);
   const { artistWallet } = useUserProvider();
@@ -114,8 +113,6 @@ const useMomentCollect = () => {
 
   return {
     collectWithComment,
-    isOpenCrossmint,
-    setIsOpenCrossmint,
     isLoading,
     amountToCollect,
     setAmountToCollect,
