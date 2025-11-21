@@ -50,9 +50,7 @@ export async function GET(req: NextRequest) {
       {
         ...tokenInfo,
         tokenAdmins:
-          tokens.length > 0
-            ? tokens[0]?.token_admins.map((admin: any) => admin.artist_address)
-            : [],
+          tokens.length > 0 ? tokens[0].token_admins.map((admin: any) => admin.artist_address) : [],
         metadata,
       },
       { status: 200 }
