@@ -36,9 +36,9 @@ const MetaAndComments = ({ priceHidden = false, commentsHidden = false }: MetaAn
             ) : (
               <div className="flex gap-2 items-center">
                 <p className="w-2/3 md:w-full font-archivo text-sm md:text-base border border-black rounded-md text-center bg-grey-moss-50">
-                  {saleConfig?.pricePerToken === BigInt(0)
-                    ? "free"
-                    : `${getPrice(saleConfig?.pricePerToken || BigInt(0), saleConfig?.type)} ${getPriceUnit(saleConfig?.type || "")}`}
+                  {saleConfig?.pricePerToken && parseInt(saleConfig?.pricePerToken || "0", 10) > 0
+                    ? `${getPrice(BigInt(saleConfig.pricePerToken), saleConfig?.type)} ${getPriceUnit(saleConfig?.type || "")}`
+                    : "free"}
                 </p>
                 <ShareButton />
                 {balanceOf > 0 && (
