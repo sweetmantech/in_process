@@ -35,7 +35,7 @@ export interface CollectionStyle {
 }
 
 export enum MintType {
-  ZoraErc20Mint = "ZoraErc20Mint",
-  ZoraTimedMint = "ZoraTimed",
-  ZoraFixedPriceMint = "ZoraFixedPrice",
+  Erc20Mint = "erc20Mint",
+  TimedMint = "timed",
+  FixedPriceMint = "fixedPrice",
 }

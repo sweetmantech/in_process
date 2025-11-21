@@ -22,7 +22,7 @@ const getCollectCall = (
   ]);
 
   const totalPrice = sale.pricePerToken * BigInt(amount);
-  if (sale.type === MintType.ZoraErc20Mint) {
+  if (sale.type === MintType.Erc20Mint) {
     return {
       to: erc20MinterAddresses[CHAIN_ID],
       data: encodeFunctionData({

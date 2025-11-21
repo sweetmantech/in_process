@@ -11,7 +11,7 @@ const useCollectBalanceValidation = () => {
     const ethPrice = formatEther(saleConfig.pricePerToken * BigInt(mintCount));
     const usdcPrice = formatUnits(saleConfig.pricePerToken * BigInt(mintCount), 6);
 
-    if (saleConfig.type === MintType.ZoraErc20Mint) {
+    if (saleConfig.type === MintType.Erc20Mint) {
       if (Number(balance) < Number(usdcPrice)) {
         showInsufficientBalanceError("usdc");
       }

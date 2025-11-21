@@ -18,7 +18,7 @@ export async function validateBalanceAndAllowance(
   amount: number
 ) {
   const approveCall = [];
-  const isErc20Mint = saleConfig.type === MintType.ZoraErc20Mint;
+  const isErc20Mint = saleConfig.type === MintType.Erc20Mint;
 
   if (isErc20Mint) {
     const pricePerToken = formatUnits(saleConfig.pricePerToken, 6);
