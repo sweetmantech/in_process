@@ -1,11 +1,10 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
 import { zoraCreatorFixedPriceSaleStrategyAddress } from "@/lib/protocolSdk/constants";
 import { CHAIN } from "@/lib/consts";
 import { Address, encodeAbiParameters, parseAbiParameters } from "viem";
 import { useTokenProvider } from "@/providers/TokenProvider";
 import { useUserProvider } from "@/providers/UserProvider";
-import { useCrossmintCheckout } from "@crossmint/client-sdk-react-ui";
 import { toast } from "sonner";
 import useCollectBalanceValidation from "./useCollectBalanceValidation";
 import { usePrivy } from "@privy-io/react-auth";
@@ -36,7 +35,6 @@ const useMomentCollect = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { token, saleConfig } = useTokenProvider();
   const { comment, addComment, setComment, setIsOpenCommentModal } = useMomentCommentsProvider();
-  const { order } = useCrossmintCheckout();
   const { validateBalance } = useCollectBalanceValidation();
   const { getAccessToken } = usePrivy();
 
@@ -97,19 +95,6 @@ const useMomentCollect = () => {
       setIsLoading(false);
     }
   };
-
-  useEffect(() => {
-    const fetchOrder = async () => {
-      if (order?.phase !== "completed") return;
-      addComment({
-        sender: order.lineItems[0].delivery.recipient?.walletAddress as Address,
-        comment,
-        timestamp: new Date().getTime(),
-      } as any);
-    };
-    fetchOrder();
-    // eslint-disable-next-line
-  }, [order]);
 
   return {
     collectWithComment,
