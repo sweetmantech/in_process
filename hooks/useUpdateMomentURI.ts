@@ -44,7 +44,7 @@ const useUpdateMomentURI = () => {
         image: imageUri || current?.image,
         animation_url: updatedAnimationUrl,
         content:
-          (updatedContentUri || updatedMimeType) && updatedMimeType !== "image/png"
+          (updatedContentUri || updatedMimeType) && updatedMimeType !== "image"
             ? {
                 mime: updatedMimeType || current?.content?.mime || "",
                 uri: updatedContentUri || current?.content?.uri || "",
