@@ -1,6 +1,6 @@
 "use client";
 
-import { useMomentCollectProvider } from "@/providers/ZoraMintCommentProvider";
+import { useMomentCollectProvider } from "@/providers/MomentCollectProvider";
 
 export default function CommentButton() {
   const { collectWithComment, isLoading } = useMomentCollectProvider();

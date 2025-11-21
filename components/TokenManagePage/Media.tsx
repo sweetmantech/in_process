@@ -13,14 +13,13 @@ import AnimationUpload from "./AnimationUpload";
 import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 
 const Media = () => {
-  const { metadata, isOwner } = useTokenProvider();
+  const { metadata, isOwner, isLoading } = useTokenProvider();
   const { form } = useMomentFormProvider();
-  const { data: meta, isLoading } = metadata;
   const { isLoading: isSaving } = useUpdateMomentURI();
 
-  useMediaInitialization(meta);
+  useMediaInitialization(metadata);
 
-  if (isLoading || !meta) {
+  if (isLoading || !metadata) {
     return <MediaSkeleton />;
   }
 

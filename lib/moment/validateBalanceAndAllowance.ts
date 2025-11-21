@@ -1,5 +1,5 @@
 import { Address, formatUnits } from "viem";
-import { SaleConfig } from "@/hooks/useTokenInfo";
+import { SaleConfig } from "@/types/moment";
 import { CHAIN_ID } from "@/lib/consts";
 import { erc20MinterAddresses } from "@/lib/protocolSdk/constants";
 import getUsdcBalance from "@/lib/balance/getUsdcBalance";

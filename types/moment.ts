@@ -47,3 +47,12 @@ export interface GetInProcessMomentsRpcResponse {
     total_pages: number;
   };
 }
+
+export type SaleConfig = {
+  saleStart: bigint;
+  saleEnd: bigint;
+  maxTokensPerAddress: bigint;
+  pricePerToken: bigint;
+  fundsRecipient: Address;
+  type: string;
+};

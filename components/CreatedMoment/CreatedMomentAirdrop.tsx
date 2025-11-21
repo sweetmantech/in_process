@@ -17,7 +17,7 @@ const CreatedMomentAirdrop = () => {
       token={{ tokenContractAddress: createdContract as Address, tokenId: createdTokenId }}
       chainId={CHAIN_ID}
     >
-      <MomentAirdrop momentContract={createdContract as Address} tokenId={createdTokenId} />
+      <MomentAirdrop />
     </TokenProvider>
   );
 };

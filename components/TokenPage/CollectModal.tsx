@@ -1,12 +1,13 @@
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Label } from "../ui/label";
 import { useTokenProvider } from "@/providers/TokenProvider";
+import { useMomentCommentsProvider } from "@/providers/MomentCommentsProvider";
 import CommentButton from "../CommentButton/CommentButton";
 import { Fragment, MouseEvent, Suspense } from "react";
 import { Skeleton } from "../ui/skeleton";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import dynamic from "next/dynamic";
-import { useMomentCollectProvider } from "@/providers/ZoraMintCommentProvider";
+import { useMomentCollectProvider } from "@/providers/MomentCollectProvider";
 import { useUserProvider } from "@/providers/UserProvider";
 import getPrice from "@/lib/getPrice";
 import getPriceUnit from "@/lib/getPriceUnit";
@@ -23,20 +24,11 @@ const CrossmintModal = dynamic(() => import("../CommentButton/CrossmintModal"), 
 });
 
 const CollectModal = () => {
-  const {
-    comment,
-    handleCommentChange,
-    isOpenCommentModal,
-    setIsOpenCommentModal,
-    saleConfig,
-    metadata,
-    setComment,
-    isLoading,
-    isSetSale,
-    mintCount,
-  } = useTokenProvider();
-  const { data: meta } = metadata;
-  const { setIsOpenCrossmint, isOpenCrossmint } = useMomentCollectProvider();
+  const { comment, isOpenCommentModal, setIsOpenCommentModal, setComment } =
+    useMomentCommentsProvider();
+  const { saleConfig, isLoading, isSetSale, metadata } = useTokenProvider();
+
+  const { setIsOpenCrossmint, isOpenCrossmint, amountToCollect } = useMomentCollectProvider();
   const { isPrepared } = useUserProvider();
   const isSaleActive =
     parseInt(BigInt(saleConfig?.saleStart?.toString() || 0).toString(), 10) * 1000 < Date.now();
@@ -48,7 +40,7 @@ const CollectModal = () => {
     return;
   };
 
-  if (!isSetSale || !saleConfig) return <Fragment />;
+  if (!isSetSale || !saleConfig || !metadata) return <Fragment />;
 
   return (
     <>
@@ -74,14 +66,14 @@ const CollectModal = () => {
             <DialogTitle>Collect</DialogTitle>
           </VisuallyHidden>
           <section className="font-archivo-medium text-xl pt-2 flex items-center gap-2">
-            collect {truncated(meta?.name || "")} for{" "}
+            collect {truncated(metadata?.name || "")} for{" "}
             {isLoading ? (
               <Skeleton className="h-5 w-10 rounded-none" />
             ) : (
               <>
                 {saleConfig.pricePerToken === BigInt(0)
                   ? "free"
-                  : `${getPrice(saleConfig.pricePerToken * BigInt(mintCount), saleConfig.type)} ${getPriceUnit(saleConfig.type)}`}
+                  : `${getPrice(saleConfig.pricePerToken * BigInt(amountToCollect), saleConfig.type)} ${getPriceUnit(saleConfig.type)}`}
               </>
             )}
           </section>
@@ -90,7 +82,7 @@ const CollectModal = () => {
             className="bg-grey-moss-50 w-full p-3 font-spectral !border-none !outline-none !ring-0"
             rows={6}
             value={comment}
-            onChange={handleCommentChange}
+            onChange={(e) => setComment(e.target.value)}
           />
           <Advanced />
           <div className="w-full mt-4">

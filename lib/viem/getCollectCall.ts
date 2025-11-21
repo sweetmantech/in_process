@@ -1,4 +1,4 @@
-import { SaleConfig } from "@/hooks/useTokenInfo";
+import { SaleConfig } from "@/types/moment";
 import { erc20MinterABI, zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
 import { Address, encodeAbiParameters, encodeFunctionData, parseAbiParameters } from "viem";
 import { CHAIN_ID, USDC_ADDRESS } from "../consts";
