@@ -18,7 +18,7 @@ import {
   PresaleSalesStrategyResult,
   SalesStrategyResult,
   TokenQueryResult,
-  TimedMinterSaleStrategyResult,
+  ZoraTimedMinterSaleStrategyResult,
 } from "./subgraph-queries";
 import { SubgraphGetter } from "../apis/subgraph-getter";
 
@@ -93,7 +93,7 @@ function parsePresaleSalesConfig(
 }
 
 function parseZoraTimedSalesConfig(
-  zoraTimedMinter: TimedMinterSaleStrategyResult["zoraTimedMinter"],
+  zoraTimedMinter: ZoraTimedMinterSaleStrategyResult["zoraTimedMinter"],
   blockTime: bigint
 ): ParsedSalesConfig {
   const saleEnd = BigInt(zoraTimedMinter.saleEnd);

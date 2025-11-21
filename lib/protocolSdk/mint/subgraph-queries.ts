@@ -35,7 +35,7 @@ export type PresaleSalesStrategyResult = {
   };
 };
 
-export type TimedMinterSaleStrategyResult = {
+export type ZoraTimedMinterSaleStrategyResult = {
   type: "ZORA_TIMED";
   zoraTimedMinter: {
     address: Address;
@@ -56,7 +56,7 @@ export type SalesStrategyResult =
   | FixedPriceSaleStrategyResult
   | ERC20SaleStrategyResult
   | PresaleSalesStrategyResult
-  | TimedMinterSaleStrategyResult;
+  | ZoraTimedMinterSaleStrategyResult;
 
 export type TokenQueryResult = {
   tokenId?: string;
