@@ -13,6 +13,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { tokenId, collection } = await params;
   // eslint-disable-next-line
   const [_, address] = collection.split("%3A");
+
   const metadata = await fetchTokenMetadata(collection as string, tokenId as string);
 
   const title = metadata?.name || "In Process";

@@ -64,10 +64,10 @@ const getTokenInfo = async (
   return {
     saleConfig: {
       ...saleConfig,
-      saleEnd: saleConfig.saleEnd.toNumber(),
-      saleStart: saleConfig.saleStart.toNumber(),
+      saleEnd: Number(saleConfig.saleEnd),
+      saleStart: Number(saleConfig.saleStart),
       pricePerToken: saleConfig.pricePerToken.toString(),
-      maxTokensPerAddress: saleConfig.maxTokensPerAddress.toNumber(),
+      maxTokensPerAddress: Number(saleConfig.maxTokensPerAddress),
     },
     tokenUri: infoCalls[2].result,
     owner: infoCalls[3].result,
