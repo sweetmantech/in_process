@@ -19,14 +19,14 @@ const useCrossmintCalldata = () => {
 
   const collectionLocator = useMemo(() => {
     if (!saleConfig) return;
-    return saleConfig.type === MintType.ZoraErc20Mint
+    return saleConfig.type === MintType.Erc20Mint
       ? ERC20_CROSSMINT_COLLECTION_ID
       : FIXED_PRICE_CROSSMINT_COLLECTION_ID;
   }, [saleConfig]);
 
   const callData = useMemo(() => {
     if (!saleConfig) return;
-    if (saleConfig.type === MintType.ZoraErc20Mint)
+    if (saleConfig.type === MintType.Erc20Mint)
       return {
         quantity: mintCount,
         erc20Minter: erc20MinterAddresses[CHAIN_ID],

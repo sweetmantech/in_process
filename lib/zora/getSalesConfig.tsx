@@ -30,11 +30,11 @@ const getSalesConfig = (saleStrategy: string, price: string, saleStart: Date | u
   if (price === "0") return fixedPriceSaleConfig;
 
   switch (saleStrategy) {
-    case MintType.ZoraFixedPriceMint:
+    case MintType.FixedPriceMint:
       return fixedPriceSaleConfig;
-    case MintType.ZoraTimedMint:
+    case MintType.TimedMint:
       return timedSaleConfig;
-    case MintType.ZoraErc20Mint:
+    case MintType.Erc20Mint:
       return erc20MintSaleConfig;
     default:
       return erc20MintSaleConfig;
