@@ -44,19 +44,33 @@ export async function GET(req: NextRequest) {
       chainId: chainIdNum,
     });
 
+    if (!token) {
+      return NextResponse.json({ error: "Token not found" }, { status: 404 });
+    }
+
+    // Validate saleConfig exists and has all required fields
+    if (!tokenInfo.saleConfig) {
+      return NextResponse.json(
+        { error: "Sale configuration not found for this token" },
+        { status: 400 }
+      );
+    }
+
+    const { pricePerToken, saleStart, saleEnd, maxTokensPerAddress } = tokenInfo.saleConfig;
+
     const saleConfig: any = {
       ...tokenInfo.saleConfig,
-      pricePerToken: tokenInfo.saleConfig.pricePerToken.toString(),
-      saleStart: Number(tokenInfo.saleConfig.saleStart),
-      saleEnd: Number(tokenInfo.saleConfig.saleEnd),
-      maxTokensPerAddress: Number(tokenInfo.saleConfig.maxTokensPerAddress),
+      pricePerToken: pricePerToken.toString(),
+      saleStart: Number(saleStart),
+      saleEnd: Number(saleEnd),
+      maxTokensPerAddress: Number(maxTokensPerAddress),
     };
 
     return NextResponse.json({
       uri: tokenInfo.tokenUri,
       owner: getAddress(tokenInfo.owner),
       saleConfig,
-      momentAdmins: token?.token_admins.map((admin) => admin.artist_address),
+      momentAdmins: token.token_admins.map((admin) => admin.artist_address),
       metadata: {
         name: metadata.name || "",
         image: metadata.image || "",
