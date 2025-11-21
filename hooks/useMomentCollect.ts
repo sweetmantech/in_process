@@ -56,7 +56,7 @@ const useMomentCollect = () => {
         comment,
       ]);
 
-      if (saleConfig.pricePerToken === BigInt(0)) {
+      if (!Number(saleConfig.pricePerToken)) {
         await mintOnSmartWallet({
           address: token.tokenContractAddress,
           abi: zoraCreator1155ImplABI,

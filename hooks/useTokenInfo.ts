@@ -3,15 +3,7 @@ import { useCallback, useMemo, useState } from "react";
 import getTokenInfo from "@/lib/viem/getTokenInfo";
 import { useEffect } from "react";
 import { useUserProvider } from "@/providers/UserProvider";
-
-export type SaleConfig = {
-  saleStart: bigint;
-  saleEnd: bigint;
-  maxTokensPerAddress: bigint;
-  pricePerToken: bigint;
-  fundsRecipient: Address;
-  type: string;
-};
+import { SaleConfig } from "@/types/moment";
 
 const useTokenInfo = (tokenContract: Address, tokenId: string, chainId: number) => {
   const [saleConfig, setSaleConfig] = useState<SaleConfig | null>(null);
@@ -29,7 +21,7 @@ const useTokenInfo = (tokenContract: Address, tokenId: string, chainId: number) 
     const tokenInfo = await getTokenInfo(tokenContract, tokenId, chainId);
     setSaleConfig(tokenInfo.saleConfig);
     setOwner(tokenInfo.owner);
-    setIsSetSale(BigInt(tokenInfo.saleConfig.saleEnd) > BigInt(0));
+    setIsSetSale(tokenInfo.saleConfig.saleEnd > BigInt(0));
     setTokenUri(tokenInfo.tokenUri);
     setIsLoading(false);
   }, [tokenContract, tokenId]);

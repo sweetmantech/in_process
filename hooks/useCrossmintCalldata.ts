@@ -19,14 +19,14 @@ const useCrossmintCalldata = () => {
 
   const collectionLocator = useMemo(() => {
     if (!saleConfig) return;
-    return saleConfig.type === MintType.ZoraErc20Mint
+    return saleConfig.type === MintType.Erc20Mint
       ? ERC20_CROSSMINT_COLLECTION_ID
       : FIXED_PRICE_CROSSMINT_COLLECTION_ID;
   }, [saleConfig]);
 
   const callData = useMemo(() => {
     if (!saleConfig) return;
-    if (saleConfig.type === MintType.ZoraErc20Mint)
+    if (saleConfig.type === MintType.Erc20Mint)
       return {
         quantity: mintCount,
         erc20Minter: erc20MinterAddresses[CHAIN_ID],
@@ -34,7 +34,7 @@ const useCrossmintCalldata = () => {
         tokenId: token.tokenId,
         comment,
         mintReferral: address as Address,
-        totalPrice: formatUnits(saleConfig.pricePerToken * BigInt(mintCount), 6),
+        totalPrice: formatUnits(BigInt(saleConfig.pricePerToken) * BigInt(mintCount), 6),
       };
     return {
       quantity: mintCount,
@@ -42,7 +42,7 @@ const useCrossmintCalldata = () => {
       tokenContract: token.tokenContractAddress,
       tokenId: token.tokenId,
       comment,
-      totalPrice: formatEther(saleConfig.pricePerToken * BigInt(mintCount)),
+      totalPrice: formatEther(BigInt(saleConfig.pricePerToken) * BigInt(mintCount)),
     };
   }, [saleConfig]);
 

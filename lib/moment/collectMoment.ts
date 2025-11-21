@@ -69,7 +69,7 @@ export async function collectMoment({
     if (isSplit) {
       await distributeSplitFunds({
         splitAddress: saleConfig.fundsRecipient,
-        tokenAddress: saleConfig.type === MintType.ZoraErc20Mint ? USDC_ADDRESS : zeroAddress, // zeroAddress for native ETH
+        tokenAddress: saleConfig.type === MintType.Erc20Mint ? USDC_ADDRESS : zeroAddress, // zeroAddress for native ETH
         smartAccount,
       });
     }

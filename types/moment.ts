@@ -1,5 +1,6 @@
 import { Address } from "viem";
 import type { Database } from "@/lib/supabase/types";
+import { MintType } from "./zora";
 
 export interface Moment {
   contractAddress: Address;
@@ -47,3 +48,12 @@ export interface GetInProcessMomentsRpcResponse {
     total_pages: number;
   };
 }
+
+export type SaleConfig = {
+  saleStart: number;
+  saleEnd: number;
+  maxTokensPerAddress: number;
+  pricePerToken: string;
+  fundsRecipient: Address;
+  type: MintType;
+};

@@ -54,15 +54,21 @@ const getTokenInfo = async (
     infoCalls[0]?.result?.saleEnd > BigInt(0)
       ? {
           ...infoCalls[0]?.result,
-          type: MintType.ZoraErc20Mint,
+          type: MintType.Erc20Mint,
         }
       : {
           ...infoCalls[1]?.result,
-          type: MintType.ZoraFixedPriceMint,
+          type: MintType.FixedPriceMint,
         };
 
   return {
-    saleConfig,
+    saleConfig: {
+      ...saleConfig,
+      saleEnd: saleConfig.saleEnd.toNumber(),
+      saleStart: saleConfig.saleStart.toNumber(),
+      pricePerToken: saleConfig.pricePerToken.toString(),
+      maxTokensPerAddress: saleConfig.maxTokensPerAddress.toNumber(),
+    },
     tokenUri: infoCalls[2].result,
     owner: infoCalls[3].result,
   };

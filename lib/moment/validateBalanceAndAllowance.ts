@@ -1,5 +1,4 @@
 import { Address, formatUnits } from "viem";
-import { SaleConfig } from "@/hooks/useTokenInfo";
 import { CHAIN_ID } from "@/lib/consts";
 import { erc20MinterAddresses } from "@/lib/protocolSdk/constants";
 import getUsdcBalance from "@/lib/balance/getUsdcBalance";
@@ -7,6 +6,7 @@ import getEthBalance from "@/lib/balance/getEthBalance";
 import getAllowance from "@/lib/viem/getAllowance";
 import getApproveCall from "@/lib/viem/getApproveCall";
 import { MintType } from "@/types/zora";
+import { SaleConfig } from "@/types/moment";
 
 /**
  * Validates balance and checks allowance for moment collection.
@@ -18,10 +18,10 @@ export async function validateBalanceAndAllowance(
   amount: number
 ) {
   const approveCall = [];
-  const isErc20Mint = saleConfig.type === MintType.ZoraErc20Mint;
+  const isErc20Mint = saleConfig.type === MintType.Erc20Mint;
 
   if (isErc20Mint) {
-    const pricePerToken = formatUnits(saleConfig.pricePerToken, 6);
+    const pricePerToken = formatUnits(BigInt(saleConfig.pricePerToken), 6);
     const balance = await getUsdcBalance(address);
     const totalPrice = Number(pricePerToken) * amount;
     if (totalPrice > Number(balance)) throw Error("Insufficient balance.");
@@ -32,7 +32,7 @@ export async function validateBalanceAndAllowance(
     }
   } else {
     const ethBalanceWei: bigint = await getEthBalance(address);
-    const totalPriceWei = saleConfig.pricePerToken * BigInt(amount);
+    const totalPriceWei = BigInt(saleConfig.pricePerToken) * BigInt(amount);
     if (totalPriceWei > ethBalanceWei) throw Error("Insufficient balance.");
   }
 

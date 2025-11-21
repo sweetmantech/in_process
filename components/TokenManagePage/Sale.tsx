@@ -11,18 +11,16 @@ const Sale = () => {
   return (
     <div className="w-full font-archivo">
       <div className="pt-4 w-full flex flex-col gap-2 bg-white max-w-md rounded-2xl mt-4 p-4">
-        {saleConfig.saleEnd === BigInt(0) ? (
+        {!saleConfig.saleEnd ? (
           <div>sale is not yet activated.</div>
         ) : (
           <>
             <div>
               <p className="pb-2">
                 sale start:{" "}
-                {saleConfig.saleStart === BigInt(0)
+                {!saleConfig.saleStart
                   ? "Open"
-                  : new Date(
-                      parseInt(saleConfig.saleStart.toString(), 10) * 1000
-                    ).toLocaleDateString()}
+                  : new Date(saleConfig.saleStart * 1000).toLocaleDateString()}
               </p>
               <DateTimePicker date={saleStart} setDate={(value) => setSaleStart(value)} />
             </div>
