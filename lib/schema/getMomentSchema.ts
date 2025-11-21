@@ -6,8 +6,8 @@ export const getMomentSchema = z.object({
   tokenId: z.string().min(1, "Token ID is required"),
   chainId: z
     .string()
-    .min(1, "Chain ID is required")
-    .refine((val) => !isNaN(parseInt(val, 10)), {
+    .optional()
+    .refine((val) => !val || !isNaN(parseInt(val, 10)), {
       message: "Chain ID must be a valid number",
     }),
 });

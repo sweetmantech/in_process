@@ -4,6 +4,7 @@ import getTokenInfo from "@/lib/viem/getTokenInfo";
 import { fetchTokenMetadata } from "@/lib/protocolSdk/ipfs/token-metadata";
 import { getMomentSchema } from "@/lib/schema/getMomentSchema";
 import { selectInProcessToken } from "@/lib/supabase/in_process_tokens/selectInProcessToken";
+import { CHAIN_ID } from "@/lib/consts";
 
 export async function GET(req: NextRequest) {
   try {
@@ -27,7 +28,7 @@ export async function GET(req: NextRequest) {
     }
 
     const { tokenContract, tokenId, chainId } = parseResult.data;
-    const chainIdNum = parseInt(chainId, 10);
+    const chainIdNum = chainId ? parseInt(chainId, 10) : CHAIN_ID;
 
     // Get token info from chain
     const tokenInfo = await getTokenInfo(getAddress(tokenContract), tokenId, chainIdNum);
