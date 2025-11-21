@@ -10,7 +10,7 @@ const AirdropButton = () => {
   const canAirdrop =
     Boolean(owner?.toLowerCase() === connectedAddress?.toLowerCase()) ||
     Boolean(owner?.toLowerCase() === artistWallet?.toLowerCase()) ||
-    Boolean(tokenAdmins?.includes(artistWallet?.toLowerCase() ?? ""));
+    Boolean(artistWallet && tokenAdmins?.includes(artistWallet.toLowerCase()));
 
   return (
     <button
