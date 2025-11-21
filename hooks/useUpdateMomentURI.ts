@@ -75,8 +75,8 @@ const useUpdateMomentURI = () => {
       if (updatedMimeType?.includes("video")) {
         await migrateMuxToArweaveApi({
           tokenContractAddress: token.tokenContractAddress,
-          tokenId: token.tokenId.toString(),
-          accessToken: accessToken as string,
+          tokenId: token.tokenId,
+          accessToken,
         });
         resetForm();
       }
