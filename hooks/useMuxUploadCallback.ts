@@ -48,6 +48,9 @@ const useMuxUploadCallback = ({
       setAnimationUri(muxUpload.playbackUrl);
       setDownloadUrl(muxUpload.downloadUrl);
 
+      // Set download URL to Mux download URL
+      setDownloadUrl(muxUpload.downloadUrl);
+
       // Set mimeType for video
       setMimeType(pendingVideoFile.type);
 
@@ -59,6 +62,7 @@ const useMuxUploadCallback = ({
     muxUpload.playbackUrl,
     muxUpload.downloadUrl,
     muxUpload.uploading,
+    muxUpload.downloadUrl,
     pendingVideoFile,
     setAnimationUri,
     setMimeType,
