@@ -2,9 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getBearerToken } from "@/lib/api-keys/getBearerToken";
 import { getArtistAddressByAuthToken } from "@/lib/privy/getArtistAddressByAuthToken";
 import { getArtistAddressByApiKey } from "@/lib/api-keys/getArtistAddressByApiKey";
-import { SITE_ORIGINAL_URL } from "@/lib/consts";
 import getCorsHeader from "@/lib/getCorsHeader";
-import { isValidOrigin } from "@/middleware/isValidOrigin";
 import { AuthErrorMessages, AuthErrorTypes } from "./errors";
 
 export interface AuthResult {
@@ -18,8 +16,8 @@ export interface AuthMiddlewareOptions {
 
 /**
  * Authentication middleware that validates either:
- * 1. Valid origin + auth token, OR
- * 2. Valid API key
+ * 1. Auth token, OR
+ * 2. API key
  *
  * Returns the artist address and authentication method used.
  */
@@ -29,23 +27,12 @@ export async function authMiddleware(
 ): Promise<NextResponse | AuthResult> {
   const corsHeaders = options.corsHeaders || getCorsHeader();
 
-  const origin = req.headers.get("origin");
-  const referer = req.headers.get("referer");
   const authHeader = req.headers.get("authorization");
   const authToken = getBearerToken(authHeader);
   const apiKey = req.headers.get("x-api-key");
 
-  // Check origin or referer (for same-origin requests where origin might be null on mobile)
-  // Mobile browsers may not send origin header for same-origin requests
-  const hasValidOrigin =
-    isValidOrigin(origin, SITE_ORIGINAL_URL) ||
-    (!origin && referer && isValidOrigin(referer, SITE_ORIGINAL_URL));
-
-  // Allow if (origin is valid AND authToken is present) OR apiKey is present
-  const hasValidOriginAndAuth = hasValidOrigin && authToken;
-  const hasApiKey = !!apiKey;
-
-  if (!hasValidOriginAndAuth && !hasApiKey) {
+  // Require either auth token or API key
+  if (!authToken && !apiKey) {
     return NextResponse.json(
       { message: AuthErrorTypes.UNAUTHORIZED },
       { status: 401, headers: corsHeaders }
