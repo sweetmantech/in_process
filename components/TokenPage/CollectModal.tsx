@@ -3,10 +3,9 @@ import { Label } from "../ui/label";
 import { useTokenProvider } from "@/providers/TokenProvider";
 import { useMomentCommentsProvider } from "@/providers/MomentCommentsProvider";
 import CommentButton from "../CommentButton/CommentButton";
-import { Fragment, MouseEvent, Suspense } from "react";
+import { Fragment, MouseEvent } from "react";
 import { Skeleton } from "../ui/skeleton";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
-import dynamic from "next/dynamic";
 import { useMomentCollectProvider } from "@/providers/MomentCollectProvider";
 import { useUserProvider } from "@/providers/UserProvider";
 import getPrice from "@/lib/getPrice";
@@ -14,21 +13,12 @@ import getPriceUnit from "@/lib/getPriceUnit";
 import truncated from "@/lib/truncated";
 import Advanced from "./Advanced";
 
-const CrossmintModal = dynamic(() => import("../CommentButton/CrossmintModal"), {
-  loading: () => (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
-      <div className="bg-white p-6 rounded-lg font-archivo">Loading payment options...</div>
-    </div>
-  ),
-  ssr: false,
-});
-
 const CollectModal = () => {
   const { comment, isOpenCommentModal, setIsOpenCommentModal, setComment } =
     useMomentCommentsProvider();
   const { saleConfig, isLoading, isSetSale, metadata } = useTokenProvider();
 
-  const { setIsOpenCrossmint, isOpenCrossmint, amountToCollect } = useMomentCollectProvider();
+  const { amountToCollect } = useMomentCollectProvider();
   const { isPrepared } = useUserProvider();
   const isSaleActive =
     parseInt(BigInt(saleConfig?.saleStart?.toString() || 0).toString(), 10) * 1000 < Date.now();
@@ -90,16 +80,6 @@ const CollectModal = () => {
           </div>
         </DialogContent>
       </Dialog>
-      {isOpenCrossmint && (
-        <Suspense fallback={<div>Loading...</div>}>
-          <CrossmintModal
-            onClose={() => {
-              setIsOpenCrossmint(false);
-              setComment("");
-            }}
-          />
-        </Suspense>
-      )}
     </>
   );
 };
