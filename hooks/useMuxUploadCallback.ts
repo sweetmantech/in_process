@@ -26,12 +26,17 @@ const useMuxUploadCallback = ({
   setPctComplete,
   muxUpload,
 }: UseMuxUploadCallbackProps) => {
-  const { setAnimationUri, setMimeType } = useMomentFormProvider();
+  const { setAnimationUri, setMimeType, setDownloadUrl } = useMomentFormProvider();
   const processedVideoRef = useRef<string | null>(null);
 
   // Handle Mux video upload completion
   useEffect(() => {
-    if (pendingVideoFile && muxUpload.playbackUrl && !muxUpload.uploading) {
+    if (
+      pendingVideoFile &&
+      muxUpload.playbackUrl &&
+      !muxUpload.uploading &&
+      muxUpload.downloadUrl
+    ) {
       // Prevent processing the same video twice
       const videoKey = `${pendingVideoFile.name}-${pendingVideoFile.size}`;
       if (processedVideoRef.current === videoKey) {
@@ -41,6 +46,7 @@ const useMuxUploadCallback = ({
 
       // Set animation URI to Mux playback URL (not Arweave - video stays on Mux)
       setAnimationUri(muxUpload.playbackUrl);
+      setDownloadUrl(muxUpload.downloadUrl);
 
       // Set mimeType for video
       setMimeType(pendingVideoFile.type);
@@ -51,12 +57,14 @@ const useMuxUploadCallback = ({
     }
   }, [
     muxUpload.playbackUrl,
+    muxUpload.downloadUrl,
     muxUpload.uploading,
     pendingVideoFile,
     setAnimationUri,
     setMimeType,
     setPendingVideoFile,
     setLoading,
+    setDownloadUrl,
   ]);
 
   // Sync Mux upload progress
