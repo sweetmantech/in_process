@@ -1,21 +1,12 @@
 import useAirdrop from "@/hooks/useAirdrop";
 import { createContext, useMemo, useContext } from "react";
-import { Address } from "viem";
 
 const AirdropContext = createContext<ReturnType<typeof useAirdrop>>(
   {} as ReturnType<typeof useAirdrop>
 );
 
-const AirdropProvider = ({
-  children,
-  momentContract,
-  tokenId,
-}: {
-  children: React.ReactNode;
-  momentContract: Address;
-  tokenId: string;
-}) => {
-  const airDrop = useAirdrop(momentContract, tokenId);
+const AirdropProvider = ({ children }: { children: React.ReactNode }) => {
+  const airDrop = useAirdrop();
 
   const value = useMemo(
     () => ({

@@ -8,13 +8,16 @@ import { toast } from "sonner";
 import { useSmartWalletProvider } from "@/providers/SmartWalletProvider";
 import { usePrivy } from "@privy-io/react-auth";
 import { executeAirdrop } from "@/lib/moment/executeAirdrop";
+import { useTokenProvider } from "@/providers/TokenProvider";
 
 export interface AirdropItem {
   address: string;
   status: "validating" | "invalid" | "valid";
   ensName: string;
 }
-const useAirdrop = (momentContract: Address, tokenId: string) => {
+const useAirdrop = () => {
+  const { token } = useTokenProvider();
+  const { tokenContractAddress: momentContract, tokenId } = token;
   const [airdopToItems, setAirdropToItems] = useState<AirdropItem[]>([]);
   const { artistWallet, isPrepared } = useUserProvider();
   const { smartWallet } = useSmartWalletProvider();

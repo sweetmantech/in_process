@@ -2,17 +2,10 @@
 
 import AirdropProvider from "@/providers/AirdropProvider";
 import Airdrop from "@/components/TokenManagePage/Airdrop";
-import { Address } from "viem";
 
-const MomentAirdrop = ({
-  momentContract,
-  tokenId,
-}: {
-  momentContract: Address;
-  tokenId: string;
-}) => {
+const MomentAirdrop = () => {
   return (
-    <AirdropProvider momentContract={momentContract as Address} tokenId={tokenId}>
+    <AirdropProvider>
       <Airdrop />
     </AirdropProvider>
   );

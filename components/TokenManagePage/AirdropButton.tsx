@@ -5,11 +5,12 @@ import { useUserProvider } from "@/providers/UserProvider";
 
 const AirdropButton = () => {
   const { airdopToItems, onAirdrop, loading } = useAirdropProvider();
-  const { owner } = useTokenProvider();
+  const { owner, tokenAdmins } = useTokenProvider();
   const { connectedAddress, artistWallet } = useUserProvider();
-  const isOwner =
+  const canAirdrop =
     Boolean(owner?.toLowerCase() === connectedAddress?.toLowerCase()) ||
-    Boolean(owner?.toLowerCase() === artistWallet?.toLowerCase());
+    Boolean(owner?.toLowerCase() === artistWallet?.toLowerCase()) ||
+    Boolean(tokenAdmins?.includes(artistWallet?.toLowerCase() ?? ""));
 
   return (
     <button
@@ -17,7 +18,7 @@ const AirdropButton = () => {
       disabled={
         Boolean(airdopToItems.filter((item: AirdropItem) => item.status === "invalid").length) ||
         loading ||
-        !isOwner
+        !canAirdrop
       }
       className="mt-4 bg-black text-white font-archivo px-3 py-1 rounded-md w-fit disabled:bg-grey-moss-300 disabled:cursor-not-allowed"
       onClick={onAirdrop}

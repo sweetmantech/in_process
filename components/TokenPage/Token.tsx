@@ -9,11 +9,10 @@ import CommentSection from "./CommentSection";
 import ContentRenderer from "../Renderers";
 import BackToTimeline from "./BackToTimeline";
 import MomentAirdrop from "../MomentAirdrop/MomentAirdrop";
-import { Address } from "viem";
 import { useMomentCollectProvider } from "@/providers/MomentCollectProvider";
 
 const Token = () => {
-  const { metadata, isOwner, token } = useTokenProvider();
+  const { metadata, isOwner } = useTokenProvider();
   const { collected } = useMomentCollectProvider();
   const isMobile = useIsMobile();
 
@@ -34,12 +33,7 @@ const Token = () => {
             <div className="md:!min-w-[420px]">
               {collected ? <MetaAndComments priceHidden /> : <CollectModal />}
               {!collected && isMobile && <CommentSection />}
-              {!collected && isOwner && (
-                <MomentAirdrop
-                  momentContract={token.tokenContractAddress as Address}
-                  tokenId={token.tokenId}
-                />
-              )}
+              {!collected && isOwner && <MomentAirdrop />}
             </div>
           </>
         )}
