@@ -1,4 +1,3 @@
-import { SaleConfig } from "@/hooks/useTokenInfo";
 import { erc20MinterABI, zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
 import { Address, encodeAbiParameters, encodeFunctionData, parseAbiParameters } from "viem";
 import { CHAIN_ID, USDC_ADDRESS } from "../consts";
@@ -7,6 +6,7 @@ import {
   erc20MinterAddresses,
   zoraCreatorFixedPriceSaleStrategyAddress,
 } from "../protocolSdk/constants";
+import { SaleConfig } from "@/types/moment";
 
 const getCollectCall = (
   contractAddress: Address,
@@ -21,7 +21,7 @@ const getCollectCall = (
     comment,
   ]);
 
-  const totalPrice = sale.pricePerToken * BigInt(amount);
+  const totalPrice = BigInt(sale.pricePerToken) * BigInt(amount);
   if (sale.type === MintType.Erc20Mint) {
     return {
       to: erc20MinterAddresses[CHAIN_ID],
