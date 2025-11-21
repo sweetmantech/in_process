@@ -1,49 +1,50 @@
 import { Address, getAddress } from "viem";
-import { useCallback, useMemo, useState } from "react";
-import getTokenInfo from "@/lib/viem/getTokenInfo";
-import { useEffect } from "react";
+import { useMemo } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { useUserProvider } from "@/providers/UserProvider";
-
-export type SaleConfig = {
-  saleStart: bigint;
-  saleEnd: bigint;
-  maxTokensPerAddress: bigint;
-  pricePerToken: bigint;
-  fundsRecipient: Address;
-  type: string;
-};
+import { getMomentApi } from "@/lib/moment/getMomentApi";
 
 const useTokenInfo = (tokenContract: Address, tokenId: string, chainId: number) => {
-  const [saleConfig, setSaleConfig] = useState<SaleConfig | null>(null);
-  const [tokenUri, setTokenUri] = useState<string>("");
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [isSetSale, setIsSetSale] = useState<boolean>(false);
-  const [owner, setOwner] = useState<Address | null>(null);
   const { artistWallet } = useUserProvider();
+
+  const query = useQuery({
+    queryKey: ["tokenInfo", tokenContract, tokenId, chainId],
+    queryFn: () => getMomentApi(tokenContract, tokenId, chainId),
+    enabled: Boolean(tokenContract && tokenId && chainId),
+    staleTime: 1000 * 60 * 5, // 5 minutes
+    retry: (failureCount) => failureCount < 3,
+  });
+
+  const saleConfig = query.data?.saleConfig ?? null;
+  const metadata = query.data?.metadata ?? null;
+  const owner = query.data?.owner ?? null;
+  const tokenUri = query.data?.uri ?? null;
+  const tokenAdmins = query.data?.momentAdmins ?? null;
+
+  const isSetSale = useMemo(() => {
+    return saleConfig ? BigInt(saleConfig.saleEnd) > BigInt(0) : false;
+  }, [saleConfig]);
 
   const isOwner = useMemo(() => {
     return Boolean(artistWallet && owner && getAddress(artistWallet) === getAddress(owner));
   }, [artistWallet, owner]);
 
-  const fetchTokenInfo = useCallback(async () => {
-    const tokenInfo = await getTokenInfo(tokenContract, tokenId, chainId);
-    setSaleConfig(tokenInfo.saleConfig);
-    setOwner(tokenInfo.owner);
-    setIsSetSale(BigInt(tokenInfo.saleConfig.saleEnd) > BigInt(0));
-    setTokenUri(tokenInfo.tokenUri);
-    setIsLoading(false);
-  }, [tokenContract, tokenId]);
-
-  useEffect(() => {
-    fetchTokenInfo();
-  }, [fetchTokenInfo]);
-
   return {
-    saleConfig,
+    saleConfig: saleConfig
+      ? {
+          ...saleConfig,
+          pricePerToken: BigInt(saleConfig.pricePerToken),
+          saleStart: BigInt(saleConfig.saleStart),
+          saleEnd: BigInt(saleConfig.saleEnd),
+          maxTokensPerAddress: BigInt(saleConfig.maxTokensPerAddress),
+        }
+      : null,
+    metadata,
     tokenUri,
-    isLoading,
+    tokenAdmins,
+    isLoading: query.isLoading,
     isSetSale,
-    fetchTokenInfo,
+    fetchTokenInfo: query.refetch,
     owner,
     isOwner,
   };

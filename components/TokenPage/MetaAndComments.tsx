@@ -17,16 +17,15 @@ interface MetaAndCommentsProps {
 
 const MetaAndComments = ({ priceHidden = false, commentsHidden = false }: MetaAndCommentsProps) => {
   const { saleConfig, metadata, isLoading, isSetSale } = useTokenProvider();
-  const { data: meta } = metadata;
   const { balanceOf } = useBalanceOf();
   const { download } = useDownload();
 
-  if (!meta) return <Fragment />;
+  if (!metadata) return <Fragment />;
 
   return (
     <div className="w-full md:max-w-[400px] h-fit">
-      <h3 className="text-4xl md:text-5xl font-spectral">{meta.name}</h3>
-      <Description description={meta.description || ""} />
+      <h3 className="text-4xl md:text-5xl font-spectral">{metadata.name}</h3>
+      <Description description={metadata.description || ""} />
       {!priceHidden && isSetSale && (
         <>
           <div className="space-y-1 md:space-y-2 mt-2 md:mt-4">

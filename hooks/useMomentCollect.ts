@@ -10,6 +10,7 @@ import { toast } from "sonner";
 import useCollectBalanceValidation from "./useCollectBalanceValidation";
 import { usePrivy } from "@privy-io/react-auth";
 import { collectMomentApi } from "@/lib/moment/collectMomentApi";
+import { useMomentCommentsProvider } from "@/providers/MomentCommentsProvider";
 
 const mintOnSmartWallet = async (parameters: any) => {
   const response = await fetch(`/api/smartwallet/sendUserOperation`, {
@@ -30,18 +31,12 @@ const mintOnSmartWallet = async (parameters: any) => {
 
 const useMomentCollect = () => {
   const [isOpenCrossmint, setIsOpenCrossmint] = useState(false);
+  const [amountToCollect, setAmountToCollect] = useState(1);
+  const [collected, setCollected] = useState(false);
   const { artistWallet } = useUserProvider();
   const [isLoading, setIsLoading] = useState(false);
-  const {
-    token,
-    comment,
-    addComment,
-    setComment,
-    setIsOpenCommentModal,
-    saleConfig,
-    setCollected,
-    mintCount,
-  } = useTokenProvider();
+  const { token, saleConfig } = useTokenProvider();
+  const { comment, addComment, setComment, setIsOpenCommentModal } = useMomentCommentsProvider();
   const { order } = useCrossmintCheckout();
   const { validateBalance } = useCollectBalanceValidation();
   const { getAccessToken } = usePrivy();
@@ -64,13 +59,13 @@ const useMomentCollect = () => {
           args: [
             zoraCreatorFixedPriceSaleStrategyAddress[CHAIN.id],
             token.tokenId,
-            mintCount,
+            amountToCollect,
             [],
             minterArguments,
           ],
         });
       } else {
-        validateBalance(saleConfig, mintCount);
+        validateBalance(saleConfig, amountToCollect);
         const accessToken = await getAccessToken();
         if (!accessToken) {
           throw new Error("Failed to get access token");
@@ -80,7 +75,7 @@ const useMomentCollect = () => {
             contractAddress: token.tokenContractAddress,
             tokenId: token.tokenId,
           },
-          mintCount,
+          amountToCollect,
           comment,
           accessToken
         );
@@ -122,6 +117,12 @@ const useMomentCollect = () => {
     isOpenCrossmint,
     setIsOpenCrossmint,
     isLoading,
+    amountToCollect,
+    setAmountToCollect,
+    comment,
+    setComment,
+    collected,
+    setCollected,
   };
 };
 
