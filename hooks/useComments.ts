@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useCallback, useEffect, useState } from "react";
-import { Address } from "viem";
 import { MintComment } from "@/types/moment";
 import fetchComments from "@/lib/moment/fetchComments";
+import { useTokenProvider } from "@/providers/TokenProvider";
 
 export type UseCommentsReturn = {
   comments: MintComment[];
@@ -12,11 +12,9 @@ export type UseCommentsReturn = {
   fetchMore: (offset: number) => void;
 };
 
-export function useComments(
-  contractAddress: Address,
-  tokenId: string,
-  chainId: number
-): UseCommentsReturn {
+export function useComments(): UseCommentsReturn {
+  const { token } = useTokenProvider();
+  const { tokenContractAddress: contractAddress, chainId, tokenId } = token;
   const [comments, setComments] = useState<MintComment[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [hasMore, setHasMore] = useState<boolean>(true);

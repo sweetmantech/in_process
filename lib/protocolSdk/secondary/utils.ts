@@ -48,7 +48,7 @@ export async function getSecondaryInfo({
       result.minimumMarketEth === BigInt(0)
         ? undefined
         : result.minimumMarketEth / parseEther("0.0000111"),
-    mintCount:
+    amountToCollect:
       (await publicClient.getBalance({
         address: result.erc20zAddress,
       })) / parseEther("0.0000111"),

@@ -7,9 +7,9 @@ import { showInsufficientBalanceError } from "@/lib/balance/showInsufficientBala
 const useCollectBalanceValidation = () => {
   const { balance, ethBalance } = useSmartWalletProvider();
 
-  const validateBalance = (saleConfig: SaleConfig, mintCount: number = 1): void => {
-    const ethPrice = formatEther(saleConfig.pricePerToken * BigInt(mintCount));
-    const usdcPrice = formatUnits(saleConfig.pricePerToken * BigInt(mintCount), 6);
+  const validateBalance = (saleConfig: SaleConfig, amountToCollect: number = 1): void => {
+    const ethPrice = formatEther(saleConfig.pricePerToken * BigInt(amountToCollect));
+    const usdcPrice = formatUnits(saleConfig.pricePerToken * BigInt(amountToCollect), 6);
 
     if (saleConfig.type === MintType.ZoraErc20Mint) {
       if (Number(balance) < Number(usdcPrice)) {

@@ -1,9 +1,9 @@
 import { cn } from "@/lib/utils";
-import { useTokenProvider } from "@/providers/TokenProvider";
+import { useMomentCollectProvider } from "@/providers/MomentCollectProvider";
 import { useState } from "react";
 
 const Advanced = () => {
-  const { mintCount, setMintCount } = useTokenProvider();
+  const { amountToCollect, setAmountToCollect } = useMomentCollectProvider();
   const [isCustom, setIsCustom] = useState<boolean>(false);
 
   return (
@@ -12,22 +12,22 @@ const Advanced = () => {
         <input
           type="number"
           min={1}
-          value={mintCount === 0 ? "" : mintCount}
+          value={amountToCollect === 0 ? "" : amountToCollect}
           onChange={(e) => {
             const value = e.target.value;
             if (value === "") {
               // Allow empty input during editing
-              setMintCount(0);
+              setAmountToCollect(0);
             } else {
               const parsed = parseInt(value, 10);
-              setMintCount(isNaN(parsed) ? 1 : Math.max(1, parsed));
+              setAmountToCollect(isNaN(parsed) ? 1 : Math.max(1, parsed));
             }
           }}
           onBlur={(e) => {
             // Ensure minimum value of 1 when user finishes editing
             const value = e.target.value;
             if (value === "" || parseInt(value, 10) < 1) {
-              setMintCount(1);
+              setAmountToCollect(1);
             }
           }}
           className="w-full border border-grey p-2 font-spectral !outline-none"
@@ -40,15 +40,15 @@ const Advanced = () => {
             className={cn(
               `p-2 md:px-6 font-spectral text-md md:text-xl bg-grey-moss-100 text-grey-moss-900
               hover:text-grey-eggshell hover:bg-grey-moss-900`,
-              count === mintCount ? "bg-grey-moss-900 text-grey-eggshell" : ""
+              count === amountToCollect ? "bg-grey-moss-900 text-grey-eggshell" : ""
             )}
             onClick={() => {
               if (count) {
-                setMintCount(count);
+                setAmountToCollect(count);
                 setIsCustom(false);
                 return;
               }
-              setMintCount(1);
+              setAmountToCollect(1);
               setIsCustom(true);
             }}
             key={index}

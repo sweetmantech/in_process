@@ -10,9 +10,11 @@ import ContentRenderer from "../Renderers";
 import BackToTimeline from "./BackToTimeline";
 import MomentAirdrop from "../MomentAirdrop/MomentAirdrop";
 import { Address } from "viem";
+import { useMomentCollectProvider } from "@/providers/MomentCollectProvider";
 
 const Token = () => {
-  const { metadata, collected, isOwner, token } = useTokenProvider();
+  const { metadata, isOwner, token } = useTokenProvider();
+  const { collected } = useMomentCollectProvider();
   const { data: meta } = metadata;
   const isMobile = useIsMobile();
 

@@ -11,10 +11,14 @@ import {
 } from "@/lib/consts";
 import { useAccount } from "wagmi";
 import { useTokenProvider } from "@/providers/TokenProvider";
+import { useMomentCommentsProvider } from "@/providers/MomentCommentsProvider";
 import { Address, formatEther, formatUnits } from "viem";
+import { useMomentCollectProvider } from "@/providers/MomentCollectProvider";
 
 const useCrossmintCalldata = () => {
-  const { comment, token, saleConfig, mintCount } = useTokenProvider();
+  const { comment } = useMomentCommentsProvider();
+  const { amountToCollect } = useMomentCollectProvider();
+  const { token, saleConfig } = useTokenProvider();
   const { address } = useAccount();
 
   const collectionLocator = useMemo(() => {
@@ -28,21 +32,21 @@ const useCrossmintCalldata = () => {
     if (!saleConfig) return;
     if (saleConfig.type === MintType.ZoraErc20Mint)
       return {
-        quantity: mintCount,
+        quantity: amountToCollect,
         erc20Minter: erc20MinterAddresses[CHAIN_ID],
         tokenContract: token.tokenContractAddress,
         tokenId: token.tokenId,
         comment,
         mintReferral: address as Address,
-        totalPrice: formatUnits(saleConfig.pricePerToken * BigInt(mintCount), 6),
+        totalPrice: formatUnits(saleConfig.pricePerToken * BigInt(amountToCollect), 6),
       };
     return {
-      quantity: mintCount,
+      quantity: amountToCollect,
       priceFixedSaleStrategy: zoraCreatorFixedPriceSaleStrategyAddress[CHAIN_ID],
       tokenContract: token.tokenContractAddress,
       tokenId: token.tokenId,
       comment,
-      totalPrice: formatEther(saleConfig.pricePerToken * BigInt(mintCount)),
+      totalPrice: formatEther(saleConfig.pricePerToken * BigInt(amountToCollect)),
     };
   }, [saleConfig]);
 

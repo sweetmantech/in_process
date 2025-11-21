@@ -3,17 +3,15 @@ import { useState } from "react";
 export interface UseWriteCommentReturn {
   comment: string;
   setComment: (value: string) => void;
-  handleCommentChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  setIsOpenCommentModal: (value: boolean) => void;
+  isOpenCommentModal: boolean;
 }
 
 const useWriteComment = (): UseWriteCommentReturn => {
   const [comment, setComment] = useState("");
+  const [isOpenCommentModal, setIsOpenCommentModal] = useState<boolean>(false);
 
-  const handleCommentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setComment(e.target.value);
-  };
-
-  return { comment, setComment, handleCommentChange };
+  return { comment, setComment, setIsOpenCommentModal, isOpenCommentModal };
 };
 
 export default useWriteComment;

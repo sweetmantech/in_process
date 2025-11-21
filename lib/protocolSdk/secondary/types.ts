@@ -75,5 +75,5 @@ export type SecondaryInfo = {
   // minimum quantity of tokens that must have been minted to launch the countdown.
   minimumMintsForCountdown?: bigint;
   // mints so far
-  mintCount: bigint;
+  amountToCollect: bigint;
 };

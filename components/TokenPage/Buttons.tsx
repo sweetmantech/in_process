@@ -1,12 +1,12 @@
 import useConnectedWallet from "@/hooks/useConnectedWallet";
 import useDownload from "@/hooks/useDownload";
 import useShareMoment from "@/hooks/useShareMoment";
-import { useTokenProvider } from "@/providers/TokenProvider";
+import { useMomentCollectProvider } from "@/providers/MomentCollectProvider";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 const Buttons = () => {
-  const { setCollected } = useTokenProvider();
+  const { setCollected } = useMomentCollectProvider();
   const { push } = useRouter();
   const { connectedWallet } = useConnectedWallet();
   const { share } = useShareMoment();

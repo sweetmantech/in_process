@@ -1,11 +1,13 @@
 import { useTokenProvider } from "@/providers/TokenProvider";
+import { useMomentCommentsProvider } from "@/providers/MomentCommentsProvider";
 import CommentsContainer from "./CommentsContainer";
 import { Skeleton } from "../ui/skeleton";
 import { Comment } from "./Comment";
 import FetchMore from "../FetchMore";
 
 const CommentSection = () => {
-  const { comments, hasMore, isLoading, isSetSale, fetchMore } = useTokenProvider();
+  const { comments, hasMore, isLoading, fetchMore } = useMomentCommentsProvider();
+  const { isSetSale } = useTokenProvider();
 
   if (isLoading)
     return (

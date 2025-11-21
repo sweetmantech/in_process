@@ -193,12 +193,12 @@ Status: ✅ **COMPLETE** ✅
 **Implementation COMPLETED**:
 [X] **Updated `hasAllowance` function signature**: Added `quantity: number = 1` parameter with default value
 [X] **Updated allowance check**: Changed from `data >= sale.pricePerToken` to `data >= sale.pricePerToken * BigInt(quantity)`
-[X] **Updated function call**: Updated `useUsdcMint.ts` to pass `mintCount` parameter to `hasAllowance(sale, mintCount)`
+[X] **Updated function call**: Updated `useUsdcMint.ts` to pass `amountToCollect` parameter to `hasAllowance(sale, amountToCollect)`
 
 **Changes Made**:
 - **useUsdc.ts**: Line 32 - Added `quantity: number = 1` parameter to `hasAllowance` function
 - **useUsdc.ts**: Line 44 - Updated check to `data >= sale.pricePerToken * BigInt(quantity)`
-- **useUsdcMint.ts**: Line 38 - Updated call to `hasAllowance(sale, mintCount)`
+- **useUsdcMint.ts**: Line 38 - Updated call to `hasAllowance(sale, amountToCollect)`
 
 **Technical Details**:
 - Now allowance check accounts for total cost (price × quantity) instead of just unit price
@@ -275,32 +275,32 @@ Status: ✅ **COMPLETE** ✅
   1. `lib/getCollectRequest.ts` line 32: hardcoded `1` in args for USDC (should use `mintAmount`)
   2. `hooks/useUsdcMint.ts` line 43: `getCollectRequest` called without `mintAmount` parameter
   3. `hooks/useUsdcMint.ts` line 71: ETH_USDC_WRAPPER mint call hardcoded quantity to `1`
-  4. `hooks/useMomentCollect.ts` line 86: `mintWithUsdc` called without `mintCount` parameter
-  5. `hooks/useCrossmintCalldata.ts` line 30: USDC quantity hardcoded to `1` (should use `mintCount`)
+  4. `hooks/useMomentCollect.ts` line 86: `mintWithUsdc` called without `amountToCollect` parameter
+  5. `hooks/useCrossmintCalldata.ts` line 30: USDC quantity hardcoded to `1` (should use `amountToCollect`)
 
 **Implementation Plan**:
 [X] **Fix `lib/getCollectRequest.ts`**: Use `mintAmount` instead of hardcoded `1` for USDC mints
-[X] **Fix `hooks/useUsdcMint.ts`**: Accept `mintCount` parameter and pass it to `getCollectRequest` and ETH_USDC_WRAPPER
-[X] **Fix `hooks/useMomentCollect.ts`**: Pass `mintCount` to `mintWithUsdc` call
-[X] **Fix `hooks/useCrossmintCalldata.ts`**: Use `mintCount` instead of hardcoded `1` for USDC
+[X] **Fix `hooks/useUsdcMint.ts`**: Accept `amountToCollect` parameter and pass it to `getCollectRequest` and ETH_USDC_WRAPPER
+[X] **Fix `hooks/useMomentCollect.ts`**: Pass `amountToCollect` to `mintWithUsdc` call
+[X] **Fix `hooks/useCrossmintCalldata.ts`**: Use `amountToCollect` instead of hardcoded `1` for USDC
 [X] **Fix USDC pricing**: Ensure total price calculation and balance check account for quantity
 
 **Technical Changes Required**:
-- Add `mintCount` parameter to `mintWithUsdc` function signature
+- Add `amountToCollect` parameter to `mintWithUsdc` function signature
 - Update all USDC-related quantity handling to use dynamic values
-- Maintain consistency with ETH mint flow (already uses `mintCount` correctly)
+- Maintain consistency with ETH mint flow (already uses `amountToCollect` correctly)
 
 **Implementation Changes COMPLETED**:
 [X] **Updated `lib/getCollectRequest.ts`**: Changed hardcoded `1` to `mintAmount` in USDC mint args (line 32)
 [X] **Updated `hooks/useUsdcMint.ts`**: 
-  - Added `mintCount: number = 1` parameter to `mintWithUsdc` function
-  - Pass `mintCount` to `getCollectRequest` call (line 43)
-  - Changed hardcoded `1` to `mintCount` in ETH_USDC_WRAPPER mint call (line 71)  
-  - Fixed USDC balance check to multiply by `mintCount` for total cost validation
-[X] **Updated `hooks/useMomentCollect.ts`**: Pass `mintCount` parameter to `mintWithUsdc` call (line 86)
+  - Added `amountToCollect: number = 1` parameter to `mintWithUsdc` function
+  - Pass `amountToCollect` to `getCollectRequest` call (line 43)
+  - Changed hardcoded `1` to `amountToCollect` in ETH_USDC_WRAPPER mint call (line 71)  
+  - Fixed USDC balance check to multiply by `amountToCollect` for total cost validation
+[X] **Updated `hooks/useMomentCollect.ts`**: Pass `amountToCollect` parameter to `mintWithUsdc` call (line 86)
 [X] **Updated `hooks/useCrossmintCalldata.ts`**: 
-  - Changed hardcoded quantity `1` to `mintCount` (line 30)
-  - Fixed `totalPrice` calculation to multiply by `mintCount` for accurate pricing
+  - Changed hardcoded quantity `1` to `amountToCollect` (line 30)
+  - Fixed `totalPrice` calculation to multiply by `amountToCollect` for accurate pricing
 
 **Key Fixes Applied**:
 - **Quantity consistency**: All USDC mint functions now respect the selected quantity
@@ -310,11 +310,11 @@ Status: ✅ **COMPLETE** ✅
 - **Crossmint integration**: USDC crossmint orders now use correct quantity and total price
 
 **Technical Flow FIXED**:
-1. **User selects quantity** → `mintCount` state in `useTokenProvider`
-2. **Mint initiated** → `mintWithUsdc(saleConfig, token, comment, mintCount)`
-3. **Balance check** → `usdcPrice * BigInt(mintCount)` for sufficient funds
-4. **Direct USDC path** → `getCollectRequest(..., mintCount)` → `mintAmount` in contract args
-5. **ETH-to-USDC path** → ETH_USDC_WRAPPER with `mintCount` parameter
+1. **User selects quantity** → `amountToCollect` state in `useTokenProvider`
+2. **Mint initiated** → `mintWithUsdc(saleConfig, token, comment, amountToCollect)`
+3. **Balance check** → `usdcPrice * BigInt(amountToCollect)` for sufficient funds
+4. **Direct USDC path** → `getCollectRequest(..., amountToCollect)` → `mintAmount` in contract args
+5. **ETH-to-USDC path** → ETH_USDC_WRAPPER with `amountToCollect` parameter
 6. **Crossmint fallback** → Correct quantity and total price calculation
 
 **Status**: ✅ **IMPLEMENTATION COMPLETE**
