@@ -56,20 +56,7 @@ const useMomentCollect = () => {
         comment,
       ]);
 
-      if (!Number(saleConfig.pricePerToken)) {
-        await mintOnSmartWallet({
-          address: token.tokenContractAddress,
-          abi: zoraCreator1155ImplABI,
-          functionName: "mint",
-          args: [
-            zoraCreatorFixedPriceSaleStrategyAddress[CHAIN.id],
-            token.tokenId,
-            mintCount,
-            [],
-            minterArguments,
-          ],
-        });
-      } else {
+      if (parseInt(saleConfig.pricePerToken, 10) > 0) {
         validateBalance(saleConfig, mintCount);
         const accessToken = await getAccessToken();
         if (!accessToken) {
@@ -84,6 +71,19 @@ const useMomentCollect = () => {
           comment,
           accessToken
         );
+      } else {
+        await mintOnSmartWallet({
+          address: token.tokenContractAddress,
+          abi: zoraCreator1155ImplABI,
+          functionName: "mint",
+          args: [
+            zoraCreatorFixedPriceSaleStrategyAddress[CHAIN.id],
+            token.tokenId,
+            mintCount,
+            [],
+            minterArguments,
+          ],
+        });
       }
       addComment({
         sender: artistWallet as Address,

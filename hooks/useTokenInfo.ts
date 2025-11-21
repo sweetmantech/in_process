@@ -21,7 +21,7 @@ const useTokenInfo = (tokenContract: Address, tokenId: string, chainId: number) 
     const tokenInfo = await getTokenInfo(tokenContract, tokenId, chainId);
     setSaleConfig(tokenInfo.saleConfig);
     setOwner(tokenInfo.owner);
-    setIsSetSale(tokenInfo.saleConfig.saleEnd > BigInt(0));
+    setIsSetSale(tokenInfo.saleConfig.saleEnd > 0);
     setTokenUri(tokenInfo.tokenUri);
     setIsLoading(false);
   }, [tokenContract, tokenId]);

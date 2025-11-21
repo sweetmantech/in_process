@@ -11,16 +11,14 @@ const Sale = () => {
   return (
     <div className="w-full font-archivo">
       <div className="pt-4 w-full flex flex-col gap-2 bg-white max-w-md rounded-2xl mt-4 p-4">
-        {!saleConfig.saleEnd ? (
-          <div>sale is not yet activated.</div>
-        ) : (
+        {saleConfig.saleEnd > 0 ? (
           <>
             <div>
               <p className="pb-2">
                 sale start:{" "}
-                {!saleConfig.saleStart
-                  ? "Open"
-                  : new Date(saleConfig.saleStart * 1000).toLocaleDateString()}
+                {saleConfig.saleStart > 0
+                  ? new Date(saleConfig.saleStart * 1000).toLocaleDateString()
+                  : "Open"}
               </p>
               <DateTimePicker date={saleStart} setDate={(value) => setSaleStart(value)} />
             </div>
@@ -32,6 +30,8 @@ const Sale = () => {
               {isLoading ? "setting..." : "set sale"}
             </button>
           </>
+        ) : (
+          <div>sale is not yet activated.</div>
         )}
       </div>
     </div>
