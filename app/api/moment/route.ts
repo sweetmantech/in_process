@@ -29,10 +29,6 @@ export async function GET(req: NextRequest) {
     const { tokenContract, tokenId, chainId } = parseResult.data;
     const chainIdNum = parseInt(chainId, 10);
 
-    if (isNaN(chainIdNum)) {
-      return NextResponse.json({ error: "Invalid chainId" }, { status: 400 });
-    }
-
     // Get token info from chain
     const tokenInfo = await getTokenInfo(getAddress(tokenContract), tokenId, chainIdNum);
 

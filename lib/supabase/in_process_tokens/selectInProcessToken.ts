@@ -17,7 +17,7 @@ export async function selectInProcessToken({
     .select("*, token_admins:in_process_token_admins(*)");
 
   if (address) {
-    query = query.eq("address", address);
+    query = query.eq("address", address.toLowerCase());
   }
 
   if (chainId !== undefined) {
