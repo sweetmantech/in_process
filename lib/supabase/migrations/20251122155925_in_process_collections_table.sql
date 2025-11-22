@@ -39,3 +39,8 @@ end;
 $function$
 ;
 
+CREATE TRIGGER in_process_collections_lowercase_trigger
+  BEFORE INSERT OR UPDATE ON public.in_process_collections
+  FOR EACH ROW
+  EXECUTE FUNCTION public.in_process_collections_lowercase();
+
