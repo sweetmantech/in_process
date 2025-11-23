@@ -122,6 +122,157 @@ export type Database = {
         };
         Relationships: [];
       };
+      in_process_collections: {
+        Row: {
+          address: string;
+          chain_id: number;
+          created_at: string;
+          default_admin: string;
+          id: string;
+          payout_recipient: string;
+          uri: string;
+        };
+        Insert: {
+          address: string;
+          chain_id: number;
+          created_at: string;
+          default_admin: string;
+          id?: string;
+          payout_recipient: string;
+          uri: string;
+        };
+        Update: {
+          address?: string;
+          chain_id?: number;
+          created_at?: string;
+          default_admin?: string;
+          id?: string;
+          payout_recipient?: string;
+          uri?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "in_process_collections_default_admin_fkey";
+            columns: ["default_admin"];
+            isOneToOne: false;
+            referencedRelation: "in_process_artists";
+            referencedColumns: ["address"];
+          },
+        ];
+      };
+      in_process_moment_admins: {
+        Row: {
+          artist_address: string;
+          created_at: string;
+          hidden: boolean;
+          id: string;
+          moment: string;
+        };
+        Insert: {
+          artist_address: string;
+          created_at?: string;
+          hidden?: boolean;
+          id?: string;
+          moment: string;
+        };
+        Update: {
+          artist_address?: string;
+          created_at?: string;
+          hidden?: boolean;
+          id?: string;
+          moment?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "in_process_moment_admins_artist_address_fkey";
+            columns: ["artist_address"];
+            isOneToOne: false;
+            referencedRelation: "in_process_artists";
+            referencedColumns: ["address"];
+          },
+          {
+            foreignKeyName: "in_process_moment_admins_moment_fkey";
+            columns: ["moment"];
+            isOneToOne: false;
+            referencedRelation: "in_process_moments";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      in_process_moment_fee_recipients: {
+        Row: {
+          artist_address: string;
+          created_at: string;
+          id: string;
+          moment: string;
+          percent_allocation: number;
+        };
+        Insert: {
+          artist_address: string;
+          created_at?: string;
+          id?: string;
+          moment: string;
+          percent_allocation: number;
+        };
+        Update: {
+          artist_address?: string;
+          created_at?: string;
+          id?: string;
+          moment?: string;
+          percent_allocation?: number;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "in_process_moment_fee_recipients_artist_address_fkey";
+            columns: ["artist_address"];
+            isOneToOne: false;
+            referencedRelation: "in_process_artists";
+            referencedColumns: ["address"];
+          },
+          {
+            foreignKeyName: "in_process_moment_fee_recipients_moment_fkey";
+            columns: ["moment"];
+            isOneToOne: false;
+            referencedRelation: "in_process_moments";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      in_process_moments: {
+        Row: {
+          collection: string;
+          created_at: string;
+          id: string;
+          max_supply: number;
+          token_id: number;
+          uri: string;
+        };
+        Insert: {
+          collection: string;
+          created_at: string;
+          id?: string;
+          max_supply: number;
+          token_id: number;
+          uri: string;
+        };
+        Update: {
+          collection?: string;
+          created_at?: string;
+          id?: string;
+          max_supply?: number;
+          token_id?: number;
+          uri?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "in_process_moments_collection_fkey";
+            columns: ["collection"];
+            isOneToOne: false;
+            referencedRelation: "in_process_collections";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       in_process_notifications: {
         Row: {
           artist: string;
@@ -199,6 +350,50 @@ export type Database = {
             columns: ["token"];
             isOneToOne: false;
             referencedRelation: "in_process_tokens";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      in_process_sales: {
+        Row: {
+          created_at: string;
+          currency: string;
+          funds_recipient: string;
+          id: string;
+          max_tokens_per_address: number;
+          moment: string;
+          price_per_token: number;
+          sale_end: number;
+          sale_start: number;
+        };
+        Insert: {
+          created_at?: string;
+          currency: string;
+          funds_recipient: string;
+          id?: string;
+          max_tokens_per_address: number;
+          moment: string;
+          price_per_token: number;
+          sale_end: number;
+          sale_start: number;
+        };
+        Update: {
+          created_at?: string;
+          currency?: string;
+          funds_recipient?: string;
+          id?: string;
+          max_tokens_per_address?: number;
+          moment?: string;
+          price_per_token?: number;
+          sale_end?: number;
+          sale_start?: number;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "in_process_sales_moment_fkey";
+            columns: ["moment"];
+            isOneToOne: true;
+            referencedRelation: "in_process_moments";
             referencedColumns: ["id"];
           },
         ];
