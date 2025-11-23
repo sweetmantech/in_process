@@ -43,3 +43,19 @@ alter table "public"."in_process_sales" validate constraint "in_process_sales_to
 CREATE UNIQUE INDEX in_process_sales_token_unique ON public.in_process_sales USING btree (token);
 
 alter table "public"."in_process_sales" add constraint "in_process_sales_token_unique" UNIQUE using index "in_process_sales_token_unique";
+
+-- Create trigger function to convert funds_recipient and currency to lowercase
+create or replace function "public"."lowercase_in_process_sales_fields"()
+returns trigger as $$
+begin
+    new.funds_recipient := lower(new.funds_recipient);
+    new.currency := lower(new.currency);
+    return new;
+end;
+$$ language plpgsql;
+
+-- Create trigger to automatically lowercase funds_recipient and currency on insert/update
+create trigger "trg_lowercase_in_process_sales_fields"
+    before insert or update on "public"."in_process_sales"
+    for each row
+    execute function "public"."lowercase_in_process_sales_fields"();
