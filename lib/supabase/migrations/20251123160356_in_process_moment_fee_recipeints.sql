@@ -39,3 +39,21 @@ alter table "public"."in_process_collections" validate constraint "in_process_co
 alter table "public"."in_process_moment_admins" add constraint "in_process_moment_admins_artist_address_fkey" FOREIGN KEY (artist_address) REFERENCES public.in_process_artists(address) ON UPDATE CASCADE ON DELETE RESTRICT not valid;
 
 alter table "public"."in_process_moment_admins" validate constraint "in_process_moment_admins_artist_address_fkey";
+
+alter table "public"."in_process_sales" drop constraint "in_process_sales_token_fkey";
+
+alter table "public"."in_process_sales" drop constraint "in_process_sales_token_unique";
+
+drop index if exists "public"."in_process_sales_token_unique";
+
+alter table "public"."in_process_sales" drop column "token";
+
+alter table "public"."in_process_sales" add column "moment" uuid not null;
+
+CREATE UNIQUE INDEX in_process_sales_token_unique ON public.in_process_sales USING btree (moment);
+
+alter table "public"."in_process_sales" add constraint "in_process_sales_moment_fkey" FOREIGN KEY (moment) REFERENCES public.in_process_moments(id) ON UPDATE CASCADE ON DELETE CASCADE not valid;
+
+alter table "public"."in_process_sales" validate constraint "in_process_sales_moment_fkey";
+
+alter table "public"."in_process_sales" add constraint "in_process_sales_token_unique" UNIQUE using index "in_process_sales_token_unique";
