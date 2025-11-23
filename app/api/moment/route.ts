@@ -77,6 +77,7 @@ export async function GET(req: NextRequest) {
         image: metadata.image || "",
         description: metadata.description || "",
         content: metadata.content || null,
+        animation_url: metadata.animation_url || "",
       },
     });
   } catch (error: any) {

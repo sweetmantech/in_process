@@ -46,6 +46,7 @@ const useMuxUploadCallback = ({
 
       // Set animation URI to Mux playback URL (not Arweave - video stays on Mux)
       setAnimationUri(muxUpload.playbackUrl);
+      setDownloadUrl(muxUpload.downloadUrl);
 
       // Set download URL to Mux download URL
       setDownloadUrl(muxUpload.downloadUrl);
@@ -66,6 +67,7 @@ const useMuxUploadCallback = ({
     setMimeType,
     setPendingVideoFile,
     setLoading,
+    setDownloadUrl,
   ]);
 
   // Sync Mux upload progress

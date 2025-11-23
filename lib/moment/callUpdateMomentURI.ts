@@ -15,23 +15,28 @@ export async function callUpdateMomentURI({
   newUri,
   accessToken,
 }: CallUpdateMomentURIInput): Promise<void> {
-  const response = await fetch("/api/moment/update-uri", {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-      authorization: `Bearer ${accessToken}`,
-    },
-    body: JSON.stringify({
-      moment: {
-        contractAddress: tokenContractAddress,
-        tokenId: tokenId,
+  try {
+    const response = await fetch("/api/moment/update-uri", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        authorization: `Bearer ${accessToken}`,
       },
-      newUri,
-    }),
-  });
+      body: JSON.stringify({
+        moment: {
+          contractAddress: tokenContractAddress,
+          tokenId: tokenId,
+        },
+        newUri,
+      }),
+    });
 
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || "Failed to update moment metadata");
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.message || "Failed to update moment metadata");
+    }
+    return data.hash;
+  } catch (error: any) {
+    throw new Error(error?.message || "Failed to update moment metadata");
   }
 }

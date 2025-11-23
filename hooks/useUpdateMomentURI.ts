@@ -8,6 +8,7 @@ import getTokenInfo from "@/lib/viem/getTokenInfo";
 import { toast } from "sonner";
 import { callUpdateMomentURI } from "@/lib/moment/callUpdateMomentURI";
 import { useMomentFormProvider } from "@/providers/MomentFormProvider";
+import { migrateMuxToArweaveApi } from "@/lib/mux/migrateMuxToArweaveApi";
 
 const useUpdateMomentURI = () => {
   const { token, fetchTokenInfo } = useTokenProvider();
@@ -17,6 +18,8 @@ const useUpdateMomentURI = () => {
     imageUri,
     animationUri,
     mimeType,
+    downloadUrl,
+    resetForm,
   } = useMomentFormProvider();
   const { getAccessToken } = usePrivy();
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -28,6 +31,7 @@ const useUpdateMomentURI = () => {
       const current = await fetchTokenMetadata(tokenInfo.tokenUri);
 
       const updatedAnimationUrl = animationUri || current?.animation_url;
+      const updatedContentUri = downloadUrl || current?.content?.uri;
       const updatedMimeType = mimeType || current?.content?.mime;
 
       const name = providerName || current?.name;
@@ -40,10 +44,10 @@ const useUpdateMomentURI = () => {
         image: imageUri || current?.image,
         animation_url: updatedAnimationUrl,
         content:
-          updatedAnimationUrl || updatedMimeType
+          (updatedContentUri || updatedMimeType) && !updatedMimeType?.includes("image")
             ? {
                 mime: updatedMimeType || current?.content?.mime || "",
-                uri: updatedAnimationUrl || current?.content?.uri || "",
+                uri: updatedContentUri || current?.content?.uri || "",
               }
             : current?.content,
       };
@@ -67,6 +71,15 @@ const useUpdateMomentURI = () => {
         newUri,
         accessToken,
       });
+
+      if (updatedMimeType?.includes("video")) {
+        await migrateMuxToArweaveApi({
+          tokenContractAddress: token.tokenContractAddress,
+          tokenId: token.tokenId,
+          accessToken,
+        });
+        resetForm();
+      }
 
       fetchTokenInfo();
       toast.success("Token metadata updated successfully");
