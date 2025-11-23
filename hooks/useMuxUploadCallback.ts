@@ -60,7 +60,6 @@ const useMuxUploadCallback = ({
     }
   }, [
     muxUpload.playbackUrl,
-    muxUpload.downloadUrl,
     muxUpload.uploading,
     muxUpload.downloadUrl,
     pendingVideoFile,
