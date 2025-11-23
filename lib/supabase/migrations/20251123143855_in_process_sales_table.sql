@@ -29,6 +29,9 @@ create table "public"."in_process_sales" (
 
 alter table "public"."in_process_sales" enable row level security;
 
+alter table "public"."in_process_sales" add constraint "chk_in_process_sales_sale_range" 
+    check (sale_end >= sale_start);
+
 CREATE UNIQUE INDEX in_process_sales_pkey ON public.in_process_sales USING btree (id);
 
 alter table "public"."in_process_sales" add constraint "in_process_sales_pkey" PRIMARY KEY using index "in_process_sales_pkey";
