@@ -130,6 +130,7 @@ export type Database = {
           default_admin: string;
           id: string;
           payout_recipient: string;
+          updated_at: string;
           uri: string;
         };
         Insert: {
@@ -139,6 +140,7 @@ export type Database = {
           default_admin: string;
           id?: string;
           payout_recipient: string;
+          updated_at: string;
           uri: string;
         };
         Update: {
@@ -148,6 +150,7 @@ export type Database = {
           default_admin?: string;
           id?: string;
           payout_recipient?: string;
+          updated_at?: string;
           uri?: string;
         };
         Relationships: [
@@ -163,21 +166,21 @@ export type Database = {
       in_process_moment_admins: {
         Row: {
           artist_address: string;
-          created_at: string;
+          granted_at: string;
           hidden: boolean;
           id: string;
           moment: string;
         };
         Insert: {
           artist_address: string;
-          created_at?: string;
+          granted_at?: string;
           hidden?: boolean;
           id?: string;
           moment: string;
         };
         Update: {
           artist_address?: string;
-          created_at?: string;
+          granted_at?: string;
           hidden?: boolean;
           id?: string;
           moment?: string;
@@ -192,6 +195,45 @@ export type Database = {
           },
           {
             foreignKeyName: "in_process_moment_admins_moment_fkey";
+            columns: ["moment"];
+            isOneToOne: false;
+            referencedRelation: "in_process_moments";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      in_process_moment_comments: {
+        Row: {
+          artist_address: string;
+          comment: string | null;
+          commented_at: string;
+          id: string;
+          moment: string;
+        };
+        Insert: {
+          artist_address?: string;
+          comment?: string | null;
+          commented_at?: string;
+          id?: string;
+          moment: string;
+        };
+        Update: {
+          artist_address?: string;
+          comment?: string | null;
+          commented_at?: string;
+          id?: string;
+          moment?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "in_process_moment_comments_artist_address_fkey";
+            columns: ["artist_address"];
+            isOneToOne: false;
+            referencedRelation: "in_process_artists";
+            referencedColumns: ["address"];
+          },
+          {
+            foreignKeyName: "in_process_moment_comments_moment_fkey";
             columns: ["moment"];
             isOneToOne: false;
             referencedRelation: "in_process_moments";
@@ -245,6 +287,7 @@ export type Database = {
           id: string;
           max_supply: number;
           token_id: number;
+          updated_at: string;
           uri: string;
         };
         Insert: {
@@ -253,6 +296,7 @@ export type Database = {
           id?: string;
           max_supply: number;
           token_id: number;
+          updated_at: string;
           uri: string;
         };
         Update: {
@@ -261,6 +305,7 @@ export type Database = {
           id?: string;
           max_supply?: number;
           token_id?: number;
+          updated_at?: string;
           uri?: string;
         };
         Relationships: [
