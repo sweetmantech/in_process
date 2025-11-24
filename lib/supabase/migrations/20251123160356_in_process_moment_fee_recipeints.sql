@@ -50,10 +50,10 @@ alter table "public"."in_process_sales" drop column "token";
 
 alter table "public"."in_process_sales" add column "moment" uuid not null;
 
-CREATE UNIQUE INDEX in_process_sales_token_unique ON public.in_process_sales USING btree (moment);
+CREATE UNIQUE INDEX in_process_sales_moment_unique ON public.in_process_sales USING btree (moment);
 
 alter table "public"."in_process_sales" add constraint "in_process_sales_moment_fkey" FOREIGN KEY (moment) REFERENCES public.in_process_moments(id) ON UPDATE CASCADE ON DELETE CASCADE not valid;
 
 alter table "public"."in_process_sales" validate constraint "in_process_sales_moment_fkey";
 
-alter table "public"."in_process_sales" add constraint "in_process_sales_token_unique" UNIQUE using index "in_process_sales_token_unique";
+alter table "public"."in_process_sales" add constraint "in_process_sales_moment_unique" UNIQUE using index "in_process_sales_moment_unique";
