@@ -2,7 +2,7 @@
   create table "public"."in_process_moment_comments" (
     "id" uuid not null default gen_random_uuid(),
     "comment" text,
-    "token" uuid not null,
+    "moment" uuid not null,
     "artist_address" text not null default ''::text,
     "commented_at" timestamp with time zone not null default now()
       );
@@ -25,3 +25,7 @@ alter table "public"."in_process_moment_comments" add constraint "in_process_mom
 alter table "public"."in_process_moment_comments" add constraint "in_process_moment_comments_artist_address_fkey" FOREIGN KEY (artist_address) REFERENCES public.in_process_artists(address) ON UPDATE CASCADE ON DELETE CASCADE not valid;
 
 alter table "public"."in_process_moment_comments" validate constraint "in_process_moment_comments_artist_address_fkey";
+
+alter table "public"."in_process_moment_comments" add constraint "in_process_moment_comments_moment_fkey" FOREIGN KEY (moment) REFERENCES public.in_process_moments(id) ON UPDATE CASCADE ON DELETE CASCADE not valid;
+
+alter table "public"."in_process_moment_comments" validate constraint "in_process_moment_comments_moment_fkey";
