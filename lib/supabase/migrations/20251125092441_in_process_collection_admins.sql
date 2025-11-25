@@ -1,7 +1,7 @@
 
   create table "public"."in_process_collection_admins" (
     "id" uuid not null default gen_random_uuid(),
-    "collection" uuid not null default gen_random_uuid(),
+    "collection" uuid not null default,
     "artist_address" text not null,
     "granted_at" timestamp with time zone not null,
     "hidden" boolean not null default false
