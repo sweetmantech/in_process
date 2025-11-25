@@ -122,6 +122,45 @@ export type Database = {
         };
         Relationships: [];
       };
+      in_process_collection_admins: {
+        Row: {
+          artist_address: string;
+          collection: string;
+          granted_at: string;
+          hidden: boolean;
+          id: string;
+        };
+        Insert: {
+          artist_address: string;
+          collection: string;
+          granted_at: string;
+          hidden?: boolean;
+          id?: string;
+        };
+        Update: {
+          artist_address?: string;
+          collection?: string;
+          granted_at?: string;
+          hidden?: boolean;
+          id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "in_process_collection_admins_artist_address_fkey";
+            columns: ["artist_address"];
+            isOneToOne: false;
+            referencedRelation: "in_process_artists";
+            referencedColumns: ["address"];
+          },
+          {
+            foreignKeyName: "in_process_collection_admins_collection_fkey";
+            columns: ["collection"];
+            isOneToOne: false;
+            referencedRelation: "in_process_collections";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       in_process_collections: {
         Row: {
           address: string;
