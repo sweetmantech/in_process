@@ -1,9 +1,10 @@
 import { supabase } from "@/lib/supabase/client";
 import { CHAIN_ID } from "@/lib/consts";
+import { PostgrestError } from "@supabase/supabase-js";
 
 export async function getInProcessMomentsTotalCnt(): Promise<{
   count: number | null;
-  error: Error | null;
+  error: PostgrestError | null;
 }> {
   const { count, error } = await supabase
     .from("in_process_moments")
