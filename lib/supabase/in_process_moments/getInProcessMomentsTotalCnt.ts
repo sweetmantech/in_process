@@ -8,9 +8,8 @@ export async function getInProcessMomentsTotalCnt(): Promise<{
   const { count, error } = await supabase
     .from("in_process_moments")
     .select("*, collection:in_process_collections!inner(*)", { count: "exact", head: true })
-    .neq("collection.uri", "")
+    .neq("uri", "")
     .eq("collection.chain_id", CHAIN_ID);
 
-  console.log("ziad here 1111", error);
   return { count, error };
 }
