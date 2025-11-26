@@ -3,7 +3,7 @@ import {
   MintComment,
   MomentCommentsInput,
   MomentCommentsResult,
-} from "@/types/moment";
+} from "@/types/legacy/moment";
 
 async function fetchComments({
   moment,

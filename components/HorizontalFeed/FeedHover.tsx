@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Skeleton } from "../ui/skeleton";
-import { Metadata } from "@/types/token";
+import { Metadata } from "@/types/legacy/token";
 import ContentRenderer from "../Renderers/ContentRenderer";
 
 interface FeedHoverProps {

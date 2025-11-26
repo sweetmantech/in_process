@@ -1,4 +1,4 @@
-import { Point } from "@/types/spiral";
+import { Point } from "@/types/legacy/spiral";
 
 export const getCatmullRomControlPoints = (
   p0: Point,

@@ -1,12 +1,12 @@
 import { Address, formatUnits } from "viem";
-import { SaleConfig } from "@/types/moment";
+import { SaleConfig } from "@/types/legacy/moment";
 import { CHAIN_ID } from "@/lib/consts";
 import { erc20MinterAddresses } from "@/lib/protocolSdk/constants";
 import getUsdcBalance from "@/lib/balance/getUsdcBalance";
 import getEthBalance from "@/lib/balance/getEthBalance";
 import getAllowance from "@/lib/viem/getAllowance";
 import getApproveCall from "@/lib/viem/getApproveCall";
-import { MintType } from "@/types/zora";
+import { MintType } from "@/types/legacy/zora";
 
 /**
  * Validates balance and checks allowance for moment collection.

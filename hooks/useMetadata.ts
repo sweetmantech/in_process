@@ -1,5 +1,5 @@
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
-import { Metadata } from "@/types/token";
+import { Metadata } from "@/types/legacy/token";
 import { useQuery } from "@tanstack/react-query";
 
 async function fetchMetadata(uri: string): Promise<Metadata> {

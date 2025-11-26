@@ -1,4 +1,4 @@
-import { Point } from "@/types/spiral";
+import { Point } from "@/types/legacy/spiral";
 import { baseSepolia, base } from "viem/chains";
 
 export const INPROCESS_GROUP_CHAT_ID = "-1002592953370";

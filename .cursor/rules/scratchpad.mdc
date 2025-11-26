@@ -1,0 +1,69 @@
+---
+description: Documenting your thinking process, research and implementation plans
+globs: 
+alwaysApply: true
+---
+
+# Scratchpad - Task Planning & Progress Tracking
+
+**Purpose**: Use this file to organize your thoughts, plan tasks, and track progress during development.
+
+**Note**: For reusable learnings, patterns, and architectural decisions, see [new.architecture.mdc](mdc:.cursor/rules/new.architecture.mdc) instead.
+
+---
+
+## How to Use This Scratchpad
+
+When you receive a new task:
+1. **Review** the Scratchpad content
+2. **Clear** old completed tasks if necessary
+3. **Explain** the new task
+4. **Plan** the steps needed to complete it
+5. Use todo markers to track progress: `[X] Task 1` / `[ ] Task 2`
+
+**IMPORTANT**: Update the Scratchpad CONTINUOUSLY as you work:
+- When you start a new task → review, clear old tasks, plan steps
+- When you complete a subtask → mark it complete immediately
+- When you make progress → update the status section
+- When you finish a milestone → reflect and plan next steps
+- When planning next actions → always refer to Scratchpad first
+
+Also update the progress of the task in the Scratchpad when you finish a subtask.
+Especially when you finished a milestone, it will help to improve your depth of task accomplishment to use the Scratchpad to reflect and plan.
+The goal is to help you maintain a big picture as well as the progress of the task. Always refer to the Scratchpad when you plan the next step.
+
+---
+
+# Current Task
+
+## Database Schema Migration - Legacy vs Current Tables
+
+**CRITICAL**: The following tables are **LEGACY** and will be removed in the future:
+- `in_process_tokens` ❌ LEGACY
+- `in_process_token_admins` ❌ LEGACY  
+- `in_process_token_fee_recipients` ❌ LEGACY
+
+**Current/Future Tables** (use these instead):
+- `in_process_collections` ✅ - Collections (address, chain_id, default_admin, payout_recipient, uri)
+- `in_process_moments` ✅ - Moments within collections (collection FK, token_id, uri, max_supply, created_at, updated_at)
+- `in_process_admins` ✅ - Admins for collections/moments (collection FK, token_id, artist_address, hidden, granted_at)
+- `in_process_moment_fee_recipients` ✅ - Fee recipients for moments (moment FK, artist_address, percent_allocation)
+- `in_process_sales` ✅ - Sales for moments (moment FK, sale_start, sale_end, price_per_token, currency, funds_recipient)
+
+**Key Relationships:**
+- `in_process_moments.collection` → `in_process_collections.id`
+- `in_process_admins.collection` → `in_process_collections.id` (also has token_id to identify specific moment)
+- `in_process_moment_fee_recipients.moment` → `in_process_moments.id`
+- `in_process_sales.moment` → `in_process_moments.id`
+
+**When building queries:**
+- Always use `in_process_moments` instead of `in_process_tokens`
+- Always use `in_process_admins` instead of `in_process_token_admins`
+- Join `in_process_collections` to get collection address and default_admin
+- Join `in_process_admins` filtered by collection + token_id to get admins for a specific moment
+
+---
+
+# Previous Tasks
+
+(Previous task history can be kept here for reference, but learnings should be moved to new.architecture.mdc)

@@ -1,5 +1,8 @@
 import { supabase } from "@/lib/supabase/client";
-import type { GetInProcessMomentsRpcParams, GetInProcessMomentsRpcResponse } from "@/types/moment";
+import type {
+  GetInProcessMomentsRpcParams,
+  GetInProcessMomentsRpcResponse,
+} from "@/types/legacy/moment";
 
 export async function getInProcessTokensRpc({
   artist,

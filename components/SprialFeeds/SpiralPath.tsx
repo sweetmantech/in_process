@@ -1,4 +1,4 @@
-import { Point } from "@/types/spiral";
+import { Point } from "@/types/legacy/spiral";
 import { createPathData } from "@/lib/utils/spiralPath";
 
 interface SpiralPathProps {

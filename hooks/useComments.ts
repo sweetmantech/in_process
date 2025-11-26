@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useCallback, useEffect, useState } from "react";
-import { MintComment } from "@/types/moment";
+import { MintComment } from "@/types/legacy/moment";
 import fetchComments from "@/lib/moment/fetchComments";
 import { useTokenProvider } from "@/providers/TokenProvider";
 

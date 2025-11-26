@@ -4,7 +4,7 @@ import { CHAIN_ID, INDEXER_ID } from "@/lib/consts";
 import { mapMomentsToSupabase } from "@/lib/supabase/in_process_tokens/mapMomentsToSupabase";
 import { ensureArtists } from "@/lib/supabase/in_process_artists/ensureArtists";
 import { upsertTokens } from "@/lib/supabase/in_process_tokens/upsertTokens";
-import { GraphQLResponse } from "@/types/envio";
+import { GraphQLResponse } from "@/types/legacy/envio";
 import { Database } from "@/lib/supabase/types";
 import { processTokenFeeRecipients } from "@/lib/splits/processTokenFeeRecipients";
 

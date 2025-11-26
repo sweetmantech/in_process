@@ -1,5 +1,5 @@
 import useTokenInfo from "@/hooks/useTokenInfo";
-import { TokenInfo } from "@/types/token";
+import { TokenInfo } from "@/types/legacy/token";
 import { createContext, useContext, ReactNode } from "react";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
