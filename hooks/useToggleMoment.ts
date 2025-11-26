@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { type Moment } from "@/types/timeline";
-import { toggleMoment } from "@/lib/timeline/toggleMoment";
 import { toast } from "sonner";
 import { usePrivy } from "@privy-io/react-auth";
 
@@ -19,17 +18,18 @@ export const useToggleMoment = (moment: Moment) => {
         toast("No access token found");
         return;
       }
-      const response = await toggleMoment(accessToken, moment);
+      setIsHidden(true);
+      // const response = await toggleMoment(accessToken, moment);
 
-      // Use the actual updated data from the server response
-      if (response.success && response.updated && response.updated.length > 0) {
-        const updatedMoment = response.updated[0];
-        // Update the local state with the server response
-        setIsHidden(updatedMoment.admins[0].hidden);
-        toast(updatedMoment.hidden ? "Moment hidden" : "Moment revealed");
-      } else {
-        toast("Moment visibility toggled");
-      }
+      // // Use the actual updated data from the server response
+      // if (response.success && response.updated && response.updated.length > 0) {
+      //   const updatedMoment = response.updated[0];
+      //   // Update the local state with the server response
+      //   setIsHidden(updatedMoment.admins[0].hidden);
+      //   toast(updatedMoment.hidden ? "Moment hidden" : "Moment revealed");
+      // } else {
+      //   toast("Moment visibility toggled");
+      // }
     } catch (error) {
       console.error("Failed to toggle moment visibility:", error);
       toast("Failed to toggle moment visibility");
