@@ -1,5 +1,5 @@
 import { createContext, useContext, ReactNode, useMemo } from "react";
-import { useHorizontalFeedAnimation } from "@/hooks/useHorizontalFeedAnimation";
+import { useHorizontalFeedAnimation } from "@/hooks/legacy/useHorizontalFeedAnimation";
 import { TimelineMoment } from "@/lib/timeline/fetchTimeline";
 
 const HorizontalFeedAnimationContext = createContext<ReturnType<

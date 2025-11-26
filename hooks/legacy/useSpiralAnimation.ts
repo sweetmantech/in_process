@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import useIsMobile from "./useIsMobile";
+import useIsMobile from "../useIsMobile";
 import { calculateViewBox } from "@/lib/spiralUtils";
 import { MOBILE_SPIRAL_POINTS, SPIRAL_POINTS } from "@/lib/consts";
 

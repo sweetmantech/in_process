@@ -1,5 +1,5 @@
 import CollectionItem from "./CollectionItem";
-import { useTimelineApiContext } from "@/providers/TimelineApiProvider";
+import { useTimelineApiContext } from "@/providers/legacy/TimelineApiProvider";
 import { type TimelineMoment } from "@/lib/timeline/fetchTimeline";
 
 const Collections = () => {

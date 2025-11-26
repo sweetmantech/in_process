@@ -1,7 +1,7 @@
 import HorizontalFeed from "../HorizontalFeed";
-import { HorizontalFeedAnimationProvider } from "@/providers/HorizontalFeedAnimationProvider";
+import { HorizontalFeedAnimationProvider } from "@/providers/legacy/HorizontalFeedAnimationProvider";
 import Loading from "../Loading";
-import { useTimelineApiContext } from "@/providers/TimelineApiProvider";
+import { useTimelineApiContext } from "@/providers/legacy/TimelineApiProvider";
 import FetchMoreInspector from "../FetchMoreInspector";
 import useIsMobile from "@/hooks/useIsMobile";
 import VerticalFeed from "../VerticalFeed";

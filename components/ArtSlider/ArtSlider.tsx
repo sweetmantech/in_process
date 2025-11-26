@@ -5,7 +5,7 @@ import useIsMobile from "@/hooks/useIsMobile";
 import { ArrowRight } from "../ui/icons";
 import { useState } from "react";
 import { Swiper } from "swiper/types";
-import { useTimelineApiContext } from "@/providers/TimelineApiProvider";
+import { useTimelineApiContext } from "@/providers/legacy/TimelineApiProvider";
 
 const ArtSlider = () => {
   const isMobile = useIsMobile();

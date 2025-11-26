@@ -1,4 +1,4 @@
-import { useTimelineApiContext } from "@/providers/TimelineApiProvider";
+import { useTimelineApiContext } from "@/providers/legacy/TimelineApiProvider";
 import GridItem from "./GridItem";
 
 const GridFeed = () => {

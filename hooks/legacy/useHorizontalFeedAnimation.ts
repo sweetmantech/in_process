@@ -1,9 +1,9 @@
 import { useState, useCallback, Dispatch, SetStateAction, RefObject, useEffect } from "react";
-import useIsMobile from "./useIsMobile";
-import useFullscreenDetection from "./useFullscreenDetection";
+import useIsMobile from "../useIsMobile";
+import useFullscreenDetection from "../useFullscreenDetection";
 import { Swiper } from "swiper/types";
-import useCheckTimelineOverflow from "./useCheckTimelineOverflow";
-import useTimelineCenter from "./useTimelineCenter";
+import useCheckTimelineOverflow from "../useCheckTimelineOverflow";
+import useTimelineCenter from "../useTimelineCenter";
 import { TimelineMoment } from "@/lib/timeline/fetchTimeline";
 
 interface UseHorizontalFeedAnimationReturn {

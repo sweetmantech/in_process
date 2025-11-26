@@ -7,7 +7,7 @@ import MobileProfile from "./MobileProfile";
 import DesktopProfile from "./DesktopProfile";
 import { useParams } from "next/navigation";
 import TimelineFeed from "./TimelineFeed";
-import { TimelineApiProvider } from "@/providers/TimelineApiProvider";
+import { TimelineApiProvider } from "@/providers/legacy/TimelineApiProvider";
 import ProfileProvider from "@/providers/ProfileProvider";
 import { Address } from "viem";
 

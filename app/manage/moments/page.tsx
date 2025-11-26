@@ -1,7 +1,7 @@
 "use client";
 
 import Collections from "@/components/ManagePage/Collections";
-import { TimelineApiProvider } from "@/providers/TimelineApiProvider";
+import { TimelineApiProvider } from "@/providers/legacy/TimelineApiProvider";
 import { useUserProvider } from "@/providers/UserProvider";
 import { Address } from "viem";
 

@@ -1,4 +1,4 @@
-import { useTimelineApiContext } from "@/providers/TimelineApiProvider";
+import { useTimelineApiContext } from "@/providers/legacy/TimelineApiProvider";
 import TimelineTableRow from "@/components/Timeline/Table/TimelineTableRow";
 import TimelineTableRowDesktop from "@/components/Timeline/Table/TimelineTableRowDesktop";
 import { Table, TableBody } from "@/components/ui/table";

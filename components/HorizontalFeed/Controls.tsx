@@ -1,4 +1,4 @@
-import { useHorizontalFeedAnimationProvider } from "@/providers/HorizontalFeedAnimationProvider";
+import { useHorizontalFeedAnimationProvider } from "@/providers/legacy/HorizontalFeedAnimationProvider";
 import React from "react";
 import { ArrowRight } from "../ui/icons";
 

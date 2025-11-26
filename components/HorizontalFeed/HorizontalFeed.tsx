@@ -4,7 +4,7 @@ import { FC } from "react";
 import Feed from "./Feed";
 import Slider from "../Slider";
 import { TimelineMoment } from "@/lib/timeline/fetchTimeline";
-import { useHorizontalFeedAnimationProvider } from "@/providers/HorizontalFeedAnimationProvider";
+import { useHorizontalFeedAnimationProvider } from "@/providers/legacy/HorizontalFeedAnimationProvider";
 import Controls from "./Controls";
 import FetchMoreInspector from "../FetchMoreInspector";
 

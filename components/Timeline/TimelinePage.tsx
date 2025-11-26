@@ -1,13 +1,13 @@
 "use client";
 
-import { useTimelineApiContext } from "@/providers/TimelineApiProvider";
+import { useTimelineApiContext } from "@/providers/legacy/TimelineApiProvider";
 import Loading from "@/components/Loading";
 import TimelineHero from "@/components/Timeline/TimelineHero";
 import MobileMomentsSection from "@/components/Timeline/MobileMomentsSection";
 import TimelineSpiral from "@/components/Timeline/TimelineSpiral";
 import TimelineMobileMoon from "@/components/Timeline/TimelineMobileMoon";
 import HorizontalTimeline from "@/components/Timeline/HorizontalTimeline";
-import { HorizontalFeedAnimationProvider } from "@/providers/HorizontalFeedAnimationProvider";
+import { HorizontalFeedAnimationProvider } from "@/providers/legacy/HorizontalFeedAnimationProvider";
 import TimelineGrid from "@/components/Timeline/TimelineGrid";
 
 const TimelinePage = () => {
