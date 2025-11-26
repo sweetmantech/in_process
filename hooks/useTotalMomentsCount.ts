@@ -11,5 +11,6 @@ export function useTotalMomentsCount() {
     queryFn: fetchTotalMoments,
     staleTime: 60_000,
     refetchOnWindowFocus: false,
+    refetchInterval: 1000, // Poll every 1 second
   });
 }
