@@ -1,15 +1,15 @@
 import Slider from "../Slider";
-import SliderFeed from "./SliderFeed";
 import { Autoplay } from "swiper/modules";
 import useIsMobile from "@/hooks/useIsMobile";
 import { ArrowRight } from "../ui/icons";
 import { useState } from "react";
 import { Swiper } from "swiper/types";
-import { useTimelineApiContext } from "@/providers/legacy/TimelineApiProvider";
+import { useInProcessTimelineProvider } from "@/providers/InProcessTimelineProvider";
+import SliderItem from "./SliderItem";
 
 const ArtSlider = () => {
   const isMobile = useIsMobile();
-  const { moments } = useTimelineApiContext();
+  const { moments } = useInProcessTimelineProvider();
   const [swiper, setSwiper] = useState<Swiper | null>(null);
   const slides = moments.slice(0, 55);
 
@@ -51,8 +51,8 @@ const ArtSlider = () => {
         slideClassName="!h-fit md:!h-auto"
         className="w-full h-full !overflow-hidden"
       >
-        {slides.map((feed, i) => (
-          <SliderFeed feed={feed} key={i} />
+        {slides.map((moment, i) => (
+          <SliderItem moment={moment} key={i} />
         ))}
       </Slider>
     </div>

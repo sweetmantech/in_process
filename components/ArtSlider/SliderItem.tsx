@@ -2,18 +2,18 @@ import { useMetadata } from "@/hooks/useMetadata";
 import Loading from "../Loading";
 import { useRouter } from "next/navigation";
 import CarouselItem from "./CarouselItem";
-import { TimelineMoment } from "@/lib/timeline/fetchTimeline";
+import { Moment } from "@/types/timeline";
 
-interface SliderFeedProps {
-  feed: TimelineMoment;
+interface SliderItemProps {
+  moment: Moment;
 }
 
-const SliderFeed = ({ feed }: SliderFeedProps) => {
-  const { data, isLoading } = useMetadata(feed.uri);
+const SliderItem = ({ moment }: SliderItemProps) => {
+  const { data, isLoading } = useMetadata(moment.uri);
   const { push } = useRouter();
 
   const handleClick = () => {
-    push(`/${feed.admin}`);
+    push(`/${moment.admins[0].address}`);
   };
 
   return (
@@ -32,4 +32,4 @@ const SliderFeed = ({ feed }: SliderFeedProps) => {
     </button>
   );
 };
-export default SliderFeed;
+export default SliderItem;

@@ -1,5 +1,5 @@
 import { usePathname, useRouter } from "next/navigation";
-import { useMetadata } from "./useMetadata";
+import { useMetadata } from "../useMetadata";
 import { getShortNetworkName } from "@/lib/zora/zoraToViem";
 import { TimelineMoment } from "@/lib/timeline/fetchTimeline";
 

@@ -9,11 +9,14 @@ export async function selectMoments({
   offset?: number;
   limit?: number;
 } = {}) {
-  let query = supabase.from("in_process_moments").select(
-    `*, collection:in_process_collections!inner(id,address,chain_id,default_admin:in_process_artists!inner(*),created_at,admins:in_process_admins!inner(id,token_id,hidden,granted_at,artist:in_process_artists!inner(*)))
+  let query = supabase
+    .from("in_process_moments")
+    .select(
+      `*, collection:in_process_collections!inner(id,address,chain_id,default_admin:in_process_artists!inner(*),created_at,admins:in_process_admins!inner(id,token_id,hidden,granted_at,artist:in_process_artists!inner(*)))
     `,
-    { count: "exact" }
-  );
+      { count: "exact" }
+    )
+    .neq("collection.default_admin.username", "");
 
   if (chainId !== undefined) {
     query = query.eq("collection.chain_id", chainId);

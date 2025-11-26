@@ -2,18 +2,16 @@
 
 import React from "react";
 import { SpiralPath } from "@/components/SprialFeeds/SpiralPath";
-import { useSpiralAnimation } from "@/hooks/legacy/useSpiralAnimation";
 import { generateSpacer } from "@/lib/spiralUtils";
 import { Point } from "@/types/legacy/spiral";
-import { FeedTooltip } from "@/components/SprialFeeds/FeedTooltip";
-import useSpiralMouseOver from "@/hooks/legacy/useSpiralMouseOver";
-import Feed from "@/components/SprialFeeds/Feed";
-import { useTimelineApiContext } from "@/providers/legacy/TimelineApiProvider";
+import { useMomentsSpiralProvider } from "@/providers/MomentsSpiralProvider";
+import SpiralItem from "@/components/MomentsSpiral/SpiralItem";
+import { useInProcessTimelineProvider } from "@/providers/InProcessTimelineProvider";
+import { MomentPopover } from "@/components/MomentsSpiral/MomentPopover";
 
 const TimelineSpiral = () => {
-  const { offset, viewBox, animationConfig, points } = useSpiralAnimation();
-  const { handleMouseLeave, handleMouseMove, hoveredFeed } = useSpiralMouseOver();
-  const { moments } = useTimelineApiContext();
+  const { hoveredMoment, viewBox, points, offset, animationConfig } = useMomentsSpiralProvider();
+  const { moments } = useInProcessTimelineProvider();
 
   return (
     <div className="relative mt-12">
@@ -22,24 +20,19 @@ const TimelineSpiral = () => {
         <text>
           <textPath xlinkHref="#curve" startOffset={`${offset}%`}>
             {[...moments, ...moments].map((moment, index) => (
-              <Feed
-                feed={moment}
-                index={index}
-                handleMouseLeave={handleMouseLeave}
-                handleMouseMove={handleMouseMove}
-                spacerWidth={animationConfig.spacerWidth}
-                key={index}
-              />
+              <SpiralItem moment={moment} index={index} key={index} />
             ))}
             {generateSpacer(animationConfig.loopPadding)}
           </textPath>
         </text>
       </svg>
-      <FeedTooltip
-        feed={hoveredFeed?.feed || null}
-        position={hoveredFeed?.position || null}
-        isVisible={!!hoveredFeed}
-      />
+      {hoveredMoment && (
+        <MomentPopover
+          moment={hoveredMoment.moment}
+          position={hoveredMoment.position}
+          isVisible={!!hoveredMoment}
+        />
+      )}
     </div>
   );
 };

@@ -1,13 +1,13 @@
 "use client";
 
-import { useTimelineApiContext } from "@/providers/legacy/TimelineApiProvider";
-import Feed from "@/components/HorizontalFeed/Feed";
+import { useInProcessTimelineProvider } from "@/providers/InProcessTimelineProvider";
 import Slider from "@/components/Slider";
-import { useHorizontalFeedAnimationProvider } from "@/providers/legacy/HorizontalFeedAnimationProvider";
-import Controls from "@/components/HorizontalFeed/Controls";
+import { useTimelineAnimationProvider } from "@/providers/TimelineAnimationProvider";
+import Controls from "@/components/HorizontalMoments/Controls";
+import TimelineMoment from "@/components/HorizontalMoments/TimelineMoment";
 
 const HorizontalTimeline = () => {
-  const { moments } = useTimelineApiContext();
+  const { moments } = useInProcessTimelineProvider();
   const {
     getHeight,
     isHovered,
@@ -17,7 +17,7 @@ const HorizontalTimeline = () => {
     setSwiper,
     containerRef,
     timelineRef,
-  } = useHorizontalFeedAnimationProvider();
+  } = useTimelineAnimationProvider();
 
   return (
     <div
@@ -59,9 +59,9 @@ const HorizontalTimeline = () => {
           slideClassName="!w-fit !m-0"
         >
           {moments.map((moment, i) => (
-            <Feed
+            <TimelineMoment
               key={i}
-              feed={moment}
+              moment={moment}
               hovered={isHovered(i)}
               step={1}
               height={getHeight(i)}

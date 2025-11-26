@@ -1,17 +1,18 @@
 "use client";
 
-import { useTimelineApiContext } from "@/providers/legacy/TimelineApiProvider";
 import Loading from "@/components/Loading";
 import TimelineHero from "@/components/Timeline/TimelineHero";
 import MobileMomentsSection from "@/components/Timeline/MobileMomentsSection";
 import TimelineSpiral from "@/components/Timeline/TimelineSpiral";
 import TimelineMobileMoon from "@/components/Timeline/TimelineMobileMoon";
 import HorizontalTimeline from "@/components/Timeline/HorizontalTimeline";
-import { HorizontalFeedAnimationProvider } from "@/providers/legacy/HorizontalFeedAnimationProvider";
 import TimelineGrid from "@/components/Timeline/TimelineGrid";
+import { useInProcessTimelineProvider } from "@/providers/InProcessTimelineProvider";
+import { MomentsSpiralProvider } from "@/providers/MomentsSpiralProvider";
+import { TimelineAnimationProvider } from "@/providers/TimelineAnimationProvider";
 
 const TimelinePage = () => {
-  const { isLoading, error, moments } = useTimelineApiContext();
+  const { isLoading, error, moments } = useInProcessTimelineProvider();
 
   if (isLoading)
     return (
@@ -24,16 +25,18 @@ const TimelinePage = () => {
   return (
     <main className="px-2 md:px-10 relative grow flex flex-col">
       <TimelineHero />
-      <TimelineSpiral />
+      <MomentsSpiralProvider>
+        <TimelineSpiral />
+      </MomentsSpiralProvider>
       <MobileMomentsSection />
       <div className="pt-8 md:pt-28">
         <TimelineMobileMoon />
       </div>
       <TimelineGrid />
       <div className="block md:hidden overflow-hidden h-[300px] pb-20">
-        <HorizontalFeedAnimationProvider feeds={moments}>
+        <TimelineAnimationProvider moments={moments}>
           <HorizontalTimeline />
-        </HorizontalFeedAnimationProvider>
+        </TimelineAnimationProvider>
       </div>
     </main>
   );

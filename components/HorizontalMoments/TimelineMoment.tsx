@@ -1,23 +1,22 @@
 import { FC, useState } from "react";
 import { motion } from "framer-motion";
-import FeedHover from "./FeedHover";
-import { useClickTimelineFeed } from "@/hooks/legacy/useClickTimelineFeed";
+import { useClickMoment } from "@/hooks/useClickMoment";
 import truncated from "@/lib/truncated";
 import { TIMLINE_STEP_OFFSET } from "@/lib/consts";
-import HideButton from "./HideButton";
+import FeedHover from "./MomentPopover";
 import useArtistEditable from "@/hooks/useArtistEditable";
-import { TimelineMoment } from "@/lib/timeline/fetchTimeline";
+import { Moment } from "@/types/timeline";
 
 interface FeedProps {
-  feed: TimelineMoment;
+  moment: Moment;
   hovered: boolean;
   step: number;
   height: number;
   index: number;
 }
 
-const Feed: FC<FeedProps> = ({ feed, hovered, step, height, index }) => {
-  const { isLoading, data, handleClick, formattedDate } = useClickTimelineFeed(feed);
+const TimelineMoment: FC<FeedProps> = ({ moment, hovered, step, height, index }) => {
+  const { isLoading, data, handleClick, formattedDate } = useClickMoment(moment);
   const [isFadingOut, setIsFadingOut] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
   const { isEditable } = useArtistEditable();
@@ -36,6 +35,7 @@ const Feed: FC<FeedProps> = ({ feed, hovered, step, height, index }) => {
       onAnimationComplete={() => {
         if (isFadingOut) {
           setIsHidden(true);
+          setIsFadingOut(false);
         }
       }}
     >
@@ -75,7 +75,6 @@ const Feed: FC<FeedProps> = ({ feed, hovered, step, height, index }) => {
         {hovered && isEditable && (
           <div className="flex gap-2 items-center relative translate-y-6 pt-2">
             <p className="font-spectral-italic text-sm md:text-xl">{truncated(data?.name || "")}</p>
-            <HideButton moment={feed} onClick={() => setIsFadingOut(true)} />
           </div>
         )}
         <p
@@ -88,4 +87,4 @@ const Feed: FC<FeedProps> = ({ feed, hovered, step, height, index }) => {
   );
 };
 
-export default Feed;
+export default TimelineMoment;
