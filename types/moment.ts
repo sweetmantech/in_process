@@ -1,6 +1,12 @@
 import { Address } from "viem";
 import type { Database } from "@/lib/supabase/types";
 
+export type InProcessMoment = Database["public"]["Tables"]["in_process_moments"]["Row"] & {
+  collection: Database["public"]["Tables"]["in_process_collections"]["Row"] & {
+    default_admin: Database["public"]["Tables"]["in_process_artists"]["Row"];
+  };
+};
+
 export interface Moment {
   contractAddress: Address;
   tokenId: string;

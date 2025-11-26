@@ -9,9 +9,11 @@ import TimelineMobileMoon from "@/components/Timeline/TimelineMobileMoon";
 import HorizontalTimeline from "@/components/Timeline/HorizontalTimeline";
 import { HorizontalFeedAnimationProvider } from "@/providers/HorizontalFeedAnimationProvider";
 import TimelineGrid from "@/components/Timeline/TimelineGrid";
+import { useInProcessTimelineProvider } from "@/providers/InProcessTimelineProvider";
+import MomentsSpiralProvider from "@/providers/MomentsSpiralProvider";
 
 const TimelinePage = () => {
-  const { isLoading, error, moments } = useTimelineApiContext();
+  const { isLoading, error, moments } = useInProcessTimelineProvider();
 
   if (isLoading)
     return (
@@ -24,8 +26,10 @@ const TimelinePage = () => {
   return (
     <main className="px-2 md:px-10 relative grow flex flex-col">
       <TimelineHero />
-      <TimelineSpiral />
-      <MobileMomentsSection />
+      <MomentsSpiralProvider>
+        <TimelineSpiral />
+      </MomentsSpiralProvider>
+      {/*<MobileMomentsSection />
       <div className="pt-8 md:pt-28">
         <TimelineMobileMoon />
       </div>
@@ -34,7 +38,7 @@ const TimelinePage = () => {
         <HorizontalFeedAnimationProvider feeds={moments}>
           <HorizontalTimeline />
         </HorizontalFeedAnimationProvider>
-      </div>
+      </div> */}
     </main>
   );
 };

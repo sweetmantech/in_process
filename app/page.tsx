@@ -1,7 +1,7 @@
 import { APP_URL } from "@/lib/og/consts";
 import { Metadata } from "next";
-import { TimelineApiProvider as TimelineProvider } from "@/providers/TimelineApiProvider";
 import TimelinePage from "@/components/Timeline/TimelinePage";
+import { InProcessTimelineProvider } from "@/providers/InProcessTimelineProvider";
 
 export const revalidate = 300;
 
@@ -35,9 +35,9 @@ export const metadata: Metadata = {
 
 const Timeline = () => {
   return (
-    <TimelineProvider>
+    <InProcessTimelineProvider>
       <TimelinePage />
-    </TimelineProvider>
+    </InProcessTimelineProvider>
   );
 };
 
