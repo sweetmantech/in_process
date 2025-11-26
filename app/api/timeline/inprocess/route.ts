@@ -7,9 +7,8 @@ export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
     const limit = Math.min(Number(searchParams.get("limit")) || 100, 100);
-    const page = Number(searchParams.get("page")) || 1;
-    const chainIdParam = Number(searchParams.get("chain_id"));
-    const chainId = Number.isNaN(chainIdParam) ? CHAIN_ID : chainIdParam;
+    const page = Number(searchParams.get("page") || 1);
+    const chainId = Number(searchParams.get("chain_id") || CHAIN_ID);
 
     const hiddenParam = searchParams.get("hidden");
     const hidden = hiddenParam === null ? false : hiddenParam === "true";
