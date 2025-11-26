@@ -7,7 +7,7 @@ import FeedHover from "./MomentPopover";
 import useArtistEditable from "@/hooks/useArtistEditable";
 import { Moment } from "@/types/timeline";
 
-interface FeedProps {
+interface TimelineMomentProps {
   moment: Moment;
   hovered: boolean;
   step: number;
@@ -15,7 +15,7 @@ interface FeedProps {
   index: number;
 }
 
-const TimelineMoment: FC<FeedProps> = ({ moment, hovered, step, height, index }) => {
+const TimelineMoment: FC<TimelineMomentProps> = ({ moment, hovered, step, height, index }) => {
   const { isLoading, data, handleClick, formattedDate } = useClickMoment(moment);
   const [isFadingOut, setIsFadingOut] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
