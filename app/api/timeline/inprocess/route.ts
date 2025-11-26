@@ -8,7 +8,9 @@ export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
     const limit = Math.min(Number(searchParams.get("limit")) || 100, 100);
     const page = Number(searchParams.get("page")) || 1;
-    const chainId = Number(searchParams.get("chain_id")) || CHAIN_ID;
+    const chainIdParam = Number(searchParams.get("chain_id"));
+    const chainId = Number.isNaN(chainIdParam) ? CHAIN_ID : chainIdParam;
+
     const hiddenParam = searchParams.get("hidden");
     const hidden = hiddenParam === null ? false : hiddenParam === "true";
 
@@ -36,10 +38,13 @@ export async function GET(req: NextRequest) {
         total_pages: totalPages,
       },
     });
-  } catch (error: any) {
-    return Response.json(
-      { status: "error", message: error?.message || "Failed to fetch inprocess timeline" },
-      { status: 500 }
-    );
+  } catch (error: unknown) {
+    const message =
+      error instanceof Error
+        ? error.message
+        : typeof error === "string"
+          ? error
+          : "Failed to fetch inprocess timeline";
+    return Response.json({ status: "error", message }, { status: 500 });
   }
 }

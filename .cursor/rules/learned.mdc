@@ -188,43 +188,77 @@ await selectMoments({ chainId: 1, offset: 0, limit: 10 }); // Full filtering + p
 - When you want to avoid creating multiple similar functions (e.g., `selectAllMoments`, `selectMomentsByChain`, etc.)
 - When parameters are naturally optional (e.g., pagination, filtering)
 
-## Types Must Be Defined in `types/` Folder (Not `types/legacy/`)
-**Pattern**: All TypeScript types/interfaces must be defined in the `types/` folder directly, NOT in `types/legacy/` subfolder.
+## Types Location: `types/` vs `types/legacy/`
 
-**Structure**:
-- **Location**: `types/[typeName].ts` (e.g., `types/inprocessTimeline.ts`)
+**Pattern**: TypeScript types/interfaces should be organized based on their status: new types go in `types/`, while legacy types temporarily remain in `types/legacy/` during migration.
+
+### Structure
+
+**New Types** (preferred):
+- **Location**: `types/[typeName].ts` (e.g., `types/timeline.ts`)
 - **Export**: Export interfaces/types from the types file
 - **Import**: Import types from `@/types/[typeName]` in function files
-- **Never use**: `types/legacy/` folder - it will be removed in the future
+- **Use for**: All new type definitions, refactored types, and types for new features
 
-**Example**:
+**Legacy Types** (temporary transitional):
+- **Location**: `types/legacy/[typeName].ts` (e.g., `types/legacy/token.ts`)
+- **Scope**: Existing type definitions that are actively used but not yet migrated
+- **Duration**: Temporary - will be removed after migration is complete
+- **Use for**: Existing code that hasn't been migrated yet, or when modifying files that already use legacy types
+- **Migration timeline**: Types should be migrated to `types/` when:
+  - The file using them is being refactored
+  - The type definition itself is being updated
+  - A new feature requires extending the type
+
+**Examples**:
 ```typescript
-// ✅ CORRECT:
-// types/inprocessTimeline.ts
-export interface InprocessTimelineMoment {
+// ✅ CORRECT - New types:
+// types/timeline.ts
+export interface Moment {
   address: string;
   token_id: string;
   // ...
 }
 
-// lib/timeline/getInprocessTimeline.ts
-import type { InprocessTimelineMoment } from "@/types/inprocessTimeline";
+// lib/timeline/getTimeline.ts
+import type { Moment } from "@/types/timeline";
 
-// ❌ WRONG:
-// lib/timeline/getInprocessTimeline.ts
-export interface InprocessTimelineMoment { ... } // Types should not be in lib files
+// ✅ ACCEPTABLE - Using legacy types in existing code:
+// lib/fetchTokenMetadata.ts (existing file that uses legacy)
+import { Metadata } from "@/types/legacy/token"; // OK for existing code
 
-// ❌ WRONG:
-import { Metadata } from "@/types/legacy/token"; // Don't use legacy folder
+// ❌ WRONG - Creating new types in legacy:
+// types/legacy/newFeature.ts - DON'T create new files in legacy
+
+// ❌ WRONG - Types in lib files:
+// lib/timeline/getTimeline.ts
+export interface Moment { ... } // Types should not be in lib files
 ```
 
+### Migration Steps
+
+When migrating types from `types/legacy/` to `types/`:
+
+1. **Create new type file**: `types/[typeName].ts` with the type definition
+2. **Update imports**: Change all imports from `@/types/legacy/[typeName]` to `@/types/[typeName]`
+3. **Verify usage**: Ensure all files using the type are updated
+4. **Delete legacy file**: Remove `types/legacy/[typeName].ts` after migration is complete
+5. **Test**: Verify no broken imports or type errors
+
+**Migration Priority**:
+- Migrate types when touching files that import them (opportunistic migration)
+- Migrate types that are used in new features or refactored code
+- Don't force migration of stable, rarely-touched code
+
 **Benefits**:
-- **Consistency**: All types in one location (`types/` folder)
-- **Future-proof**: Avoids dependency on legacy folder that will be removed
+- **Consistency**: New types follow consistent location (`types/` folder)
+- **Gradual migration**: Allows incremental migration without breaking changes
+- **Future-proof**: Legacy folder will be removed after migration completes
 - **Discoverability**: Types are easy to find and organize
 - **SRP**: Types separated from implementation logic
 
 **When to Apply**:
 - **Always**: When creating new types, put them in `types/` folder
-- **Never**: Use `types/legacy/` folder for new types
-- **Migration**: When updating code, move types from `types/legacy/` to `types/` if needed
+- **Never**: Create new files in `types/legacy/` folder
+- **Acceptable**: Import from `types/legacy/` when modifying existing code that already uses legacy types
+- **Preferred**: Migrate types from `types/legacy/` to `types/` when updating files that use them

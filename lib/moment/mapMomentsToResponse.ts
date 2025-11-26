@@ -20,11 +20,12 @@ export async function mapMomentsToResponse({
 
       // Filter admins: token-specific (token_id) or contract-level (token_id = 0)
       const relevantAdmins = collectionAdmins.filter(
-        (admin: any) => admin.token_id === tokenId || admin.token_id === 0
+        (admin: AggregatedRawMoment["collection"]["admins"][number]) =>
+          admin.token_id === tokenId || admin.token_id === 0
       );
 
       // Build admins array, avoiding duplicates by address
-      const adminsMap = new Map<string, any>();
+      const adminsMap = new Map<string, Moment["admins"][number]>();
       relevantAdmins.forEach((admin: AggregatedRawMoment["collection"]["admins"][number]) => {
         const address = admin.artist.address;
         if (address) {
