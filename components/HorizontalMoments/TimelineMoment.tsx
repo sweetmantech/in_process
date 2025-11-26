@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { useClickMoment } from "@/hooks/useClickMoment";
 import truncated from "@/lib/truncated";
 import { TIMLINE_STEP_OFFSET } from "@/lib/consts";
-import FeedHover from "./MomentPopover";
+import MomentPopover from "./MomentPopover";
 import useArtistEditable from "@/hooks/useArtistEditable";
 import { Moment } from "@/types/timeline";
 
@@ -66,7 +66,7 @@ const TimelineMoment: FC<TimelineMomentProps> = ({ moment, hovered, step, height
             <div className="relative size-full">
               {hovered && data && (
                 <div className="absolute bottom-full">
-                  <FeedHover isLoading={isLoading} data={data} />
+                  <MomentPopover isLoading={isLoading} data={data} />
                 </div>
               )}
             </div>
