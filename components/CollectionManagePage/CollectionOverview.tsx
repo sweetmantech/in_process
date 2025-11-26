@@ -2,7 +2,7 @@ import ContentRenderer from "../Renderers";
 import { useCollectionProvider } from "@/providers/CollectionProvider";
 import { useRouter } from "next/navigation";
 import { Skeleton } from "../ui/skeleton";
-import { Metadata } from "@/types/token";
+import { Metadata } from "@/types/legacy/token";
 import { networkConfigByChain } from "@/lib/protocolSdk/apis/chain-constants";
 import CopyButton from "../CopyButton";
 

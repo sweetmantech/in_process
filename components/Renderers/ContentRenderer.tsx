@@ -1,6 +1,6 @@
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import { usePathname } from "next/navigation";
-import { Metadata } from "@/types/token";
+import { Metadata } from "@/types/legacy/token";
 import PdfViewer from "./PdfViewer";
 import VideoPlayer from "./VideoPlayer";
 import AudioPlayer from "./AudioPlayer";

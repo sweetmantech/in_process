@@ -1,4 +1,4 @@
-import { Moment } from "@/types/moment";
+import { Moment } from "@/types/legacy/moment";
 
 export const collectMomentApi = async (
   moment: Moment,

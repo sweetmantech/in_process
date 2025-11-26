@@ -4,7 +4,7 @@ import React from "react";
 import { SpiralPath } from "@/components/SprialFeeds/SpiralPath";
 import { useSpiralAnimation } from "@/hooks/useSpiralAnimation";
 import { generateSpacer } from "@/lib/spiralUtils";
-import { Point } from "@/types/spiral";
+import { Point } from "@/types/legacy/spiral";
 import { FeedTooltip } from "@/components/SprialFeeds/FeedTooltip";
 import useSpiralMouseOver from "@/hooks/useSpiralMouseOver";
 import Feed from "@/components/SprialFeeds/Feed";

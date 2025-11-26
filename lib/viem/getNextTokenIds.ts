@@ -1,6 +1,6 @@
 import { getPublicClient } from "./publicClient";
 import { zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
-import { Collection } from "@/types/token";
+import { Collection } from "@/types/legacy/token";
 
 export type CollectionAndNextTokenId = Collection & {
   nextTokenId: number;

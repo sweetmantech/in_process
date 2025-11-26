@@ -1,4 +1,4 @@
-import { Metadata } from "@/types/token";
+import { Metadata } from "@/types/legacy/token";
 import { VERCEL_OG } from "./og/consts";
 import fetchTokenMetadata from "./fetchTokenMetadata";
 

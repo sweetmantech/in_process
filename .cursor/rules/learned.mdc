@@ -1,0 +1,264 @@
+---
+description: Architecture patterns, learnings, and reusable knowledge for the project
+alwaysApply: true
+---
+
+# Architecture & Learnings
+
+**Purpose**: This file contains all reusable learnings, patterns, and architectural decisions discovered during development. Use this as a reference when working on the project.
+
+**When to Update**: 
+- When you discover a reusable pattern or solution
+- When you fix a mistake or receive a correction
+- When you learn something about the project structure, libraries, or conventions
+- When you establish a new architectural pattern
+
+---
+
+# User Specified Lessons
+
+- You have an env in ./.env Use it.
+- Read the file before you try to edit it.
+- Keep all files under 100 lines of code to maintain readability and follow single responsibility principle
+- **CRITICAL**: Always reference and follow `typescript.coding.principle.mdc` when writing ANY code
+  - Follow KISS, DRY, SRP, Open-Closed principles
+  - One function per file (file name matches function name)
+  - Types go in `types/` folder
+  - Supabase queries in `supabase/[table_name]/` folders
+  - Keep functions small, focused, and pure when possible
+
+---
+
+# Database Schema Migration - Legacy vs Current Tables
+
+**CRITICAL**: The following tables are **LEGACY** and will be removed in the future:
+- `in_process_tokens` ❌ LEGACY
+- `in_process_token_admins` ❌ LEGACY  
+- `in_process_token_fee_recipients` ❌ LEGACY
+
+**Current/Future Tables** (use these instead):
+- `in_process_collections` ✅ - Collections (address, chain_id, default_admin, payout_recipient, uri)
+- `in_process_moments` ✅ - Moments within collections (collection FK, token_id, uri, max_supply, created_at, updated_at)
+- `in_process_admins` ✅ - Admins for collections/moments (collection FK, token_id, artist_address, hidden, granted_at)
+- `in_process_moment_fee_recipients` ✅ - Fee recipients for moments (moment FK, artist_address, percent_allocation)
+- `in_process_sales` ✅ - Sales for moments (moment FK, sale_start, sale_end, price_per_token, currency, funds_recipient)
+
+**Key Relationships:**
+- `in_process_moments.collection` → `in_process_collections.id`
+- `in_process_admins.collection` → `in_process_collections.id` (also has token_id to identify specific moment)
+- `in_process_moment_fee_recipients.moment` → `in_process_moments.id`
+- `in_process_sales.moment` → `in_process_moments.id`
+
+**When building queries:**
+- Always use `in_process_moments` instead of `in_process_tokens`
+- Always use `in_process_admins` instead of `in_process_token_admins`
+- Join `in_process_collections` to get collection address and default_admin
+- Join `in_process_admins` filtered by collection + token_id to get admins for a specific moment
+
+---
+
+# Cursor Learned Patterns
+
+## SRP: Extract Supabase Queries from API Routes
+**Pattern**: When you see inline Supabase queries in API route handlers, extract them into separate functions following SRP.
+
+**Structure**:
+- **Location**: `lib/supabase/[table_name]/[functionName].ts`
+- **Function**: Pure query function that takes parameters and returns `{ data, error, count? }`
+- **Route Handler**: Imports and calls the extracted function
+
+**Example Refactoring**:
+```typescript
+// BEFORE (in route.ts):
+const { data, error, count } = await supabase
+  .from("in_process_moments")
+  .select("...")
+  .eq("collection.chain_id", chainId)
+  .order("created_at", { ascending: false })
+  .range(offset, offset + limit - 1);
+
+// AFTER:
+// lib/supabase/in_process_moments/selectMoments.ts
+export async function selectMoments({
+  chainId,
+  offset,
+  limit,
+}: {
+  chainId: number;
+  offset: number;
+  limit: number;
+}) {
+  const { data, error, count } = await supabase
+    .from("in_process_moments")
+    .select("...")
+    .eq("collection.chain_id", chainId)
+    .order("created_at", { ascending: false })
+    .range(offset, offset + limit - 1);
+  return { data, error, count };
+}
+
+// route.ts
+import { selectMoments } from "@/lib/supabase/in_process_moments/selectMoments";
+const { data, error, count } = await selectMoments({ chainId, offset, limit });
+```
+
+**Benefits**:
+- **SRP**: Route handler focuses on HTTP logic, query function handles database logic
+- **Reusability**: Query functions can be used across multiple routes/hooks
+- **Testability**: Pure query functions are easier to test independently
+- **Maintainability**: Database query logic is centralized and easier to update
+- **Consistency**: Follows project pattern of one function per file in `supabase/[table_name]/` folders
+
+**When to Apply**:
+- Any inline Supabase query in API routes (`app/api/**/route.ts`)
+- Any complex query that could be reused elsewhere
+- When route handlers exceed ~100 lines (extract queries to reduce complexity)
+
+## Make Query Functions Generic with Optional Parameters
+**Pattern**: When extracting Supabase queries, make parameters optional to maximize reusability across different contexts.
+
+**Structure**:
+- **Optional Parameters**: Use `?` to make parameters optional (e.g., `chainId?: number`)
+- **Default Empty Object**: Use `= {}` as default parameter to allow calling without arguments
+- **Conditional Query Building**: Build query conditionally, only applying filters when parameters are provided
+
+**Example Refactoring**:
+```typescript
+// BEFORE (required parameters):
+export async function selectMoments({
+  chainId,
+  offset,
+  limit,
+}: {
+  chainId: number;
+  offset: number;
+  limit: number;
+}) {
+  const { data, error, count } = await supabase
+    .from("in_process_moments")
+    .select("...")
+    .eq("collection.chain_id", chainId)
+    .order("created_at", { ascending: false })
+    .range(offset, offset + limit - 1);
+  return { data, error, count };
+}
+
+// AFTER (optional parameters):
+export async function selectMoments({
+  chainId,
+  offset,
+  limit,
+}: {
+  chainId?: number;
+  offset?: number;
+  limit?: number;
+} = {}) {
+  let query = supabase
+    .from("in_process_moments")
+    .select("...", { count: "exact" });
+
+  if (chainId !== undefined) {
+    query = query.eq("collection.chain_id", chainId);
+  }
+
+  query = query.order("created_at", { ascending: false });
+
+  if (offset !== undefined && limit !== undefined) {
+    query = query.range(offset, offset + limit - 1);
+  }
+
+  const { data, error, count } = await query;
+  return { data, error, count };
+}
+
+// Usage examples:
+await selectMoments(); // Get all moments
+await selectMoments({ chainId: 1 }); // Filter by chainId only
+await selectMoments({ chainId: 1, offset: 0, limit: 10 }); // Full filtering + pagination
+```
+
+**Benefits**:
+- **Flexibility**: Same function can be used for different query scenarios
+- **Reusability**: One function serves multiple use cases (list all, filter by chain, paginated, etc.)
+- **Backward Compatible**: Existing calls still work, new calls can omit parameters
+- **DRY**: Avoids creating multiple similar functions for slight variations
+
+**When to Apply**:
+- When query function might be used in different contexts with different filter needs
+- When you want to avoid creating multiple similar functions (e.g., `selectAllMoments`, `selectMomentsByChain`, etc.)
+- When parameters are naturally optional (e.g., pagination, filtering)
+
+## Types Location: `types/` vs `types/legacy/`
+
+**Pattern**: TypeScript types/interfaces should be organized based on their status: new types go in `types/`, while legacy types temporarily remain in `types/legacy/` during migration.
+
+### Structure
+
+**New Types** (preferred):
+- **Location**: `types/[typeName].ts` (e.g., `types/timeline.ts`)
+- **Export**: Export interfaces/types from the types file
+- **Import**: Import types from `@/types/[typeName]` in function files
+- **Use for**: All new type definitions, refactored types, and types for new features
+
+**Legacy Types** (temporary transitional):
+- **Location**: `types/legacy/[typeName].ts` (e.g., `types/legacy/token.ts`)
+- **Scope**: Existing type definitions that are actively used but not yet migrated
+- **Duration**: Temporary - will be removed after migration is complete
+- **Use for**: Existing code that hasn't been migrated yet, or when modifying files that already use legacy types
+- **Migration timeline**: Types should be migrated to `types/` when:
+  - The file using them is being refactored
+  - The type definition itself is being updated
+  - A new feature requires extending the type
+
+**Examples**:
+```typescript
+// ✅ CORRECT - New types:
+// types/timeline.ts
+export interface Moment {
+  address: string;
+  token_id: string;
+  // ...
+}
+
+// lib/timeline/getTimeline.ts
+import type { Moment } from "@/types/timeline";
+
+// ✅ ACCEPTABLE - Using legacy types in existing code:
+// lib/fetchTokenMetadata.ts (existing file that uses legacy)
+import { Metadata } from "@/types/legacy/token"; // OK for existing code
+
+// ❌ WRONG - Creating new types in legacy:
+// types/legacy/newFeature.ts - DON'T create new files in legacy
+
+// ❌ WRONG - Types in lib files:
+// lib/timeline/getTimeline.ts
+export interface Moment { ... } // Types should not be in lib files
+```
+
+### Migration Steps
+
+When migrating types from `types/legacy/` to `types/`:
+
+1. **Create new type file**: `types/[typeName].ts` with the type definition
+2. **Update imports**: Change all imports from `@/types/legacy/[typeName]` to `@/types/[typeName]`
+3. **Verify usage**: Ensure all files using the type are updated
+4. **Delete legacy file**: Remove `types/legacy/[typeName].ts` after migration is complete
+5. **Test**: Verify no broken imports or type errors
+
+**Migration Priority**:
+- Migrate types when touching files that import them (opportunistic migration)
+- Migrate types that are used in new features or refactored code
+- Don't force migration of stable, rarely-touched code
+
+**Benefits**:
+- **Consistency**: New types follow consistent location (`types/` folder)
+- **Gradual migration**: Allows incremental migration without breaking changes
+- **Future-proof**: Legacy folder will be removed after migration completes
+- **Discoverability**: Types are easy to find and organize
+- **SRP**: Types separated from implementation logic
+
+**When to Apply**:
+- **Always**: When creating new types, put them in `types/` folder
+- **Never**: Create new files in `types/legacy/` folder
+- **Acceptable**: Import from `types/legacy/` when modifying existing code that already uses legacy types
+- **Preferred**: Migrate types from `types/legacy/` to `types/` when updating files that use them

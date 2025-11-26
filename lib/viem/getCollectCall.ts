@@ -1,8 +1,8 @@
-import { SaleConfig } from "@/types/moment";
+import { SaleConfig } from "@/types/legacy/moment";
 import { erc20MinterABI, zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
 import { Address, encodeAbiParameters, encodeFunctionData, parseAbiParameters } from "viem";
 import { CHAIN_ID, USDC_ADDRESS } from "../consts";
-import { MintType } from "@/types/zora";
+import { MintType } from "@/types/legacy/zora";
 import {
   erc20MinterAddresses,
   zoraCreatorFixedPriceSaleStrategyAddress,

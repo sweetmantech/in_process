@@ -1,7 +1,7 @@
 import { TimedSaleParamsType } from "@/lib/protocolSdk";
 import { maxUint64, parseEther, parseUnits } from "viem";
 import { USDC_ADDRESS } from "../consts";
-import { MintType } from "@/types/zora";
+import { MintType } from "@/types/legacy/zora";
 
 const getSalesConfig = (saleStrategy: string, price: string, saleStart: Date | undefined) => {
   const timedSaleConfig = {

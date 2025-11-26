@@ -10,7 +10,7 @@ import {
   zoraCreatorFixedPriceSaleStrategyABI,
 } from "@zoralabs/protocol-deployments";
 import { Address } from "viem";
-import { MintType } from "@/types/zora";
+import { MintType } from "@/types/legacy/zora";
 
 const getTokenInfo = async (
   tokenContract: Address,
