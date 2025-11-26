@@ -28,6 +28,48 @@ export type Database = {
   };
   public: {
     Tables: {
+      in_process_admins: {
+        Row: {
+          artist_address: string;
+          collection: string;
+          granted_at: string;
+          hidden: boolean;
+          id: string;
+          token_id: number;
+        };
+        Insert: {
+          artist_address: string;
+          collection: string;
+          granted_at: string;
+          hidden?: boolean;
+          id?: string;
+          token_id: number;
+        };
+        Update: {
+          artist_address?: string;
+          collection?: string;
+          granted_at?: string;
+          hidden?: boolean;
+          id?: string;
+          token_id?: number;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "in_process_admins_artist_address_fkey";
+            columns: ["artist_address"];
+            isOneToOne: false;
+            referencedRelation: "in_process_artists";
+            referencedColumns: ["address"];
+          },
+          {
+            foreignKeyName: "in_process_admins_collection_fkey";
+            columns: ["collection"];
+            isOneToOne: false;
+            referencedRelation: "in_process_collections";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       in_process_api_keys: {
         Row: {
           artist_address: string | null;
@@ -122,45 +164,6 @@ export type Database = {
         };
         Relationships: [];
       };
-      in_process_collection_admins: {
-        Row: {
-          artist_address: string;
-          collection: string;
-          granted_at: string;
-          hidden: boolean;
-          id: string;
-        };
-        Insert: {
-          artist_address: string;
-          collection: string;
-          granted_at: string;
-          hidden?: boolean;
-          id?: string;
-        };
-        Update: {
-          artist_address?: string;
-          collection?: string;
-          granted_at?: string;
-          hidden?: boolean;
-          id?: string;
-        };
-        Relationships: [
-          {
-            foreignKeyName: "in_process_collection_admins_artist_address_fkey";
-            columns: ["artist_address"];
-            isOneToOne: false;
-            referencedRelation: "in_process_artists";
-            referencedColumns: ["address"];
-          },
-          {
-            foreignKeyName: "in_process_collection_admins_collection_fkey";
-            columns: ["collection"];
-            isOneToOne: false;
-            referencedRelation: "in_process_collections";
-            referencedColumns: ["id"];
-          },
-        ];
-      };
       in_process_collections: {
         Row: {
           address: string;
@@ -199,45 +202,6 @@ export type Database = {
             isOneToOne: false;
             referencedRelation: "in_process_artists";
             referencedColumns: ["address"];
-          },
-        ];
-      };
-      in_process_moment_admins: {
-        Row: {
-          artist_address: string;
-          granted_at: string;
-          hidden: boolean;
-          id: string;
-          moment: string;
-        };
-        Insert: {
-          artist_address: string;
-          granted_at?: string;
-          hidden?: boolean;
-          id?: string;
-          moment: string;
-        };
-        Update: {
-          artist_address?: string;
-          granted_at?: string;
-          hidden?: boolean;
-          id?: string;
-          moment?: string;
-        };
-        Relationships: [
-          {
-            foreignKeyName: "in_process_moment_admins_artist_address_fkey";
-            columns: ["artist_address"];
-            isOneToOne: false;
-            referencedRelation: "in_process_artists";
-            referencedColumns: ["address"];
-          },
-          {
-            foreignKeyName: "in_process_moment_admins_moment_fkey";
-            columns: ["moment"];
-            isOneToOne: false;
-            referencedRelation: "in_process_moments";
-            referencedColumns: ["id"];
           },
         ];
       };
