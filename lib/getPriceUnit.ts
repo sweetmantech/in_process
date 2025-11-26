@@ -1,4 +1,4 @@
-import { MintType } from "@/types/zora";
+import { MintType } from "@/types/legacy/zora";
 
 const getPriceUnit = (type: string | undefined) => {
   if (!type) return "";

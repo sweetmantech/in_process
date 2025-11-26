@@ -7,7 +7,7 @@ import { collectSchema } from "../schema/collectSchema";
 import getTokenInfo from "../viem/getTokenInfo";
 import { distributeSplitFunds } from "../splits/distributeSplitFunds";
 import isSplitContract from "../splits/isSplitContract";
-import { MintType } from "@/types/zora";
+import { MintType } from "@/types/legacy/zora";
 import getCollectCall from "../viem/getCollectCall";
 import { validateBalanceAndAllowance } from "./validateBalanceAndAllowance";
 import { Call } from "@coinbase/coinbase-sdk/dist/types/calls";

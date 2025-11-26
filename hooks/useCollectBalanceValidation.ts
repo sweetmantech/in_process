@@ -1,6 +1,6 @@
 import { formatEther, formatUnits } from "viem";
-import { MintType } from "@/types/zora";
-import { SaleConfig } from "@/types/moment";
+import { MintType } from "@/types/legacy/zora";
+import { SaleConfig } from "@/types/legacy/moment";
 import { useSmartWalletProvider } from "@/providers/SmartWalletProvider";
 import { showInsufficientBalanceError } from "@/lib/balance/showInsufficientBalanceError";
 

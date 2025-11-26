@@ -3,7 +3,7 @@
 import React from "react";
 import { SpiralPath } from "@/components/SprialFeeds/SpiralPath";
 import { generateSpacer } from "@/lib/spiralUtils";
-import { Point } from "@/types/spiral";
+import { Point } from "@/types/legacy/spiral";
 import Moment from "@/components/MomentsSpiral/Moment";
 import { useMomentsSpiralProvider } from "@/providers/MomentsSpiralProvider";
 import { useInProcessTimelineProvider } from "@/providers/InProcessTimelineProvider";

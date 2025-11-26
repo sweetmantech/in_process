@@ -1,5 +1,5 @@
 import { getPublicClient } from "@/lib/viem/publicClient";
-import { Metadata } from "@/types/token";
+import { Metadata } from "@/types/legacy/token";
 import { useQuery } from "@tanstack/react-query";
 import { zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
 import { Address } from "viem";

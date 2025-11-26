@@ -1,33 +1,35 @@
-import { supabase } from "../client";
+import { supabase } from "@/lib/supabase/client";
 
-const selectMoments = async ({
-  chain_id,
-  limit = 100,
-  page = 1,
+export async function selectMoments({
+  chainId,
+  offset,
+  limit,
 }: {
-  chain_id: number;
+  chainId?: number;
+  offset?: number;
   limit?: number;
-  page?: number;
-}) => {
-  const cappedLimit = Math.min(limit, 100);
+} = {}) {
+  let query = supabase.from("in_process_moments").select(
+    `*, collection:in_process_collections!inner(id,address,chain_id,default_admin:in_process_artists!inner(*),created_at,admins:in_process_admins!inner(id,token_id,hidden,granted_at,artist:in_process_artists!inner(*)))
+    `,
+    { count: "exact" }
+  );
 
-  let query = supabase
-    .from("in_process_moments")
-    .select(
-      "*, collection:in_process_collections!inner(*, default_admin:in_process_artists!inner(*))"
-    );
-
-  if (chain_id) query = query.eq("collection.chain_id", chain_id);
+  if (chainId !== undefined) {
+    query = query.eq("collection.chain_id", chainId);
+  }
 
   query = query.order("created_at", { ascending: false });
 
-  query = query.range((page - 1) * cappedLimit, page * cappedLimit - 1);
+  if (offset !== undefined && limit !== undefined) {
+    query = query.range(offset, offset + limit - 1);
+  }
 
-  const { data, error } = await query;
+  const { data, error, count } = await query;
 
-  if (error) throw error;
+  if (error) {
+    throw error;
+  }
 
-  return data;
-};
-
-export default selectMoments;
+  return { data, count };
+}

@@ -1,4 +1,4 @@
-import { SetupNewContract } from "@/types/envio";
+import { SetupNewContract } from "@/types/legacy/envio";
 import { Database } from "../types";
 
 /**

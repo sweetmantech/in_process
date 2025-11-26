@@ -1,5 +1,5 @@
 import { ARTIST_OG_IMAGE_WIDTH, rotation } from "@/lib/og/consts";
-import { ImageMetadata } from "@/types/og";
+import { ImageMetadata } from "@/types/legacy/og";
 
 const TokenImagePreview = ({ imageMetadata }: { imageMetadata: ImageMetadata | null }) => {
   if (!imageMetadata)

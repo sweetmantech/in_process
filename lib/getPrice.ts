@@ -1,4 +1,4 @@
-import { MintType } from "@/types/zora";
+import { MintType } from "@/types/legacy/zora";
 import { formatUnits } from "viem";
 
 const getPrice = (pricePerToken: bigint | number | string, type: string | undefined) => {
