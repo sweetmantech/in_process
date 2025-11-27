@@ -36,17 +36,19 @@ const useUpdateMomentURI = () => {
       const name = providerName || current?.name;
       const description = providerDescription || current?.description;
 
+      const isImage = mimeType?.includes("image");
+
       const updated = {
         ...(current || {}),
         name,
         description,
         image: imageUri || current?.image,
-        animation_url: updatedAnimationUrl,
+        animation_url: isImage ? imageUri : updatedAnimationUrl,
         content:
-          (updatedContentUri || updatedMimeType) && !updatedMimeType?.includes("image")
+          updatedContentUri || updatedMimeType
             ? {
                 mime: updatedMimeType || current?.content?.mime || "",
-                uri: updatedContentUri || current?.content?.uri || "",
+                uri: isImage ? imageUri : updatedContentUri || current?.content?.uri || "",
               }
             : current?.content,
       };
@@ -65,8 +67,7 @@ const useUpdateMomentURI = () => {
       }
 
       await callUpdateMomentURI({
-        tokenContractAddress: moment.collectionAddress,
-        tokenId: moment.tokenId,
+        moment,
         newUri,
         accessToken,
       });

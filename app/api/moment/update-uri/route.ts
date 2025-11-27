@@ -4,6 +4,7 @@ import { updateMomentURI } from "@/lib/moment/updateMomentURI";
 import { authMiddleware } from "@/middleware/authMiddleware";
 import { updateMomentURISchema } from "@/lib/schema/updateMomentURISchema";
 import { Address } from "viem";
+import { Moment } from "@/types/moment";
 
 // CORS headers for allowing cross-origin requests
 const corsHeaders = getCorsHeader();
@@ -37,8 +38,7 @@ export async function POST(req: NextRequest) {
     }
     const data = parseResult.data;
     const result = await updateMomentURI({
-      tokenContractAddress: data.moment.collectionAddress as Address,
-      tokenId: data.moment.tokenId,
+      moment: data.moment as Moment,
       newUri: data.newUri,
       artistAddress: artistAddress as Address,
     });
