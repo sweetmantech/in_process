@@ -15,7 +15,7 @@ const useTopup = () => {
   const { connectWallet } = useConnectWallet();
 
   const currencyLabel = currency === "usdc" ? "USDC" : "ETH";
-  const hasExternalWallet = Boolean(externalWallet);
+  const hasExternalWallet = Boolean(externalWallet?.address);
 
   const { deposit, isDepositing } = useDeposit({
     currency,
@@ -30,11 +30,21 @@ const useTopup = () => {
     };
   }, [depositAmount, currency]);
 
-  const connectDisconnect = () => {
+  const connectDisconnect = async () => {
     if (!hasExternalWallet) {
       connectWallet();
     } else {
-      externalWallet?.disconnect();
+      try {
+        const provider = await externalWallet?.getEthereumProvider();
+        if (provider) {
+          await provider.request({
+            method: "wallet_revokePermissions",
+            params: [{ eth_accounts: {} }],
+          });
+        }
+      } finally {
+        externalWallet?.disconnect();
+      }
     }
   };
 
