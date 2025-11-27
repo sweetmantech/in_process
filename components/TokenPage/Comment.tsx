@@ -1,28 +1,20 @@
 import { useArtistProfile } from "@/hooks/useArtistProfile";
 import truncateAddress from "@/lib/truncateAddress";
+import { MintComment } from "@/types/moment";
 import { Address } from "viem";
 
-interface CommentProps {
-  comment: string;
-  sender: string;
-  timestamp: number;
-}
-
-export const Comment = ({ comment, sender, timestamp }: CommentProps) => {
-  const { data: artistProfile, isLoading, error } = useArtistProfile(sender as Address);
-
+export const Comment = (comment: MintComment) => {
+  const { sender, username, timestamp, comment: commentText } = comment;
+  const { data } = useArtistProfile(!username ? (sender as Address) : undefined);
   const truncatedAddress = truncateAddress(sender);
-  const displayName = isLoading
-    ? "Loading..."
-    : error
-      ? truncatedAddress
-      : artistProfile?.username || truncatedAddress;
 
   return (
     <div className="rounded flex items-end justify-between">
       <div>
-        <p className="text-base font-spectral tracking-[-1px]">{comment}</p>
-        <p className="text-base font-archivo-medium">{displayName}</p>
+        <p className="text-base font-spectral tracking-[-1px]">{commentText}</p>
+        <p className="text-base font-archivo-medium">
+          {username || data?.username || truncatedAddress}
+        </p>
       </div>
       <p className="text-sm font-archivo lowercase">
         {new Date(timestamp * 1000).toLocaleString()}
