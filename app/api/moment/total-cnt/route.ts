@@ -1,8 +1,8 @@
-import { getInprocessMomentsCount } from "@/lib/supabase/in_process_tokens/getInprocessMomentsCount";
+import { getInProcessMomentsTotalCnt } from "@/lib/supabase/in_process_moments/getInProcessMomentsTotalCnt";
 
 export async function GET() {
   try {
-    const { count, error } = await getInprocessMomentsCount();
+    const { count, error } = await getInProcessMomentsTotalCnt();
     if (error) throw error;
     return Response.json({ total: count });
   } catch (e: any) {
