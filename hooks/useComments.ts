@@ -67,14 +67,11 @@ export function useComments() {
     [queryClient, contractAddress, tokenId, chainId]
   );
 
-  const fetchMore = useCallback(
-    (offset: number) => {
-      if (query.hasNextPage && !query.isFetchingNextPage) {
-        query.fetchNextPage();
-      }
-    },
-    [query]
-  );
+  const fetchMore = useCallback(() => {
+    if (query.hasNextPage && !query.isFetchingNextPage) {
+      query.fetchNextPage();
+    }
+  }, [query]);
 
   return {
     comments,

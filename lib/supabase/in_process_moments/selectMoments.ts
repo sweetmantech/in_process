@@ -10,7 +10,6 @@ const selectMoments = async ({
   tokenId: string;
   chainId: number;
 }) => {
-  console.log("collectionAddress", collectionAddress, tokenId, chainId);
   let query = supabase
     .from("in_process_moments")
     .select("*, collection:in_process_collections!inner(*)");

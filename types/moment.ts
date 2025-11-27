@@ -24,6 +24,7 @@ export interface MomentCommentsResult {
 }
 
 export interface MintComment {
+  id: string;
   username: string;
   sender: string;
   comment: string;

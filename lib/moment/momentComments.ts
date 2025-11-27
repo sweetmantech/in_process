@@ -30,6 +30,7 @@ export async function momentComments({
   });
 
   const formattedComments = comments.map((comment) => ({
+    id: comment.id,
     comment: comment.comment ?? "",
     sender: comment.artist.address,
     username: comment.artist.username ?? "",

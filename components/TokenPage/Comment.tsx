@@ -5,7 +5,7 @@ import { Address } from "viem";
 
 export const Comment = (comment: MintComment) => {
   const { sender, username, timestamp, comment: commentText } = comment;
-  const { data } = useArtistProfile(sender as Address);
+  const { data } = useArtistProfile(!username ? (sender as Address) : undefined);
   const truncatedAddress = truncateAddress(sender);
 
   return (

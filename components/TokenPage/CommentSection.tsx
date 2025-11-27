@@ -28,11 +28,11 @@ const CommentSection = () => {
   return (
     <CommentsContainer>
       <div className="space-y-1 md:space-y-2">
-        {comments.map((comment, i) => (
-          <Comment key={i} {...comment} />
+        {comments.map((comment) => (
+          <Comment key={comment.id} {...comment} />
         ))}
       </div>
-      {hasMore && <FetchMore fetchMore={() => fetchMore(comments.length)} />}
+      {hasMore && <FetchMore fetchMore={() => fetchMore()} />}
     </CommentsContainer>
   );
 };

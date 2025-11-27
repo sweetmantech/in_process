@@ -7,9 +7,7 @@ const selectComments = async ({ momentId, offset }: { momentId: string; offset: 
   if (momentId) {
     query = query.eq("moment", momentId);
   }
-  if (offset) {
-    query = query.range(offset, offset + 20);
-  }
+  query = query.range(offset, offset + 19);
   const { data, error } = await query;
   if (error) throw error;
   return data;
