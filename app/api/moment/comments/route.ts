@@ -20,10 +20,10 @@ export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
     const queryParams = {
       moment: {
-        contractAddress: searchParams.get("contractAddress") as Address,
+        collectionAddress: searchParams.get("collectionAddress") as Address,
         tokenId: searchParams.get("tokenId") || "1",
+        chainId: Number(searchParams.get("chainId")) || CHAIN_ID,
       },
-      chainId: Number(searchParams.get("chainId")) || CHAIN_ID,
       offset: Number(searchParams.get("offset")) || 0,
     };
 

@@ -9,13 +9,12 @@ export type GetCommentsInput = z.infer<typeof commentsSchema>;
 
 export async function momentComments({
   moment,
-  chainId,
   offset,
 }: GetCommentsInput): Promise<MomentCommentsResult> {
   const momentdata = await selectMoment({
-    collectionAddress: moment.contractAddress as Address,
+    collectionAddress: moment.collectionAddress as Address,
     tokenId: moment.tokenId,
-    chainId,
+    chainId: moment.chainId,
   });
 
   if (!momentdata) {
