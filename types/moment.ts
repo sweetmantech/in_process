@@ -58,3 +58,44 @@ export type SaleConfig = {
   fundsRecipient: Address;
   type: string;
 };
+
+export interface MomentMetadata {
+  image: string;
+  name: string;
+  description: string;
+  external_url?: string;
+  content?: {
+    mime: string;
+    uri: string;
+  } | null;
+  animation_url?: string;
+}
+
+export enum MomentType {
+  Erc20Mint = "erc20Mint",
+  TimedMint = "timed",
+  FixedPriceMint = "fixedPrice",
+}
+
+export type MomentApiSaleConfig = {
+  pricePerToken: string;
+  saleStart: number;
+  saleEnd: number;
+  maxTokensPerAddress: number;
+  fundsRecipient: Address;
+  type: MomentType;
+};
+
+export type MomentResponse = {
+  uri: string | null;
+  owner: string | null;
+  saleConfig: MomentApiSaleConfig | null;
+  momentAdmins: string[];
+  metadata: MomentMetadata;
+};
+
+export type MomentAdvancedInfo = {
+  uri: string | null;
+  owner: string | null;
+  saleConfig: MomentApiSaleConfig | null;
+};

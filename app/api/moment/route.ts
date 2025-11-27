@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getAddress } from "viem";
-import getMomentOnChainInfo from "@/lib/viem/getTokenInfo";
 import { fetchTokenMetadata } from "@/lib/protocolSdk/ipfs/token-metadata";
+import selectAdmins from "@/lib/supabase/in_process_admins/selectAdmins";
+import { getMomentAdvancedInfo } from "@/lib/moment/getMomentAdvancedInfo";
+import { getAddress } from "viem";
 import { getMomentSchema } from "@/lib/schema/getMomentSchema";
-import { selectInProcessToken } from "@/lib/supabase/in_process_tokens/selectInProcessToken";
 import { Moment } from "@/types/moment";
 
 export async function GET(req: NextRequest) {
@@ -28,54 +28,21 @@ export async function GET(req: NextRequest) {
     }
 
     const { collectionAddress, tokenId, chainId } = parseResult.data;
-    const chainIdNum = parseInt(chainId, 10);
     const moment: Moment = {
       collectionAddress: getAddress(collectionAddress),
       tokenId,
-      chainId: chainIdNum,
+      chainId: parseInt(chainId, 10),
     };
 
-    const momentdata = await getMomentOnChainInfo(moment);
-
-    if (!momentdata.tokenUri) {
-      return NextResponse.json({ error: "Token URI not found" }, { status: 404 });
-    }
-
-    // Fetch metadata from URI
-    const metadata = await fetchTokenMetadata(momentdata.tokenUri);
-
-    const token = await selectInProcessToken({
-      address: getAddress(collectionAddress),
-      chainId: chainIdNum,
-    });
-
-    if (!token) {
-      return NextResponse.json({ error: "Token not found" }, { status: 404 });
-    }
-
-    // Validate saleConfig exists and has all required fields
-    if (!momentdata.saleConfig) {
-      return NextResponse.json(
-        { error: "Sale configuration not found for this token" },
-        { status: 400 }
-      );
-    }
-
-    const { pricePerToken, saleStart, saleEnd, maxTokensPerAddress } = momentdata.saleConfig;
-
-    const saleConfig: any = {
-      ...momentdata.saleConfig,
-      pricePerToken: pricePerToken.toString(),
-      saleStart: Number(saleStart),
-      saleEnd: Number(saleEnd),
-      maxTokensPerAddress: Number(maxTokensPerAddress),
-    };
+    const { uri, owner, saleConfig } = await getMomentAdvancedInfo(moment);
+    const metadata = await fetchTokenMetadata(uri || "");
+    const admins = await selectAdmins(moment);
 
     return NextResponse.json({
-      uri: momentdata.tokenUri,
-      owner: getAddress(momentdata.owner),
+      uri,
+      owner,
       saleConfig,
-      momentAdmins: token.token_admins.map((admin) => admin.artist_address),
+      momentAdmins: admins.map((admin) => admin.artist_address),
       metadata: {
         name: metadata.name || "",
         image: metadata.image || "",

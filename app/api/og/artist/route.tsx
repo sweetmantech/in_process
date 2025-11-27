@@ -38,7 +38,7 @@ export async function GET(req: NextRequest) {
   let imageMetadata = null;
 
   if (metadata) {
-    if (metadata.content.mime === "text/plain") {
+    if (metadata.content?.mime === "text/plain") {
       const response = await fetch(getFetchableUrl(metadata.content.uri) || "");
       const data = await response.text();
       writingText = data;
@@ -85,7 +85,7 @@ export async function GET(req: NextRequest) {
         >
           {metadata ? (
             <>
-              {metadata.content.mime === "text/plain" ? (
+              {metadata.content?.mime === "text/plain" ? (
                 <TokenWritingPreview writingText={writingText} totalLines={totalLines} />
               ) : (
                 <TokenImagePreview imageMetadata={imageMetadata} />

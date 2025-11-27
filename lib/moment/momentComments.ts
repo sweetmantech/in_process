@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { commentsSchema } from "../schema/commentsSchema";
-import selectMoments from "../supabase/in_process_moments/selectMoments";
+import selectMoment from "../supabase/in_process_moments/selectMoment";
 import { Address } from "viem";
 import selectComments from "../supabase/in_process_moment_comments/selectComments";
 import { MomentCommentsResult } from "@/types/moment";
@@ -12,20 +12,18 @@ export async function momentComments({
   chainId,
   offset,
 }: GetCommentsInput): Promise<MomentCommentsResult> {
-  const data = await selectMoments({
+  const momentdata = await selectMoment({
     collectionAddress: moment.contractAddress as Address,
     tokenId: moment.tokenId,
     chainId,
   });
 
-  const momentData = data[0];
-
-  if (!momentData) {
+  if (!momentdata) {
     throw new Error("Moment not found");
   }
 
   const comments = await selectComments({
-    momentId: momentData.id,
+    momentId: momentdata.id,
     offset,
   });
 

@@ -14,7 +14,7 @@ import { useUserProvider } from "@/providers/UserProvider";
 const useSaleConfig = () => {
   const { saleConfig: sale } = useMomentProvider();
   const [saleStart, setSaleStart] = useState<Date>(new Date());
-  const { token, fetchTokenInfo } = useMomentProvider();
+  const { moment, fetchTokenInfo } = useMomentProvider();
   const { signTransaction } = useSignTransaction();
   const { connectedAddress } = useUserProvider();
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -29,14 +29,14 @@ const useSaleConfig = () => {
     const calldata = encodeFunctionData({
       abi: zoraCreatorFixedPriceSaleStrategyABI,
       functionName: "setSale",
-      args: [BigInt(token.tokenId), newSale],
+      args: [BigInt(moment.tokenId), newSale],
     });
     const publicClient = getPublicClient(CHAIN_ID);
     const hash = await signTransaction({
-      address: token.tokenContractAddress,
+      address: moment.collectionAddress,
       abi: zoraCreator1155ImplABI,
       functionName: "callSale",
-      args: [token.tokenId, zoraCreatorFixedPriceSaleStrategyAddress[CHAIN_ID], calldata],
+      args: [moment.tokenId, zoraCreatorFixedPriceSaleStrategyAddress[CHAIN_ID], calldata],
       account: connectedAddress as Address,
       chain: CHAIN,
     });

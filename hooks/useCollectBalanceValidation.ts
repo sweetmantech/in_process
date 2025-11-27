@@ -1,5 +1,5 @@
 import { formatEther, formatUnits } from "viem";
-import { MintType } from "@/types/zora";
+import { MomentType } from "@/types/moment";
 import { SaleConfig } from "@/types/moment";
 import { useSmartWalletProvider } from "@/providers/SmartWalletProvider";
 import { showInsufficientBalanceError } from "@/lib/balance/showInsufficientBalanceError";
@@ -11,7 +11,7 @@ const useCollectBalanceValidation = () => {
     const ethPrice = formatEther(saleConfig.pricePerToken * BigInt(mintCount));
     const usdcPrice = formatUnits(saleConfig.pricePerToken * BigInt(mintCount), 6);
 
-    if (saleConfig.type === MintType.Erc20Mint) {
+    if (saleConfig.type === MomentType.Erc20Mint) {
       if (Number(balance) < Number(usdcPrice)) {
         showInsufficientBalanceError("usdc");
       }

@@ -1,29 +1,13 @@
-import {
-  CommentsQueryParams,
-  MintComment,
-  MomentCommentsInput,
-  MomentCommentsResult,
-} from "@/types/moment";
+import { MintComment, MomentCommentsInput, MomentCommentsResult } from "@/types/moment";
 
-async function fetchComments({
-  moment,
-  chainId,
-  offset,
-}: MomentCommentsInput): Promise<MintComment[]> {
+async function fetchComments({ moment, offset }: MomentCommentsInput): Promise<MintComment[]> {
   try {
-    const params: CommentsQueryParams = {
-      contractAddress: moment.contractAddress,
-      tokenId: moment.tokenId,
-      chainId,
-      offset,
-    };
-
-    const queryString = new URLSearchParams({
-      contractAddress: params.contractAddress,
-      tokenId: params.tokenId,
-      chainId: params.chainId.toString(),
-      offset: params.offset?.toString() || "0",
-    });
+    const queryString = new URLSearchParams(
+      JSON.stringify({
+        ...moment,
+        offset,
+      })
+    );
 
     const response = await fetch(`/api/moment/comments?${queryString}`);
 
