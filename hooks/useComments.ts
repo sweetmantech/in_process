@@ -1,61 +1,86 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useMemo } from "react";
+import { useInfiniteQuery, useQueryClient, InfiniteData } from "@tanstack/react-query";
 import { MintComment } from "@/types/moment";
 import fetchComments from "@/lib/moment/fetchComments";
 import { useTokenProvider } from "@/providers/TokenProvider";
 
-export type UseCommentsReturn = {
-  comments: MintComment[];
-  addComment: (comment: MintComment) => void;
-  isLoading: boolean;
-  hasMore: boolean;
-  fetchMore: (offset: number) => void;
-};
+const COMMENTS_PER_PAGE = 20;
 
-export function useComments(): UseCommentsReturn {
+export function useComments() {
   const { token } = useTokenProvider();
-  const [comments, setComments] = useState<MintComment[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [hasMore, setHasMore] = useState<boolean>(true);
+  const queryClient = useQueryClient();
   const { tokenContractAddress: contractAddress, tokenId, chainId } = token;
 
-  const addComment = (comment: MintComment) => {
-    setComments([comment, ...comments]);
-  };
-
-  const fetchMore = useCallback(
-    async (offset: number) => {
-      if (!contractAddress || !tokenId || !chainId) return;
-      setIsLoading(true);
-      const newComments = await fetchComments({
+  const query = useInfiniteQuery({
+    queryKey: ["comments", contractAddress, tokenId, chainId],
+    queryFn: ({ pageParam = 0 }) =>
+      fetchComments({
         moment: {
-          contractAddress,
-          tokenId,
+          contractAddress: contractAddress!,
+          tokenId: tokenId!,
         },
-        chainId,
-        offset,
-      });
-      if (newComments.length === 0) {
-        setHasMore(false);
-        setIsLoading(false);
-        return;
+        chainId: chainId!,
+        offset: pageParam as number,
+      }),
+    enabled: Boolean(contractAddress && tokenId && chainId),
+    staleTime: 1000 * 60 * 5, // 5 minutes
+    retry: (failureCount) => failureCount < 3,
+    getNextPageParam: (lastPage, allPages) => {
+      // If we got fewer than COMMENTS_PER_PAGE, there are no more comments
+      // Note: Supabase range(offset, offset + 20) is inclusive, so it may return 21 items
+      // We treat 20+ as a full page and continue pagination
+      if (lastPage.length < COMMENTS_PER_PAGE) {
+        return undefined;
       }
-      setHasMore(true);
-      setIsLoading(false);
-      setComments((prevComments) => [...prevComments, ...newComments]);
+      // Otherwise, return the next offset (each page fetches COMMENTS_PER_PAGE items)
+      return allPages.length * COMMENTS_PER_PAGE;
     },
-    [contractAddress, tokenId, chainId]
+    initialPageParam: 0,
+  });
+
+  const comments = useMemo(
+    () => query.data?.pages.flatMap((page) => page) ?? [],
+    [query.data?.pages]
   );
 
-  useEffect(() => {
-    fetchMore(0);
-  }, [fetchMore]);
+  const addComment = useCallback(
+    (comment: MintComment) => {
+      // Optimistically update the query cache
+      queryClient.setQueryData<InfiniteData<MintComment[], number>>(
+        ["comments", contractAddress, tokenId, chainId],
+        (oldData) => {
+          if (!oldData) {
+            return {
+              pages: [[comment]],
+              pageParams: [0],
+            };
+          }
+          // Add comment to the beginning of the first page
+          return {
+            pages: [[comment, ...oldData.pages[0]], ...oldData.pages.slice(1)],
+            pageParams: oldData.pageParams,
+          };
+        }
+      );
+    },
+    [queryClient, contractAddress, tokenId, chainId]
+  );
+
+  const fetchMore = useCallback(
+    (offset: number) => {
+      if (query.hasNextPage && !query.isFetchingNextPage) {
+        query.fetchNextPage();
+      }
+    },
+    [query]
+  );
 
   return {
     comments,
     addComment,
-    isLoading,
-    hasMore,
+    isLoading: query.isLoading || query.isFetching,
+    hasMore: query.hasNextPage ?? false,
     fetchMore,
   };
 }
