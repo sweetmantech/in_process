@@ -1,5 +1,5 @@
 import { getPublicClient } from "@/lib/viem/publicClient";
-import { useTokenProvider } from "@/providers/TokenProvider";
+import { useMomentProvider } from "@/providers/MomentProvider";
 import { useUserProvider } from "@/providers/UserProvider";
 import { zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
 import { useEffect, useState } from "react";
@@ -7,7 +7,7 @@ import { Address } from "viem";
 
 const useBalanceOf = () => {
   const [balanceOf, setBalanceOf] = useState<number>(0);
-  const { token } = useTokenProvider();
+  const { token } = useMomentProvider();
   const { connectedAddress } = useUserProvider();
 
   useEffect(() => {

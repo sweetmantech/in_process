@@ -1,9 +1,9 @@
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
-import { useTokenProvider } from "@/providers/TokenProvider";
+import { useMomentProvider } from "@/providers/MomentProvider";
 import { useState } from "react";
 
 const useDownload = () => {
-  const { metadata } = useTokenProvider();
+  const { metadata } = useMomentProvider();
   const [isDownloading, setIsDownloading] = useState<boolean>(false);
 
   const download = async () => {

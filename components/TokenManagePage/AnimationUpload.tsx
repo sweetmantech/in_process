@@ -2,13 +2,13 @@ import NoFileSelected from "@/components/MetadataCreation/NoFileSelected";
 import MediaUploaded from "@/components/MetadataCreation/MediaUploaded";
 import ResetButton from "@/components/MetadataCreation/ResetButton";
 import useUpdateMomentURI from "@/hooks/useUpdateMomentURI";
-import { useTokenProvider } from "@/providers/TokenProvider";
+import { useMomentProvider } from "@/providers/MomentProvider";
 import { useRef } from "react";
 import { useMomentMetadataProvider } from "@/providers/MomentMetadataProvider";
 import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 
 const AnimationUpload = () => {
-  const { isOwner } = useTokenProvider();
+  const { isOwner } = useMomentProvider();
   const { imageUri, animationUri, setImageUri, setAnimationUri } = useMomentFormProvider();
   const { fileUpload, fileUploading } = useMomentMetadataProvider();
   const { isLoading: isSaving } = useUpdateMomentURI();

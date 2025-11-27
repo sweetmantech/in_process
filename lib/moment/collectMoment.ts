@@ -4,7 +4,7 @@ import { CHAIN_ID, IS_TESTNET, USDC_ADDRESS } from "@/lib/consts";
 import { sendUserOperation } from "@/lib/coinbase/sendUserOperation";
 import { getOrCreateSmartWallet } from "../coinbase/getOrCreateSmartWallet";
 import { collectSchema } from "../schema/collectSchema";
-import getTokenInfo from "../viem/getTokenInfo";
+import getMomentOnChainInfo from "../viem/getTokenInfo";
 import { distributeSplitFunds } from "../splits/distributeSplitFunds";
 import isSplitContract from "../splits/isSplitContract";
 import { MintType } from "@/types/zora";
@@ -35,17 +35,16 @@ export async function collectMoment({
   });
 
   // Get token info and sale config
-  const { saleConfig } = await getTokenInfo(
-    moment.contractAddress as Address,
-    moment.tokenId,
-    CHAIN_ID
-  );
+  const { saleConfig } = await getMomentOnChainInfo({
+    ...moment,
+    collectionAddress: moment.collectionAddress as Address,
+  });
 
   const approveCall = await validateBalanceAndAllowance(smartAccount.address, saleConfig, amount);
 
   // Get the collect call using the shared function
   const collectCall = getCollectCall(
-    moment.contractAddress as Address,
+    moment.collectionAddress as Address,
     Number(moment.tokenId),
     saleConfig,
     artistAddress,

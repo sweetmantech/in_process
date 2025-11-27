@@ -3,12 +3,12 @@ import { useCallback, useMemo } from "react";
 import { useInfiniteQuery, useQueryClient, InfiniteData } from "@tanstack/react-query";
 import { MintComment } from "@/types/moment";
 import fetchComments from "@/lib/moment/fetchComments";
-import { useTokenProvider } from "@/providers/TokenProvider";
+import { useMomentProvider } from "@/providers/MomentProvider";
 
 const COMMENTS_PER_PAGE = 20;
 
 export function useComments() {
-  const { token } = useTokenProvider();
+  const { token } = useMomentProvider();
   const queryClient = useQueryClient();
   const { tokenContractAddress: contractAddress, tokenId, chainId } = token;
 

@@ -1,6 +1,6 @@
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Label } from "../ui/label";
-import { useTokenProvider } from "@/providers/TokenProvider";
+import { useMomentProvider } from "@/providers/MomentProvider";
 import { useMomentCommentsProvider } from "@/providers/MomentCommentsProvider";
 import CommentButton from "../CommentButton/CommentButton";
 import { Fragment, MouseEvent } from "react";
@@ -16,7 +16,7 @@ import Advanced from "./Advanced";
 const CollectModal = () => {
   const { comment, isOpenCommentModal, setIsOpenCommentModal, setComment } =
     useMomentCommentsProvider();
-  const { saleConfig, isLoading, isSetSale, metadata } = useTokenProvider();
+  const { saleConfig, isLoading, isSetSale, metadata } = useMomentProvider();
 
   const { amountToCollect } = useMomentCollectProvider();
   const { isPrepared } = useUserProvider();

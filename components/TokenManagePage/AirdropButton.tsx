@@ -1,11 +1,11 @@
 import { AirdropItem } from "@/hooks/useAirdrop";
 import { useAirdropProvider } from "@/providers/AirdropProvider";
-import { useTokenProvider } from "@/providers/TokenProvider";
+import { useMomentProvider } from "@/providers/MomentProvider";
 import { useUserProvider } from "@/providers/UserProvider";
 
 const AirdropButton = () => {
   const { airdopToItems, onAirdrop, loading } = useAirdropProvider();
-  const { owner, tokenAdmins } = useTokenProvider();
+  const { owner, tokenAdmins } = useMomentProvider();
   const { connectedAddress, artistWallet } = useUserProvider();
   const canAirdrop =
     Boolean(owner?.toLowerCase() === connectedAddress?.toLowerCase()) ||

@@ -5,7 +5,7 @@ import ManageTabs, { MANAGE_TABS } from "./ManageTabs";
 import Sale from "./Sale";
 import Media from "./Media";
 import { useParams } from "next/navigation";
-import { TokenProvider } from "@/providers/TokenProvider";
+import { MomentProvider } from "@/providers/MomentProvider";
 import { useCollectionProvider } from "@/providers/CollectionProvider";
 import TokenOverview from "../CollectionManagePage/TokenOverview";
 import MomentAirdrop from "../MomentAirdrop";
@@ -17,12 +17,12 @@ const TokenManagePage = () => {
   const tokenId = params.tokenId as string;
 
   return (
-    <TokenProvider
-      token={{
-        tokenContractAddress: collection.address,
+    <MomentProvider
+      moment={{
+        collectionAddress: collection.address,
         tokenId,
+        chainId: collection.chainId,
       }}
-      chainId={collection.chainId}
     >
       <TokenOverview />
       <ManageTabs
@@ -34,7 +34,7 @@ const TokenManagePage = () => {
         {selectedTab === MANAGE_TABS.SALE && <Sale />}
         {selectedTab === MANAGE_TABS.MEDIA && <Media />}
       </div>
-    </TokenProvider>
+    </MomentProvider>
   );
 };
 

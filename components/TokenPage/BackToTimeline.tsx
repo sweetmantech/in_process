@@ -1,6 +1,6 @@
 "use client";
 
-import { useTokenProvider } from "@/providers/TokenProvider";
+import { useMomentProvider } from "@/providers/MomentProvider";
 import { useArtistProfile } from "@/hooks/useArtistProfile";
 import truncateAddress from "@/lib/truncateAddress";
 import Link from "next/link";
@@ -8,7 +8,7 @@ import { ChevronLeft } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const BackToTimeline = () => {
-  const { owner } = useTokenProvider();
+  const { owner } = useMomentProvider();
   const { data: artistProfile, isLoading } = useArtistProfile(owner || undefined);
 
   if (!owner) return null;

@@ -1,16 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAddress } from "viem";
-import getTokenInfo from "@/lib/viem/getTokenInfo";
+import getMomentOnChainInfo from "@/lib/viem/getTokenInfo";
 import { fetchTokenMetadata } from "@/lib/protocolSdk/ipfs/token-metadata";
 import { getMomentSchema } from "@/lib/schema/getMomentSchema";
 import { selectInProcessToken } from "@/lib/supabase/in_process_tokens/selectInProcessToken";
-import { CHAIN_ID } from "@/lib/consts";
+import { Moment } from "@/types/moment";
 
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
     const queryParams = {
-      tokenContract: searchParams.get("tokenContract"),
+      collectionAddress: searchParams.get("collectionAddress"),
       tokenId: searchParams.get("tokenId"),
       chainId: searchParams.get("chainId"),
     };
@@ -27,21 +27,25 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    const { tokenContract, tokenId, chainId } = parseResult.data;
-    const chainIdNum = chainId ? parseInt(chainId, 10) : CHAIN_ID;
+    const { collectionAddress, tokenId, chainId } = parseResult.data;
+    const chainIdNum = parseInt(chainId, 10);
+    const moment: Moment = {
+      collectionAddress: getAddress(collectionAddress),
+      tokenId,
+      chainId: chainIdNum,
+    };
 
-    // Get token info from chain
-    const tokenInfo = await getTokenInfo(getAddress(tokenContract), tokenId, chainIdNum);
+    const momentdata = await getMomentOnChainInfo(moment);
 
-    if (!tokenInfo.tokenUri) {
+    if (!momentdata.tokenUri) {
       return NextResponse.json({ error: "Token URI not found" }, { status: 404 });
     }
 
     // Fetch metadata from URI
-    const metadata = await fetchTokenMetadata(tokenInfo.tokenUri);
+    const metadata = await fetchTokenMetadata(momentdata.tokenUri);
 
     const token = await selectInProcessToken({
-      address: getAddress(tokenContract),
+      address: getAddress(collectionAddress),
       chainId: chainIdNum,
     });
 
@@ -50,17 +54,17 @@ export async function GET(req: NextRequest) {
     }
 
     // Validate saleConfig exists and has all required fields
-    if (!tokenInfo.saleConfig) {
+    if (!momentdata.saleConfig) {
       return NextResponse.json(
         { error: "Sale configuration not found for this token" },
         { status: 400 }
       );
     }
 
-    const { pricePerToken, saleStart, saleEnd, maxTokensPerAddress } = tokenInfo.saleConfig;
+    const { pricePerToken, saleStart, saleEnd, maxTokensPerAddress } = momentdata.saleConfig;
 
     const saleConfig: any = {
-      ...tokenInfo.saleConfig,
+      ...momentdata.saleConfig,
       pricePerToken: pricePerToken.toString(),
       saleStart: Number(saleStart),
       saleEnd: Number(saleEnd),
@@ -68,8 +72,8 @@ export async function GET(req: NextRequest) {
     };
 
     return NextResponse.json({
-      uri: tokenInfo.tokenUri,
-      owner: getAddress(tokenInfo.owner),
+      uri: momentdata.tokenUri,
+      owner: getAddress(momentdata.owner),
       saleConfig,
       momentAdmins: token.token_admins.map((admin) => admin.artist_address),
       metadata: {

@@ -1,7 +1,7 @@
 "use client";
 
 import { Fragment } from "react";
-import { useTokenProvider } from "@/providers/TokenProvider";
+import { useMomentProvider } from "@/providers/MomentProvider";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import MediaSkeleton from "./MediaSkeleton";
@@ -13,7 +13,7 @@ import AnimationUpload from "./AnimationUpload";
 import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 
 const Media = () => {
-  const { metadata, isOwner, isLoading } = useTokenProvider();
+  const { metadata, isOwner, isLoading } = useMomentProvider();
   const { form } = useMomentFormProvider();
   const { isLoading: isSaving } = useUpdateMomentURI();
 
