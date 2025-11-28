@@ -18,8 +18,8 @@ const TokenPage = () => {
   const viemChainName = ZORA_TO_VIEM[chain as ZoraChains];
   const viemChain = chains[viemChainName];
 
-  const token = {
-    tokenContractAddress: address as Address,
+  const moment = {
+    collectionAddress: address as Address,
     tokenId,
     chainId: viemChain.id,
   };
@@ -27,7 +27,7 @@ const TokenPage = () => {
   return (
     <main className="w-screen flex grow">
       <div className="w-full flex flex-col items-center justify-center pt-12 md:pt-14">
-        <MomentProvider token={token} chainId={viemChain.id}>
+        <MomentProvider moment={moment}>
           <MomentCommentsProvider>
             <MomentCollectProvider>
               <Token />

@@ -1,31 +1,23 @@
 import useTokenInfo from "@/hooks/useTokenInfo";
-import { TokenInfo } from "@/types/token";
+import { Moment } from "@/types/moment";
 import { createContext, useContext, ReactNode } from "react";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const MomentContext = createContext<
   | (ReturnType<typeof useTokenInfo> & {
-      token: TokenInfo;
+      moment: Moment;
     })
   | undefined
 >(undefined);
 
-export function MomentProvider({
-  children,
-  token,
-  chainId,
-}: {
-  children: ReactNode;
-  token: TokenInfo;
-  chainId: number;
-}) {
-  const tokenInfo = useTokenInfo(token.tokenContractAddress, token.tokenId, chainId);
+export function MomentProvider({ children, moment }: { children: ReactNode; moment: Moment }) {
+  const momentdata = useTokenInfo(moment);
 
   return (
     <MomentContext.Provider
       value={{
-        token,
-        ...tokenInfo,
+        moment,
+        ...momentdata,
       }}
     >
       {children}

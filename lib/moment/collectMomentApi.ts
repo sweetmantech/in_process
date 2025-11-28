@@ -14,10 +14,7 @@ export const collectMomentApi = async (
         Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify({
-        moment: {
-          contractAddress: moment.contractAddress,
-          tokenId: moment.tokenId,
-        },
+        moment,
         amount,
         comment,
       }),

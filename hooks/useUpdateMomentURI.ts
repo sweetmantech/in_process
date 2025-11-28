@@ -11,7 +11,7 @@ import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 import { migrateMuxToArweaveApi } from "@/lib/mux/migrateMuxToArweaveApi";
 
 const useUpdateMomentURI = () => {
-  const { token, fetchTokenInfo } = useMomentProvider();
+  const { moment, fetchTokenInfo } = useMomentProvider();
   const {
     name: providerName,
     description: providerDescription,
@@ -27,7 +27,11 @@ const useUpdateMomentURI = () => {
   const updateTokenURI = async () => {
     setIsLoading(true);
     try {
-      const tokenInfo = await getTokenInfo(token.tokenContractAddress, token.tokenId, CHAIN_ID);
+      const tokenInfo = await getTokenInfo(
+        moment.collectionAddress,
+        moment.tokenId,
+        moment.chainId || CHAIN_ID
+      );
       const current = await fetchTokenMetadata(tokenInfo.tokenUri);
 
       const updatedAnimationUrl = animationUri || current?.animation_url;
@@ -56,7 +60,7 @@ const useUpdateMomentURI = () => {
 
       const newUri = await uploadJson(updated);
 
-      if (!token?.tokenContractAddress || !token?.tokenId) {
+      if (!moment?.collectionAddress || !moment?.tokenId) {
         throw new Error("Missing token context");
       }
 
@@ -66,16 +70,15 @@ const useUpdateMomentURI = () => {
       }
 
       await callUpdateMomentURI({
-        tokenContractAddress: token.tokenContractAddress,
-        tokenId: token.tokenId,
+        moment,
         newUri,
         accessToken,
       });
 
       if (updatedMimeType?.includes("video")) {
         await migrateMuxToArweaveApi({
-          tokenContractAddress: token.tokenContractAddress,
-          tokenId: token.tokenId,
+          tokenContractAddress: moment.collectionAddress,
+          tokenId: moment.tokenId,
           accessToken,
         });
         resetForm();

@@ -4,12 +4,12 @@ import { useMomentProvider } from "@/providers/MomentProvider";
 import { toast } from "sonner";
 
 const useShareMoment = () => {
-  const { token } = useMomentProvider();
+  const { moment } = useMomentProvider();
 
   const share = async () => {
     const shortNetworkName = getShortNetworkName(CHAIN.name.toLowerCase());
     await navigator.clipboard.writeText(
-      `${SITE_ORIGINAL_URL}/collect/${shortNetworkName}:${token.tokenContractAddress}/${token.tokenId}`
+      `${SITE_ORIGINAL_URL}/collect/${shortNetworkName}:${moment.collectionAddress}/${moment.tokenId}`
     );
     toast.success("copied!");
   };

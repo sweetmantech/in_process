@@ -14,8 +14,11 @@ const CreatedMomentAirdrop = () => {
 
   return (
     <MomentProvider
-      token={{ tokenContractAddress: createdContract as Address, tokenId: createdTokenId }}
-      chainId={CHAIN_ID}
+      moment={{
+        collectionAddress: createdContract as Address,
+        tokenId: createdTokenId,
+        chainId: CHAIN_ID,
+      }}
     >
       <MomentAirdrop />
     </MomentProvider>

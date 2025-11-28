@@ -1,4 +1,5 @@
 import { Address } from "viem";
+import { Moment } from "@/types/moment";
 import getPermission from "@/lib/zora/getPermission";
 import { PERMISSION_BIT_ADMIN } from "@/lib/consts";
 
@@ -9,8 +10,7 @@ export interface AirdropRecipient {
 
 export interface ExecuteAirdropParams {
   airdropToItems: Array<{ address: string }>;
-  tokenId: string;
-  momentContract: Address;
+  moment: Moment;
   smartWallet: Address;
   artistWallet: Address;
   accessToken: string;
@@ -18,8 +18,7 @@ export interface ExecuteAirdropParams {
 
 export const executeAirdrop = async ({
   airdropToItems,
-  tokenId,
-  momentContract,
+  moment,
   smartWallet,
   artistWallet,
   accessToken,
@@ -27,14 +26,14 @@ export const executeAirdrop = async ({
   // Create recipients array from airdropToItems
   const recipients = Array.from({ length: airdropToItems.length }).map((_, i) => ({
     recipientAddress: airdropToItems[i].address,
-    tokenId: tokenId,
+    tokenId: moment.tokenId,
   }));
   // Check smart wallet permissions
-  const smartWalletPermission = await getPermission(momentContract, smartWallet);
+  const smartWalletPermission = await getPermission(moment.collectionAddress, smartWallet);
 
   if (smartWalletPermission !== BigInt(PERMISSION_BIT_ADMIN)) {
     // Check artist wallet permissions as fallback
-    const artistWalletPermission = await getPermission(momentContract, artistWallet);
+    const artistWalletPermission = await getPermission(moment.collectionAddress, artistWallet);
 
     if (artistWalletPermission !== BigInt(PERMISSION_BIT_ADMIN)) {
       throw new Error("The account does not have admin permission for this collection.");
@@ -48,7 +47,7 @@ export const executeAirdrop = async ({
     method: "POST",
     body: JSON.stringify({
       recipients,
-      momentContract,
+      collectionAddress: moment.collectionAddress,
     }),
     headers: {
       "content-type": "application/json",

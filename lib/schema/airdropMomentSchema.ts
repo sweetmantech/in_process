@@ -11,5 +11,5 @@ export const recipientsSchema = z.array(
 
 export const airdropMomentSchema = z.object({
   recipients: recipientsSchema,
-  momentContract: addressSchema,
+  collectionAddress: addressSchema,
 });

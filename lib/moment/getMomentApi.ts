@@ -1,10 +1,10 @@
-import { Address } from "viem";
+import { Moment } from "@/types/moment";
 
-export const getMomentApi = async (tokenContract: Address, tokenId: string, chainId: number) => {
+export const getMomentApi = async (moment: Moment) => {
   const params = new URLSearchParams({
-    tokenContract,
-    tokenId,
-    chainId: String(chainId),
+    tokenContract: moment.collectionAddress,
+    tokenId: moment.tokenId,
+    ...(moment.chainId && { chainId: String(moment.chainId) }),
   });
   const res = await fetch(`/api/moment?${params.toString()}`);
   if (!res.ok) {

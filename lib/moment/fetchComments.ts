@@ -4,23 +4,20 @@ import {
   MomentCommentsInput,
   MomentCommentsResult,
 } from "@/types/moment";
+import { base } from "viem/chains";
 
-async function fetchComments({
-  moment,
-  chainId,
-  offset,
-}: MomentCommentsInput): Promise<MintComment[]> {
+async function fetchComments({ moment, offset }: MomentCommentsInput): Promise<MintComment[]> {
   try {
     const params: CommentsQueryParams = {
-      contractAddress: moment.contractAddress,
+      contractAddress: moment.collectionAddress,
       tokenId: moment.tokenId,
-      chainId,
+      chainId: moment.chainId ?? base.id, // Default to Base mainnet
       offset,
     };
 
     const queryString = new URLSearchParams({
-      contractAddress: params.contractAddress,
-      tokenId: params.tokenId,
+      collectionAddress: moment.collectionAddress,
+      tokenId: moment.tokenId,
       chainId: params.chainId.toString(),
       offset: params.offset?.toString() || "0",
     });
