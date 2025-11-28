@@ -6,7 +6,7 @@ import getUsdcBalance from "@/lib/balance/getUsdcBalance";
 import getEthBalance from "@/lib/balance/getEthBalance";
 import getAllowance from "@/lib/viem/getAllowance";
 import getApproveCall from "@/lib/viem/getApproveCall";
-import { MintType } from "@/types/zora";
+import { MomentType } from "@/types/moment";
 
 /**
  * Validates balance and checks allowance for moment collection.
@@ -18,7 +18,7 @@ export async function validateBalanceAndAllowance(
   amount: number
 ) {
   const approveCall = [];
-  const isErc20Mint = saleConfig.type === MintType.Erc20Mint;
+  const isErc20Mint = saleConfig.type === MomentType.Erc20Mint;
 
   if (isErc20Mint) {
     const pricePerToken = formatUnits(saleConfig.pricePerToken, 6);

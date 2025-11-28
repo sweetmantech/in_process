@@ -3,7 +3,7 @@ import { downloadVideoFromMux } from "@/lib/mux/downloadVideoFromMux";
 import { deleteMuxAsset } from "@/lib/mux/deleteMuxAsset";
 import { findMuxAssetIdFromPlaybackUrl } from "@/lib/mux/findMuxAssetIdFromPlaybackUrl";
 import { fetchTokenMetadata } from "@/lib/protocolSdk/ipfs/token-metadata";
-import getTokenInfo from "@/lib/viem/getTokenInfo";
+import getMomentOnChainInfo from "@/lib/viem/getTokenInfo";
 import getUpdateTokenURICall from "@/lib/viem/getUpdateTokenURICall";
 import getUpdateContractMetadataCall from "@/lib/viem/getUpdateContractMetadataCall";
 import { CHAIN_ID, IS_TESTNET } from "@/lib/consts";
@@ -44,7 +44,11 @@ export async function migrateMuxToArweave({
 }: MigrateMuxToArweaveInput): Promise<MigrateMuxToArweaveResult> {
   try {
     // Step 1: Get token info using viem and fetch metadata from IPFS
-    const tokenInfo = await getTokenInfo(tokenContractAddress, tokenId, CHAIN_ID);
+    const tokenInfo = await getMomentOnChainInfo({
+      collectionAddress: tokenContractAddress,
+      tokenId,
+      chainId: CHAIN_ID,
+    });
 
     const currentMetadata = await fetchTokenMetadata(tokenInfo.tokenUri);
     if (!currentMetadata) {

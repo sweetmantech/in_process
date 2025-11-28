@@ -3,10 +3,10 @@ import { CHAIN_ID, IS_TESTNET } from "@/lib/consts";
 import { sendUserOperation } from "@/lib/coinbase/sendUserOperation";
 import getUpdateTokenURICall from "@/lib/viem/getUpdateTokenURICall";
 import { getOrCreateSmartWallet } from "@/lib/coinbase/getOrCreateSmartWallet";
+import { Moment } from "@/types/moment";
 
 export interface UpdateMomentURIInput {
-  tokenContractAddress: Address;
-  tokenId: string;
+  moment: Moment;
   newUri: string;
   artistAddress: Address;
 }
@@ -21,8 +21,7 @@ export interface UpdateMomentURIResult {
  * Handles the transaction on the backend side.
  */
 export async function updateMomentURI({
-  tokenContractAddress,
-  tokenId,
+  moment,
   newUri,
   artistAddress,
 }: UpdateMomentURIInput): Promise<UpdateMomentURIResult> {
@@ -30,7 +29,11 @@ export async function updateMomentURI({
     address: artistAddress,
   });
 
-  const updateTokenURICall = getUpdateTokenURICall(tokenContractAddress, tokenId, newUri);
+  const updateTokenURICall = getUpdateTokenURICall(
+    moment.collectionAddress,
+    moment.tokenId,
+    newUri
+  );
 
   // Send the transaction and wait for receipt using the helper
   const transaction = await sendUserOperation({

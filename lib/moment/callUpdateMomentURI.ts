@@ -1,6 +1,7 @@
+import { Moment } from "@/types/moment";
+
 export interface CallUpdateMomentURIInput {
-  tokenContractAddress: string;
-  tokenId: string;
+  moment: Moment;
   newUri: string;
   accessToken: string;
 }
@@ -10,8 +11,7 @@ export interface CallUpdateMomentURIInput {
  * Handles authentication and error responses.
  */
 export async function callUpdateMomentURI({
-  tokenContractAddress,
-  tokenId,
+  moment,
   newUri,
   accessToken,
 }: CallUpdateMomentURIInput): Promise<void> {
@@ -23,10 +23,7 @@ export async function callUpdateMomentURI({
         authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify({
-        moment: {
-          contractAddress: tokenContractAddress,
-          tokenId: tokenId,
-        },
+        moment,
         newUri,
       }),
     });

@@ -3,24 +3,20 @@ import { useCallback, useMemo } from "react";
 import { useInfiniteQuery, useQueryClient, InfiniteData } from "@tanstack/react-query";
 import { MintComment } from "@/types/moment";
 import fetchComments from "@/lib/moment/fetchComments";
-import { useTokenProvider } from "@/providers/TokenProvider";
+import { useMomentProvider } from "@/providers/MomentProvider";
 
 const COMMENTS_PER_PAGE = 20;
 
 export function useComments() {
-  const { token } = useTokenProvider();
+  const { moment } = useMomentProvider();
   const queryClient = useQueryClient();
-  const { tokenContractAddress: contractAddress, tokenId, chainId } = token;
+  const { collectionAddress: contractAddress, tokenId, chainId } = moment;
 
   const query = useInfiniteQuery({
     queryKey: ["comments", contractAddress, tokenId, chainId],
     queryFn: ({ pageParam = 0 }) =>
       fetchComments({
-        moment: {
-          contractAddress: contractAddress!,
-          tokenId: tokenId!,
-        },
-        chainId: chainId!,
+        moment,
         offset: pageParam as number,
       }),
     enabled: Boolean(contractAddress && tokenId && chainId),

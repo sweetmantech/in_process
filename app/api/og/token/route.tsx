@@ -33,7 +33,7 @@ export async function GET(req: NextRequest) {
   if (!metadata) throw Error("failed to get token metadata");
 
   const previewBackgroundUrl = getFetchableUrl(metadata.image);
-  const isWriting = metadata.content.mime === "text/plain";
+  const isWriting = metadata.content?.mime === "text/plain";
 
   let orientation = 1;
   let originalWidth = 1;
@@ -43,7 +43,7 @@ export async function GET(req: NextRequest) {
   let writingText = "";
 
   if (isWriting) {
-    const response = await fetch(getFetchableUrl(metadata.content.uri) || "");
+    const response = await fetch(getFetchableUrl(metadata.content?.uri) || "");
     const data = await response.text();
     writingText = data;
     const paragraphs = writingText.split("\n");

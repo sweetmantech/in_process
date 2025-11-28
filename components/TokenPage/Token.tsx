@@ -1,6 +1,6 @@
 "use client";
 
-import { useTokenProvider } from "@/providers/TokenProvider";
+import { useMomentProvider } from "@/providers/MomentProvider";
 import CollectModal from "./CollectModal";
 import MetaAndComments from "./MetaAndComments";
 import MomentCollected from "./MomentCollected";
@@ -12,7 +12,7 @@ import MomentAirdrop from "../MomentAirdrop/MomentAirdrop";
 import { useMomentCollectProvider } from "@/providers/MomentCollectProvider";
 
 const Token = () => {
-  const { metadata, isOwner } = useTokenProvider();
+  const { metadata, isOwner } = useMomentProvider();
   const { collected } = useMomentCollectProvider();
   const isMobile = useIsMobile();
 

@@ -1,8 +1,8 @@
-import { MintType } from "@/types/zora";
+import { MomentType } from "@/types/moment";
 
 const getPriceUnit = (type: string | undefined) => {
   if (!type) return "";
-  return type === MintType.Erc20Mint ? "usdc" : "eth";
+  return type === MomentType.Erc20Mint ? "usdc" : "eth";
 };
 
 export default getPriceUnit;

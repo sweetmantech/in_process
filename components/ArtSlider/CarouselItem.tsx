@@ -1,12 +1,12 @@
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
-import { Metadata } from "@/types/token";
+import { MomentMetadata } from "@/types/moment";
 import PdfViewer from "../Renderers/PdfViewer";
 import VideoPlayer from "../Renderers/VideoPlayer";
 import AudioPlayer from "../Renderers/AudioPlayer";
 import Writing from "../Renderers/Writing";
 
 interface CarouselItemProps {
-  metadata: Metadata;
+  metadata: MomentMetadata;
 }
 
 const CarouselItem = ({ metadata }: CarouselItemProps) => {
@@ -38,7 +38,7 @@ const CarouselItem = ({ metadata }: CarouselItemProps) => {
     return (
       <div className="size-full">
         <Writing
-          fileUrl={getFetchableUrl(metadata.content.uri) || ""}
+          fileUrl={getFetchableUrl(metadata.content?.uri) || ""}
           description={metadata.description}
         />
       </div>

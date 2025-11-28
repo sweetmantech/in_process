@@ -1,17 +1,16 @@
 import { useState } from "react";
-import { useTokenProvider } from "@/providers/TokenProvider";
-import { CHAIN_ID } from "@/lib/consts";
+import { useMomentProvider } from "@/providers/MomentProvider";
 import { usePrivy } from "@privy-io/react-auth";
 import { uploadJson } from "@/lib/arweave/uploadJson";
 import { fetchTokenMetadata } from "@/lib/protocolSdk/ipfs/token-metadata";
-import getTokenInfo from "@/lib/viem/getTokenInfo";
+import getMomentOnChainInfo from "@/lib/viem/getTokenInfo";
 import { toast } from "sonner";
 import { callUpdateMomentURI } from "@/lib/moment/callUpdateMomentURI";
 import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 import { migrateMuxToArweaveApi } from "@/lib/mux/migrateMuxToArweaveApi";
 
 const useUpdateMomentURI = () => {
-  const { token, fetchTokenInfo } = useTokenProvider();
+  const { moment, fetchTokenInfo } = useMomentProvider();
   const {
     name: providerName,
     description: providerDescription,
@@ -27,7 +26,7 @@ const useUpdateMomentURI = () => {
   const updateTokenURI = async () => {
     setIsLoading(true);
     try {
-      const tokenInfo = await getTokenInfo(token.tokenContractAddress, token.tokenId, CHAIN_ID);
+      const tokenInfo = await getMomentOnChainInfo(moment);
       const current = await fetchTokenMetadata(tokenInfo.tokenUri);
 
       const updatedAnimationUrl = animationUri || current?.animation_url;
@@ -37,17 +36,19 @@ const useUpdateMomentURI = () => {
       const name = providerName || current?.name;
       const description = providerDescription || current?.description;
 
+      const isImage = mimeType?.includes("image");
+
       const updated = {
         ...(current || {}),
         name,
         description,
         image: imageUri || current?.image,
-        animation_url: updatedAnimationUrl,
+        animation_url: isImage ? imageUri : updatedAnimationUrl,
         content:
-          (updatedContentUri || updatedMimeType) && !updatedMimeType?.includes("image")
+          updatedContentUri || updatedMimeType
             ? {
                 mime: updatedMimeType || current?.content?.mime || "",
-                uri: updatedContentUri || current?.content?.uri || "",
+                uri: isImage ? imageUri : updatedContentUri || current?.content?.uri || "",
               }
             : current?.content,
       };
@@ -56,7 +57,7 @@ const useUpdateMomentURI = () => {
 
       const newUri = await uploadJson(updated);
 
-      if (!token?.tokenContractAddress || !token?.tokenId) {
+      if (!moment?.collectionAddress || !moment?.tokenId) {
         throw new Error("Missing token context");
       }
 
@@ -66,16 +67,15 @@ const useUpdateMomentURI = () => {
       }
 
       await callUpdateMomentURI({
-        tokenContractAddress: token.tokenContractAddress,
-        tokenId: token.tokenId,
+        moment,
         newUri,
         accessToken,
       });
 
       if (updatedMimeType?.includes("video")) {
         await migrateMuxToArweaveApi({
-          tokenContractAddress: token.tokenContractAddress,
-          tokenId: token.tokenId,
+          tokenContractAddress: moment.collectionAddress,
+          tokenId: moment.tokenId,
           accessToken,
         });
         resetForm();

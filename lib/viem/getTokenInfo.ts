@@ -1,5 +1,4 @@
 import { getPublicClient } from "@/lib/viem/publicClient";
-import { CHAIN_ID } from "@/lib/consts";
 import {
   erc20MinterAddresses,
   zoraCreatorFixedPriceSaleStrategyAddress,
@@ -9,20 +8,17 @@ import {
   zoraCreator1155ImplABI,
   zoraCreatorFixedPriceSaleStrategyABI,
 } from "@zoralabs/protocol-deployments";
-import { Address } from "viem";
-import { MintType } from "@/types/zora";
+import { MomentType } from "@/types/moment";
+import { Moment } from "@/types/moment";
 
-const getTokenInfo = async (
-  tokenContract: Address,
-  tokenId: string,
-  chainId: number = CHAIN_ID
-) => {
+const getMomentOnChainInfo = async (moment: Moment) => {
+  const { collectionAddress, tokenId, chainId } = moment;
   const publicClient: any = getPublicClient(chainId);
   const erc20SaleConfigCall = {
     address: erc20MinterAddresses[chainId as keyof typeof erc20MinterAddresses],
     abi: erc20MinterABI,
     functionName: "sale",
-    args: [tokenContract, tokenId],
+    args: [collectionAddress, tokenId],
   };
   const fixedSaleConfigCall = {
     address:
@@ -31,16 +27,16 @@ const getTokenInfo = async (
       ],
     abi: zoraCreatorFixedPriceSaleStrategyABI,
     functionName: "sale",
-    args: [tokenContract, tokenId],
+    args: [collectionAddress, tokenId],
   };
   const uriCall = {
-    address: tokenContract,
+    address: collectionAddress,
     abi: zoraCreator1155ImplABI,
     functionName: "uri",
     args: [tokenId],
   };
   const ownerCall = {
-    address: tokenContract,
+    address: collectionAddress,
     abi: zoraCreator1155ImplABI,
     functionName: "owner",
     args: [],
@@ -54,11 +50,11 @@ const getTokenInfo = async (
     infoCalls[0]?.result?.saleEnd > BigInt(0)
       ? {
           ...infoCalls[0]?.result,
-          type: MintType.Erc20Mint,
+          type: MomentType.Erc20Mint,
         }
       : {
           ...infoCalls[1]?.result,
-          type: MintType.FixedPriceMint,
+          type: MomentType.FixedPriceMint,
         };
 
   return {
@@ -68,4 +64,4 @@ const getTokenInfo = async (
   };
 };
 
-export default getTokenInfo;
+export default getMomentOnChainInfo;

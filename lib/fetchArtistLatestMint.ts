@@ -1,11 +1,11 @@
-import { Metadata } from "@/types/token";
+import { MomentMetadata } from "@/types/moment";
 import { VERCEL_OG } from "./og/consts";
 import fetchTokenMetadata from "./fetchTokenMetadata";
 
 const getArtistLatestMint = async (
   artistAddress: string,
   chainId: number
-): Promise<Metadata | null> => {
+): Promise<MomentMetadata | null> => {
   try {
     const response = await fetch(
       `${VERCEL_OG}/api/artist/latest_mint?artistAddress=${artistAddress}&chainId=${chainId}`

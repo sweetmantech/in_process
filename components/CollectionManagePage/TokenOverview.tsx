@@ -3,11 +3,11 @@ import { useRouter } from "next/navigation";
 import { Skeleton } from "../ui/skeleton";
 import { networkConfigByChain } from "@/lib/protocolSdk/apis/chain-constants";
 import CopyButton from "../CopyButton";
-import { useTokenProvider } from "@/providers/TokenProvider";
+import { useMomentProvider } from "@/providers/MomentProvider";
 import { useCollectionProvider } from "@/providers/CollectionProvider";
 
 const TokenOverview = () => {
-  const { metadata, isLoading } = useTokenProvider();
+  const { metadata, isLoading } = useMomentProvider();
   const { push } = useRouter();
   const { collection } = useCollectionProvider();
 

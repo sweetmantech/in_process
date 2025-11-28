@@ -1,16 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getAddress } from "viem";
-import getTokenInfo from "@/lib/viem/getTokenInfo";
 import { fetchTokenMetadata } from "@/lib/protocolSdk/ipfs/token-metadata";
+import selectAdmins from "@/lib/supabase/in_process_admins/selectAdmins";
+import { getMomentAdvancedInfo } from "@/lib/moment/getMomentAdvancedInfo";
+import { getAddress } from "viem";
 import { getMomentSchema } from "@/lib/schema/getMomentSchema";
-import { selectInProcessToken } from "@/lib/supabase/in_process_tokens/selectInProcessToken";
-import { CHAIN_ID } from "@/lib/consts";
+import { Moment } from "@/types/moment";
 
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
     const queryParams = {
-      tokenContract: searchParams.get("tokenContract"),
+      collectionAddress: searchParams.get("collectionAddress"),
       tokenId: searchParams.get("tokenId"),
       chainId: searchParams.get("chainId"),
     };
@@ -27,51 +27,22 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    const { tokenContract, tokenId, chainId } = parseResult.data;
-    const chainIdNum = chainId ? parseInt(chainId, 10) : CHAIN_ID;
-
-    // Get token info from chain
-    const tokenInfo = await getTokenInfo(getAddress(tokenContract), tokenId, chainIdNum);
-
-    if (!tokenInfo.tokenUri) {
-      return NextResponse.json({ error: "Token URI not found" }, { status: 404 });
-    }
-
-    // Fetch metadata from URI
-    const metadata = await fetchTokenMetadata(tokenInfo.tokenUri);
-
-    const token = await selectInProcessToken({
-      address: getAddress(tokenContract),
-      chainId: chainIdNum,
-    });
-
-    if (!token) {
-      return NextResponse.json({ error: "Token not found" }, { status: 404 });
-    }
-
-    // Validate saleConfig exists and has all required fields
-    if (!tokenInfo.saleConfig) {
-      return NextResponse.json(
-        { error: "Sale configuration not found for this token" },
-        { status: 400 }
-      );
-    }
-
-    const { pricePerToken, saleStart, saleEnd, maxTokensPerAddress } = tokenInfo.saleConfig;
-
-    const saleConfig: any = {
-      ...tokenInfo.saleConfig,
-      pricePerToken: pricePerToken.toString(),
-      saleStart: Number(saleStart),
-      saleEnd: Number(saleEnd),
-      maxTokensPerAddress: Number(maxTokensPerAddress),
+    const { collectionAddress, tokenId, chainId } = parseResult.data;
+    const moment: Moment = {
+      collectionAddress: getAddress(collectionAddress),
+      tokenId,
+      chainId: parseInt(chainId, 10),
     };
 
+    const { uri, owner, saleConfig } = await getMomentAdvancedInfo(moment);
+    const metadata = await fetchTokenMetadata(uri || "");
+    const admins = await selectAdmins(moment);
+
     return NextResponse.json({
-      uri: tokenInfo.tokenUri,
-      owner: getAddress(tokenInfo.owner),
+      uri,
+      owner,
       saleConfig,
-      momentAdmins: token.token_admins.map((admin) => admin.artist_address),
+      momentAdmins: admins.map((admin) => admin.artist_address),
       metadata: {
         name: metadata.name || "",
         image: metadata.image || "",
