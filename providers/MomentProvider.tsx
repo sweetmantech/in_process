@@ -3,14 +3,14 @@ import { TokenInfo } from "@/types/token";
 import { createContext, useContext, ReactNode } from "react";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const TokenContext = createContext<
+const MomentContext = createContext<
   | (ReturnType<typeof useTokenInfo> & {
       token: TokenInfo;
     })
   | undefined
 >(undefined);
 
-export function TokenProvider({
+export function MomentProvider({
   children,
   token,
   chainId,
@@ -22,21 +22,21 @@ export function TokenProvider({
   const tokenInfo = useTokenInfo(token.tokenContractAddress, token.tokenId, chainId);
 
   return (
-    <TokenContext.Provider
+    <MomentContext.Provider
       value={{
         token,
         ...tokenInfo,
       }}
     >
       {children}
-    </TokenContext.Provider>
+    </MomentContext.Provider>
   );
 }
 
-export function useTokenProvider() {
-  const context = useContext(TokenContext);
+export function useMomentProvider() {
+  const context = useContext(MomentContext);
   if (context === undefined) {
-    throw new Error("useTokenProvider must be used within a TokenProvider");
+    throw new Error("useMomentProvider must be used within a MomentProvider");
   }
   return context;
 }

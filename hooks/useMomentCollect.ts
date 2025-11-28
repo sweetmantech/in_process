@@ -3,7 +3,7 @@ import { zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
 import { zoraCreatorFixedPriceSaleStrategyAddress } from "@/lib/protocolSdk/constants";
 import { CHAIN } from "@/lib/consts";
 import { Address, encodeAbiParameters, parseAbiParameters } from "viem";
-import { useTokenProvider } from "@/providers/TokenProvider";
+import { useMomentProvider } from "@/providers/MomentProvider";
 import { useUserProvider } from "@/providers/UserProvider";
 import { toast } from "sonner";
 import useCollectBalanceValidation from "./useCollectBalanceValidation";
@@ -33,7 +33,7 @@ const useMomentCollect = () => {
   const [collected, setCollected] = useState(false);
   const { artistWallet } = useUserProvider();
   const [isLoading, setIsLoading] = useState(false);
-  const { token, saleConfig } = useTokenProvider();
+  const { token, saleConfig } = useMomentProvider();
   const { comment, addComment, setComment, setIsOpenCommentModal } = useMomentCommentsProvider();
   const { validateBalance } = useCollectBalanceValidation();
   const { getAccessToken } = usePrivy();

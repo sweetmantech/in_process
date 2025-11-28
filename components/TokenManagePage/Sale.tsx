@@ -1,11 +1,11 @@
 import useSaleConfig from "@/hooks/useSaleConfig";
 import { Fragment } from "react";
 import { DateTimePicker } from "../ui/date-time-picker";
-import { useTokenProvider } from "@/providers/TokenProvider";
+import { useMomentProvider } from "@/providers/MomentProvider";
 
 const Sale = () => {
   const { saleStart, setSaleStart, setSale, isLoading } = useSaleConfig();
-  const { saleConfig } = useTokenProvider();
+  const { saleConfig } = useMomentProvider();
 
   if (!saleConfig) return <Fragment />;
   return (

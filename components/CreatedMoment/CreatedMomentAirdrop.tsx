@@ -4,7 +4,7 @@ import { useMomentCreateProvider } from "@/providers/MomentCreateProvider/Moment
 import { Fragment } from "react";
 import MomentAirdrop from "../MomentAirdrop";
 import { Address } from "viem";
-import { TokenProvider } from "@/providers/TokenProvider";
+import { MomentProvider } from "@/providers/MomentProvider";
 import { CHAIN_ID } from "@/lib/consts";
 
 const CreatedMomentAirdrop = () => {
@@ -13,12 +13,12 @@ const CreatedMomentAirdrop = () => {
   if (!createdContract || !createdTokenId) return <Fragment />;
 
   return (
-    <TokenProvider
+    <MomentProvider
       token={{ tokenContractAddress: createdContract as Address, tokenId: createdTokenId }}
       chainId={CHAIN_ID}
     >
       <MomentAirdrop />
-    </TokenProvider>
+    </MomentProvider>
   );
 };
 

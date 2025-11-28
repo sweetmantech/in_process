@@ -1,4 +1,4 @@
-import { useTokenProvider } from "@/providers/TokenProvider";
+import { useMomentProvider } from "@/providers/MomentProvider";
 import { Fragment } from "react";
 import { Skeleton } from "../ui/skeleton";
 import CommentSection from "./CommentSection";
@@ -16,7 +16,7 @@ interface MetaAndCommentsProps {
 }
 
 const MetaAndComments = ({ priceHidden = false, commentsHidden = false }: MetaAndCommentsProps) => {
-  const { saleConfig, metadata, isLoading, isSetSale } = useTokenProvider();
+  const { saleConfig, metadata, isLoading, isSetSale } = useMomentProvider();
   const { balanceOf } = useBalanceOf();
   const { download } = useDownload();
 
