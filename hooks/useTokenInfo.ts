@@ -3,14 +3,15 @@ import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useUserProvider } from "@/providers/UserProvider";
 import { getMomentApi } from "@/lib/moment/getMomentApi";
+import { Moment } from "@/types/moment";
 
-const useTokenInfo = (tokenContract: Address, tokenId: string, chainId: number) => {
+const useTokenInfo = (moment: Moment) => {
   const { artistWallet } = useUserProvider();
 
   const query = useQuery({
-    queryKey: ["tokenInfo", tokenContract, tokenId, chainId],
-    queryFn: () => getMomentApi(tokenContract, tokenId, chainId),
-    enabled: Boolean(tokenContract && tokenId && chainId),
+    queryKey: ["tokenInfo", moment.collectionAddress, moment.tokenId, moment.chainId],
+    queryFn: () => getMomentApi(moment),
+    enabled: Boolean(moment.collectionAddress && moment.tokenId),
     staleTime: 1000 * 60 * 5, // 5 minutes
     retry: (failureCount) => failureCount < 3,
   });

@@ -18,11 +18,11 @@ const TokenManagePage = () => {
 
   return (
     <MomentProvider
-      token={{
-        tokenContractAddress: collection.address,
+      moment={{
+        collectionAddress: collection.address,
         tokenId,
+        chainId: collection.chainId,
       }}
-      chainId={collection.chainId}
     >
       <TokenOverview />
       <ManageTabs

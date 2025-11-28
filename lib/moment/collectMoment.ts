@@ -29,24 +29,21 @@ export async function collectMoment({
   amount,
   artistAddress,
 }: CollectMomentInput): Promise<CollectResult> {
+  const { collectionAddress, tokenId } = moment;
   // Get or create a smart account (contract wallet)
   const smartAccount = await getOrCreateSmartWallet({
     address: artistAddress,
   });
 
   // Get token info and sale config
-  const { saleConfig } = await getTokenInfo(
-    moment.contractAddress as Address,
-    moment.tokenId,
-    CHAIN_ID
-  );
+  const { saleConfig } = await getTokenInfo(collectionAddress as Address, tokenId, CHAIN_ID);
 
   const approveCall = await validateBalanceAndAllowance(smartAccount.address, saleConfig, amount);
 
   // Get the collect call using the shared function
   const collectCall = getCollectCall(
-    moment.contractAddress as Address,
-    Number(moment.tokenId),
+    collectionAddress as Address,
+    Number(tokenId),
     saleConfig,
     artistAddress,
     comment,

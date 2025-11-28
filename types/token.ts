@@ -11,12 +11,6 @@ export interface TokenMetadata {
   canvas_url?: string;
 }
 
-export interface TokenInfo {
-  tokenId: string;
-  tokenContractAddress: Address;
-  chainId?: number;
-}
-
 export interface Metadata {
   image: string;
   name: string;

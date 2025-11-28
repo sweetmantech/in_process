@@ -12,7 +12,7 @@ async function fetchComments({
 }: MomentCommentsInput): Promise<MintComment[]> {
   try {
     const params: CommentsQueryParams = {
-      contractAddress: moment.contractAddress,
+      contractAddress: moment.collectionAddress,
       tokenId: moment.tokenId,
       chainId,
       offset,
