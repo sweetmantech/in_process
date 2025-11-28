@@ -37,7 +37,9 @@ const useSaleConfig = () => {
       functionName: "callSale",
       args: [
         moment.tokenId,
-        zoraCreatorFixedPriceSaleStrategyAddress[moment.chainId || CHAIN_ID],
+        zoraCreatorFixedPriceSaleStrategyAddress[
+          moment.chainId as keyof typeof zoraCreatorFixedPriceSaleStrategyAddress
+        ],
         calldata,
       ],
       account: connectedAddress as Address,

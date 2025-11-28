@@ -16,11 +16,7 @@ export function useComments() {
     queryKey: ["comments", contractAddress, tokenId, chainId],
     queryFn: ({ pageParam = 0 }) =>
       fetchComments({
-        moment: {
-          contractAddress: contractAddress!,
-          tokenId: tokenId!,
-        },
-        chainId: chainId!,
+        moment,
         offset: pageParam as number,
       }),
     enabled: Boolean(contractAddress && tokenId && chainId),
