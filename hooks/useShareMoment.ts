@@ -1,10 +1,10 @@
 import { CHAIN, SITE_ORIGINAL_URL } from "@/lib/consts";
 import { getShortNetworkName } from "@/lib/zora/zoraToViem";
-import { useTokenProvider } from "@/providers/TokenProvider";
+import { useMomentProvider } from "@/providers/MomentProvider";
 import { toast } from "sonner";
 
 const useShareMoment = () => {
-  const { token } = useTokenProvider();
+  const { token } = useMomentProvider();
 
   const share = async () => {
     const shortNetworkName = getShortNetworkName(CHAIN.name.toLowerCase());

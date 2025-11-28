@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useTokenProvider } from "@/providers/TokenProvider";
+import { useMomentProvider } from "@/providers/MomentProvider";
 import { CHAIN_ID } from "@/lib/consts";
 import { usePrivy } from "@privy-io/react-auth";
 import { uploadJson } from "@/lib/arweave/uploadJson";
@@ -11,7 +11,7 @@ import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 import { migrateMuxToArweaveApi } from "@/lib/mux/migrateMuxToArweaveApi";
 
 const useUpdateMomentURI = () => {
-  const { token, fetchTokenInfo } = useTokenProvider();
+  const { token, fetchTokenInfo } = useMomentProvider();
   const {
     name: providerName,
     description: providerDescription,

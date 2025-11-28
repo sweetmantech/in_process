@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useTokenProvider } from "@/providers/TokenProvider";
+import { useMomentProvider } from "@/providers/MomentProvider";
 import { Address, encodeFunctionData } from "viem";
 import useSignTransaction from "./useSignTransaction";
 import { getPublicClient } from "@/lib/viem/publicClient";
@@ -12,9 +12,9 @@ import { zoraCreatorFixedPriceSaleStrategyAddress } from "@/lib/protocolSdk/cons
 import { useUserProvider } from "@/providers/UserProvider";
 
 const useSaleConfig = () => {
-  const { saleConfig: sale } = useTokenProvider();
+  const { saleConfig: sale } = useMomentProvider();
   const [saleStart, setSaleStart] = useState<Date>(new Date());
-  const { token, fetchTokenInfo } = useTokenProvider();
+  const { token, fetchTokenInfo } = useMomentProvider();
   const { signTransaction } = useSignTransaction();
   const { connectedAddress } = useUserProvider();
   const [isLoading, setIsLoading] = useState<boolean>(false);

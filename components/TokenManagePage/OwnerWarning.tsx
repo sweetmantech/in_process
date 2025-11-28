@@ -1,8 +1,8 @@
 "use client";
-import { useTokenProvider } from "@/providers/TokenProvider";
+import { useMomentProvider } from "@/providers/MomentProvider";
 
 const OwnerWarning = () => {
-  const { isOwner } = useTokenProvider();
+  const { isOwner } = useMomentProvider();
 
   if (isOwner) return null;
 

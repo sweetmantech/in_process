@@ -2,7 +2,7 @@
 
 import Token from "./Token";
 import { ZORA_TO_VIEM, ZoraChains } from "@/lib/zora/zoraToViem";
-import { TokenProvider } from "@/providers/TokenProvider";
+import { MomentProvider } from "@/providers/MomentProvider";
 import { MomentCommentsProvider } from "@/providers/MomentCommentsProvider";
 import { MomentCollectProvider } from "@/providers/MomentCollectProvider";
 import { useParams } from "next/navigation";
@@ -27,13 +27,13 @@ const TokenPage = () => {
   return (
     <main className="w-screen flex grow">
       <div className="w-full flex flex-col items-center justify-center pt-12 md:pt-14">
-        <TokenProvider token={token} chainId={viemChain.id}>
+        <MomentProvider token={token} chainId={viemChain.id}>
           <MomentCommentsProvider>
             <MomentCollectProvider>
               <Token />
             </MomentCollectProvider>
           </MomentCommentsProvider>
-        </TokenProvider>
+        </MomentProvider>
       </div>
     </main>
   );
