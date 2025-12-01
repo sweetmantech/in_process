@@ -79,11 +79,11 @@ BEGIN
       json_agg(
         json_build_object(
           'address', adm.artist_address,
-          'username', COALESCE(a.username, NULL),
+          'username', a.username,
           'hidden', adm.hidden
         )
         ORDER BY adm.granted_at ASC
-      ) FILTER (WHERE adm.artist_address IS NOT NULL) AS admins_array
+      ) FILTER (WHERE adm.artist_address IS NOT NULL AND a.username IS NOT NULL AND a.username != '') AS admins_array
     FROM moment_data md
     LEFT JOIN LATERAL (
       SELECT DISTINCT ON (adm.artist_address)
@@ -91,6 +91,9 @@ BEGIN
         adm.hidden,
         adm.granted_at
       FROM in_process_admins adm
+      INNER JOIN in_process_artists a_check ON adm.artist_address = a_check.address
+        AND a_check.username IS NOT NULL 
+        AND a_check.username != ''
       WHERE adm.collection = md.collection 
         AND (adm.token_id = md.token_id OR adm.token_id = 0)
       ORDER BY adm.artist_address, 
@@ -98,6 +101,8 @@ BEGIN
         adm.granted_at ASC
     ) adm ON true
     LEFT JOIN in_process_artists a ON adm.artist_address = a.address
+      AND a.username IS NOT NULL 
+      AND a.username != ''
     GROUP BY md.id
   )
   SELECT json_agg(
