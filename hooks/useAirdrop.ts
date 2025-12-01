@@ -16,8 +16,7 @@ export interface AirdropItem {
   ensName: string;
 }
 const useAirdrop = () => {
-  const { token } = useMomentProvider();
-  const { tokenContractAddress: momentContract, tokenId } = token;
+  const { moment } = useMomentProvider();
   const [airdopToItems, setAirdropToItems] = useState<AirdropItem[]>([]);
   const { artistWallet, isPrepared } = useUserProvider();
   const { smartWallet } = useSmartWalletProvider();
@@ -66,8 +65,7 @@ const useAirdrop = () => {
 
       const hash = await executeAirdrop({
         airdropToItems: airdopToItems,
-        tokenId,
-        momentContract,
+        moment,
         smartWallet: smartWallet as Address,
         artistWallet: artistWallet as Address,
         accessToken,

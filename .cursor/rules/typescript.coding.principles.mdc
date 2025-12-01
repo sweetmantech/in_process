@@ -1,0 +1,290 @@
+---
+alwaysApply: true
+---
+
+# TypeScript Coding Principles
+
+## Core Principles
+
+### KISS Principle (Keep It Simple, Stupid)
+- Write simple, straightforward code that is easy to understand
+- Avoid unnecessary complexity and over-engineering
+- Prefer clear, readable solutions over clever ones
+- If a solution seems too complicated, simplify it
+
+### DRY Principle (Don't Repeat Yourself)
+- Avoid code duplication
+- Extract common logic into reusable functions or utilities
+- Use shared constants, types, and helpers
+- Refactor repeated patterns into abstractions
+
+### SRP Principle (Single Responsibility Principle)
+- Each function, class, or module should have one clear responsibility
+- `A function` MUST do `one thing(file)` and do it well
+- If a function does multiple things, split it into smaller functions
+- Keep functions focused and cohesive
+
+### Open-Closed Principle
+- Code should be open for extension but closed for modification
+- Design functions and classes to be extensible without changing existing code
+- Use interfaces, abstract classes, and dependency injection to enable extension
+- Prefer composition over modification when adding new features
+
+## File Organization
+
+### One Function Per File
+- Each function should be defined in its own file
+- The file name should match the function name (e.g., `getMaxBlockTimestamp.ts` exports `getMaxBlockTimestamp`)
+- This improves:
+  - Code discoverability
+  - Easier testing
+  - Better code organization
+  - Reduced merge conflicts
+
+### Providers
+- **All React providers must be stored in the `lib/providers/` folder**
+- Each provider should be in its own file
+- Example structure:
+  ```
+  lib/
+    providers/
+      query-provider.tsx
+      theme-provider.tsx
+      auth-provider.tsx
+  ```
+- Providers should be client components (use "use client" directive)
+- Export providers as named exports for easy import
+- Keep provider logic focused and minimal
+
+### Supabase Query Functions
+- All pure Supabase query functions must be organized in the `supabase` folder
+- Group functions by table: `supabase/[table_name]/`
+- Example structure:
+  ```
+  supabase/
+    in_process_tokens/
+      selectTokens.ts
+      upsertTokens.ts
+    in_process_payments/
+      selectPayments.ts
+      upsertPayments.ts
+  ```
+- Keep query functions pure and focused on database operations
+- Separate business logic from database queries
+
+### Types
+- All types should be defined in a `types` folder
+- Example structure:
+  ```
+  types/
+    moments.ts
+  ```
+- Keep type definitions organized and easily discoverable
+- Export types from a central location when shared across modules
+
+### Mock Data
+- **All mock variables must be placed in the `lib` folder**
+- Organize mock data by domain/feature: `lib/mocks/[feature]/`
+- Example structure:
+  ```
+  lib/
+    mocks/
+      moments/
+        mockMoments.ts
+      stories/
+        mockStories.ts
+      users/
+        mockUsers.ts
+  ```
+- Export mock data as named exports for easy import
+- Keep mock data separate from component files to maintain clean component structure
+- Mock data files should be pure data exports (no logic)
+
+### Component Folder Naming
+- **All component folders must use PascalCase naming**
+- **"Page" suffix**: Only folders containing page-specific components should use the "Page" suffix
+  - Example: `CreatePage/`, `MarketplacePage/`, `StoryPage/`, `ManagePage/`, `HomePage/`
+- **No "Page" suffix**: Folders containing reusable/layout components should NOT use the "Page" suffix
+  - Example: `Layout/` (Navbar, Footer), `ui/` (reusable UI components)
+- **Exception**: The `ui/` folder remains lowercase as it contains generic UI components
+- **Component naming within Page folders**: Components inside Page folders should NOT include the page name as a prefix
+  - ✅ GOOD: `ManagePage/Tabs.tsx`, `ManagePage/Stats.tsx`, `ManagePage/OverviewTab.tsx`
+  - ❌ BAD: `ManagePage/ManageTabs.tsx`, `ManagePage/ManageStats.tsx` (redundant prefix)
+  - The folder name already indicates the context, so component names should be concise and descriptive
+- Example structure:
+  ```
+  components/
+    CreatePage/            # Page-specific components for create page
+      MomentForm.tsx
+      StoryForm.tsx
+      CreateTabs.tsx
+    MarketplacePage/      # Page-specific components for marketplace/moments page
+      MomentCard.tsx
+      FilterBar.tsx
+    ManagePage/           # Page-specific components for manage page
+      Tabs.tsx            # Not "ManageTabs" - folder name provides context
+      Stats.tsx           # Not "ManageStats"
+      OverviewTab.tsx     # Not "ManageOverviewTab"
+      CollectionsTab.tsx
+      StoriesTab.tsx
+    HomePage/             # Page-specific components for home page
+      FeaturesSection.tsx
+      PopularUsersSection.tsx
+      FeaturedMomentsSection.tsx
+      CTASection.tsx
+    Layout/                # Layout components (no Page suffix)
+      Navbar.tsx
+      Footer.tsx
+    ui/                    # Reusable UI components (lowercase exception)
+      Button.tsx
+      Card.tsx
+  ```
+
+### Component Structure
+- **Components should maintain HTML/JSX code only**
+- **Each component should be less than 100-120 lines of code**
+- All business logic, utility functions, and hooks should be extracted to appropriate folders:
+  - **Functions**: `lib/[feature]/` - Pure utility functions, API calls, data transformations
+  - **Hooks**: `hooks/` - Custom React hooks for state management, side effects, data fetching
+- This follows KISS (Keep It Simple) and SRP (Single Responsibility Principle)
+- Components should be focused on rendering and user interaction
+- If a component exceeds 120 lines, split it into smaller sub-components
+- Example structure:
+  ```
+  components/
+    MarketplacePage/
+      MomentCard.tsx          # Pure JSX/HTML, minimal logic (< 120 lines)
+  lib/
+    moment/
+      formatMomentData.ts   # Data transformation functions
+      calculateAvailability.ts  # Business logic calculations
+      getMomentApi.ts       # API functions
+  hooks/
+    useMoment.ts           # Custom hooks for moment logic
+  ```
+
+## Best Practices
+
+### Function Design
+- Keep functions small and focused
+- Use descriptive names that clearly indicate purpose
+- Prefer pure functions when possible (no side effects)
+- Handle errors explicitly and gracefully
+
+### Type Safety
+- Use TypeScript types and interfaces consistently
+- Avoid `any` types; use `unknown` when type is truly unknown
+- Leverage TypeScript's type inference where appropriate
+- Define types in the `types` folder (see File Organization section)
+
+### Code Structure
+- Group related functionality together
+- Maintain clear separation of concerns
+- Use consistent naming conventions
+- Follow the existing project structure patterns
+
+### Component Best Practices
+- **Keep components focused on presentation**
+  - Components should primarily contain JSX/HTML markup
+  - Extract complex logic to hooks or utility functions
+  - Use custom hooks for state management and side effects
+  - Use utility functions in `lib/` for data processing, formatting, calculations
+- **Example of proper separation**:
+  ```typescript
+  // ❌ BAD: Component with business logic
+  function MomentCard({ moment }) {
+    const formattedPrice = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD'
+    }).format(moment.price);
+    
+    const availabilityPercentage = (moment.available_supply / moment.total_supply) * 100;
+    
+    return <div>...</div>;
+  }
+  
+  // ✅ GOOD: Component with extracted logic
+  // lib/moment/formatMomentData.ts
+  export const formatMomentPrice = (price: number): string => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD'
+    }).format(price);
+  };
+  
+  export const calculateAvailabilityPercentage = (
+    available: number,
+    total: number
+  ): number => {
+    return (available / total) * 100;
+  };
+  
+  // components/MomentCard.tsx
+  import { formatMomentPrice, calculateAvailabilityPercentage } from '@/lib/moment/formatMomentData';
+  
+  function MomentCard({ moment }) {
+    const formattedPrice = formatMomentPrice(moment.price);
+    const availabilityPercentage = calculateAvailabilityPercentage(
+      moment.available_supply,
+      moment.total_supply
+    );
+    
+    return <div>...</div>;
+  }
+  ```
+
+## API Fetching Patterns
+
+### Use TanStack Query + Separate API Logic
+**Pattern**: When implementing hooks that fetch data from API endpoints:
+1. **ALWAYS use TanStack Query** (`useQuery` or `useInfiniteQuery`) instead of manual `useState`/`useEffect`
+2. Separate the API fetching logic into a dedicated function in `lib/` directory
+
+**Structure**:
+- **API Function**: `lib/moment/getInProcessTimelineApi.ts` (or similar) - Contains pure fetch logic, error handling, and response parsing
+- **Hook**: `hooks/useInProcessTimeline.ts` - Uses `useQuery` from TanStack Query to manage data fetching
+
+**Benefits**:
+- TanStack Query provides built-in caching, refetching, error handling, and loading states
+- Follows SRP (Single Responsibility Principle) - API logic separate from React logic
+- Reusable API functions can be used outside of hooks
+- Easier to test API functions independently
+- Automatic request deduplication and background refetching
+- Better performance with built-in caching
+
+**Example Pattern**:
+```typescript
+// lib/moment/getInProcessTimelineApi.ts
+export const getInProcessTimelineApi = async (): Promise<TimelineMoment[]> => {
+  const res = await fetch("/api/timeline/inprocess");
+  // ... error handling and response parsing
+  return data.moments || [];
+};
+
+// hooks/useInProcessTimeline.ts
+import { useQuery } from "@tanstack/react-query";
+import { getInProcessTimelineApi } from "@/lib/moment/getInProcessTimelineApi";
+
+const useInProcessTimeline = () => {
+  const query = useQuery({
+    queryKey: ["in-process-timeline"],
+    queryFn: getInProcessTimelineApi,
+    staleTime: 60_000, // 1 minute
+    refetchOnWindowFocus: false,
+  });
+
+  return {
+    moments: query.data ?? [],
+    isLoading: query.isLoading,
+    error: query.error instanceof Error ? query.error : null,
+  };
+};
+```
+
+**Key Points**:
+- **Always prefer TanStack Query** over manual state management for API data fetching
+- Use descriptive `queryKey` arrays (e.g., `["in-process-timeline"]` or `["tokenInfo", address, tokenId]`)
+- Configure `staleTime` and `refetchOnWindowFocus` based on data freshness requirements
+- Return custom shape from hook if needed for backward compatibility
+
+
