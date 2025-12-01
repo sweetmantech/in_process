@@ -1,6 +1,6 @@
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import { usePathname } from "next/navigation";
-import { Metadata } from "@/types/token";
+import { MomentMetadata } from "@/types/moment";
 import PdfViewer from "./PdfViewer";
 import VideoPlayer from "./VideoPlayer";
 import AudioPlayer from "./AudioPlayer";
@@ -8,7 +8,7 @@ import useIsMobile from "@/hooks/useIsMobile";
 import Writing from "./Writing";
 
 interface ContentRendererProps {
-  metadata: Metadata;
+  metadata: MomentMetadata;
 }
 
 const ContentRenderer = ({ metadata }: ContentRendererProps) => {

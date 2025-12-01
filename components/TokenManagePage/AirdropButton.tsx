@@ -5,12 +5,12 @@ import { useUserProvider } from "@/providers/UserProvider";
 
 const AirdropButton = () => {
   const { airdopToItems, onAirdrop, loading } = useAirdropProvider();
-  const { owner, tokenAdmins } = useMomentProvider();
+  const { owner, momentAdmins } = useMomentProvider();
   const { connectedAddress, artistWallet } = useUserProvider();
   const canAirdrop =
     Boolean(owner?.toLowerCase() === connectedAddress?.toLowerCase()) ||
     Boolean(owner?.toLowerCase() === artistWallet?.toLowerCase()) ||
-    Boolean(artistWallet && tokenAdmins?.includes(artistWallet.toLowerCase()));
+    Boolean(artistWallet && momentAdmins?.includes(artistWallet.toLowerCase()));
 
   return (
     <button

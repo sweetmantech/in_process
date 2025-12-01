@@ -6,7 +6,7 @@ import { getMomentApi } from "@/lib/moment/getMomentApi";
 import { Moment } from "@/types/moment";
 
 const useMomentData = (moment: Moment) => {
-  const { collectionAddress, tokenId, chainId } = moment
+  const { collectionAddress, tokenId, chainId } = moment;
   const { artistWallet } = useUserProvider();
 
   const query = useQuery({
@@ -21,7 +21,7 @@ const useMomentData = (moment: Moment) => {
   const metadata = query.data?.metadata ?? null;
   const owner = query.data?.owner ?? null;
   const tokenUri = query.data?.uri ?? null;
-  const tokenAdmins = query.data?.momentAdmins ?? null;
+  const momentAdmins = query.data?.momentAdmins ?? null;
 
   const isSetSale = useMemo(() => {
     return saleConfig ? BigInt(saleConfig.saleEnd) > BigInt(0) : false;
@@ -43,7 +43,7 @@ const useMomentData = (moment: Moment) => {
       : null,
     metadata,
     tokenUri,
-    tokenAdmins,
+    momentAdmins,
     isLoading: query.isLoading,
     isSetSale,
     fetchTokenInfo: query.refetch,

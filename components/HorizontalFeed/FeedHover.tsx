@@ -1,11 +1,11 @@
 import { FC } from "react";
 import { Skeleton } from "../ui/skeleton";
-import { Metadata } from "@/types/token";
+import { MomentMetadata } from "@/types/moment";
 import ContentRenderer from "../Renderers/ContentRenderer";
 
 interface FeedHoverProps {
   isLoading: boolean;
-  data: Metadata;
+  data: MomentMetadata;
 }
 
 const FeedHover: FC<FeedHoverProps> = ({ isLoading, data }) => {

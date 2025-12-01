@@ -7,7 +7,7 @@ import { collectSchema } from "../schema/collectSchema";
 import getTokenInfo from "../viem/getTokenInfo";
 import { distributeSplitFunds } from "../splits/distributeSplitFunds";
 import isSplitContract from "../splits/isSplitContract";
-import { MintType } from "@/types/zora";
+import { MomentType } from "@/types/moment";
 import getCollectCall from "../viem/getCollectCall";
 import { validateBalanceAndAllowance } from "./validateBalanceAndAllowance";
 import { Call } from "@coinbase/coinbase-sdk/dist/types/calls";
@@ -69,7 +69,7 @@ export async function collectMoment({
     if (isSplit) {
       await distributeSplitFunds({
         splitAddress: saleConfig.fundsRecipient,
-        tokenAddress: saleConfig.type === MintType.Erc20Mint ? USDC_ADDRESS : zeroAddress, // zeroAddress for native ETH
+        tokenAddress: saleConfig.type === MomentType.Erc20Mint ? USDC_ADDRESS : zeroAddress, // zeroAddress for native ETH
         smartAccount,
       });
     }

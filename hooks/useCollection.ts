@@ -1,10 +1,10 @@
 import { getPublicClient } from "@/lib/viem/publicClient";
-import { Metadata } from "@/types/token";
+import { MomentMetadata } from "@/types/moment";
 import { useQuery } from "@tanstack/react-query";
 import { zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
 import { Address } from "viem";
 
-async function fetchCollectionURI(address: Address, chainId: number): Promise<Metadata> {
+async function fetchCollectionURI(address: Address, chainId: number): Promise<MomentMetadata> {
   const publicClient = getPublicClient(chainId);
   const uri = await publicClient.readContract({
     address,

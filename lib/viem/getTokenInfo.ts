@@ -10,7 +10,7 @@ import {
   zoraCreatorFixedPriceSaleStrategyABI,
 } from "@zoralabs/protocol-deployments";
 import { Address } from "viem";
-import { MintType } from "@/types/zora";
+import { MomentType } from "@/types/moment";
 
 const getTokenInfo = async (
   tokenContract: Address,
@@ -54,11 +54,11 @@ const getTokenInfo = async (
     infoCalls[0]?.result?.saleEnd > BigInt(0)
       ? {
           ...infoCalls[0]?.result,
-          type: MintType.Erc20Mint,
+          type: MomentType.Erc20Mint,
         }
       : {
           ...infoCalls[1]?.result,
-          type: MintType.FixedPriceMint,
+          type: MomentType.FixedPriceMint,
         };
 
   return {
