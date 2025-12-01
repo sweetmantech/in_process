@@ -16,14 +16,15 @@ export const useMomentAdminHidden = (moment: TimelineMoment): boolean => {
     }
 
     const normalizedWallet = artistWallet.toLowerCase();
+    const normalizedDefaultAdmin = moment.default_admin.address.toLowerCase();
 
     // Check if user is the default admin
-    if (moment.default_admin.address === normalizedWallet) {
+    if (normalizedDefaultAdmin === normalizedWallet) {
       return moment.default_admin.hidden;
     }
 
     // Find matching admin entry
-    const admin = moment.admins.find((admin) => admin.address === normalizedWallet);
+    const admin = moment.admins.find((admin) => admin.address.toLowerCase() === normalizedWallet);
 
     // Return admin's hidden state if found, otherwise default to default_admin
     return admin?.hidden ?? moment.default_admin.hidden;

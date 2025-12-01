@@ -5,17 +5,17 @@ const selectAdmins = async ({
 }: {
   moments?: Array<{
     collectionId: string;
-    token_id: string;
+    token_id: number;
     artist_address: string;
   }>;
 }) => {
   let query = supabase.from("in_process_admins").select("*");
 
-  if (moments) {
+  if (moments && moments.length > 0) {
     const orConditions = moments
       .map(
         (moment) =>
-          `and(collection.eq.${moment.collectionId},artist_address.eq.${moment.artist_address},token_id.eq.${moment.token_id}),and(collection.eq.${moment.collectionId},artist_address.eq.${moment.artist_address},token_id.eq.${0})`
+          `and(collection.eq.${moment.collectionId},artist_address.eq.${moment.artist_address},token_id.eq.${Number(moment.token_id)}),and(collection.eq.${moment.collectionId},artist_address.eq.${moment.artist_address},token_id.eq.${0})`
       )
       .join(",");
     query = query.or(orConditions);

@@ -1,10 +1,10 @@
 import { NextRequest } from "next/server";
 import getCorsHeader from "@/lib/getCorsHeader";
 import { authMiddleware } from "@/middleware/authMiddleware";
-import { Moment } from "@/types/moment";
 import selectCollections from "@/lib/supabase/in_process_collections/selectCollections";
 import selectAdmins from "@/lib/supabase/in_process_admins/selectAdmins";
 import upsertAdmins from "@/lib/supabase/in_process_admins/upsertAdmins";
+import { momentSchema } from "@/lib/schema/momentSchema";
 
 // CORS headers for allowing cross-origin requests
 const corsHeaders = getCorsHeader();
@@ -25,7 +25,19 @@ export async function POST(req: NextRequest) {
     const { artistAddress } = authResult;
 
     const body = await req.json();
-    const { moment } = body as { moment: Moment };
+    const parseResult = momentSchema.safeParse(body.moment);
+    if (!parseResult.success) {
+      const errorDetails = parseResult.error.errors.map((err) => ({
+        field: err.path.join("."),
+        message: err.message,
+      }));
+      return Response.json(
+        { success: false, message: "Invalid input", errors: errorDetails },
+        { status: 400, headers: corsHeaders }
+      );
+    }
+
+    const moment = parseResult.data;
 
     const collections = await selectCollections({
       moments: [moment],
@@ -43,7 +55,7 @@ export async function POST(req: NextRequest) {
       moments: [
         {
           collectionId: collection.id,
-          token_id: moment.tokenId,
+          token_id: Number(moment.tokenId),
           artist_address: artistAddress.toLowerCase(),
         },
       ],
