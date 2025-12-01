@@ -1,13 +1,7 @@
 import { z } from "zod";
-import addressSchema from "./addressSchema";
-
-export const momentSchema = z.object({
-  tokenId: z.string(),
-  contractAddress: addressSchema,
-});
+import { momentSchema } from "./momentSchema";
 
 export const commentsSchema = z.object({
   moment: momentSchema,
-  chainId: z.number(),
   offset: z.number(),
 });

@@ -37,8 +37,7 @@ export async function POST(req: NextRequest) {
     }
     const data = parseResult.data;
     const result = await updateMomentURI({
-      tokenContractAddress: data.moment.contractAddress as Address,
-      tokenId: data.moment.tokenId,
+      moment: data.moment,
       newUri: data.newUri,
       artistAddress: artistAddress as Address,
     });

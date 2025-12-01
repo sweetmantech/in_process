@@ -2,7 +2,6 @@ import { NextRequest } from "next/server";
 import getCorsHeader from "@/lib/getCorsHeader";
 import { commentsSchema } from "@/lib/schema/commentsSchema";
 import { momentComments } from "@/lib/moment/momentComments";
-import { CHAIN_ID } from "@/lib/consts";
 import { Address } from "viem";
 
 // CORS headers for allowing cross-origin requests
@@ -20,10 +19,10 @@ export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
     const queryParams = {
       moment: {
-        contractAddress: searchParams.get("contractAddress") as Address,
+        collectionAddress: searchParams.get("collectionAddress") as Address,
         tokenId: searchParams.get("tokenId") || "1",
+        chainId: Number(searchParams.get("chainId")),
       },
-      chainId: Number(searchParams.get("chainId")) || CHAIN_ID,
       offset: Number(searchParams.get("offset")) || 0,
     };
 

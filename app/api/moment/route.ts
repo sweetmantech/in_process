@@ -2,20 +2,19 @@ import { NextRequest, NextResponse } from "next/server";
 import { getAddress } from "viem";
 import getTokenInfo from "@/lib/viem/getTokenInfo";
 import { fetchTokenMetadata } from "@/lib/protocolSdk/ipfs/token-metadata";
-import { getMomentSchema } from "@/lib/schema/getMomentSchema";
 import { selectInProcessToken } from "@/lib/supabase/in_process_tokens/selectInProcessToken";
-import { CHAIN_ID } from "@/lib/consts";
+import { momentSchema } from "@/lib/schema/momentSchema";
 
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
     const queryParams = {
-      tokenContract: searchParams.get("tokenContract"),
+      collectionAddress: searchParams.get("collectionAddress"),
       tokenId: searchParams.get("tokenId"),
       chainId: searchParams.get("chainId"),
     };
 
-    const parseResult = getMomentSchema.safeParse(queryParams);
+    const parseResult = momentSchema.safeParse(queryParams);
     if (!parseResult.success) {
       const errorDetails = parseResult.error.errors.map((err) => ({
         field: err.path.join("."),
@@ -27,11 +26,14 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    const { tokenContract, tokenId, chainId } = parseResult.data;
-    const chainIdNum = chainId ? parseInt(chainId, 10) : CHAIN_ID;
+    const { collectionAddress, tokenId, chainId } = parseResult.data;
 
     // Get token info from chain
-    const tokenInfo = await getTokenInfo(getAddress(tokenContract), tokenId, chainIdNum);
+    const tokenInfo = await getTokenInfo({
+      collectionAddress: getAddress(collectionAddress),
+      tokenId,
+      chainId,
+    });
 
     if (!tokenInfo.tokenUri) {
       return NextResponse.json({ error: "Token URI not found" }, { status: 404 });
@@ -41,8 +43,8 @@ export async function GET(req: NextRequest) {
     const metadata = await fetchTokenMetadata(tokenInfo.tokenUri);
 
     const token = await selectInProcessToken({
-      address: getAddress(tokenContract),
-      chainId: chainIdNum,
+      address: getAddress(collectionAddress),
+      chainId: chainId,
     });
 
     if (!token) {

@@ -2,21 +2,14 @@ import { Address } from "viem";
 import type { Database } from "@/lib/supabase/types";
 
 export interface Moment {
-  contractAddress: Address;
+  collectionAddress: Address;
   tokenId: string;
+  chainId: number;
 }
 
 export interface MomentCommentsInput {
   moment: Moment;
-  chainId: number;
   offset: number;
-}
-
-export interface CommentsQueryParams {
-  contractAddress: string;
-  tokenId: string;
-  chainId: number;
-  offset?: number;
 }
 
 export interface MomentCommentsResult {
@@ -58,3 +51,21 @@ export type SaleConfig = {
   fundsRecipient: Address;
   type: string;
 };
+
+export interface MomentMetadata {
+  image: string;
+  name: string;
+  description: string;
+  external_url?: string;
+  content: {
+    mime: string;
+    uri: string;
+  };
+  animation_url?: string;
+}
+
+export enum MomentType {
+  Erc20Mint = "erc20Mint",
+  TimedMint = "timed",
+  FixedPriceMint = "fixedPrice",
+}

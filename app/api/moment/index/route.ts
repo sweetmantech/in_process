@@ -1,21 +1,12 @@
 import { NextRequest } from "next/server";
-import { z } from "zod";
-import { Address } from "viem";
-import { CHAIN_ID } from "@/lib/consts";
 import indexMoment from "@/lib/moment/indexMoment";
-
-// Validation schema for the request body
-const indexMomentSchema = z.object({
-  address: z.string().regex(/^0x[0-9a-fA-F]{40}$/),
-  tokenId: z.number().int().gte(0).optional().default(0),
-  chainId: z.number().optional().default(CHAIN_ID),
-});
+import { momentSchema } from "@/lib/schema/momentSchema";
 
 export async function POST(req: NextRequest) {
   try {
     // Parse and validate request body
     const body = await req.json();
-    const parseResult = indexMomentSchema.safeParse(body);
+    const parseResult = momentSchema.safeParse(body);
     if (!parseResult.success) {
       const errorDetails = parseResult.error.errors.map((err) => ({
         field: err.path.join("."),
@@ -27,10 +18,13 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { address, tokenId, chainId } = parseResult.data;
-    const contractAddress = address.toLowerCase() as Address;
+    const { collectionAddress, tokenId, chainId } = parseResult.data;
 
-    const moment = await indexMoment(contractAddress, tokenId, chainId);
+    const moment = await indexMoment({
+      collectionAddress,
+      tokenId,
+      chainId,
+    });
 
     return Response.json({
       status: "success",

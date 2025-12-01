@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { momentSchema } from "./collectSchema";
+import { momentSchema } from "./momentSchema";
 
 export const updateMomentURISchema = z.object({
   moment: momentSchema,

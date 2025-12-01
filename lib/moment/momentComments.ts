@@ -1,7 +1,6 @@
 import { z } from "zod";
 import { commentsSchema } from "../schema/commentsSchema";
 import selectMoments from "../supabase/in_process_moments/selectMoments";
-import { Address } from "viem";
 import selectComments from "../supabase/in_process_moment_comments/selectComments";
 import { MomentCommentsResult } from "@/types/moment";
 
@@ -9,14 +8,9 @@ export type GetCommentsInput = z.infer<typeof commentsSchema>;
 
 export async function momentComments({
   moment,
-  chainId,
   offset,
 }: GetCommentsInput): Promise<MomentCommentsResult> {
-  const data = await selectMoments({
-    collectionAddress: moment.contractAddress as Address,
-    tokenId: moment.tokenId,
-    chainId,
-  });
+  const data = await selectMoments(moment);
 
   const momentData = data[0];
 

@@ -22,7 +22,7 @@ export interface AirdropResult {
  */
 export async function airdropMoment({
   recipients,
-  momentContract,
+  moment,
   artistAddress,
 }: AirdropMomentInput): Promise<AirdropResult> {
   // Get or create a smart account (contract wallet)
@@ -32,12 +32,12 @@ export async function airdropMoment({
 
   // Check admin permission of artist wallet and smart wallet
   const smartWalletPermissionBit = await getPermission(
-    momentContract as Address,
+    moment.collectionAddress,
     smartAccount.address
   );
 
   if (smartWalletPermissionBit !== BigInt(PERMISSION_BIT_ADMIN)) {
-    const accountPermissionBit = await getPermission(momentContract as Address, artistAddress);
+    const accountPermissionBit = await getPermission(moment.collectionAddress, artistAddress);
     if (accountPermissionBit !== BigInt(PERMISSION_BIT_ADMIN))
       throw Error("The account does not have admin permission for this collection.");
     else throw Error("Admin permission are not yet granted to smart wallet.");
@@ -64,7 +64,7 @@ export async function airdropMoment({
     network: IS_TESTNET ? "base-sepolia" : "base",
     calls: [
       {
-        to: momentContract as Address,
+        to: moment.collectionAddress as Address,
         data: airdropCall,
       },
     ],

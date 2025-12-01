@@ -1,15 +1,8 @@
-import { Address } from "viem";
 import { supabase } from "../client";
+import { Moment } from "@/types/moment";
 
-const selectMoments = async ({
-  collectionAddress,
-  tokenId,
-  chainId,
-}: {
-  collectionAddress: Address;
-  tokenId: string;
-  chainId: number;
-}) => {
+const selectMoments = async (moment: Moment) => {
+  const { collectionAddress, chainId, tokenId } = moment;
   let query = supabase
     .from("in_process_moments")
     .select("*, collection:in_process_collections!inner(*)");

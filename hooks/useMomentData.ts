@@ -3,14 +3,16 @@ import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useUserProvider } from "@/providers/UserProvider";
 import { getMomentApi } from "@/lib/moment/getMomentApi";
+import { Moment } from "@/types/moment";
 
-const useTokenInfo = (tokenContract: Address, tokenId: string, chainId: number) => {
+const useMomentData = (moment: Moment) => {
+  const { collectionAddress, tokenId, chainId } = moment;
   const { artistWallet } = useUserProvider();
 
   const query = useQuery({
-    queryKey: ["tokenInfo", tokenContract, tokenId, chainId],
-    queryFn: () => getMomentApi(tokenContract, tokenId, chainId),
-    enabled: Boolean(tokenContract && tokenId && chainId),
+    queryKey: ["tokenInfo", collectionAddress, tokenId, chainId],
+    queryFn: () => getMomentApi(moment),
+    enabled: Boolean(collectionAddress && tokenId && chainId),
     staleTime: 1000 * 60 * 5, // 5 minutes
     retry: (failureCount) => failureCount < 3,
   });
@@ -19,7 +21,7 @@ const useTokenInfo = (tokenContract: Address, tokenId: string, chainId: number) 
   const metadata = query.data?.metadata ?? null;
   const owner = query.data?.owner ?? null;
   const tokenUri = query.data?.uri ?? null;
-  const tokenAdmins = query.data?.momentAdmins ?? null;
+  const momentAdmins = query.data?.momentAdmins ?? null;
 
   const isSetSale = useMemo(() => {
     return saleConfig ? BigInt(saleConfig.saleEnd) > BigInt(0) : false;
@@ -41,7 +43,7 @@ const useTokenInfo = (tokenContract: Address, tokenId: string, chainId: number) 
       : null,
     metadata,
     tokenUri,
-    tokenAdmins,
+    momentAdmins,
     isLoading: query.isLoading,
     isSetSale,
     fetchTokenInfo: query.refetch,
@@ -50,4 +52,4 @@ const useTokenInfo = (tokenContract: Address, tokenId: string, chainId: number) 
   };
 };
 
-export default useTokenInfo;
+export default useMomentData;

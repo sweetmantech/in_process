@@ -2,7 +2,7 @@ import ContentRenderer from "../Renderers";
 import { useCollectionProvider } from "@/providers/CollectionProvider";
 import { useRouter } from "next/navigation";
 import { Skeleton } from "../ui/skeleton";
-import { Metadata } from "@/types/token";
+import { MomentMetadata } from "@/types/moment";
 import { networkConfigByChain } from "@/lib/protocolSdk/apis/chain-constants";
 import CopyButton from "../CopyButton";
 
@@ -39,7 +39,7 @@ const CollectionOverview = () => {
           {isLoading ? (
             <Skeleton className="size-full" />
           ) : (
-            <ContentRenderer metadata={data as Metadata} />
+            <ContentRenderer metadata={data as MomentMetadata} />
           )}
         </div>
         <div className="space-y-2">

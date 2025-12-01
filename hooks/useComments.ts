@@ -8,22 +8,18 @@ import { useMomentProvider } from "@/providers/MomentProvider";
 const COMMENTS_PER_PAGE = 20;
 
 export function useComments() {
-  const { token } = useMomentProvider();
+  const { moment } = useMomentProvider();
   const queryClient = useQueryClient();
-  const { tokenContractAddress: contractAddress, tokenId, chainId } = token;
+  const { collectionAddress, tokenId, chainId } = moment;
 
   const query = useInfiniteQuery({
-    queryKey: ["comments", contractAddress, tokenId, chainId],
+    queryKey: ["comments", collectionAddress, tokenId, chainId],
     queryFn: ({ pageParam = 0 }) =>
       fetchComments({
-        moment: {
-          contractAddress: contractAddress!,
-          tokenId: tokenId!,
-        },
-        chainId: chainId!,
+        moment,
         offset: pageParam as number,
       }),
-    enabled: Boolean(contractAddress && tokenId && chainId),
+    enabled: Boolean(collectionAddress && tokenId && chainId),
     staleTime: 1000 * 60 * 5, // 5 minutes
     retry: (failureCount) => failureCount < 3,
     getNextPageParam: (lastPage, allPages) => {
@@ -48,7 +44,7 @@ export function useComments() {
     (comment: MintComment) => {
       // Optimistically update the query cache
       queryClient.setQueryData<InfiniteData<MintComment[], number>>(
-        ["comments", contractAddress, tokenId, chainId],
+        ["comments", collectionAddress, tokenId, chainId],
         (oldData) => {
           if (!oldData) {
             return {
@@ -64,7 +60,7 @@ export function useComments() {
         }
       );
     },
-    [queryClient, contractAddress, tokenId, chainId]
+    [queryClient, collectionAddress, tokenId, chainId]
   );
 
   const fetchMore = useCallback(() => {

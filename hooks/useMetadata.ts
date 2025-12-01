@@ -1,8 +1,8 @@
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
-import { Metadata } from "@/types/token";
+import { MomentMetadata } from "@/types/moment";
 import { useQuery } from "@tanstack/react-query";
 
-async function fetchMetadata(uri: string): Promise<Metadata> {
+async function fetchMetadata(uri: string): Promise<MomentMetadata> {
   const response = await fetch(`${getFetchableUrl(uri)}`);
   if (!response.ok) {
     return {

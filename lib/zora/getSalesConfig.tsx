@@ -1,7 +1,7 @@
 import { TimedSaleParamsType } from "@/lib/protocolSdk";
 import { maxUint64, parseEther, parseUnits } from "viem";
 import { USDC_ADDRESS } from "../consts";
-import { MintType } from "@/types/zora";
+import { MomentType } from "@/types/moment";
 
 const getSalesConfig = (saleStrategy: string, price: string, saleStart: Date | undefined) => {
   const timedSaleConfig = {
@@ -30,11 +30,11 @@ const getSalesConfig = (saleStrategy: string, price: string, saleStart: Date | u
   if (price === "0") return fixedPriceSaleConfig;
 
   switch (saleStrategy) {
-    case MintType.FixedPriceMint:
+    case MomentType.FixedPriceMint:
       return fixedPriceSaleConfig;
-    case MintType.TimedMint:
+    case MomentType.TimedMint:
       return timedSaleConfig;
-    case MintType.Erc20Mint:
+    case MomentType.Erc20Mint:
       return erc20MintSaleConfig;
     default:
       return erc20MintSaleConfig;

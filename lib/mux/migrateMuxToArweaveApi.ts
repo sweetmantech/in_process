@@ -1,8 +1,7 @@
-import { Address } from "viem";
+import { Moment } from "@/types/moment";
 
 export interface MigrateMuxToArweaveApiInput {
-  tokenContractAddress: Address;
-  tokenId: string;
+  moment: Moment;
   accessToken: string;
 }
 
@@ -16,8 +15,7 @@ export interface MigrateMuxToArweaveApiResult {
  * Client-side API call to trigger MUX to Arweave migration
  */
 export async function migrateMuxToArweaveApi({
-  tokenContractAddress,
-  tokenId,
+  moment,
   accessToken,
 }: MigrateMuxToArweaveApiInput): Promise<MigrateMuxToArweaveApiResult> {
   const response = await fetch("/api/moment/migrate-mux-to-arweave", {
@@ -27,8 +25,7 @@ export async function migrateMuxToArweaveApi({
       authorization: `Bearer ${accessToken}`,
     },
     body: JSON.stringify({
-      tokenContractAddress,
-      tokenId,
+      moment,
     }),
   });
 
