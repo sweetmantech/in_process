@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import getCorsHeader from "@/lib/getCorsHeader";
 import { authMiddleware } from "@/middleware/authMiddleware";
-import { type TimelineMoment } from "@/lib/timeline/fetchTimeline";
+import { type TimelineMoment } from "@/types/moment";
 import { getTokenAdmin } from "@/lib/supabase/in_process_token_admins/getTokenAdmin";
 import { updateTokenAdmin } from "@/lib/supabase/in_process_token_admins/updateTokenAdmin";
 

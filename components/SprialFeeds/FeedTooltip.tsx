@@ -3,7 +3,7 @@ import { useMetadata } from "@/hooks/useMetadata";
 import Loading from "../Loading";
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import Image from "next/image";
-import { TimelineMoment } from "@/lib/timeline/fetchTimeline";
+import { TimelineMoment } from "@/types/moment";
 
 interface FeedTooltipProps {
   feed: TimelineMoment | null;

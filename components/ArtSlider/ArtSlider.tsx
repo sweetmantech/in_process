@@ -5,11 +5,11 @@ import useIsMobile from "@/hooks/useIsMobile";
 import { ArrowRight } from "../ui/icons";
 import { useState } from "react";
 import { Swiper } from "swiper/types";
-import { useTimelineApiContext } from "@/providers/TimelineApiProvider";
+import { useTimelineProvider } from "@/providers/TimelineProvider";
 
 const ArtSlider = () => {
   const isMobile = useIsMobile();
-  const { moments } = useTimelineApiContext();
+  const { moments } = useTimelineProvider();
   const [swiper, setSwiper] = useState<Swiper | null>(null);
   const slides = moments.slice(0, 55);
 

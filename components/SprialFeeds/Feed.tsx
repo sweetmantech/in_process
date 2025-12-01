@@ -1,7 +1,7 @@
 import React from "react";
 import useIsMobile from "@/hooks/useIsMobile";
 import { formatFeedText, generateSpacer } from "@/lib/spiralUtils";
-import { TimelineMoment } from "@/lib/timeline/fetchTimeline";
+import { TimelineMoment } from "@/types/moment";
 import { useRouter } from "next/navigation";
 import { useMetadata } from "@/hooks/useMetadata";
 import truncateAddress from "@/lib/truncateAddress";
@@ -24,7 +24,7 @@ const Feed = ({ feed, index, spacerWidth, handleMouseLeave, handleMouseMove }: F
       <tspan
         onMouseMove={(e) => handleMouseMove(e, feed)}
         onMouseLeave={handleMouseLeave}
-        onClick={() => push(`/${feed.admin}`)}
+        onClick={() => push(`/${feed.default_admin.address}`)}
         dominant-baseline="middle"
       >
         <tspan fill="#1B1504" fontSize={isMobile ? 3 : 6} textAnchor="middle">
@@ -32,9 +32,9 @@ const Feed = ({ feed, index, spacerWidth, handleMouseLeave, handleMouseMove }: F
         </tspan>{" "}
         &nbsp;&nbsp;&nbsp;&nbsp;
         {formatFeedText(
-          feed.username || truncateAddress(feed.admin),
+          feed.default_admin.username || truncateAddress(feed.default_admin.address),
           (data?.name || "").slice(0, 111),
-          Date.parse(feed.createdAt),
+          Date.parse(feed.created_at),
           isMobile ? 14 : 20
         )}
       </tspan>

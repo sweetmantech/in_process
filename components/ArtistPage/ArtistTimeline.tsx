@@ -1,19 +1,19 @@
-import HorizontalFeed from "../HorizontalFeed";
-import { HorizontalFeedAnimationProvider } from "@/providers/HorizontalFeedAnimationProvider";
+import TimelineMoments from "../TimelineMoments";
+import { TimelineAnimationProvider } from "@/providers/TimelineAnimationProvider";
 import Loading from "../Loading";
-import { useTimelineApiContext } from "@/providers/TimelineApiProvider";
+import { useTimelineProvider } from "@/providers/TimelineProvider";
 import FetchMoreInspector from "../FetchMoreInspector";
 import useIsMobile from "@/hooks/useIsMobile";
 import VerticalFeed from "../VerticalFeed";
 import GridFeed from "../GridFeed";
 
-interface TimelineFeedProps {
+interface ArtistTimelineProps {
   alt: "timeline" | "grid";
 }
 
-const TimelineFeed = ({ alt }: TimelineFeedProps) => {
+const ArtistTimeline = ({ alt }: ArtistTimelineProps) => {
   const isMobile = useIsMobile();
-  const { moments, isLoading, fetchMore } = useTimelineApiContext();
+  const { moments, isLoading, fetchMore } = useTimelineProvider();
   const reversedMoments = [...moments].reverse();
 
   if (!Boolean(reversedMoments.length))
@@ -36,10 +36,10 @@ const TimelineFeed = ({ alt }: TimelineFeedProps) => {
     );
 
   return (
-    <HorizontalFeedAnimationProvider feeds={reversedMoments}>
-      <HorizontalFeed feeds={reversedMoments} />
-    </HorizontalFeedAnimationProvider>
+    <TimelineAnimationProvider moments={reversedMoments}>
+      <TimelineMoments moments={reversedMoments} />
+    </TimelineAnimationProvider>
   );
 };
 
-export default TimelineFeed;
+export default ArtistTimeline;

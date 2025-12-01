@@ -1,9 +1,9 @@
 import CollectionItem from "./CollectionItem";
-import { useTimelineApiContext } from "@/providers/TimelineApiProvider";
-import { type TimelineMoment } from "@/lib/timeline/fetchTimeline";
+import { useTimelineProvider } from "@/providers/TimelineProvider";
+import { type TimelineMoment } from "@/types/moment";
 
 const Collections = () => {
-  const { moments } = useTimelineApiContext();
+  const { moments } = useTimelineProvider();
 
   if (moments)
     return (

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { type TimelineMoment } from "@/lib/timeline/fetchTimeline";
+import { type TimelineMoment } from "@/types/moment";
 import { toggleMoment } from "@/lib/timeline/toggleMoment";
 import { toast } from "sonner";
 import { usePrivy } from "@privy-io/react-auth";
@@ -9,7 +9,7 @@ import { usePrivy } from "@privy-io/react-auth";
  * Manages local hidden state and handles API call to toggle moment
  */
 export const useToggleMoment = (moment: TimelineMoment) => {
-  const [isHidden, setIsHidden] = useState(moment.hidden);
+  const [isHidden, setIsHidden] = useState(moment.default_admin.hidden);
   const { getAccessToken } = usePrivy();
 
   const toggle = async (): Promise<void> => {

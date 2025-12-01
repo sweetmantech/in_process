@@ -1,6 +1,6 @@
 import { Eye, EyeOff } from "lucide-react";
 import { FC, ButtonHTMLAttributes, MouseEvent } from "react";
-import { type TimelineMoment } from "@/lib/timeline/fetchTimeline";
+import { type TimelineMoment } from "@/types/moment";
 import { useToggleMoment } from "@/hooks/useToggleMoment";
 
 interface HideButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "onClick"> {

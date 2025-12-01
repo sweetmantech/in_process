@@ -69,3 +69,24 @@ export enum MomentType {
   TimedMint = "timed",
   FixedPriceMint = "fixedPrice",
 }
+
+export interface TimelineMoment {
+  address: string;
+  token_id: string;
+  max_supply: number;
+  chain_id: number;
+  id: string;
+  uri: string;
+  default_admin: {
+    address: string;
+    username: string | null;
+    hidden: boolean;
+  };
+  admins: Array<{
+    address: string;
+    username: string | null;
+    hidden: boolean;
+  }>;
+  created_at: string;
+  updated_at: string;
+}

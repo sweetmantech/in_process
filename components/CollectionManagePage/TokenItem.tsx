@@ -6,7 +6,7 @@ import { useCollectionProvider } from "@/providers/CollectionProvider";
 import { Skeleton } from "../ui/skeleton";
 import { networkConfigByChain } from "@/lib/protocolSdk/apis/chain-constants";
 import { useUserProvider } from "@/providers/UserProvider";
-import HideButton from "../HorizontalFeed/HideButton";
+import HideButton from "../TimelineMoments/HideButton";
 import { Address } from "viem";
 
 const TokenItem = ({

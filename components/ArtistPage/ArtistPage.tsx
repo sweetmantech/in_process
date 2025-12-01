@@ -6,8 +6,8 @@ import useIsMobile from "@/hooks/useIsMobile";
 import MobileProfile from "./MobileProfile";
 import DesktopProfile from "./DesktopProfile";
 import { useParams } from "next/navigation";
-import TimelineFeed from "./TimelineFeed";
-import { TimelineApiProvider } from "@/providers/TimelineApiProvider";
+import ArtistTimeline from "./ArtistTimeline";
+import { TimelineProvider } from "@/providers/TimelineProvider";
 import ProfileProvider from "@/providers/ProfileProvider";
 import { Address } from "viem";
 
@@ -27,9 +27,9 @@ const ArtistPage = () => {
         <div
           className={`grow flex flex-col px-2 md:px-0 ${alt === "timeline" && "md:pt-20 md:px-10"}`}
         >
-          <TimelineApiProvider artistAddress={address}>
-            <TimelineFeed alt={alt} />
-          </TimelineApiProvider>
+          <TimelineProvider artistAddress={address}>
+            <ArtistTimeline alt={alt} />
+          </TimelineProvider>
         </div>
       </div>
     </ProfileProvider>

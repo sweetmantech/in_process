@@ -4,18 +4,18 @@ import useFullscreenDetection from "./useFullscreenDetection";
 import { Swiper } from "swiper/types";
 import useCheckTimelineOverflow from "./useCheckTimelineOverflow";
 import useTimelineCenter from "./useTimelineCenter";
-import { TimelineMoment } from "@/lib/timeline/fetchTimeline";
+import { TimelineMoment } from "@/types/moment";
 
-interface UseHorizontalFeedAnimationReturn {
+interface UseTimelineAnimationReturn {
   nearestIndex: number | null;
   handleMouseMove: (e: React.MouseEvent) => void;
   getHeight: (index: number) => number;
   isHovered: (index: number) => boolean;
   activeIndex: number;
-  feedEnded: boolean;
+  momentEnded: boolean;
   setActiveIndex: Dispatch<SetStateAction<number>>;
   setEventTriggered: Dispatch<SetStateAction<boolean>>;
-  setFeedEnded: Dispatch<SetStateAction<boolean>>;
+  setMomentEnded: Dispatch<SetStateAction<boolean>>;
   swiper: Swiper | null;
   setSwiper: Dispatch<SetStateAction<Swiper | null>>;
   timelineOverflowed: boolean;
@@ -28,9 +28,7 @@ interface NearestButton {
   distance: number;
 }
 
-export const useHorizontalFeedAnimation = (
-  feeds: TimelineMoment[]
-): UseHorizontalFeedAnimationReturn => {
+export const useTimelineAnimation = (moments: TimelineMoment[]): UseTimelineAnimationReturn => {
   const isMobile = useIsMobile();
   const { isAnyVideoFullscreen } = useFullscreenDetection();
 
@@ -43,45 +41,45 @@ export const useHorizontalFeedAnimation = (
   const [nearestIndex, setNearestIndex] = useState<number | null>(0);
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [eventTriggered, setEventTriggered] = useState<boolean>(false);
-  const [feedEnded, setFeedEnded] = useState<boolean>(false);
+  const [momentEnded, setMomentEnded] = useState<boolean>(false);
   const checkTimelineOverflow = useCheckTimelineOverflow();
-  const centerIndex = useTimelineCenter({ activeIndex, swiper, feeds });
+  const centerIndex = useTimelineCenter({ activeIndex, swiper, moments });
 
-  // Reset animation state when feeds change
+  // Reset animation state when moments change
   useEffect(() => {
-    // Reset nearest index when feeds change to prevent stale references
+    // Reset nearest index when moments change to prevent stale references
     setNearestIndex(null);
     setEventTriggered(false);
 
-    // Reset active index if it's beyond the new feeds length
-    if (activeIndex >= feeds.length) {
-      setActiveIndex(Math.max(0, feeds.length - 1));
+    // Reset active index if it's beyond the new moments length
+    if (activeIndex >= moments.length) {
+      setActiveIndex(Math.max(0, moments.length - 1));
     }
-  }, [feeds.length, activeIndex]);
+  }, [moments.length, activeIndex]);
 
   const findNearestButtonIndex = useCallback(
     (currentMouseX: number): NearestButton => {
-      const buttons = document.querySelectorAll<HTMLButtonElement>("button[data-feed-button]");
+      const buttons = document.querySelectorAll<HTMLButtonElement>("button[data-moment-button]");
       const buttonArray = Array.from(buttons);
 
       return buttonArray.reduce(
         (nearest, button) => {
-          // Get the actual feeds array index from the data attribute
-          const feedIndex = parseInt(button.getAttribute("data-feed-index") || "-1", 10);
+          // Get the actual moments array index from the data attribute
+          const momentIndex = parseInt(button.getAttribute("data-moment-index") || "-1", 10);
 
-          // Skip if index is invalid or beyond feeds length
-          if (feedIndex < 0 || feedIndex >= feeds.length) return nearest;
+          // Skip if index is invalid or beyond moments length
+          if (momentIndex < 0 || momentIndex >= moments.length) return nearest;
 
           const rect = button.getBoundingClientRect();
           const buttonCenterX = rect.left + rect.width / 2;
           const distance = Math.abs(currentMouseX - buttonCenterX);
 
-          return distance < nearest.distance ? { index: feedIndex, distance } : nearest;
+          return distance < nearest.distance ? { index: momentIndex, distance } : nearest;
         },
         { index: -1, distance: Infinity }
       );
     },
-    [feeds.length]
+    [moments.length]
   );
 
   const handleMouseMove = useCallback(
@@ -106,20 +104,20 @@ export const useHorizontalFeedAnimation = (
       const nearest = findNearestButtonIndex(currentMouseX);
 
       // Only update if we found a valid index within bounds
-      if (nearest.index >= 0 && nearest.index < feeds.length && nearest.index !== nearestIndex) {
+      if (nearest.index >= 0 && nearest.index < moments.length && nearest.index !== nearestIndex) {
         setNearestIndex(nearest.index);
-      } else if (nearest.index < 0 || nearest.index >= feeds.length) {
+      } else if (nearest.index < 0 || nearest.index >= moments.length) {
         // Clear nearest index if out of bounds
         setNearestIndex(null);
       }
     },
-    [findNearestButtonIndex, nearestIndex, isAnyVideoFullscreen, feeds.length]
+    [findNearestButtonIndex, nearestIndex, isAnyVideoFullscreen, moments.length]
   );
 
   const getHeight = useCallback(
     (index: number): number => {
       // Return minimum height if index is out of bounds
-      if (index < 0 || index >= feeds.length) return MIN_HEIGHT;
+      if (index < 0 || index >= moments.length) return MIN_HEIGHT;
 
       if (isMobile) {
         return (!activeIndex && !index) || activeIndex - 1 === index ? MAX_HEIGHT : MIN_HEIGHT;
@@ -143,20 +141,20 @@ export const useHorizontalFeedAnimation = (
       MIN_HEIGHT,
       NEIGHBOR_RANGE,
       HEIGHT_DECREMENT,
-      feeds.length,
+      moments.length,
     ]
   );
 
   const isHovered = useCallback(
     (index: number): boolean => {
       // Return false if index is out of bounds
-      if (index < 0 || index >= feeds.length) return false;
+      if (index < 0 || index >= moments.length) return false;
 
       if (isMobile) return (!activeIndex && !index) || activeIndex - 1 === index;
       if (nearestIndex === 0 && !eventTriggered && index === 0) return true;
       return nearestIndex !== null && index === nearestIndex;
     },
-    [nearestIndex, activeIndex, isMobile, eventTriggered, feeds.length]
+    [nearestIndex, activeIndex, isMobile, eventTriggered, moments.length]
   );
 
   return {
@@ -167,8 +165,8 @@ export const useHorizontalFeedAnimation = (
     activeIndex,
     setActiveIndex,
     setEventTriggered,
-    setFeedEnded,
-    feedEnded,
+    setMomentEnded,
+    momentEnded,
     swiper,
     setSwiper,
     ...checkTimelineOverflow,

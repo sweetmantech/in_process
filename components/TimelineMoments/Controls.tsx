@@ -1,10 +1,9 @@
-import { useHorizontalFeedAnimationProvider } from "@/providers/HorizontalFeedAnimationProvider";
+import { useTimelineAnimationProvider } from "@/providers/TimelineAnimationProvider";
 import React from "react";
 import { ArrowRight } from "../ui/icons";
 
 const Controls = () => {
-  const { activeIndex, swiper, feedEnded, timelineOverflowed } =
-    useHorizontalFeedAnimationProvider();
+  const { activeIndex, swiper, momentEnded, timelineOverflowed } = useTimelineAnimationProvider();
 
   return (
     <div className="px-1 flex justify-between z-[999999] size-full absolute flex items-center left-0 top-0">
@@ -13,7 +12,7 @@ const Controls = () => {
           <ArrowRight className="rotate-[-180deg] w-6 h-6" />
         </button>
       )}
-      {timelineOverflowed && !feedEnded && (
+      {timelineOverflowed && !momentEnded && (
         <button
           className="text-black p-1 ml-auto"
           type="button"

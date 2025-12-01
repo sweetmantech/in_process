@@ -2,7 +2,7 @@ import { useMetadata } from "@/hooks/useMetadata";
 import Loading from "../Loading";
 import { useRouter } from "next/navigation";
 import CarouselItem from "./CarouselItem";
-import { TimelineMoment } from "@/lib/timeline/fetchTimeline";
+import { TimelineMoment } from "@/types/moment";
 
 interface SliderFeedProps {
   feed: TimelineMoment;
@@ -13,7 +13,7 @@ const SliderFeed = ({ feed }: SliderFeedProps) => {
   const { push } = useRouter();
 
   const handleClick = () => {
-    push(`/${feed.admin}`);
+    push(`/${feed.default_admin.address}`);
   };
 
   return (

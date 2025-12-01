@@ -1,18 +1,18 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useMetadata } from "./useMetadata";
 import { getShortNetworkName } from "@/lib/zora/zoraToViem";
-import { TimelineMoment } from "@/lib/timeline/fetchTimeline";
+import { TimelineMoment } from "@/types/moment";
 
-export const useClickTimelineFeed = (feed: TimelineMoment) => {
+export const useClickTimelineMoment = (moment: TimelineMoment) => {
   const { push } = useRouter();
   const pathname = usePathname();
   const isHomePage = pathname === "/" || pathname === "/timeline";
 
-  const { isLoading, data } = useMetadata(feed.uri);
+  const { isLoading, data } = useMetadata(moment.uri);
 
   const handleClick = () => {
     if (isHomePage) {
-      push(`/${feed.admin}`);
+      push(`/${moment.default_admin.address}`);
       return;
     }
     if (data?.external_url) {
@@ -22,9 +22,11 @@ export const useClickTimelineFeed = (feed: TimelineMoment) => {
       }
       return;
     }
-    const shortNetworkName = getShortNetworkName(feed.chain_id === 8453 ? "base" : "base sepolia");
-    const tokenId = feed.tokenId == "0" ? 1 : feed.tokenId;
-    push(`/collect/${shortNetworkName}:${feed.address}/${tokenId}`);
+    const shortNetworkName = getShortNetworkName(
+      moment.chain_id === 8453 ? "base" : "base sepolia"
+    );
+    const tokenId = moment.token_id == "0" ? 1 : moment.token_id;
+    push(`/collect/${shortNetworkName}:${moment.address}/${tokenId}`);
     return;
   };
 
@@ -32,6 +34,6 @@ export const useClickTimelineFeed = (feed: TimelineMoment) => {
     isLoading,
     data,
     handleClick,
-    formattedDate: new Date(feed.createdAt).toLocaleString().toLowerCase(),
+    formattedDate: new Date(moment.created_at).toLocaleString().toLowerCase(),
   };
 };
