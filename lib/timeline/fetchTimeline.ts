@@ -23,7 +23,7 @@ export async function fetchTimeline(
     limit: String(limit),
   });
   if (artistAddress) params.append("artist", artistAddress);
-  if (includeHidden) params.append("hidden", "true");
+  params.append("hidden", includeHidden ? "true" : "false");
   // When type is undefined, don't append type param (gets both mutual + default)
   if (type === "mutual") {
     params.append("type", "mutual");

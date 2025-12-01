@@ -1,4 +1,4 @@
-import { type TimelineMoment } from "@/types/moment";
+import { Moment } from "@/types/moment";
 import { InProcessToken } from "../supabase/in_process_tokens/updateInProcessTokens";
 
 /**
@@ -8,12 +8,12 @@ import { InProcessToken } from "../supabase/in_process_tokens/updateInProcessTok
  */
 export const toggleMoment = async (
   accessToken: string,
-  moment: TimelineMoment
+  moment: Moment
 ): Promise<{
   success: boolean;
   updated: InProcessToken[];
 }> => {
-  const response = await fetch("/api/token/hide", {
+  const response = await fetch("/api/moment/hide", {
     method: "POST",
     headers: {
       "content-type": "application/json",

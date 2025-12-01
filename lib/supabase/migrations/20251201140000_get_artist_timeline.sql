@@ -23,6 +23,9 @@ BEGIN
       m.id
     FROM in_process_moments m
     INNER JOIN in_process_collections c ON m.collection = c.id
+    LEFT JOIN in_process_admins da_admin ON m.collection = da_admin.collection 
+      AND (da_admin.token_id = m.token_id OR da_admin.token_id = 0)
+      AND da_admin.artist_address = c.default_admin
     WHERE
       -- When p_type is NULL/undefined: return both mutual + default
       -- Default case: artist is the default admin
@@ -44,11 +47,17 @@ BEGIN
       AND (p_chainid IS NULL OR c.chain_id = p_chainid)
       AND (
         p_hidden = true 
-        OR NOT EXISTS (
-          SELECT 1 FROM in_process_admins adm_check
-          WHERE adm_check.collection = m.collection 
-          AND (adm_check.token_id = m.token_id OR adm_check.token_id = 0)
-          AND adm_check.hidden = true
+        OR (
+          -- Check that default admin is not hidden
+          COALESCE(da_admin.hidden, false) = false
+          -- AND no other admin is hidden
+          AND NOT EXISTS (
+            SELECT 1 FROM in_process_admins adm_check
+            WHERE adm_check.collection = m.collection 
+            AND (adm_check.token_id = m.token_id OR adm_check.token_id = 0)
+            AND adm_check.artist_address != c.default_admin
+            AND adm_check.hidden = true
+          )
         )
       )
   )
@@ -98,11 +107,17 @@ BEGIN
       AND (p_chainid IS NULL OR c.chain_id = p_chainid)
       AND (
         p_hidden = true 
-        OR NOT EXISTS (
-          SELECT 1 FROM in_process_admins adm_check
-          WHERE adm_check.collection = m.collection 
-          AND (adm_check.token_id = m.token_id OR adm_check.token_id = 0)
-          AND adm_check.hidden = true
+        OR (
+          -- Check that default admin is not hidden
+          COALESCE(da_admin.hidden, false) = false
+          -- AND no other admin is hidden
+          AND NOT EXISTS (
+            SELECT 1 FROM in_process_admins adm_check
+            WHERE adm_check.collection = m.collection 
+            AND (adm_check.token_id = m.token_id OR adm_check.token_id = 0)
+            AND adm_check.artist_address != c.default_admin
+            AND adm_check.hidden = true
+          )
         )
       )
   ),
