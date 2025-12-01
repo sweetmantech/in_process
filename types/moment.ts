@@ -4,11 +4,11 @@ import type { Database } from "@/lib/supabase/types";
 export interface Moment {
   contractAddress: Address;
   tokenId: string;
+  chainId: number;
 }
 
 export interface MomentCommentsInput {
   moment: Moment;
-  chainId: number;
   offset: number;
 }
 
