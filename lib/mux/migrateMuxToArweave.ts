@@ -12,10 +12,10 @@ import clientUploadToArweave from "../arweave/clientUploadToArweave";
 import { getOrCreateSmartWallet } from "../coinbase/getOrCreateSmartWallet";
 import { sendUserOperation } from "../coinbase/sendUserOperation";
 import { updateTokenContractURI } from "../supabase/in_process_tokens/updateTokenContractURI";
+import { Moment } from "@/types/moment";
 
 export interface MigrateMuxToArweaveInput {
-  tokenContractAddress: Address;
-  tokenId: string;
+  moment: Moment;
   artistAddress: Address;
 }
 
@@ -38,13 +38,12 @@ export interface MigrateMuxToArweaveResult {
  * 9. Deletes video from MUX
  */
 export async function migrateMuxToArweave({
-  tokenContractAddress,
-  tokenId,
+  moment,
   artistAddress,
 }: MigrateMuxToArweaveInput): Promise<MigrateMuxToArweaveResult> {
   try {
     // Step 1: Get token info using viem and fetch metadata from IPFS
-    const tokenInfo = await getTokenInfo(tokenContractAddress, tokenId, CHAIN_ID);
+    const tokenInfo = await getTokenInfo(moment);
 
     const currentMetadata = await fetchTokenMetadata(tokenInfo.tokenUri);
     if (!currentMetadata) {
@@ -94,9 +93,9 @@ export async function migrateMuxToArweave({
       address: artistAddress,
     });
 
-    const updateTokenURICall = getUpdateTokenURICall(tokenContractAddress, tokenId, newMetadataUri);
+    const updateTokenURICall = getUpdateTokenURICall(moment, newMetadataUri);
     const updateContractURICall = getUpdateContractMetadataCall(
-      tokenContractAddress,
+      moment.collectionAddress,
       newMetadataUri,
       currentMetadata.name
     );
@@ -111,7 +110,7 @@ export async function migrateMuxToArweave({
     if (transaction && transaction.transactionHash) {
       try {
         await updateTokenContractURI({
-          tokenContractAddress,
+          tokenContractAddress: moment.collectionAddress,
           tokenId: 0,
           chainId: CHAIN_ID,
           uri: newMetadataUri,

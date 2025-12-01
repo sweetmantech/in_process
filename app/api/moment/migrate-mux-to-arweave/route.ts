@@ -2,8 +2,8 @@ import { NextRequest } from "next/server";
 import getCorsHeader from "@/lib/getCorsHeader";
 import { migrateMuxToArweave } from "@/lib/mux/migrateMuxToArweave";
 import { authMiddleware } from "@/middleware/authMiddleware";
-import { migrateMuxSchema } from "@/lib/schema/migrateMuxSchema";
 import { Address } from "viem";
+import { momentSchema } from "@/lib/schema/momentSchema";
 
 const corsHeaders = getCorsHeader();
 
@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
     const { artistAddress } = authResult;
 
     const body = await req.json();
-    const parseResult = migrateMuxSchema.safeParse(body);
+    const parseResult = momentSchema.safeParse(body);
 
     if (!parseResult.success) {
       const errorDetails = parseResult.error.errors.map((err) => ({
@@ -36,11 +36,14 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const data = parseResult.data;
+    const { collectionAddress, tokenId, chainId } = parseResult.data;
 
     const result = await migrateMuxToArweave({
-      tokenContractAddress: data.tokenContractAddress as Address,
-      tokenId: data.tokenId,
+      moment: {
+        collectionAddress,
+        tokenId,
+        chainId,
+      },
       artistAddress: artistAddress as Address,
     });
 

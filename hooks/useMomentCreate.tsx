@@ -12,6 +12,7 @@ import { toast } from "sonner";
 import { migrateMuxToArweaveApi } from "@/lib/mux/migrateMuxToArweaveApi";
 import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
+import { CHAIN_ID } from "@/lib/consts";
 
 export default function useMomentCreate() {
   const [creating, setCreating] = useState<boolean>(false);
@@ -44,8 +45,11 @@ export default function useMomentCreate() {
 
       if (mimeType.includes("video")) {
         const migrateMuxToArweaveResult = await migrateMuxToArweaveApi({
-          tokenContractAddress: result.contractAddress as Address,
-          tokenId: result.tokenId.toString(),
+          moment: {
+            collectionAddress: createdContract as Address,
+            tokenId: createdTokenId,
+            chainId: CHAIN_ID,
+          },
           accessToken: accessToken as string,
         });
         setAnimationUri(getFetchableUrl(migrateMuxToArweaveResult.arweaveUri) || "");
