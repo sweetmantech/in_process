@@ -10,7 +10,7 @@ const getInProcessTimeline = async ({
   data: GetInProcessTimelineResponse | null;
   error: Error | null;
 }> => {
-  const { data, error } = await (supabase.rpc as any)("get_in_process_timeline", {
+  const { data, error } = await supabase.rpc("get_in_process_timeline", {
     p_limit: limit,
     p_page: page,
     p_chainid: chainId,

@@ -12,7 +12,7 @@ const getArtistTimeline = async ({
   data: GetArtistTimelineResponse | null;
   error: Error | null;
 }> => {
-  const { data, error } = await (supabase.rpc as any)("get_artist_timeline", {
+  const { data, error } = await supabase.rpc("get_artist_timeline", {
     p_artist: artist,
     p_type: type || null,
     p_limit: limit,
