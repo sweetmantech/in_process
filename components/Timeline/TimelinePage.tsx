@@ -1,17 +1,17 @@
 "use client";
 
-import { useTimelineApiContext } from "@/providers/TimelineApiProvider";
+import { useTimelineProvider } from "@/providers/TimelineProvider";
 import Loading from "@/components/Loading";
 import TimelineHero from "@/components/Timeline/TimelineHero";
 import MobileMomentsSection from "@/components/Timeline/MobileMomentsSection";
 import TimelineSpiral from "@/components/Timeline/TimelineSpiral";
 import TimelineMobileMoon from "@/components/Timeline/TimelineMobileMoon";
 import HorizontalTimeline from "@/components/Timeline/HorizontalTimeline";
-import { HorizontalFeedAnimationProvider } from "@/providers/HorizontalFeedAnimationProvider";
+import { TimelineAnimationProvider } from "@/providers/TimelineAnimationProvider";
 import TimelineGrid from "@/components/Timeline/TimelineGrid";
 
 const TimelinePage = () => {
-  const { isLoading, error, moments } = useTimelineApiContext();
+  const { isLoading, error, moments } = useTimelineProvider();
 
   if (isLoading)
     return (
@@ -31,9 +31,9 @@ const TimelinePage = () => {
       </div>
       <TimelineGrid />
       <div className="block md:hidden overflow-hidden h-[300px] pb-20">
-        <HorizontalFeedAnimationProvider feeds={moments}>
+        <TimelineAnimationProvider moments={moments}>
           <HorizontalTimeline />
-        </HorizontalFeedAnimationProvider>
+        </TimelineAnimationProvider>
       </div>
     </main>
   );

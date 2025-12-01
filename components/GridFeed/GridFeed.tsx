@@ -1,8 +1,8 @@
-import { useTimelineApiContext } from "@/providers/TimelineApiProvider";
+import { useTimelineProvider } from "@/providers/TimelineProvider";
 import GridItem from "./GridItem";
 
 const GridFeed = () => {
-  const { moments } = useTimelineApiContext();
+  const { moments } = useTimelineProvider();
 
   return (
     <div className="w-full px-10 grid grid-cols-4 gap-4">

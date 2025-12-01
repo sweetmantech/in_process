@@ -3,12 +3,12 @@ import { Skeleton } from "../ui/skeleton";
 import { MomentMetadata } from "@/types/moment";
 import ContentRenderer from "../Renderers/ContentRenderer";
 
-interface FeedHoverProps {
+interface MomentHoverProps {
   isLoading: boolean;
   data: MomentMetadata;
 }
 
-const FeedHover: FC<FeedHoverProps> = ({ isLoading, data }) => {
+const MomentHover: FC<MomentHoverProps> = ({ isLoading, data }) => {
   return (
     <div className="-translate-x-1/2 relative" data-video-hover-area="true">
       <div className="absolute inset-0 -m-8 z-0" />
@@ -22,4 +22,4 @@ const FeedHover: FC<FeedHoverProps> = ({ isLoading, data }) => {
   );
 };
 
-export default FeedHover;
+export default MomentHover;

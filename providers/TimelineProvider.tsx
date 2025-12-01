@@ -1,8 +1,9 @@
 "use client";
 
 import { createContext, useContext, ReactNode } from "react";
-import { useTimelineApi } from "@/hooks/useTimelineApi";
-import { TimelineMoment, TimelineResponse } from "@/lib/timeline/fetchTimeline";
+import { useTimeline } from "@/hooks/useTimeline";
+import { TimelineMoment } from "@/types/moment";
+import { TimelineResponse } from "@/lib/timeline/fetchTimeline";
 
 interface TimelineContextValue {
   data: TimelineResponse | undefined;
@@ -16,20 +17,20 @@ interface TimelineContextValue {
 
 const TimelineContext = createContext<TimelineContextValue | undefined>(undefined);
 
-interface TimelineApiProviderProps {
+interface TimelineProviderProps {
   children: ReactNode;
   artistAddress?: string;
   includeHidden?: boolean;
-  type?: "mutual" | "artist" | "timeline";
+  type?: "mutual" | "default";
 }
 
-export const TimelineApiProvider = ({
+export const TimelineProvider = ({
   children,
   artistAddress,
   includeHidden = false,
-  type = "timeline",
-}: TimelineApiProviderProps) => {
-  const { data, isLoading, error, currentPage, setCurrentPage, fetchMore } = useTimelineApi(
+  type,
+}: TimelineProviderProps) => {
+  const { data, isLoading, error, currentPage, setCurrentPage, fetchMore } = useTimeline(
     1,
     100,
     true,
@@ -57,8 +58,8 @@ export const TimelineApiProvider = ({
   );
 };
 
-export const useTimelineApiContext = () => {
+export const useTimelineProvider = () => {
   const ctx = useContext(TimelineContext);
-  if (!ctx) throw new Error("useTimelineApiContext must be used within TimelineApiProvider");
+  if (!ctx) throw new Error("useTimelineProvider must be used within TimelineProvider");
   return ctx;
 };

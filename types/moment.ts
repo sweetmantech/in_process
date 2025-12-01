@@ -69,3 +69,56 @@ export enum MomentType {
   TimedMint = "timed",
   FixedPriceMint = "fixedPrice",
 }
+
+export interface TimelineMoment {
+  address: string;
+  token_id: string;
+  max_supply: number;
+  chain_id: number;
+  id: string;
+  uri: string;
+  default_admin: {
+    address: string;
+    username: string | null;
+    hidden: boolean;
+  };
+  admins: Array<{
+    address: string;
+    username: string | null;
+    hidden: boolean;
+  }>;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface TimelinePagination {
+  page: number;
+  limit: number;
+  total_pages: number;
+}
+
+export interface GetInProcessTimelineParams {
+  limit?: number;
+  page?: number;
+  chainId?: number;
+  hidden?: boolean;
+}
+
+export interface GetInProcessTimelineResponse {
+  moments: TimelineMoment[];
+  pagination: TimelinePagination;
+}
+
+export interface GetArtistTimelineParams {
+  artist: string;
+  type?: "mutual" | "default" | null;
+  limit?: number;
+  page?: number;
+  chainId?: number;
+  hidden?: boolean;
+}
+
+export interface GetArtistTimelineResponse {
+  moments: TimelineMoment[];
+  pagination: TimelinePagination;
+}

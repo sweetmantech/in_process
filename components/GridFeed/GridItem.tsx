@@ -1,5 +1,5 @@
 import { useMetadata } from "@/hooks/useMetadata";
-import { TimelineMoment } from "@/lib/timeline/fetchTimeline";
+import { TimelineMoment } from "@/types/moment";
 import Loading from "../Loading";
 import ContentRenderer from "../Renderers";
 
@@ -21,7 +21,7 @@ const GridItem = ({ feed }: GridItemProps) => {
           </div>
           <div className="pt-2 px-2">
             <p className="font-archivo text-sm">{data.name}</p>
-            <p className="font-archivo text-sm">{new Date(feed.createdAt).toLocaleString()}</p>
+            <p className="font-archivo text-sm">{new Date(feed.created_at).toLocaleString()}</p>
           </div>
         </>
       )}

@@ -1,6 +1,6 @@
 import { APP_URL } from "@/lib/og/consts";
 import { Metadata } from "next";
-import { TimelineApiProvider as TimelineProvider } from "@/providers/TimelineApiProvider";
+import { TimelineProvider } from "@/providers/TimelineProvider";
 import TimelinePage from "@/components/Timeline/TimelinePage";
 
 export const revalidate = 300;

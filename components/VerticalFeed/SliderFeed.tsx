@@ -1,5 +1,5 @@
 import { useMetadata } from "@/hooks/useMetadata";
-import { TimelineMoment } from "@/lib/timeline/fetchTimeline";
+import { TimelineMoment } from "@/types/moment";
 import { Skeleton } from "../ui/skeleton";
 import ContentRenderer from "../Renderers";
 
@@ -25,7 +25,7 @@ const SliderFeed = ({ feed }: SliderFeedProps) => {
               <p className="font-spectral text-sm">{data?.name || ""}</p>
             </div>
             <p className="font-archivo text-sm lowercase">
-              {new Date(feed.createdAt).toLocaleString()}
+              {new Date(feed.created_at).toLocaleString()}
             </p>
           </div>
         </div>

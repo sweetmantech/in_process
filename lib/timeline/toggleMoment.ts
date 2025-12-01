@@ -1,4 +1,4 @@
-import { type TimelineMoment } from "@/lib/timeline/fetchTimeline";
+import { type TimelineMoment } from "@/types/moment";
 import { InProcessToken } from "../supabase/in_process_tokens/updateInProcessTokens";
 
 /**

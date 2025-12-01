@@ -1,10 +1,10 @@
-import useTokens from "@/hooks/useTokens";
+import useCollectionMoments from "@/hooks/useCollectionMoments";
 import { Address } from "viem";
 import { createContext, useContext, ReactNode } from "react";
 import useCollection from "@/hooks/useCollection";
 
 interface CollectionContextReturn {
-  tokens: ReturnType<typeof useTokens>;
+  tokens: ReturnType<typeof useCollectionMoments>;
   collection: {
     address: Address;
     chainId: number;
@@ -24,7 +24,7 @@ export function CollectionProvider({
     chainId: number;
   };
 }) {
-  const tokens = useTokens(collection);
+  const tokens = useCollectionMoments(collection);
   const metadata = useCollection(collection.address, collection.chainId);
   return (
     <CollectionContext.Provider

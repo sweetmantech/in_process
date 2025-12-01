@@ -2,13 +2,13 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { fetchTimeline } from "@/lib/timeline/fetchTimeline";
 
-export function useTimelineApi(
+export function useTimeline(
   page = 1,
   limit = 100,
   enabled = true,
   artistAddress?: string,
   includeHidden = false,
-  type = "timeline"
+  type?: "mutual" | "default"
 ) {
   const [currentPage, setCurrentPage] = useState(page);
 
@@ -29,7 +29,7 @@ export function useTimelineApi(
   const moments =
     query.data?.pages
       .flatMap((page) => page.moments)
-      .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()) ?? [];
+      .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()) ?? [];
 
   const pagination = query.data?.pages[query.data.pages.length - 1]?.pagination;
 
@@ -45,7 +45,7 @@ export function useTimelineApi(
       ? {
           status: query.data.pages[0]?.status || "success",
           moments,
-          pagination: pagination || { total_count: 0, page: 1, limit, total_pages: 1 },
+          pagination: pagination || { page: 1, limit, total_pages: 1 },
         }
       : undefined,
     setCurrentPage,

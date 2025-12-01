@@ -5,8 +5,8 @@ import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import { getShortNetworkName } from "@/lib/zora/zoraToViem";
 import { useRouter } from "next/navigation";
 import truncated from "@/lib/truncated";
-import HideButton from "../HorizontalFeed/HideButton";
-import { type TimelineMoment } from "@/lib/timeline/fetchTimeline";
+import HideButton from "../TimelineMoments/HideButton";
+import { type TimelineMoment } from "@/types/moment";
 
 const CollectionItem = ({ c }: { c: TimelineMoment }) => {
   const { data, isLoading } = useMetadata(c.uri);

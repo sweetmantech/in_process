@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { TimelineMoment } from "@/lib/timeline/fetchTimeline";
+import { TimelineMoment } from "@/types/moment";
 
 const useSpiralMouseOver = () => {
   const [hoveredFeed, setHoveredFeed] = useState<{

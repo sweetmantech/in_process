@@ -1,22 +1,9 @@
-import { Address } from "viem";
-
-export interface TimelineMoment {
-  address: Address;
-  tokenId: string;
-  chain_id: number;
-  id: string;
-  uri: string;
-  admin: Address;
-  createdAt: string;
-  username: string;
-  hidden?: boolean;
-}
+import { TimelineMoment } from "@/types/moment";
 
 export interface TimelineResponse {
   status: "success" | "error";
   moments: TimelineMoment[];
   pagination: {
-    total_count: number;
     page: number;
     limit: number;
     total_pages: number;
@@ -29,7 +16,7 @@ export async function fetchTimeline(
   limit = 20,
   artistAddress?: string,
   includeHidden = false,
-  type = "timeline"
+  type?: "mutual" | "default"
 ): Promise<TimelineResponse> {
   const params = new URLSearchParams({
     page: String(page),
@@ -37,7 +24,12 @@ export async function fetchTimeline(
   });
   if (artistAddress) params.append("artist", artistAddress);
   if (includeHidden) params.append("hidden", "true");
-  if (type) params.append("type", type);
+  // When type is undefined, don't append type param (gets both mutual + default)
+  if (type === "mutual") {
+    params.append("type", "mutual");
+  } else if (type === "default") {
+    params.append("type", "default");
+  }
   const res = await fetch(`/api/timeline?${params.toString()}`);
   if (!res.ok) throw new Error("Failed to fetch timeline");
   return res.json();

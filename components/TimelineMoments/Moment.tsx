@@ -1,23 +1,23 @@
 import { FC, useState } from "react";
 import { motion } from "framer-motion";
-import FeedHover from "./FeedHover";
-import { useClickTimelineFeed } from "@/hooks/useClickTimelineFeed";
+import MomentHover from "./MomentHover";
+import { useClickTimelineMoment } from "@/hooks/useClickTimelineMoment";
 import truncated from "@/lib/truncated";
 import { TIMLINE_STEP_OFFSET } from "@/lib/consts";
 import HideButton from "./HideButton";
 import useArtistEditable from "@/hooks/useArtistEditable";
-import { TimelineMoment } from "@/lib/timeline/fetchTimeline";
+import { TimelineMoment } from "@/types/moment";
 
-interface FeedProps {
-  feed: TimelineMoment;
+interface MomentProps {
+  moment: TimelineMoment;
   hovered: boolean;
   step: number;
   height: number;
   index: number;
 }
 
-const Feed: FC<FeedProps> = ({ feed, hovered, step, height, index }) => {
-  const { isLoading, data, handleClick, formattedDate } = useClickTimelineFeed(feed);
+const Moment: FC<MomentProps> = ({ moment, hovered, step, height, index }) => {
+  const { isLoading, data, handleClick, formattedDate } = useClickTimelineMoment(moment);
   const [isFadingOut, setIsFadingOut] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
   const { isEditable } = useArtistEditable();
@@ -41,8 +41,8 @@ const Feed: FC<FeedProps> = ({ feed, hovered, step, height, index }) => {
     >
       <fieldset className="flex flex-col items-center">
         <button
-          data-feed-button
-          data-feed-index={index}
+          data-moment-button
+          data-moment-index={index}
           className="relative z-10 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-opacity-75 transition-transform hover:scale-110"
           onClick={handleClick}
         >
@@ -66,7 +66,7 @@ const Feed: FC<FeedProps> = ({ feed, hovered, step, height, index }) => {
             <div className="relative size-full">
               {hovered && data && (
                 <div className="absolute bottom-full">
-                  <FeedHover isLoading={isLoading} data={data} />
+                  <MomentHover isLoading={isLoading} data={data} />
                 </div>
               )}
             </div>
@@ -75,7 +75,7 @@ const Feed: FC<FeedProps> = ({ feed, hovered, step, height, index }) => {
         {hovered && isEditable && (
           <div className="flex gap-2 items-center relative translate-y-6 pt-2">
             <p className="font-spectral-italic text-sm md:text-xl">{truncated(data?.name || "")}</p>
-            <HideButton moment={feed} onClick={() => setIsFadingOut(true)} />
+            <HideButton moment={moment} onClick={() => setIsFadingOut(true)} />
           </div>
         )}
         <p
@@ -88,4 +88,4 @@ const Feed: FC<FeedProps> = ({ feed, hovered, step, height, index }) => {
   );
 };
 
-export default Feed;
+export default Moment;
