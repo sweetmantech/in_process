@@ -3,16 +3,17 @@ import { getInProcessTokens } from "@/lib/supabase/in_process_tokens/getInProces
 import { updateInProcessTokens } from "@/lib/supabase/in_process_tokens/updateInProcessTokens";
 import { insertInProcessTokens } from "@/lib/supabase/in_process_tokens/insertInProcessTokens";
 import getTokenInfo from "../viem/getTokenInfo";
+import { Moment } from "@/types/moment";
 
-const indexMoment = async (address: Address, tokenId: number, chainId: number) => {
+const indexMoment = async (moment: Moment) => {
   // Fetch onchain details
-  const { tokenUri: uri, owner: admin } = await getTokenInfo(address, tokenId.toString(), chainId);
+  const { tokenUri: uri, owner: admin } = await getTokenInfo(moment);
 
   // Look for existing moment
   const { data: existingRows, error: fetchError } = await getInProcessTokens({
-    addresses: [address],
-    tokenIds: [tokenId],
-    chainId,
+    addresses: [moment.collectionAddress],
+    tokenIds: [moment.tokenId],
+    chainId: moment.chainId,
     hidden: true, // include hidden + visible
   });
 
@@ -33,9 +34,9 @@ const indexMoment = async (address: Address, tokenId: number, chainId: number) =
     const { data: insertedRows, error: insertError } = await insertInProcessTokens({
       tokens: [
         {
-          address,
-          tokenId,
-          chainId,
+          address: moment.collectionAddress,
+          tokenId: Number(moment.tokenId),
+          chainId: moment.chainId,
           uri,
           defaultAdmin: admin as Address,
           createdAt: new Date().toISOString(),
