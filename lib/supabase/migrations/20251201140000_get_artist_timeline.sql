@@ -47,17 +47,11 @@ BEGIN
       AND (p_chainid IS NULL OR c.chain_id = p_chainid)
       AND (
         p_hidden = true 
-        OR (
-          -- Check that default admin is not hidden
-          COALESCE(da_admin.hidden, false) = false
-          -- AND no other admin is hidden
-          AND NOT EXISTS (
-            SELECT 1 FROM in_process_admins adm_check
-            WHERE adm_check.collection = m.collection 
-            AND (adm_check.token_id = m.token_id OR adm_check.token_id = 0)
-            AND adm_check.artist_address != c.default_admin
-            AND adm_check.hidden = true
-          )
+        OR NOT EXISTS (
+          SELECT 1 FROM in_process_admins adm_check
+          WHERE adm_check.collection = m.collection 
+          AND (adm_check.token_id = m.token_id OR adm_check.token_id = 0)
+          AND adm_check.hidden = true
         )
       )
   )
@@ -107,17 +101,11 @@ BEGIN
       AND (p_chainid IS NULL OR c.chain_id = p_chainid)
       AND (
         p_hidden = true 
-        OR (
-          -- Check that default admin is not hidden
-          COALESCE(da_admin.hidden, false) = false
-          -- AND no other admin is hidden
-          AND NOT EXISTS (
-            SELECT 1 FROM in_process_admins adm_check
-            WHERE adm_check.collection = m.collection 
-            AND (adm_check.token_id = m.token_id OR adm_check.token_id = 0)
-            AND adm_check.artist_address != c.default_admin
-            AND adm_check.hidden = true
-          )
+        OR NOT EXISTS (
+          SELECT 1 FROM in_process_admins adm_check
+          WHERE adm_check.collection = m.collection 
+          AND (adm_check.token_id = m.token_id OR adm_check.token_id = 0)
+          AND adm_check.hidden = true
         )
       )
   ),
