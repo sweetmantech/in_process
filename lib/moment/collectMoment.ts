@@ -35,17 +35,13 @@ export async function collectMoment({
   });
 
   // Get token info and sale config
-  const { saleConfig } = await getTokenInfo(
-    moment.contractAddress as Address,
-    moment.tokenId,
-    CHAIN_ID
-  );
+  const { saleConfig } = await getTokenInfo(moment);
 
   const approveCall = await validateBalanceAndAllowance(smartAccount.address, saleConfig, amount);
 
   // Get the collect call using the shared function
   const collectCall = getCollectCall(
-    moment.contractAddress as Address,
+    moment.collectionAddress,
     Number(moment.tokenId),
     saleConfig,
     artistAddress,
