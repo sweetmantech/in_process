@@ -1,17 +1,14 @@
-import { Address, encodeFunctionData } from "viem";
+import { encodeFunctionData } from "viem";
 import { zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
+import { Moment } from "@/types/moment";
 
-const getUpdateTokenURICall = (
-  tokenContractAddress: Address,
-  tokenId: string,
-  newMetadataUri: string
-) => {
+const getUpdateTokenURICall = (moment: Moment, newMetadataUri: string) => {
   return {
-    to: tokenContractAddress,
+    to: moment.collectionAddress,
     data: encodeFunctionData({
       abi: zoraCreator1155ImplABI,
       functionName: "updateTokenURI",
-      args: [BigInt(tokenId), newMetadataUri],
+      args: [BigInt(moment.tokenId), newMetadataUri],
     }),
   };
 };
