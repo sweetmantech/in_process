@@ -7,23 +7,23 @@ import { Address } from "viem";
 
 const useBalanceOf = () => {
   const [balanceOf, setBalanceOf] = useState<number>(0);
-  const { token } = useMomentProvider();
+  const { moment } = useMomentProvider();
   const { connectedAddress } = useUserProvider();
 
   useEffect(() => {
     const getBalanceOf = async () => {
       const publicClient = getPublicClient();
       const response = await publicClient.readContract({
-        address: token.tokenContractAddress as Address,
+        address: moment.collectionAddress,
         abi: zoraCreator1155ImplABI,
         functionName: "balanceOf",
-        args: [connectedAddress as Address, BigInt(token.tokenId)],
+        args: [connectedAddress as Address, BigInt(moment.tokenId)],
       });
 
       setBalanceOf(parseInt(response.toString(), 10));
     };
-    if (token && connectedAddress) getBalanceOf();
-  }, [token, connectedAddress]);
+    if (moment && connectedAddress) getBalanceOf();
+  }, [moment, connectedAddress]);
 
   return {
     balanceOf,

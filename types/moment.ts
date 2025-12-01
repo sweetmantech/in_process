@@ -12,13 +12,6 @@ export interface MomentCommentsInput {
   offset: number;
 }
 
-export interface CommentsQueryParams {
-  collectionAddress: string;
-  tokenId: string;
-  chainId: number;
-  offset?: number;
-}
-
 export interface MomentCommentsResult {
   comments: MintComment[];
 }

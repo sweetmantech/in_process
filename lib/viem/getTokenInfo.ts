@@ -1,5 +1,4 @@
 import { getPublicClient } from "@/lib/viem/publicClient";
-import { CHAIN_ID } from "@/lib/consts";
 import {
   erc20MinterAddresses,
   zoraCreatorFixedPriceSaleStrategyAddress,
@@ -9,20 +8,16 @@ import {
   zoraCreator1155ImplABI,
   zoraCreatorFixedPriceSaleStrategyABI,
 } from "@zoralabs/protocol-deployments";
-import { Address } from "viem";
-import { MomentType } from "@/types/moment";
+import { Moment, MomentType } from "@/types/moment";
 
-const getTokenInfo = async (
-  tokenContract: Address,
-  tokenId: string,
-  chainId: number = CHAIN_ID
-) => {
+const getTokenInfo = async (moment: Moment) => {
+  const { collectionAddress, tokenId, chainId } = moment;
   const publicClient: any = getPublicClient(chainId);
   const erc20SaleConfigCall = {
     address: erc20MinterAddresses[chainId as keyof typeof erc20MinterAddresses],
     abi: erc20MinterABI,
     functionName: "sale",
-    args: [tokenContract, tokenId],
+    args: [collectionAddress, tokenId],
   };
   const fixedSaleConfigCall = {
     address:
@@ -31,16 +26,16 @@ const getTokenInfo = async (
       ],
     abi: zoraCreatorFixedPriceSaleStrategyABI,
     functionName: "sale",
-    args: [tokenContract, tokenId],
+    args: [collectionAddress, tokenId],
   };
   const uriCall = {
-    address: tokenContract,
+    address: collectionAddress,
     abi: zoraCreator1155ImplABI,
     functionName: "uri",
     args: [tokenId],
   };
   const ownerCall = {
-    address: tokenContract,
+    address: collectionAddress,
     abi: zoraCreator1155ImplABI,
     functionName: "owner",
     args: [],

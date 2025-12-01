@@ -33,7 +33,7 @@ const useMomentCollect = () => {
   const [collected, setCollected] = useState(false);
   const { artistWallet } = useUserProvider();
   const [isLoading, setIsLoading] = useState(false);
-  const { token, saleConfig } = useMomentProvider();
+  const { moment, saleConfig } = useMomentProvider();
   const { comment, addComment, setComment, setIsOpenCommentModal } = useMomentCommentsProvider();
   const { validateBalance } = useCollectBalanceValidation();
   const { getAccessToken } = usePrivy();
@@ -50,12 +50,12 @@ const useMomentCollect = () => {
 
       if (saleConfig.pricePerToken === BigInt(0)) {
         await mintOnSmartWallet({
-          address: token.tokenContractAddress,
+          address: moment.collectionAddress,
           abi: zoraCreator1155ImplABI,
           functionName: "mint",
           args: [
             zoraCreatorFixedPriceSaleStrategyAddress[CHAIN.id],
-            token.tokenId,
+            moment.tokenId,
             amountToCollect,
             [],
             minterArguments,
@@ -67,15 +67,7 @@ const useMomentCollect = () => {
         if (!accessToken) {
           throw new Error("Failed to get access token");
         }
-        await collectMomentApi(
-          {
-            contractAddress: token.tokenContractAddress,
-            tokenId: token.tokenId,
-          },
-          amountToCollect,
-          comment,
-          accessToken
-        );
+        await collectMomentApi(moment, amountToCollect, comment, accessToken);
       }
       addComment({
         sender: artistWallet as Address,
