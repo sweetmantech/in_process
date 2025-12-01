@@ -1,5 +1,3 @@
-set check_function_bodies = off;
-
 CREATE OR REPLACE FUNCTION public.get_in_process_timeline(
   p_limit integer DEFAULT 100,
   p_page integer DEFAULT 1,
@@ -10,8 +8,9 @@ CREATE OR REPLACE FUNCTION public.get_in_process_timeline(
  LANGUAGE plpgsql
 AS $function$
 DECLARE
-  capped_limit int := LEAST(p_limit, 100);
-  offset_val int := (p_page - 1) * capped_limit;
+  capped_limit int := GREATEST(1, LEAST(COALESCE(NULLIF(p_limit, 0), 100), 1000));
+  clamped_page int := GREATEST(1, COALESCE(NULLIF(p_page, 0), 1));
+  offset_val int := (clamped_page - 1) * capped_limit;
   v_moments json;
   v_total_count int;
   v_total_pages int;
@@ -143,7 +142,7 @@ BEGIN
   RETURN json_build_object(
     'moments', COALESCE(v_moments, '[]'::json),
     'pagination', json_build_object(
-      'page', p_page,
+      'page', clamped_page,
       'limit', capped_limit,
       'total_pages', v_total_pages
     )
