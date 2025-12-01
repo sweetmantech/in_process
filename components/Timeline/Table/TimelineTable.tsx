@@ -1,10 +1,10 @@
-import { useTimelineContext } from "@/providers/TimelineProvider";
+import { useTimelineApiContext } from "@/providers/TimelineApiProvider";
 import TimelineTableRow from "@/components/Timeline/Table/TimelineTableRow";
 import TimelineTableRowDesktop from "@/components/Timeline/Table/TimelineTableRowDesktop";
 import { Table, TableBody } from "@/components/ui/table";
 
 const TimelineTable = () => {
-  const { moments } = useTimelineContext();
+  const { moments } = useTimelineApiContext();
 
   return (
     <div className="w-full">

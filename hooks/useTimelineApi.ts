@@ -2,7 +2,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { fetchTimeline } from "@/lib/timeline/fetchTimeline";
 
-export function useTimeline(
+export function useTimelineApi(
   page = 1,
   limit = 100,
   enabled = true,

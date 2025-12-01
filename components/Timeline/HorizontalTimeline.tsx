@@ -1,13 +1,13 @@
 "use client";
 
-import { useTimelineContext } from "@/providers/TimelineProvider";
+import { useTimelineApiContext } from "@/providers/TimelineApiProvider";
 import Feed from "@/components/HorizontalFeed/Feed";
 import Slider from "@/components/Slider";
 import { useHorizontalFeedAnimationProvider } from "@/providers/HorizontalFeedAnimationProvider";
 import Controls from "@/components/HorizontalFeed/Controls";
 
 const HorizontalTimeline = () => {
-  const { moments } = useTimelineContext();
+  const { moments } = useTimelineApiContext();
   const {
     getHeight,
     isHovered,

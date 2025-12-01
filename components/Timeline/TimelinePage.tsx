@@ -1,6 +1,6 @@
 "use client";
 
-import { useTimelineContext } from "@/providers/TimelineProvider";
+import { useTimelineApiContext } from "@/providers/TimelineApiProvider";
 import Loading from "@/components/Loading";
 import TimelineHero from "@/components/Timeline/TimelineHero";
 import MobileMomentsSection from "@/components/Timeline/MobileMomentsSection";
@@ -11,7 +11,7 @@ import { HorizontalFeedAnimationProvider } from "@/providers/HorizontalFeedAnima
 import TimelineGrid from "@/components/Timeline/TimelineGrid";
 
 const TimelinePage = () => {
-  const { isLoading, error, moments } = useTimelineContext();
+  const { isLoading, error, moments } = useTimelineApiContext();
 
   if (isLoading)
     return (
