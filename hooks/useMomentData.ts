@@ -11,7 +11,7 @@ const useMomentData = (moment: Moment) => {
 
   const query = useQuery({
     queryKey: ["tokenInfo", collectionAddress, tokenId, chainId],
-    queryFn: () => getMomentApi(collectionAddress, tokenId, chainId),
+    queryFn: () => getMomentApi(moment),
     enabled: Boolean(collectionAddress && tokenId && chainId),
     staleTime: 1000 * 60 * 5, // 5 minutes
     retry: (failureCount) => failureCount < 3,
