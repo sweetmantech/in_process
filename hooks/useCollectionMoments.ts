@@ -7,7 +7,7 @@ const fetchTokens = async (address: Address, chainId: number) => {
   return data;
 };
 
-const useTokens = (collection: { address: Address; chainId: number }) => {
+const useCollectionMoments = (collection: { address: Address; chainId: number }) => {
   return useQuery({
     queryKey: ["tokens", collection.address, collection.chainId],
     queryFn: () => fetchTokens(collection.address, collection.chainId),
@@ -15,4 +15,4 @@ const useTokens = (collection: { address: Address; chainId: number }) => {
   });
 };
 
-export default useTokens;
+export default useCollectionMoments;

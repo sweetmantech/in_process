@@ -7,7 +7,6 @@ import { Skeleton } from "../ui/skeleton";
 import { networkConfigByChain } from "@/lib/protocolSdk/apis/chain-constants";
 import { useUserProvider } from "@/providers/UserProvider";
 import HideButton from "../TimelineMoments/HideButton";
-import { Address } from "viem";
 
 const TokenItem = ({
   t,
@@ -56,13 +55,19 @@ const TokenItem = ({
               <HideButton
                 moment={{
                   address: collection.address,
-                  tokenId: t.tokenId.toString(),
+                  token_id: t.tokenId.toString(),
                   chain_id: collection.chainId,
                   id: `${collection.address}-${t.tokenId.toString()}`,
                   uri: t.uri,
-                  admin: connectedAddress as Address,
-                  createdAt: new Date().toISOString(),
-                  username: "",
+                  max_supply: 0,
+                  default_admin: {
+                    address: connectedAddress,
+                    username: "",
+                    hidden: false,
+                  },
+                  admins: [],
+                  created_at: new Date().toISOString(),
+                  updated_at: new Date().toISOString(),
                 }}
               />
             )}

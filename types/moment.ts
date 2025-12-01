@@ -90,3 +90,35 @@ export interface TimelineMoment {
   created_at: string;
   updated_at: string;
 }
+
+export interface TimelinePagination {
+  page: number;
+  limit: number;
+  total_pages: number;
+}
+
+export interface GetInProcessTimelineParams {
+  limit?: number;
+  page?: number;
+  chainId?: number;
+  hidden?: boolean;
+}
+
+export interface GetInProcessTimelineResponse {
+  moments: TimelineMoment[];
+  pagination: TimelinePagination;
+}
+
+export interface GetArtistTimelineParams {
+  artist: string;
+  type?: "mutual" | "default" | null;
+  limit?: number;
+  page?: number;
+  chainId?: number;
+  hidden?: boolean;
+}
+
+export interface GetArtistTimelineResponse {
+  moments: TimelineMoment[];
+  pagination: TimelinePagination;
+}

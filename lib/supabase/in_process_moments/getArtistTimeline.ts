@@ -1,41 +1,5 @@
 import { supabase } from "@/lib/supabase/client";
-
-export interface GetArtistTimelineParams {
-  artist: string;
-  type?: "mutual" | "default" | null;
-  limit?: number;
-  page?: number;
-  chainId?: number;
-  hidden?: boolean;
-}
-
-export interface GetArtistTimelineResponse {
-  moments: Array<{
-    address: string;
-    token_id: string;
-    max_supply: number;
-    chain_id: number;
-    id: string;
-    uri: string;
-    default_admin: {
-      address: string;
-      username: string | null;
-      hidden: boolean;
-    };
-    admins: Array<{
-      address: string;
-      username: string | null;
-      hidden: boolean;
-    }>;
-    created_at: string;
-    updated_at: string;
-  }>;
-  pagination: {
-    page: number;
-    limit: number;
-    total_pages: number;
-  };
-}
+import type { GetArtistTimelineParams, GetArtistTimelineResponse } from "@/types/moment";
 
 const getArtistTimeline = async ({
   artist,
