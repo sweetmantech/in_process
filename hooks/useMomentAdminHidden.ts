@@ -23,12 +23,9 @@ export const useMomentAdminHidden = (moment: TimelineMoment): boolean => {
     }
 
     // Find matching admin entry
-    const admin = moment.admins.find(
-      (admin) => admin.address === normalizedWallet
-    );
+    const admin = moment.admins.find((admin) => admin.address === normalizedWallet);
 
     // Return admin's hidden state if found, otherwise default to default_admin
     return admin?.hidden ?? moment.default_admin.hidden;
   }, [moment, artistWallet]);
 };
-

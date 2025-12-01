@@ -27,31 +27,27 @@ BEGIN
       AND (da_admin.token_id = m.token_id OR da_admin.token_id = 0)
       AND da_admin.artist_address = c.default_admin
     WHERE
-      -- When p_type is NULL/undefined: return both mutual + default
-      -- Default case: artist is the default admin
-      (
-        (p_type IS NULL OR p_type = 'default') AND c.default_admin = LOWER(p_artist)
-      )
-      OR
-      -- Mutual case: artist is NOT the default admin but IS in the admins list
-      (
-        (p_type IS NULL OR p_type = 'mutual')
-        AND c.default_admin != LOWER(p_artist)
-        AND EXISTS (
-          SELECT 1 FROM in_process_admins adm_check
-          WHERE adm_check.collection = m.collection 
-          AND (adm_check.token_id = m.token_id OR adm_check.token_id = 0)
-          AND adm_check.artist_address = LOWER(p_artist)
-        )
-      )
-      AND (p_chainid IS NULL OR c.chain_id = p_chainid)
+      (p_chainid IS NULL OR c.chain_id = p_chainid)
       AND (
-        p_hidden = true 
-        OR NOT EXISTS (
-          SELECT 1 FROM in_process_admins adm_check
-          WHERE adm_check.collection = m.collection 
-          AND (adm_check.token_id = m.token_id OR adm_check.token_id = 0)
-          AND adm_check.hidden = true
+        -- When p_hidden = true, return all moments regardless of hidden status
+        -- Default case: artist is the default admin
+        (
+          (p_type IS NULL OR p_type = 'default') 
+          AND c.default_admin = LOWER(p_artist)
+          AND (p_hidden = true OR COALESCE(da_admin.hidden, false) = false)
+        )
+        OR
+        -- Mutual case: artist is NOT the default admin but IS in the admins list
+        (
+          (p_type IS NULL OR p_type = 'mutual')
+          AND c.default_admin != LOWER(p_artist)
+          AND EXISTS (
+            SELECT 1 FROM in_process_admins adm_check
+            WHERE adm_check.collection = m.collection 
+            AND (adm_check.token_id = m.token_id OR adm_check.token_id = 0)
+            AND adm_check.artist_address = LOWER(p_artist)
+            AND (p_hidden = true OR adm_check.hidden = false)
+          )
         )
       )
   )
@@ -81,31 +77,27 @@ BEGIN
       AND (da_admin.token_id = m.token_id OR da_admin.token_id = 0)
       AND da_admin.artist_address = c.default_admin
     WHERE
-      -- When p_type is NULL/undefined: return both mutual + default
-      -- Default case: artist is the default admin
-      (
-        (p_type IS NULL OR p_type = 'default') AND c.default_admin = LOWER(p_artist)
-      )
-      OR
-      -- Mutual case: artist is NOT the default admin but IS in the admins list
-      (
-        (p_type IS NULL OR p_type = 'mutual')
-        AND c.default_admin != LOWER(p_artist)
-        AND EXISTS (
-          SELECT 1 FROM in_process_admins adm_check
-          WHERE adm_check.collection = m.collection 
-          AND (adm_check.token_id = m.token_id OR adm_check.token_id = 0)
-          AND adm_check.artist_address = LOWER(p_artist)
-        )
-      )
-      AND (p_chainid IS NULL OR c.chain_id = p_chainid)
+      (p_chainid IS NULL OR c.chain_id = p_chainid)
       AND (
-        p_hidden = true 
-        OR NOT EXISTS (
-          SELECT 1 FROM in_process_admins adm_check
-          WHERE adm_check.collection = m.collection 
-          AND (adm_check.token_id = m.token_id OR adm_check.token_id = 0)
-          AND adm_check.hidden = true
+        -- When p_hidden = true, return all moments regardless of hidden status
+        -- Default case: artist is the default admin
+        (
+          (p_type IS NULL OR p_type = 'default') 
+          AND c.default_admin = LOWER(p_artist)
+          AND (p_hidden = true OR COALESCE(da_admin.hidden, false) = false)
+        )
+        OR
+        -- Mutual case: artist is NOT the default admin but IS in the admins list
+        (
+          (p_type IS NULL OR p_type = 'mutual')
+          AND c.default_admin != LOWER(p_artist)
+          AND EXISTS (
+            SELECT 1 FROM in_process_admins adm_check
+            WHERE adm_check.collection = m.collection 
+            AND (adm_check.token_id = m.token_id OR adm_check.token_id = 0)
+            AND adm_check.artist_address = LOWER(p_artist)
+            AND (p_hidden = true OR adm_check.hidden = false)
+          )
         )
       )
   ),

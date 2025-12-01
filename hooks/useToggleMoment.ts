@@ -30,7 +30,7 @@ export const useToggleMoment = (moment: TimelineMoment) => {
       const response = await toggleMoment(accessToken, {
         collectionAddress: moment.address as Address,
         tokenId: moment.token_id,
-        chainId: moment.chain_id
+        chainId: moment.chain_id,
       });
 
       // Use the actual updated data from the server response
