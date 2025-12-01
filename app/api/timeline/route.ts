@@ -12,7 +12,24 @@ export async function GET(req: NextRequest) {
   const chainId = chainIdParam ? Number(chainIdParam) : CHAIN_ID;
   const hiddenParam = searchParams.get("hidden");
   const hidden = hiddenParam === null ? false : hiddenParam === "true";
-  const type = searchParams.get("type") as "mutual" | "default" | undefined;
+
+  // Validate type parameter with runtime validation
+  const typeParam = searchParams.get("type");
+  let type: "mutual" | "default" | undefined;
+
+  if (typeParam !== null && typeParam !== undefined) {
+    if (typeParam === "mutual" || typeParam === "default") {
+      type = typeParam;
+    } else {
+      return Response.json(
+        {
+          status: "error",
+          message: `Invalid type parameter: "${typeParam}". Must be "mutual" or "default".`,
+        },
+        { status: 400 }
+      );
+    }
+  }
 
   // If artist/address is provided, handle artist timeline
   if (artist) {

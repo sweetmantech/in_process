@@ -14,7 +14,7 @@ const getArtistTimeline = async ({
 }> => {
   const { data, error } = await supabase.rpc("get_artist_timeline", {
     p_artist: artist,
-    p_type: type || null,
+    p_type: type ?? undefined,
     p_limit: limit,
     p_page: page,
     p_chainid: chainId,
