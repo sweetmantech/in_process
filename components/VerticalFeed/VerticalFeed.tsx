@@ -2,11 +2,11 @@ import Slider from "../Slider";
 import { Autoplay } from "swiper/modules";
 import useIsMobile from "@/hooks/useIsMobile";
 import SliderFeed from "./SliderFeed";
-import { useTimelineApiContext } from "@/providers/TimelineApiProvider";
+import { useTimelineContext } from "@/providers/TimelineProvider";
 
 const VerticalFeed = () => {
   const isMobile = useIsMobile();
-  const { moments } = useTimelineApiContext();
+  const { moments } = useTimelineContext();
 
   return (
     <Slider

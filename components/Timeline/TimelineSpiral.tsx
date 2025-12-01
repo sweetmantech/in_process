@@ -8,12 +8,12 @@ import { Point } from "@/types/spiral";
 import { FeedTooltip } from "@/components/SprialFeeds/FeedTooltip";
 import useSpiralMouseOver from "@/hooks/useSpiralMouseOver";
 import Feed from "@/components/SprialFeeds/Feed";
-import { useTimelineApiContext } from "@/providers/TimelineApiProvider";
+import { useTimelineContext } from "@/providers/TimelineProvider";
 
 const TimelineSpiral = () => {
   const { offset, viewBox, animationConfig, points } = useSpiralAnimation();
   const { handleMouseLeave, handleMouseMove, hoveredFeed } = useSpiralMouseOver();
-  const { moments } = useTimelineApiContext();
+  const { moments } = useTimelineContext();
 
   return (
     <div className="relative mt-12">

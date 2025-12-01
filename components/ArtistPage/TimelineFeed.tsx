@@ -1,7 +1,7 @@
 import HorizontalFeed from "../HorizontalFeed";
 import { HorizontalFeedAnimationProvider } from "@/providers/HorizontalFeedAnimationProvider";
 import Loading from "../Loading";
-import { useTimelineApiContext } from "@/providers/TimelineApiProvider";
+import { useTimelineContext } from "@/providers/TimelineProvider";
 import FetchMoreInspector from "../FetchMoreInspector";
 import useIsMobile from "@/hooks/useIsMobile";
 import VerticalFeed from "../VerticalFeed";
@@ -13,7 +13,7 @@ interface TimelineFeedProps {
 
 const TimelineFeed = ({ alt }: TimelineFeedProps) => {
   const isMobile = useIsMobile();
-  const { moments, isLoading, fetchMore } = useTimelineApiContext();
+  const { moments, isLoading, fetchMore } = useTimelineContext();
   const reversedMoments = [...moments].reverse();
 
   if (!Boolean(reversedMoments.length))
