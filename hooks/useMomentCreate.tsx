@@ -45,15 +45,15 @@ export default function useMomentCreate() {
       setCreatedContract(result.contractAddress);
       setCreatedTokenId(result.tokenId?.toString() || "");
 
-      if (mimeType.includes("video")) {
-        await migrateMuxToArweaveApi({
-          moment: {
+      if (mimeType.includes("video") && accessToken) {
+        await migrateMuxToArweaveApi(
+          {
             collectionAddress: createdContract as Address,
-            tokenId: createdTokenId,
+            tokenIds: ["0", createdTokenId],
             chainId: CHAIN_ID,
           },
-          accessToken: accessToken as string,
-        });
+          accessToken
+        );
       }
       return result;
     } catch (err: any) {
