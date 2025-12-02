@@ -2,7 +2,7 @@ import { supabase } from "../client";
 
 const selectAdmins = async ({
   moments,
-  artist_address
+  artist_address,
 }: {
   moments?: Array<{
     collectionId: string;
@@ -23,7 +23,7 @@ const selectAdmins = async ({
   }
 
   if (artist_address) {
-    query = query.eq("artist_address", artist_address.toLowerCase())
+    query = query.eq("artist_address", artist_address.toLowerCase());
   }
 
   const { data, error } = await query;

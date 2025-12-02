@@ -4,7 +4,7 @@ import { CHAIN_ID, IS_TESTNET, USDC_ADDRESS } from "@/lib/consts";
 import { sendUserOperation } from "@/lib/coinbase/sendUserOperation";
 import { getOrCreateSmartWallet } from "../coinbase/getOrCreateSmartWallet";
 import { collectSchema } from "../schema/collectSchema";
-import getTokenInfo from "../viem/getTokenInfo";
+import getTokenInfo from "../viem/getMomentOnChainInfo";
 import { distributeSplitFunds } from "../splits/distributeSplitFunds";
 import isSplitContract from "../splits/isSplitContract";
 import { MomentType } from "@/types/moment";
