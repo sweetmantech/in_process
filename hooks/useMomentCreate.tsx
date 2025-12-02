@@ -48,8 +48,8 @@ export default function useMomentCreate() {
       if (mimeType.includes("video") && accessToken) {
         await migrateMuxToArweaveApi(
           {
-            collectionAddress: createdContract as Address,
-            tokenIds: ["0", createdTokenId],
+            collectionAddress: result.contractAddress as Address,
+            tokenIds: ["0", result.tokenId?.toString()],
             chainId: CHAIN_ID,
           },
           accessToken
