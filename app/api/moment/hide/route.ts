@@ -56,9 +56,9 @@ export async function POST(req: NextRequest) {
         {
           collectionId: collection.id,
           token_id: Number(moment.tokenId),
-          artist_address: artistAddress.toLowerCase(),
         },
       ],
+      artist_address: artistAddress
     });
 
     const admin = admins[0];

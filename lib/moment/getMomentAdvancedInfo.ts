@@ -1,12 +1,13 @@
 import { Moment, MomentAdvancedInfo } from "@/types/moment";
-import selectMoment from "@/lib/supabase/in_process_moments/selectMoment";
 import selectSale from "@/lib/supabase/in_process_sales/selectSale";
 import getMomentOnChainInfo from "@/lib/viem/getTokenInfo";
 import { convertDatabaseSaleToApi } from "@/lib/sales/convertDatabaseSaleToApi";
 import { convertOnChainSaleToApi } from "@/lib/sales/convertOnChainSaleToApi";
+import selectMoments from "../supabase/in_process_moments/selectMoments";
 
 export const getMomentAdvancedInfo = async (moment: Moment): Promise<MomentAdvancedInfo> => {
-  const momentdata = await selectMoment(moment);
+  const moments = await selectMoments(moment);
+  const momentdata = moments[0]
 
   if (momentdata) {
     const uri = momentdata.uri;

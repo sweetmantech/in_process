@@ -10,7 +10,7 @@ import {
 } from "@zoralabs/protocol-deployments";
 import { Moment, MomentType } from "@/types/moment";
 
-const getTokenInfo = async (moment: Moment) => {
+const getMomentAdvancedInfo = async (moment: Moment) => {
   const { collectionAddress, tokenId, chainId } = moment;
   const publicClient: any = getPublicClient(chainId);
   const erc20SaleConfigCall = {
@@ -63,4 +63,4 @@ const getTokenInfo = async (moment: Moment) => {
   };
 };
 
-export default getTokenInfo;
+export default getMomentAdvancedInfo;
