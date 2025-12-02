@@ -1,4 +1,4 @@
-import { MomentApiSaleConfig } from "@/types/moment";
+import { MomentSaleConfig } from "@/types/moment";
 import { erc20MinterABI, zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
 import { Address, encodeAbiParameters, encodeFunctionData, parseAbiParameters } from "viem";
 import { CHAIN_ID, USDC_ADDRESS } from "../consts";
@@ -11,7 +11,7 @@ import {
 const getCollectCall = (
   contractAddress: Address,
   tokenId: number,
-  sale: MomentApiSaleConfig,
+  sale: MomentSaleConfig,
   account: Address,
   comment: string,
   amount: number

@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { MomentApiSaleConfig } from "@/types/moment";
+import { MomentSaleConfig } from "@/types/moment";
 import { CHAIN_ID } from "@/lib/consts";
 import { erc20MinterAddresses } from "@/lib/protocolSdk/constants";
 import getUsdcBalance from "@/lib/balance/getUsdcBalance";
@@ -14,7 +14,7 @@ import { MomentType } from "@/types/moment";
  */
 export async function validateBalanceAndAllowance(
   address: Address,
-  saleConfig: MomentApiSaleConfig,
+  saleConfig: MomentSaleConfig,
   amount: number
 ) {
   const approveCall = [];

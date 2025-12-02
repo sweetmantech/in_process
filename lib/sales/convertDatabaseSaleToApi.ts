@@ -1,8 +1,8 @@
 import { Address, zeroAddress } from "viem";
-import { MomentType, MomentApiSaleConfig } from "@/types/moment";
+import { MomentType, MomentSaleConfig } from "@/types/moment";
 import { DatabaseSale } from "@/types/sale";
 
-export const convertDatabaseSaleToApi = (sale: DatabaseSale): MomentApiSaleConfig => ({
+export const convertDatabaseSaleToApi = (sale: DatabaseSale): MomentSaleConfig => ({
   pricePerToken: sale.price_per_token.toString(),
   saleStart: Number(sale.sale_start),
   saleEnd: Number(sale.sale_end),

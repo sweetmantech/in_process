@@ -1,7 +1,7 @@
-import { MomentApiSaleConfig } from "@/types/moment";
+import { MomentSaleConfig } from "@/types/moment";
 import { OnChainSaleConfig } from "@/types/sale";
 
-export const convertOnChainSaleToApi = (sale: OnChainSaleConfig): MomentApiSaleConfig => ({
+export const convertOnChainSaleToApi = (sale: OnChainSaleConfig): MomentSaleConfig => ({
   pricePerToken: sale.pricePerToken.toString(),
   saleStart: Number(sale.saleStart),
   saleEnd: Number(sale.saleEnd),

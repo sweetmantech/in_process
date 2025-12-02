@@ -123,7 +123,7 @@ export interface GetArtistTimelineResponse {
   pagination: TimelinePagination;
 }
 
-export type MomentApiSaleConfig = {
+export type MomentSaleConfig = {
   pricePerToken: string;
   saleStart: number;
   saleEnd: number;
@@ -135,7 +135,7 @@ export type MomentApiSaleConfig = {
 export type MomentResponse = {
   uri: string | null;
   owner: string | null;
-  saleConfig: MomentApiSaleConfig | null;
+  saleConfig: MomentSaleConfig | null;
   momentAdmins: string[];
   metadata: MomentMetadata;
 };
@@ -143,5 +143,5 @@ export type MomentResponse = {
 export type MomentAdvancedInfo = {
   uri: string | null;
   owner: string | null;
-  saleConfig: MomentApiSaleConfig | null;
+  saleConfig: MomentSaleConfig | null;
 };
