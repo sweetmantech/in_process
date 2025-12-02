@@ -43,15 +43,6 @@ export interface GetInProcessMomentsRpcResponse {
   };
 }
 
-export type SaleConfig = {
-  saleStart: bigint;
-  saleEnd: bigint;
-  maxTokensPerAddress: bigint;
-  pricePerToken: bigint;
-  fundsRecipient: Address;
-  type: string;
-};
-
 export interface MomentMetadata {
   image: string;
   name: string;
