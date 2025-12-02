@@ -58,7 +58,7 @@ export async function POST(req: NextRequest) {
           token_id: Number(moment.tokenId),
         },
       ],
-      artist_address: artistAddress
+      artist_address: artistAddress,
     });
 
     const admin = admins[0];

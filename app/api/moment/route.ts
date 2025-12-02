@@ -36,15 +36,12 @@ export async function GET(req: NextRequest) {
     };
 
     const collections = await selectCollections({
-      moments: [moment]
-    })
+      moments: [moment],
+    });
 
-    const collection = collections[0]
+    const collection = collections[0];
     if (!collection) {
-      return Response.json(
-        { success: false, message: "Collection not found" },
-        { status: 404 }
-      );
+      return Response.json({ success: false, message: "Collection not found" }, { status: 404 });
     }
 
     const { uri, owner, saleConfig } = await getMomentAdvancedInfo(moment);
@@ -55,7 +52,7 @@ export async function GET(req: NextRequest) {
           collectionId: collection.id,
           token_id: Number(moment.tokenId),
         },
-      ]
+      ],
     });
 
     return NextResponse.json({
