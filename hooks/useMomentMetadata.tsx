@@ -26,6 +26,7 @@ const useMomentMetadata = () => {
     previewFile,
     videoFile,
     setUploadProgress,
+    setIsUploading,
   } = useMomentFormProvider();
   const { uploadWriting } = useWriting();
   const { uploadEmbedCode } = useEmbedCode();
@@ -39,10 +40,22 @@ const useMomentMetadata = () => {
     let image = "";
 
     // Upload video to Mux if video file exists (deferred upload)
-    const videoResult = await uploadVideoToMuxIfNeeded(videoFile, mimeType, getAccessToken);
+    if (videoFile && mimeType.includes("video")) {
+      setIsUploading(true);
+      setUploadProgress(0);
+    }
+    const videoResult = await uploadVideoToMuxIfNeeded(
+      videoFile,
+      mimeType,
+      getAccessToken,
+      setUploadProgress
+    );
     if (videoResult.animationUrl) {
       animation_url = videoResult.animationUrl;
       contentUri = videoResult.contentUri;
+    }
+    if (videoFile && mimeType.includes("video")) {
+      setUploadProgress(100);
     }
 
     // Upload files to Arweave if they exist as blobs (deferred upload)
