@@ -8,8 +8,7 @@ import {
   zoraCreator1155ImplABI,
   zoraCreatorFixedPriceSaleStrategyABI,
 } from "@zoralabs/protocol-deployments";
-import { MomentType } from "@/types/moment";
-import { Moment } from "@/types/moment";
+import { MomentType, Moment } from "@/types/moment";
 
 const getMomentOnChainInfo = async (moment: Moment) => {
   const { collectionAddress, tokenId, chainId } = moment;
