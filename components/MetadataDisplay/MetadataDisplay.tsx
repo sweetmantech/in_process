@@ -75,7 +75,7 @@ const MetadataDisplay = () => {
           "/images/placeholder.png"
         }
         alt={metadata?.name || metadata?.description || "Token image"}
-        className="absolute inset-0 w-full h-full object-cover block"
+        className="absolute inset-0 w-full h-full block"
         loading="lazy"
         decoding="async"
         draggable={false}

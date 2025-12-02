@@ -1,33 +1,49 @@
 import base64ToFile from "@/lib/base64ToFile";
+import { PDFJS_DIST_VERSION } from "@/lib/consts";
 
 export interface PdfPreviewResult {
   previewFile: File;
 }
 
+// Module-level singleton Promise to prevent multiple script tags
+let pdfJsLoadPromise: Promise<any> | null = null;
+
 // Load pdfjs-dist from CDN
 const loadPdfJs = async () => {
-  // Check if already loaded
+  // Check if already loaded - return resolved promise immediately
   if (typeof window !== "undefined" && (window as any).pdfjsLib) {
-    return (window as any).pdfjsLib;
+    return Promise.resolve((window as any).pdfjsLib);
   }
 
-  // Load from CDN
-  return new Promise((resolve, reject) => {
+  // Return existing promise if one is already loading
+  if (pdfJsLoadPromise) {
+    return pdfJsLoadPromise;
+  }
+
+  // Create and assign the single Promise that loads the script
+  pdfJsLoadPromise = new Promise((resolve, reject) => {
     const script = document.createElement("script");
-    script.src = "https://unpkg.com/pdfjs-dist@2.16.105/build/pdf.min.js";
+    script.src = `https://unpkg.com/pdfjs-dist@${PDFJS_DIST_VERSION}/build/pdf.min.js`;
     script.onload = () => {
       const pdfjsLib = (window as any).pdfjsLib || (window as any).pdfjs;
       if (!pdfjsLib) {
+        pdfJsLoadPromise = null; // Clear on error so it can be retried
         reject(new Error("Failed to load pdfjs-dist"));
         return;
       }
       // Store pdfjsLib - we'll pass workerSrc directly to getDocument
       (window as any).pdfjsLib = pdfjsLib;
+      // Retain promise on success so future calls get cached result
       resolve(pdfjsLib);
     };
-    script.onerror = () => reject(new Error("Failed to load pdfjs-dist script"));
+    script.onerror = () => {
+      pdfJsLoadPromise = null; // Clear on error so it can be retried
+      reject(new Error("Failed to load pdfjs-dist script"));
+    };
     document.head.appendChild(script);
   });
+
+  return pdfJsLoadPromise;
 };
 
 export const capturePdfPreview = async (file: File): Promise<PdfPreviewResult> => {
@@ -41,7 +57,7 @@ export const capturePdfPreview = async (file: File): Promise<PdfPreviewResult> =
     try {
       if (pdfjsLib.GlobalWorkerOptions && pdfjsLib.GlobalWorkerOptions.workerSrc === undefined) {
         Object.defineProperty(pdfjsLib.GlobalWorkerOptions, "workerSrc", {
-          value: "https://unpkg.com/pdfjs-dist@2.16.105/build/pdf.worker.js",
+          value: `https://unpkg.com/pdfjs-dist@${PDFJS_DIST_VERSION}/build/pdf.worker.js`,
           writable: true,
           configurable: true,
         });
@@ -53,7 +69,7 @@ export const capturePdfPreview = async (file: File): Promise<PdfPreviewResult> =
     // Load PDF document with worker source
     const loadingTask = pdfjsLib.getDocument({
       url: pdfUrl,
-      workerSrc: "https://unpkg.com/pdfjs-dist@2.16.105/build/pdf.worker.js",
+      workerSrc: `https://unpkg.com/pdfjs-dist@${PDFJS_DIST_VERSION}/build/pdf.worker.js`,
     });
     const pdf = await loadingTask.promise;
 

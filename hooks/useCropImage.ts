@@ -61,9 +61,10 @@ export default function useCropImage(): UseCropImageReturn {
       return;
     }
 
+    let resultUrl: string | null = null;
     try {
       setIsUploading(true);
-      const resultUrl = (await getCroppedImg(imageSrc, croppedAreaPixels, rotation)) as string;
+      resultUrl = (await getCroppedImg(imageSrc, croppedAreaPixels, rotation)) as string;
 
       if (!resultUrl) {
         throw new Error("Failed to generate cropped image");
@@ -71,6 +72,10 @@ export default function useCropImage(): UseCropImageReturn {
 
       const response = await fetch(resultUrl);
       const blob = await response.blob();
+      // Revoke the temporary blob URL now that we have the blob
+      URL.revokeObjectURL(resultUrl);
+      resultUrl = null;
+
       // Add timestamp to filename to ensure React detects the File change
       const timestamp = Date.now();
       const file = new File([blob], `preview-${timestamp}.jpeg`, {
@@ -82,6 +87,10 @@ export default function useCropImage(): UseCropImageReturn {
     } catch (err) {
       console.error("Error saving cropped image:", err);
     } finally {
+      // Ensure blob URL is revoked even if an error occurred
+      if (resultUrl) {
+        URL.revokeObjectURL(resultUrl);
+      }
       setIsUploading(false);
     }
   };

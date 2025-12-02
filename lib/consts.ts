@@ -47,6 +47,8 @@ export const INDEXER_ID = "802bf29";
 export const TIMLINE_STEP_OFFSET = 12;
 export const Z_BEHIND_PRIVY = 999999;
 
+export const PDFJS_DIST_VERSION = "2.16.105";
+
 export const SPIRAL_POINTS: Point[] = [
   [14, 123],
   [48, 115],
