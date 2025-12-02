@@ -1,20 +1,9 @@
-import { Address, Hash } from "viem";
+import { Hash } from "viem";
 import { CHAIN_ID, IS_TESTNET } from "@/lib/consts";
 import { sendUserOperation } from "@/lib/coinbase/sendUserOperation";
-import getUpdateTokenURICall from "@/lib/viem/getUpdateTokenURICall";
 import { getOrCreateSmartWallet } from "@/lib/coinbase/getOrCreateSmartWallet";
-import { Moment } from "@/types/moment";
-
-export interface UpdateMomentURIInput {
-  moment: Moment;
-  newUri: string;
-  artistAddress: Address;
-}
-
-export interface UpdateMomentURIResult {
-  hash: Hash;
-  chainId: number;
-}
+import getUpdateTokenURICall from "@/lib/viem/getUpdateTokenURICall";
+import { UpdateMomentURIInput, UpdateMomentURIResult } from "@/types/moment";
 
 /**
  * Updates moment URI using a smart account via Coinbase CDP.

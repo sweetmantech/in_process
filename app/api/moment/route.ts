@@ -54,7 +54,7 @@ export async function GET(req: NextRequest) {
       uri,
       owner,
       saleConfig,
-      momentAdmins: admins.map((admin) => admin.artist_address),
+      momentAdmins: collection ? admins.map((admin) => admin.artist_address) : [owner],
       metadata: {
         name: metadata.name || "",
         image: metadata.image || "",

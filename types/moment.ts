@@ -1,4 +1,4 @@
-import { Address } from "viem";
+import { Address, Hash } from "viem";
 import type { Database } from "@/lib/supabase/types";
 
 export interface Moment {
@@ -136,3 +136,14 @@ export type MomentAdvancedInfo = {
   owner: string | null;
   saleConfig: MomentSaleConfig | null;
 };
+
+export interface UpdateMomentURIInput {
+  moment: Moment;
+  newUri: string;
+  artistAddress: Address;
+}
+
+export interface UpdateMomentURIResult {
+  hash: Hash;
+  chainId: number;
+}
