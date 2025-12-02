@@ -14,8 +14,6 @@ interface UseCropImageReturn {
   onCropComplete: (_: Area, cropped: Area) => void;
   saveCroppedImage: () => Promise<void>;
   isUploading: boolean;
-  hasUploadedSelectedImage: boolean;
-  setHasUploadedSelectedImage: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function useCropImage(): UseCropImageReturn {
@@ -25,41 +23,64 @@ export default function useCropImage(): UseCropImageReturn {
   const [zoom, setZoom] = useState<number>(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
   const [isUploading, setIsUploading] = useState<boolean>(false);
-  const [hasUploadedSelectedImage, setHasUploadedSelectedImage] = useState<boolean>(false);
   const [imageSrc, setImageSrc] = useState<string>("");
 
   // Create blob URL from previewFile (cropped) or imageFile (original)
   useEffect(() => {
     const fileToUse = previewFile || imageFile;
-    if (fileToUse && hasUploadedSelectedImage) {
+    if (fileToUse) {
       const blobUrl = URL.createObjectURL(fileToUse);
       setImageSrc(blobUrl);
+      // Reset crop state when image changes
+      setCrop({ x: 0, y: 0 });
+      setZoom(1);
+      setRotation(0);
+      setCroppedAreaPixels(null);
       return () => URL.revokeObjectURL(blobUrl);
     } else {
       setImageSrc("");
+      setCroppedAreaPixels(null);
     }
-  }, [previewFile, imageFile, hasUploadedSelectedImage]);
+  }, [previewFile, imageFile]);
 
   const onCropComplete = (_: Area, cropped: Area) => {
     setCroppedAreaPixels(cropped);
   };
 
   const saveCroppedImage = async () => {
-    if (!croppedAreaPixels || isUploading || !imageSrc) return;
+    if (!imageSrc) {
+      console.error("saveCroppedImage: imageSrc is empty");
+      return;
+    }
+    if (isUploading) {
+      console.error("saveCroppedImage: already uploading");
+      return;
+    }
+    if (!croppedAreaPixels) {
+      console.error("saveCroppedImage: croppedAreaPixels is null - crop the image first");
+      return;
+    }
 
     try {
       setIsUploading(true);
       const resultUrl = (await getCroppedImg(imageSrc, croppedAreaPixels, rotation)) as string;
 
+      if (!resultUrl) {
+        throw new Error("Failed to generate cropped image");
+      }
+
       const response = await fetch(resultUrl);
       const blob = await response.blob();
-      const file = new File([blob], "preview.jpeg", {
+      // Add timestamp to filename to ensure React detects the File change
+      const timestamp = Date.now();
+      const file = new File([blob], `preview-${timestamp}.jpeg`, {
         type: blob.type || "image/jpeg",
+        lastModified: timestamp,
       });
 
       setPreviewFile(file);
     } catch (err) {
-      console.error(err);
+      console.error("Error saving cropped image:", err);
     } finally {
       setIsUploading(false);
     }
@@ -75,7 +96,5 @@ export default function useCropImage(): UseCropImageReturn {
     onCropComplete,
     saveCroppedImage,
     isUploading,
-    hasUploadedSelectedImage,
-    setHasUploadedSelectedImage,
   };
 }

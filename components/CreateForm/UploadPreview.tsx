@@ -14,11 +14,7 @@ const UploadPreview = () => {
   const [progress, setProgress] = useState<number>(0);
   const previewRef = useRef() as any;
   const [isUploading, setIsUploading] = useState<boolean>(false);
-  const {
-    saveCroppedImage,
-    isUploading: isUploadingCrop,
-    setHasUploadedSelectedImage,
-  } = useCropImageProvider();
+  const { saveCroppedImage, isUploading: isUploadingCrop } = useCropImageProvider();
 
   const handleClick = () => {
     if (!previewRef.current) return;
@@ -37,7 +33,6 @@ const UploadPreview = () => {
     await clientUploadToArweave(file, (value: number) => setProgress(value));
     setPreviewFile(file);
     setIsUploading(false);
-    setHasUploadedSelectedImage(true);
   };
 
   const handleDoneClick = async () => {

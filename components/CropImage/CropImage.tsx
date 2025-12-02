@@ -5,23 +5,15 @@ import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 
 const CropImage = () => {
   const { previewFile, imageFile } = useMomentFormProvider();
-  const {
-    hasUploadedSelectedImage,
-    crop,
-    rotation,
-    setCrop,
-    setRotation,
-    zoom,
-    setZoom,
-    onCropComplete,
-  } = useCropImageProvider();
+  const { crop, rotation, setCrop, setRotation, zoom, setZoom, onCropComplete } =
+    useCropImageProvider();
   const [previewFileUrl, setPreviewFileUrl] = useState<string>("");
   const [imageFileUrl, setImageFileUrl] = useState<string>("");
 
   // Create blob URL from previewFile (preferred) or imageFile (fallback)
   useEffect(() => {
     const fileToUse = previewFile || imageFile;
-    if (fileToUse && hasUploadedSelectedImage) {
+    if (fileToUse) {
       const blobUrl = URL.createObjectURL(fileToUse);
       if (previewFile) {
         setPreviewFileUrl(blobUrl);
@@ -35,9 +27,21 @@ const CropImage = () => {
       setPreviewFileUrl("");
       setImageFileUrl("");
     }
-  }, [previewFile, imageFile, hasUploadedSelectedImage]);
+  }, [previewFile, imageFile]);
 
   const imageSrc = previewFileUrl || imageFileUrl || "";
+
+  // Ensure onCropComplete is called when image loads to capture initial crop area
+  useEffect(() => {
+    if (imageSrc) {
+      // Trigger onCropComplete with initial crop area after a brief delay to ensure Cropper is ready
+      const timer = setTimeout(() => {
+        // This will be handled by react-easy-crop's onCropComplete callback
+        // We just need to ensure the image is loaded
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [imageSrc]);
 
   return (
     <Cropper

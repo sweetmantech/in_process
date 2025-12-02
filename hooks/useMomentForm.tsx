@@ -24,6 +24,10 @@ const useMomentForm = () => {
   const [previewFile, setPreviewFile] = useState<File | null>(null);
   const [videoFile, setVideoFile] = useState<File | null>(null);
 
+  // Upload progress state
+  const [uploadProgress, setUploadProgress] = useState<number>(0);
+  const [isUploading, setIsUploading] = useState<boolean>(false);
+
   // Advanced values state
   const [startDate, setStartDate] = useState<Date>();
   const [isOpenAdvanced, setIsOpenAdvanced] = useState<boolean>(false);
@@ -172,6 +176,12 @@ const useMomentForm = () => {
     setPreviewFile,
     videoFile,
     setVideoFile,
+
+    // Upload progress
+    uploadProgress,
+    setUploadProgress,
+    isUploading,
+    setIsUploading,
   };
 };
 

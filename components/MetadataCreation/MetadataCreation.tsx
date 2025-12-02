@@ -32,7 +32,7 @@ const MetadataCreation = () => {
       />
       {selected ? (
         <>
-          {!createdContract && <ResetButton onClick={handleReset} disabled={false} />}
+          {!createdContract && <ResetButton onClick={handleReset} />}
           <PreviewContainer handleImageClick={handleImageClick} />
         </>
       ) : (

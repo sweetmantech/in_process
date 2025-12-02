@@ -5,18 +5,50 @@ import WritingPreview from "./WritingPreview";
 import { Fragment, ReactNode, useState, useEffect } from "react";
 import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 
-const PreviewContainer = ({ children }: { children: ReactNode }) => {
+const PreviewContainer = ({
+  children,
+  showProgress,
+  uploadProgress,
+}: {
+  children: ReactNode;
+  showProgress?: boolean;
+  uploadProgress?: number;
+}) => {
   return (
     <Fragment>
       <Label>preview</Label>
       <section className="mt-1 aspect-video border border-grey relative overflow-hidden cursor-pointer font-spectral">
         {children}
+        {showProgress && (
+          <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center z-10">
+            <div className="text-white font-archivo-medium text-lg mb-2">
+              Uploading to Arweave...
+            </div>
+            <div className="w-3/4 bg-grey-moss-300 rounded-full h-2 overflow-hidden">
+              <div
+                className="bg-grey-moss-900 h-full transition-all duration-300"
+                style={{ width: `${uploadProgress || 0}%` }}
+              />
+            </div>
+            <div className="text-white font-spectral text-sm mt-2">
+              {Math.round(uploadProgress || 0)}%
+            </div>
+          </div>
+        )}
       </section>
     </Fragment>
   );
 };
 const Preview = () => {
-  const { writingText, previewFile, videoFile, animationFile, imageFile } = useMomentFormProvider();
+  const {
+    writingText,
+    previewFile,
+    videoFile,
+    animationFile,
+    imageFile,
+    isUploading,
+    uploadProgress,
+  } = useMomentFormProvider();
   const [previewFileUrl, setPreviewFileUrl] = useState<string>("");
 
   useEffect(() => {
@@ -37,8 +69,9 @@ const Preview = () => {
   return (
     <div>
       {showImagePreview && previewFileUrl && (
-        <PreviewContainer>
+        <PreviewContainer showProgress={isUploading} uploadProgress={uploadProgress}>
           <Image
+            key={previewFile ? `${previewFile.name}-${previewFile.lastModified}` : previewFileUrl}
             layout="fill"
             objectFit="cover"
             objectPosition="center"
@@ -48,7 +81,7 @@ const Preview = () => {
         </PreviewContainer>
       )}
       {showWritingPreview && (
-        <PreviewContainer>
+        <PreviewContainer showProgress={isUploading} uploadProgress={uploadProgress}>
           <WritingPreview />
         </PreviewContainer>
       )}

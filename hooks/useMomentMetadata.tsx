@@ -25,6 +25,7 @@ const useMomentMetadata = () => {
     animationFile,
     previewFile,
     videoFile,
+    setUploadProgress,
   } = useMomentFormProvider();
   const { uploadWriting } = useWriting();
   const { uploadEmbedCode } = useEmbedCode();
@@ -49,7 +50,8 @@ const useMomentMetadata = () => {
       previewFile,
       imageFile,
       animationFile,
-      animation_url
+      animation_url,
+      setUploadProgress
     );
 
     // Use file upload results for metadata (preview uses blob files, so no need to update state)
