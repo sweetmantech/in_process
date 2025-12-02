@@ -4,6 +4,7 @@ import selectAdmins from "@/lib/supabase/in_process_admins/selectAdmins";
 import { getMomentAdvancedInfo } from "@/lib/moment/getMomentAdvancedInfo";
 import selectCollections from "@/lib/supabase/in_process_collections/selectCollections";
 import { momentSchema } from "@/lib/schema/momentSchema";
+import { Database } from "@/lib/supabase/types";
 
 export async function GET(req: NextRequest) {
   try {
@@ -33,26 +34,27 @@ export async function GET(req: NextRequest) {
     });
 
     const collection = collections[0];
-    if (!collection) {
-      return Response.json({ success: false, message: "Collection not found" }, { status: 404 });
-    }
 
     const { uri, owner, saleConfig } = await getMomentAdvancedInfo(moment);
     const metadata = await fetchTokenMetadata(uri || "");
-    const admins = await selectAdmins({
-      moments: [
-        {
-          collectionId: collection.id,
-          token_id: Number(moment.tokenId),
-        },
-      ],
-    });
+
+    let admins: Database["public"]["Tables"]["in_process_admins"]["Row"][] = [];
+    if (collection) {
+      admins = await selectAdmins({
+        moments: [
+          {
+            collectionId: collection.id,
+            token_id: Number(moment.tokenId),
+          },
+        ],
+      });
+    }
 
     return NextResponse.json({
       uri,
       owner,
       saleConfig,
-      momentAdmins: admins.map((admin) => admin.artist_address),
+      momentAdmins: collection ? admins.map((admin) => admin.artist_address) : [owner],
       metadata: {
         name: metadata.name || "",
         image: metadata.image || "",

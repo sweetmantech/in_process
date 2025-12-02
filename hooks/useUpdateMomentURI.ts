@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useMomentProvider } from "@/providers/MomentProvider";
-import { CHAIN_ID } from "@/lib/consts";
 import { usePrivy } from "@privy-io/react-auth";
 import { uploadJson } from "@/lib/arweave/uploadJson";
 import { fetchTokenMetadata } from "@/lib/protocolSdk/ipfs/token-metadata";
@@ -37,7 +36,7 @@ const useUpdateMomentURI = () => {
       let animation_url = current?.animation_url || "";
       let image = current?.image || "";
       let contentUri = current?.content?.uri || "";
-      let updatedMimeType = mimeType || current?.content?.mime || "";
+      const updatedMimeType = mimeType || current?.content?.mime || "";
 
       // Upload video to Mux if video file exists
       const videoResult = await uploadVideoToMuxIfNeeded(videoFile, mimeType, getAccessToken);
@@ -96,10 +95,14 @@ const useUpdateMomentURI = () => {
       });
 
       if (updatedMimeType?.includes("video")) {
-        await migrateMuxToArweaveApi({
-          moment,
-          accessToken,
-        });
+        await migrateMuxToArweaveApi(
+          {
+            collectionAddress: moment.collectionAddress,
+            tokenIds: [moment.tokenId],
+            chainId: moment.chainId,
+          },
+          accessToken
+        );
         resetForm();
       }
 
