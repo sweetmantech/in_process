@@ -2,8 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { fetchTokenMetadata } from "@/lib/protocolSdk/ipfs/token-metadata";
 import selectAdmins from "@/lib/supabase/in_process_admins/selectAdmins";
 import { getMomentAdvancedInfo } from "@/lib/moment/getMomentAdvancedInfo";
-import { getAddress } from "viem";
-import { Moment } from "@/types/moment";
 import selectCollections from "@/lib/supabase/in_process_collections/selectCollections";
 import { momentSchema } from "@/lib/schema/momentSchema";
 
@@ -28,12 +26,7 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    const { collectionAddress, tokenId, chainId } = parseResult.data;
-    const moment: Moment = {
-      collectionAddress: getAddress(collectionAddress),
-      tokenId,
-      chainId,
-    };
+    const moment = parseResult.data;
 
     const collections = await selectCollections({
       moments: [moment],
