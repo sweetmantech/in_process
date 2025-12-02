@@ -4,13 +4,13 @@ import { CHAIN_ID, IS_TESTNET, USDC_ADDRESS } from "@/lib/consts";
 import { sendUserOperation } from "@/lib/coinbase/sendUserOperation";
 import { getOrCreateSmartWallet } from "../coinbase/getOrCreateSmartWallet";
 import { collectSchema } from "../schema/collectSchema";
-import getTokenInfo from "../viem/getMomentOnChainInfo";
 import { distributeSplitFunds } from "../splits/distributeSplitFunds";
 import isSplitContract from "../splits/isSplitContract";
 import { MomentType } from "@/types/moment";
 import getCollectCall from "../viem/getCollectCall";
 import { validateBalanceAndAllowance } from "./validateBalanceAndAllowance";
 import { Call } from "@coinbase/coinbase-sdk/dist/types/calls";
+import { getMomentAdvancedInfo } from "./getMomentAdvancedInfo";
 
 export type CollectMomentInput = z.infer<typeof collectSchema> & { artistAddress: Address };
 
@@ -35,7 +35,11 @@ export async function collectMoment({
   });
 
   // Get token info and sale config
-  const { saleConfig } = await getTokenInfo(moment);
+  const { saleConfig } = await getMomentAdvancedInfo(moment);
+
+  if (!saleConfig) {
+    throw new Error("Sale config not found");
+  }
 
   const approveCall = await validateBalanceAndAllowance(smartAccount.address, saleConfig, amount);
 

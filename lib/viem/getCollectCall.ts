@@ -1,4 +1,4 @@
-import { SaleConfig } from "@/types/moment";
+import { MomentApiSaleConfig } from "@/types/moment";
 import { erc20MinterABI, zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
 import { Address, encodeAbiParameters, encodeFunctionData, parseAbiParameters } from "viem";
 import { CHAIN_ID, USDC_ADDRESS } from "../consts";
@@ -11,7 +11,7 @@ import {
 const getCollectCall = (
   contractAddress: Address,
   tokenId: number,
-  sale: SaleConfig,
+  sale: MomentApiSaleConfig,
   account: Address,
   comment: string,
   amount: number
@@ -21,7 +21,7 @@ const getCollectCall = (
     comment,
   ]);
 
-  const totalPrice = sale.pricePerToken * BigInt(amount);
+  const totalPrice = BigInt(sale.pricePerToken) * BigInt(amount);
   if (sale.type === MomentType.Erc20Mint) {
     return {
       to: erc20MinterAddresses[CHAIN_ID],
