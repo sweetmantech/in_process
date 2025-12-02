@@ -9,12 +9,12 @@ import { useMomentMetadataProvider } from "@/providers/MomentMetadataProvider";
 const useMomentCreateParameters = () => {
   const { artistWallet } = useUserProvider();
   const { form, priceUnit, price, startDate, name } = useMomentFormProvider();
-  const { getUri } = useMomentMetadataProvider();
+  const { generateMetadataUri } = useMomentMetadataProvider();
 
   // Use priceUnit to determine if USDC
   const isUsdc = priceUnit === "usdc";
   const fetchParameters = async (collection: Address | undefined) => {
-    const momentMetadataUri = await getUri();
+    const momentMetadataUri = await generateMetadataUri();
     if (!name) return;
     const salesConfig = getSalesConfig(
       getSaleConfigType(isUsdc ? "erc20Mint" : "fixedPrice"),

@@ -1,8 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Area } from "react-easy-crop";
 import getCroppedImg from "@/lib/cropImage/getCroppedImage";
 import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
-import { arweaveGatewayUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 
 interface UseCropImageReturn {
@@ -20,21 +19,33 @@ interface UseCropImageReturn {
 }
 
 export default function useCropImage(): UseCropImageReturn {
-  const { setPreviewUri, setPreviewSrc, previewSrc, imageUri } = useMomentFormProvider();
+  const { setPreviewFile, previewFile, imageFile } = useMomentFormProvider();
   const [crop, setCrop] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
   const [rotation, setRotation] = useState<number>(0);
   const [zoom, setZoom] = useState<number>(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const [hasUploadedSelectedImage, setHasUploadedSelectedImage] = useState<boolean>(false);
-  const imageSrc = hasUploadedSelectedImage ? previewSrc : arweaveGatewayUrl(imageUri) || "";
+  const [imageSrc, setImageSrc] = useState<string>("");
+
+  // Create blob URL from previewFile (cropped) or imageFile (original)
+  useEffect(() => {
+    const fileToUse = previewFile || imageFile;
+    if (fileToUse && hasUploadedSelectedImage) {
+      const blobUrl = URL.createObjectURL(fileToUse);
+      setImageSrc(blobUrl);
+      return () => URL.revokeObjectURL(blobUrl);
+    } else {
+      setImageSrc("");
+    }
+  }, [previewFile, imageFile, hasUploadedSelectedImage]);
 
   const onCropComplete = (_: Area, cropped: Area) => {
     setCroppedAreaPixels(cropped);
   };
 
   const saveCroppedImage = async () => {
-    if (!croppedAreaPixels || isUploading || !imageUri) return;
+    if (!croppedAreaPixels || isUploading || !imageSrc) return;
 
     try {
       setIsUploading(true);
@@ -46,10 +57,7 @@ export default function useCropImage(): UseCropImageReturn {
         type: blob.type || "image/jpeg",
       });
 
-      const uri = await clientUploadToArweave(file);
-
-      setPreviewSrc(resultUrl);
-      setPreviewUri(uri);
+      setPreviewFile(file);
     } catch (err) {
       console.error(err);
     } finally {

@@ -2,16 +2,16 @@ import { useMomentCreateProvider } from "@/providers/MomentCreateProvider/Moment
 import { Fragment, useRef } from "react";
 import NoFileSelected from "./NoFileSelected";
 import ResetButton from "./ResetButton";
-import MediaUploaded from "./MediaUploaded";
+import PreviewContainer from "./PreviewContainer";
 import { useMomentMetadataProvider } from "@/providers/MomentMetadataProvider";
 import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 
 const MetadataCreation = () => {
-  const { fileUpload, fileUploading } = useMomentMetadataProvider();
+  const { selectFile } = useMomentMetadataProvider();
   const { createdContract } = useMomentCreateProvider();
-  const { imageUri, animationUri, resetForm } = useMomentFormProvider();
+  const { resetForm, previewFile, videoFile, animationFile, imageFile } = useMomentFormProvider();
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const selected = imageUri || animationUri || fileUploading;
+  const selected = previewFile || videoFile || animationFile || imageFile;
 
   const handleImageClick = () => fileInputRef.current?.click();
 
@@ -27,13 +27,13 @@ const MetadataCreation = () => {
         id="media"
         type="file"
         className={`cursor-pointer ${selected ? "hidden" : "z-2 size-full absolute opacity-0"}`}
-        onChange={fileUpload}
+        onChange={selectFile}
         disabled={Boolean(createdContract)}
       />
       {selected ? (
         <>
-          {!createdContract && <ResetButton onClick={handleReset} disabled={fileUploading} />}
-          <MediaUploaded handleImageClick={handleImageClick} />
+          {!createdContract && <ResetButton onClick={handleReset} disabled={false} />}
+          <PreviewContainer handleImageClick={handleImageClick} />
         </>
       ) : (
         <NoFileSelected />

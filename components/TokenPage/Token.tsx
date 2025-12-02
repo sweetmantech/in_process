@@ -6,7 +6,7 @@ import MetaAndComments from "./MetaAndComments";
 import MomentCollected from "./MomentCollected";
 import useIsMobile from "@/hooks/useIsMobile";
 import CommentSection from "./CommentSection";
-import ContentRenderer from "../Renderers";
+import MetadataDisplay from "../MetadataDisplay";
 import BackToTimeline from "./BackToTimeline";
 import MomentAirdrop from "../MomentAirdrop/MomentAirdrop";
 import { useMomentCollectProvider } from "@/providers/MomentCollectProvider";
@@ -26,7 +26,7 @@ const Token = () => {
               {collected ? <MomentCollected /> : <MetaAndComments commentsHidden={isMobile} />}
               <div className="grow w-full flex justify-center">
                 <div className="relative w-full aspect-[576/700] h-fit overflow-hidden font-spectral">
-                  <ContentRenderer metadata={metadata} />
+                  <MetadataDisplay />
                 </div>
               </div>
             </div>

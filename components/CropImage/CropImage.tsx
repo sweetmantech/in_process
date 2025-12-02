@@ -1,10 +1,10 @@
+import { useState, useEffect } from "react";
 import Cropper from "react-easy-crop";
 import { useCropImageProvider } from "@/providers/CropImageProvider";
-import { arweaveGatewayUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 
 const CropImage = () => {
-  const { previewSrc, imageUri } = useMomentFormProvider();
+  const { previewFile, imageFile } = useMomentFormProvider();
   const {
     hasUploadedSelectedImage,
     crop,
@@ -15,7 +15,29 @@ const CropImage = () => {
     setZoom,
     onCropComplete,
   } = useCropImageProvider();
-  const imageSrc = hasUploadedSelectedImage ? previewSrc : arweaveGatewayUrl(imageUri) || "";
+  const [previewFileUrl, setPreviewFileUrl] = useState<string>("");
+  const [imageFileUrl, setImageFileUrl] = useState<string>("");
+
+  // Create blob URL from previewFile (preferred) or imageFile (fallback)
+  useEffect(() => {
+    const fileToUse = previewFile || imageFile;
+    if (fileToUse && hasUploadedSelectedImage) {
+      const blobUrl = URL.createObjectURL(fileToUse);
+      if (previewFile) {
+        setPreviewFileUrl(blobUrl);
+        setImageFileUrl("");
+      } else {
+        setImageFileUrl(blobUrl);
+        setPreviewFileUrl("");
+      }
+      return () => URL.revokeObjectURL(blobUrl);
+    } else {
+      setPreviewFileUrl("");
+      setImageFileUrl("");
+    }
+  }, [previewFile, imageFile, hasUploadedSelectedImage]);
+
+  const imageSrc = previewFileUrl || imageFileUrl || "";
 
   return (
     <Cropper

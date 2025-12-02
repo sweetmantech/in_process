@@ -2,12 +2,11 @@ import { useMomentCreateProvider } from "@/providers/MomentCreateProvider/Moment
 import { X } from "lucide-react";
 import Image from "next/image";
 import isHtml from "is-html";
-import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 
 const EmbedPage = () => {
   const { createdContract } = useMomentCreateProvider();
-  const { embedCode, setEmbedCode, animationUri, name } = useMomentFormProvider();
+  const { embedCode, setEmbedCode, name } = useMomentFormProvider();
 
   if (createdContract)
     return (
@@ -18,13 +17,7 @@ const EmbedPage = () => {
           }}
         />
         <div className="text-center py-4 bg-white">
-          <a
-            className="font-spectral-italic hover:text-grey-moss-400"
-            href={getFetchableUrl(animationUri) || "#"}
-            target="_blank"
-          >
-            {name}
-          </a>
+          <p className="font-spectral-italic">{name}</p>
         </div>
       </div>
     );

@@ -2,7 +2,7 @@ import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
 import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 
 const useEmbedCode = () => {
-  const { setAnimationUri, embedCode } = useMomentFormProvider();
+  const { embedCode } = useMomentFormProvider();
 
   const uploadEmbedCode = async () => {
     const blob = new Blob(
@@ -17,7 +17,6 @@ const useEmbedCode = () => {
     const fileType = "text/html";
     const textImage = new File([blob], fileName, { type: fileType });
     const uri = await clientUploadToArweave(textImage);
-    setAnimationUri(uri);
     return uri;
   };
 

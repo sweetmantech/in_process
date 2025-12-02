@@ -9,7 +9,7 @@ import CropImage from "@/components/CropImage";
 import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 
 const UploadPreview = () => {
-  const { previewUri, setPreviewUri, writingText, setIsOpenPreviewUpload, setPreviewSrc } =
+  const { writingText, setIsOpenPreviewUpload, setPreviewFile, previewFile } =
     useMomentFormProvider();
   const [progress, setProgress] = useState<number>(0);
   const previewRef = useRef() as any;
@@ -34,9 +34,8 @@ const UploadPreview = () => {
       toast.error("please, select only image file.");
       return;
     }
-    const previewUri = await clientUploadToArweave(file, (value: number) => setProgress(value));
-    setPreviewSrc(URL.createObjectURL(file));
-    setPreviewUri(previewUri);
+    await clientUploadToArweave(file, (value: number) => setProgress(value));
+    setPreviewFile(file);
     setIsUploading(false);
     setHasUploadedSelectedImage(true);
   };
@@ -57,7 +56,7 @@ const UploadPreview = () => {
         onChange={handlePreviewUpload}
       />
       <div className="w-3/4 aspect-video relative border border-grey mt-2 font-spectral overflow-hidden">
-        {previewUri && !isUploading ? (
+        {previewFile && !isUploading ? (
           <CropImage />
         ) : (
           <>

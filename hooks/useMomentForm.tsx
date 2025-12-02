@@ -11,16 +11,18 @@ const useMomentForm = () => {
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState<string>("");
   const [isTimedSale, setIsTimedSale] = useState<boolean>(false);
-  const [imageUri, setImageUri] = useState<string>("");
   const [mimeType, setMimeType] = useState<string>("");
-  const [animationUri, setAnimationUri] = useState<string>("");
   const [downloadUrl, setDownloadUrl] = useState<string>("");
-  const [previewUri, setPreviewUri] = useState<string>("");
   const [isOpenPreviewUpload, setIsOpenPreviewUpload] = useState<boolean>(false);
-  const [previewSrc, setPreviewSrc] = useState<string>("");
   const [embedCode, setEmbedCode] = useState("");
   const [link, setLink] = useState<string>("");
   const [writingText, setWritingText] = useState<string>("");
+
+  // Store File blobs for deferred upload
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [animationFile, setAnimationFile] = useState<File | null>(null);
+  const [previewFile, setPreviewFile] = useState<File | null>(null);
+  const [videoFile, setVideoFile] = useState<File | null>(null);
 
   // Advanced values state
   const [startDate, setStartDate] = useState<Date>();
@@ -32,19 +34,16 @@ const useMomentForm = () => {
   const resetForm = () => {
     setName("");
     setDescription("");
-    setImageUri("");
     setMimeType("");
-    setAnimationUri("");
     setDownloadUrl("");
-    setPreviewUri("");
-    // Revoke previewSrc blob URL before clearing
-    if (previewSrc && previewSrc.startsWith("blob:")) {
-      URL.revokeObjectURL(previewSrc);
-    }
-    setPreviewSrc("");
     setEmbedCode("");
     setLink("");
     setWritingText("");
+    // Clean up file blobs
+    setImageFile(null);
+    setAnimationFile(null);
+    setPreviewFile(null);
+    setVideoFile(null);
   };
 
   // Set default price based on priceUnit
@@ -137,24 +136,16 @@ const useMomentForm = () => {
     setPriceUnit,
     price,
     setPrice,
-    imageUri,
-    setImageUri,
     description,
     setDescription,
     isTimedSale,
     setIsTimedSale,
     mimeType,
     setMimeType,
-    animationUri,
-    setAnimationUri,
     downloadUrl,
     setDownloadUrl,
-    previewUri,
-    setPreviewUri,
     isOpenPreviewUpload,
     setIsOpenPreviewUpload,
-    previewSrc,
-    setPreviewSrc,
     setWritingText,
     writingText,
     setEmbedCode,
@@ -171,6 +162,16 @@ const useMomentForm = () => {
 
     // Mask values
     ...mask,
+
+    // File blobs for deferred upload
+    imageFile,
+    setImageFile,
+    animationFile,
+    setAnimationFile,
+    previewFile,
+    setPreviewFile,
+    videoFile,
+    setVideoFile,
   };
 };
 

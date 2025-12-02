@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { useMomentCreateProvider } from "@/providers/MomentCreateProvider/MomentCreateProvider";
 import LinkInput from "./LinkInput";
 import Image from "next/image";
@@ -5,7 +6,18 @@ import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 
 const LinkPreview = () => {
   const { createdContract } = useMomentCreateProvider();
-  const { previewSrc, link } = useMomentFormProvider();
+  const { previewFile, link } = useMomentFormProvider();
+  const [previewFileUrl, setPreviewFileUrl] = useState<string>("");
+
+  useEffect(() => {
+    if (previewFile) {
+      const blobUrl = URL.createObjectURL(previewFile);
+      setPreviewFileUrl(blobUrl);
+      return () => URL.revokeObjectURL(blobUrl);
+    } else {
+      setPreviewFileUrl("");
+    }
+  }, [previewFile]);
 
   return (
     <div
@@ -14,7 +26,7 @@ const LinkPreview = () => {
       {createdContract ? (
         <>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={previewSrc} alt="not found image" />
+          <img src={previewFileUrl} alt="not found image" />
           <div className="text-center py-4">
             <a
               className="font-spectral-italic hover:text-grey-moss-400"
@@ -39,9 +51,9 @@ const LinkPreview = () => {
             <p className="text-center font-archivo-medium">Paste any link from the internet</p>
           </div>
           <LinkInput />
-          {previewSrc && (
+          {previewFileUrl && (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={previewSrc} alt="not found image" className="pt-4" />
+            <img src={previewFileUrl} alt="not found image" className="pt-4" />
           )}
         </>
       )}

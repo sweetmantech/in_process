@@ -3,13 +3,11 @@ import { Label } from "@/components/ui/label";
 import { Input } from "../ui/input";
 import usePrompt from "@/hooks/usePrompt";
 import { useMomentFormProvider } from "@/providers/MomentFormProvider";
-import { useMomentMetadataProvider } from "@/providers/MomentMetadataProvider";
 
 const Prompt = () => {
   const { creating } = useMomentCreateProvider();
   const { form } = useMomentFormProvider();
   const { placeholder, onActive, promptRef } = usePrompt();
-  const { fileUploading } = useMomentMetadataProvider();
 
   return (
     <div className="flex flex-col items-start w-full gap-2">
@@ -21,7 +19,7 @@ const Prompt = () => {
         placeholder={placeholder}
         onFocus={onActive}
         className="!font-spectral !ring-0 !ring-offset-0 bg-white border-grey border rounded-[0px]"
-        disabled={Boolean(fileUploading || creating)}
+        disabled={Boolean(creating)}
         ref={(e) => {
           const { ref } = form.register("name");
           ref(e);

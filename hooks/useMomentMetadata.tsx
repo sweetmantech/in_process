@@ -1,47 +1,76 @@
-import { uploadJson } from "@/lib/arweave/uploadJson";
 import useLinkPreview from "./useLinkPreview";
 import useEmbedCode from "./useEmbedCode";
 import useWriting from "./useWriting";
-import useFileUpload from "./useFileUpload";
+import useFileSelect from "./useFileSelect";
 import { useMomentFormProvider } from "@/providers/MomentFormProvider";
-import { generateAndUploadPreview } from "@/lib/writing/generateAndUploadPreview";
 import { usePathname } from "next/navigation";
+import { usePrivy } from "@privy-io/react-auth";
+import { uploadVideoToMuxIfNeeded } from "@/lib/metadata/uploadVideoToMuxIfNeeded";
+import { uploadFilesToArweave } from "@/lib/metadata/uploadFilesToArweave";
+import { handleWritingMode } from "@/lib/metadata/handleWritingMode";
+import { handleEmbedMode } from "@/lib/metadata/handleEmbedMode";
+import { buildMetadataPayload } from "@/lib/metadata/buildMetadataPayload";
 
 const useMomentMetadata = () => {
   const pathname = usePathname();
+  const { getAccessToken } = usePrivy();
   const {
-    animationUri,
     description,
-    imageUri,
     mimeType,
     name,
-    previewUri,
     link,
     writingText,
     downloadUrl,
+    imageFile,
+    animationFile,
+    previewFile,
+    videoFile,
   } = useMomentFormProvider();
   const { uploadWriting } = useWriting();
   const { uploadEmbedCode } = useEmbedCode();
-  const fileUpload = useFileUpload();
+  const { selectFile } = useFileSelect();
   useLinkPreview();
 
-  const getUri = async () => {
+  const generateMetadataUri = async () => {
     let mime = mimeType;
-    let animation_url = animationUri || imageUri;
-    let contentUri = animation_url;
-    let image = previewUri;
+    let animation_url = "";
+    let contentUri = "";
+    let image = "";
 
-    if (pathname === "/create/writing" || pathname === "/create/usdc/writing") {
-      mime = "text/plain";
-      animation_url = await uploadWriting();
-
-      contentUri = animation_url;
-      image = await generateAndUploadPreview(writingText);
+    // Upload video to Mux if video file exists (deferred upload)
+    const videoResult = await uploadVideoToMuxIfNeeded(videoFile, mimeType, getAccessToken);
+    if (videoResult.animationUrl) {
+      animation_url = videoResult.animationUrl;
+      contentUri = videoResult.contentUri;
     }
+
+    // Upload files to Arweave if they exist as blobs (deferred upload)
+    const fileUploadResult = await uploadFilesToArweave(
+      previewFile,
+      imageFile,
+      animationFile,
+      animation_url
+    );
+
+    // Use file upload results for metadata (preview uses blob files, so no need to update state)
+    image = fileUploadResult.image;
+    animation_url = fileUploadResult.animationUrl || animation_url;
+
+    // Handle writing mode
+    if (pathname === "/create/writing" || pathname === "/create/usdc/writing") {
+      const writingResult = await handleWritingMode(uploadWriting, writingText);
+      mime = writingResult.mime;
+      animation_url = writingResult.animationUrl;
+      contentUri = writingResult.contentUri;
+      image = writingResult.image;
+    }
+
+    // Handle embed mode
     if (pathname === "/create/embed" || pathname === "/create/usdc/embed") {
-      mime = "text/html";
-      animation_url = await uploadEmbedCode();
-      contentUri = animation_url;
+      const embedResult = await handleEmbedMode(uploadEmbedCode);
+      mime = embedResult.mime;
+      animation_url = embedResult.animationUrl;
+      contentUri = embedResult.contentUri;
     }
 
     // For videos uploaded to Mux: use playbackUrl for animation_url and downloadUrl for content.uri
@@ -49,22 +78,12 @@ const useMomentMetadata = () => {
       contentUri = downloadUrl;
     }
 
-    return uploadJson({
-      name,
-      description,
-      external_url: link.link,
-      image,
-      animation_url,
-      content: {
-        mime,
-        uri: contentUri,
-      },
-    });
+    return buildMetadataPayload(name, description, link, image, animation_url, mime, contentUri);
   };
 
   return {
-    getUri,
-    ...fileUpload,
+    generateMetadataUri,
+    selectFile,
   };
 };
 
