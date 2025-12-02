@@ -46,26 +46,38 @@ export const uploadFilesToArweave = async (
     const { file, name } = filesToUpload[i];
     if (!file) continue;
 
+    const fileIndex = i; // Capture index to avoid closure issues
     const fileProgressCallback = (progress: number) => {
       // Calculate overall progress: each file contributes equally
-      const fileStartProgress = (i / totalFiles) * 100;
-      const fileContribution = progress / totalFiles;
+      const fileStartProgress = (fileIndex / totalFiles) * 100;
+      const fileContribution = (progress / 100) * (100 / totalFiles);
       const overallProgress = fileStartProgress + fileContribution;
       setUploadProgress?.(Math.min(Math.round(overallProgress), 100));
     };
 
+    // Upload file and get URI
+    let uploadedUri = "";
     if (name === "preview") {
-      uploadedPreviewUri = await clientUploadToArweave(file, fileProgressCallback);
-      image = uploadedPreviewUri;
+      uploadedUri = await clientUploadToArweave(file, fileProgressCallback);
+      uploadedPreviewUri = uploadedUri;
+      image = uploadedUri;
     } else if (name === "image") {
-      uploadedImageUri = await clientUploadToArweave(file, fileProgressCallback);
+      uploadedUri = await clientUploadToArweave(file, fileProgressCallback);
+      uploadedImageUri = uploadedUri;
       if (!animationUrl) {
         animationUrl = uploadedImageUri;
       }
     } else if (name === "animation") {
-      uploadedAnimationUri = await clientUploadToArweave(file, fileProgressCallback);
-      animationUrl = uploadedAnimationUri;
+      uploadedUri = await clientUploadToArweave(file, fileProgressCallback);
+      uploadedAnimationUri = uploadedUri;
+      animationUrl = uploadedUri;
     }
+
+    // Ensure 100% progress is set when file completes
+    // This handles cases where the final progress callback might not reach exactly 100%
+    const fileStartProgress = (fileIndex / totalFiles) * 100;
+    const fileContribution = 100 / totalFiles;
+    setUploadProgress?.(Math.min(Math.round(fileStartProgress + fileContribution), 100));
   }
 
   // Use uploaded URIs (either newly uploaded or existing)

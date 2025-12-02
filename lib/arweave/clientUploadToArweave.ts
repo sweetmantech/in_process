@@ -35,6 +35,9 @@ const clientUploadToArweave = async (
     await uploader.uploadChunk();
   }
 
+  // Ensure progress callback is called with 100% when upload completes
+  getProgress(100);
+
   return `ar://${transaction.id}`;
 };
 

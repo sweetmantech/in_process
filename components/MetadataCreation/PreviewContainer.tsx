@@ -5,18 +5,12 @@ import PdfViewer from "../Renderers/PdfViewer";
 import VideoPlayer from "../Renderers/VideoPlayer";
 import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 import { usePreviewBlobUrls } from "@/hooks/usePreviewBlobUrls";
+import Container from "./Container";
+import UploadProgressOverlay from "./UploadProgressOverlay";
 
 interface PreviewContainerProps {
   handleImageClick: () => void;
 }
-
-const Container = ({
-  children,
-  className = "",
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) => <div className={`size-full flex justify-center ${className}`}>{children}</div>;
 
 /**
  * PreviewContainer - Displays preview of blob files during moment creation phase.
@@ -24,14 +18,14 @@ const Container = ({
  * It does NOT handle metadata display after creation.
  */
 const PreviewContainer = ({ handleImageClick }: PreviewContainerProps) => {
-  const { mimeType, imageFile } = useMomentFormProvider();
+  const { mimeType, imageFile, isUploading, uploadProgress } = useMomentFormProvider();
 
   const blobUrls = usePreviewBlobUrls();
 
   // For images: check first (most common case) - use imageFile blob URL only
   if (imageFile && blobUrls.image) {
     return (
-      <div className="size-full cursor-pointer">
+      <div className="size-full cursor-pointer relative">
         <Image
           src={blobUrls.image}
           alt="Image Preview"
@@ -41,30 +35,34 @@ const PreviewContainer = ({ handleImageClick }: PreviewContainerProps) => {
           objectFit="contain"
           objectPosition="center"
         />
+        {isUploading && <UploadProgressOverlay uploadProgress={uploadProgress} />}
       </div>
     );
   }
 
   if (blobUrls.pdf) {
     return (
-      <Container>
+      <Container className="relative">
         <PdfViewer fileUrl={blobUrls.pdf} />
+        {isUploading && <UploadProgressOverlay uploadProgress={uploadProgress} />}
       </Container>
     );
   }
 
   if (mimeType.includes("audio")) {
     return (
-      <Container>
+      <Container className="relative">
         <AudioPlayer onClick={handleImageClick} />
+        {isUploading && <UploadProgressOverlay uploadProgress={uploadProgress} />}
       </Container>
     );
   }
 
   if (mimeType.includes("video") && blobUrls.video) {
     return (
-      <Container>
+      <Container className="relative">
         <VideoPlayer url={blobUrls.video} />
+        {isUploading && <UploadProgressOverlay uploadProgress={uploadProgress} />}
       </Container>
     );
   }
