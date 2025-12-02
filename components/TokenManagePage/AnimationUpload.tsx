@@ -9,12 +9,12 @@ import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 
 const AnimationUpload = () => {
   const { isOwner } = useMomentProvider();
-  const { imageUri, animationUri, setImageUri, setAnimationUri } = useMomentFormProvider();
-  const { fileUpload, fileUploading } = useMomentMetadataProvider();
+  const { previewFile, imageFile, animationFile, videoFile, resetForm } = useMomentFormProvider();
+  const { selectFile } = useMomentMetadataProvider();
   const { isLoading: isSaving } = useUpdateMomentURI();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const hasMedia = imageUri || animationUri || fileUploading;
+  const hasMedia = Boolean(previewFile || imageFile || animationFile || videoFile);
 
   const openFileDialog = () => {
     if (isOwner && !isSaving) {
@@ -23,8 +23,7 @@ const AnimationUpload = () => {
   };
 
   const handleReset = () => {
-    setImageUri("");
-    setAnimationUri("");
+    resetForm();
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
@@ -36,12 +35,12 @@ const AnimationUpload = () => {
         id="media"
         type="file"
         className={`cursor-pointer ${hasMedia ? "hidden" : "z-2 size-full absolute opacity-0"}`}
-        onChange={fileUpload}
+        onChange={selectFile}
         disabled={!isOwner || isSaving}
       />
       {hasMedia ? (
         <>
-          {isOwner && !isSaving && <ResetButton onClick={handleReset} disabled={fileUploading} />}
+          {isOwner && !isSaving && <ResetButton onClick={handleReset} />}
           <MediaUploaded handleImageClick={openFileDialog} />
         </>
       ) : (

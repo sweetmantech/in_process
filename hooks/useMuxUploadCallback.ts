@@ -26,7 +26,7 @@ const useMuxUploadCallback = ({
   setPctComplete,
   muxUpload,
 }: UseMuxUploadCallbackProps) => {
-  const { setAnimationUri, setMimeType, setDownloadUrl } = useMomentFormProvider();
+  const { setMimeType, setDownloadUrl } = useMomentFormProvider();
   const processedVideoRef = useRef<string | null>(null);
 
   // Handle Mux video upload completion
@@ -44,11 +44,7 @@ const useMuxUploadCallback = ({
       }
       processedVideoRef.current = videoKey;
 
-      // Set animation URI to Mux playback URL (not Arweave - video stays on Mux)
-      setAnimationUri(muxUpload.playbackUrl);
-      setDownloadUrl(muxUpload.downloadUrl);
-
-      // Set download URL to Mux download URL
+      // Set download URL to Mux download URL (Mux URLs are handled in metadata generation)
       setDownloadUrl(muxUpload.downloadUrl);
 
       // Set mimeType for video
@@ -63,7 +59,6 @@ const useMuxUploadCallback = ({
     muxUpload.uploading,
     muxUpload.downloadUrl,
     pendingVideoFile,
-    setAnimationUri,
     setMimeType,
     setPendingVideoFile,
     setLoading,

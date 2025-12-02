@@ -1,13 +1,11 @@
 import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 import { useMomentCreateProvider } from "@/providers/MomentCreateProvider/MomentCreateProvider";
-import { useMomentMetadataProvider } from "@/providers/MomentMetadataProvider";
 import { ChangeEvent, useState } from "react";
 
 type ScrollPosition = "top" | "mid" | "bottom" | null;
 
 const TextInput = () => {
   const { writingText, setWritingText } = useMomentFormProvider();
-  const { fileUploading } = useMomentMetadataProvider();
   const { creating } = useMomentCreateProvider();
   const [scrollPosition, setScrollPosition] = useState<ScrollPosition>(null);
 
@@ -23,7 +21,7 @@ const TextInput = () => {
       <textarea
         className="relative z-[2] size-full !outline-none p-2 md:p-4 bg-grey-eggshell !resize-none"
         value={writingText}
-        disabled={Boolean(fileUploading || creating)}
+        disabled={Boolean(creating)}
         onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
           setWritingText(e.target.value);
         }}

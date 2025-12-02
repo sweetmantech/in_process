@@ -10,7 +10,6 @@ import { usePrivy } from "@privy-io/react-auth";
 import { toast } from "sonner";
 import { migrateMuxToArweaveApi } from "@/lib/mux/migrateMuxToArweaveApi";
 import { useMomentFormProvider } from "@/providers/MomentFormProvider";
-import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import { CHAIN_ID } from "@/lib/consts";
 
 export default function useMomentCreate() {
@@ -22,13 +21,16 @@ export default function useMomentCreate() {
   const { fetchParameters } = useMomentCreateParameters();
   const { isPrepared } = useUserProvider();
   const { getAccessToken } = usePrivy();
-  const { setAnimationUri, mimeType } = useMomentFormProvider();
+  const { mimeType, setUploadProgress, setIsUploading } = useMomentFormProvider();
 
   const create = async () => {
     try {
       if (!isPrepared()) return;
 
       setCreating(true);
+      setIsUploading(true);
+      setUploadProgress(0);
+
       const parameters = await fetchParameters(collection);
       if (!parameters) {
         throw new Error("Parameters not ready");
@@ -38,11 +40,13 @@ export default function useMomentCreate() {
       const accessToken = await getAccessToken();
 
       setCreating(false);
+      setIsUploading(false);
+      setUploadProgress(100);
       setCreatedContract(result.contractAddress);
       setCreatedTokenId(result.tokenId?.toString() || "");
 
       if (mimeType.includes("video")) {
-        const migrateMuxToArweaveResult = await migrateMuxToArweaveApi({
+        await migrateMuxToArweaveApi({
           moment: {
             collectionAddress: createdContract as Address,
             tokenId: createdTokenId,
@@ -50,11 +54,12 @@ export default function useMomentCreate() {
           },
           accessToken: accessToken as string,
         });
-        setAnimationUri(getFetchableUrl(migrateMuxToArweaveResult.arweaveUri) || "");
       }
       return result;
     } catch (err: any) {
       setCreating(false);
+      setIsUploading(false);
+      setUploadProgress(0);
       toast.error(err?.message || "Error creating");
     }
   };

@@ -1,44 +1,57 @@
-import { Label } from "../ui/label";
 import Image from "next/image";
 import PreviewModal from "./PreviewModal";
 import WritingPreview from "./WritingPreview";
-import { Fragment, ReactNode } from "react";
+import PreviewSection from "./PreviewSection";
+import { useState, useEffect } from "react";
 import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 
-const PreviewContainer = ({ children }: { children: ReactNode }) => {
-  return (
-    <Fragment>
-      <Label>preview</Label>
-      <section className="mt-1 aspect-video border border-grey relative overflow-hidden cursor-pointer font-spectral">
-        {children}
-      </section>
-    </Fragment>
-  );
-};
 const Preview = () => {
-  const { previewUri, writingText, previewSrc, animationUri } = useMomentFormProvider();
-  const showPreview = previewUri || animationUri;
-  const showWritingPreview = writingText && !previewUri;
-  const showImagePreview = showPreview && !showWritingPreview;
+  const {
+    writingText,
+    previewFile,
+    videoFile,
+    animationFile,
+    imageFile,
+    isUploading,
+    uploadProgress,
+  } = useMomentFormProvider();
+  const [previewFileUrl, setPreviewFileUrl] = useState<string>("");
+
+  useEffect(() => {
+    if (previewFile) {
+      const blobUrl = URL.createObjectURL(previewFile);
+      setPreviewFileUrl(blobUrl);
+      return () => URL.revokeObjectURL(blobUrl);
+    } else {
+      setPreviewFileUrl("");
+    }
+  }, [previewFile]);
+
+  // Show preview if we have selected files (blob data only - this is creation phase)
+  const hasSelectedFile = previewFile || videoFile || animationFile || imageFile;
+  const showWritingPreview = writingText && !hasSelectedFile;
+  const showImagePreview = hasSelectedFile && !showWritingPreview;
+
   return (
     <div>
-      {showImagePreview && (
-        <PreviewContainer>
+      {showImagePreview && previewFileUrl && (
+        <PreviewSection showProgress={isUploading} uploadProgress={uploadProgress}>
           <Image
+            key={previewFile ? `${previewFile.name}-${previewFile.lastModified}` : previewFileUrl}
             layout="fill"
             objectFit="cover"
             objectPosition="center"
-            src={previewSrc || "/bg-gray.png"}
+            src={previewFileUrl}
             alt="not found preview."
           />
-        </PreviewContainer>
+        </PreviewSection>
       )}
       {showWritingPreview && (
-        <PreviewContainer>
+        <PreviewSection showProgress={isUploading} uploadProgress={uploadProgress}>
           <WritingPreview />
-        </PreviewContainer>
+        </PreviewSection>
       )}
-      {showPreview && <PreviewModal />}
+      {hasSelectedFile && <PreviewModal />}
     </div>
   );
 };

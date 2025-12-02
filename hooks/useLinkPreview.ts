@@ -30,7 +30,7 @@ async function fetchBlob(link: string): Promise<File> {
 }
 
 const useLinkPreview = () => {
-  const { setImageUri, setPreviewUri, setPreviewSrc, link } = useMomentFormProvider();
+  const { setPreviewFile, link } = useMomentFormProvider();
 
   const { data } = useQuery({
     queryKey: ["link_preview", link],
@@ -41,16 +41,14 @@ const useLinkPreview = () => {
   });
 
   useEffect(() => {
-    // TODO: Centralize upload+preview logic with handleImageUpload helper to avoid duplication
+    // TODO: Centralize upload+preview logic with handleImageSelection helper to avoid duplication
     // Note: This flow differs slightly as it fetches blob from URL first, then uploads
     const uploadImage = async () => {
       if (!data) return;
       if (data.images?.[0] || data.favicons?.[0]) {
         try {
           const file = await fetchBlob(data.images?.[0] || data.favicons?.[0]);
-          const uri = await clientUploadToArweave(file);
-          setPreviewSrc(URL.createObjectURL(file));
-          setPreviewUri(uri);
+          setPreviewFile(file);
         } catch (error) {
           console.error(error);
         }
@@ -58,8 +56,7 @@ const useLinkPreview = () => {
       return;
     };
     uploadImage();
-    setImageUri("");
-  }, [data, setPreviewSrc, setPreviewUri, setImageUri]);
+  }, [data, setPreviewFile]);
 };
 
 export default useLinkPreview;

@@ -9,16 +9,19 @@ import { toast } from "sonner";
 import { callUpdateMomentURI } from "@/lib/moment/callUpdateMomentURI";
 import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 import { migrateMuxToArweaveApi } from "@/lib/mux/migrateMuxToArweaveApi";
+import { uploadVideoToMuxIfNeeded } from "@/lib/metadata/uploadVideoToMuxIfNeeded";
+import { uploadFilesToArweave } from "@/lib/metadata/uploadFilesToArweave";
 
 const useUpdateMomentURI = () => {
   const { moment, fetchTokenInfo } = useMomentProvider();
   const {
     name: providerName,
     description: providerDescription,
-    imageUri,
-    animationUri,
     mimeType,
-    downloadUrl,
+    previewFile,
+    imageFile,
+    animationFile,
+    videoFile,
     resetForm,
   } = useMomentFormProvider();
   const { getAccessToken } = usePrivy();
@@ -30,9 +33,34 @@ const useUpdateMomentURI = () => {
       const tokenInfo = await getTokenInfo(moment);
       const current = await fetchTokenMetadata(tokenInfo.tokenUri);
 
-      const updatedAnimationUrl = animationUri || current?.animation_url;
-      const updatedContentUri = downloadUrl || current?.content?.uri;
-      const updatedMimeType = mimeType || current?.content?.mime;
+      // Generate URIs from blob files if they exist (similar to create flow)
+      let animation_url = current?.animation_url || "";
+      let image = current?.image || "";
+      let contentUri = current?.content?.uri || "";
+      let updatedMimeType = mimeType || current?.content?.mime || "";
+
+      // Upload video to Mux if video file exists
+      const videoResult = await uploadVideoToMuxIfNeeded(videoFile, mimeType, getAccessToken);
+      if (videoResult.animationUrl) {
+        animation_url = videoResult.animationUrl;
+        contentUri = videoResult.contentUri;
+      }
+
+      // Upload files to Arweave if they exist as blobs
+      const fileUploadResult = await uploadFilesToArweave(
+        previewFile,
+        imageFile,
+        animationFile,
+        animation_url
+      );
+
+      // Use uploaded URIs if files were uploaded, otherwise keep existing
+      if (fileUploadResult.image) {
+        image = fileUploadResult.image;
+      }
+      if (fileUploadResult.animationUrl) {
+        animation_url = fileUploadResult.animationUrl;
+      }
 
       const name = providerName || current?.name;
       const description = providerDescription || current?.description;
@@ -41,13 +69,13 @@ const useUpdateMomentURI = () => {
         ...(current || {}),
         name,
         description,
-        image: imageUri || current?.image,
-        animation_url: updatedAnimationUrl,
+        image: image || current?.image,
+        animation_url: animation_url || current?.animation_url,
         content:
-          (updatedContentUri || updatedMimeType) && !updatedMimeType?.includes("image")
+          (contentUri || updatedMimeType) && !updatedMimeType?.includes("image")
             ? {
                 mime: updatedMimeType || current?.content?.mime || "",
-                uri: updatedContentUri || current?.content?.uri || "",
+                uri: contentUri || current?.content?.uri || "",
               }
             : current?.content,
       };

@@ -1,18 +1,46 @@
 import { useMomentCreateProvider } from "@/providers/MomentCreateProvider/MomentCreateProvider";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Pause, Play } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
-import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import Image from "next/image";
 import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 
 const AudioPlayer = ({ onClick }: { onClick: () => void }) => {
   const { createdContract } = useMomentCreateProvider();
-  const { imageUri, animationUri } = useMomentFormProvider();
+  const { animationFile, previewFile } = useMomentFormProvider();
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const audioRef = useRef<HTMLAudioElement>(null);
+  const [previewFileUrl, setPreviewFileUrl] = useState<string>("");
+
+  // Create blob URL from previewFile for cover image
+  useEffect(() => {
+    if (previewFile) {
+      const blobUrl = URL.createObjectURL(previewFile);
+      setPreviewFileUrl(blobUrl);
+      return () => URL.revokeObjectURL(blobUrl);
+    } else {
+      setPreviewFileUrl("");
+    }
+  }, [previewFile]);
+
+  // Create blob URL from animationFile
+  const audioSrc = useMemo(() => {
+    if (animationFile) {
+      return URL.createObjectURL(animationFile);
+    }
+    return "";
+  }, [animationFile]);
+
+  // Clean up blob URL on unmount
+  useEffect(() => {
+    return () => {
+      if (audioSrc && audioSrc.startsWith("blob:")) {
+        URL.revokeObjectURL(audioSrc);
+      }
+    };
+  }, [audioSrc]);
 
   const togglePlayPause = () => {
     if (audioRef.current) {
@@ -43,9 +71,9 @@ const AudioPlayer = ({ onClick }: { onClick: () => void }) => {
   return (
     <div className="size-full bg-white rounded-lg shadow-lg overflow-hidden flex-col flex justify-center items-center">
       <div className="relative w-full h-3/4" onClick={onClick}>
-        {imageUri ? (
+        {previewFileUrl ? (
           <Image
-            src={getFetchableUrl(imageUri) || ""}
+            src={previewFileUrl}
             alt="Audio cover"
             layout="fill"
             objectFit="contain"
@@ -65,11 +93,7 @@ const AudioPlayer = ({ onClick }: { onClick: () => void }) => {
         )}
       </div>
       <div className="p-1 w-full">
-        <audio
-          ref={audioRef}
-          src={getFetchableUrl(animationUri) || ""}
-          onTimeUpdate={handleTimeUpdate}
-        />
+        <audio ref={audioRef} src={audioSrc} onTimeUpdate={handleTimeUpdate} />
         <div className="text-center">
           <Button
             variant="ghost"

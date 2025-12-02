@@ -1,10 +1,8 @@
 import { Input } from "@/components/ui/input";
 import { LinkIcon } from "../ui/icons";
 import { useMomentFormProvider } from "@/providers/MomentFormProvider";
-import { useMomentMetadataProvider } from "@/providers/MomentMetadataProvider";
 
 const LinkInput = () => {
-  const { fileUploading } = useMomentMetadataProvider();
   const { link, setLink } = useMomentFormProvider();
 
   return (
@@ -15,7 +13,6 @@ const LinkInput = () => {
         value={link}
         onChange={(e) => setLink(e.target.value)}
         className="text-center !border-none py-4 !bg-transparent !font-spectral !text-md !ring-0 !ring-offset-0 !outline-none !text-grey-moss-900 disabled:text-grey-moss-400"
-        disabled={fileUploading}
       />
     </div>
   );

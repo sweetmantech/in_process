@@ -1,4 +1,3 @@
-import { useMomentMetadataProvider } from "@/providers/MomentMetadataProvider";
 import { ReactNode, useState } from "react";
 
 interface CTAButtonProps {
@@ -9,7 +8,6 @@ interface CTAButtonProps {
 
 const CTAButton = ({ children, onClick, isActive }: CTAButtonProps) => {
   const [hovered, setHovered] = useState<boolean>(false);
-  const { fileUploading } = useMomentMetadataProvider();
 
   return (
     <button
@@ -24,7 +22,6 @@ const CTAButton = ({ children, onClick, isActive }: CTAButtonProps) => {
       onClick={onClick}
       onMouseOver={() => setHovered(true)}
       onMouseOut={() => setHovered(false)}
-      disabled={fileUploading}
     >
       <div
         className={`flex justify-center items-center w-[29px] rounded-full aspect-[1/1] 

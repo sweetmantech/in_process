@@ -1,8 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Area } from "react-easy-crop";
 import getCroppedImg from "@/lib/cropImage/getCroppedImage";
 import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
-import { arweaveGatewayUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 
 interface UseCropImageReturn {
@@ -15,44 +14,83 @@ interface UseCropImageReturn {
   onCropComplete: (_: Area, cropped: Area) => void;
   saveCroppedImage: () => Promise<void>;
   isUploading: boolean;
-  hasUploadedSelectedImage: boolean;
-  setHasUploadedSelectedImage: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function useCropImage(): UseCropImageReturn {
-  const { setPreviewUri, setPreviewSrc, previewSrc, imageUri } = useMomentFormProvider();
+  const { setPreviewFile, previewFile, imageFile } = useMomentFormProvider();
   const [crop, setCrop] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
   const [rotation, setRotation] = useState<number>(0);
   const [zoom, setZoom] = useState<number>(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
   const [isUploading, setIsUploading] = useState<boolean>(false);
-  const [hasUploadedSelectedImage, setHasUploadedSelectedImage] = useState<boolean>(false);
-  const imageSrc = hasUploadedSelectedImage ? previewSrc : arweaveGatewayUrl(imageUri) || "";
+  const [imageSrc, setImageSrc] = useState<string>("");
+
+  // Create blob URL from previewFile (cropped) or imageFile (original)
+  useEffect(() => {
+    const fileToUse = previewFile || imageFile;
+    if (fileToUse) {
+      const blobUrl = URL.createObjectURL(fileToUse);
+      setImageSrc(blobUrl);
+      // Reset crop state when image changes
+      setCrop({ x: 0, y: 0 });
+      setZoom(1);
+      setRotation(0);
+      setCroppedAreaPixels(null);
+      return () => URL.revokeObjectURL(blobUrl);
+    } else {
+      setImageSrc("");
+      setCroppedAreaPixels(null);
+    }
+  }, [previewFile, imageFile]);
 
   const onCropComplete = (_: Area, cropped: Area) => {
     setCroppedAreaPixels(cropped);
   };
 
   const saveCroppedImage = async () => {
-    if (!croppedAreaPixels || isUploading || !imageUri) return;
+    if (!imageSrc) {
+      console.error("saveCroppedImage: imageSrc is empty");
+      return;
+    }
+    if (isUploading) {
+      console.error("saveCroppedImage: already uploading");
+      return;
+    }
+    if (!croppedAreaPixels) {
+      console.error("saveCroppedImage: croppedAreaPixels is null - crop the image first");
+      return;
+    }
 
+    let resultUrl: string | null = null;
     try {
       setIsUploading(true);
-      const resultUrl = (await getCroppedImg(imageSrc, croppedAreaPixels, rotation)) as string;
+      resultUrl = (await getCroppedImg(imageSrc, croppedAreaPixels, rotation)) as string;
+
+      if (!resultUrl) {
+        throw new Error("Failed to generate cropped image");
+      }
 
       const response = await fetch(resultUrl);
       const blob = await response.blob();
-      const file = new File([blob], "preview.jpeg", {
+      // Revoke the temporary blob URL now that we have the blob
+      URL.revokeObjectURL(resultUrl);
+      resultUrl = null;
+
+      // Add timestamp to filename to ensure React detects the File change
+      const timestamp = Date.now();
+      const file = new File([blob], `preview-${timestamp}.jpeg`, {
         type: blob.type || "image/jpeg",
+        lastModified: timestamp,
       });
 
-      const uri = await clientUploadToArweave(file);
-
-      setPreviewSrc(resultUrl);
-      setPreviewUri(uri);
+      setPreviewFile(file);
     } catch (err) {
-      console.error(err);
+      console.error("Error saving cropped image:", err);
     } finally {
+      // Ensure blob URL is revoked even if an error occurred
+      if (resultUrl) {
+        URL.revokeObjectURL(resultUrl);
+      }
       setIsUploading(false);
     }
   };
@@ -67,7 +105,5 @@ export default function useCropImage(): UseCropImageReturn {
     onCropComplete,
     saveCroppedImage,
     isUploading,
-    hasUploadedSelectedImage,
-    setHasUploadedSelectedImage,
   };
 }

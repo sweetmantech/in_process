@@ -3,17 +3,7 @@ import { MomentMetadata } from "@/types/moment";
 import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 
 const useMediaInitialization = (meta: MomentMetadata | undefined) => {
-  const {
-    name,
-    description,
-    imageUri,
-    animationUri,
-    setName,
-    setDescription,
-    setImageUri,
-    setAnimationUri,
-    setMimeType,
-  } = useMomentFormProvider();
+  const { name, description, setName, setDescription, setMimeType } = useMomentFormProvider();
 
   const initializedRef = useRef<string | null>(null);
 
@@ -33,19 +23,9 @@ const useMediaInitialization = (meta: MomentMetadata | undefined) => {
       setDescription(meta.description);
     }
 
-    if (!imageUri && meta.image) {
-      setImageUri(meta.image);
-    }
-
-    if (meta.animation_url) {
-      if (!animationUri) {
-        setAnimationUri(meta.animation_url);
-        if (meta.content?.mime) {
-          setMimeType(meta.content.mime);
-        }
-      }
-    } else if (!animationUri) {
-      setAnimationUri("");
+    // Set mime type from metadata if available
+    if (meta.content?.mime) {
+      setMimeType(meta.content.mime);
     }
 
     initializedRef.current = metaKey;
