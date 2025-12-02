@@ -4,7 +4,7 @@ import { CHAIN_ID } from "@/lib/consts";
 import { usePrivy } from "@privy-io/react-auth";
 import { uploadJson } from "@/lib/arweave/uploadJson";
 import { fetchTokenMetadata } from "@/lib/protocolSdk/ipfs/token-metadata";
-import getTokenInfo from "@/lib/viem/getTokenInfo";
+import getTokenInfo from "@/lib/viem/getMomentOnChainInfo";
 import { toast } from "sonner";
 import { callUpdateMomentURI } from "@/lib/moment/callUpdateMomentURI";
 import { useMomentFormProvider } from "@/providers/MomentFormProvider";

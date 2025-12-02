@@ -43,15 +43,6 @@ export interface GetInProcessMomentsRpcResponse {
   };
 }
 
-export type SaleConfig = {
-  saleStart: bigint;
-  saleEnd: bigint;
-  maxTokensPerAddress: bigint;
-  pricePerToken: bigint;
-  fundsRecipient: Address;
-  type: string;
-};
-
 export interface MomentMetadata {
   image: string;
   name: string;
@@ -122,3 +113,26 @@ export interface GetArtistTimelineResponse {
   moments: TimelineMoment[];
   pagination: TimelinePagination;
 }
+
+export type MomentSaleConfig = {
+  pricePerToken: string;
+  saleStart: number;
+  saleEnd: number;
+  maxTokensPerAddress: number;
+  fundsRecipient: Address;
+  type: MomentType;
+};
+
+export type MomentResponse = {
+  uri: string | null;
+  owner: string | null;
+  saleConfig: MomentSaleConfig | null;
+  momentAdmins: string[];
+  metadata: MomentMetadata;
+};
+
+export type MomentAdvancedInfo = {
+  uri: string | null;
+  owner: string | null;
+  saleConfig: MomentSaleConfig | null;
+};

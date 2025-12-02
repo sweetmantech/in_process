@@ -8,9 +8,9 @@ import {
   zoraCreator1155ImplABI,
   zoraCreatorFixedPriceSaleStrategyABI,
 } from "@zoralabs/protocol-deployments";
-import { Moment, MomentType } from "@/types/moment";
+import { MomentType, Moment } from "@/types/moment";
 
-const getTokenInfo = async (moment: Moment) => {
+const getMomentOnChainInfo = async (moment: Moment) => {
   const { collectionAddress, tokenId, chainId } = moment;
   const publicClient: any = getPublicClient(chainId);
   const erc20SaleConfigCall = {
@@ -63,4 +63,4 @@ const getTokenInfo = async (moment: Moment) => {
   };
 };
 
-export default getTokenInfo;
+export default getMomentOnChainInfo;

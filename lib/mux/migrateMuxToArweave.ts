@@ -3,7 +3,7 @@ import { downloadVideoFromMux } from "@/lib/mux/downloadVideoFromMux";
 import { deleteMuxAsset } from "@/lib/mux/deleteMuxAsset";
 import { findMuxAssetIdFromPlaybackUrl } from "@/lib/mux/findMuxAssetIdFromPlaybackUrl";
 import { fetchTokenMetadata } from "@/lib/protocolSdk/ipfs/token-metadata";
-import getTokenInfo from "@/lib/viem/getTokenInfo";
+import getTokenInfo from "@/lib/viem/getMomentOnChainInfo";
 import getUpdateTokenURICall from "@/lib/viem/getUpdateTokenURICall";
 import getUpdateContractMetadataCall from "@/lib/viem/getUpdateContractMetadataCall";
 import { CHAIN_ID, IS_TESTNET } from "@/lib/consts";

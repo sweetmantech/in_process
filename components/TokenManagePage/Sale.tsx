@@ -11,14 +11,14 @@ const Sale = () => {
   return (
     <div className="w-full font-archivo">
       <div className="pt-4 w-full flex flex-col gap-2 bg-white max-w-md rounded-2xl mt-4 p-4">
-        {saleConfig.saleEnd === BigInt(0) ? (
+        {BigInt(saleConfig.saleEnd) === BigInt(0) ? (
           <div>sale is not yet activated.</div>
         ) : (
           <>
             <div>
               <p className="pb-2">
                 sale start:{" "}
-                {saleConfig.saleStart === BigInt(0)
+                {BigInt(saleConfig.saleStart) === BigInt(0)
                   ? "Open"
                   : new Date(
                       parseInt(saleConfig.saleStart.toString(), 10) * 1000

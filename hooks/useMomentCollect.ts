@@ -48,7 +48,7 @@ const useMomentCollect = () => {
         comment,
       ]);
 
-      if (saleConfig.pricePerToken === BigInt(0)) {
+      if (BigInt(saleConfig.pricePerToken) === BigInt(0)) {
         await mintOnSmartWallet({
           address: moment.collectionAddress,
           abi: zoraCreator1155ImplABI,
