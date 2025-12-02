@@ -61,9 +61,9 @@ const CollectModal = () => {
               <Skeleton className="h-5 w-10 rounded-none" />
             ) : (
               <>
-                {saleConfig.pricePerToken === BigInt(0)
+                {BigInt(saleConfig.pricePerToken) === BigInt(0)
                   ? "free"
-                  : `${getPrice(saleConfig.pricePerToken * BigInt(amountToCollect), saleConfig.type)} ${getPriceUnit(saleConfig.type)}`}
+                  : `${getPrice(BigInt(saleConfig.pricePerToken) * BigInt(amountToCollect), saleConfig.type)} ${getPriceUnit(saleConfig.type)}`}
               </>
             )}
           </section>

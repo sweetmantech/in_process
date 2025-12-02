@@ -1,9 +1,9 @@
-import { Address, getAddress } from "viem";
+import { getAddress } from "viem";
 import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useUserProvider } from "@/providers/UserProvider";
 import { getMomentApi } from "@/lib/moment/getMomentApi";
-import { Moment } from "@/types/moment";
+import { Moment, MomentSaleConfig } from "@/types/moment";
 
 const useMomentData = (moment: Moment) => {
   const { collectionAddress, tokenId, chainId } = moment;
@@ -17,7 +17,7 @@ const useMomentData = (moment: Moment) => {
     retry: (failureCount) => failureCount < 3,
   });
 
-  const saleConfig = query.data?.saleConfig ?? null;
+  const saleConfig = (query.data?.saleConfig as MomentSaleConfig) ?? null;
   const metadata = query.data?.metadata ?? null;
   const owner = query.data?.owner ?? null;
   const tokenUri = query.data?.uri ?? null;
@@ -32,15 +32,7 @@ const useMomentData = (moment: Moment) => {
   }, [artistWallet, owner]);
 
   return {
-    saleConfig: saleConfig
-      ? {
-          ...saleConfig,
-          pricePerToken: BigInt(saleConfig.pricePerToken),
-          saleStart: BigInt(saleConfig.saleStart),
-          saleEnd: BigInt(saleConfig.saleEnd),
-          maxTokensPerAddress: BigInt(saleConfig.maxTokensPerAddress),
-        }
-      : null,
+    saleConfig,
     metadata,
     tokenUri,
     momentAdmins,

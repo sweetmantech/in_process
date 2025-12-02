@@ -25,6 +25,9 @@ const useSaleConfig = () => {
     const newSale = {
       ...sale,
       saleStart: BigInt(Number(saleStart.getTime() / 1000).toFixed(0)),
+      saleEnd: BigInt(sale.saleEnd),
+      pricePerToken: BigInt(sale.pricePerToken),
+      maxTokensPerAddress: BigInt(sale.maxTokensPerAddress),
     };
     const calldata = encodeFunctionData({
       abi: zoraCreatorFixedPriceSaleStrategyABI,
@@ -49,7 +52,7 @@ const useSaleConfig = () => {
   useEffect(() => {
     if (sale) {
       setSaleStart(
-        sale.saleStart === BigInt(0)
+        BigInt(sale.saleStart) === BigInt(0)
           ? new Date()
           : new Date(parseInt(sale.saleStart.toString(), 10) * 1000)
       );
