@@ -122,3 +122,26 @@ export interface GetArtistTimelineResponse {
   moments: TimelineMoment[];
   pagination: TimelinePagination;
 }
+
+export type MomentApiSaleConfig = {
+  pricePerToken: string;
+  saleStart: number;
+  saleEnd: number;
+  maxTokensPerAddress: number;
+  fundsRecipient: Address;
+  type: MomentType;
+};
+
+export type MomentResponse = {
+  uri: string | null;
+  owner: string | null;
+  saleConfig: MomentApiSaleConfig | null;
+  momentAdmins: string[];
+  metadata: MomentMetadata;
+};
+
+export type MomentAdvancedInfo = {
+  uri: string | null;
+  owner: string | null;
+  saleConfig: MomentApiSaleConfig | null;
+};
