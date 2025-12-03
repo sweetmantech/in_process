@@ -25,6 +25,8 @@ export const loadPdfJs = async (): Promise<PdfJsLib> => {
   pdfJsLoadPromise = new Promise<PdfJsLib>((resolve, reject) => {
     const script = document.createElement("script");
     script.src = `https://unpkg.com/pdfjs-dist@${PDFJS_DIST_VERSION}/build/pdf.min.js`;
+    script.crossOrigin = "anonymous";
+
     script.onload = () => {
       const pdfjsLib = window.pdfjsLib || window.pdfjs;
       if (!pdfjsLib || !isPdfJsLib(pdfjsLib)) {
