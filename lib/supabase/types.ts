@@ -363,27 +363,27 @@ export type Database = {
       in_process_payments: {
         Row: {
           amount: number | null;
-          block: number | null;
           buyer: string | null;
           hash: string | null;
           id: string;
           token: string;
+          transferred_at: string;
         };
         Insert: {
           amount?: number | null;
-          block?: number | null;
           buyer?: string | null;
           hash?: string | null;
           id?: string;
           token: string;
+          transferred_at: string;
         };
         Update: {
           amount?: number | null;
-          block?: number | null;
           buyer?: string | null;
           hash?: string | null;
           id?: string;
           token?: string;
+          transferred_at?: string;
         };
         Relationships: [
           {
