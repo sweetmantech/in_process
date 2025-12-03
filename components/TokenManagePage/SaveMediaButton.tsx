@@ -5,7 +5,11 @@ import { toast } from "sonner";
 import { useFormState } from "react-hook-form";
 import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 
-const SaveMediaButton = () => {
+interface SaveMediaButtonProps {
+  onSuccess?: () => void;
+}
+
+const SaveMediaButton = ({ onSuccess }: SaveMediaButtonProps) => {
   const { isOwner } = useMomentProvider();
   const { updateTokenURI, isLoading: isSaving } = useUpdateMomentURI();
   const { form } = useMomentFormProvider();
@@ -23,7 +27,13 @@ const SaveMediaButton = () => {
       return;
     }
 
-    await updateTokenURI();
+    try {
+      await updateTokenURI();
+      onSuccess?.();
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to save media");
+    }
   };
 
   // Watch name value reactively

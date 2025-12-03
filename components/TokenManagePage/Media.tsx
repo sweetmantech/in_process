@@ -76,7 +76,7 @@ const Media = () => {
             </div>
             {hasMedia && editActive && (
               <>
-                <SaveMediaButton />
+                <SaveMediaButton onSuccess={() => setEditActive(false)} />
                 <OwnerWarning />
               </>
             )}
