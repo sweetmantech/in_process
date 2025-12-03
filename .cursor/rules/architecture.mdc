@@ -362,4 +362,214 @@ const useInProcessTimeline = () => {
 - Configure `staleTime` and `refetchOnWindowFocus` based on data freshness requirements
 - Return custom shape from hook if needed for backward compatibility
 
+## File Selection and Upload Patterns
+
+### Separate File Selection from Upload Logic
+**Pattern**: File selection and upload are completely separate concerns. File selection hooks should only handle selecting files and storing them as File blobs in state. Upload logic should happen later in a separate function when needed (deferred upload pattern).
+
+**Why Separate File Selection from Upload**:
+- Follows SRP (Single Responsibility Principle) - selection and upload are different responsibilities
+- Enables deferred upload - files can be selected, validated, and previewed before upload
+- Improves user experience - users can select files, see previews, and make changes before committing to upload
+- Better error handling - validation happens at selection time, upload errors are separate
+- Easier testing - selection logic and upload logic can be tested independently
+- More flexible - files can be stored in state and uploaded later when needed (e.g., on form submission)
+
+**Structure**:
+- **File Selection Hook**: `hooks/useFileSelect.ts` - Handles file input, validation, and stores files as File blobs in state
+- **File Selection Handlers**: `lib/fileSelect/[handler].ts` - Pure functions for handling different file types (image, video, other)
+- **Upload Function**: `lib/metadata/uploadFilesToArweave.ts` - Handles actual file upload to storage
+- **Upload Hook**: `hooks/useMomentMetadata.tsx` - Calls upload function when needed (e.g., on form submission)
+
+**Example Pattern**:
+```typescript
+// ❌ BAD: File selection and upload mixed together
+// hooks/useFileSelect.ts
+const useFileSelect = () => {
+  const selectFile = async (event: any) => {
+    const file = event.target.files[0];
+    // Validation...
+    // Upload immediately after selection
+    await uploadFile(file);
+  };
+  return { selectFile };
+};
+
+// ✅ GOOD: File selection separate from upload
+// lib/fileSelect/validateFile.ts
+export const validateFile = (file: File | null): file is File => {
+  if (!file) throw new Error("No file selected");
+  if (file.size > MAX_FILE_SIZE) throw new Error("File too large");
+  return true;
+};
+
+// lib/fileSelect/handleImageSelection.ts
+export interface ImageSelectionHandlers {
+  setMimeType: (mimeType: string) => void;
+  setImageFile: (file: File | null) => void;
+  setPreviewFile: (file: File | null) => void;
+}
+
+export const handleImageSelection = async (
+  file: File,
+  handlers: ImageSelectionHandlers
+): Promise<void> => {
+  // Store blob data - no upload happens here
+  handlers.setImageFile(file);
+  handlers.setPreviewFile(file);
+  handlers.setMimeType(file.type);
+};
+
+// hooks/useFileSelect.ts
+/**
+ * Hook for file selection only - stores files as blobs.
+ * Upload logic is handled in useMomentMetadata.generateMetadataUri()
+ */
+const useFileSelect = () => {
+  const { setMimeType, setImageFile, setPreviewFile, setAnimationFile } = useMomentFormProvider();
+
+  const selectFile = useCallback(
+    async (event: any) => {
+      const file: File = event.target.files[0];
+      if (!file || !validateFile(file)) return;
+
+      const mimeType = file.type;
+      const isImage = mimeType.includes("image");
+      const isVideo = mimeType.includes("video");
+
+      // Store files as blobs - no upload happens here
+      if (isVideo) {
+        await handleVideoSelection(file, {
+          setAnimationFile,
+          setMimeType,
+          setPreviewFile,
+        });
+      } else if (isImage) {
+        await handleImageSelection(file, {
+          setMimeType,
+          setImageFile,
+          setPreviewFile,
+        });
+      } else {
+        await handleOtherFileSelection(file, {
+          setMimeType,
+          setAnimationFile,
+          setPreviewFile,
+        });
+      }
+    },
+    [setMimeType, setImageFile, setPreviewFile, setAnimationFile]
+  );
+
+  return { selectFile };
+};
+
+// hooks/useMomentMetadata.tsx
+const useMomentMetadata = () => {
+  const { imageFile, previewFile, animationFile } = useMomentFormProvider();
+
+  const generateMetadataUri = async () => {
+    // Upload happens here, when needed (e.g., on form submission)
+    const fileUploadResult = await uploadFilesToArweave({
+      imageFile,
+      previewFile,
+      animationFile,
+    });
+    // ... rest of metadata generation
+  };
+
+  return { generateMetadataUri };
+};
+```
+
+**Key Points**:
+- **File selection hooks should only store File blobs in state** - no upload should happen in selection hooks
+- **Extract file selection logic** into separate handler functions in `lib/fileSelect/` directory
+- **Group handlers by file type** - `handleImageSelection.ts`, `handleVideoSelection.ts`, `handleOtherFileSelection.ts`
+- **Upload logic should be separate** - upload happens later when needed (e.g., on form submission)
+- **Use deferred upload pattern** - store files as File blobs in state, upload when needed
+- **Add clear comments** indicating that selection stores blobs and upload happens elsewhere
+- **File selection handlers should be pure functions** - they take a File and handlers, and update state via handlers
+- **Validation should happen at selection time** - validate files when selected, not when uploaded
+
+### Blob URL Management Pattern
+**Pattern**: Blob URLs for preview display should be managed separately from file storage. Create a dedicated hook for managing blob URLs with proper cleanup.
+
+**Why Separate Blob URL Management**:
+- Blob URLs are for preview/display purposes only, separate from file storage
+- Proper cleanup prevents memory leaks (must revoke blob URLs)
+- Reusable across components that need to display file previews
+- Follows SRP - blob URL management is a separate concern from file selection
+
+**Structure**:
+- **Blob URL Hook**: `hooks/useBlobUrls.ts` - Creates and manages blob URLs for multiple file types with automatic cleanup
+- **Component**: Uses the hook to get blob URLs for preview display
+
+**Example Pattern**:
+```typescript
+// hooks/useBlobUrls.ts
+interface UseBlobUrlsParams {
+  previewFile: File | null;
+  imageFile: File | null;
+  animationFile: File | null;
+  mimeType: string;
+}
+
+/**
+ * Hook to create and manage blob URLs for multiple file types.
+ * Automatically handles cleanup when files change or component unmounts.
+ */
+export const useBlobUrls = ({
+  previewFile,
+  imageFile,
+  animationFile,
+  mimeType,
+}: UseBlobUrlsParams) => {
+  const [blobUrls, setBlobUrls] = useState<BlobUrls>({});
+
+  // Create blob URL for preview file
+  useEffect(() => {
+    if (previewFile) {
+      const blobUrl = URL.createObjectURL(previewFile);
+      setBlobUrls((prev) => ({ ...prev, preview: blobUrl }));
+      return () => URL.revokeObjectURL(blobUrl);
+    } else {
+      setBlobUrls((prev) => {
+        if (prev.preview) URL.revokeObjectURL(prev.preview);
+        const { preview: _preview, ...rest } = prev;
+        return rest;
+      });
+    }
+  }, [previewFile]);
+
+  // Similar useEffect hooks for other file types...
+
+  return {
+    blobUrls,
+    previewFileUrl: blobUrls.preview || "",
+    animationFileUrl: blobUrls.video || blobUrls.pdf || "",
+  };
+};
+
+// Component usage
+const Component = () => {
+  const { previewFile, imageFile, animationFile, mimeType } = useMomentFormProvider();
+  const { blobUrls, previewFileUrl, animationFileUrl } = useBlobUrls({
+    previewFile,
+    imageFile,
+    animationFile,
+    mimeType,
+  });
+
+  return <img src={previewFileUrl} />;
+};
+```
+
+**Key Points**:
+- **Always revoke blob URLs** in cleanup functions to prevent memory leaks
+- **Manage blob URLs separately** from file storage - they serve different purposes
+- **Use a dedicated hook** for blob URL management with proper cleanup
+- **Return both structured blobUrls object and legacy URLs** for backward compatibility if needed
+- **Handle file changes** - revoke old URLs and create new ones when files change
+
 
