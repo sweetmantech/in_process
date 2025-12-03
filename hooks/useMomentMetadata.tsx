@@ -82,14 +82,15 @@ const useMomentMetadata = () => {
     );
 
     // Use file upload results for metadata
+    // Set image from Arweave upload result (preview image for videos, main image for others)
+    image = fileUploadResult.image;
+
     // For videos: use Mux URLs (already set above), don't overwrite with Arweave URLs
     if (isVideo) {
       // Keep Mux URLs: animation_url is playbackUrl, contentUri is downloadUrl
-      image = fileUploadResult.image; // Preview image from Arweave (if exists)
       // animation_url and contentUri already set from Mux above
     } else {
       // For non-videos: use Arweave URLs
-      image = fileUploadResult.image;
       animation_url = fileUploadResult.animationUrl || animation_url;
 
       // For PDFs, images, and other files: content.uri should be same as animation_url
