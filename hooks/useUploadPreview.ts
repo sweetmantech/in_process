@@ -33,8 +33,14 @@ export const useUploadPreview = () => {
   );
 
   const handleDoneClick = useCallback(async () => {
-    await saveCroppedImage();
-    setIsOpenPreviewUpload(false);
+    try {
+      await saveCroppedImage();
+      setIsOpenPreviewUpload(false);
+    } catch (error) {
+      console.error("Failed to save cropped image:", error);
+      toast.error("Failed to save cropped image. Please try again.");
+      // Keep modal open on error
+    }
   }, [saveCroppedImage, setIsOpenPreviewUpload]);
 
   return {

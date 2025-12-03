@@ -4,164 +4,267 @@ alwaysApply: true
 
 # TypeScript Coding Principles
 
+## 📋 IMPORTANT: ALWAYS CHECK AND UPDATE THIS FILE
+
+**BEFORE STARTING ANY TASK:**
+1. **READ THIS FILE FIRST** - These rules apply to ALL project development
+2. **UPDATE THIS FILE** - When the user provides guidance, patterns, or corrections, immediately update this file to reflect them
+3. **REFERENCE THIS FILE** - Use these principles for every code change, file creation, or refactoring
+4. **MAINTAIN CONSISTENCY** - All code must follow the patterns and rules defined here
+
+**WHEN USER PROVIDES GUIDANCE:**
+- If they correct a pattern or approach → Update the relevant section in this file
+- If they introduce a new pattern → Add it to the Code Patterns section
+- If they clarify a rule → Update the rule to be more explicit
+- If they change file organization → Update the File Organization section
+
+**This file is the single source of truth for all coding standards in this project.**
+
+---
+
+## ⚠️ CRITICAL RULE: ONE FUNCTION PER FILE ⚠️
+
+**THIS IS THE MOST IMPORTANT RULE - CHECK THIS FIRST BEFORE CREATING OR MODIFYING ANY FILE**
+
+- **EVERY function MUST be in its own separate file**
+- **The file name MUST match the function name** (e.g., `getMaxBlockTimestamp.ts` exports `getMaxBlockTimestamp`)
+- **NO exceptions** - helper functions, type guards, utility functions, ALL functions must be separate files
+- **If a file has multiple functions, you MUST split them immediately**
+
+**Examples:**
+- ✅ GOOD: `lib/fileSelect/loadPdfJs.ts` exports only `loadPdfJs`
+- ✅ GOOD: `lib/fileSelect/isPdfJsLib.ts` exports only `isPdfJsLib`
+- ❌ BAD: `lib/fileSelect/loadPdfJs.ts` contains both `loadPdfJs` AND `isPdfJsLib`
+- ❌ BAD: `lib/utils/helpers.ts` with multiple functions - split into separate files
+
+**Before creating or editing any file, ask yourself:**
+1. Does this file contain only ONE exported function?
+2. If there are helper functions, are they in separate files?
+3. If there are type guards, are they in separate files?
+
+**If the answer to any question is NO, split the file immediately.**
+
+---
+
 ## Core Principles
 
-### KISS Principle (Keep It Simple, Stupid)
+### KISS (Keep It Simple, Stupid)
 - Write simple, straightforward code that is easy to understand
 - Avoid unnecessary complexity and over-engineering
 - Prefer clear, readable solutions over clever ones
-- If a solution seems too complicated, simplify it
 
-### DRY Principle (Don't Repeat Yourself)
+### DRY (Don't Repeat Yourself)
 - Avoid code duplication
 - Extract common logic into reusable functions or utilities
 - Use shared constants, types, and helpers
-- Refactor repeated patterns into abstractions
 
-### SRP Principle (Single Responsibility Principle)
+### SRP (Single Responsibility Principle)
 - Each function, class, or module should have one clear responsibility
-- `A function` MUST do `one thing(file)` and do it well
+- A function MUST do one thing (one file) and do it well
 - If a function does multiple things, split it into smaller functions
-- Keep functions focused and cohesive
 
 ### Open-Closed Principle
 - Code should be open for extension but closed for modification
 - Design functions and classes to be extensible without changing existing code
-- Use interfaces, abstract classes, and dependency injection to enable extension
 - Prefer composition over modification when adding new features
+
+---
 
 ## File Organization
 
-### One Function Per File
-- Each function should be defined in its own file
-- The file name should match the function name (e.g., `getMaxBlockTimestamp.ts` exports `getMaxBlockTimestamp`)
-- This improves:
-  - Code discoverability
-  - Easier testing
-  - Better code organization
-  - Reduced merge conflicts
+### Functions (`lib/[feature]/`)
+- **One function per file** - file name matches function name
+- Pure utility functions, API calls, data transformations
+- Example: `lib/moment/formatMomentPrice.ts`, `lib/moment/getInProcessTimelineApi.ts`
 
-### Providers
-- **All React providers must be stored in the `lib/providers/` folder**
-- Each provider should be in its own file
-- Example structure:
-  ```
-  lib/
-    providers/
-      query-provider.tsx
-      theme-provider.tsx
-      auth-provider.tsx
-  ```
-- Providers should be client components (use "use client" directive)
-- Export providers as named exports for easy import
-- Keep provider logic focused and minimal
+### Hooks (`hooks/`)
+- Custom React hooks for state management, side effects, data fetching
+- One hook per file - file name matches hook name
+- Example: `hooks/useMoment.ts`, `hooks/usePreviewFileUrl.ts`
 
-### Supabase Query Functions
-- All pure Supabase query functions must be organized in the `supabase` folder
-- Group functions by table: `supabase/[table_name]/`
-- Example structure:
-  ```
-  supabase/
-    in_process_tokens/
-      selectTokens.ts
-      upsertTokens.ts
-    in_process_payments/
-      selectPayments.ts
-      upsertPayments.ts
-  ```
-- Keep query functions pure and focused on database operations
-- Separate business logic from database queries
+### Components (`components/`)
+- **Components should maintain HTML/JSX code only** (< 120 lines)
+- Extract business logic to hooks or utility functions
+- **Folder naming:**
+  - Page-specific: `CreatePage/`, `ManagePage/` (PascalCase with "Page" suffix)
+  - Layout/reusable: `Layout/`, `ui/` (no "Page" suffix)
+  - Component names inside Page folders should NOT include page prefix
+    - ✅ GOOD: `ManagePage/Tabs.tsx`, `ManagePage/Stats.tsx`
+    - ❌ BAD: `ManagePage/ManageTabs.tsx`
 
-### Types
-- All types should be defined in a `types` folder
-- Example structure:
-  ```
-  types/
-    moments.ts
-  ```
+### Providers (`lib/providers/`)
+- All React providers in `lib/providers/` folder
+- Each provider in its own file
+- Client components (use "use client" directive)
+
+### Supabase Queries (`supabase/[table_name]/`)
+- Pure Supabase query functions organized by table
+- Example: `supabase/in_process_tokens/selectTokens.ts`
+
+### Types (`types/`)
+- All types defined in `types` folder
 - Keep type definitions organized and easily discoverable
-- Export types from a central location when shared across modules
 
-### Mock Data
-- **All mock variables must be placed in the `lib` folder**
-- Organize mock data by domain/feature: `lib/mocks/[feature]/`
-- Example structure:
-  ```
-  lib/
-    mocks/
-      moments/
-        mockMoments.ts
-      stories/
-        mockStories.ts
-      users/
-        mockUsers.ts
-  ```
-- Export mock data as named exports for easy import
-- Keep mock data separate from component files to maintain clean component structure
-- Mock data files should be pure data exports (no logic)
+### Mock Data (`lib/mocks/[feature]/`)
+- All mock variables in `lib/mocks/[feature]/` folder
+- Pure data exports (no logic)
+- Example: `lib/mocks/moments/mockMoments.ts`
 
-### Component Folder Naming
-- **All component folders must use PascalCase naming**
-- **"Page" suffix**: Only folders containing page-specific components should use the "Page" suffix
-  - Example: `CreatePage/`, `MarketplacePage/`, `StoryPage/`, `ManagePage/`, `HomePage/`
-- **No "Page" suffix**: Folders containing reusable/layout components should NOT use the "Page" suffix
-  - Example: `Layout/` (Navbar, Footer), `ui/` (reusable UI components)
-- **Exception**: The `ui/` folder remains lowercase as it contains generic UI components
-- **Component naming within Page folders**: Components inside Page folders should NOT include the page name as a prefix
-  - ✅ GOOD: `ManagePage/Tabs.tsx`, `ManagePage/Stats.tsx`, `ManagePage/OverviewTab.tsx`
-  - ❌ BAD: `ManagePage/ManageTabs.tsx`, `ManagePage/ManageStats.tsx` (redundant prefix)
-  - The folder name already indicates the context, so component names should be concise and descriptive
-- Example structure:
-  ```
-  components/
-    CreatePage/            # Page-specific components for create page
-      MomentForm.tsx
-      StoryForm.tsx
-      CreateTabs.tsx
-    MarketplacePage/      # Page-specific components for marketplace/moments page
-      MomentCard.tsx
-      FilterBar.tsx
-    ManagePage/           # Page-specific components for manage page
-      Tabs.tsx            # Not "ManageTabs" - folder name provides context
-      Stats.tsx           # Not "ManageStats"
-      OverviewTab.tsx     # Not "ManageOverviewTab"
-      CollectionsTab.tsx
-      StoriesTab.tsx
-    HomePage/             # Page-specific components for home page
-      FeaturesSection.tsx
-      PopularUsersSection.tsx
-      FeaturedMomentsSection.tsx
-      CTASection.tsx
-    Layout/                # Layout components (no Page suffix)
-      Navbar.tsx
-      Footer.tsx
-    ui/                    # Reusable UI components (lowercase exception)
-      Button.tsx
-      Card.tsx
-  ```
+---
 
-### Component Structure
-- **Components should maintain HTML/JSX code only**
-- **Each component should be less than 100-120 lines of code**
-- All business logic, utility functions, and hooks should be extracted to appropriate folders:
-  - **Functions**: `lib/[feature]/` - Pure utility functions, API calls, data transformations
-  - **Hooks**: `hooks/` - Custom React hooks for state management, side effects, data fetching
-- This follows KISS (Keep It Simple) and SRP (Single Responsibility Principle)
-- Components should be focused on rendering and user interaction
-- If a component exceeds 120 lines, split it into smaller sub-components
-- Example structure:
-  ```
-  components/
-    MarketplacePage/
-      MomentCard.tsx          # Pure JSX/HTML, minimal logic (< 120 lines)
-  lib/
-    moment/
-      formatMomentData.ts   # Data transformation functions
-      calculateAvailability.ts  # Business logic calculations
-      getMomentApi.ts       # API functions
-  hooks/
-    useMoment.ts           # Custom hooks for moment logic
-  ```
+## Code Patterns
+
+### Component Structure Pattern
+**Rule**: Components = JSX/HTML only. Logic goes to hooks/functions.
+
+```typescript
+// ❌ BAD: Component with business logic
+function MomentCard({ moment }) {
+  const formattedPrice = new Intl.NumberFormat('en-US', {
+    style: 'currency', currency: 'USD'
+  }).format(moment.price);
+  return <div>{formattedPrice}</div>;
+}
+
+// ✅ GOOD: Component with extracted logic
+// lib/moment/formatMomentPrice.ts
+export const formatMomentPrice = (price: number): string => {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency', currency: 'USD'
+  }).format(price);
+};
+
+// components/MomentCard.tsx
+import { formatMomentPrice } from '@/lib/moment/formatMomentPrice';
+function MomentCard({ moment }) {
+  return <div>{formatMomentPrice(moment.price)}</div>;
+}
+```
+
+### Extract useEffect Pattern
+**Rule**: Always extract `useEffect` hooks from components into custom hooks.
+
+```typescript
+// ❌ BAD: useEffect in component
+const Preview = () => {
+  const [url, setUrl] = useState("");
+  useEffect(() => {
+    if (file) {
+      const blobUrl = URL.createObjectURL(file);
+      setUrl(blobUrl);
+      return () => URL.revokeObjectURL(blobUrl);
+    }
+  }, [file]);
+  return <img src={url} />;
+};
+
+// ✅ GOOD: useEffect extracted to hook
+// hooks/usePreviewFileUrl.ts
+export const usePreviewFileUrl = (file: File | null): string => {
+  const [url, setUrl] = useState("");
+  useEffect(() => {
+    if (file) {
+      const blobUrl = URL.createObjectURL(file);
+      setUrl(blobUrl);
+      return () => URL.revokeObjectURL(blobUrl);
+    }
+  }, [file]);
+  return url;
+};
+
+// components/Preview.tsx
+const Preview = () => {
+  const url = usePreviewFileUrl(file);
+  return <img src={url} />;
+};
+```
+
+### API Fetching Pattern
+**Rule**: Use TanStack Query + separate API logic in `lib/`.
+
+```typescript
+// lib/moment/getInProcessTimelineApi.ts
+export const getInProcessTimelineApi = async (): Promise<TimelineMoment[]> => {
+  const res = await fetch("/api/timeline/inprocess");
+  // ... error handling
+  return data.moments || [];
+};
+
+// hooks/useInProcessTimeline.ts
+import { useQuery } from "@tanstack/react-query";
+import { getInProcessTimelineApi } from "@/lib/moment/getInProcessTimelineApi";
+
+const useInProcessTimeline = () => {
+  const query = useQuery({
+    queryKey: ["in-process-timeline"],
+    queryFn: getInProcessTimelineApi,
+    staleTime: 60_000,
+  });
+  return {
+    moments: query.data ?? [],
+    isLoading: query.isLoading,
+    error: query.error instanceof Error ? query.error : null,
+  };
+};
+```
+
+### File Selection Pattern
+**Rule**: File selection and upload are separate. Selection stores blobs, upload happens later.
+
+```typescript
+// ✅ GOOD: Selection separate from upload
+// lib/fileSelect/handleImageSelection.ts
+export const handleImageSelection = async (
+  file: File,
+  handlers: ImageSelectionHandlers
+): Promise<void> => {
+  // Store blob data - no upload happens here
+  handlers.setImageFile(file);
+  handlers.setPreviewFile(file);
+};
+
+// hooks/useFileSelect.ts
+// Hook for file selection only - stores files as blobs.
+// Upload logic is handled in useMomentMetadata.generateMetadataUri()
+const useFileSelect = () => {
+  const selectFile = async (event: any) => {
+    const file = event.target.files[0];
+    await handleImageSelection(file, handlers);
+  };
+  return { selectFile };
+};
+
+// hooks/useMomentMetadata.tsx
+const useMomentMetadata = () => {
+  const generateMetadataUri = async () => {
+    // Upload happens here, when needed (e.g., on form submission)
+    const result = await uploadFilesToArweave({ imageFile, previewFile });
+  };
+  return { generateMetadataUri };
+};
+```
+
+### Blob URL Management Pattern
+**Rule**: Manage blob URLs separately from file storage with proper cleanup.
+
+```typescript
+// hooks/useBlobUrls.ts
+export const useBlobUrls = ({ previewFile, imageFile }: Params) => {
+  const [blobUrls, setBlobUrls] = useState<BlobUrls>({});
+  
+  useEffect(() => {
+    if (previewFile) {
+      const blobUrl = URL.createObjectURL(previewFile);
+      setBlobUrls((prev) => ({ ...prev, preview: blobUrl }));
+      return () => URL.revokeObjectURL(blobUrl);
+    }
+  }, [previewFile]);
+  
+  return { previewFileUrl: blobUrls.preview || "" };
+};
+```
+
+---
 
 ## Best Practices
 
@@ -174,402 +277,10 @@ alwaysApply: true
 ### Type Safety
 - Use TypeScript types and interfaces consistently
 - Avoid `any` types; use `unknown` when type is truly unknown
-- Leverage TypeScript's type inference where appropriate
-- Define types in the `types` folder (see File Organization section)
+- Define types in the `types` folder
 
 ### Code Structure
 - Group related functionality together
 - Maintain clear separation of concerns
 - Use consistent naming conventions
 - Follow the existing project structure patterns
-
-### Component Best Practices
-- **Keep components focused on presentation**
-  - Components should primarily contain JSX/HTML markup
-  - Extract complex logic to hooks or utility functions
-  - Use custom hooks for state management and side effects
-  - Use utility functions in `lib/` for data processing, formatting, calculations
-- **Example of proper separation**:
-  ```typescript
-  // ❌ BAD: Component with business logic
-  function MomentCard({ moment }) {
-    const formattedPrice = new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD'
-    }).format(moment.price);
-    
-    const availabilityPercentage = (moment.available_supply / moment.total_supply) * 100;
-    
-    return <div>...</div>;
-  }
-  
-  // ✅ GOOD: Component with extracted logic
-  // lib/moment/formatMomentData.ts
-  export const formatMomentPrice = (price: number): string => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD'
-    }).format(price);
-  };
-  
-  export const calculateAvailabilityPercentage = (
-    available: number,
-    total: number
-  ): number => {
-    return (available / total) * 100;
-  };
-  
-  // components/MomentCard.tsx
-  import { formatMomentPrice, calculateAvailabilityPercentage } from '@/lib/moment/formatMomentData';
-  
-  function MomentCard({ moment }) {
-    const formattedPrice = formatMomentPrice(moment.price);
-    const availabilityPercentage = calculateAvailabilityPercentage(
-      moment.available_supply,
-      moment.total_supply
-    );
-    
-    return <div>...</div>;
-  }
-  ```
-
-### Extract useEffect Hooks from Components
-**Pattern**: When components contain `useEffect` hooks for side effects, state management, or data transformations, extract them into custom hooks.
-
-**Why Extract useEffect Hooks**:
-- Components should focus on rendering JSX/HTML markup
-- Side effects and state management logic belong in hooks
-- Makes components easier to read and understand
-- Enables reusability of the logic across multiple components
-- Improves testability by allowing hooks to be tested independently
-
-**Structure**:
-- **Hook**: `hooks/use[Feature].ts` - Contains the `useEffect` logic, state management, and cleanup
-- **Component**: `components/[Component].tsx` - Uses the hook and focuses on rendering
-
-**Example Pattern**:
-```typescript
-// ❌ BAD: Component with useEffect logic
-// components/CreateForm/Preview.tsx
-import { useState, useEffect } from "react";
-
-const Preview = () => {
-  const { previewFile } = useMomentFormProvider();
-  const [previewFileUrl, setPreviewFileUrl] = useState<string>("");
-
-  useEffect(() => {
-    if (previewFile) {
-      const blobUrl = URL.createObjectURL(previewFile);
-      setPreviewFileUrl(blobUrl);
-      return () => URL.revokeObjectURL(blobUrl);
-    } else {
-      setPreviewFileUrl("");
-    }
-  }, [previewFile]);
-
-  return <div>...</div>;
-};
-
-// ✅ GOOD: Component with extracted hook
-// hooks/usePreviewFileUrl.ts
-import { useState, useEffect } from "react";
-
-export const usePreviewFileUrl = (file: File | null | undefined): string => {
-  const [previewFileUrl, setPreviewFileUrl] = useState<string>("");
-
-  useEffect(() => {
-    if (file) {
-      const blobUrl = URL.createObjectURL(file);
-      setPreviewFileUrl(blobUrl);
-      return () => URL.revokeObjectURL(blobUrl);
-    } else {
-      setPreviewFileUrl("");
-    }
-  }, [file]);
-
-  return previewFileUrl;
-};
-
-// components/CreateForm/Preview.tsx
-import { usePreviewFileUrl } from "@/hooks/usePreviewFileUrl";
-
-const Preview = () => {
-  const { previewFile } = useMomentFormProvider();
-  const previewFileUrl = usePreviewFileUrl(previewFile);
-
-  return <div>...</div>;
-};
-```
-
-**Key Points**:
-- **Always extract useEffect hooks** from components into custom hooks in the `hooks/` folder
-- Components should only contain JSX/HTML markup and hook calls
-- Custom hooks should handle all side effects, state management, and cleanup logic
-- Use descriptive hook names that clearly indicate their purpose (e.g., `usePreviewFileUrl`, `useMediaInitialization`)
-- Hooks should return the data/state needed by the component, keeping the component interface clean
-
-## API Fetching Patterns
-
-### Use TanStack Query + Separate API Logic
-**Pattern**: When implementing hooks that fetch data from API endpoints:
-1. **ALWAYS use TanStack Query** (`useQuery` or `useInfiniteQuery`) instead of manual `useState`/`useEffect`
-2. Separate the API fetching logic into a dedicated function in `lib/` directory
-
-**Structure**:
-- **API Function**: `lib/moment/getInProcessTimelineApi.ts` (or similar) - Contains pure fetch logic, error handling, and response parsing
-- **Hook**: `hooks/useInProcessTimeline.ts` - Uses `useQuery` from TanStack Query to manage data fetching
-
-**Benefits**:
-- TanStack Query provides built-in caching, refetching, error handling, and loading states
-- Follows SRP (Single Responsibility Principle) - API logic separate from React logic
-- Reusable API functions can be used outside of hooks
-- Easier to test API functions independently
-- Automatic request deduplication and background refetching
-- Better performance with built-in caching
-
-**Example Pattern**:
-```typescript
-// lib/moment/getInProcessTimelineApi.ts
-export const getInProcessTimelineApi = async (): Promise<TimelineMoment[]> => {
-  const res = await fetch("/api/timeline/inprocess");
-  // ... error handling and response parsing
-  return data.moments || [];
-};
-
-// hooks/useInProcessTimeline.ts
-import { useQuery } from "@tanstack/react-query";
-import { getInProcessTimelineApi } from "@/lib/moment/getInProcessTimelineApi";
-
-const useInProcessTimeline = () => {
-  const query = useQuery({
-    queryKey: ["in-process-timeline"],
-    queryFn: getInProcessTimelineApi,
-    staleTime: 60_000, // 1 minute
-    refetchOnWindowFocus: false,
-  });
-
-  return {
-    moments: query.data ?? [],
-    isLoading: query.isLoading,
-    error: query.error instanceof Error ? query.error : null,
-  };
-};
-```
-
-**Key Points**:
-- **Always prefer TanStack Query** over manual state management for API data fetching
-- Use descriptive `queryKey` arrays (e.g., `["in-process-timeline"]` or `["tokenInfo", address, tokenId]`)
-- Configure `staleTime` and `refetchOnWindowFocus` based on data freshness requirements
-- Return custom shape from hook if needed for backward compatibility
-
-## File Selection and Upload Patterns
-
-### Separate File Selection from Upload Logic
-**Pattern**: File selection and upload are completely separate concerns. File selection hooks should only handle selecting files and storing them as File blobs in state. Upload logic should happen later in a separate function when needed (deferred upload pattern).
-
-**Why Separate File Selection from Upload**:
-- Follows SRP (Single Responsibility Principle) - selection and upload are different responsibilities
-- Enables deferred upload - files can be selected, validated, and previewed before upload
-- Improves user experience - users can select files, see previews, and make changes before committing to upload
-- Better error handling - validation happens at selection time, upload errors are separate
-- Easier testing - selection logic and upload logic can be tested independently
-- More flexible - files can be stored in state and uploaded later when needed (e.g., on form submission)
-
-**Structure**:
-- **File Selection Hook**: `hooks/useFileSelect.ts` - Handles file input, validation, and stores files as File blobs in state
-- **File Selection Handlers**: `lib/fileSelect/[handler].ts` - Pure functions for handling different file types (image, video, other)
-- **Upload Function**: `lib/metadata/uploadFilesToArweave.ts` - Handles actual file upload to storage
-- **Upload Hook**: `hooks/useMomentMetadata.tsx` - Calls upload function when needed (e.g., on form submission)
-
-**Example Pattern**:
-```typescript
-// ❌ BAD: File selection and upload mixed together
-// hooks/useFileSelect.ts
-const useFileSelect = () => {
-  const selectFile = async (event: any) => {
-    const file = event.target.files[0];
-    // Validation...
-    // Upload immediately after selection
-    await uploadFile(file);
-  };
-  return { selectFile };
-};
-
-// ✅ GOOD: File selection separate from upload
-// lib/fileSelect/validateFile.ts
-export const validateFile = (file: File | null): file is File => {
-  if (!file) throw new Error("No file selected");
-  if (file.size > MAX_FILE_SIZE) throw new Error("File too large");
-  return true;
-};
-
-// lib/fileSelect/handleImageSelection.ts
-export interface ImageSelectionHandlers {
-  setMimeType: (mimeType: string) => void;
-  setImageFile: (file: File | null) => void;
-  setPreviewFile: (file: File | null) => void;
-}
-
-export const handleImageSelection = async (
-  file: File,
-  handlers: ImageSelectionHandlers
-): Promise<void> => {
-  // Store blob data - no upload happens here
-  handlers.setImageFile(file);
-  handlers.setPreviewFile(file);
-  handlers.setMimeType(file.type);
-};
-
-// hooks/useFileSelect.ts
-/**
- * Hook for file selection only - stores files as blobs.
- * Upload logic is handled in useMomentMetadata.generateMetadataUri()
- */
-const useFileSelect = () => {
-  const { setMimeType, setImageFile, setPreviewFile, setAnimationFile } = useMomentFormProvider();
-
-  const selectFile = useCallback(
-    async (event: any) => {
-      const file: File = event.target.files[0];
-      if (!file || !validateFile(file)) return;
-
-      const mimeType = file.type;
-      const isImage = mimeType.includes("image");
-      const isVideo = mimeType.includes("video");
-
-      // Store files as blobs - no upload happens here
-      if (isVideo) {
-        await handleVideoSelection(file, {
-          setAnimationFile,
-          setMimeType,
-          setPreviewFile,
-        });
-      } else if (isImage) {
-        await handleImageSelection(file, {
-          setMimeType,
-          setImageFile,
-          setPreviewFile,
-        });
-      } else {
-        await handleOtherFileSelection(file, {
-          setMimeType,
-          setAnimationFile,
-          setPreviewFile,
-        });
-      }
-    },
-    [setMimeType, setImageFile, setPreviewFile, setAnimationFile]
-  );
-
-  return { selectFile };
-};
-
-// hooks/useMomentMetadata.tsx
-const useMomentMetadata = () => {
-  const { imageFile, previewFile, animationFile } = useMomentFormProvider();
-
-  const generateMetadataUri = async () => {
-    // Upload happens here, when needed (e.g., on form submission)
-    const fileUploadResult = await uploadFilesToArweave({
-      imageFile,
-      previewFile,
-      animationFile,
-    });
-    // ... rest of metadata generation
-  };
-
-  return { generateMetadataUri };
-};
-```
-
-**Key Points**:
-- **File selection hooks should only store File blobs in state** - no upload should happen in selection hooks
-- **Extract file selection logic** into separate handler functions in `lib/fileSelect/` directory
-- **Group handlers by file type** - `handleImageSelection.ts`, `handleVideoSelection.ts`, `handleOtherFileSelection.ts`
-- **Upload logic should be separate** - upload happens later when needed (e.g., on form submission)
-- **Use deferred upload pattern** - store files as File blobs in state, upload when needed
-- **Add clear comments** indicating that selection stores blobs and upload happens elsewhere
-- **File selection handlers should be pure functions** - they take a File and handlers, and update state via handlers
-- **Validation should happen at selection time** - validate files when selected, not when uploaded
-
-### Blob URL Management Pattern
-**Pattern**: Blob URLs for preview display should be managed separately from file storage. Create a dedicated hook for managing blob URLs with proper cleanup.
-
-**Why Separate Blob URL Management**:
-- Blob URLs are for preview/display purposes only, separate from file storage
-- Proper cleanup prevents memory leaks (must revoke blob URLs)
-- Reusable across components that need to display file previews
-- Follows SRP - blob URL management is a separate concern from file selection
-
-**Structure**:
-- **Blob URL Hook**: `hooks/useBlobUrls.ts` - Creates and manages blob URLs for multiple file types with automatic cleanup
-- **Component**: Uses the hook to get blob URLs for preview display
-
-**Example Pattern**:
-```typescript
-// hooks/useBlobUrls.ts
-interface UseBlobUrlsParams {
-  previewFile: File | null;
-  imageFile: File | null;
-  animationFile: File | null;
-  mimeType: string;
-}
-
-/**
- * Hook to create and manage blob URLs for multiple file types.
- * Automatically handles cleanup when files change or component unmounts.
- */
-export const useBlobUrls = ({
-  previewFile,
-  imageFile,
-  animationFile,
-  mimeType,
-}: UseBlobUrlsParams) => {
-  const [blobUrls, setBlobUrls] = useState<BlobUrls>({});
-
-  // Create blob URL for preview file
-  useEffect(() => {
-    if (previewFile) {
-      const blobUrl = URL.createObjectURL(previewFile);
-      setBlobUrls((prev) => ({ ...prev, preview: blobUrl }));
-      return () => URL.revokeObjectURL(blobUrl);
-    } else {
-      setBlobUrls((prev) => {
-        if (prev.preview) URL.revokeObjectURL(prev.preview);
-        const { preview: _preview, ...rest } = prev;
-        return rest;
-      });
-    }
-  }, [previewFile]);
-
-  // Similar useEffect hooks for other file types...
-
-  return {
-    blobUrls,
-    previewFileUrl: blobUrls.preview || "",
-    animationFileUrl: blobUrls.video || blobUrls.pdf || "",
-  };
-};
-
-// Component usage
-const Component = () => {
-  const { previewFile, imageFile, animationFile, mimeType } = useMomentFormProvider();
-  const { blobUrls, previewFileUrl, animationFileUrl } = useBlobUrls({
-    previewFile,
-    imageFile,
-    animationFile,
-    mimeType,
-  });
-
-  return <img src={previewFileUrl} />;
-};
-```
-
-**Key Points**:
-- **Always revoke blob URLs** in cleanup functions to prevent memory leaks
-- **Manage blob URLs separately** from file storage - they serve different purposes
-- **Use a dedicated hook** for blob URL management with proper cleanup
-- **Return both structured blobUrls object and legacy URLs** for backward compatibility if needed
-- **Handle file changes** - revoke old URLs and create new ones when files change
-
-

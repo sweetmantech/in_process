@@ -9,29 +9,48 @@ export const useAudioPlayer = () => {
   const [progress, setProgress] = useState(0);
   const audioRef = useRef<HTMLAudioElement>(null);
 
-  const togglePlayPause = () => {
+  const togglePlayPause = async () => {
     if (audioRef.current) {
       if (isPlaying) {
         audioRef.current.pause();
+        setIsPlaying(false);
       } else {
-        audioRef.current.play();
+        try {
+          await audioRef.current.play();
+          setIsPlaying(true);
+        } catch (error) {
+          console.error("Failed to play audio:", error);
+          setIsPlaying(false);
+        }
       }
-      setIsPlaying(!isPlaying);
     }
   };
 
   const handleTimeUpdate = () => {
     if (audioRef.current) {
-      const progress = (audioRef.current.currentTime / audioRef.current.duration) * 100;
-      setProgress(progress);
+      const { currentTime, duration } = audioRef.current;
+
+      if (Number.isFinite(duration) && Number.isFinite(currentTime) && duration > 0) {
+        const progress = (currentTime / duration) * 100;
+        setProgress(Math.max(0, Math.min(100, progress)));
+      } else {
+        setProgress(0);
+      }
     }
   };
 
   const handleSliderChange = (value: number[]) => {
     if (audioRef.current) {
-      const time = (value[0] / 100) * audioRef.current.duration;
-      audioRef.current.currentTime = time;
-      setProgress(value[0]);
+      const { duration } = audioRef.current;
+
+      if (Number.isFinite(duration) && duration > 0) {
+        const time = (value[0] / 100) * duration;
+        const clampedTime = Math.max(0, Math.min(duration, time));
+        audioRef.current.currentTime = clampedTime;
+        setProgress(value[0]);
+      } else {
+        setProgress(0);
+      }
     }
   };
 
