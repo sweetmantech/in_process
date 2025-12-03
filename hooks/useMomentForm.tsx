@@ -1,11 +1,13 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createFormSchema, CreateFormData } from "@/lib/schema/createFormSchema";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useMask } from "./useMask";
 import { useBlobUrls } from "./useBlobUrls";
 
 const useMomentForm = () => {
+  // File input ref for resetting file inputs
+  const fileInputRef = useRef<HTMLInputElement>(null);
   // Metadata values state
   const [name, setName] = useState<string>("");
   const [priceUnit, setPriceUnit] = useState<string>("usdc");
@@ -43,18 +45,46 @@ const useMomentForm = () => {
   // Mask values state
   const mask = useMask(isOpenAdvanced, writingText);
 
-  const resetForm = () => {
-    setName("");
-    setDescription("");
+  const clearMediaState = () => {
+    setImageFile(null);
+    setAnimationFile(null);
+    setPreviewFile(null);
     setMimeType("");
     setDownloadUrl("");
     setEmbedCode("");
     setLink("");
     setWritingText("");
-    // Clean up file blobs
-    setImageFile(null);
-    setAnimationFile(null);
-    setPreviewFile(null);
+  };
+
+  const resetForm = () => {
+    setName("");
+    setDescription("");
+    clearMediaState();
+  };
+
+  /**
+   * Reusable function for resetting file uploads while preserving name and description.
+   * Used in both Create and Manage flows.
+   */
+  const resetFiles = () => {
+    // Store current form values BEFORE any operations (preserve name and description)
+    const currentName = form.getValues("name");
+    const currentDescription = form.getValues("description");
+
+    // Clear only files and media-related state, NOT name/description
+    clearMediaState();
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+
+    // Ensure form values remain unchanged (preserve name and description)
+    if (currentName !== undefined && currentName !== null) {
+      form.setValue("name", currentName, { shouldValidate: false });
+    }
+    if (currentDescription !== undefined && currentDescription !== null) {
+      form.setValue("description", currentDescription, { shouldValidate: false });
+    }
   };
 
   // Set default price based on priceUnit
@@ -136,6 +166,9 @@ const useMomentForm = () => {
 
   const onChangeStartDate = (value: Date) => setStartDate(value);
 
+  // Check if any media files are selected
+  const hasMedia = Boolean(previewFile || imageFile || animationFile);
+
   return {
     // Form
     form,
@@ -164,6 +197,7 @@ const useMomentForm = () => {
     setLink,
     link,
     resetForm,
+    resetFiles,
 
     // Advanced values
     startDate,
@@ -182,6 +216,9 @@ const useMomentForm = () => {
     previewFile,
     setPreviewFile,
 
+    // Media state
+    hasMedia,
+
     // Blob URLs for preview display
     blobUrls,
     // Legacy blob URLs for backward compatibility
@@ -193,6 +230,9 @@ const useMomentForm = () => {
     setUploadProgress,
     isUploading,
     setIsUploading,
+
+    // File input ref
+    fileInputRef,
   };
 };
 
