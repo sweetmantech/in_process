@@ -11,6 +11,11 @@ const CollectionOverview = () => {
   const { data, isLoading } = collection.metadata;
   const { push } = useRouter();
 
+  const isPdf = data?.content?.mime?.includes("pdf") ?? false;
+  const containerClassName = isPdf
+    ? "w-fit pt-4 flex flex-col items-center gap-2"
+    : "w-fit pt-4 flex flex-col md:flex-row items-center gap-2";
+
   return (
     <div className="w-full pt-8 px-4 md:px-10">
       <div className="flex gap-2 text-lg font-archivo items-center cursor-pointer">
@@ -34,7 +39,7 @@ const CollectionOverview = () => {
           {isLoading ? <Skeleton className="w-12 h-4 rounded-sm" /> : data?.name}
         </button>
       </div>
-      <div className="w-fit pt-4 flex flex-col md:flex-row items-center gap-2">
+      <div className={containerClassName}>
         <div className="w-full md:w-fit md:max-w-[200px] aspect-[1/1] relative">
           {isLoading ? (
             <Skeleton className="size-full" />

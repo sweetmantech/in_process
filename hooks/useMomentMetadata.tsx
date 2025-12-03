@@ -20,7 +20,6 @@ const useMomentMetadata = () => {
     name,
     link,
     writingText,
-    downloadUrl,
     imageFile,
     animationFile,
     previewFile,
@@ -38,8 +37,12 @@ const useMomentMetadata = () => {
     let contentUri = "";
     let image = "";
 
+    // Check if there are files to upload
+    const hasFilesToUpload = Boolean(previewFile || imageFile || animationFile);
+
     // Upload video to Mux if animation file exists and mimeType indicates video (deferred upload)
-    if (animationFile && mimeType.includes("video")) {
+    const isVideo = animationFile && mimeType.includes("video");
+    if (isVideo) {
       setIsUploading(true);
       setUploadProgress(0);
     }
@@ -50,25 +53,59 @@ const useMomentMetadata = () => {
       setUploadProgress
     );
     if (videoResult.animationUrl) {
+      // For videos: animation_url = Mux playbackUrl, contentUri = Mux downloadUrl
       animation_url = videoResult.animationUrl;
       contentUri = videoResult.contentUri;
     }
-    if (animationFile && mimeType.includes("video")) {
-      setUploadProgress(100);
+
+    // Set uploading state for Arweave uploads (for preview images, etc.)
+    // Set if there are non-video files to upload (preview images for videos, or regular files)
+    const hasNonVideoFiles = Boolean(previewFile || imageFile);
+    if (hasNonVideoFiles) {
+      // If we already set uploading for video, don't reset progress to 0
+      if (!isVideo) {
+        setIsUploading(true);
+        setUploadProgress(0);
+      }
+      // If it's a video, isUploading is already true, just continue with progress
     }
 
     // Upload files to Arweave if they exist as blobs (deferred upload)
+    // Note: Videos are excluded from Arweave upload (they go to Mux)
     const fileUploadResult = await uploadFilesToArweave(
       previewFile,
       imageFile,
       animationFile,
       animation_url,
-      setUploadProgress
+      setUploadProgress,
+      mimeType
     );
 
-    // Use file upload results for metadata (preview uses blob files, so no need to update state)
+    // Use file upload results for metadata
+    // Set image from Arweave upload result (preview image for videos, main image for others)
     image = fileUploadResult.image;
-    animation_url = fileUploadResult.animationUrl || animation_url;
+
+    // For videos: use Mux URLs (already set above), don't overwrite with Arweave URLs
+    if (isVideo) {
+      // Keep Mux URLs: animation_url is playbackUrl, contentUri is downloadUrl
+      // animation_url and contentUri already set from Mux above
+    } else {
+      // For non-videos: use Arweave URLs
+      animation_url = fileUploadResult.animationUrl || animation_url;
+
+      // For PDFs, images, and other files: content.uri should be same as animation_url
+      // (Videos are handled separately above with Mux URLs)
+      const isPdf = mimeType.includes("pdf");
+      const isImage = mimeType.includes("image");
+      if ((isPdf || isImage) && animation_url) {
+        contentUri = animation_url;
+      }
+    }
+
+    // Ensure progress is 100% after all uploads complete
+    if (hasFilesToUpload) {
+      setUploadProgress(100);
+    }
 
     // Handle writing mode
     if (pathname === "/create/writing" || pathname === "/create/usdc/writing") {
@@ -85,11 +122,6 @@ const useMomentMetadata = () => {
       mime = embedResult.mime;
       animation_url = embedResult.animationUrl;
       contentUri = embedResult.contentUri;
-    }
-
-    // For videos uploaded to Mux: use playbackUrl for animation_url and downloadUrl for content.uri
-    if (downloadUrl && mimeType.includes("video")) {
-      contentUri = downloadUrl;
     }
 
     return buildMetadataPayload(name, description, link, image, animation_url, mime, contentUri);

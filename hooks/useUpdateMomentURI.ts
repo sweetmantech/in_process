@@ -1,86 +1,53 @@
 import { useState } from "react";
 import { useMomentProvider } from "@/providers/MomentProvider";
 import { usePrivy } from "@privy-io/react-auth";
-import { uploadJson } from "@/lib/arweave/uploadJson";
-import { fetchTokenMetadata } from "@/lib/protocolSdk/ipfs/token-metadata";
-import getTokenInfo from "@/lib/viem/getMomentOnChainInfo";
 import { toast } from "sonner";
 import { callUpdateMomentURI } from "@/lib/moment/callUpdateMomentURI";
 import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 import { migrateMuxToArweaveApi } from "@/lib/mux/migrateMuxToArweaveApi";
-import { uploadVideoToMuxIfNeeded } from "@/lib/metadata/uploadVideoToMuxIfNeeded";
-import { uploadFilesToArweave } from "@/lib/metadata/uploadFilesToArweave";
+import useMomentMetadata from "@/hooks/useMomentMetadata";
 
 const useUpdateMomentURI = () => {
-  const { moment, fetchTokenInfo } = useMomentProvider();
+  const { moment, fetchMomentData } = useMomentProvider();
   const {
-    name: providerName,
-    description: providerDescription,
+    name,
     mimeType,
-    previewFile,
-    imageFile,
-    animationFile,
-    resetForm,
+    setIsUploading,
+    setUploadProgress,
+    setImageFile,
+    setAnimationFile,
+    setPreviewFile,
+    setMimeType,
+    setDownloadUrl,
+    setEmbedCode,
+    setLink,
+    setWritingText,
   } = useMomentFormProvider();
   const { getAccessToken } = usePrivy();
+  const { generateMetadataUri } = useMomentMetadata();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const resetMediaState = () => {
+    // Clear all files and media-related state (preserve name and description)
+    setImageFile(null);
+    setAnimationFile(null);
+    setPreviewFile(null);
+    setMimeType("");
+    setDownloadUrl("");
+    setEmbedCode("");
+    setLink("");
+    setWritingText("");
+  };
 
   const updateTokenURI = async () => {
     setIsLoading(true);
     try {
-      const tokenInfo = await getTokenInfo(moment);
-      const current = await fetchTokenMetadata(tokenInfo.tokenUri);
-
-      // Generate URIs from blob files if they exist (similar to create flow)
-      let animation_url = current?.animation_url || "";
-      let image = current?.image || "";
-      let contentUri = current?.content?.uri || "";
-      const updatedMimeType = mimeType || current?.content?.mime || "";
-
-      // Upload video to Mux if animation file exists and mimeType indicates video
-      const videoResult = await uploadVideoToMuxIfNeeded(animationFile, mimeType, getAccessToken);
-      if (videoResult.animationUrl) {
-        animation_url = videoResult.animationUrl;
-        contentUri = videoResult.contentUri;
+      if (!name) {
+        throw new Error("Missing token name");
       }
 
-      // Upload files to Arweave if they exist as blobs
-      const fileUploadResult = await uploadFilesToArweave(
-        previewFile,
-        imageFile,
-        animationFile,
-        animation_url
-      );
-
-      // Use uploaded URIs if files were uploaded, otherwise keep existing
-      if (fileUploadResult.image) {
-        image = fileUploadResult.image;
-      }
-      if (fileUploadResult.animationUrl) {
-        animation_url = fileUploadResult.animationUrl;
-      }
-
-      const name = providerName || current?.name;
-      const description = providerDescription || current?.description;
-
-      const updated = {
-        ...(current || {}),
-        name,
-        description,
-        image: image || current?.image,
-        animation_url: animation_url || current?.animation_url,
-        content:
-          (contentUri || updatedMimeType) && !updatedMimeType?.includes("image")
-            ? {
-                mime: updatedMimeType || current?.content?.mime || "",
-                uri: contentUri || current?.content?.uri || "",
-              }
-            : current?.content,
-      };
-
-      if (!updated.name) throw new Error("Missing token name");
-
-      const newUri = await uploadJson(updated);
+      // Use existing metadata generation from creation flow
+      const newUri = await generateMetadataUri();
 
       const accessToken = await getAccessToken();
       if (!accessToken) {
@@ -93,7 +60,7 @@ const useUpdateMomentURI = () => {
         accessToken,
       });
 
-      if (updatedMimeType?.includes("video")) {
+      if (mimeType?.includes("video")) {
         await migrateMuxToArweaveApi(
           {
             collectionAddress: moment.collectionAddress,
@@ -102,10 +69,13 @@ const useUpdateMomentURI = () => {
           },
           accessToken
         );
-        resetForm();
       }
 
-      fetchTokenInfo();
+      // Reset media state after successful save (for all file types)
+      resetMediaState();
+
+      // Fetch updated metadata to show in ContentRenderer
+      fetchMomentData();
       toast.success("Token metadata updated successfully");
     } catch (error: any) {
       console.error(error);
@@ -113,6 +83,8 @@ const useUpdateMomentURI = () => {
       throw error;
     } finally {
       setIsLoading(false);
+      setIsUploading(false);
+      setUploadProgress(0);
     }
   };
 

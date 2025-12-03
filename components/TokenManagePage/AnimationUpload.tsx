@@ -6,28 +6,20 @@ import { useMomentProvider } from "@/providers/MomentProvider";
 import { useRef } from "react";
 import { useMomentMetadataProvider } from "@/providers/MomentMetadataProvider";
 import { useMomentFormProvider } from "@/providers/MomentFormProvider";
+import { useHasSelectedFiles } from "@/hooks/useHasSelectedFiles";
+import { useOpenFileDialog } from "@/hooks/useOpenFileDialog";
+import { useAnimationUploadReset } from "@/hooks/useAnimationUploadReset";
 
 const AnimationUpload = () => {
   const { isOwner } = useMomentProvider();
-  const { previewFile, imageFile, animationFile, resetForm } = useMomentFormProvider();
+  const { previewFile, imageFile, animationFile } = useMomentFormProvider();
   const { selectFile } = useMomentMetadataProvider();
   const { isLoading: isSaving } = useUpdateMomentURI();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const hasMedia = Boolean(previewFile || imageFile || animationFile);
-
-  const openFileDialog = () => {
-    if (isOwner && !isSaving) {
-      fileInputRef.current?.click();
-    }
-  };
-
-  const handleReset = () => {
-    resetForm();
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
-    }
-  };
+  const hasMedia = useHasSelectedFiles(previewFile, imageFile, animationFile);
+  const { openFileDialog } = useOpenFileDialog(fileInputRef, isOwner, isSaving);
+  const { handleReset, isReset } = useAnimationUploadReset(fileInputRef, hasMedia);
   return (
     <div className="min-h-[400px] md:min-h-auto md:aspect-[571/692] relative bg-[url('/grid.svg')] bg-contain">
       <input
@@ -44,7 +36,10 @@ const AnimationUpload = () => {
           <MediaUploaded handleImageClick={openFileDialog} />
         </>
       ) : (
-        <NoFileSelected />
+        <>
+          {isOwner && !isSaving && isReset && <ResetButton onClick={handleReset} />}
+          <NoFileSelected />
+        </>
       )}
     </div>
   );

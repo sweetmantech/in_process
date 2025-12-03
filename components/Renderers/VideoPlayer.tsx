@@ -17,6 +17,7 @@ const VideoPlayer = ({ url }: VideoPlayerProps) => {
       onMouseDown={stopPropagation}
       onPointerDown={stopPropagation}
       onTouchStart={stopPropagation}
+      key={url}
     >
       <source src={url} />
       Your browser does not support the video element.

@@ -46,6 +46,40 @@ alwaysApply: true
 
 ---
 
+## ⚠️ CRITICAL RULE: COMPONENTS = HTML/JSX ONLY ⚠️
+
+**THIS IS THE SECOND MOST IMPORTANT RULE - CHECK THIS BEFORE CREATING OR MODIFYING ANY COMPONENT**
+
+- **Components MUST contain ONLY HTML/JSX code** (< 120 lines)
+- **NO business logic in components** - extract ALL logic to hooks or utility functions
+- **NO calculations, conditionals, or data transformations** - move to hooks/functions
+- **NO event handlers with logic** - extract handlers to hooks
+- **NO derived state calculations** - move to hooks or utility functions
+
+**What NOT to put in components:**
+- ❌ `const hasSelectedFiles = Boolean(previewFile || imageFile || animationFile);` - move to hook
+- ❌ `const handleReset = () => { /* logic */ }` - extract to hook
+- ❌ `const formattedPrice = formatPrice(price)` - move calculation to hook
+- ❌ `useEffect` hooks - extract to custom hooks
+- ❌ Complex conditionals - move to utility functions or hooks
+
+**What TO put in components:**
+- ✅ JSX/HTML markup only
+- ✅ Hook calls (useState, useQuery, custom hooks)
+- ✅ Props destructuring
+- ✅ Simple prop passing to child components
+- ✅ Conditional rendering using values from hooks
+
+**Before creating or editing any component, ask yourself:**
+1. Does this component contain ANY business logic or calculations?
+2. Are there any event handlers with logic?
+3. Are there any derived values calculated in the component?
+4. Are there any useEffect hooks?
+
+**If the answer to ANY question is YES, extract the logic to a hook or utility function immediately.**
+
+---
+
 ## Core Principles
 
 ### KISS (Keep It Simple, Stupid)
@@ -59,9 +93,12 @@ alwaysApply: true
 - Use shared constants, types, and helpers
 
 ### SRP (Single Responsibility Principle)
-- Each function, class, or module should have one clear responsibility
+- Each function, class, component, or module should have one clear responsibility
 - A function MUST do one thing (one file) and do it well
+- **Components MUST only render HTML/JSX** - they have ONE responsibility: presentation
+- **Business logic belongs in hooks or utility functions** - NOT in components
 - If a function does multiple things, split it into smaller functions
+- If a component contains logic, extract it to hooks or utility functions
 
 ### Open-Closed Principle
 - Code should be open for extension but closed for modification
@@ -83,7 +120,10 @@ alwaysApply: true
 - Example: `hooks/useMoment.ts`, `hooks/usePreviewFileUrl.ts`
 
 ### Components (`components/`)
-- **Components should maintain HTML/JSX code only** (< 120 lines)
+- **Components MUST contain ONLY HTML/JSX code** (< 120 lines)
+- **ZERO business logic** - ALL logic goes to hooks or utility functions
+- **NO calculations, conditionals, or transformations** in components
+- **NO event handlers with logic** - extract to hooks
 - Extract business logic to hooks or utility functions
 - **Folder naming:**
   - Page-specific: `CreatePage/`, `ManagePage/` (PascalCase with "Page" suffix)
@@ -118,13 +158,32 @@ alwaysApply: true
 **Rule**: Components = JSX/HTML only. Logic goes to hooks/functions.
 
 ```typescript
-// ❌ BAD: Component with business logic
+// ❌ BAD: Component with business logic - calculations
 function MomentCard({ moment }) {
   const formattedPrice = new Intl.NumberFormat('en-US', {
     style: 'currency', currency: 'USD'
   }).format(moment.price);
   return <div>{formattedPrice}</div>;
 }
+
+// ❌ BAD: Component with business logic - derived state
+const Media = () => {
+  const { previewFile, imageFile, animationFile } = useMomentFormProvider();
+  const hasSelectedFiles = Boolean(previewFile || imageFile || animationFile); // ❌ Logic in component
+  return <div>{hasSelectedFiles ? <Upload /> : <Preview />}</div>;
+};
+
+// ❌ BAD: Component with business logic - event handlers
+const Media = () => {
+  const handleReset = () => {
+    const currentName = metadata?.name || ""; // ❌ Logic in component
+    resetForm();
+    if (currentName) {
+      setName(currentName); // ❌ Logic in component
+    }
+  };
+  return <button onClick={handleReset}>Reset</button>;
+};
 
 // ✅ GOOD: Component with extracted logic
 // lib/moment/formatMomentPrice.ts
@@ -134,11 +193,43 @@ export const formatMomentPrice = (price: number): string => {
   }).format(price);
 };
 
+// hooks/useHasSelectedFiles.ts
+export const useHasSelectedFiles = (
+  previewFile: File | null,
+  imageFile: File | null,
+  animationFile: File | null
+): boolean => {
+  return Boolean(previewFile || imageFile || animationFile);
+};
+
+// hooks/useMediaReset.ts
+export const useMediaReset = () => {
+  const { metadata, resetForm, setName, setDescription } = useMomentFormProvider();
+  
+  const handleReset = () => {
+    const currentName = metadata?.name || "";
+    const currentDescription = metadata?.description || "";
+    resetForm();
+    if (currentName) setName(currentName);
+    if (currentDescription) setDescription(currentDescription);
+  };
+  
+  return { handleReset };
+};
+
 // components/MomentCard.tsx
 import { formatMomentPrice } from '@/lib/moment/formatMomentPrice';
 function MomentCard({ moment }) {
   return <div>{formatMomentPrice(moment.price)}</div>;
 }
+
+// components/Media.tsx
+const Media = () => {
+  const { previewFile, imageFile, animationFile } = useMomentFormProvider();
+  const hasSelectedFiles = useHasSelectedFiles(previewFile, imageFile, animationFile);
+  const { handleReset } = useMediaReset();
+  return <div>{hasSelectedFiles ? <Upload /> : <Preview />}</div>;
+};
 ```
 
 ### Extract useEffect Pattern
