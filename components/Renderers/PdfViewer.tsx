@@ -10,9 +10,11 @@ interface PdfViewerProps {
 const PdfViewer = ({ fileUrl }: PdfViewerProps) => {
   const defaultLayoutPluginInstance = defaultLayoutPlugin();
   return (
-    <Worker workerUrl={`https://unpkg.com/pdfjs-dist@${PDFJS_DIST_VERSION}/build/pdf.worker.js`}>
-      <Viewer fileUrl={fileUrl} plugins={[defaultLayoutPluginInstance]} />
-    </Worker>
+    <div className="size-full min-w-[300px] min-h-[200px]">
+      <Worker workerUrl={`https://unpkg.com/pdfjs-dist@${PDFJS_DIST_VERSION}/build/pdf.worker.js`}>
+        <Viewer fileUrl={fileUrl} plugins={[defaultLayoutPluginInstance]} />
+      </Worker>
+    </div>
   );
 };
 

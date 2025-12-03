@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment } from "react";
+import { Fragment, useRef } from "react";
 import { useMomentProvider } from "@/providers/MomentProvider";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -11,13 +11,24 @@ import useUpdateMomentURI from "@/hooks/useUpdateMomentURI";
 import useMediaInitialization from "@/hooks/useMediaInitialization";
 import AnimationUpload from "./AnimationUpload";
 import { useMomentFormProvider } from "@/providers/MomentFormProvider";
+import ContentRenderer from "@/components/Renderers";
+import ResetButton from "@/components/MetadataCreation/ResetButton";
+import { useHasSelectedFiles } from "@/hooks/useHasSelectedFiles";
+import { useMediaReset } from "@/hooks/useMediaReset";
+import { useMomentMetadataProvider } from "@/providers/MomentMetadataProvider";
+import NoFileSelected from "@/components/MetadataCreation/NoFileSelected";
 
 const Media = () => {
   const { metadata, isOwner, isLoading } = useMomentProvider();
-  const { form } = useMomentFormProvider();
+  const { form, previewFile, imageFile, animationFile } = useMomentFormProvider();
   const { isLoading: isSaving } = useUpdateMomentURI();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const { selectFile } = useMomentMetadataProvider();
 
   useMediaInitialization(metadata);
+
+  const hasSelectedFiles = useHasSelectedFiles(previewFile, imageFile, animationFile);
+  const { handleReset, isReset } = useMediaReset(fileInputRef, hasSelectedFiles, metadata);
 
   if (isLoading || !metadata) {
     return <MediaSkeleton />;
@@ -61,10 +72,37 @@ const Media = () => {
               )}
             </div>
 
-            <AnimationUpload />
+            <div className="min-h-[400px] md:min-h-auto md:aspect-[571/692] relative bg-[url('/grid.svg')] bg-contain">
+              {hasSelectedFiles ? (
+                <AnimationUpload />
+              ) : (
+                <>
+                  <input
+                    ref={fileInputRef}
+                    id="media"
+                    type="file"
+                    className={`cursor-pointer ${isReset ? "z-[3] size-full absolute opacity-0" : "hidden"}`}
+                    onChange={selectFile}
+                    disabled={!isOwner || isSaving}
+                  />
+                  {isOwner && !isSaving && !isReset && <ResetButton onClick={handleReset} />}
+                  {isReset ? (
+                    <NoFileSelected />
+                  ) : (
+                    <div className="size-full">
+                      <ContentRenderer metadata={metadata} />
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
 
-            <SaveMediaButton />
-            <OwnerWarning />
+            {hasSelectedFiles && (
+              <>
+                <SaveMediaButton />
+                <OwnerWarning />
+              </>
+            )}
           </div>
         </div>
       </div>

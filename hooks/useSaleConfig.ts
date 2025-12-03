@@ -14,7 +14,7 @@ import { useUserProvider } from "@/providers/UserProvider";
 const useSaleConfig = () => {
   const { saleConfig: sale } = useMomentProvider();
   const [saleStart, setSaleStart] = useState<Date>(new Date());
-  const { moment, fetchTokenInfo } = useMomentProvider();
+  const { moment, fetchMomentData } = useMomentProvider();
   const { signTransaction } = useSignTransaction();
   const { connectedAddress } = useUserProvider();
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -45,7 +45,7 @@ const useSaleConfig = () => {
     });
     const receipt = await publicClient.waitForTransactionReceipt({ hash });
     setIsLoading(false);
-    fetchTokenInfo();
+    fetchMomentData();
     return receipt;
   };
 

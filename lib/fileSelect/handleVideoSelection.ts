@@ -10,6 +10,9 @@ export const handleVideoSelection = async (
   file: File,
   handlers: VideoSelectionHandlers
 ): Promise<void> => {
+  // Set mimeType immediately so blob URL can be created
+  handlers.setMimeType(file.type);
+
   // Store video file blob for deferred upload (using animationFile for all file types)
   handlers.setAnimationFile(file);
 
@@ -17,7 +20,6 @@ export const handleVideoSelection = async (
   try {
     const preview: VideoPreviewResult = await captureVideoPreview(file);
     handlers.setPreviewFile(preview.previewFile);
-    handlers.setMimeType(file.type);
   } catch (previewErr: unknown) {
     console.error("Failed to capture video preview:", previewErr);
   }

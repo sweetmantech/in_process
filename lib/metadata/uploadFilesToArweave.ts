@@ -10,6 +10,7 @@ export interface FileUploadResult {
 
 /**
  * Uploads preview, image, and animation files to Arweave if they exist.
+ * Excludes video files (they should be uploaded to Mux instead).
  * Returns uploaded URIs and determines image/animation URLs.
  */
 export const uploadFilesToArweave = async (
@@ -17,7 +18,8 @@ export const uploadFilesToArweave = async (
   imageFile: File | null,
   animationFile: File | null,
   existingAnimationUrl: string,
-  setUploadProgress?: (progress: number) => void
+  setUploadProgress?: (progress: number) => void,
+  mimeType?: string
 ): Promise<FileUploadResult> => {
   let uploadedPreviewUri = "";
   let uploadedImageUri = "";
@@ -25,10 +27,14 @@ export const uploadFilesToArweave = async (
   let image = "";
   let animationUrl = existingAnimationUrl;
 
+  // Exclude video files from Arweave upload (videos go to Mux)
+  const isVideo = mimeType?.includes("video");
+
   const filesToUpload = [
     { file: previewFile, name: "preview" },
     { file: imageFile, name: "image" },
-    { file: animationFile, name: "animation" },
+    // Only include animationFile if it's not a video
+    ...(isVideo ? [] : [{ file: animationFile, name: "animation" }]),
   ].filter((item) => item.file !== null);
 
   const totalFiles = filesToUpload.length;
