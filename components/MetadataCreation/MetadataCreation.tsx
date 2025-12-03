@@ -1,5 +1,5 @@
 import { useMomentCreateProvider } from "@/providers/MomentCreateProvider/MomentCreateProvider";
-import { Fragment, useRef } from "react";
+import { Fragment } from "react";
 import NoFileSelected from "./NoFileSelected";
 import ResetButton from "./ResetButton";
 import PreviewContainer from "./PreviewContainer";
@@ -9,16 +9,9 @@ import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 const MetadataCreation = () => {
   const { selectFile } = useMomentMetadataProvider();
   const { createdContract } = useMomentCreateProvider();
-  const { resetForm, previewFile, animationFile, imageFile } = useMomentFormProvider();
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const { previewFile, animationFile, imageFile, fileInputRef } = useMomentFormProvider();
   const selected = previewFile || animationFile || imageFile;
-
   const handleImageClick = () => fileInputRef.current?.click();
-
-  const handleReset = () => {
-    resetForm();
-    if (fileInputRef.current) fileInputRef.current.value = "";
-  };
 
   return (
     <Fragment>
@@ -32,7 +25,7 @@ const MetadataCreation = () => {
       />
       {selected ? (
         <>
-          {!createdContract && <ResetButton onClick={handleReset} />}
+          {!createdContract && <ResetButton />}
           <PreviewContainer handleImageClick={handleImageClick} />
         </>
       ) : (
