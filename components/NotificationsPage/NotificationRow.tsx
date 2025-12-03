@@ -29,7 +29,7 @@ const NotificationRow = ({ notification }: NotificationRowProps) => {
           )}
         </div>
       </TableCell>
-      <MomentCell token={notification.payment.token} className="w-1/3" />
+      <MomentCell moment={notification.payment.moment} className="w-1/3" />
       <NotificationDateCell payment={notification.payment} className="w-1/3" />
     </TableRow>
   );
