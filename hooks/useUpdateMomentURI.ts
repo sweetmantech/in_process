@@ -76,7 +76,6 @@ const useUpdateMomentURI = () => {
 
       // Fetch updated metadata to show in ContentRenderer
       fetchMomentData();
-      toast.success("Token metadata updated successfully");
     } catch (error: any) {
       console.error(error);
       toast.error(error?.message || "Failed to update token metadata");

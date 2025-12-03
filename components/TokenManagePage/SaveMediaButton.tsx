@@ -30,6 +30,7 @@ const SaveMediaButton = ({ onSuccess }: SaveMediaButtonProps) => {
     try {
       await updateTokenURI();
       onSuccess?.();
+      toast.info("Successfully saved media. Metadata update will show up after a few seconds...");
     } catch (error) {
       console.error(error);
       toast.error("Failed to save media");
