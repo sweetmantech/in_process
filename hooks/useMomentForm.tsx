@@ -3,6 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { createFormSchema, CreateFormData } from "@/lib/schema/createFormSchema";
 import { useState, useEffect } from "react";
 import { useMask } from "./useMask";
+import { useBlobUrls } from "./useBlobUrls";
 
 const useMomentForm = () => {
   // Metadata values state
@@ -22,11 +23,18 @@ const useMomentForm = () => {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [animationFile, setAnimationFile] = useState<File | null>(null);
   const [previewFile, setPreviewFile] = useState<File | null>(null);
-  const [videoFile, setVideoFile] = useState<File | null>(null);
 
   // Upload progress state
   const [uploadProgress, setUploadProgress] = useState<number>(0);
   const [isUploading, setIsUploading] = useState<boolean>(false);
+
+  // Blob URLs for preview display
+  const { blobUrls, previewFileUrl, animationFileUrl } = useBlobUrls({
+    previewFile,
+    imageFile,
+    animationFile,
+    mimeType,
+  });
 
   // Advanced values state
   const [startDate, setStartDate] = useState<Date>();
@@ -47,7 +55,6 @@ const useMomentForm = () => {
     setImageFile(null);
     setAnimationFile(null);
     setPreviewFile(null);
-    setVideoFile(null);
   };
 
   // Set default price based on priceUnit
@@ -174,8 +181,12 @@ const useMomentForm = () => {
     setAnimationFile,
     previewFile,
     setPreviewFile,
-    videoFile,
-    setVideoFile,
+
+    // Blob URLs for preview display
+    blobUrls,
+    // Legacy blob URLs for backward compatibility
+    previewFileUrl,
+    animationFileUrl,
 
     // Upload progress
     uploadProgress,

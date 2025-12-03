@@ -24,7 +24,6 @@ const useMomentMetadata = () => {
     imageFile,
     animationFile,
     previewFile,
-    videoFile,
     setUploadProgress,
     setIsUploading,
   } = useMomentFormProvider();
@@ -39,13 +38,13 @@ const useMomentMetadata = () => {
     let contentUri = "";
     let image = "";
 
-    // Upload video to Mux if video file exists (deferred upload)
-    if (videoFile && mimeType.includes("video")) {
+    // Upload video to Mux if animation file exists and mimeType indicates video (deferred upload)
+    if (animationFile && mimeType.includes("video")) {
       setIsUploading(true);
       setUploadProgress(0);
     }
     const videoResult = await uploadVideoToMuxIfNeeded(
-      videoFile,
+      animationFile,
       mimeType,
       getAccessToken,
       setUploadProgress
@@ -54,7 +53,7 @@ const useMomentMetadata = () => {
       animation_url = videoResult.animationUrl;
       contentUri = videoResult.contentUri;
     }
-    if (videoFile && mimeType.includes("video")) {
+    if (animationFile && mimeType.includes("video")) {
       setUploadProgress(100);
     }
 

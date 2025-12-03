@@ -1,44 +1,15 @@
 import { Fragment } from "react";
-import { ChangeEvent, useRef, useState } from "react";
-import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
-import { toast } from "sonner";
 import WritingPreview from "./WritingPreview";
 import { Label } from "../ui/label";
 import { useCropImageProvider } from "@/providers/CropImageProvider";
 import CropImage from "@/components/CropImage";
 import { useMomentFormProvider } from "@/providers/MomentFormProvider";
+import { useUploadPreview } from "@/hooks/useUploadPreview";
 
 const UploadPreview = () => {
-  const { writingText, setIsOpenPreviewUpload, setPreviewFile, previewFile } =
-    useMomentFormProvider();
-  const [progress, setProgress] = useState<number>(0);
-  const previewRef = useRef() as any;
-  const [isUploading, setIsUploading] = useState<boolean>(false);
-  const { saveCroppedImage, isUploading: isUploadingCrop } = useCropImageProvider();
-
-  const handleClick = () => {
-    if (!previewRef.current) return;
-    previewRef.current.click();
-  };
-
-  const handlePreviewUpload = async (e: ChangeEvent<HTMLInputElement>) => {
-    setIsUploading(true);
-    const files = e.target.files;
-    if (!files?.length) return;
-    const file = files[0];
-    if (!file.type.includes("image")) {
-      toast.error("please, select only image file.");
-      return;
-    }
-    await clientUploadToArweave(file, (value: number) => setProgress(value));
-    setPreviewFile(file);
-    setIsUploading(false);
-  };
-
-  const handleDoneClick = async () => {
-    await saveCroppedImage();
-    setIsOpenPreviewUpload(false);
-  };
+  const { writingText, previewFile } = useMomentFormProvider();
+  const { isUploading: isUploadingCrop } = useCropImageProvider();
+  const { previewRef, handleClick, handlePreviewUpload, handleDoneClick } = useUploadPreview();
 
   return (
     <Fragment>
@@ -51,17 +22,15 @@ const UploadPreview = () => {
         onChange={handlePreviewUpload}
       />
       <div className="w-3/4 aspect-video relative border border-grey mt-2 font-spectral overflow-hidden">
-        {previewFile && !isUploading ? (
+        {previewFile ? (
           <CropImage />
         ) : (
           <>
-            {writingText && !isUploading ? (
+            {writingText ? (
               <WritingPreview />
             ) : (
               <div className="size-full p-3 flex justify-center items-center">
-                <p className="font-spectral text-3xl">
-                  {isUploading ? `${progress} %` : "No Preview."}
-                </p>
+                <p className="font-spectral text-3xl">No Preview.</p>
               </div>
             )}
           </>

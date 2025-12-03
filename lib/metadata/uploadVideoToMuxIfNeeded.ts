@@ -6,16 +6,16 @@ export interface VideoUploadResult {
 }
 
 /**
- * Uploads video to Mux if video file exists and mimeType indicates video.
+ * Uploads video to Mux if animation file exists and mimeType indicates video.
  * Returns animation URL and content URI, or empty strings if not applicable.
  */
 export const uploadVideoToMuxIfNeeded = async (
-  videoFile: File | null,
+  animationFile: File | null,
   mimeType: string,
   getAccessToken: () => Promise<string | null>,
   onProgress?: (progress: number) => void
 ): Promise<VideoUploadResult> => {
-  if (!videoFile || !mimeType.includes("video")) {
+  if (!animationFile || !mimeType.includes("video")) {
     return { animationUrl: "", contentUri: "" };
   }
 
@@ -24,7 +24,7 @@ export const uploadVideoToMuxIfNeeded = async (
     throw new Error("Authentication required for video upload");
   }
 
-  const muxResult = await uploadVideoToMux(videoFile, accessToken, onProgress);
+  const muxResult = await uploadVideoToMux(animationFile, accessToken, onProgress);
   return {
     animationUrl: muxResult.playbackUrl,
     contentUri: muxResult.downloadUrl,

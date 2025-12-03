@@ -20,7 +20,6 @@ const useUpdateMomentURI = () => {
     previewFile,
     imageFile,
     animationFile,
-    videoFile,
     resetForm,
   } = useMomentFormProvider();
   const { getAccessToken } = usePrivy();
@@ -38,8 +37,8 @@ const useUpdateMomentURI = () => {
       let contentUri = current?.content?.uri || "";
       const updatedMimeType = mimeType || current?.content?.mime || "";
 
-      // Upload video to Mux if video file exists
-      const videoResult = await uploadVideoToMuxIfNeeded(videoFile, mimeType, getAccessToken);
+      // Upload video to Mux if animation file exists and mimeType indicates video
+      const videoResult = await uploadVideoToMuxIfNeeded(animationFile, mimeType, getAccessToken);
       if (videoResult.animationUrl) {
         animation_url = videoResult.animationUrl;
         contentUri = videoResult.contentUri;

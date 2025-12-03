@@ -9,9 +9,9 @@ import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 const MetadataCreation = () => {
   const { selectFile } = useMomentMetadataProvider();
   const { createdContract } = useMomentCreateProvider();
-  const { resetForm, previewFile, videoFile, animationFile, imageFile } = useMomentFormProvider();
+  const { resetForm, previewFile, animationFile, imageFile } = useMomentFormProvider();
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const selected = previewFile || videoFile || animationFile || imageFile;
+  const selected = previewFile || animationFile || imageFile;
 
   const handleImageClick = () => fileInputRef.current?.click();
 

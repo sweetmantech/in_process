@@ -1,72 +1,16 @@
 import { useMomentCreateProvider } from "@/providers/MomentCreateProvider/MomentCreateProvider";
-import { useRef, useState, useEffect, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Pause, Play } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import Image from "next/image";
 import { useMomentFormProvider } from "@/providers/MomentFormProvider";
+import { useAudioPlayer } from "@/hooks/useAudioPlayer";
 
 const AudioPlayer = ({ onClick }: { onClick: () => void }) => {
   const { createdContract } = useMomentCreateProvider();
-  const { animationFile, previewFile } = useMomentFormProvider();
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const audioRef = useRef<HTMLAudioElement>(null);
-  const [previewFileUrl, setPreviewFileUrl] = useState<string>("");
-
-  // Create blob URL from previewFile for cover image
-  useEffect(() => {
-    if (previewFile) {
-      const blobUrl = URL.createObjectURL(previewFile);
-      setPreviewFileUrl(blobUrl);
-      return () => URL.revokeObjectURL(blobUrl);
-    } else {
-      setPreviewFileUrl("");
-    }
-  }, [previewFile]);
-
-  // Create blob URL from animationFile
-  const audioSrc = useMemo(() => {
-    if (animationFile) {
-      return URL.createObjectURL(animationFile);
-    }
-    return "";
-  }, [animationFile]);
-
-  // Clean up blob URL on unmount
-  useEffect(() => {
-    return () => {
-      if (audioSrc && audioSrc.startsWith("blob:")) {
-        URL.revokeObjectURL(audioSrc);
-      }
-    };
-  }, [audioSrc]);
-
-  const togglePlayPause = () => {
-    if (audioRef.current) {
-      if (isPlaying) {
-        audioRef.current.pause();
-      } else {
-        audioRef.current.play();
-      }
-      setIsPlaying(!isPlaying);
-    }
-  };
-
-  const handleTimeUpdate = () => {
-    if (audioRef.current) {
-      const progress = (audioRef.current.currentTime / audioRef.current.duration) * 100;
-      setProgress(progress);
-    }
-  };
-
-  const handleSliderChange = (value: number[]) => {
-    if (audioRef.current) {
-      const time = (value[0] / 100) * audioRef.current.duration;
-      audioRef.current.currentTime = time;
-      setProgress(value[0]);
-    }
-  };
+  const { previewFileUrl, animationFileUrl } = useMomentFormProvider();
+  const { audioRef, isPlaying, progress, togglePlayPause, handleTimeUpdate, handleSliderChange } =
+    useAudioPlayer();
 
   return (
     <div className="size-full bg-white rounded-lg shadow-lg overflow-hidden flex-col flex justify-center items-center">
@@ -93,7 +37,7 @@ const AudioPlayer = ({ onClick }: { onClick: () => void }) => {
         )}
       </div>
       <div className="p-1 w-full">
-        <audio ref={audioRef} src={audioSrc} onTimeUpdate={handleTimeUpdate} />
+        <audio ref={audioRef} src={animationFileUrl} onTimeUpdate={handleTimeUpdate} />
         <div className="text-center">
           <Button
             variant="ghost"

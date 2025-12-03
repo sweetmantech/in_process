@@ -9,12 +9,12 @@ import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 
 const AnimationUpload = () => {
   const { isOwner } = useMomentProvider();
-  const { previewFile, imageFile, animationFile, videoFile, resetForm } = useMomentFormProvider();
+  const { previewFile, imageFile, animationFile, resetForm } = useMomentFormProvider();
   const { selectFile } = useMomentMetadataProvider();
   const { isLoading: isSaving } = useUpdateMomentURI();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const hasMedia = Boolean(previewFile || imageFile || animationFile || videoFile);
+  const hasMedia = Boolean(previewFile || imageFile || animationFile);
 
   const openFileDialog = () => {
     if (isOwner && !isSaving) {

@@ -1,50 +1,10 @@
 import base64ToFile from "@/lib/base64ToFile";
 import { PDFJS_DIST_VERSION } from "@/lib/consts";
+import { loadPdfJs } from "@/lib/fileSelect/loadPdfJs";
 
 export interface PdfPreviewResult {
   previewFile: File;
 }
-
-// Module-level singleton Promise to prevent multiple script tags
-let pdfJsLoadPromise: Promise<any> | null = null;
-
-// Load pdfjs-dist from CDN
-const loadPdfJs = async () => {
-  // Check if already loaded - return resolved promise immediately
-  if (typeof window !== "undefined" && (window as any).pdfjsLib) {
-    return Promise.resolve((window as any).pdfjsLib);
-  }
-
-  // Return existing promise if one is already loading
-  if (pdfJsLoadPromise) {
-    return pdfJsLoadPromise;
-  }
-
-  // Create and assign the single Promise that loads the script
-  pdfJsLoadPromise = new Promise((resolve, reject) => {
-    const script = document.createElement("script");
-    script.src = `https://unpkg.com/pdfjs-dist@${PDFJS_DIST_VERSION}/build/pdf.min.js`;
-    script.onload = () => {
-      const pdfjsLib = (window as any).pdfjsLib || (window as any).pdfjs;
-      if (!pdfjsLib) {
-        pdfJsLoadPromise = null; // Clear on error so it can be retried
-        reject(new Error("Failed to load pdfjs-dist"));
-        return;
-      }
-      // Store pdfjsLib - we'll pass workerSrc directly to getDocument
-      (window as any).pdfjsLib = pdfjsLib;
-      // Retain promise on success so future calls get cached result
-      resolve(pdfjsLib);
-    };
-    script.onerror = () => {
-      pdfJsLoadPromise = null; // Clear on error so it can be retried
-      reject(new Error("Failed to load pdfjs-dist script"));
-    };
-    document.head.appendChild(script);
-  });
-
-  return pdfJsLoadPromise;
-};
 
 export const capturePdfPreview = async (file: File): Promise<PdfPreviewResult> => {
   const pdfUrl = URL.createObjectURL(file);

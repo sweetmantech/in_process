@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Area } from "react-easy-crop";
 import getCroppedImg from "@/lib/cropImage/getCroppedImage";
-import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
 import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 
 interface UseCropImageReturn {
@@ -14,6 +13,7 @@ interface UseCropImageReturn {
   onCropComplete: (_: Area, cropped: Area) => void;
   saveCroppedImage: () => Promise<void>;
   isUploading: boolean;
+  imageSrc: string;
 }
 
 export default function useCropImage(): UseCropImageReturn {
@@ -105,5 +105,6 @@ export default function useCropImage(): UseCropImageReturn {
     onCropComplete,
     saveCroppedImage,
     isUploading,
+    imageSrc,
   };
 }

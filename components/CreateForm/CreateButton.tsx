@@ -7,12 +7,10 @@ import { toast } from "sonner";
 
 const CreateButton = () => {
   const { create, creating } = useMomentCreateProvider();
-  const { link, embedCode, writingText, videoFile, animationFile, imageFile, previewFile, form } =
+  const { link, embedCode, writingText, animationFile, imageFile, previewFile, form } =
     useMomentFormProvider();
 
-  const hasMedia = Boolean(
-    videoFile || link || embedCode || imageFile || animationFile || writingText
-  );
+  const hasMedia = Boolean(link || embedCode || imageFile || animationFile || writingText);
   const hasPreview = Boolean(previewFile || writingText);
 
   const toastCreateError = () => {
