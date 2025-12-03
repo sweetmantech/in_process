@@ -247,20 +247,80 @@ const useMomentMetadata = () => {
 ### Blob URL Management Pattern
 **Rule**: Manage blob URLs separately from file storage with proper cleanup.
 
+**Pattern for each file type:**
+1. Create object URL when file exists
+2. Add URL to blobUrls state
+3. Revoke previous URL in cleanup (when file changes or component unmounts)
+
 ```typescript
 // hooks/useBlobUrls.ts
-export const useBlobUrls = ({ previewFile, imageFile }: Params) => {
+interface UseBlobUrlsParams {
+  previewFile: File | null;
+  imageFile: File | null;
+  animationFile: File | null;
+}
+
+export const useBlobUrls = ({
+  previewFile,
+  imageFile,
+  animationFile,
+}: UseBlobUrlsParams) => {
   const [blobUrls, setBlobUrls] = useState<BlobUrls>({});
   
+  // Pattern: Create URL for previewFile
   useEffect(() => {
     if (previewFile) {
       const blobUrl = URL.createObjectURL(previewFile);
       setBlobUrls((prev) => ({ ...prev, preview: blobUrl }));
       return () => URL.revokeObjectURL(blobUrl);
+    } else {
+      // Cleanup when file is removed
+      setBlobUrls((prev) => {
+        if (prev.preview) URL.revokeObjectURL(prev.preview);
+        const { preview: _preview, ...rest } = prev;
+        return rest;
+      });
     }
   }, [previewFile]);
   
-  return { previewFileUrl: blobUrls.preview || "" };
+  // Pattern: Create URL for animationFile (same pattern as previewFile)
+  useEffect(() => {
+    if (animationFile) {
+      const blobUrl = URL.createObjectURL(animationFile);
+      setBlobUrls((prev) => ({ ...prev, animation: blobUrl }));
+      return () => URL.revokeObjectURL(blobUrl);
+    } else {
+      // Cleanup when file is removed
+      setBlobUrls((prev) => {
+        if (prev.animation) URL.revokeObjectURL(prev.animation);
+        const { animation: _animation, ...rest } = prev;
+        return rest;
+      });
+    }
+  }, [animationFile]);
+  
+  // Pattern: Create URL for imageFile (same pattern as above)
+  useEffect(() => {
+    if (imageFile) {
+      const blobUrl = URL.createObjectURL(imageFile);
+      setBlobUrls((prev) => ({ ...prev, image: blobUrl }));
+      return () => URL.revokeObjectURL(blobUrl);
+    } else {
+      // Cleanup when file is removed
+      setBlobUrls((prev) => {
+        if (prev.image) URL.revokeObjectURL(prev.image);
+        const { image: _image, ...rest } = prev;
+        return rest;
+      });
+    }
+  }, [imageFile]);
+  
+  return {
+    blobUrls,
+    previewFileUrl: blobUrls.preview || "",
+    animationFileUrl: blobUrls.animation || "",
+    imageFileUrl: blobUrls.image || "",
+  };
 };
 ```
 
