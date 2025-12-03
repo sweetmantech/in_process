@@ -10,8 +10,7 @@ import { useMomentFormProvider } from "@/providers/MomentFormProvider";
  * Upload logic is handled in useMomentMetadata.generateMetadataUri()
  */
 const useFileSelect = () => {
-  const { setMimeType, setImageFile, setPreviewFile, setAnimationFile, setVideoFile } =
-    useMomentFormProvider();
+  const { setMimeType, setImageFile, setPreviewFile, setAnimationFile } = useMomentFormProvider();
 
   const selectFile = useCallback(
     async (event: any) => {
@@ -27,7 +26,7 @@ const useFileSelect = () => {
       // Store files as blobs - no upload happens here
       if (isVideo) {
         await handleVideoSelection(file, {
-          setVideoFile,
+          setAnimationFile,
           setMimeType,
           setPreviewFile,
         });
@@ -45,7 +44,7 @@ const useFileSelect = () => {
         });
       }
     },
-    [setMimeType, setImageFile, setPreviewFile, setAnimationFile, setVideoFile]
+    [setMimeType, setImageFile, setPreviewFile, setAnimationFile]
   );
 
   return { selectFile };

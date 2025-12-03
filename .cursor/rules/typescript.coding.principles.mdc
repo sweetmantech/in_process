@@ -233,6 +233,81 @@ alwaysApply: true
   }
   ```
 
+### Extract useEffect Hooks from Components
+**Pattern**: When components contain `useEffect` hooks for side effects, state management, or data transformations, extract them into custom hooks.
+
+**Why Extract useEffect Hooks**:
+- Components should focus on rendering JSX/HTML markup
+- Side effects and state management logic belong in hooks
+- Makes components easier to read and understand
+- Enables reusability of the logic across multiple components
+- Improves testability by allowing hooks to be tested independently
+
+**Structure**:
+- **Hook**: `hooks/use[Feature].ts` - Contains the `useEffect` logic, state management, and cleanup
+- **Component**: `components/[Component].tsx` - Uses the hook and focuses on rendering
+
+**Example Pattern**:
+```typescript
+// ❌ BAD: Component with useEffect logic
+// components/CreateForm/Preview.tsx
+import { useState, useEffect } from "react";
+
+const Preview = () => {
+  const { previewFile } = useMomentFormProvider();
+  const [previewFileUrl, setPreviewFileUrl] = useState<string>("");
+
+  useEffect(() => {
+    if (previewFile) {
+      const blobUrl = URL.createObjectURL(previewFile);
+      setPreviewFileUrl(blobUrl);
+      return () => URL.revokeObjectURL(blobUrl);
+    } else {
+      setPreviewFileUrl("");
+    }
+  }, [previewFile]);
+
+  return <div>...</div>;
+};
+
+// ✅ GOOD: Component with extracted hook
+// hooks/usePreviewFileUrl.ts
+import { useState, useEffect } from "react";
+
+export const usePreviewFileUrl = (file: File | null | undefined): string => {
+  const [previewFileUrl, setPreviewFileUrl] = useState<string>("");
+
+  useEffect(() => {
+    if (file) {
+      const blobUrl = URL.createObjectURL(file);
+      setPreviewFileUrl(blobUrl);
+      return () => URL.revokeObjectURL(blobUrl);
+    } else {
+      setPreviewFileUrl("");
+    }
+  }, [file]);
+
+  return previewFileUrl;
+};
+
+// components/CreateForm/Preview.tsx
+import { usePreviewFileUrl } from "@/hooks/usePreviewFileUrl";
+
+const Preview = () => {
+  const { previewFile } = useMomentFormProvider();
+  const previewFileUrl = usePreviewFileUrl(previewFile);
+
+  return <div>...</div>;
+};
+```
+
+**Key Points**:
+- **Always extract useEffect hooks** from components into custom hooks in the `hooks/` folder
+- Components should only contain JSX/HTML markup and hook calls
+- Custom hooks should handle all side effects, state management, and cleanup logic
+- Use descriptive hook names that clearly indicate their purpose (e.g., `usePreviewFileUrl`, `useMediaInitialization`)
+- Hooks should return the data/state needed by the component, keeping the component interface clean
+
 ## API Fetching Patterns
 
 ### Use TanStack Query + Separate API Logic

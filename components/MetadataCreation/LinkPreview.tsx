@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { useMomentCreateProvider } from "@/providers/MomentCreateProvider/MomentCreateProvider";
 import LinkInput from "./LinkInput";
 import Image from "next/image";
@@ -6,18 +5,7 @@ import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 
 const LinkPreview = () => {
   const { createdContract } = useMomentCreateProvider();
-  const { previewFile, link } = useMomentFormProvider();
-  const [previewFileUrl, setPreviewFileUrl] = useState<string>("");
-
-  useEffect(() => {
-    if (previewFile) {
-      const blobUrl = URL.createObjectURL(previewFile);
-      setPreviewFileUrl(blobUrl);
-      return () => URL.revokeObjectURL(blobUrl);
-    } else {
-      setPreviewFileUrl("");
-    }
-  }, [previewFile]);
+  const { link, previewFileUrl } = useMomentFormProvider();
 
   return (
     <div
