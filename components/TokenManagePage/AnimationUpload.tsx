@@ -9,11 +9,10 @@ import { useOpenFileDialog } from "@/hooks/useOpenFileDialog";
 
 const AnimationUpload = () => {
   const { isOwner } = useMomentProvider();
-  const { previewFile, imageFile, animationFile, fileInputRef } = useMomentFormProvider();
+  const { hasMedia, fileInputRef } = useMomentFormProvider();
   const { selectFile } = useMomentMetadataProvider();
   const { isLoading: isSaving } = useUpdateMomentURI();
 
-  const hasMedia = Boolean(previewFile || imageFile || animationFile);
   const { openFileDialog } = useOpenFileDialog(fileInputRef, isOwner, isSaving);
 
   return (

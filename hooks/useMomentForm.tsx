@@ -166,6 +166,9 @@ const useMomentForm = () => {
 
   const onChangeStartDate = (value: Date) => setStartDate(value);
 
+  // Check if any media files are selected
+  const hasMedia = Boolean(previewFile || imageFile || animationFile);
+
   return {
     // Form
     form,
@@ -212,6 +215,9 @@ const useMomentForm = () => {
     setAnimationFile,
     previewFile,
     setPreviewFile,
+
+    // Media state
+    hasMedia,
 
     // Blob URLs for preview display
     blobUrls,

@@ -16,13 +16,11 @@ import ResetButton from "../MetadataCreation/ResetButton";
 
 const Media = () => {
   const { metadata, isOwner, isLoading } = useMomentProvider();
-  const { form, previewFile, imageFile, animationFile } = useMomentFormProvider();
+  const { form, hasMedia } = useMomentFormProvider();
   const { isLoading: isSaving } = useUpdateMomentURI();
   const [editActive, setEditActive] = useState(false);
 
   useMediaInitialization(metadata);
-
-  const hasSelectedFiles = Boolean(previewFile || imageFile || animationFile);
 
   if (isLoading || !metadata) {
     return <MediaSkeleton />;
@@ -76,7 +74,7 @@ const Media = () => {
                 </>
               )}
             </div>
-            {hasSelectedFiles && editActive && (
+            {hasMedia && editActive && (
               <>
                 <SaveMediaButton />
                 <OwnerWarning />
