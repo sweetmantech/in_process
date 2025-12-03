@@ -367,7 +367,7 @@ export type Database = {
           hash: string | null;
           id: string;
           token: string;
-          transferred_at: string;
+          transferred_at: string | null;
         };
         Insert: {
           amount?: number | null;
@@ -375,7 +375,7 @@ export type Database = {
           hash?: string | null;
           id?: string;
           token: string;
-          transferred_at: string;
+          transferred_at: string | null;
         };
         Update: {
           amount?: number | null;
@@ -383,7 +383,7 @@ export type Database = {
           hash?: string | null;
           id?: string;
           token?: string;
-          transferred_at?: string;
+          transferred_at?: string | null;
         };
         Relationships: [
           {
