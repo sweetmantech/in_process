@@ -17,7 +17,7 @@ const PaymentRow = ({ payment }: PaymentRowProps) => {
   return (
     <TableRow className="border border-transparent hover:border-b-grey-moss-200">
       <BuyerCell payment={payment} />
-      <MomentCell token={payment.token} />
+      <MomentCell moment={payment.moment} />
       <TableCell>
         <Badge
           variant="secondary"

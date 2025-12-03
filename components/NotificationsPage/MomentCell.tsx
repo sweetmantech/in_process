@@ -3,19 +3,18 @@ import { useMetadata } from "@/hooks/useMetadata";
 import Image from "next/image";
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import { Skeleton } from "@/components/ui/skeleton";
+import type { Database } from "@/lib/supabase/types";
 
 interface MomentCellProps {
-  token: {
-    address: string;
-    tokenId: number;
-    uri: string;
+  moment: Database["public"]["Tables"]["in_process_moments"]["Row"] & {
+    collection: Database["public"]["Tables"]["in_process_collections"]["Row"];
   };
   className?: string;
 }
 
-const MomentCell = ({ token, className }: MomentCellProps) => {
-  const tokenUrl = `https://inprocess.fun/collect/base:${token.address}/${token.tokenId || 1}`;
-  const { data: metadata, isLoading } = useMetadata(token.uri);
+const MomentCell = ({ moment, className }: MomentCellProps) => {
+  const tokenUrl = `https://inprocess.fun/collect/base:${moment.collection.address}/${moment.token_id || 1}`;
+  const { data: metadata, isLoading } = useMetadata(moment.uri);
 
   return (
     <TableCell className={className}>

@@ -57,9 +57,9 @@ export function usePayments(
           type: "expense" as const,
         }));
 
-        // Combine and sort by block number (most recent first)
+        // Combine and sort by transferred_at (most recent first)
         const combinedPayments = [...earnings, ...expenses].sort(
-          (a, b) => parseInt(b.block) - parseInt(a.block)
+          (a, b) => new Date(b.transferred_at).getTime() - new Date(a.transferred_at).getTime()
         );
 
         return {

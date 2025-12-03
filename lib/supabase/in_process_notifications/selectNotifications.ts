@@ -30,9 +30,11 @@ export async function selectNotifications({
     .select(
       `id, viewed, created_at,
        payment:in_process_payments!inner(
-         id, amount, hash, block,
-         token:in_process_tokens!inner(
-           id, address, tokenId, uri, defaultAdmin, chainId, createdAt, hidden
+         id, amount, transaction_hash, transferred_at,
+         moment:in_process_moments!inner(
+           id, token_id, uri, collection:in_process_collections!inner(
+             id, address, chain_id, default_admin, payout_recipient
+           )
          ),
          buyer:in_process_artists!inner(
            address, username, bio, instagram_username, twitter_username, telegram_username

@@ -11,6 +11,7 @@ export async function GET(req: NextRequest) {
   const page = Number(searchParams.get("page")) || 1;
   const artist = searchParams.get("artist")?.toLowerCase() || undefined;
   const collector = searchParams.get("collector")?.toLowerCase() || undefined;
+  const chainId = searchParams.get("chainId") ? Number(searchParams.get("chainId")) : undefined;
 
   try {
     const collectors: string[] = [];
@@ -22,11 +23,21 @@ export async function GET(req: NextRequest) {
       collectors.push(collector);
     }
 
+    const artists: string[] = [];
+    if (artist) {
+      const smartAccount = await getOrCreateSmartWallet({
+        address: artist as Address,
+      });
+      artists.push(smartAccount.address.toLowerCase());
+      artists.push(artist);
+    }
+
     const { data, error } = await selectPayments({
       limit,
       page,
-      artist,
+      artists,
       collectors,
+      chainId,
     });
 
     if (error) {
