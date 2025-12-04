@@ -171,6 +171,7 @@ export type Database = {
           created_at: string;
           default_admin: string;
           id: string;
+          name: string;
           payout_recipient: string;
           updated_at: string;
           uri: string;
@@ -181,6 +182,7 @@ export type Database = {
           created_at: string;
           default_admin: string;
           id?: string;
+          name?: string;
           payout_recipient: string;
           updated_at: string;
           uri: string;
@@ -191,6 +193,7 @@ export type Database = {
           created_at?: string;
           default_admin?: string;
           id?: string;
+          name?: string;
           payout_recipient?: string;
           updated_at?: string;
           uri?: string;
