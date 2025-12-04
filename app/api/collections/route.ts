@@ -11,31 +11,28 @@ export async function GET(req: NextRequest) {
   const chainId = chainIdParam ? Number(chainIdParam) : CHAIN_ID;
 
   try {
-    const result = await selectCollections({
+    const {
+      data: collections,
+      count: collectionsCount,
+      error: collectionsError,
+    } = await selectCollections({
       artists: artist ? [artist.toLowerCase()] : undefined,
       limit,
       page,
       chainId,
     });
 
-    if (result.error) {
-      return Response.json(
-        {
-          status: "error",
-          message: "Failed to fetch collections",
-          error: result.error.message,
-        },
-        { status: 500 }
-      );
+    if (collectionsError) {
+      return Response.json({ status: "error", message: collectionsError.message }, { status: 500 });
     }
 
     return Response.json({
       status: "success",
-      collections: result.data,
+      collections,
       pagination: {
         page,
         limit,
-        total_pages: Math.ceil((result.count || 0) / limit),
+        total_pages: Math.ceil((collectionsCount || 0) / limit),
       },
     });
   } catch (error) {
