@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import { createMomentSchema } from "@/lib/schema/createContractSchema";
+import { createMomentSchema } from "@/lib/schema/createMomentSchema";
 import getCorsHeader from "@/lib/getCorsHeader";
 import { createMoment } from "@/lib/moment/createMoment";
 // CORS headers for allowing cross-origin requests

@@ -4,18 +4,14 @@ import { Button } from "@/components/ui/button";
 import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 import { useMomentCreateProvider } from "@/providers/MomentCreateProvider/MomentCreateProvider";
 import { toast } from "sonner";
-import { useSearchParams } from "next/navigation";
 
 const CreateButton = () => {
   const { create, creating } = useMomentCreateProvider();
   const { link, embedCode, writingText, animationFile, imageFile, previewFile, form } =
     useMomentFormProvider();
-  const searchParams = useSearchParams();
-  const collectionAddress = searchParams.get("collectionAddress");
 
   const hasMedia = Boolean(link || embedCode || imageFile || animationFile || writingText);
   const hasPreview = Boolean(previewFile || writingText);
-  const isExistingCollection = Boolean(collectionAddress && collectionAddress !== "new");
 
   const toastCreateError = () => {
     const formIsValid = form.formState.isValid;
@@ -40,11 +36,6 @@ const CreateButton = () => {
   };
 
   const handleCreate = async () => {
-    if (isExistingCollection) {
-      toast.info("Coming soon!");
-      return;
-    }
-
     const isValid = await form.trigger();
     const canCreate = Boolean(!creating && isValid && hasPreview && hasMedia);
 
