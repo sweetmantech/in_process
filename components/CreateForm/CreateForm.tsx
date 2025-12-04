@@ -6,6 +6,7 @@ import Prompt from "./Prompt";
 import Buttons from "../CreatedMoment/Buttons";
 import Advanced from "./Advanced";
 import Preview from "./Preview";
+import Collections from "./Collections";
 import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 
 const CreateForm = () => {
@@ -28,6 +29,7 @@ const CreateForm = () => {
           </>
         ) : (
           <>
+            <Collections />
             <Prompt />
             <Advanced />
             <Preview />
