@@ -46,9 +46,39 @@ alwaysApply: true
 
 ---
 
+## ⚠️ CRITICAL RULE: TYPES MUST BE IN TYPES FOLDER ⚠️
+
+**THIS IS THE SECOND MOST IMPORTANT RULE - CHECK THIS BEFORE CREATING OR MODIFYING ANY TYPE/INTERFACE**
+
+- **ALL types, interfaces, and type definitions MUST be in the `types/` folder**
+- **NO types defined in `lib/`, `components/`, `hooks/`, or any other folder**
+- **If you see a type/interface defined outside `types/`, move it immediately**
+- **Functions, hooks, and components import types from `types/`, never define them locally**
+
+**Examples:**
+- ✅ GOOD: `types/collections.ts` exports `CollectionsResponse` interface
+- ✅ GOOD: `lib/collections/fetchCollections.ts` imports `CollectionsResponse` from `@/types/collections`
+- ❌ BAD: `lib/collections/fetchCollections.ts` defines `CollectionsResponse` interface
+- ❌ BAD: `components/CreateForm/Collections.tsx` defines `CollectionItem` type locally
+
+**Before creating or editing any file, ask yourself:**
+1. Does this file define any types, interfaces, or type aliases?
+2. Are these types used in multiple places?
+3. Should these types be shared?
+
+**If the answer to ANY question is YES, move the types to the `types/` folder immediately.**
+
+**When moving types:**
+1. Create or update file in `types/` folder (e.g., `types/collections.ts`)
+2. Export the type/interface from the types file
+3. Update the original file to import the type instead of defining it
+4. Update ALL files that use the type to import from `types/`
+
+---
+
 ## ⚠️ CRITICAL RULE: COMPONENTS = HTML/JSX ONLY ⚠️
 
-**THIS IS THE SECOND MOST IMPORTANT RULE - CHECK THIS BEFORE CREATING OR MODIFYING ANY COMPONENT**
+**THIS IS THE THIRD MOST IMPORTANT RULE - CHECK THIS BEFORE CREATING OR MODIFYING ANY COMPONENT**
 
 - **Components MUST contain ONLY HTML/JSX code** (< 120 lines)
 - **NO business logic in components** - extract ALL logic to hooks or utility functions
@@ -142,8 +172,12 @@ alwaysApply: true
 - Example: `supabase/in_process_tokens/selectTokens.ts`
 
 ### Types (`types/`)
-- All types defined in `types` folder
+- **ALL types, interfaces, and type definitions MUST be in `types/` folder**
+- **NO exceptions** - types are NEVER defined in `lib/`, `components/`, `hooks/`, or anywhere else
+- **If you find a type outside `types/`, move it immediately**
 - Keep type definitions organized and easily discoverable
+- File naming: `types/[feature].ts` (e.g., `types/collections.ts`, `types/moment.ts`)
+- Example: `types/collections.ts` exports `CollectionsResponse` interface
 
 ### Mock Data (`lib/mocks/[feature]/`)
 - All mock variables in `lib/mocks/[feature]/` folder
@@ -335,6 +369,74 @@ const useMomentMetadata = () => {
 };
 ```
 
+### Type Organization Pattern
+**Rule**: ALL types must be in `types/` folder. Functions/hooks/components import types, never define them.
+
+```typescript
+// ❌ BAD: Type defined in lib file
+// lib/collections/fetchCollections.ts
+export interface CollectionsResponse {
+  status: "success" | "error";
+  collections: Array<{ /* ... */ }>;
+}
+
+export async function fetchCollections(): Promise<CollectionsResponse> {
+  // ...
+}
+
+// ❌ BAD: Type defined in component
+// components/CreateForm/Collections.tsx
+import { CollectionsResponse } from "@/lib/collections/fetchCollections";
+type CollectionItem = CollectionsResponse["collections"][number]; // ❌ Local type definition
+
+// ✅ GOOD: Type in types folder
+// types/collections.ts
+export interface CollectionsResponse {
+  status: "success" | "error";
+  collections: Array<{
+    id: number;
+    address: string;
+    chain_id: number;
+    uri: string;
+    name: string;
+    created_at: string;
+    default_admin: {
+      username: string | null;
+      address: string;
+    };
+  }>;
+  pagination: {
+    page: number;
+    limit: number;
+    total_pages: number;
+  };
+  message?: string;
+}
+
+// ✅ GOOD: Function imports type
+// lib/collections/fetchCollections.ts
+import { CollectionsResponse } from "@/types/collections";
+
+export async function fetchCollections(): Promise<CollectionsResponse> {
+  // ...
+}
+
+// ✅ GOOD: Component imports type
+// components/CreateForm/Collections.tsx
+import { CollectionsResponse } from "@/types/collections";
+
+type CollectionItem = CollectionsResponse["collections"][number]; // ✅ Using imported type
+```
+
+**When you encounter a type outside `types/`:**
+1. **STOP** - Do not proceed until the type is moved
+2. Create/update file in `types/` folder
+3. Move the type definition there
+4. Update original file to import the type
+5. Update ALL files that reference the type
+
+---
+
 ### Blob URL Management Pattern
 **Rule**: Manage blob URLs separately from file storage with proper cleanup.
 
@@ -428,7 +530,10 @@ export const useBlobUrls = ({
 ### Type Safety
 - Use TypeScript types and interfaces consistently
 - Avoid `any` types; use `unknown` when type is truly unknown
-- Define types in the `types` folder
+- **CRITICAL: ALL types MUST be defined in the `types/` folder**
+- **NEVER define types in `lib/`, `components/`, `hooks/`, or any other folder**
+- **If you see a type outside `types/`, move it immediately**
+- Import types from `types/` folder in all files that need them
 
 ### Code Structure
 - Group related functionality together
