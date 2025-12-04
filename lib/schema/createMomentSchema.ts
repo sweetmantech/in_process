@@ -30,13 +30,26 @@ export const contractSchema = z.object({
   uri: z.string(),
 });
 
+// Base schema with common fields and splits validation
+const baseCreateMomentSchema = z.object({
+  token: tokenSchema,
+  account: addressSchema,
+  splits: z.array(splitSchema).optional(),
+});
+
+// Schema for creating a new contract
+const createNewContractSchema = baseCreateMomentSchema.extend({
+  contract: contractSchema,
+});
+
+// Schema for adding token to existing contract
+const createTokenOnExistingContractSchema = baseCreateMomentSchema.extend({
+  contractAddress: addressSchema,
+});
+
+// Union schema that accepts either shape
 export const createMomentSchema = z
-  .object({
-    contract: contractSchema,
-    token: tokenSchema,
-    account: addressSchema,
-    splits: z.array(splitSchema).optional(),
-  })
+  .union([createNewContractSchema, createTokenOnExistingContractSchema])
   .refine(
     (data) => {
       if (!data.splits || data.splits.length === 0) {

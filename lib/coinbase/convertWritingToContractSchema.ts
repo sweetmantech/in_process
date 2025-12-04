@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { createMomentSchema, createWritingMomentSchema } from "../schema/createContractSchema";
+import { createMomentSchema, createWritingMomentSchema } from "../schema/createMomentSchema";
 
 export const convertWritingToContractSchema = (
   writingData: z.infer<typeof createWritingMomentSchema>,

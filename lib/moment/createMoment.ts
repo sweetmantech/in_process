@@ -8,7 +8,7 @@ import {
 } from "viem";
 import { z } from "zod";
 import { CHAIN_ID, IS_TESTNET } from "@/lib/consts";
-import { createMomentSchema } from "@/lib/schema/createContractSchema";
+import { createMomentSchema } from "@/lib/schema/createMomentSchema";
 import { create1155 } from "@/lib/zora/create1155";
 import { sendUserOperation } from "@/lib/coinbase/sendUserOperation";
 import { zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
@@ -17,6 +17,7 @@ import { processSplits } from "@/lib/splits/processSplits";
 import { resolveSplitAddresses } from "@/lib/splits/resolveSplitAddresses";
 import { getAdminPermissionSetupActions } from "@/lib/zora/getAdminPermissionSetupActions";
 import { getSplitAdminAddresses } from "@/lib/splits/getSplitAdminAddresses";
+import { getFactoryAddress } from "@/lib/protocolSdk/create/factory-addresses";
 
 export type CreateMomentContractInput = z.infer<typeof createMomentSchema>;
 
@@ -32,30 +33,27 @@ export interface CreateContractResult {
  * Accepts the full API input shape for creating a Moment.
  * Handles splits configuration by creating split contract if needed.
  */
-export async function createMoment({
-  contract,
-  token,
-  account,
-  splits,
-}: CreateMomentContractInput): Promise<CreateContractResult> {
+export async function createMoment(
+  input: CreateMomentContractInput
+): Promise<CreateContractResult> {
   const smartAccount = await getOrCreateSmartWallet({
-    address: account as Address,
+    address: input.account as Address,
   });
 
-  let payoutRecipient = token.payoutRecipient;
+  let payoutRecipient = input.token.payoutRecipient;
   let splitAddress: Address | null = null;
-  const resolvedSplits = await resolveSplitAddresses(splits || []);
+  const resolvedSplits = await resolveSplitAddresses(input.splits || []);
 
   if (resolvedSplits && resolvedSplits.length >= 2) {
     const result = await processSplits(resolvedSplits, smartAccount);
     if (result.splitAddress) {
       splitAddress = result.splitAddress;
-      payoutRecipient = getAddress(splitAddress) as typeof token.payoutRecipient;
+      payoutRecipient = getAddress(splitAddress) as typeof input.token.payoutRecipient;
     }
   }
 
   const tokenWithPayout = {
-    ...token,
+    ...input.token,
     ...(payoutRecipient && { payoutRecipient }),
   };
 
@@ -73,16 +71,20 @@ export async function createMoment({
 
   // Use the protocol SDK to generate calldata
   const { parameters } = await create1155({
-    contract,
+    ...input,
     token: tokenWithPayout,
-    account,
     additionalSetupActions,
   });
 
+  // Determine if creating new contract or adding to existing contract
+  // Check if the target address is the factory (new contract) or an existing contract
+  const factoryAddress = getFactoryAddress(CHAIN_ID);
+  const isNewContract = getAddress(parameters.address) === getAddress(factoryAddress);
+
   // Encode the function call data
-  const createContractData = encodeFunctionData({
+  const functionCallData = encodeFunctionData({
     abi: parameters.abi,
-    functionName: "createContract",
+    functionName: isNewContract ? "createContract" : "multicall",
     args: parameters.args,
   });
 
@@ -93,26 +95,38 @@ export async function createMoment({
     calls: [
       {
         to: parameters.address,
-        data: createContractData,
+        data: functionCallData,
       },
     ],
   });
 
-  const factoryLogs = parseEventLogs({
-    abi: parameters.abi,
-    logs: transaction.logs,
-    eventName: "SetupNewContract",
-  }) as ParseEventLogsReturnType;
-
+  // Parse token creation event (always present)
   const collectionLogs = parseEventLogs({
     abi: zoraCreator1155ImplABI,
     logs: transaction.logs,
     eventName: "SetupNewToken",
   }) as ParseEventLogsReturnType;
-  console.log("collectionLogs", collectionLogs);
+
+  // Parse contract creation event (only present when creating new contract)
+  let contractAddress: Address;
+  if (isNewContract) {
+    const factoryLogs = parseEventLogs({
+      abi: parameters.abi,
+      logs: transaction.logs,
+      eventName: "SetupNewContract",
+    }) as ParseEventLogsReturnType;
+    contractAddress = (factoryLogs[0].args as { newContract: Address }).newContract;
+  } else {
+    // Use the provided contract address when adding to existing contract
+    if ("contractAddress" in input) {
+      contractAddress = input.contractAddress;
+    } else {
+      throw new Error("Expected contractAddress when adding token to existing contract");
+    }
+  }
 
   return {
-    contractAddress: (factoryLogs[0].args as { newContract: Address }).newContract,
+    contractAddress,
     tokenId: (collectionLogs[0].args as { tokenId: bigint }).tokenId.toString(),
     hash: transaction.transactionHash as Hash,
     chainId: CHAIN_ID,
