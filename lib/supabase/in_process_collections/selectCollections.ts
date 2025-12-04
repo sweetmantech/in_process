@@ -18,7 +18,7 @@ const selectCollections = async ({
   const cappedLimit = Math.min(limit, 100);
   let query = supabase
     .from("in_process_collections")
-    .select("*, default_admin:in_process_artists!inner(username, address)");
+    .select("*, default_admin:in_process_artists!inner(username, address)", { count: "exact" });
 
   if (moments) {
     const orConditions = moments
@@ -28,7 +28,7 @@ const selectCollections = async ({
   }
 
   if (artists) {
-    query = query.in("default_admin", artists);
+    query = query.in("default_admin.address", artists);
   }
 
   if (chainId) {
@@ -38,11 +38,11 @@ const selectCollections = async ({
   query = query.order("created_at", { ascending: false });
   query = query.range((page - 1) * cappedLimit, page * cappedLimit - 1);
 
-  const { data, error } = await query;
+  const { data, count, error } = await query;
 
-  if (error) return [];
+  if (error) return { data: null, count: null, error };
 
-  return data || [];
+  return { data: data || [], count: count || 0, error: null };
 };
 
 export default selectCollections;

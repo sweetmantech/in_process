@@ -10,20 +10,42 @@ export async function GET(req: NextRequest) {
   const chainIdParam = searchParams.get("chain_id");
   const chainId = chainIdParam ? Number(chainIdParam) : CHAIN_ID;
 
-  const collections = await selectCollections({
-    artists: artist ? [artist.toLowerCase()] : undefined,
-    limit,
-    page,
-    chainId,
-  });
-
-  return Response.json({
-    status: "success",
-    collections: collections,
-    pagination: {
-      page,
+  try {
+    const result = await selectCollections({
+      artists: artist ? [artist.toLowerCase()] : undefined,
       limit,
-      total_pages: Math.ceil(collections.length / limit),
-    },
-  });
+      page,
+      chainId,
+    });
+
+    if (result.error) {
+      return Response.json(
+        {
+          status: "error",
+          message: "Failed to fetch collections",
+          error: result.error.message,
+        },
+        { status: 500 }
+      );
+    }
+
+    return Response.json({
+      status: "success",
+      collections: result.data,
+      pagination: {
+        page,
+        limit,
+        total_pages: Math.ceil((result.count || 0) / limit),
+      },
+    });
+  } catch (error) {
+    return Response.json(
+      {
+        status: "error",
+        message: "An error occurred while fetching collections",
+        error: error instanceof Error ? error.message : "Unknown error",
+      },
+      { status: 500 }
+    );
+  }
 }
