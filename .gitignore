@@ -41,6 +41,7 @@ yarn-error.log*
 /lib/supabase/.branches
 /lib/supabase/.temp
 /lib/supabase/config.toml
+/supabase
 
 # typescript
 *.tsbuildinfo
@@ -51,3 +52,4 @@ next-env.d.ts
 
 # eslint    
 .eslintcache
+
