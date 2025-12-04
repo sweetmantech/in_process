@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { Check, ChevronDown } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import {
@@ -17,34 +17,23 @@ import { cn } from "@/lib/utils";
 import { useCollections } from "@/hooks/useCollections";
 import { useUserProvider } from "@/providers/UserProvider";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
-import { useMetadata } from "@/hooks/useMetadata";
-import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
+import { useSelectedCollection } from "@/hooks/useSelectedCollection";
+import CollectionItem from "./CollectionItem";
 import Image from "next/image";
-import { CollectionsResponse } from "@/lib/collections/fetchCollections";
-
-type CollectionItem = CollectionsResponse["collections"][number];
-
-const useSelectedCollectionDisplayName = (
-  collections: CollectionItem[],
-  selectedAddress: string
-) => {
-  const selectedCollection = collections.find((c) => c.address === selectedAddress);
-  const { data: metadata } = useMetadata(selectedCollection?.uri || "");
-
-  if (!selectedCollection) return "New Collection";
-  return metadata?.name || selectedCollection.address;
-};
 
 const Collections = () => {
   const { artistWallet } = useUserProvider();
-  const { collections, isLoading } = useCollections(artistWallet);
+  const { collections } = useCollections(artistWallet);
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
   const currentCollection = searchParams.get("collectionAddress") || "new";
   const [open, setOpen] = useState(false);
 
-  const displayName = useSelectedCollectionDisplayName(collections, currentCollection);
+  const { displayName, imageUrl, isLoading } = useSelectedCollection(
+    collections,
+    currentCollection
+  );
 
   const handleValueChange = (value: string) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -71,7 +60,23 @@ const Collections = () => {
             aria-expanded={open}
             className="w-full justify-between !font-spectral !ring-0 !ring-offset-0 bg-white border-grey border rounded-[0px] h-9"
           >
-            {displayName}
+            <div className="flex items-center gap-2">
+              {isLoading ? (
+                <div className="h-[24px] w-[24px] rounded bg-neutral-200 animate-pulse" />
+              ) : (
+                <div className="h-[24px] w-[24px] rounded overflow-hidden shrink-0">
+                  <Image
+                    src={imageUrl}
+                    alt={displayName}
+                    width={30}
+                    height={30}
+                    className="object-cover w-full h-full"
+                    unoptimized
+                  />
+                </div>
+              )}
+              <span>{displayName}</span>
+            </div>
             <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
@@ -84,7 +89,8 @@ const Collections = () => {
                 <CommandItem
                   value="new"
                   onSelect={() => handleValueChange("new")}
-                  className="font-spectral"
+                  className="font-spectral border-b border-grey"
+                  keywords={["new", "collection"]}
                 >
                   <Check
                     className={cn(
@@ -94,6 +100,8 @@ const Collections = () => {
                   />
                   New Collection
                 </CommandItem>
+              </CommandGroup>
+              <CommandGroup>
                 {collections.map((collection) => (
                   <CollectionItem
                     key={collection.id}
@@ -111,46 +119,4 @@ const Collections = () => {
   );
 };
 
-interface CollectionItemProps {
-  collection: CollectionItem;
-  isSelected: boolean;
-  onSelect: () => void;
-}
-
-const CollectionItem = ({ collection, isSelected, onSelect }: CollectionItemProps) => {
-  const { data: metadata, isLoading } = useMetadata(collection.uri);
-
-  const displayName = metadata?.name || collection.address;
-  const imageUrl = metadata?.image
-    ? getFetchableUrl(metadata.image) || "/images/placeholder.png"
-    : "/images/placeholder.png";
-
-  return (
-    <CommandItem
-      value={collection.address}
-      onSelect={onSelect}
-      className="font-spectral"
-      keywords={[displayName, collection.address]}
-    >
-      <Check className={cn("mr-2 h-4 w-4", isSelected ? "opacity-100" : "opacity-0")} />
-      <div className="flex items-center gap-2">
-        {isLoading ? (
-          <div className="h-8 w-8 rounded bg-neutral-200 animate-pulse" />
-        ) : (
-          <Image
-            src={imageUrl}
-            alt={displayName}
-            width={32}
-            height={32}
-            className="rounded object-cover"
-            unoptimized
-          />
-        )}
-        <span>{displayName}</span>
-      </div>
-    </CommandItem>
-  );
-};
-
 export default Collections;
-

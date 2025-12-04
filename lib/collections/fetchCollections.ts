@@ -1,23 +1,4 @@
-export interface CollectionsResponse {
-  status: "success" | "error";
-  collections: Array<{
-    id: number;
-    address: string;
-    chain_id: number;
-    uri: string;
-    created_at: string;
-    default_admin: {
-      username: string | null;
-      address: string;
-    };
-  }>;
-  pagination: {
-    page: number;
-    limit: number;
-    total_pages: number;
-  };
-  message?: string;
-}
+import { CollectionsResponse } from "@/types/collections";
 
 export async function fetchCollections(
   page = 1,
@@ -33,4 +14,3 @@ export async function fetchCollections(
   if (!res.ok) throw new Error("Failed to fetch collections");
   return res.json();
 }
-

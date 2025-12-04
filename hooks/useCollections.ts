@@ -15,4 +15,3 @@ export function useCollections(artistAddress?: string) {
     error: query.error instanceof Error ? query.error : null,
   };
 }
-
