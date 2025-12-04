@@ -1,8 +1,24 @@
 import { Moment } from "@/types/moment";
 import { supabase } from "../client";
+import { CHAIN_ID } from "@/lib/consts";
 
-const selectCollections = async ({ moments }: { moments?: Moment[] }) => {
-  let query = supabase.from("in_process_collections").select("*");
+const selectCollections = async ({
+  moments,
+  artists,
+  limit = 100,
+  page = 1,
+  chainId = CHAIN_ID,
+}: {
+  moments?: Moment[];
+  artists?: string[];
+  limit?: number;
+  page?: number;
+  chainId?: number;
+}) => {
+  const cappedLimit = Math.min(limit, 100);
+  let query = supabase
+    .from("in_process_collections")
+    .select("*, default_admin:in_process_artists!inner(username, address)", { count: "exact" });
 
   if (moments) {
     const orConditions = moments
@@ -10,11 +26,23 @@ const selectCollections = async ({ moments }: { moments?: Moment[] }) => {
       .join(",");
     query = query.or(orConditions);
   }
-  const { data, error } = await query;
 
-  if (error) return [];
+  if (artists) {
+    query = query.in("default_admin.address", artists);
+  }
 
-  return data || [];
+  if (chainId) {
+    query = query.eq("chain_id", chainId);
+  }
+
+  query = query.order("created_at", { ascending: false });
+  query = query.range((page - 1) * cappedLimit, page * cappedLimit - 1);
+
+  const { data, count, error } = await query;
+
+  if (error) return { data: null, count: null, error };
+
+  return { data: data || [], count: count || 0, error: null };
 };
 
 export default selectCollections;

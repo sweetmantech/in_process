@@ -29,11 +29,11 @@ export async function GET(req: NextRequest) {
 
     const moment = parseResult.data;
 
-    const collections = await selectCollections({
+    const { data: collections } = await selectCollections({
       moments: [moment],
     });
 
-    const collection = collections[0];
+    const collection = collections?.[0] ?? null;
 
     const { uri, owner, saleConfig } = await getMomentAdvancedInfo(moment);
     const metadata = await fetchTokenMetadata(uri || "");

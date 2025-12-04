@@ -39,9 +39,16 @@ export async function POST(req: NextRequest) {
 
     const moment = parseResult.data;
 
-    const collections = await selectCollections({
+    const { data: collections, error: collectionsError } = await selectCollections({
       moments: [moment],
     });
+
+    if (collectionsError) {
+      return Response.json(
+        { success: false, message: collectionsError.message },
+        { status: 500, headers: corsHeaders }
+      );
+    }
 
     const collection = collections[0];
     if (!collection) {
