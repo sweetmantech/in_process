@@ -24,25 +24,6 @@ export interface MintComment {
   timestamp: number;
 }
 
-export interface GetInProcessMomentsRpcParams {
-  artist?: string;
-  limit?: number;
-  page?: number;
-  latest?: boolean;
-  chainId?: number;
-  hidden?: Database["public"]["Tables"]["in_process_tokens"]["Row"]["hidden"];
-  type?: "mutual" | "artist" | "timeline";
-}
-
-export interface GetInProcessMomentsRpcResponse {
-  moments: any[];
-  pagination: {
-    page: number;
-    limit: number;
-    total_pages: number;
-  };
-}
-
 export interface MomentMetadata {
   image: string;
   name: string;
