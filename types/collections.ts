@@ -19,3 +19,5 @@ export interface CollectionsResponse {
   };
   message?: string;
 }
+
+export type CollectionItem = CollectionsResponse["collections"][number];

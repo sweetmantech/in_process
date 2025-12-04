@@ -1,9 +1,7 @@
 import { useMemo } from "react";
-import { CollectionsResponse } from "@/types/collections";
+import { CollectionItem } from "@/types/collections";
 import { useMetadata } from "@/hooks/useMetadata";
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
-
-type CollectionItem = CollectionsResponse["collections"][number];
 
 export const useSelectedCollection = (
   collections: CollectionItem[],
