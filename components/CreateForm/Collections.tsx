@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { Check, ChevronDown } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import {
@@ -14,37 +13,21 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { useCollections } from "@/hooks/useCollections";
-import { useUserProvider } from "@/providers/UserProvider";
-import { useSearchParams, useRouter, usePathname } from "next/navigation";
-import { useSelectedCollection } from "@/hooks/useSelectedCollection";
-import CollectionItem from "./CollectionItem";
+import { useCollectionsSelection } from "@/hooks/useCollectionsSelection";
+import CollectionListItem from "./CollectionItem";
 import Image from "next/image";
 
 const Collections = () => {
-  const { artistWallet } = useUserProvider();
-  const { collections } = useCollections(artistWallet);
-  const searchParams = useSearchParams();
-  const router = useRouter();
-  const pathname = usePathname();
-  const currentCollection = searchParams.get("collectionAddress") || "new";
-  const [open, setOpen] = useState(false);
-
-  const { displayName, imageUrl, isLoading } = useSelectedCollection(
+  const {
     collections,
-    currentCollection
-  );
-
-  const handleValueChange = (value: string) => {
-    const params = new URLSearchParams(searchParams.toString());
-    if (value === "new") {
-      params.delete("collectionAddress");
-    } else {
-      params.set("collectionAddress", value);
-    }
-    router.push(`${pathname}?${params.toString()}`);
-    setOpen(false);
-  };
+    currentCollection,
+    open,
+    setOpen,
+    displayName,
+    imageUrl,
+    isLoading,
+    handleValueChange,
+  } = useCollectionsSelection();
 
   return (
     <div className="flex flex-col items-start w-full gap-2">
@@ -103,7 +86,7 @@ const Collections = () => {
               </CommandGroup>
               <CommandGroup>
                 {collections.map((collection) => (
-                  <CollectionItem
+                  <CollectionListItem
                     key={collection.id}
                     collection={collection}
                     isSelected={currentCollection === collection.address}

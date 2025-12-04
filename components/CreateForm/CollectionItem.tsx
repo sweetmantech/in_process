@@ -3,10 +3,9 @@
 import { Check } from "lucide-react";
 import { CommandItem } from "@/components/ui/command";
 import { cn } from "@/lib/utils";
-import { useMetadata } from "@/hooks/useMetadata";
-import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import Image from "next/image";
 import type { CollectionItem } from "@/types/collections";
+import { useCollectionItem } from "@/hooks/useCollectionItem";
 
 interface CollectionItemProps {
   collection: CollectionItem;
@@ -14,13 +13,8 @@ interface CollectionItemProps {
   onSelect: () => void;
 }
 
-const CollectionItem = ({ collection, isSelected, onSelect }: CollectionItemProps) => {
-  const { data: metadata, isLoading } = useMetadata(collection.uri);
-
-  const displayName = collection.name || collection.address;
-  const imageUrl = metadata?.image
-    ? getFetchableUrl(metadata.image) || "/images/placeholder.png"
-    : "/images/placeholder.png";
+const CollectionListItem = ({ collection, isSelected, onSelect }: CollectionItemProps) => {
+  const { displayName, imageUrl, isLoading } = useCollectionItem(collection);
 
   return (
     <CommandItem
@@ -51,4 +45,4 @@ const CollectionItem = ({ collection, isSelected, onSelect }: CollectionItemProp
   );
 };
 
-export default CollectionItem;
+export default CollectionListItem;
