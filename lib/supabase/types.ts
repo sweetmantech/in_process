@@ -465,6 +465,16 @@ export type Database = {
         };
         Returns: Json;
       };
+      get_collection_timeline: {
+        Args: {
+          p_chainid?: number;
+          p_collection: string;
+          p_hidden?: boolean;
+          p_limit?: number;
+          p_page?: number;
+        };
+        Returns: Json;
+      };
       get_in_process_timeline: {
         Args: {
           p_chainid?: number;
