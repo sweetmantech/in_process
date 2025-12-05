@@ -80,7 +80,7 @@ export async function POST(req: NextRequest) {
       admins: [
         {
           collection: collection.id,
-          token_id: admin.token_id,
+          token_id: Number(moment.tokenId),
           hidden: !admin.hidden,
           artist_address: admin.artist_address,
           granted_at: admin.granted_at,
