@@ -5,7 +5,7 @@ import selectCollections from "@/lib/supabase/in_process_collections/selectColle
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
-  const collectionAddress = searchParams.get("collectionAddress");
+  const collectionAddress = searchParams.get("collectionAddress")?.toLowerCase() || undefined;
   const chainIdParam = searchParams.get("chainId");
   const chainId = chainIdParam ? Number(chainIdParam) : CHAIN_ID;
 
