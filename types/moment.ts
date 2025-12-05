@@ -95,6 +95,19 @@ export interface GetArtistTimelineResponse {
   pagination: TimelinePagination;
 }
 
+export interface GetCollectionTimelineParams {
+  collection: string;
+  limit?: number;
+  page?: number;
+  chainId?: number;
+  hidden?: boolean;
+}
+
+export interface GetCollectionTimelineResponse {
+  moments: TimelineMoment[];
+  pagination: TimelinePagination;
+}
+
 export type MomentSaleConfig = {
   pricePerToken: string;
   saleStart: number;
