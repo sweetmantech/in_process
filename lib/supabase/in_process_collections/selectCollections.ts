@@ -3,12 +3,14 @@ import { supabase } from "../client";
 import { CHAIN_ID } from "@/lib/consts";
 
 const selectCollections = async ({
+  collectionAddress,
   moments,
   artists,
   limit = 100,
   page = 1,
   chainId = CHAIN_ID,
 }: {
+  collectionAddress?: string;
   moments?: Moment[];
   artists?: string[];
   limit?: number;
@@ -19,6 +21,10 @@ const selectCollections = async ({
   let query = supabase
     .from("in_process_collections")
     .select("*, default_admin:in_process_artists!inner(username, address)", { count: "exact" });
+
+  if (collectionAddress) {
+    query = query.eq("address", collectionAddress.toLowerCase());
+  }
 
   if (moments) {
     const orConditions = moments
