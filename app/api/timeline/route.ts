@@ -2,11 +2,13 @@ import { NextRequest } from "next/server";
 import { CHAIN_ID } from "@/lib/consts";
 import getInProcessTimeline from "@/lib/supabase/in_process_moments/getInProcessTimeline";
 import getArtistTimeline from "@/lib/supabase/in_process_moments/getArtistTimeline";
+import getCollectionTimeline from "@/lib/supabase/in_process_moments/getCollectionTimeline";
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const limit = Math.min(Number(searchParams.get("limit")) || 100, 100);
   const page = Number(searchParams.get("page")) || 1;
+  const collection = searchParams.get("collection") || undefined;
   const artist = searchParams.get("artist") || undefined; // API doc uses "address" parameter
   const chainIdParam = searchParams.get("chain_id");
   const chainId = chainIdParam ? Number(chainIdParam) : CHAIN_ID;
@@ -29,6 +31,31 @@ export async function GET(req: NextRequest) {
         { status: 400 }
       );
     }
+  }
+
+  // If collection is provided, handle collection timeline
+  if (collection) {
+    const { data, error } = await getCollectionTimeline({
+      collection,
+      limit,
+      page,
+      chainId,
+      hidden,
+    });
+
+    if (error) {
+      return Response.json({ status: "error", message: error.message }, { status: 500 });
+    }
+
+    if (!data) {
+      return Response.json({ status: "error", message: "No data returned" }, { status: 500 });
+    }
+
+    return Response.json({
+      status: "success",
+      moments: data.moments,
+      pagination: data.pagination,
+    });
   }
 
   // If artist/address is provided, handle artist timeline
@@ -57,7 +84,7 @@ export async function GET(req: NextRequest) {
     });
   }
 
-  // In-process timeline (no artist/address parameter)
+  // In-process timeline (no artist/address or collection parameter)
   const { data, error } = await getInProcessTimeline({
     limit,
     page,
