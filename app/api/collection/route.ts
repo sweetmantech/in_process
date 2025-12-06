@@ -34,19 +34,8 @@ export async function GET(req: NextRequest) {
     const metadata = await fetchTokenMetadata(collection.uri);
 
     const response = {
-      id: collection.id,
-      address: collection.address,
-      chain_id: collection.chain_id,
-      name: collection.name,
-      uri: collection.uri,
+      ...collection,
       metadata,
-      default_admin: {
-        address: collection.default_admin.address,
-        username: collection.default_admin.username || null,
-      },
-      payout_recipient: collection.payout_recipient,
-      created_at: collection.created_at,
-      updated_at: collection.updated_at,
     };
 
     return Response.json(response);
