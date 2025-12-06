@@ -9,9 +9,9 @@ import { useCollectionProvider } from "@/providers/CollectionProvider";
 const TokenOverview = () => {
   const { metadata, isLoading } = useMomentProvider();
   const { push } = useRouter();
-  const { collection } = useCollectionProvider();
+  const { data: collection } = useCollectionProvider();
 
-  if (isLoading || !metadata) return <Skeleton className="w-full h-[200px]" />;
+  if (isLoading || !metadata || !collection) return <Skeleton className="w-full h-[200px]" />;
 
   const isPdf = metadata?.content?.mime?.includes("pdf") ?? false;
   const containerClassName = isPdf
@@ -33,16 +33,12 @@ const TokenOverview = () => {
           type="button"
           onClick={() =>
             push(
-              `/manage/${networkConfigByChain[collection.chainId].zoraCollectPathChainName}:${collection.address}`
+              `/manage/${networkConfigByChain[collection.chain_id].zoraCollectPathChainName}:${collection.address}`
             )
           }
           className="px-2 py-1 rounded-md hover:text-grey-eggshell hover:bg-black"
         >
-          {isLoading ? (
-            <Skeleton className="w-12 h-4 rounded-sm" />
-          ) : (
-            collection.metadata.data?.name
-          )}
+          {isLoading ? <Skeleton className="w-12 h-4 rounded-sm" /> : collection.metadata?.name}
         </button>
         /
         <p className="px-2 py-1 rounded-md hover:text-grey-eggshell hover:bg-black">

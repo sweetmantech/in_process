@@ -7,24 +7,18 @@ import { Skeleton } from "../ui/skeleton";
 import { networkConfigByChain } from "@/lib/protocolSdk/apis/chain-constants";
 import { useUserProvider } from "@/providers/UserProvider";
 import HideButton from "../TimelineMoments/HideButton";
+import { TimelineMoment } from "@/types/moment";
 
-const TokenItem = ({
-  t,
-}: {
-  t: {
-    tokenId: bigint;
-    uri: string;
-  };
-}) => {
-  const { data, isLoading } = useMetadata(t.uri);
+const MomentItem = ({ m }: { m: TimelineMoment }) => {
+  const { data, isLoading } = useMetadata(m.uri);
   const { push } = useRouter();
-  const { collection } = useCollectionProvider();
+  const { data: collection } = useCollectionProvider();
   const { connectedAddress } = useUserProvider();
 
   const handleClick = () => {
     if (isLoading) return;
     push(
-      `/manage/${networkConfigByChain[collection.chainId].zoraCollectPathChainName}:${collection.address as string}/${t.tokenId.toString()}`
+      `/manage/${networkConfigByChain[collection?.chain_id ?? 0].zoraCollectPathChainName}:${collection?.address as string}/${m.token_id.toString()}`
     );
     return;
   };
@@ -49,28 +43,9 @@ const TokenItem = ({
           <div className="py-2 flex gap-6 justify-between items-center">
             <p className="font-archivo text-grey-moss-900">{data?.name}</p>
             <p className="font-archivo text-sm text-grey-moss-900 bg-grey-moss-100 rounded-md px-2">
-              id: {t.tokenId}
+              id: {m.token_id}
             </p>
-            {connectedAddress && (
-              <HideButton
-                moment={{
-                  address: collection.address,
-                  token_id: t.tokenId.toString(),
-                  chain_id: collection.chainId,
-                  id: `${collection.address}-${t.tokenId.toString()}`,
-                  uri: t.uri,
-                  max_supply: 0,
-                  default_admin: {
-                    address: connectedAddress,
-                    username: "",
-                    hidden: false,
-                  },
-                  admins: [],
-                  created_at: new Date().toISOString(),
-                  updated_at: new Date().toISOString(),
-                }}
-              />
-            )}
+            {connectedAddress && <HideButton moment={m} />}
           </div>
         </>
       )}
@@ -78,4 +53,4 @@ const TokenItem = ({
   );
 };
 
-export default TokenItem;
+export default MomentItem;

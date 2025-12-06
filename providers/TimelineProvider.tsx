@@ -3,7 +3,7 @@
 import { createContext, useContext, ReactNode } from "react";
 import { useTimeline } from "@/hooks/useTimeline";
 import { TimelineMoment } from "@/types/moment";
-import { TimelineResponse } from "@/lib/timeline/fetchTimeline";
+import { TimelineResponse } from "@/types/timeline";
 
 interface TimelineContextValue {
   data: TimelineResponse | undefined;
@@ -20,6 +20,7 @@ const TimelineContext = createContext<TimelineContextValue | undefined>(undefine
 interface TimelineProviderProps {
   children: ReactNode;
   artistAddress?: string;
+  collectionAddress?: string;
   includeHidden?: boolean;
   type?: "mutual" | "default";
 }
@@ -27,18 +28,21 @@ interface TimelineProviderProps {
 export const TimelineProvider = ({
   children,
   artistAddress,
+  collectionAddress,
   includeHidden = false,
   type,
 }: TimelineProviderProps) => {
-  const { data, isLoading, error, currentPage, setCurrentPage, fetchMore } = useTimeline(
-    1,
-    100,
-    true,
+  const timeline = useTimeline({
+    page: 1,
+    limit: 100,
+    enabled: true,
     artistAddress,
+    collection: collectionAddress,
     includeHidden,
-    type
-  );
+    type,
+  });
 
+  const { data, isLoading, error, currentPage, setCurrentPage, fetchMore } = timeline;
   const moments = data?.moments || [];
 
   return (

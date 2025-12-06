@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import ManageTabs, { MANAGE_TABS } from "./ManageTabs";
 import Sale from "./Sale";
 import Media from "./Media";
@@ -9,19 +9,22 @@ import { MomentProvider } from "@/providers/MomentProvider";
 import { useCollectionProvider } from "@/providers/CollectionProvider";
 import TokenOverview from "../CollectionManagePage/TokenOverview";
 import MomentAirdrop from "../MomentAirdrop";
+import { Address } from "viem";
 
 const TokenManagePage = () => {
   const [selectedTab, setSelectedTab] = useState<number>(MANAGE_TABS.AIRDROP);
-  const { collection } = useCollectionProvider();
+  const { data } = useCollectionProvider();
   const params = useParams();
   const tokenId = params.tokenId as string;
+
+  if (!data) return <Fragment />;
 
   return (
     <MomentProvider
       moment={{
-        collectionAddress: collection.address,
+        collectionAddress: data.address as Address,
         tokenId,
-        chainId: collection.chainId,
+        chainId: data.chain_id,
       }}
     >
       <TokenOverview />
