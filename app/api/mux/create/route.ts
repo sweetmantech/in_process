@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
     );
   } catch (e: any) {
     console.log(e);
-    const message = e?.message ?? "failed to create upload intent";
+    const message = e?.message ?? "failed to create upload intent.";
     return Response.json({ message }, { status: 500, headers: corsHeaders });
   }
 }
