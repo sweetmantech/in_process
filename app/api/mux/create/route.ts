@@ -24,7 +24,6 @@ export async function POST(req: NextRequest) {
     const id = uuidv4();
     const upload = await mux.video.uploads.create({
       cors_origin: "*",
-
       new_asset_settings: {
         passthrough: id,
         playback_policy: ["public"],
