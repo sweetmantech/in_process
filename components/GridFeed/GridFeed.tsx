@@ -5,7 +5,7 @@ const GridFeed = () => {
   const { moments } = useTimelineProvider();
 
   return (
-    <div className="w-full px-10 grid grid-cols-4 gap-4">
+    <div className="grid w-full grid-cols-4 gap-4 px-10">
       {moments.map((feed, i) => (
         <GridItem key={i} feed={feed} />
       ))}

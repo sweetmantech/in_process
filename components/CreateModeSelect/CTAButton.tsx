@@ -12,23 +12,20 @@ const CTAButton = ({ children, onClick, isActive }: CTAButtonProps) => {
   return (
     <button
       type="button"
-      className={`flex items-center gap-4 w-fit font-archivo-medium 
-        disabled:cursor-not-allowed
-        ${
-          isActive
-            ? "text-grey-moss-900 text-2xl xl:text-4xl"
-            : "text-grey-moss-400 hover:text-grey-moss-900 text-xl xl:text-3xl"
-        }`}
+      className={`flex w-fit items-center gap-4 font-archivo-medium disabled:cursor-not-allowed ${
+        isActive
+          ? "text-2xl text-grey-moss-900 xl:text-4xl"
+          : "text-xl text-grey-moss-400 hover:text-grey-moss-900 xl:text-3xl"
+      }`}
       onClick={onClick}
       onMouseOver={() => setHovered(true)}
       onMouseOut={() => setHovered(false)}
     >
       <div
-        className={`flex justify-center items-center w-[29px] rounded-full aspect-[1/1] 
-          ${isActive ? "bg-grey-moss-900" : ` ${hovered ? "border border-grey-moss-400" : "bg-transparent"}`}`}
+        className={`flex aspect-[1/1] w-[29px] items-center justify-center rounded-full ${isActive ? "bg-grey-moss-900" : ` ${hovered ? "border border-grey-moss-400" : "bg-transparent"}`}`}
       >
         {hovered && !isActive && (
-          <div className="w-[15px] aspect-[1/1] bg-grey-moss-400 rounded-full" />
+          <div className="aspect-[1/1] w-[15px] rounded-full bg-grey-moss-400" />
         )}
       </div>
       {children}

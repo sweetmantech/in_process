@@ -6,7 +6,7 @@ const MutualMomentsButton = () => {
   return (
     <button
       type="button"
-      className="flex items-center justify-between w-full font-archivo-medium text-2xl hover:bg-grey-eggshell px-2 py-1 rounded-md"
+      className="flex w-full items-center justify-between rounded-md px-2 py-1 font-archivo-medium text-2xl hover:bg-grey-eggshell"
       onClick={() => push("/manage/mutual-moments")}
     >
       <p className="text-base md:text-2xl">mutual moments</p>

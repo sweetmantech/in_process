@@ -14,14 +14,14 @@ export function DropdownMenu() {
   const { artistWallet } = useUserProvider();
 
   return (
-    <div className="fixed md:absolute top-[100px] md:top-full left-0 right-0 h-screen md:h-fit bg-grey-moss-900 shadow-lg font-archivo z-[999999999] rounded-b-sm border-t-0">
+    <div className="fixed left-0 right-0 top-[100px] z-[999999999] h-screen rounded-b-sm border-t-0 bg-grey-moss-900 font-archivo shadow-lg md:absolute md:top-full md:h-fit">
       <Divider />
       <button
         onClick={() => {
           toggleNavbar();
           push(`/${artistWallet}`);
         }}
-        className="w-full text-left pl-14 md:px-4 py-4 md:py-2 text-white text-2xl md:text-base hover:bg-[#333333] hover:rounded-b-sm transition-colors"
+        className="w-full py-4 pl-14 text-left text-2xl text-white transition-colors hover:rounded-b-sm hover:bg-[#333333] md:px-4 md:py-2 md:text-base"
       >
         timeline
       </button>
@@ -31,7 +31,7 @@ export function DropdownMenu() {
           toggleNavbar();
           push("/manage");
         }}
-        className="w-full text-left pl-14 md:px-4 py-4 md:py-2 text-white text-2xl md:text-base hover:bg-[#333333] hover:rounded-b-sm transition-colors"
+        className="w-full py-4 pl-14 text-left text-2xl text-white transition-colors hover:rounded-b-sm hover:bg-[#333333] md:px-4 md:py-2 md:text-base"
       >
         manage
       </button>
@@ -43,7 +43,7 @@ export function DropdownMenu() {
               toggleNavbar();
               logout();
             }}
-            className="w-full text-left pl-14 md:px-4 py-4 md:py-2 text-white text-2xl md:text-base hover:bg-[#333333] hover:rounded-b-sm transition-colors"
+            className="w-full py-4 pl-14 text-left text-2xl text-white transition-colors hover:rounded-b-sm hover:bg-[#333333] md:px-4 md:py-2 md:text-base"
           >
             log out
           </button>

@@ -16,23 +16,23 @@ const SearchInput = () => {
 
   return (
     <div className="relative">
-      <div className="flex items-center gap-1 bg-white px-2 py-2 rounded-sm min-h-9">
+      <div className="flex min-h-9 items-center gap-1 rounded-sm bg-white px-2 py-2">
         <SearchIcon
           className="size-4"
           onClick={() => setIsExpandedSearchInput(!isExpandedSearchInput)}
         />
         {isExpandedSearchInput && (
           <>
-            <div className="relative overflow-hidden flex items-center">
+            <div className="relative flex items-center overflow-hidden">
               <input
                 type="text"
-                className="!w-[70px] font-archivo !outline-none text-sm placeholder-grey-moss-300"
+                className="!w-[70px] font-archivo text-sm placeholder-grey-moss-300 !outline-none"
                 placeholder="search inprocess"
                 value={searchKey}
                 onChange={onChangeSearchKey}
               />
-              <div className="absolute left-0 top-0 pointer-events-none flex items-center min-w-[900px]">
-                <p className="font-archivo !outline-none text-sm opacity-0">{searchKey}</p>
+              <div className="pointer-events-none absolute left-0 top-0 flex min-w-[900px] items-center">
+                <p className="font-archivo text-sm opacity-0 !outline-none">{searchKey}</p>
                 <span className="font-archivo text-sm text-grey-moss-300">{suffixHint}</span>
               </div>
             </div>

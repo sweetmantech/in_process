@@ -6,7 +6,7 @@ interface ContainerProps {
 }
 
 const Container = ({ children, className = "" }: ContainerProps) => (
-  <div className={`size-full flex justify-center ${className}`}>{children}</div>
+  <div className={`flex size-full justify-center ${className}`}>{children}</div>
 );
 
 export default Container;

@@ -34,7 +34,7 @@ const SearchModal = () => {
         className="disabled:cursor-not-allowed disabled:bg-grey-moss-300"
         onClick={() => setIsOpenModal(true)}
       >
-        <button type="button" className="hover:bg-grey-eggshell rounded-md p-2">
+        <button type="button" className="rounded-md p-2 hover:bg-grey-eggshell">
           <Image
             src="/search_icon.svg"
             blurDataURL="/search_icon.png"
@@ -44,8 +44,8 @@ const SearchModal = () => {
           />
         </button>
       </DialogTrigger>
-      <DialogOverlay className="opacity-80 !pointer-events-none" />
-      <DialogContent className="max-w-xl !rounded-3xl !bg-white border-none py-10 px-8 flex flex-col items-center !gap-0 shadow-lg overflow-hidden bg-transparent">
+      <DialogOverlay className="!pointer-events-none opacity-80" />
+      <DialogContent className="flex max-w-xl flex-col items-center !gap-0 overflow-hidden !rounded-3xl border-none !bg-white bg-transparent px-8 py-10 shadow-lg">
         <VisuallyHidden>
           <DialogTitle>Search</DialogTitle>
         </VisuallyHidden>
@@ -63,7 +63,7 @@ const SearchModal = () => {
             height={24}
           />
         </button>
-        <div className="flex gap-10 items-center py-12">
+        <div className="flex items-center gap-10 py-12">
           <Image
             src="/search_icon.svg"
             blurDataURL="/search_icon.png"
@@ -75,15 +75,15 @@ const SearchModal = () => {
             <input
               type="text"
               placeholder="search inprocess"
-              className="placeholder-grey-moss-300 !max-w-[370px] text-5xl font-archivo !outline-none !border-none"
+              className="!max-w-[370px] !border-none font-archivo text-5xl placeholder-grey-moss-300 !outline-none"
               value={searchKey}
               onChange={onChangeSearchKey}
               onKeyDown={onKeyDown}
               autoFocus
             />
-            <div className="absolute left-0 top-0 flex pointer-events-none">
-              <p className="text-5xl font-archivo opacity-0">{searchKey}</p>
-              <span className="font-archivo text-grey-moss-300 text-5xl">{suffixHint}</span>
+            <div className="pointer-events-none absolute left-0 top-0 flex">
+              <p className="font-archivo text-5xl opacity-0">{searchKey}</p>
+              <span className="font-archivo text-5xl text-grey-moss-300">{suffixHint}</span>
             </div>
           </div>
         </div>

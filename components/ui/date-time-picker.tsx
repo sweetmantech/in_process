@@ -13,7 +13,7 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 interface DatetimePickerProps {
   date: Date | undefined;
-  setDate: (value: Date) => void;
+  setDate: (_value: Date) => void;
 }
 
 export function DateTimePicker({ date, setDate }: DatetimePickerProps) {
@@ -44,7 +44,7 @@ export function DateTimePicker({ date, setDate }: DatetimePickerProps) {
         <Button
           variant="outline"
           className={cn(
-            "w-full justify-start text-left font-normal !bg-white !border-grey !rounded-[0px] !font-spectral",
+            "w-full justify-start !rounded-[0px] !border-grey !bg-white text-left !font-spectral font-normal",
             !date && "text-muted-foreground"
           )}
         >
@@ -63,15 +63,15 @@ export function DateTimePicker({ date, setDate }: DatetimePickerProps) {
             fromYear={1969}
             toYear={2030}
           />
-          <div className="flex flex-col sm:flex-row sm:h-[300px] divide-y sm:divide-y-0 sm:divide-x">
+          <div className="flex flex-col divide-y sm:h-[300px] sm:flex-row sm:divide-x sm:divide-y-0">
             <ScrollArea className="w-64 sm:w-auto">
-              <div className="flex sm:flex-col p-2">
+              <div className="flex p-2 sm:flex-col">
                 {hours.reverse().map((hour) => (
                   <Button
                     key={hour}
                     size="icon"
                     variant={date && date.getHours() === hour ? "default" : "ghost"}
-                    className="sm:w-full shrink-0 aspect-square"
+                    className="aspect-square shrink-0 sm:w-full"
                     onClick={() => handleTimeChange("hour", hour.toString())}
                   >
                     {hour}
@@ -81,13 +81,13 @@ export function DateTimePicker({ date, setDate }: DatetimePickerProps) {
               <ScrollBar orientation="horizontal" className="sm:hidden" />
             </ScrollArea>
             <ScrollArea className="w-64 sm:w-auto">
-              <div className="flex sm:flex-col p-2">
+              <div className="flex p-2 sm:flex-col">
                 {Array.from({ length: 12 }, (_, i) => i * 5).map((minute) => (
                   <Button
                     key={minute}
                     size="icon"
                     variant={date && date.getMinutes() === minute ? "default" : "ghost"}
-                    className="sm:w-full shrink-0 aspect-square"
+                    className="aspect-square shrink-0 sm:w-full"
                     onClick={() => handleTimeChange("minute", minute.toString())}
                   >
                     {minute.toString().padStart(2, "0")}

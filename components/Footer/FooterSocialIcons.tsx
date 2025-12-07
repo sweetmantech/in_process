@@ -2,7 +2,7 @@ import Image from "next/image";
 
 const FooterSocialIcons = () => {
   return (
-    <div className="flex flex-row gap-2 items-center ml-auto md:ml-0">
+    <div className="ml-auto flex flex-row items-center gap-2 md:ml-0">
       <a
         href="https://x.com/stayinprocess"
         target="_blank"

@@ -11,10 +11,10 @@ const Advanced = () => {
   const { isOpenAdvanced, form, setIsOpenAdvanced } = useMomentFormProvider();
 
   return (
-    <div className="flex flex-col gap-2 pt-2 z-10">
+    <div className="z-10 flex flex-col gap-2 pt-2">
       <Button
         type="button"
-        className="w-full h-fit p-0 mb-3 pb-1 self-center font-archivo font-medium border-b text-md border-grey-moss-300 rounded-none flex justify-between items-center"
+        className="text-md mb-3 flex h-fit w-full items-center justify-between self-center rounded-none border-b border-grey-moss-300 p-0 pb-1 font-archivo font-medium"
         onClick={() => setIsOpenAdvanced(!isOpenAdvanced)}
       >
         advanced
@@ -23,8 +23,8 @@ const Advanced = () => {
         />
       </Button>
       {isOpenAdvanced && (
-        <div className="relative mx-[-16px] px-[16px] bg-grey-moss-100">
-          <p className="font-medium font-archivo ">Description</p>
+        <div className="relative mx-[-16px] bg-grey-moss-100 px-[16px]">
+          <p className="font-archivo font-medium">Description</p>
           <Textarea
             {...form.register("description")}
             placeholder="enter a description"
@@ -32,13 +32,13 @@ const Advanced = () => {
             className="resize-none font-spectral"
           />
           {form.formState.errors.description && (
-            <p className="text-xs text-red-500 font-spectral mt-1">
+            <p className="mt-1 font-spectral text-xs text-red-500">
               {form.formState.errors.description.message}
             </p>
           )}
           <Price />
           <SplitsForm />
-          <p className="font-medium font-archivo pt-2">time</p>
+          <p className="pt-2 font-archivo font-medium">time</p>
           <Controller
             name="startDate"
             control={form.control}

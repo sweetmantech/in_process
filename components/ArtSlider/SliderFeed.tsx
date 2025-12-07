@@ -18,12 +18,12 @@ const SliderFeed = ({ feed }: SliderFeedProps) => {
 
   return (
     <button
-      className="w-full h-[200px] md:h-auto overflow-hidden relative rounded-md bg-grey-moss-100 font-spectral"
+      className="relative h-[200px] w-full overflow-hidden rounded-md bg-grey-moss-100 font-spectral md:h-auto"
       type="button"
       onClick={handleClick}
     >
       {isLoading || !data ? (
-        <div className="size-full flex justify-center items-center bg-grey-moss-100 border border-grey rounded-md">
+        <div className="flex size-full items-center justify-center rounded-md border border-grey bg-grey-moss-100">
           <Loading className="size-3/4" />
         </div>
       ) : (

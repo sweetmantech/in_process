@@ -9,7 +9,7 @@ export default function CommentButton() {
     <button
       onClick={collectWithComment}
       type="button"
-      className="py-3 bg-black hover:bg-grey-moss-300 font-archivo text-xl w-full text-grey-eggshell"
+      className="w-full bg-black py-3 font-archivo text-xl text-grey-eggshell hover:bg-grey-moss-300"
       disabled={isLoading}
     >
       {isLoading ? "collecting..." : "collect"}

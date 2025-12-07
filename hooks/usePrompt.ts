@@ -14,7 +14,7 @@ const usePrompt = () => {
   const [prompt, setPrompt] = useState(0);
   const [placeholder, setPlaceholder] = useState(promptOptions[0].label);
   const { name, setName } = useMomentFormProvider();
-  const promptRef = useRef() as any;
+  const promptRef = useRef(null) as any;
 
   const rotatePrompt = () => {
     clearInterval(timer);

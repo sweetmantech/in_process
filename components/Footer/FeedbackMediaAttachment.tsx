@@ -5,7 +5,7 @@ import { toast } from "sonner";
 interface FeedbackMediaAttachmentProps {
   mediaFile: File | null;
   mediaPreview: string | null;
-  onMediaChange: (file: File | null, preview: string | null) => void;
+  onMediaChange: (_file: File | null, _preview: string | null) => void;
 }
 
 const FeedbackMediaAttachment = ({
@@ -29,8 +29,8 @@ const FeedbackMediaAttachment = ({
   };
 
   return (
-    <div className="w-full mb-3">
-      <Label className="pt-3 font-archivo text-sm text-left w-full mb-1 text-grey-moss-600">
+    <div className="mb-3 w-full">
+      <Label className="text-grey-moss-600 mb-1 w-full pt-3 text-left font-archivo text-sm">
         add media (optional)
       </Label>
 
@@ -44,24 +44,25 @@ const FeedbackMediaAttachment = ({
 
       <label
         htmlFor="media-upload"
-        className="cursor-pointer bg-grey-moss-50 w-full p-3 font-spectral border border-black border-dashed flex items-center justify-center text-grey-moss-600 hover:bg-grey-moss-100 transition-colors"
+        className="text-grey-moss-600 flex w-full cursor-pointer items-center justify-center border border-dashed border-black bg-grey-moss-50 p-3 font-spectral transition-colors hover:bg-grey-moss-100"
       >
         {mediaFile ? "change media" : "click to add media"}
       </label>
 
       {mediaPreview && mediaFile && (
-        <div className="mt-2 relative">
+        <div className="relative mt-2">
           {mediaFile && mediaPreview && (
+            // eslint-disable-next-line @next/next/no-img-element
             <img
               src={mediaPreview}
               alt="Preview"
-              className="w-full h-32 object-cover border border-black"
+              className="h-32 w-full border border-black object-cover"
             />
           )}
           <button
             type="button"
             onClick={handleRemove}
-            className="absolute top-1 right-1 w-6 h-6 bg-black text-white rounded-full flex items-center justify-center text-xs hover:bg-grey-moss-300"
+            className="absolute right-1 top-1 flex h-6 w-6 items-center justify-center rounded-full bg-black text-xs text-white hover:bg-grey-moss-300"
           >
             ×
           </button>

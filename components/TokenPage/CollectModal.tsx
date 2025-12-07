@@ -46,16 +46,16 @@ const CollectModal = () => {
         >
           <button
             type="button"
-            className="w-full md:w-[420px] py-2 md:h-[60px] bg-black hover:bg-grey-moss-300 rounded-md h-fit text-grey-eggshell font-archivo text-2xl"
+            className="h-fit w-full rounded-md bg-black py-2 font-archivo text-2xl text-grey-eggshell hover:bg-grey-moss-300 md:h-[60px] md:w-[420px]"
           >
             collect
           </button>
         </DialogTrigger>
-        <DialogContent className="max-w-xl !rounded-3xl !bg-white border-none py-10 px-8 flex flex-col items-center !gap-0 shadow-lg overflow-hidden bg-transparent">
+        <DialogContent className="flex max-w-xl flex-col items-center !gap-0 overflow-hidden !rounded-3xl border-none !bg-white bg-transparent px-8 py-10 shadow-lg">
           <VisuallyHidden>
             <DialogTitle>Collect</DialogTitle>
           </VisuallyHidden>
-          <section className="font-archivo-medium text-xl pt-2 flex items-center gap-2">
+          <section className="flex items-center gap-2 pt-2 font-archivo-medium text-xl">
             collect {truncated(metadata?.name || "")} for{" "}
             {isLoading ? (
               <Skeleton className="h-5 w-10 rounded-none" />
@@ -67,15 +67,15 @@ const CollectModal = () => {
               </>
             )}
           </section>
-          <Label className="font-archivo text-lg text-left w-full mt-4">comment</Label>
+          <Label className="mt-4 w-full text-left font-archivo text-lg">comment</Label>
           <textarea
-            className="bg-grey-moss-50 w-full p-3 font-spectral !border-none !outline-none !ring-0"
+            className="w-full !border-none bg-grey-moss-50 p-3 font-spectral !outline-none !ring-0"
             rows={6}
             value={comment}
             onChange={(e) => setComment(e.target.value)}
           />
           <Advanced />
-          <div className="w-full mt-4">
+          <div className="mt-4 w-full">
             <CommentButton />
           </div>
         </DialogContent>

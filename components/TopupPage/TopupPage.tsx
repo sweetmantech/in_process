@@ -28,10 +28,10 @@ const TopupPage = () => {
     <main className="min-h-screen p-4 md:p-8">
       <div className="mx-auto max-w-4xl space-y-6">
         <div className="space-y-2">
-          <h1 className="text-4xl font-archivo-bold tracking-tight text-balance text-grey-moss-900">
+          <h1 className="text-balance font-archivo-bold text-4xl tracking-tight text-grey-moss-900">
             Top Up Wallet
           </h1>
-          <p className="text-grey-primary font-spectral-italic text-pretty">
+          <p className="text-pretty font-spectral-italic text-grey-primary">
             Manage your digital assets and view your current balance
           </p>
         </div>

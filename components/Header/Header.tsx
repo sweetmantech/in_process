@@ -18,22 +18,21 @@ const Header = () => {
 
   return (
     <div
-      className={`${isOpenNavbar ? "bg-grey-moss-900" : "bg-grey-moss-100/90"} md:bg-transparent opacity-99 
-      z-[${Z_BEHIND_PRIVY}] w-screen`}
+      className={`${isOpenNavbar ? "bg-grey-moss-900" : "bg-grey-moss-100/90"} opacity-99 md:bg-transparent z-[${Z_BEHIND_PRIVY}] w-screen`}
     >
-      <div className="flex justify-between items-center px-6 md:px-10 py-8">
+      <div className="flex items-center justify-between px-6 py-8 md:px-10">
         <Logo />
         <div className="flex items-center gap-1 md:gap-2" ref={menuRef}>
           <ArtistSearch />
           {signedAddress && <NotificationButton />}
           {!isMobile && <CreateCTAButton />}
-          <div className="md:relative flex items-center gap-1 md:gap-2">
+          <div className="flex items-center gap-1 md:relative md:gap-2">
             {!isExpandedSearchInput && <LoginButton />}
             {signedAddress && (
               <button
                 onClick={toggleNavbar}
                 type="button"
-                className="block md:hidden flex flex-col bg-grey-moss-400 py-1.5 px-2 rounded-md"
+                className="block flex flex-col rounded-md bg-grey-moss-400 px-2 py-1.5 md:hidden"
               >
                 <div className="size-2 rounded-full bg-grey-moss-100" />
                 <div className="size-2 rounded-full bg-grey-moss-100" />
@@ -45,7 +44,7 @@ const Header = () => {
         </div>
       </div>
       {/* Black line from logo to wallet dropdown */}
-      <div className="border-b border-grey mx-6 md:mx-10" />
+      <div className="mx-6 border-b border-grey md:mx-10" />
     </div>
   );
 };

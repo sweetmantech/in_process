@@ -31,17 +31,17 @@ export function WarpcastButton({ className = "" }: WarpcastButtonProps) {
       onClick={handleClick}
       className={`px-3 py-2 ${
         isOpenNavbar
-          ? "bg-grey-moss-900 rounded-t-xs md:rounded-t-sm rounded-b-none"
-          : "bg-grey-moss-400 hover:bg-grey-moss-900 hover:shadow-[0px_1px_1px_1px_#0000002e] rounded-xs md:rounded-sm"
-      } text-white font-archivo lowercase text-sm md:text-base ${className}`}
+          ? "rounded-t-xs rounded-b-none bg-grey-moss-900 md:rounded-t-sm"
+          : "rounded-xs bg-grey-moss-400 hover:bg-grey-moss-900 hover:shadow-[0px_1px_1px_1px_#0000002e] md:rounded-sm"
+      } font-archivo text-sm lowercase text-white md:text-base ${className}`}
     >
       <div className="flex items-center">
         <div
-          className={`w-2 h-2 rounded-full mr-2 ${isConnected ? "bg-grey-moss-100" : "border border-grey-moss-100"}`}
+          className={`mr-2 h-2 w-2 rounded-full ${isConnected ? "bg-grey-moss-100" : "border border-grey-moss-100"}`}
         />
         {isConnected ? (
           <p className="min-w-20 text-left">
-            {truncated(context?.user.displayName || "", 9) || truncateAddress(address as string)}
+            {truncated(context?.user?.displayName || "", 9) || truncateAddress(address as string)}
           </p>
         ) : (
           "sign in"

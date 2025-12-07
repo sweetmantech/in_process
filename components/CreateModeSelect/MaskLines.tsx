@@ -17,7 +17,7 @@ const MaskLines = () => {
 
   return (
     <div
-      className={`absolute size-full pointer-events-none ${(isWritingPage || ((isLinkPage || isEmbedPage) && isMobile)) && !createdContract ? "opacity-1" : "opacity-0"}`}
+      className={`pointer-events-none absolute size-full ${(isWritingPage || ((isLinkPage || isEmbedPage) && isMobile)) && !createdContract ? "opacity-1" : "opacity-0"}`}
     >
       <div className="absolute inset-0" />
       <div
@@ -36,7 +36,7 @@ const MaskLines = () => {
         }}
       />
       <div
-        className="absolute inset-0 border-t border-t-grey-moss-200 border-b border-b-grey-moss-200"
+        className="absolute inset-0 border-b border-t border-b-grey-moss-200 border-t-grey-moss-200"
         style={{
           backgroundImage: `repeating-linear-gradient(
                     to bottom,
@@ -50,7 +50,7 @@ const MaskLines = () => {
           WebkitMaskImage: `url(#${maskId})`,
         }}
       />
-      <svg ref={svgRef} className="absolute inset-0 w-full h-full hidden md:block">
+      <svg ref={svgRef} className="absolute inset-0 hidden h-full w-full md:block">
         <defs>
           <mask id={maskId}>
             <rect width="100%" height="100%" fill="white" />

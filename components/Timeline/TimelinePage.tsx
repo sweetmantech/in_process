@@ -15,14 +15,14 @@ const TimelinePage = () => {
 
   if (isLoading)
     return (
-      <div className="grow flex justify-center items-center overflow-hidden">
-        <Loading className="w-[200px] aspect-[1/1] md:w-[400px]" />
+      <div className="flex grow items-center justify-center overflow-hidden">
+        <Loading className="aspect-[1/1] w-[200px] md:w-[400px]" />
       </div>
     );
   if (error) return <main>Error loading timeline.</main>;
 
   return (
-    <main className="px-2 md:px-10 relative grow flex flex-col">
+    <main className="relative flex grow flex-col px-2 md:px-10">
       <TimelineHero />
       <TimelineSpiral />
       <MobileMomentsSection />
@@ -30,7 +30,7 @@ const TimelinePage = () => {
         <TimelineMobileMoon />
       </div>
       <TimelineGrid />
-      <div className="block md:hidden overflow-hidden h-[300px] pb-20">
+      <div className="block h-[300px] overflow-hidden pb-20 md:hidden">
         <TimelineAnimationProvider moments={moments}>
           <HorizontalTimeline />
         </TimelineAnimationProvider>

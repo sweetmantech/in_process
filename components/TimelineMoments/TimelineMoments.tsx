@@ -27,13 +27,13 @@ const TimelineMoments: FC<TimelineMomentsProps> = ({ moments, fetchMore = () => 
 
   return (
     <div
-      className="relative grow size-full flex justify-center items-end overflow-visible"
+      className="relative flex size-full grow items-end justify-center overflow-visible"
       onMouseMove={handleMouseMove}
       onMouseLeave={() => handleMouseMove({ clientX: null } as any)}
       ref={containerRef}
     >
-      <div className="pointer-events-none size-full absolute flex items-end left-0 top-0">
-        <div className="bg-black w-full h-[0.5px]" />
+      <div className="pointer-events-none absolute left-0 top-0 flex size-full items-end">
+        <div className="h-[0.5px] w-full bg-black" />
       </div>
       <div
         className="relative w-full"
@@ -61,7 +61,7 @@ const TimelineMoments: FC<TimelineMomentsProps> = ({ moments, fetchMore = () => 
               setMomentEnded(progress === 1);
             },
           }}
-          className="w-full !overflow-visible !h-0"
+          className="!h-0 w-full !overflow-visible"
           slideClassName="!w-fit !m-0"
         >
           {Array.from({ length: moments.length + 1 }).map((_, i) => (

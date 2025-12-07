@@ -13,13 +13,13 @@ const GridItem = ({ feed }: GridItemProps) => {
   return (
     <div className="col-span-1">
       {isLoading || !data ? (
-        <Loading className="size-full bg-grey-moss-100 border border-grey" />
+        <Loading className="size-full border border-grey bg-grey-moss-100" />
       ) : (
         <>
-          <div className="aspect-video w-full overflow-hidden relative bg-grey-moss-100 rounded-md w-full font-spectral">
+          <div className="relative aspect-video w-full overflow-hidden rounded-md bg-grey-moss-100 font-spectral">
             <ContentRenderer metadata={data} />
           </div>
-          <div className="pt-2 px-2">
+          <div className="px-2 pt-2">
             <p className="font-archivo text-sm">{data.name}</p>
             <p className="font-archivo text-sm">{new Date(feed.created_at).toLocaleString()}</p>
           </div>

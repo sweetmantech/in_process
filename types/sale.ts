@@ -1,5 +1,6 @@
 import { Address } from "viem";
 import { MomentType } from "@/types/moment";
+import { Database } from "@/lib/supabase/types";
 
 export type OnChainSaleConfig = {
   pricePerToken: bigint;
@@ -10,11 +11,13 @@ export type OnChainSaleConfig = {
   type: MomentType;
 };
 
-export type DatabaseSale = {
-  price_per_token: number;
-  sale_start: number;
-  sale_end: number;
-  max_tokens_per_address: number;
-  funds_recipient: string;
-  currency: string;
-};
+export type DatabaseSale = Database["public"]["Tables"]["in_process_sales"]["Row"];
+
+export interface Sale {
+  pricePerToken: string;
+  saleStart: number;
+  saleEnd: number;
+  maxTokensPerAddress: number;
+  fundsRecipient: Address;
+  type: "erc20Mint" | "timed" | "fixedPrice";
+}

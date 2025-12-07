@@ -1,10 +1,12 @@
 "use client";
 
-import { NextPage } from "next";
-import { redirect } from "next/navigation";
+import ApiKeyPage from "@/components/ApiKeyPage";
+import ApiKeyProvider from "@/providers/ApiKeyProvider";
 
-const Manage: NextPage = () => {
-  return redirect("/manage/account");
-};
+const ApiKeys = () => (
+  <ApiKeyProvider>
+    <ApiKeyPage />
+  </ApiKeyProvider>
+);
 
-export default Manage;
+export default ApiKeys;

@@ -12,7 +12,7 @@ const CommentSection = () => {
   if (isLoading)
     return (
       <CommentsContainer>
-        <Skeleton className="w-full h-[300px]" />
+        <Skeleton className="h-[300px] w-full" />
       </CommentsContainer>
     );
   if (comments.length === 0)

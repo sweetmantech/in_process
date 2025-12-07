@@ -26,15 +26,15 @@ const CollectionListItem = ({ collection, isSelected, onSelect }: CollectionItem
       <Check className={cn("mr-2 h-4 w-4", isSelected ? "opacity-100" : "opacity-0")} />
       <div className="flex items-center gap-2">
         {isLoading ? (
-          <div className="h-[24px] w-[24px] rounded bg-neutral-200 animate-pulse" />
+          <div className="h-[24px] w-[24px] animate-pulse rounded bg-neutral-200" />
         ) : (
-          <div className="h-[24px] w-[24px] rounded overflow-hidden shrink-0">
+          <div className="h-[24px] w-[24px] shrink-0 overflow-hidden rounded">
             <Image
               src={imageUrl}
               alt={displayName}
               width={30}
               height={30}
-              className="object-cover w-full h-full"
+              className="h-full w-full object-cover"
               unoptimized
             />
           </div>

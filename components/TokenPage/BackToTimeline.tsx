@@ -15,7 +15,7 @@ const BackToTimeline = () => {
 
   if (isLoading) {
     return (
-      <div className="w-full mb-4 px-3 md:px-10">
+      <div className="mb-4 w-full px-3 md:px-10">
         <Skeleton className="h-6 w-40" />
       </div>
     );
@@ -24,12 +24,12 @@ const BackToTimeline = () => {
   const displayName = artistProfile?.username || truncateAddress(owner);
 
   return (
-    <div className="w-full mb-4 px-3 md:px-10">
+    <div className="mb-4 w-full px-3 md:px-10">
       <Link
         href={`/${owner.toLowerCase()}`}
-        className="inline-flex items-center gap-2 text-grey-moss-700 hover:text-grey-moss-900 transition-colors group"
+        className="text-grey-moss-700 group inline-flex items-center gap-2 transition-colors hover:text-grey-moss-900"
       >
-        <ChevronLeft className="size-4 group-hover:-translate-x-1 transition-transform" />
+        <ChevronLeft className="size-4 transition-transform group-hover:-translate-x-1" />
         <span className="font-archivo text-sm">back to {displayName}&#39;s timeline</span>
       </Link>
     </div>

@@ -22,7 +22,7 @@ const PreviewContainer = ({ handleImageClick }: PreviewContainerProps) => {
   // For images: check first (most common case) - use imageFile blob URL only
   if (imageFile && blobUrls.image) {
     return (
-      <div className="size-full cursor-pointer relative">
+      <div className="relative size-full cursor-pointer">
         <Image
           src={blobUrls.image}
           alt="Image Preview"

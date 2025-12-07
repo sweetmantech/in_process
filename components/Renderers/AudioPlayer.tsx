@@ -46,8 +46,8 @@ const AudioPlayer = ({ audioUrl, thumbnailUrl }: AudioPlayerProps) => {
   };
 
   return (
-    <div className="py-6 size-full flex-col flex items-center justify-center bg-white rounded-lg shadow-lg overflow-hidden">
-      <div className="relative w-full h-3/4">
+    <div className="flex size-full flex-col items-center justify-center overflow-hidden rounded-lg bg-white py-6 shadow-lg">
+      <div className="relative h-3/4 w-full">
         {thumbnailUrl && (
           <Image
             src={getFetchableUrl(thumbnailUrl) || ""}
@@ -59,7 +59,7 @@ const AudioPlayer = ({ audioUrl, thumbnailUrl }: AudioPlayerProps) => {
           />
         )}
       </div>
-      <div className="px-3 w-full">
+      <div className="w-full px-3">
         <audio ref={audioRef} src={audioUrl} onTimeUpdate={handleTimeUpdate} />
         <div className="text-center">
           <Button

@@ -11,12 +11,12 @@ const SplitsForm = () => {
 
   return (
     <div className="w-full pt-4">
-      <div className="flex items-center justify-between mb-2">
-        <p className="font-medium font-archivo">splits</p>
+      <div className="mb-2 flex items-center justify-between">
+        <p className="font-archivo font-medium">splits</p>
         <Button
           type="button"
           onClick={handleAddSplit}
-          className="h-8 w-8 p-0 rounded-sm bg-black hover:bg-grey-moss-300 text-grey-eggshell"
+          className="h-8 w-8 rounded-sm bg-black p-0 text-grey-eggshell hover:bg-grey-moss-300"
         >
           <Plus className="h-4 w-4" />
         </Button>
@@ -24,8 +24,8 @@ const SplitsForm = () => {
       <div className="flex flex-col gap-2">
         {fields.map((field, index) => (
           <div key={field.id} className="flex flex-col gap-1">
-            <div className="flex gap-2 items-start">
-              <div className="flex-1 flex flex-col">
+            <div className="flex items-start gap-2">
+              <div className="flex flex-1 flex-col">
                 <Controller
                   name={`splits.${index}.address`}
                   control={form.control}
@@ -44,7 +44,7 @@ const SplitsForm = () => {
                   )}
                 />
                 {form.formState.errors.splits?.[index]?.address && (
-                  <p className="text-xs text-red-500 font-spectral mt-1 pl-0">
+                  <p className="mt-1 pl-0 font-spectral text-xs text-red-500">
                     {form.formState.errors.splits?.[index]?.address?.message}
                   </p>
                 )}
@@ -77,7 +77,7 @@ const SplitsForm = () => {
                 <Button
                   type="button"
                   onClick={() => handleRemoveSplit(index)}
-                  className="h-8 w-8 p-0 rounded-sm bg-black hover:bg-grey-moss-300 text-grey-eggshell"
+                  className="h-8 w-8 rounded-sm bg-black p-0 text-grey-eggshell hover:bg-grey-moss-300"
                 >
                   <X className="h-4 w-4" />
                 </Button>
@@ -89,7 +89,7 @@ const SplitsForm = () => {
       {fields.length > 0 && (
         <div className="mt-2">
           {form.formState.errors.splits && (
-            <p className="text-xs text-red-500 font-spectral mt-1">
+            <p className="mt-1 font-spectral text-xs text-red-500">
               {form.formState.errors.splits.message}
             </p>
           )}

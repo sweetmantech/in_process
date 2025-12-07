@@ -6,17 +6,17 @@ export enum MANAGE_TABS {
   MEDIA,
 }
 interface ManageTabsProps {
-  onChangeTab: (value: number) => void;
+  onChangeTab: (_value: number) => void;
   selectedTab: number;
 }
 const ManageTabs = ({ selectedTab, onChangeTab }: ManageTabsProps) => {
   return (
-    <section className="px-4 md:px-10 w-full pt-4">
+    <section className="w-full px-4 pt-4 md:px-10">
       <div className="flex gap-4">
         <button
           type="button"
           className={cn(
-            "font-archivo-medium min-w-[80px]",
+            "min-w-[80px] font-archivo-medium",
             selectedTab === MANAGE_TABS.AIRDROP && "border-b-[2px] border-b-grey-moss-300"
           )}
           onClick={() => onChangeTab(MANAGE_TABS.AIRDROP)}
@@ -26,7 +26,7 @@ const ManageTabs = ({ selectedTab, onChangeTab }: ManageTabsProps) => {
         <button
           type="button"
           className={cn(
-            "font-archivo-medium min-w-[80px]",
+            "min-w-[80px] font-archivo-medium",
             selectedTab === MANAGE_TABS.SALE && "border-b-[2px] border-b-grey-moss-300"
           )}
           onClick={() => onChangeTab(MANAGE_TABS.SALE)}
@@ -36,7 +36,7 @@ const ManageTabs = ({ selectedTab, onChangeTab }: ManageTabsProps) => {
         <button
           type="button"
           className={cn(
-            "font-archivo-medium min-w-[80px]",
+            "min-w-[80px] font-archivo-medium",
             selectedTab === MANAGE_TABS.MEDIA && "border-b-[2px] border-b-grey-moss-300"
           )}
           onClick={() => onChangeTab(MANAGE_TABS.MEDIA)}

@@ -66,83 +66,81 @@ export async function GET(req: NextRequest) {
   const { ImageResponse } = await import("@vercel/og");
   const [archivoFontData, spectralFontData] = await Promise.all([archivoFont, spectralFont]);
   return new ImageResponse(
-    (
-      <div
-        style={{
-          display: "flex",
-          // overflow: "hidden",
-          width: "100%",
-          height: "100%",
-          position: "relative",
-          alignItems: "center",
-          backgroundColor: "#E0DDD8",
-        }}
-      >
-        {isWriting ? (
+    <div
+      style={{
+        display: "flex",
+        // overflow: "hidden",
+        width: "100%",
+        height: "100%",
+        position: "relative",
+        alignItems: "center",
+        backgroundColor: "#E0DDD8",
+      }}
+    >
+      {isWriting ? (
+        <div
+          style={{
+            display: "flex",
+            paddingTop: 32,
+            paddingLeft: 32,
+            paddingRight: 32,
+            paddingBottom: totalLines > WRITING_MAX_LINES ? 0 : 32,
+            width: "100%",
+            height: "100%",
+            position: "relative",
+          }}
+        >
           <div
             style={{
-              display: "flex",
-              paddingTop: 32,
-              paddingLeft: 32,
-              paddingRight: 32,
-              paddingBottom: totalLines > WRITING_MAX_LINES ? 0 : 32,
               width: "100%",
               height: "100%",
-              position: "relative",
+              overflow: "hidden",
+              display: "flex",
+              alignItems: totalLines > WRITING_MAX_LINES ? "flex-start" : "center",
+              justifyContent: totalLines > 1 ? "flex-start" : "center",
             }}
           >
-            <div
+            <pre
               style={{
-                width: "100%",
-                height: "100%",
-                overflow: "hidden",
-                display: "flex",
-                alignItems: totalLines > WRITING_MAX_LINES ? "flex-start" : "center",
-                justifyContent: totalLines > 1 ? "flex-start" : "center",
+                wordWrap: "break-word",
+                whiteSpace: "pre-wrap",
+                fontFamily: "Spectral",
+                fontSize: totalLines <= WRITING_SHORT_LINES ? 32 : 16,
               }}
             >
-              <pre
-                style={{
-                  wordWrap: "break-word",
-                  whiteSpace: "pre-wrap",
-                  fontFamily: "Spectral",
-                  fontSize: totalLines <= WRITING_SHORT_LINES ? 32 : 16,
-                }}
-              >
-                {writingText}
-              </pre>
-            </div>
-            {totalLines > WRITING_MAX_LINES && (
-              <div
-                style={{
-                  position: "absolute",
-                  left: 32,
-                  bottom: 0,
-                  width: "100%",
-                  height: "50%",
-                  backgroundImage:
-                    "linear-gradient(180deg, rgba(224, 221, 216, 0) 0%, rgba(224, 221, 216, 1) 100%)",
-                }}
-              />
-            )}
+              {writingText}
+            </pre>
           </div>
-        ) : (
-          // eslint-disable-next-line
-          <img
-            src={previewBackgroundUrl as string}
-            style={{
-              width:
-                orientation === 6 || orientation === 8
-                  ? (OG_WIDTH / originalHeight) * originalWidth
-                  : "100%",
-              transform: rotation[orientation],
-              left: orientation === 6 || orientation === 8 ? paddingLeft : 0,
-              position: "absolute",
-            }}
-          />
-        )}
-      </div>
-    ),
+          {totalLines > WRITING_MAX_LINES && (
+            <div
+              style={{
+                position: "absolute",
+                left: 32,
+                bottom: 0,
+                width: "100%",
+                height: "50%",
+                backgroundImage:
+                  "linear-gradient(180deg, rgba(224, 221, 216, 0) 0%, rgba(224, 221, 216, 1) 100%)",
+              }}
+            />
+          )}
+        </div>
+      ) : (
+        // eslint-disable-next-line
+        <img
+          src={previewBackgroundUrl as string}
+          style={{
+            width:
+              orientation === 6 || orientation === 8
+                ? (OG_WIDTH / originalHeight) * originalWidth
+                : "100%",
+            transform: rotation[orientation],
+            left: orientation === 6 || orientation === 8 ? paddingLeft : 0,
+            position: "absolute",
+          }}
+        />
+      )}
+    </div>,
     {
       width: OG_WIDTH,
       height: OG_HEIGHT,

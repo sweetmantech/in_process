@@ -9,14 +9,14 @@ interface LinkedWalletProps {
 const LinkedWallet = ({ walletAddress, className }: LinkedWalletProps) => {
   return (
     <div className={`mt-4 ${className || ""}`}>
-      <div className="bg-grey-eggshell border border-grey-moss-200 rounded-sm p-4">
-        <div className="flex items-center justify-between mb-1">
-          <p className="text-sm text-grey-moss-600 font-archivo">Connected Wallet</p>
+      <div className="rounded-sm border border-grey-moss-200 bg-grey-eggshell p-4">
+        <div className="mb-1 flex items-center justify-between">
+          <p className="text-grey-moss-600 font-archivo text-sm">Connected Wallet</p>
           <UnlinkWallet walletAddress={walletAddress} />
         </div>
         <CopyButton
           address={walletAddress}
-          className="flex items-center gap-2 text-black font-archivo text-lg break-all bg-transparent hover:bg-transparent p-0 hover:text-grey-moss-600"
+          className="hover:text-grey-moss-600 flex items-center gap-2 break-all bg-transparent p-0 font-archivo text-lg text-black hover:bg-transparent"
         />
       </div>
     </div>

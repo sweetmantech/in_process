@@ -11,7 +11,7 @@ const UnlinkWallet = ({ walletAddress, className }: UnlinkWalletProps) => {
   return (
     <button
       onClick={() => unlinkWallet(walletAddress)}
-      className={`text-xs text-grey-moss-500 hover:text-red-600 font-archivo underline ${className || ""}`}
+      className={`text-grey-moss-500 font-archivo text-xs underline hover:text-red-600 ${className || ""}`}
     >
       unlink
     </button>

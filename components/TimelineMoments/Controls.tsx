@@ -6,19 +6,19 @@ const Controls = () => {
   const { activeIndex, swiper, momentEnded, timelineOverflowed } = useTimelineAnimationProvider();
 
   return (
-    <div className="px-1 flex justify-between z-[999999] size-full absolute flex items-center left-0 top-0">
+    <div className="absolute left-0 top-0 z-[999999] flex size-full items-center justify-between px-1">
       {activeIndex > 1 && (
         <button className="text-black" type="button" onClick={() => swiper?.slidePrev()}>
-          <ArrowRight className="rotate-[-180deg] w-6 h-6" />
+          <ArrowRight className="h-6 w-6 rotate-[-180deg]" />
         </button>
       )}
       {timelineOverflowed && !momentEnded && (
         <button
-          className="text-black p-1 ml-auto"
+          className="ml-auto p-1 text-black"
           type="button"
           onClick={() => swiper?.slideNext()}
         >
-          <ArrowRight className="w-6 h-6" />
+          <ArrowRight className="h-6 w-6" />
         </button>
       )}
     </div>

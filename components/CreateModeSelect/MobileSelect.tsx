@@ -31,7 +31,7 @@ const MobileSelect = () => {
   return (
     <div className="relative w-full" ref={titleRef}>
       {isOpenSelect ? (
-        <div className="absolute left-0 top-0 z-[999999999] w-full bg-white rounded-md border border-grey-moss-300 overflow-hidden p-2 flex flex-col gap-1">
+        <div className="absolute left-0 top-0 z-[999999999] flex w-full flex-col gap-1 overflow-hidden rounded-md border border-grey-moss-300 bg-white p-2">
           {values.map((value: string) => (
             <button
               type="button"
@@ -41,7 +41,7 @@ const MobileSelect = () => {
             >
               <div className="flex items-center gap-2">
                 <div
-                  className={`w-4 h-4 border border-grey-moss-400 rounded-full ${selectedValue === value ? "bg-grey-moss-400" : ""}`}
+                  className={`h-4 w-4 rounded-full border border-grey-moss-400 ${selectedValue === value ? "bg-grey-moss-400" : ""}`}
                 />
                 <p className="font-archivo text-lg">new {value}</p>
               </div>
@@ -53,10 +53,10 @@ const MobileSelect = () => {
         <button
           type="button"
           onClick={() => setIsOpenSelect(true)}
-          className="bg-[#605f5c33] flex justify-between items-center px-2 py-2 rounded-md border border-grey-moss-300 w-full"
+          className="flex w-full items-center justify-between rounded-md border border-grey-moss-300 bg-[#605f5c33] px-2 py-2"
         >
           <div className="flex items-center gap-2">
-            <div className={`w-4 h-4 border border-grey-moss-400 rounded-full bg-grey-moss-400`} />
+            <div className={`h-4 w-4 rounded-full border border-grey-moss-400 bg-grey-moss-400`} />
             <p className="font-archivo text-lg">new {selectedValue}</p>
           </div>
           <ChevronDown className="text-grey-moss-400" />

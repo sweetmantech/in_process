@@ -11,7 +11,7 @@ export default function CurrencySelect() {
     <select
       {...form.register("priceUnit")}
       disabled={Boolean(creating)}
-      className="bg-white px-3 font-spectral !rounded-[0px] !border-none focus-visible:ring-0 focus-visible:ring-offset-0 min-w-[70px] text-center appearance-none cursor-pointer h-auto py-0"
+      className="h-auto min-w-[70px] cursor-pointer appearance-none !rounded-[0px] !border-none bg-white px-3 py-0 text-center font-spectral focus-visible:ring-0 focus-visible:ring-offset-0"
     >
       <option value="eth">ETH</option>
       <option value="usdc">USD</option>

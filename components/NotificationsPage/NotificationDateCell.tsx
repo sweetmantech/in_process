@@ -11,7 +11,7 @@ const NotificationDateCell = ({ payment, className }: NotificationDateCellProps)
 
   return (
     <TableCell
-      className={`text-sm text-neutral-600 dark:text-neutral-400 whitespace-normal break-words ${className || ""}`.trim()}
+      className={`whitespace-normal break-words text-sm text-neutral-600 dark:text-neutral-400 ${className || ""}`.trim()}
     >
       <div className="flex flex-col">
         <span>{transferredAt.toLocaleString()}</span>

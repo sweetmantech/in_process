@@ -13,8 +13,8 @@ const AudioPlayer = ({ onClick }: { onClick: () => void }) => {
     useAudioPlayer();
 
   return (
-    <div className="size-full bg-white rounded-lg shadow-lg overflow-hidden flex-col flex justify-center items-center">
-      <div className="relative w-full h-3/4" onClick={onClick}>
+    <div className="flex size-full flex-col items-center justify-center overflow-hidden rounded-lg bg-white shadow-lg">
+      <div className="relative h-3/4 w-full" onClick={onClick}>
         {previewFileUrl ? (
           <Image
             src={previewFileUrl}
@@ -27,8 +27,8 @@ const AudioPlayer = ({ onClick }: { onClick: () => void }) => {
         ) : (
           <>
             {!createdContract && (
-              <div className="size-full flex justify-center items-center">
-                <button className="border border-gray-200 rounded-md px-3 py-2 shadow-md">
+              <div className="flex size-full items-center justify-center">
+                <button className="rounded-md border border-gray-200 px-3 py-2 shadow-md">
                   Upload Audio Cover
                 </button>
               </div>
@@ -36,7 +36,7 @@ const AudioPlayer = ({ onClick }: { onClick: () => void }) => {
           </>
         )}
       </div>
-      <div className="p-1 w-full">
+      <div className="w-full p-1">
         <audio ref={audioRef} src={animationFileUrl} onTimeUpdate={handleTimeUpdate} />
         <div className="text-center">
           <Button

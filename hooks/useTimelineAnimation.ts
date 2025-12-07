@@ -8,9 +8,9 @@ import { TimelineMoment } from "@/types/moment";
 
 interface UseTimelineAnimationReturn {
   nearestIndex: number | null;
-  handleMouseMove: (e: React.MouseEvent) => void;
-  getHeight: (index: number) => number;
-  isHovered: (index: number) => boolean;
+  handleMouseMove: (_e: React.MouseEvent) => void;
+  getHeight: (_index: number) => number;
+  isHovered: (_index: number) => boolean;
   activeIndex: number;
   momentEnded: boolean;
   setActiveIndex: Dispatch<SetStateAction<number>>;
@@ -19,8 +19,8 @@ interface UseTimelineAnimationReturn {
   swiper: Swiper | null;
   setSwiper: Dispatch<SetStateAction<Swiper | null>>;
   timelineOverflowed: boolean;
-  containerRef: RefObject<HTMLDivElement>;
-  timelineRef: RefObject<HTMLDivElement>;
+  containerRef: RefObject<HTMLDivElement | null>;
+  timelineRef: RefObject<HTMLDivElement | null>;
 }
 
 interface NearestButton {

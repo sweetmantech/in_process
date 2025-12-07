@@ -29,10 +29,10 @@ const Media = () => {
   return (
     <Fragment>
       <div className="w-full font-archivo">
-        <div className="bg-white rounded-lg shadow-sm p-6 max-w-md mt-4">
+        <div className="mt-4 max-w-md rounded-lg bg-white p-6 shadow-sm">
           <div className="space-y-4">
             <div>
-              <label className="font-archivo text-sm text-grey-moss-600 block mb-1">title</label>
+              <label className="text-grey-moss-600 mb-1 block font-archivo text-sm">title</label>
               <Input
                 type="text"
                 {...form.register("name")}
@@ -40,31 +40,31 @@ const Media = () => {
                 disabled={!isOwner || isSaving}
               />
               {form.formState.errors.name && (
-                <p className="text-xs text-red-500 font-archivo mt-1">
+                <p className="mt-1 font-archivo text-xs text-red-500">
                   {form.formState.errors.name.message}
                 </p>
               )}
             </div>
 
             <div>
-              <label className="font-archivo text-sm text-grey-moss-600 block mb-1">
+              <label className="text-grey-moss-600 mb-1 block font-archivo text-sm">
                 description
               </label>
               <Textarea
                 {...form.register("description")}
-                className="font-archivo focus:border-grey-moss-500"
+                className="focus:border-grey-moss-500 font-archivo"
                 minRows={3}
                 placeholder="enter a description"
                 disabled={!isOwner || isSaving}
               />
               {form.formState.errors.description && (
-                <p className="text-xs text-red-500 font-archivo mt-1">
+                <p className="mt-1 font-archivo text-xs text-red-500">
                   {form.formState.errors.description.message}
                 </p>
               )}
             </div>
 
-            <div className="min-h-[400px] md:min-h-auto md:aspect-[571/692] relative bg-[url('/grid.svg')] bg-contain">
+            <div className="md:min-h-auto relative min-h-[400px] bg-[url('/grid.svg')] bg-contain md:aspect-[571/692]">
               {editActive ? (
                 <AnimationUpload />
               ) : (

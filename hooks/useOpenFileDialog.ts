@@ -1,7 +1,7 @@
 import { RefObject, useCallback } from "react";
 
 export const useOpenFileDialog = (
-  fileInputRef: RefObject<HTMLInputElement>,
+  fileInputRef: RefObject<HTMLInputElement | null>,
   isOwner: boolean,
   isSaving: boolean
 ) => {

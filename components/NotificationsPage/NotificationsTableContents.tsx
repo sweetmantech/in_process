@@ -9,7 +9,7 @@ interface NotificationsTableContentsProps {
 
 const NotificationsTableContents = ({ notifications }: NotificationsTableContentsProps) => {
   return (
-    <div className="rounded-md border overflow-auto">
+    <div className="overflow-auto rounded-md border">
       <Table className="min-w-[640px] md:min-w-0">
         <TableHeader>
           <TableRow>

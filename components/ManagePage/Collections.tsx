@@ -7,7 +7,7 @@ const Collections = () => {
 
   if (moments)
     return (
-      <div className="grow grid grid-cols-1 md:grid-cols-4 gap-6 px-4 md:px-10">
+      <div className="grid grow grid-cols-1 gap-6 px-4 md:grid-cols-4 md:px-10">
         {moments.map((c: TimelineMoment, i) => (
           <CollectionItem c={c} key={i} />
         ))}

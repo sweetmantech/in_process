@@ -30,7 +30,7 @@ const VerticalFeed = () => {
         slidesOffsetAfter: 5,
       }}
       slideClassName="!h-fit md:!h-auto"
-      className="w-full h-[770px] md:h-auto md:max-h-[100vh] !overflow-hidden"
+      className="h-[770px] w-full !overflow-hidden md:h-auto md:max-h-[100vh]"
     >
       {moments.map((feed, i) => (
         <SliderFeed feed={feed} key={i} />
