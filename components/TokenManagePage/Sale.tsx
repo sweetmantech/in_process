@@ -10,7 +10,7 @@ const Sale = () => {
   if (!saleConfig) return <Fragment />;
   return (
     <div className="w-full font-archivo">
-      <div className="pt-4 w-full flex flex-col gap-2 bg-white max-w-md rounded-2xl mt-4 p-4">
+      <div className="mt-4 flex w-full max-w-md flex-col gap-2 rounded-2xl bg-white p-4 pt-4">
         {BigInt(saleConfig.saleEnd) === BigInt(0) ? (
           <div>sale is not yet activated.</div>
         ) : (
@@ -27,7 +27,7 @@ const Sale = () => {
               <DateTimePicker date={saleStart} setDate={(value) => setSaleStart(value)} />
             </div>
             <button
-              className="bg-black text-grey-eggshell w-fit px-8 py-2 rounded-md"
+              className="w-fit rounded-md bg-black px-8 py-2 text-grey-eggshell"
               onClick={setSale}
               disabled={isLoading}
             >

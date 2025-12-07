@@ -16,16 +16,16 @@ const ArtSlider = () => {
   return (
     <div className="relative h-full">
       <button
-        className="absolute top-4 left-1/2 -translate-x-1/2 z-10 bg-gray-400 px-4 rounded-md"
+        className="absolute left-1/2 top-4 z-10 -translate-x-1/2 rounded-md bg-gray-400 px-4"
         onClick={() => swiper?.slidePrev()}
       >
-        <ArrowRight className="rotate-[-90deg] size-6" />
+        <ArrowRight className="size-6 rotate-[-90deg]" />
       </button>
       <button
-        className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 bg-gray-400 px-4 rounded-md"
+        className="absolute bottom-4 left-1/2 z-10 -translate-x-1/2 rounded-md bg-gray-400 px-4"
         onClick={() => swiper?.slideNext()}
       >
-        <ArrowRight className="rotate-[-270deg] size-6" />
+        <ArrowRight className="size-6 rotate-[-270deg]" />
       </button>
       <Slider
         sliderProps={{
@@ -49,7 +49,7 @@ const ArtSlider = () => {
           allowTouchMove: false,
         }}
         slideClassName="!h-fit md:!h-auto"
-        className="w-full h-full !overflow-hidden"
+        className="h-full w-full !overflow-hidden"
       >
         {slides.map((feed, i) => (
           <SliderFeed feed={feed} key={i} />

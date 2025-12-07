@@ -13,14 +13,14 @@ const TokenPage = () => {
   const params = useParams();
   const collection = params.collection as string;
   const tokenId = params.tokenId as string;
-  // eslint-disable-next-line
+   
   const [chain, address] = collection.split("%3A");
   const viemChainName = ZORA_TO_VIEM[chain as ZoraChains];
   const viemChain = chains[viemChainName];
 
   return (
-    <main className="w-screen flex grow">
-      <div className="w-full flex flex-col items-center justify-center pt-12 md:pt-14">
+    <main className="flex w-screen grow">
+      <div className="flex w-full flex-col items-center justify-center pt-12 md:pt-14">
         <MomentProvider
           moment={{
             collectionAddress: address as Address,

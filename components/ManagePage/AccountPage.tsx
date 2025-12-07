@@ -41,13 +41,13 @@ const AccountPage = () => {
   return (
     <main className="flex flex-col font-archivo">
       <section className="grid grid-cols-12 gap-1">
-        <p className="text-base col-span-12 md:col-span-2">your info</p>
-        <div className="col-span-12 md:col-span-10 flex flex-col gap-4">
+        <p className="col-span-12 text-base md:col-span-2">your info</p>
+        <div className="col-span-12 flex flex-col gap-4 md:col-span-10">
           <fieldset>
             <Label>display name</Label>
             <Input
               placeholder="ex: ziad.eth"
-              className="resize-none font-spectral mt-1"
+              className="mt-1 resize-none font-spectral"
               value={username}
               onChange={(e) => setUserName(e.target.value)}
             />
@@ -57,24 +57,24 @@ const AccountPage = () => {
             <Textarea
               placeholder="ex: I am the dev of onchain."
               minRows={7}
-              className="resize-none font-spectral mt-1"
+              className="mt-1 resize-none font-spectral"
               value={bio}
               onChange={(e) => setBio(e.target.value)}
             />
           </fieldset>
         </div>
       </section>
-      <section className="grid grid-cols-12 gap-1 mt-6 md:mt-24">
-        <p className="text-base col-span-12 md:col-span-2">
+      <section className="mt-6 grid grid-cols-12 gap-1 md:mt-24">
+        <p className="col-span-12 text-base md:col-span-2">
           connected <br className="hidden md:block" />
           accounts
         </p>
-        <div className="col-span-12 md:col-span-10 flex flex-col gap-4">
+        <div className="col-span-12 flex flex-col gap-4 md:col-span-10">
           <fieldset>
             <Label>instagram</Label>
             <Input
               placeholder="ex: https://instagram.com/helly"
-              className="resize-none font-spectral mt-1"
+              className="mt-1 resize-none font-spectral"
               value={instagram}
               onChange={(e) => setInstagram(e.target.value)}
             />
@@ -83,7 +83,7 @@ const AccountPage = () => {
             <Label>x</Label>
             <Input
               placeholder="ex: https://x.com/helly"
-              className="resize-none font-spectral mt-1"
+              className="mt-1 resize-none font-spectral"
               value={twitter}
               onChange={(e) => setTwitter(e.target.value)}
             />
@@ -92,17 +92,17 @@ const AccountPage = () => {
             <Label>farcaster</Label>
             <Input
               placeholder="ex: https://farcaster.xyz/helly"
-              className="resize-none font-spectral mt-1"
+              className="mt-1 resize-none font-spectral"
               value={farcaster}
               onChange={(e) => setFarcaster(e.target.value)}
             />
           </fieldset>
         </div>
       </section>
-      <section className="flex flex-col md:flex-row items-end gap-3 mt-4 justify-end">
+      <section className="mt-4 flex flex-col items-end justify-end gap-3 md:flex-row">
         <ConnectButton />
         <button
-          className="md:mr-4 w-full md:w-fit md:min-w-[100px] py-2 rounded-md flex items-center justify-center gap-2 bg-grey-moss-900 font-archivo text-grey-eggshell hover:bg-grey-eggshell hover:text-grey-moss-900"
+          className="flex w-full items-center justify-center gap-2 rounded-md bg-grey-moss-900 py-2 font-archivo text-grey-eggshell hover:bg-grey-eggshell hover:text-grey-moss-900 md:mr-4 md:w-fit md:min-w-[100px]"
           onClick={onSave}
         >
           {isLoading ? "saving..." : "save"}

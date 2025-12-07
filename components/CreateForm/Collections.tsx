@@ -30,8 +30,8 @@ const Collections = () => {
   } = useCollectionsSelection();
 
   return (
-    <div className="flex flex-col items-start w-full gap-2">
-      <Label htmlFor="collection" className="font-archivo text-md">
+    <div className="flex w-full flex-col items-start gap-2">
+      <Label htmlFor="collection" className="text-md font-archivo">
         collection
       </Label>
       <Popover open={open} onOpenChange={setOpen}>
@@ -41,19 +41,19 @@ const Collections = () => {
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="w-full justify-between !font-spectral !ring-0 !ring-offset-0 bg-white border-grey border rounded-[0px] h-9"
+            className="h-9 w-full justify-between rounded-[0px] border border-grey bg-white !font-spectral !ring-0 !ring-offset-0"
           >
             <div className="flex items-center gap-2">
               {isLoading ? (
-                <div className="h-[24px] w-[24px] rounded bg-neutral-200 animate-pulse" />
+                <div className="h-[24px] w-[24px] animate-pulse rounded bg-neutral-200" />
               ) : (
-                <div className="h-[24px] w-[24px] rounded overflow-hidden shrink-0">
+                <div className="h-[24px] w-[24px] shrink-0 overflow-hidden rounded">
                   <Image
                     src={imageUrl}
                     alt={displayName}
                     width={30}
                     height={30}
-                    className="object-cover w-full h-full"
+                    className="h-full w-full object-cover"
                     unoptimized
                   />
                 </div>
@@ -72,7 +72,7 @@ const Collections = () => {
                 <CommandItem
                   value="new"
                   onSelect={() => handleValueChange("new")}
-                  className="font-spectral border-b border-grey"
+                  className="border-b border-grey font-spectral"
                   keywords={["new", "collection"]}
                 >
                   <Check

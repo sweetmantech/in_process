@@ -7,15 +7,15 @@ interface SlideContentProps {
 
 export const SlideContent = ({ currentSlide }: SlideContentProps) => (
   <>
-    <div className="text-center mb-4">
-      <h2 className="text-[32px] font-archivo-medium mb-2 pt-8 tracking-[-5%]">
+    <div className="mb-4 text-center">
+      <h2 className="mb-2 pt-8 font-archivo-medium text-[32px] tracking-[-5%]">
         {slides[currentSlide].title}
       </h2>
-      <p className="font-spectral-medium-italic tracking-[-5%] text-black text-[24px]">
+      <p className="font-spectral-medium-italic text-[24px] tracking-[-5%] text-black">
         {slides[currentSlide].subtitle}
       </p>
     </div>
-    <div className="flex justify-center mb-6">
+    <div className="mb-6 flex justify-center">
       <Image
         src={`/${slides[currentSlide].img}`}
         alt="Decorative images"

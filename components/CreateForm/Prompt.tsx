@@ -10,15 +10,15 @@ const Prompt = () => {
   const { placeholder, onActive, promptRef } = usePrompt();
 
   return (
-    <div className="flex flex-col items-start w-full gap-2">
-      <Label htmlFor="title" className="font-archivo text-md">
+    <div className="flex w-full flex-col items-start gap-2">
+      <Label htmlFor="title" className="text-md font-archivo">
         title
       </Label>
       <Input
         {...form.register("name")}
         placeholder={placeholder}
         onFocus={onActive}
-        className="!font-spectral !ring-0 !ring-offset-0 bg-white border-grey border rounded-[0px]"
+        className="rounded-[0px] border border-grey bg-white !font-spectral !ring-0 !ring-offset-0"
         disabled={Boolean(creating)}
         ref={(e) => {
           const { ref } = form.register("name");
@@ -33,7 +33,7 @@ const Prompt = () => {
         }}
       />
       {form.formState.errors.name && (
-        <p className="text-xs text-red-500 font-spectral mt-1">
+        <p className="mt-1 font-spectral text-xs text-red-500">
           {form.formState.errors.name.message}
         </p>
       )}

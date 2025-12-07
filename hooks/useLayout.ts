@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import useSignedAddress from "./useSignedAddress";
 
 const useLayout = () => {
-  const menuRef = useRef() as any;
+  const menuRef = useRef(null) as any;
   const signedAddress = useSignedAddress();
   const [isOpenNavbar, setIsOpenNavbar] = useState<boolean>(false);
   const [isExpandedSearchInput, setIsExpandedSearchInput] = useState<boolean>(false);

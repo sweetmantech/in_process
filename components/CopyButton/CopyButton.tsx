@@ -23,7 +23,7 @@ const CopyButton = ({ address, className = "", shorten = true }: CopyButtonProps
   return (
     <button
       className={cn(
-        "flex gap-2 items-center font-archivo bg-grey-moss-200 text-grey-eggshell hover:text-tan-primary w-fit px-3 py-1 rounded-md",
+        "flex w-fit items-center gap-2 rounded-md bg-grey-moss-200 px-3 py-1 font-archivo text-grey-eggshell hover:text-tan-primary",
         className
       )}
       type="button"

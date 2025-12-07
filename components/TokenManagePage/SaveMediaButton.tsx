@@ -45,7 +45,7 @@ const SaveMediaButton = ({ onSuccess }: SaveMediaButtonProps) => {
 
   return (
     <button
-      className="bg-black text-grey-eggshell w-fit px-8 py-2 rounded-md disabled:opacity-50"
+      className="w-fit rounded-md bg-black px-8 py-2 text-grey-eggshell disabled:opacity-50"
       onClick={handleSave}
       disabled={isSaving || !isOwner || !isFormValid}
     >

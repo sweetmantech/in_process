@@ -11,7 +11,7 @@ const NotificationsTableError = ({ error }: NotificationsTableErrorProps) => {
         <CardTitle>Notifications</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="text-center py-8">
+        <div className="py-8 text-center">
           <p className="text-red-600 dark:text-red-400">
             Failed to load notifications: {error.message}
           </p>

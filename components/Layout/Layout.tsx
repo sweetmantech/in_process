@@ -15,13 +15,13 @@ const Layout = ({ children }: { children: ReactNode }) => {
   return (
     <div
       className={cn(
-        "grow flex flex-col",
+        "flex grow flex-col",
         isOpenNavbar && "h-screen overflow-hidden",
-        isTextureLayout && "bg-[url('/bg-gray.png')] bg-cover bg-top bg-no-repeat bg-fixed"
+        isTextureLayout && "bg-[url('/bg-gray.png')] bg-cover bg-fixed bg-top bg-no-repeat"
       )}
     >
       <Header />
-      <div className="grow relative flex flex-col">{children}</div>
+      <div className="relative flex grow flex-col">{children}</div>
       <Footer />
     </div>
   );

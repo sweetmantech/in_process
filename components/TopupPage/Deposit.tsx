@@ -32,7 +32,7 @@ export function Deposit() {
           <Label htmlFor="amount" className="font-archivo-medium">
             Amount
           </Label>
-          <div className="flex gap-2 items-center">
+          <div className="flex items-center gap-2">
             <div className="relative flex-1">
               <div className="flex overflow-hidden border border-grey-secondary">
                 <Input
@@ -40,19 +40,19 @@ export function Deposit() {
                   type="number"
                   inputMode="decimal"
                   step={currency === "usdc" ? "0.001" : "0.0001"}
-                  className="flex-grow !font-spectral !rounded-[0px] !border-none bg-white focus-visible:ring-0 focus-visible:ring-offset-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                  className="flex-grow !rounded-[0px] !border-none bg-white !font-spectral [appearance:textfield] focus-visible:ring-0 focus-visible:ring-offset-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                   onChange={(e) => setDepositAmount(e.target.value)}
                   value={depositAmount}
                 />
                 <div className="bg-white">
-                  <div className="w-[1px] h-6 bg-grey-secondary my-2" />
+                  <div className="my-2 h-6 w-[1px] bg-grey-secondary" />
                 </div>
                 <select
                   value={currency}
                   onChange={(e) => {
                     setCurrency(e.target.value as DepositCurrency);
                   }}
-                  className="bg-white px-3 font-spectral !rounded-[0px] !border-none min-w-[70px] text-center appearance-none cursor-pointer h-auto py-0 flex items-center focus:outline-none"
+                  className="flex h-auto min-w-[70px] cursor-pointer appearance-none items-center !rounded-[0px] !border-none bg-white px-3 py-0 text-center font-spectral focus:outline-none"
                 >
                   <option value="usdc">USDC</option>
                   <option value="eth">ETH</option>
@@ -60,7 +60,7 @@ export function Deposit() {
               </div>
             </div>
             <Button
-              className="px-4 py-2 rounded-md flex items-center gap-2 bg-grey-moss-900 font-archivo text-grey-eggshell hover:bg-grey-eggshell hover:text-grey-moss-900"
+              className="flex items-center gap-2 rounded-md bg-grey-moss-900 px-4 py-2 font-archivo text-grey-eggshell hover:bg-grey-eggshell hover:text-grey-moss-900"
               onClick={connectDisconnect}
             >
               {hasExternalWallet ? "Disconnect" : "Connect"}
@@ -69,7 +69,7 @@ export function Deposit() {
         </div>
         {hasExternalWallet && (
           <Button
-            className="w-full px-4 py-2 rounded-md flex items-center justify-center gap-2 bg-grey-moss-900 font-archivo text-grey-eggshell hover:bg-grey-eggshell hover:text-grey-moss-900"
+            className="flex w-full items-center justify-center gap-2 rounded-md bg-grey-moss-900 px-4 py-2 font-archivo text-grey-eggshell hover:bg-grey-eggshell hover:text-grey-moss-900"
             onClick={deposit}
             disabled={isDepositing}
           >

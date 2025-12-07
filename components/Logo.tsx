@@ -15,7 +15,7 @@ const Logo = ({ className = "" }: LogoProps) => {
 
   return (
     <button
-      className={`relative w-[80px] md:w-[128px] h-[18px] md:h-[29px] ${className}`}
+      className={`relative h-[18px] w-[80px] md:h-[29px] md:w-[128px] ${className}`}
       type="button"
       onClick={() => push("/")}
     >

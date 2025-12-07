@@ -38,17 +38,17 @@ const MetadataDisplay = () => {
 
   if (mimeType.includes("video"))
     return (
-      <div className="size-full flex justify-center">
+      <div className="flex size-full justify-center">
         <VideoPlayer url={getFetchableUrl(metadata.animation_url) || ""} />
       </div>
     );
 
   if (mimeType.includes("html"))
     return (
-      <div className="size-full flex justify-center">
+      <div className="flex size-full justify-center">
         <iframe
           src={getFetchableUrl(metadata.animation_url) || ""}
-          className="w-full h-full"
+          className="h-full w-full"
           title={metadata?.name || "Embedded content"}
           sandbox="allow-scripts allow-same-origin"
           referrerPolicy="no-referrer"
@@ -66,7 +66,7 @@ const MetadataDisplay = () => {
     );
 
   return (
-    <div className="relative w-full h-full">
+    <div className="relative h-full w-full">
       {/* eslint-disable-next-line */}
       <img
         src={
@@ -75,7 +75,7 @@ const MetadataDisplay = () => {
           "/images/placeholder.png"
         }
         alt={metadata?.name || metadata?.description || "Token image"}
-        className="absolute inset-0 w-full h-full block"
+        className="absolute inset-0 block h-full w-full"
         loading="lazy"
         decoding="async"
         draggable={false}

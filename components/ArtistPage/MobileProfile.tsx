@@ -23,11 +23,11 @@ const MobileProfile = () => {
     return (
       <div className="relative">
         {isEditing && (
-          <div className="px-4 flex flex-col gap-3 fixed w-screen h-screen left-0 top-0 z-[99999999] bg-[#605f5ccc]">
+          <div className="fixed left-0 top-0 z-[99999999] flex h-screen w-screen flex-col gap-3 bg-[#605f5ccc] px-4">
             <EditingStatus />
             <input
               type="text"
-              className="px-2 py-1 font-archivo !ring-0 !outline-none"
+              className="px-2 py-1 font-archivo !outline-none !ring-0"
               value={username}
               onChange={(e) => setUserName(e.target.value)}
               ref={usernameRef}
@@ -35,7 +35,7 @@ const MobileProfile = () => {
             <textarea
               ref={bioRef}
               rows={4}
-              className="px-2 py-1 font-spectral !ring-0 !outline-none"
+              className="px-2 py-1 font-spectral !outline-none !ring-0"
               value={bio}
               onChange={(e) => setBio(e.target.value)}
             />
@@ -46,14 +46,14 @@ const MobileProfile = () => {
     );
   return (
     <div className="relative">
-      <div className="flex gap-3 md:gap-4 items-center">
-        <p className="text-xl md:text-5xl font-archivo-medium tracking-[-1px]">
-          {isLoading ? <Skeleton className="w-[150px] h-12" /> : username}
+      <div className="flex items-center gap-3 md:gap-4">
+        <p className="font-archivo-medium text-xl tracking-[-1px] md:text-5xl">
+          {isLoading ? <Skeleton className="h-12 w-[150px]" /> : username}
         </p>
         {isEditable && !isEditing && (
           <button
             type="button"
-            className="border border-grey-moss-900 rounded-xs p-1 bg-grey-moss-200"
+            className="rounded-xs border border-grey-moss-900 bg-grey-moss-200 p-1"
             onClick={toggleEditing}
           >
             <EditIcon width={20} height={20} />
@@ -61,8 +61,8 @@ const MobileProfile = () => {
         )}
       </div>
 
-      <p className="text-lg md:text-xl font-spectral pt-2 md:pt-4">
-        {isLoading ? <Skeleton className="w-[200px] h-8" /> : bio}
+      <p className="pt-2 font-spectral text-lg md:pt-4 md:text-xl">
+        {isLoading ? <Skeleton className="h-8 w-[200px]" /> : bio}
       </p>
       <SocialAccounts />
     </div>

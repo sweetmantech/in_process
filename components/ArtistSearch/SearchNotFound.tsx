@@ -9,11 +9,11 @@ const SearchNotFound = () => {
       <div
         className={
           isMobile
-            ? "w-fit h-fit absolute right-0 -bottom-[58px] py-2 px-3 bg-white rounded-sm"
+            ? "absolute -bottom-[58px] right-0 h-fit w-fit rounded-sm bg-white px-3 py-2"
             : ""
         }
       >
-        <div className={`flex flex-col w-full items-center ${!isMobile ? "pt-4 px-4" : ""}`}>
+        <div className={`flex w-full flex-col items-center ${!isMobile ? "px-4 pt-4" : ""}`}>
           <p className={`t-grey-moss-300 text-sm ${isMobile ? "p-0" : ""}`}>
             no results in the matrix, search again
           </p>

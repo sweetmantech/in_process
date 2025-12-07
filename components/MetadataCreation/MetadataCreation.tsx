@@ -19,7 +19,7 @@ const MetadataCreation = () => {
         ref={fileInputRef}
         id="media"
         type="file"
-        className={`cursor-pointer ${selected ? "hidden" : "z-2 size-full absolute opacity-0"}`}
+        className={`cursor-pointer ${selected ? "hidden" : "z-2 absolute size-full opacity-0"}`}
         onChange={selectFile}
         disabled={Boolean(createdContract)}
       />

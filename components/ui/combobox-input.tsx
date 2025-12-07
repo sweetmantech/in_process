@@ -25,7 +25,7 @@ export function ComboboxInput({
   value: controlledValue,
 }: {
   options?: Option;
-  onChange?: (value: string) => void;
+  onChange?: (_value: string) => void;
   disabled?: boolean;
   value?: string;
 }) {
@@ -83,12 +83,12 @@ export function ComboboxInput({
   return (
     <Popover open={disabled ? false : open} onOpenChange={disabled ? undefined : setOpen}>
       <PopoverTrigger asChild disabled={disabled}>
-        <div className="relative flex items-center w-full">
+        <div className="relative flex w-full items-center">
           <Input
             id="combobox-input"
             value={inputValue}
             onChange={handleInputChange}
-            className="w-full bg-white border border-grey rounded-[0px] !ring-offset-0 !ring-0 font-spectral"
+            className="w-full rounded-[0px] border border-grey bg-white font-spectral !ring-0 !ring-offset-0"
             disabled={disabled}
           />
           <Button

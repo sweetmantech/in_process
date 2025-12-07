@@ -50,7 +50,7 @@ const CreateButton = () => {
     <Button
       onClick={handleCreate}
       disabled={creating}
-      className="self-center w-fit z-10 px-14 py-5 md:py-6 md:w-full md:!mt-4 !font-archivo bg-black hover:bg-grey-moss-300 text-grey-eggshell md:h-[60px] !text-xl !rounded-sm transform transition-transform duration-150 disabled:opacity-1 disabled:!cursor-not-allowed disabled:!pointer-events-auto"
+      className="disabled:opacity-1 z-10 w-fit transform self-center !rounded-sm bg-black px-14 py-5 !font-archivo !text-xl text-grey-eggshell transition-transform duration-150 hover:bg-grey-moss-300 disabled:!pointer-events-auto disabled:!cursor-not-allowed md:!mt-4 md:h-[60px] md:w-full md:py-6"
     >
       {creating ? "creating..." : "create"}
     </Button>

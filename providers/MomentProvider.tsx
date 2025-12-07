@@ -1,8 +1,10 @@
+"use client";
+
 import { Moment } from "@/types/moment";
 import { createContext, useContext, ReactNode } from "react";
 import useMomentData from "@/hooks/useMomentData";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+ 
 const MomentContext = createContext<
   | (ReturnType<typeof useMomentData> & {
       moment: Moment;

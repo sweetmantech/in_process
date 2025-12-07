@@ -15,7 +15,7 @@ const Container = ({
 }: {
   children: React.ReactNode;
   className?: string;
-}) => <div className={`size-full flex justify-center ${className}`}>{children}</div>;
+}) => <div className={`flex size-full justify-center ${className}`}>{children}</div>;
 
 const MediaUploaded = ({ handleImageClick }: MediaUploadedProps) => {
   const { mimeType, previewFileUrl, animationFileUrl, isUploading, uploadProgress } =
@@ -55,7 +55,7 @@ const MediaUploaded = ({ handleImageClick }: MediaUploadedProps) => {
   // For images: use previewFileUrl (blob URL from previewFile)
   if (previewFileUrl) {
     return (
-      <div className="size-full cursor-pointer relative">
+      <div className="relative size-full cursor-pointer">
         <Image
           src={previewFileUrl}
           alt="Image Preview"

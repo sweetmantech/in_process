@@ -34,7 +34,7 @@ const FetchMore = ({ fetchMore }: { fetchMore: () => void }) => {
     };
   }, [fetchMore]);
 
-  return <div className="min-w-[10px] min-h-[5px] bg-transparent" ref={fetchRef} />;
+  return <div className="min-h-[5px] min-w-[10px] bg-transparent" ref={fetchRef} />;
 };
 
 export default FetchMore;

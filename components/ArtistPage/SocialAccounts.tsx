@@ -20,10 +20,10 @@ const SocialAccounts = () => {
 
   if (isEditing)
     return (
-      <div className="flex flex-col md:flex-row md:pt-4 flex gap-2" ref={socialRef}>
-        <fieldset className="flex gap-2 items-center">
-          <div className="p-1 rounded-sm bg-grey-primary">
-            <InstagramIcon className="text-grey-eggshell size-5 md:size-7" />
+      <div className="flex flex-col gap-2 md:flex-row md:pt-4" ref={socialRef}>
+        <fieldset className="flex items-center gap-2">
+          <div className="rounded-sm bg-grey-primary p-1">
+            <InstagramIcon className="size-5 text-grey-eggshell md:size-7" />
           </div>
           <input
             className="grow p-1 font-spectral !outline-none"
@@ -31,8 +31,8 @@ const SocialAccounts = () => {
             onChange={(e) => setInstagram(e.target.value)}
           />
         </fieldset>
-        <fieldset className="flex gap-2 items-center">
-          <div className="p-1 rounded-sm bg-grey-primary">
+        <fieldset className="flex items-center gap-2">
+          <div className="rounded-sm bg-grey-primary p-1">
             {isMobile ? <TwitterXsIcon /> : <TwitterIcon />}
           </div>
           <input
@@ -41,9 +41,9 @@ const SocialAccounts = () => {
             onChange={(e) => setTwitter(e.target.value)}
           />
         </fieldset>
-        <fieldset className="flex gap-2 items-center">
-          <div className="p-1 rounded-sm bg-grey-primary">
-            <Send className="text-grey-eggshell size-5 md:size-7" />
+        <fieldset className="flex items-center gap-2">
+          <div className="rounded-sm bg-grey-primary p-1">
+            <Send className="size-5 text-grey-eggshell md:size-7" />
           </div>
           <input
             className="grow p-1 font-spectral !outline-none"
@@ -54,11 +54,11 @@ const SocialAccounts = () => {
       </div>
     );
   return (
-    <div className="flex gap-2 items-center pt-2">
+    <div className="flex items-center gap-2 pt-2">
       {instagram && (
         <Social
           link={`https://instagram.com/${instagram}`}
-          icon={<InstagramIcon className="text-grey-eggshell size-5 md:size-7" />}
+          icon={<InstagramIcon className="size-5 text-grey-eggshell md:size-7" />}
         />
       )}
       {twitter && (
@@ -70,7 +70,7 @@ const SocialAccounts = () => {
       {telegram && (
         <Social
           link={`https://t.me/${telegram}`}
-          icon={<Send className="text-grey-eggshell size-5 md:size-7" />}
+          icon={<Send className="size-5 text-grey-eggshell md:size-7" />}
         />
       )}
     </div>

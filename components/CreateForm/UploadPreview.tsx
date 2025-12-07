@@ -13,7 +13,7 @@ const UploadPreview = () => {
 
   return (
     <Fragment>
-      <Label className="font-archivo-medium text-2xl text-center w-full">Preview</Label>
+      <Label className="w-full text-center font-archivo-medium text-2xl">Preview</Label>
       <input
         type="file"
         className="hidden"
@@ -21,7 +21,7 @@ const UploadPreview = () => {
         accept="image/*"
         onChange={handlePreviewUpload}
       />
-      <div className="w-3/4 aspect-video relative border border-grey mt-2 font-spectral overflow-hidden">
+      <div className="relative mt-2 aspect-video w-3/4 overflow-hidden border border-grey font-spectral">
         {previewFile ? (
           <CropImage />
         ) : (
@@ -29,7 +29,7 @@ const UploadPreview = () => {
             {writingText ? (
               <WritingPreview />
             ) : (
-              <div className="size-full p-3 flex justify-center items-center">
+              <div className="flex size-full items-center justify-center p-3">
                 <p className="font-spectral text-3xl">No Preview.</p>
               </div>
             )}
@@ -39,20 +39,14 @@ const UploadPreview = () => {
       <p className="font-spectral-italic">drag / zoom to resize</p>
       <button
         type="button"
-        className="border border-grey-moss-900 w-3/4 mt-2 py-2 font-archivo rounded-sm 
-        hover:border-grey-moss-300 hover:text-grey-eggshell hover:bg-grey-moss-300
-        transform transition-transform duration-150 
-        disabled:opacity-1 disabled:!cursor-not-allowed disabled:!pointer-events-auto"
+        className="disabled:opacity-1 mt-2 w-3/4 transform rounded-sm border border-grey-moss-900 py-2 font-archivo transition-transform duration-150 hover:border-grey-moss-300 hover:bg-grey-moss-300 hover:text-grey-eggshell disabled:!pointer-events-auto disabled:!cursor-not-allowed"
         onClick={handleClick}
       >
         upload thumbnail
       </button>
       <button
         type="button"
-        className="w-3/4 mt-2 py-2 font-archivo rounded-sm bg-grey-moss-900 text-grey-eggshell
-        hover:border-grey-moss-300 hover:bg-grey-moss-300
-        transform transition-transform duration-150 
-        disabled:opacity-1 disabled:!cursor-not-allowed disabled:!pointer-events-auto"
+        className="disabled:opacity-1 mt-2 w-3/4 transform rounded-sm bg-grey-moss-900 py-2 font-archivo text-grey-eggshell transition-transform duration-150 hover:border-grey-moss-300 hover:bg-grey-moss-300 disabled:!pointer-events-auto disabled:!cursor-not-allowed"
         onClick={handleDoneClick}
         disabled={isUploadingCrop}
       >

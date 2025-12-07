@@ -8,7 +8,7 @@ const TotalEarnings = ({ className }: { className: string }) => {
   return (
     <div className={`font-spectral ${className}`}>
       {isLoading ? (
-        <Skeleton className="bg-grey-moss-300 w-10 md:w-8 h-4 mt-1" />
+        <Skeleton className="mt-1 h-4 w-10 bg-grey-moss-300 md:w-8" />
       ) : (
         `$${usdcAmount}`
       )}

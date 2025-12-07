@@ -17,7 +17,7 @@ const HideButton: FC<HideButtonProps> = ({
   className = "",
   onClick,
   ...props
-}): JSX.Element => {
+}): React.ReactElement => {
   const { isHidden, toggle } = useToggleMoment(moment);
 
   const handleClick = async (e: MouseEvent<HTMLButtonElement>): Promise<void> => {
@@ -29,7 +29,7 @@ const HideButton: FC<HideButtonProps> = ({
   return (
     <button
       type="button"
-      className={`bg-grey-moss-200 border border-grey-moss-900 px-1 py-1 rounded ${className}`}
+      className={`rounded border border-grey-moss-900 bg-grey-moss-200 px-1 py-1 ${className}`}
       aria-label="Toggle visibility"
       onClick={handleClick}
       {...props}

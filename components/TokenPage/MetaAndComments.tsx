@@ -23,18 +23,18 @@ const MetaAndComments = ({ priceHidden = false, commentsHidden = false }: MetaAn
   if (!metadata) return <Fragment />;
 
   return (
-    <div className="w-full md:max-w-[400px] h-fit">
-      <h3 className="text-4xl md:text-5xl font-spectral">{metadata.name}</h3>
+    <div className="h-fit w-full md:max-w-[400px]">
+      <h3 className="font-spectral text-4xl md:text-5xl">{metadata.name}</h3>
       <Description description={metadata.description || ""} />
       {!priceHidden && isSetSale && (
         <>
-          <div className="space-y-1 md:space-y-2 mt-2 md:mt-4">
+          <div className="mt-2 space-y-1 md:mt-4 md:space-y-2">
             <p className="font-archivo text-sm md:text-lg">moment collection price</p>
             {isLoading ? (
-              <Skeleton className="w-full h-6" />
+              <Skeleton className="h-6 w-full" />
             ) : (
-              <div className="flex gap-2 items-center">
-                <p className="w-2/3 md:w-full font-archivo text-sm md:text-base border border-black rounded-md text-center bg-grey-moss-50">
+              <div className="flex items-center gap-2">
+                <p className="w-2/3 rounded-md border border-black bg-grey-moss-50 text-center font-archivo text-sm md:w-full md:text-base">
                   {BigInt(saleConfig?.pricePerToken) === BigInt(0)
                     ? "free"
                     : `${getPrice(saleConfig?.pricePerToken || BigInt(0), saleConfig?.type)} ${getPriceUnit(saleConfig?.type || "")}`}
@@ -43,7 +43,7 @@ const MetaAndComments = ({ priceHidden = false, commentsHidden = false }: MetaAn
                 {balanceOf > 0 && (
                   <button
                     type="button"
-                    className="border border-grey-moss-900 bg-white p-1 rounded-sm"
+                    className="rounded-sm border border-grey-moss-900 bg-white p-1"
                   >
                     <DownloadIcon onClick={download} className="size-4 text-grey-moss-900" />
                   </button>

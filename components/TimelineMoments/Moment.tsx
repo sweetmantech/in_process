@@ -43,22 +43,22 @@ const Moment: FC<MomentProps> = ({ moment, hovered, step, height, index }) => {
         <button
           data-moment-button
           data-moment-index={index}
-          className="relative z-10 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-opacity-75 transition-transform hover:scale-110"
+          className="focus-visible:ring-primary relative z-10 transition-transform hover:scale-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75"
           onClick={handleClick}
         >
           {hovered ? (
             <tspan
               fill="#4E4E4E"
               font-size="8"
-              className="-translate-x-1/2 left-[4px] -translate-y-1/2 absolute"
+              className="absolute left-[4px] -translate-x-1/2 -translate-y-1/2"
             >
               ⬤
             </tspan>
           ) : (
-            <div className="size-2 border border-grey-moss-900 bg-grey-moss-100 rounded-full md:bottom-[-2px] bottom-[0px] absolute" />
+            <div className="absolute bottom-[0px] size-2 rounded-full border border-grey-moss-900 bg-grey-moss-100 md:bottom-[-2px]" />
           )}
           <div
-            className="z-[-1] w-[0.5px] bg-black -bottom-[20px] left-[4px] absolute transition-all duration-200 ease-out"
+            className="absolute -bottom-[20px] left-[4px] z-[-1] w-[0.5px] bg-black transition-all duration-200 ease-out"
             style={{
               height: `${height}px`,
             }}
@@ -73,13 +73,13 @@ const Moment: FC<MomentProps> = ({ moment, hovered, step, height, index }) => {
           </div>
         </button>
         {hovered && isEditable && (
-          <div className="flex gap-2 items-center relative translate-y-6 pt-2">
+          <div className="relative flex translate-y-6 items-center gap-2 pt-2">
             <p className="font-spectral-italic text-sm md:text-xl">{truncated(data?.name || "")}</p>
             <HideButton moment={moment} onClick={() => setIsFadingOut(true)} />
           </div>
         )}
         <p
-          className={`min-w-[200px] text-center font-archivo ${hovered ? "translate-y-6 text-sm md:text-md" : "opacity-0 md:opacity-[1] pt-8 text-xs md:text-sm"}`}
+          className={`min-w-[200px] text-center font-archivo ${hovered ? "md:text-md translate-y-6 text-sm" : "pt-8 text-xs opacity-0 md:text-sm md:opacity-[1]"}`}
         >
           {formattedDate}
         </p>

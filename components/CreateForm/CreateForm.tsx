@@ -13,14 +13,14 @@ const CreateForm = () => {
   const { createdContract } = useMomentCreateProvider();
   const { inputRef, name } = useMomentFormProvider();
   return (
-    <div className="w-full col-span-1 md:pl-12">
-      <div ref={inputRef} className="flex flex-col space-y-3 h-fit pb-4">
+    <div className="col-span-1 w-full md:pl-12">
+      <div ref={inputRef} className="flex h-fit flex-col space-y-3 pb-4">
         {createdContract ? (
           <>
-            <p className="text-center md:text-left font-archivo-medium text-2xl md:text-4xl">
+            <p className="text-center font-archivo-medium text-2xl md:text-left md:text-4xl">
               {name}
             </p>
-            <p className="font-archivo md:text-left text-center !m-0">
+            <p className="!m-0 text-center font-archivo md:text-left">
               {new Date().toLocaleString()}
             </p>
             <div className="block md:hidden">

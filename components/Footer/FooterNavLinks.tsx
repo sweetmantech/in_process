@@ -5,7 +5,7 @@ const FooterNavLinks = () => {
   const { push } = useRouter();
 
   return (
-    <div className="flex flex-col font-archivo-bold text-md space-y-1 text-left md:text-right items-start md:items-end md:ml-auto">
+    <div className="text-md flex flex-col items-start space-y-1 text-left font-archivo-bold md:ml-auto md:items-end md:text-right">
       <button type="button" onClick={() => push("/manifesto")}>
         manifesto
       </button>

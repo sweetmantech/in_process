@@ -19,17 +19,12 @@ const PreviewModal = () => {
       >
         <button
           type="button"
-          className="self-center w-fit z-10 md:w-full md:!mt-4 font-archivo 
-        border border-grey-moss-900 
-        hover:border-grey-moss-300 hover:bg-grey-moss-300 
-        text-grey-moss-900 hover:text-grey-eggshell
-        md:h-[60px] !text-xl !rounded-sm transform transition-transform duration-150 
-        disabled:opacity-1 disabled:!cursor-not-allowed disabled:!pointer-events-auto"
+          className="disabled:opacity-1 z-10 w-fit transform self-center !rounded-sm border border-grey-moss-900 font-archivo !text-xl text-grey-moss-900 transition-transform duration-150 hover:border-grey-moss-300 hover:bg-grey-moss-300 hover:text-grey-eggshell disabled:!pointer-events-auto disabled:!cursor-not-allowed md:!mt-4 md:h-[60px] md:w-full"
         >
           set preview
         </button>
       </DialogTrigger>
-      <DialogContent className="max-w-xl !rounded-3xl !bg-white border-none py-6 !px-4 flex flex-col items-center !gap-0 shadow-lg overflow-hidden bg-transparent">
+      <DialogContent className="flex max-w-xl flex-col items-center !gap-0 overflow-hidden !rounded-3xl border-none !bg-white bg-transparent !px-4 py-6 shadow-lg">
         <VisuallyHidden>
           <DialogTitle>Leave feedback</DialogTitle>
         </VisuallyHidden>

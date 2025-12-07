@@ -2,11 +2,11 @@ import TimelineTable from "@/components/Timeline/Table/TimelineTable";
 import ArtSlider from "@/components/ArtSlider/ArtSlider";
 
 const TimelineGrid = () => (
-  <div className="md:grid md:grid-cols-12 pb-6 gap-10 relative z-30 pt-20 w-full">
-    <div className="w-full md:col-span-8 h-fit">
+  <div className="relative z-30 w-full gap-10 pb-6 pt-20 md:grid md:grid-cols-12">
+    <div className="h-fit w-full md:col-span-8">
       <TimelineTable />
     </div>
-    <div className="hidden md:block col-span-4 relative" style={{ maxHeight: "88vh" }}>
+    <div className="relative col-span-4 hidden md:block" style={{ maxHeight: "88vh" }}>
       <ArtSlider />
     </div>
   </div>

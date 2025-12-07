@@ -20,8 +20,8 @@ const WalletsPage = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen px-6 md:px-12 py-4 md:py-16">
-        <h1 className="text-2xl font-archivo-bold mb-6">Wallet Sign-Ins</h1>
+      <div className="min-h-screen px-6 py-4 md:px-12 md:py-16">
+        <h1 className="mb-6 font-archivo-bold text-2xl">Wallet Sign-Ins</h1>
         <p className="font-archivo">Loading...</p>
       </div>
     );
@@ -29,9 +29,9 @@ const WalletsPage = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen px-6 md:px-12 py-4 md:py-16">
-        <h1 className="text-2xl font-archivo-bold mb-6">Wallet Sign-Ins</h1>
-        <p className="text-red-500 font-archivo">
+      <div className="min-h-screen px-6 py-4 md:px-12 md:py-16">
+        <h1 className="mb-6 font-archivo-bold text-2xl">Wallet Sign-Ins</h1>
+        <p className="font-archivo text-red-500">
           Error: {error instanceof Error ? error.message : "Failed to load wallet users"}
         </p>
       </div>
@@ -39,9 +39,9 @@ const WalletsPage = () => {
   }
 
   return (
-    <div className="min-h-screen px-6 md:px-12 py-4 md:py-16">
-      <h1 className="text-2xl font-archivo-bold mb-6">Wallet Sign-Ins</h1>
-      <div className="rounded-md border overflow-auto">
+    <div className="min-h-screen px-6 py-4 md:px-12 md:py-16">
+      <h1 className="mb-6 font-archivo-bold text-2xl">Wallet Sign-Ins</h1>
+      <div className="overflow-auto rounded-md border">
         <Table>
           <TableHeader>
             <TableRow>
@@ -51,7 +51,7 @@ const WalletsPage = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {Boolean(formattedUsers.length) ? (
+            {formattedUsers.length ? (
               formattedUsers.map((user) => {
                 return (
                   <TableRow key={user.id}>
@@ -67,7 +67,7 @@ const WalletsPage = () => {
               })
             ) : (
               <TableRow>
-                <TableCell colSpan={5} className="text-center text-neutral-500 font-archivo">
+                <TableCell colSpan={5} className="text-center font-archivo text-neutral-500">
                   No wallet sign-ins found
                 </TableCell>
               </TableRow>

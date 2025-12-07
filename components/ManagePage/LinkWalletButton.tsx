@@ -17,7 +17,7 @@ const LinkWalletButton = ({ className }: LinkWalletButtonProps) => {
 
   return (
     <Button
-      className={`mt-4 !bg-grey-eggshell hover:!bg-grey-moss-100 text-black font-archivo text-lg py-3 px-12 rounded-sm ${className || ""}`}
+      className={`mt-4 rounded-sm !bg-grey-eggshell px-12 py-3 font-archivo text-lg text-black hover:!bg-grey-moss-100 ${className || ""}`}
       onClick={linkWallet}
     >
       connect wallet

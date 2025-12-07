@@ -8,7 +8,7 @@ const AirdropBadge = ({ item, i }: { item: AirdropItem; i: number }) => {
 
   return (
     <div
-      className={`${item.status === "invalid" ? "bg-red" : "bg-grey-moss-200"} rounded-full w-fit text-white px-4 py-1 flex items-center gap-2 h-fit`}
+      className={`${item.status === "invalid" ? "bg-red" : "bg-grey-moss-200"} flex h-fit w-fit items-center gap-2 rounded-full px-4 py-1 text-white`}
     >
       {item.status === "validating" ? (
         <p className="font-archivo text-xs md:text-lg">Validating...</p>

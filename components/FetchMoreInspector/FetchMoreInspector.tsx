@@ -11,11 +11,11 @@ const FetchMoreInspector = ({ fetchMore, children }: FetchMoreInspectorProps) =>
 
   useEffect(() => {
     if (inView) fetchMore();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     
   }, [inView]);
 
   return (
-    <div ref={ref} className="min-w-[10px] min-h-[10px]">
+    <div ref={ref} className="min-h-[10px] min-w-[10px]">
       {children || null}
     </div>
   );

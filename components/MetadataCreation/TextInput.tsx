@@ -17,9 +17,9 @@ const TextInput = () => {
   };
 
   return (
-    <div className="overflow-hidden size-full !font-spectral shadow-[5px_6px_2px_2px_#0000000f] border border-grey-moss-300 bg-white disabled:cursor-not-allowed relative">
+    <div className="relative size-full overflow-hidden border border-grey-moss-300 bg-white !font-spectral shadow-[5px_6px_2px_2px_#0000000f] disabled:cursor-not-allowed">
       <textarea
-        className="relative z-[2] size-full !outline-none p-2 md:p-4 bg-grey-eggshell !resize-none"
+        className="relative z-[2] size-full !resize-none bg-grey-eggshell p-2 !outline-none md:p-4"
         value={writingText}
         disabled={Boolean(creating)}
         onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -30,10 +30,10 @@ const TextInput = () => {
       {scrollPosition && (
         <>
           {scrollPosition !== "top" && (
-            <div className="pointer-events-none absolute z-[3] left-0 top-0 bg-gradientTopBottom w-full h-24" />
+            <div className="pointer-events-none absolute left-0 top-0 z-[3] h-24 w-full bg-gradientTopBottom" />
           )}
           {scrollPosition !== "bottom" && (
-            <div className="pointer-events-none absolute z-[3] left-0 bottom-0 bg-gradientBottomTop w-full h-24" />
+            <div className="pointer-events-none absolute bottom-0 left-0 z-[3] h-24 w-full bg-gradientBottomTop" />
           )}
         </>
       )}

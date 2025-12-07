@@ -16,12 +16,12 @@ const AnimationUpload = () => {
   const { openFileDialog } = useOpenFileDialog(fileInputRef, isOwner, isSaving);
 
   return (
-    <div className="min-h-[400px] md:min-h-auto md:aspect-[571/692] relative bg-[url('/grid.svg')] bg-contain">
+    <div className="md:min-h-auto relative min-h-[400px] bg-[url('/grid.svg')] bg-contain md:aspect-[571/692]">
       <input
         ref={fileInputRef}
         id="media"
         type="file"
-        className={`cursor-pointer ${hasMedia ? "hidden" : "z-2 size-full absolute opacity-0"}`}
+        className={`cursor-pointer ${hasMedia ? "hidden" : "z-2 absolute size-full opacity-0"}`}
         onChange={selectFile}
         disabled={!isOwner || isSaving}
       />

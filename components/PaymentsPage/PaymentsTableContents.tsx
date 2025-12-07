@@ -9,7 +9,7 @@ interface PaymentsTableContentsProps {
 
 const PaymentsTableContents = ({ payments }: PaymentsTableContentsProps) => {
   return (
-    <div className="rounded-md border overflow-auto">
+    <div className="overflow-auto rounded-md border">
       <Table>
         <PaymentsTableHeader />
         <TableBody>

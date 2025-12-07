@@ -12,17 +12,17 @@ const CreateCTAButton = () => {
       onMouseOut={() => setIsHovered(false)}
       type="button"
       onClick={() => push("/create")}
-      className="px-4 py-2 rounded-md flex items-center gap-2 bg-grey-moss-900 font-archivo text-grey-eggshell hover:bg-grey-eggshell hover:text-grey-moss-900"
+      className="flex items-center gap-2 rounded-md bg-grey-moss-900 px-4 py-2 font-archivo text-grey-eggshell hover:bg-grey-eggshell hover:text-grey-moss-900"
     >
       <div
         className={cn(
-          "border-[2px]  rounded-full w-5 aspect-[1/1] flex items-center justify-center",
+          "flex aspect-[1/1] w-5 items-center justify-center rounded-full border-[2px]",
           isHovered ? "border-grey-moss-900" : "border-grey-eggshell"
         )}
       >
         <div
           className={cn(
-            "border-[2px] rounded-full w-3 aspect-[1/1]",
+            "aspect-[1/1] w-3 rounded-full border-[2px]",
             isHovered ? "border-grey-moss-900" : "border-grey-eggshell"
           )}
         />

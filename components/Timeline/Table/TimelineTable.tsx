@@ -9,7 +9,7 @@ const TimelineTable = () => {
   return (
     <div className="w-full">
       {/* Desktop: table layout */}
-      <div className="hidden md:block rounded-md overflow-auto md:max-h-[88vh] no-scrollbar">
+      <div className="no-scrollbar hidden overflow-auto rounded-md md:block md:max-h-[88vh]">
         <Table>
           <TableBody>
             {moments.map((moment) => (
@@ -19,7 +19,7 @@ const TimelineTable = () => {
         </Table>
       </div>
       {/* Mobile: scrollable list */}
-      <div className="md:hidden max-h-[25vh] overflow-y-auto w-full">
+      <div className="max-h-[25vh] w-full overflow-y-auto md:hidden">
         {moments.map((moment) => (
           <TimelineTableRow key={moment.id} moment={moment} />
         ))}

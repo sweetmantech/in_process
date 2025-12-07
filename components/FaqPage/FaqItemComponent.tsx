@@ -11,10 +11,10 @@ interface FaqItemComponentProps {
 const FaqItemComponent = ({ faq, index }: FaqItemComponentProps) => {
   return (
     <div key={index} className="pb-6">
-      <h2 className="font-archivo lowercase mb-4 text-[20px] leading-[110%] md:text-[36px] md:leading-[160%] font-medium tracking-[-0.05em] text-[#1b1504] antialiased">
+      <h2 className="mb-4 font-archivo text-[20px] font-medium lowercase leading-[110%] tracking-[-0.05em] text-[#1b1504] antialiased md:text-[36px] md:leading-[160%]">
         {faq.question}
       </h2>
-      <div className="font-spectral whitespace-pre-line lowercase max-w-6xl text-[14px] leading-[200%] md:text-[18px] tracking-[-0.05em] antialiased">
+      <div className="max-w-6xl whitespace-pre-line font-spectral text-[14px] lowercase leading-[200%] tracking-[-0.05em] antialiased md:text-[18px]">
         {faq.answer.split("\n").map((line, lineIndex) => RenderLine(line, lineIndex))}
       </div>
     </div>
