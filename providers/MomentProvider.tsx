@@ -4,7 +4,6 @@ import { Moment } from "@/types/moment";
 import { createContext, useContext, ReactNode } from "react";
 import useMomentData from "@/hooks/useMomentData";
 
- 
 const MomentContext = createContext<
   | (ReturnType<typeof useMomentData> & {
       moment: Moment;

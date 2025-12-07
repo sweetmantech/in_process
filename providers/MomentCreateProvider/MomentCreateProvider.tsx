@@ -1,23 +1,26 @@
 "use client";
 
-import React, { createContext, useContext } from "react";
+import useMomentCreate from "@/hooks/useMomentCreate";
+import React, { createContext, useContext, useMemo } from "react";
 
-type MomentCreateContextValue = {
-  createdContract: any;
-  [key: string]: any;
-};
+type MomentCreateContextValue = ReturnType<typeof useMomentCreate>;
 
 const MomentCreateContext = createContext<MomentCreateContextValue | undefined>(undefined);
 
 const MomentCreateProvider = ({ children }: { children: React.ReactNode }) => {
-  const value: MomentCreateContextValue = {
-    createdContract: null,
-  };
+  const momentCreate = useMomentCreate();
+
+  const value = useMemo(
+    () => ({
+      ...momentCreate,
+    }),
+    [momentCreate]
+  );
 
   return <MomentCreateContext.Provider value={value}>{children}</MomentCreateContext.Provider>;
 };
 
-export const useMomentCreateProvider = () => {
+const useMomentCreateProvider = () => {
   const context = useContext(MomentCreateContext);
   if (!context) {
     throw new Error("useMomentCreateProvider must be used within a MomentCreateProvider");
@@ -25,4 +28,4 @@ export const useMomentCreateProvider = () => {
   return context;
 };
 
-export { MomentCreateProvider };
+export { MomentCreateProvider, useMomentCreateProvider };

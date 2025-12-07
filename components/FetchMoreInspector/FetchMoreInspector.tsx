@@ -11,7 +11,6 @@ const FetchMoreInspector = ({ fetchMore, children }: FetchMoreInspectorProps) =>
 
   useEffect(() => {
     if (inView) fetchMore();
-     
   }, [inView]);
 
   return (

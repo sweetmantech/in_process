@@ -13,7 +13,7 @@ const TokenPage = () => {
   const params = useParams();
   const collection = params.collection as string;
   const tokenId = params.tokenId as string;
-   
+
   const [chain, address] = collection.split("%3A");
   const viemChainName = ZORA_TO_VIEM[chain as ZoraChains];
   const viemChain = chains[viemChainName];

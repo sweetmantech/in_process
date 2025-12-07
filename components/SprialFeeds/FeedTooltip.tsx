@@ -13,7 +13,7 @@ interface FeedTooltipProps {
 
 export const FeedTooltip: React.FC<FeedTooltipProps> = ({ feed, position, isVisible }) => {
   if (!isVisible || !position || !feed) return null;
-   
+
   const { isLoading, data } = useMetadata(feed.uri);
 
   return (
