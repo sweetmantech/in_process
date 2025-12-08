@@ -1,6 +1,7 @@
-import { NextPage } from "next";
+"use client";
+
 import CollectionPage from "@/components/CollectionPage";
 
-const Collection: NextPage = () => <CollectionPage />;
+const Collection = () => <CollectionPage />;
 
 export default Collection;

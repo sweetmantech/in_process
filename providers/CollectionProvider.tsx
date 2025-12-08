@@ -4,11 +4,14 @@ import { createContext, useContext, ReactNode } from "react";
 import useCollection from "@/hooks/useCollection";
 
 const CollectionContext = createContext<
-  | (ReturnType<typeof useCollection> & {
-      tokens: ReturnType<typeof useCollectionMoments>;
-    })
-  | undefined
->(undefined);
+  ReturnType<typeof useCollection> & {
+    tokens: ReturnType<typeof useCollectionMoments>;
+  }
+>(
+  {} as ReturnType<typeof useCollection> & {
+    tokens: ReturnType<typeof useCollectionMoments>;
+  }
+);
 
 export function CollectionProvider({
   children,
