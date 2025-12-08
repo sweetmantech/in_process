@@ -15,7 +15,6 @@ const CollectionPage = () => {
   const [alt, setAlt] = useState<"timeline" | "grid">("timeline");
   const params = useParams();
   const collectionAddress = params.collectionAddress as string;
-  // eslint-disable-next-line
   const [chain, address] = collectionAddress.split("%3A");
   const viemChainName = ZORA_TO_VIEM[chain as ZoraChains];
   const viemChain = chains[viemChainName];
