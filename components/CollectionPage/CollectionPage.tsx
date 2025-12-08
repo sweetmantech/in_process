@@ -6,14 +6,17 @@ import CollectionInfo from "./CollectionInfo";
 import MomentsTimeline from "../Timeline/MomentsTimeline";
 import { TimelineProvider } from "@/providers/TimelineProvider";
 import { CollectionProvider } from "@/providers/CollectionProvider";
-import { useCollectionAddressParams } from "@/hooks/useCollectionAddressParams";
 import { Address } from "viem";
+import { useParams } from "next/navigation";
+import { parseCollectionAddress } from "@/lib/timeline/parseCollectionAddress";
 
 const CollectionPage = () => {
   const [alt, setAlt] = useState<"timeline" | "grid">("timeline");
-  const { address, chainId } = useCollectionAddressParams();
+  const params = useParams();
+  const collection = params.collectionAddress as string | undefined;
+  const { chainId, address } = parseCollectionAddress(collection);
 
-  if (!address || !chainId) {
+  if (!collection || !address || !chainId) {
     return null;
   }
 
@@ -27,7 +30,7 @@ const CollectionPage = () => {
         <div
           className={`grow flex flex-col px-2 md:px-0 ${alt === "timeline" && "md:pt-20 md:px-10"}`}
         >
-          <TimelineProvider collectionAddress={address as Address}>
+          <TimelineProvider collection={collection}>
             <MomentsTimeline alt={alt} />
           </TimelineProvider>
         </div>

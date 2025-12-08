@@ -20,7 +20,8 @@ const TimelineContext = createContext<TimelineContextValue | undefined>(undefine
 interface TimelineProviderProps {
   children: ReactNode;
   artistAddress?: string;
-  collectionAddress?: string;
+  collection?: string;
+  chainId?: string;
   includeHidden?: boolean;
   type?: "mutual" | "default";
 }
@@ -28,7 +29,7 @@ interface TimelineProviderProps {
 export const TimelineProvider = ({
   children,
   artistAddress,
-  collectionAddress,
+  collection,
   includeHidden = false,
   type,
 }: TimelineProviderProps) => {
@@ -37,7 +38,7 @@ export const TimelineProvider = ({
     limit: 100,
     enabled: true,
     artistAddress,
-    collection: collectionAddress,
+    collection,
     includeHidden,
     type,
   });

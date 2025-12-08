@@ -1,8 +1,8 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { fetchTimeline } from "@/lib/timeline/fetchTimeline";
-import { getChainIdFromAddress } from "@/lib/timeline/getChainIdFromAddress";
 import { UseTimelineParams } from "@/types/timeline";
+import { parseCollectionAddress } from "@/lib/timeline/parseCollectionAddress";
 
 export function useTimeline({
   page = 1,
@@ -15,7 +15,7 @@ export function useTimeline({
 }: UseTimelineParams = {}) {
   const [currentPage, setCurrentPage] = useState(page);
 
-  const { chainId, addressOnly: normalizedCollection } = getChainIdFromAddress(collection);
+  const { chainId, address: normalizedCollection } = parseCollectionAddress(collection);
 
   const query = useInfiniteQuery({
     queryKey: [
