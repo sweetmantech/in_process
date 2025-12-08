@@ -7,7 +7,7 @@ import Media from "./Media";
 import { useParams } from "next/navigation";
 import { MomentProvider } from "@/providers/MomentProvider";
 import { useCollectionProvider } from "@/providers/CollectionProvider";
-import TokenOverview from "../CollectionManagePage/TokenOverview";
+import TokenOverview from "../Overview/MomentOverview";
 import MomentAirdrop from "../MomentAirdrop";
 import { Address } from "viem";
 
