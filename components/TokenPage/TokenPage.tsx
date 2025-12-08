@@ -1,22 +1,23 @@
 "use client";
 
 import Token from "./Token";
-import { ZORA_TO_VIEM, ZoraChains } from "@/lib/zora/zoraToViem";
 import { MomentProvider } from "@/providers/MomentProvider";
 import { MomentCommentsProvider } from "@/providers/MomentCommentsProvider";
 import { MomentCollectProvider } from "@/providers/MomentCollectProvider";
 import { useParams } from "next/navigation";
+import { parseCollectionAddress } from "@/lib/timeline/parseCollectionAddress";
 import { Address } from "viem";
-import * as chains from "viem/chains";
 
 const TokenPage = () => {
   const params = useParams();
   const collection = params.collection as string;
   const tokenId = params.tokenId as string;
 
-  const [chain, address] = collection.split("%3A");
-  const viemChainName = ZORA_TO_VIEM[chain as ZoraChains];
-  const viemChain = chains[viemChainName];
+  const { chainId, address } = parseCollectionAddress(collection);
+
+  if (!address || !chainId) {
+    return null;
+  }
 
   return (
     <main className="flex w-screen grow">
@@ -25,7 +26,7 @@ const TokenPage = () => {
           moment={{
             collectionAddress: address as Address,
             tokenId,
-            chainId: viemChain.id,
+            chainId,
           }}
         >
           <MomentCommentsProvider>
