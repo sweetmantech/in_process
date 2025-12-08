@@ -1,13 +1,23 @@
 "use client";
 
-import Tokens from "./Tokens";
+import Moments from "./Moments";
 import CollectionOverview from "./CollectionOverview";
+import { TimelineProvider } from "@/providers/TimelineProvider";
+import { useParams } from "next/navigation";
 
-const CollectionManagePage = () => (
-  <>
-    <CollectionOverview />
-    <Tokens />
-  </>
-);
+const CollectionManagePage = () => {
+  const params = useParams();
+  const collection = params.collectionAddress as string;
+  if (!collection) return null;
+
+  return (
+    <>
+      <CollectionOverview />
+      <TimelineProvider collection={collection}>
+        <Moments />
+      </TimelineProvider>
+    </>
+  );
+};
 
 export default CollectionManagePage;

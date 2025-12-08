@@ -7,11 +7,11 @@ import useIsMobile from "@/hooks/useIsMobile";
 import VerticalFeed from "../VerticalFeed";
 import GridFeed from "../GridFeed";
 
-interface ArtistTimelineProps {
+interface MomentsTimelineProps {
   alt: "timeline" | "grid";
 }
 
-const ArtistTimeline = ({ alt }: ArtistTimelineProps) => {
+const MomentsTimeline = ({ alt }: MomentsTimelineProps) => {
   const isMobile = useIsMobile();
   const { moments, isLoading, fetchMore } = useTimelineProvider();
   const reversedMoments = [...moments].reverse();
@@ -42,4 +42,4 @@ const ArtistTimeline = ({ alt }: ArtistTimelineProps) => {
   );
 };
 
-export default ArtistTimeline;
+export default MomentsTimeline;

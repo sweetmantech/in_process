@@ -2,29 +2,21 @@ import { useMetadata } from "@/hooks/useMetadata";
 import Image from "next/image";
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import { useRouter } from "next/navigation";
-import { useCollectionProvider } from "@/providers/CollectionProvider";
 import { Skeleton } from "../ui/skeleton";
 import { networkConfigByChain } from "@/lib/protocolSdk/apis/chain-constants";
 import { useUserProvider } from "@/providers/UserProvider";
 import HideButton from "../TimelineMoments/HideButton";
+import { TimelineMoment } from "@/types/moment";
 
-const TokenItem = ({
-  t,
-}: {
-  t: {
-    tokenId: bigint;
-    uri: string;
-  };
-}) => {
-  const { data, isLoading } = useMetadata(t.uri);
+const MomentItem = ({ m }: { m: TimelineMoment }) => {
   const { push } = useRouter();
-  const { collection } = useCollectionProvider();
   const { connectedAddress } = useUserProvider();
+  const { data, isLoading } = useMetadata(m.uri);
 
   const handleClick = () => {
     if (isLoading) return;
     push(
-      `/manage/${networkConfigByChain[collection.chainId].zoraCollectPathChainName}:${collection.address as string}/${t.tokenId.toString()}`
+      `/manage/${networkConfigByChain[m.chain_id].zoraCollectPathChainName}:${m.address}/${m.token_id.toString()}`
     );
     return;
   };
@@ -48,29 +40,10 @@ const TokenItem = ({
           </div>
           <div className="flex items-center justify-between gap-6 py-2">
             <p className="font-archivo text-grey-moss-900">{data?.name}</p>
-            <p className="rounded-md bg-grey-moss-100 px-2 font-archivo text-sm text-grey-moss-900">
-              id: {t.tokenId}
+            <p className="font-archivo text-sm text-grey-moss-900 bg-grey-moss-100 rounded-md px-2">
+              id: {m.token_id}
             </p>
-            {connectedAddress && (
-              <HideButton
-                moment={{
-                  address: collection.address,
-                  token_id: t.tokenId.toString(),
-                  chain_id: collection.chainId,
-                  id: `${collection.address}-${t.tokenId.toString()}`,
-                  uri: t.uri,
-                  max_supply: 0,
-                  default_admin: {
-                    address: connectedAddress,
-                    username: "",
-                    hidden: false,
-                  },
-                  admins: [],
-                  created_at: new Date().toISOString(),
-                  updated_at: new Date().toISOString(),
-                }}
-              />
-            )}
+            {connectedAddress && <HideButton moment={m} />}
           </div>
         </>
       )}
@@ -78,4 +51,4 @@ const TokenItem = ({
   );
 };
 
-export default TokenItem;
+export default MomentItem;

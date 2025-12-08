@@ -1,21 +1,43 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { fetchTimeline } from "@/lib/timeline/fetchTimeline";
+import { UseTimelineParams } from "@/types/timeline";
+import { parseCollectionAddress } from "@/lib/timeline/parseCollectionAddress";
 
-export function useTimeline(
+export function useTimeline({
   page = 1,
   limit = 100,
   enabled = true,
-  artistAddress?: string,
+  artistAddress,
+  collection,
   includeHidden = false,
-  type?: "mutual" | "default"
-) {
+  type,
+}: UseTimelineParams = {}) {
   const [currentPage, setCurrentPage] = useState(page);
 
+  const { chainId, address: normalizedCollection } = parseCollectionAddress(collection);
+
   const query = useInfiniteQuery({
-    queryKey: ["timeline", limit, artistAddress, includeHidden, type],
-    queryFn: ({ pageParam = 1 }) =>
-      fetchTimeline(pageParam, limit, artistAddress, includeHidden, type),
+    queryKey: [
+      "timeline",
+      limit,
+      artistAddress,
+      normalizedCollection,
+      includeHidden,
+      type,
+      chainId,
+    ],
+    queryFn: ({ pageParam = 1 }) => {
+      return fetchTimeline({
+        page: pageParam,
+        limit,
+        artistAddress,
+        collection: normalizedCollection,
+        includeHidden,
+        type,
+        chainId,
+      });
+    },
     enabled,
     staleTime: 1000 * 60 * 5,
     retry: (failureCount) => failureCount < 3,

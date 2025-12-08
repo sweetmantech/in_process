@@ -1,29 +1,22 @@
-import { TimelineMoment } from "@/types/moment";
+import { TimelineResponse, FetchTimelineParams } from "@/types/timeline";
 
-export interface TimelineResponse {
-  status: "success" | "error";
-  moments: TimelineMoment[];
-  pagination: {
-    page: number;
-    limit: number;
-    total_pages: number;
-  };
-  message?: string;
-}
-
-export async function fetchTimeline(
+export async function fetchTimeline({
   page = 1,
   limit = 20,
-  artistAddress?: string,
+  artistAddress,
+  collection,
   includeHidden = false,
-  type?: "mutual" | "default"
-): Promise<TimelineResponse> {
+  type,
+  chainId,
+}: FetchTimelineParams = {}): Promise<TimelineResponse> {
   const params = new URLSearchParams({
     page: String(page),
     limit: String(limit),
   });
   if (artistAddress) params.append("artist", artistAddress);
+  if (collection) params.append("collection", collection);
   params.append("hidden", includeHidden ? "true" : "false");
+  if (chainId) params.append("chain_id", String(chainId));
   // When type is undefined, don't append type param (gets both mutual + default)
   if (type === "mutual") {
     params.append("type", "mutual");

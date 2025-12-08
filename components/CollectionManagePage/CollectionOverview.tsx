@@ -5,13 +5,13 @@ import { Skeleton } from "../ui/skeleton";
 import { MomentMetadata } from "@/types/moment";
 import { networkConfigByChain } from "@/lib/protocolSdk/apis/chain-constants";
 import CopyButton from "../CopyButton";
+import { Address } from "viem";
 
 const CollectionOverview = () => {
-  const { collection } = useCollectionProvider();
-  const { data, isLoading } = collection.metadata;
+  const { data, isLoading } = useCollectionProvider();
   const { push } = useRouter();
 
-  const isPdf = data?.content?.mime?.includes("pdf") ?? false;
+  const isPdf = data?.metadata?.content?.mime?.includes("pdf") ?? false;
   const containerClassName = isPdf
     ? "w-fit pt-4 flex flex-col items-center gap-2"
     : "w-fit pt-4 flex flex-col md:flex-row items-center gap-2";
@@ -31,7 +31,7 @@ const CollectionOverview = () => {
           type="button"
           onClick={() =>
             push(
-              `/manage/${networkConfigByChain[collection.chainId].zoraCollectPathChainName}:${collection.address}`
+              `/manage/${networkConfigByChain[data?.chain_id ?? 0].zoraCollectPathChainName}:${data?.address}`
             )
           }
           className="rounded-md px-2 py-1 hover:bg-black hover:text-grey-eggshell"
@@ -44,12 +44,12 @@ const CollectionOverview = () => {
           {isLoading ? (
             <Skeleton className="size-full" />
           ) : (
-            <ContentRenderer metadata={data as MomentMetadata} />
+            <ContentRenderer metadata={data?.metadata as MomentMetadata} />
           )}
         </div>
         <div className="space-y-2">
           <p className="font-archivo-medium text-xl md:text-4xl">{data?.name}</p>
-          <CopyButton address={collection.address} />
+          <CopyButton address={data?.address as Address} />
         </div>
       </div>
     </div>
