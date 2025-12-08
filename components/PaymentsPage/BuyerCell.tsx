@@ -24,12 +24,12 @@ const BuyerCell = ({ payment }: BuyerCellProps) => {
         {isCombinedPayment ? (
           <div className="flex items-center gap-2">
             <PaymentsTypeBadge type={payment.type} />
-            <span className="text-sm font-archivo-medium">
+            <span className="font-archivo-medium text-sm">
               {isEarning ? buyerDisplayName : sellerDisplayName}
             </span>
           </div>
         ) : (
-          <span className="text-sm font-archivo-medium">{buyerDisplayName}</span>
+          <span className="font-archivo-medium text-sm">{buyerDisplayName}</span>
         )}
       </div>
     </TableCell>

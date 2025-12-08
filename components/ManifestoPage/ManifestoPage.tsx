@@ -7,8 +7,8 @@ const ManifestoPage = () => {
   const isMobile = useIsMobile();
 
   return (
-    <div className="relative px-4 md:px-0 pt-6 md:pt-20 flex flex-col md:flex-row grow w-full pb-[8%] gap-4 md:gap-16">
-      <div className="w-full md:w-1/4 aspect-[376/236] md:aspect-[546/1157] relative">
+    <div className="relative flex w-full grow flex-col gap-4 px-4 pb-[8%] pt-6 md:flex-row md:gap-16 md:px-0 md:pt-20">
+      <div className="relative aspect-[376/236] w-full md:aspect-[546/1157] md:w-1/4">
         <Image
           src={isMobile ? "/spiral_top.svg" : "/left_circles.svg"}
           blurDataURL={isMobile ? "/spiral_top.png" : "/left_circles.png"}
@@ -18,17 +18,17 @@ const ManifestoPage = () => {
           objectPosition="right"
         />
       </div>
-      <div className="relative w-full md:w-2/4 flex justify-center text-grey-moss-900">
-        <div className="w-fit relative">
-          <p className="font-archivo text-2xl md:text-5xl tracking-[-1px] relative z-[2] uppercase">
+      <div className="relative flex w-full justify-center text-grey-moss-900 md:w-2/4">
+        <div className="relative w-fit">
+          <p className="relative z-[2] font-archivo text-2xl uppercase tracking-[-1px] md:text-5xl">
             <strong>IN PROCESS: A MANIFESTO</strong>
           </p>
-          <p className="font-spectral-italic pt-6 relative z-[2] uppercase">
+          <p className="relative z-[2] pt-6 font-spectral-italic uppercase">
             <em>
               <strong>THE TIMELINE WAS NEVER THEIRS. IT WAS ALWAYS OURS.</strong>
             </em>
           </p>
-          <div className="font-spectral text-[11px] md:text-[16px] tracking-[-1px] pt-4 relative z-[2] whitespace-pre-line normal-case">
+          <div className="relative z-[2] whitespace-pre-line pt-4 font-spectral text-[11px] normal-case tracking-[-1px] md:text-[16px]">
             {`They told us the artist needed the platform.
 Like we were guests at a table built from our own bones.
 Like visibility was a favor, not a debt.
@@ -77,15 +77,12 @@ Where every sketch, verse, sound, and glitch is a timestamp in culture.
 Here, we own the timeline.
 Here, we document in real time, onchain, on our terms.`}
           </div>
-          <p className="font-spectral-bold pt-4 text-xl uppercase">
+          <p className="pt-4 font-spectral-bold text-xl uppercase">
             <em>
               <strong>ALWAYS IN PROCESS.</strong>
             </em>
           </p>
-          <div
-            className="md:absolute md:bottom-0 md:translate-x-0 md:translate-y-3/4 md:right-0
-          relative translate-x-1/2 -translate-y-1/3"
-          >
+          <div className="relative -translate-y-1/3 translate-x-1/2 md:absolute md:bottom-0 md:right-0 md:translate-x-0 md:translate-y-3/4">
             <Image
               src="/signature.svg"
               blurDataURL="/signature.png"
@@ -96,7 +93,7 @@ Here, we document in real time, onchain, on our terms.`}
           </div>
         </div>
       </div>
-      <div className="w-full md:w-1/4 aspect-[376/236] md:aspect-[546/1157] relative">
+      <div className="relative aspect-[376/236] w-full md:aspect-[546/1157] md:w-1/4">
         <Image
           src={isMobile ? "/spiral_bottom.svg" : "/right_circles.svg"}
           blurDataURL={isMobile ? "/spiral_bottom.png" : "/right_circles.png"}

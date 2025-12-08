@@ -19,12 +19,12 @@ const TokenOverview = () => {
     : "w-fit pt-4 flex flex-col items-center gap-2 md:flex-row";
 
   return (
-    <div className="w-full pt-8 px-4 md:px-10">
-      <div className="flex gap-2 text-lg font-archivo items-center cursor-pointer">
+    <div className="w-full px-4 pt-8 md:px-10">
+      <div className="flex cursor-pointer items-center gap-2 font-archivo text-lg">
         <button
           type="button"
           onClick={() => push("/manage/moments")}
-          className="px-2 py-1 rounded-md hover:text-grey-moss-100 hover:text-grey-eggshell hover:bg-black"
+          className="rounded-md px-2 py-1 hover:bg-black hover:text-grey-eggshell hover:text-grey-moss-100"
         >
           collections
         </button>
@@ -36,17 +36,17 @@ const TokenOverview = () => {
               `/manage/${networkConfigByChain[collection.chain_id].zoraCollectPathChainName}:${collection.address}`
             )
           }
-          className="px-2 py-1 rounded-md hover:text-grey-eggshell hover:bg-black"
+          className="rounded-md px-2 py-1 hover:bg-black hover:text-grey-eggshell"
         >
           {isLoading ? <Skeleton className="w-12 h-4 rounded-sm" /> : collection.metadata?.name}
         </button>
         /
-        <p className="px-2 py-1 rounded-md hover:text-grey-eggshell hover:bg-black">
-          {isLoading ? <Skeleton className="w-12 h-4 rounded-sm" /> : metadata?.name}
+        <p className="rounded-md px-2 py-1 hover:bg-black hover:text-grey-eggshell">
+          {isLoading ? <Skeleton className="h-4 w-12 rounded-sm" /> : metadata?.name}
         </p>
       </div>
       <div className={containerClassName}>
-        <div className="w-full md:w-fit md:max-w-[200px] aspect-[1/1] relative">
+        <div className="relative aspect-[1/1] w-full md:w-fit md:max-w-[200px]">
           {isLoading ? <Skeleton className="size-full" /> : <ContentRenderer metadata={metadata} />}
         </div>
         <div className="space-y-2">

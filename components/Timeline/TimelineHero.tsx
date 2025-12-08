@@ -4,19 +4,19 @@ import CreateButton from "@/components/Timeline/CreateButton";
 
 const TimelineHero = () => {
   return (
-    <div className="pt-12 pb-6 md:pt-16 md:pb-8 lg:pt-20 lg:pb-12 md:flex md:justify-between md:items-start md:gap-8 lg:gap-12">
+    <div className="pb-6 pt-12 md:flex md:items-start md:justify-between md:gap-8 md:pb-8 md:pt-16 lg:gap-12 lg:pb-12 lg:pt-20">
       {/* Description Text - Centered on mobile, left on desktop */}
-      <div className="text-center md:text-left md:flex-1 md:max-w-2xl">
-        <h1 className="font-archivo text-2xl md:text-4xl lg:text-5xl tracking-[-1px] text-black leading-tight">
+      <div className="text-center md:max-w-2xl md:flex-1 md:text-left">
+        <h1 className="font-archivo text-2xl leading-tight tracking-[-1px] text-black md:text-4xl lg:text-5xl">
           a collective timeline
         </h1>
-        <p className="font-spectral-italic text-2xl md:text-4xl lg:text-5xl tracking-[-1px] text-black mt-1 md:mt-2 leading-tight">
+        <p className="mt-1 font-spectral-italic text-2xl leading-tight tracking-[-1px] text-black md:mt-2 md:text-4xl lg:text-5xl">
           for artists
         </p>
       </div>
 
       {/* Desktop: Moments Count + Create Button (Right side) */}
-      <div className="hidden md:flex flex-col items-end md:flex-shrink-0 md:min-w-fit">
+      <div className="hidden flex-col items-end md:flex md:min-w-fit md:flex-shrink-0">
         <MomentCount />
         <div className="mt-2 md:mt-3">
           <CreateButton />

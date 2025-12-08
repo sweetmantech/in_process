@@ -8,11 +8,11 @@ interface SocialProps {
 const Social = ({ link, icon }: SocialProps) => {
   return (
     <button
-      className="flex gap-2 items-center"
+      className="flex items-center gap-2"
       type="button"
       onClick={() => window.open(link, "_blank")}
     >
-      <div className="flex size-7 md:size-9 bg-grey-primary flex items-center justify-center rounded-md">
+      <div className="flex size-7 items-center justify-center rounded-md bg-grey-primary md:size-9">
         {icon}
       </div>
     </button>

@@ -24,13 +24,13 @@ const CarouselItem = ({ metadata }: CarouselItemProps) => {
   }
   if (mimeType.includes("video"))
     return (
-      <div className="size-full flex justify-center">
+      <div className="flex size-full justify-center">
         <VideoPlayer url={getFetchableUrl(metadata.animation_url) || ""} />
       </div>
     );
   if (mimeType.includes("html"))
     return (
-      <div className="size-full flex justify-center">
+      <div className="flex size-full justify-center">
         <iframe src={getFetchableUrl(metadata.animation_url) || ""} className="w-full" />
       </div>
     );
@@ -44,7 +44,7 @@ const CarouselItem = ({ metadata }: CarouselItemProps) => {
       </div>
     );
   return (
-    <div className="grow relative size-full">
+    <div className="relative size-full grow">
       {/* eslint-disable-next-line */}
       <img
         src={getFetchableUrl(metadata.image) || "/images/placeholder.png"}

@@ -10,21 +10,21 @@ const EmbedPage = () => {
 
   if (createdContract)
     return (
-      <div className="size-full rounded-2xl overflow-hidden h-fit">
+      <div className="size-full h-fit overflow-hidden rounded-2xl">
         <div
           dangerouslySetInnerHTML={{
             __html: embedCode,
           }}
         />
-        <div className="text-center py-4 bg-white">
+        <div className="bg-white py-4 text-center">
           <p className="font-spectral-italic">{name}</p>
         </div>
       </div>
     );
   return (
-    <div className="size-full p-2 flex flex-col items-center">
-      <div className="relative flex flex-col w-full grow overflow-hidden">
-        <div className="relative z-[4] bg-white grow flex flex-col gap-4 py-4 px-2 md:px-8 overflow-hidden rounded-2xl">
+    <div className="flex size-full flex-col items-center p-2">
+      <div className="relative flex w-full grow flex-col overflow-hidden">
+        <div className="relative z-[4] flex grow flex-col gap-4 overflow-hidden rounded-2xl bg-white px-2 py-4 md:px-8">
           <div className="flex flex-col items-center">
             <Image
               src={"/flower.svg"}
@@ -34,10 +34,10 @@ const EmbedPage = () => {
               height={66}
               className="block md:hidden"
             />
-            <p className="font-archivo-medium text-center">paste embed code</p>
+            <p className="text-center font-archivo-medium">paste embed code</p>
           </div>
           <textarea
-            className="bg-grey-moss-50 w-full grow !outline-none !ring-0 p-2 font-spectral"
+            className="w-full grow bg-grey-moss-50 p-2 font-spectral !outline-none !ring-0"
             value={embedCode}
             onChange={(e) => setEmbedCode(e.target.value)}
           />
@@ -52,7 +52,7 @@ const EmbedPage = () => {
             />
           )}
           {!isHtml(embedCode) && embedCode && (
-            <div className="self-center w-[46px] aspect-[1/1] border-[2px] border-red-dark rounded-full flex items-center justify-center">
+            <div className="flex aspect-[1/1] w-[46px] items-center justify-center self-center rounded-full border-[2px] border-red-dark">
               <X className="size-7 text-red-dark" />
             </div>
           )}

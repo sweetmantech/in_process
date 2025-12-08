@@ -47,9 +47,9 @@ export default function OnboardingModal({ isOpen, onClose }: OnboardingModalProp
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-[#FEFEFE] bg-opacity-80 flex items-center justify-center z-50">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#FEFEFE] bg-opacity-80">
       <div
-        className={`bg-white p-8 max-w-[574px] h-[450px] w-full m-4 relative shadow-[rgba(27,21,4,0.09)_-1px_4px_64px_16px]`}
+        className={`relative m-4 h-[450px] w-full max-w-[574px] bg-white p-8 shadow-[rgba(27,21,4,0.09)_-1px_4px_64px_16px]`}
         onClick={handleAdvance}
       >
         <button onClick={onClose} className="absolute right-4 top-4 p-1">
@@ -70,11 +70,11 @@ export default function OnboardingModal({ isOpen, onClose }: OnboardingModalProp
           currentSlide={currentSlide}
         />
 
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex justify-center gap-3">
+        <div className="absolute bottom-8 left-1/2 flex -translate-x-1/2 transform justify-center gap-3">
           {isLastSlide ? (
             <Button
               onClick={handleAdvance}
-              className="px-16 py-2 h-12 text-md bg-grey-moss-900 hover:bg-grey-moss-300 text-[#FFF9EA] text-[22px] font-normal rounded-sm"
+              className="text-md h-12 rounded-sm bg-grey-moss-900 px-16 py-2 text-[22px] font-normal text-[#FFF9EA] hover:bg-grey-moss-300"
             >
               start
             </Button>

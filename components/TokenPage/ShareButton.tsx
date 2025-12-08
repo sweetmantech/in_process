@@ -12,7 +12,7 @@ const ShareButton = () => {
           <button
             type="button"
             onClick={share}
-            className="border border-grey-moss-900 bg-white p-1 rounded-sm"
+            className="rounded-sm border border-grey-moss-900 bg-white p-1"
             aria-label="Share moment"
           >
             <Share2Icon className="size-4 text-grey-moss-900" />

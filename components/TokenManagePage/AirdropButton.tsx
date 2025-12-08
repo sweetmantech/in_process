@@ -20,7 +20,7 @@ const AirdropButton = () => {
         loading ||
         !canAirdrop
       }
-      className="mt-4 bg-black text-white font-archivo px-3 py-1 rounded-md w-fit disabled:bg-grey-moss-300 disabled:cursor-not-allowed"
+      className="mt-4 w-fit rounded-md bg-black px-3 py-1 font-archivo text-white disabled:cursor-not-allowed disabled:bg-grey-moss-300"
       onClick={onAirdrop}
     >
       {loading ? "Loading..." : "Airdrop"}

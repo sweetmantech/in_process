@@ -13,8 +13,7 @@ const BgNoiseWrapper: React.FC<BackgroundWrapperProps> = ({ children }) => {
   return (
     <div className="relative w-full overflow-hidden">
       <div
-        className={`pointer-events-none absolute size-full overflow-hidden
-        ${loaded ? "bg-tan" : "bg-none"}`}
+        className={`pointer-events-none absolute size-full overflow-hidden ${loaded ? "bg-tan" : "bg-none"}`}
       >
         <Image
           src="/noise.png"

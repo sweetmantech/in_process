@@ -9,7 +9,7 @@ export async function GET(req: NextRequest) {
   const limit = Math.min(Number(searchParams.get("limit")) || 100, 100);
   const page = Number(searchParams.get("page")) || 1;
   const collection = searchParams.get("collection") || undefined;
-  const artist = searchParams.get("artist") || undefined; // API doc uses "address" parameter
+  const artist = searchParams.get("artist") || undefined;
   const chainIdParam = searchParams.get("chain_id");
   const chainId = chainIdParam ? Number(chainIdParam) : CHAIN_ID;
   const hiddenParam = searchParams.get("hidden");

@@ -6,13 +6,13 @@ const LinkInput = () => {
   const { link, setLink } = useMomentFormProvider();
 
   return (
-    <div className="mt-4 flex bg-grey-moss-50 border border-grey-moss-100 items-center px-4">
+    <div className="mt-4 flex items-center border border-grey-moss-100 bg-grey-moss-50 px-4">
       <LinkIcon />
       <Input
         id="link"
         value={link}
         onChange={(e) => setLink(e.target.value)}
-        className="text-center !border-none py-4 !bg-transparent !font-spectral !text-md !ring-0 !ring-offset-0 !outline-none !text-grey-moss-900 disabled:text-grey-moss-400"
+        className="!text-md !border-none !bg-transparent py-4 text-center !font-spectral !text-grey-moss-900 !outline-none !ring-0 !ring-offset-0 disabled:text-grey-moss-400"
       />
     </div>
   );

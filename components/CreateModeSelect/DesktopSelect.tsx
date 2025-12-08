@@ -15,7 +15,7 @@ const DesktopSelect = () => {
   const isEmbedPage = pathname === "/create/embed";
   const urlQuery = urlParams ? `?${urlParams}` : "";
   return (
-    <div className="w-full lg:max-w-[250px] xl:max-w-[300px] h-fit">
+    <div className="h-fit w-full lg:max-w-[250px] xl:max-w-[300px]">
       <div ref={titleRef} className="flex flex-col gap-3 pb-3">
         <CTAButton isActive={isCreatePage} onClick={() => push(`${baseRoute}${urlQuery}`)}>
           new moment

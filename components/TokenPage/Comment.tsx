@@ -9,14 +9,14 @@ export const Comment = (comment: MintComment) => {
   const truncatedAddress = truncateAddress(sender);
 
   return (
-    <div className="rounded flex items-end justify-between">
+    <div className="flex items-end justify-between rounded">
       <div>
-        <p className="text-base font-spectral tracking-[-1px]">{commentText}</p>
-        <p className="text-base font-archivo-medium">
+        <p className="font-spectral text-base tracking-[-1px]">{commentText}</p>
+        <p className="font-archivo-medium text-base">
           {username || data?.username || truncatedAddress}
         </p>
       </div>
-      <p className="text-sm font-archivo lowercase">{new Date(timestamp).toLocaleString()}</p>
+      <p className="font-archivo text-sm lowercase">{new Date(timestamp).toLocaleString()}</p>
     </div>
   );
 };

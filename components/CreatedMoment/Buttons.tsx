@@ -25,8 +25,8 @@ const Buttons = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row gap-4 md:gap-2 pr-4 pt-4 relative">
-      <div className="hidden md:block absolute w-1/2 aspect-[1/1] -right-10 bottom-0">
+    <div className="relative flex flex-col gap-4 pr-4 pt-4 md:flex-row md:gap-2">
+      <div className="absolute -right-10 bottom-0 hidden aspect-[1/1] w-1/2 md:block">
         <Image
           src="/semi-transparent.png"
           alt="not found semi"
@@ -37,14 +37,14 @@ const Buttons = () => {
       </div>
       <button
         type="button"
-        className="w-full py-2 bg-grey-moss-900 hover:bg-grey-moss-300 font-archivo text-grey-eggshell rounded-sm relative text-2xl"
+        className="relative w-full rounded-sm bg-grey-moss-900 py-2 font-archivo text-2xl text-grey-eggshell hover:bg-grey-moss-300"
         onClick={toggle}
       >
         create
       </button>
       <button
         type="button"
-        className="w-full py-2 font-archivo bg-grey-moss-100 hover:bg-grey-moss-300 hover:text-grey-eggshell hover:border-grey-moss-300 text-grey-moss-900 border border-grey-moss-900 rounded-sm relative text-2xl"
+        className="relative w-full rounded-sm border border-grey-moss-900 bg-grey-moss-100 py-2 font-archivo text-2xl text-grey-moss-900 hover:border-grey-moss-300 hover:bg-grey-moss-300 hover:text-grey-eggshell"
         onClick={share}
       >
         share

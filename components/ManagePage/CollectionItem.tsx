@@ -23,10 +23,10 @@ const CollectionItem = ({ c }: { c: TimelineMoment }) => {
     return (
       <button
         type="button"
-        className="col-span-1 w-full bg-grey-moss-300 rounded-lg overflow-hidden"
+        className="col-span-1 w-full overflow-hidden rounded-lg bg-grey-moss-300"
         onClick={handleClick}
       >
-        <div className="w-full aspect-video overflow-hidden relative">
+        <div className="relative aspect-video w-full overflow-hidden">
           <div className="absolute bottom-2 right-2 z-20">
             <HideButton moment={c} />
           </div>
@@ -41,8 +41,8 @@ const CollectionItem = ({ c }: { c: TimelineMoment }) => {
           />
         </div>
         <div className="px-4 py-2">
-          <p className="font-archivo text-white text-left">{truncated(data?.name, 30)}</p>
-          <p className="font-archivo text-white text-left">{truncateAddress(c.address)}</p>
+          <p className="text-left font-archivo text-white">{truncated(data?.name, 30)}</p>
+          <p className="text-left font-archivo text-white">{truncateAddress(c.address)}</p>
         </div>
       </button>
     );

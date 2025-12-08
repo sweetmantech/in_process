@@ -7,7 +7,7 @@ const Advanced = () => {
   const [isCustom, setIsCustom] = useState<boolean>(false);
 
   return (
-    <div className="w-full flex flex-col gap-2 pt-4">
+    <div className="flex w-full flex-col gap-2 pt-4">
       {isCustom && (
         <input
           type="number"
@@ -33,13 +33,12 @@ const Advanced = () => {
           className="w-full border border-grey p-2 font-spectral !outline-none"
         />
       )}
-      <div className="grid grid-cols-5 divide-x-[1px] divide-solid divide-grey-moss-200 rounded-md overflow-hidden border border-grey-moss-200">
+      <div className="grid grid-cols-5 divide-x-[1px] divide-solid divide-grey-moss-200 overflow-hidden rounded-md border border-grey-moss-200">
         {[1, 33, 55, 111, undefined].map((count, index) => (
           <button
             type="button"
             className={cn(
-              `p-2 md:px-6 font-spectral text-md md:text-xl bg-grey-moss-100 text-grey-moss-900
-              hover:text-grey-eggshell hover:bg-grey-moss-900`,
+              `text-md bg-grey-moss-100 p-2 font-spectral text-grey-moss-900 hover:bg-grey-moss-900 hover:text-grey-eggshell md:px-6 md:text-xl`,
               count === amountToCollect ? "bg-grey-moss-900 text-grey-eggshell" : ""
             )}
             onClick={() => {
@@ -57,7 +56,7 @@ const Advanced = () => {
           </button>
         ))}
       </div>
-      <p className="text-center font-spectral-italic text-md md:text-xl">
+      <p className="text-md text-center font-spectral-italic md:text-xl">
         choose the amount you want to collect
       </p>
     </div>

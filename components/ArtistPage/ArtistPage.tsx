@@ -19,13 +19,13 @@ const ArtistPage = () => {
 
   return (
     <ProfileProvider address={artistAddress as Address}>
-      <div className="overflow-hidden w-screen grow flex flex-col pb-20 pt-6 md:pt-10 relative min-h-[450px] md:min-h-[550px]">
-        <div className="relative flex justify-between px-2 md:px-10 items-start pb-2">
+      <div className="relative flex min-h-[450px] w-screen grow flex-col overflow-hidden pb-20 pt-6 md:min-h-[550px] md:pt-10">
+        <div className="relative flex items-start justify-between px-2 pb-2 md:px-10">
           {isMobile ? <MobileProfile /> : <DesktopProfile />}
           <AltToggle alt={alt} setAlt={setAlt} />
         </div>
         <div
-          className={`grow flex flex-col px-2 md:px-0 ${alt === "timeline" && "md:pt-20 md:px-10"}`}
+          className={`flex grow flex-col px-2 md:px-0 ${alt === "timeline" && "md:px-10 md:pt-20"}`}
         >
           <TimelineProvider artistAddress={address}>
             <ArtistTimeline alt={alt} />

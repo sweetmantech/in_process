@@ -9,13 +9,13 @@ const LinkPreview = () => {
 
   return (
     <div
-      className={`bg-white rounded-2xl overflow-hidden ${createdContract ? "" : "m-4 py-6 px-4"}`}
+      className={`overflow-hidden rounded-2xl bg-white ${createdContract ? "" : "m-4 px-4 py-6"}`}
     >
       {createdContract ? (
         <>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={previewFileUrl} alt="not found image" />
-          <div className="text-center py-4">
+          <div className="py-4 text-center">
             <a
               className="font-spectral-italic hover:text-grey-moss-400"
               href={link}
@@ -27,7 +27,7 @@ const LinkPreview = () => {
         </>
       ) : (
         <>
-          <div className="flex flex-col md:flex-row items-center gap-2 pb-2">
+          <div className="flex flex-col items-center gap-2 pb-2 md:flex-row">
             <Image
               src="/link.svg"
               blurDataURL="/link.png"

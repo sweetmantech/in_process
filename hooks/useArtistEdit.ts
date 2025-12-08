@@ -9,10 +9,10 @@ const useArtistEdit = (
   artistAddress: Address | undefined
 ) => {
   const { setSaving, username, bio, instagram, telegram, twitter, farcaster } = artistProfile;
-  const usernameRef = useRef() as any;
-  const bioRef = useRef() as any;
-  const statusRef = useRef() as any;
-  const socialRef = useRef() as any;
+  const usernameRef = useRef(null) as any;
+  const bioRef = useRef(null) as any;
+  const statusRef = useRef(null) as any;
+  const socialRef = useRef(null) as any;
 
   const searchParams = useSearchParams();
   const [isEditing, setIsEditing] = useState<boolean>(false);

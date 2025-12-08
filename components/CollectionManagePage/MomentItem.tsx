@@ -24,12 +24,12 @@ const MomentItem = ({ m }: { m: TimelineMoment }) => {
   };
 
   return (
-    <section className="col-span-1 aspect-[1/1] flex flex-col cursor-pointer" onClick={handleClick}>
+    <section className="col-span-1 flex aspect-[1/1] cursor-pointer flex-col" onClick={handleClick}>
       {isLoading ? (
         <Skeleton className="size-full" />
       ) : (
         <>
-          <div className="relative grow bg-grey-moss-100 overflow-hidden">
+          <div className="relative grow overflow-hidden bg-grey-moss-100">
             <Image
               src={getFetchableUrl(data?.image) || "/images/placeholder.png"}
               alt="not found img"
@@ -40,7 +40,7 @@ const MomentItem = ({ m }: { m: TimelineMoment }) => {
               objectPosition="center center"
             />
           </div>
-          <div className="py-2 flex gap-6 justify-between items-center">
+          <div className="flex items-center justify-between gap-6 py-2">
             <p className="font-archivo text-grey-moss-900">{data?.name}</p>
             <p className="font-archivo text-sm text-grey-moss-900 bg-grey-moss-100 rounded-md px-2">
               id: {m.token_id}

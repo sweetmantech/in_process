@@ -11,8 +11,8 @@ const Airdrop = () => {
 
   return (
     <div className="w-full">
-      <div className="pt-4 w-full flex flex-col gap-2 bg-white max-w-xl rounded-2xl mt-4 p-4 min-h-[400px]">
-        <div className="flex w-full h-fit flex-wrap gap-2 items-start overflow-hidden">
+      <div className="mt-4 flex min-h-[400px] w-full max-w-xl flex-col gap-2 rounded-2xl bg-white p-4 pt-4">
+        <div className="flex h-fit w-full flex-wrap items-start gap-2 overflow-hidden">
           {airdopToItems.map((item: AirdropItem, i) => (
             <AirdropBadge item={item} i={i} key={item.address} />
           ))}

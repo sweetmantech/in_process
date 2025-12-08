@@ -19,12 +19,12 @@ const SignToInProcess = () => {
     login();
   };
   return (
-    <div className="w-screen flex flex-col items-center pt-20 gap-6">
+    <div className="flex w-screen flex-col items-center gap-6 pt-20">
       <p className="font-archivo text-4xl">{`It's time to log into In Process`}</p>
       <button
         type="button"
         onClick={handleSign}
-        className="bg-black text-white font-archivo text-xl min-w-[200px] rounded-md py-2"
+        className="min-w-[200px] rounded-md bg-black py-2 font-archivo text-xl text-white"
       >
         sign in
       </button>

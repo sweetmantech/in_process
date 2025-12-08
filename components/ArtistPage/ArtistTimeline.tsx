@@ -16,11 +16,11 @@ const ArtistTimeline = ({ alt }: ArtistTimelineProps) => {
   const { moments, isLoading, fetchMore } = useTimelineProvider();
   const reversedMoments = [...moments].reverse();
 
-  if (!Boolean(reversedMoments.length))
+  if (!reversedMoments.length)
     return (
-      <div className="grow flex items-center justify-center">
+      <div className="flex grow items-center justify-center">
         {isLoading ? (
-          <Loading className="w-[180px] aspect-[1/1] md:w-[300px]" />
+          <Loading className="aspect-[1/1] w-[180px] md:w-[300px]" />
         ) : (
           <p className="font-archivo text-lg md:text-5xl">No moments yet!</p>
         )}

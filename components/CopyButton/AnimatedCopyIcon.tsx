@@ -7,7 +7,7 @@ interface AnimatedCopyIconProps {
 
 const AnimatedCopyIcon = ({ isCopied }: AnimatedCopyIconProps) => {
   return (
-    <div className="relative w-4 h-4">
+    <div className="relative h-4 w-4">
       <AnimatePresence mode="wait">
         {isCopied ? (
           <motion.div

@@ -16,13 +16,13 @@ const Description = ({ description, truncateLength = 150 }: DescriptionProps) =>
 
   return (
     <div className="mt-3 md:mt-4">
-      <p className="font-archivo text-sm md:text-base text-grey-moss-300 leading-relaxed whitespace-pre-wrap">
+      <p className="whitespace-pre-wrap font-archivo text-sm leading-relaxed text-grey-moss-300 md:text-base">
         {displayText}
       </p>
       {shouldTruncate && (
         <button
           onClick={() => setIsExpanded(!isExpanded)}
-          className="mt-2 text-xs md:text-sm font-archivo text-grey-moss-900 hover:text-black transition-colors underline"
+          className="mt-2 font-archivo text-xs text-grey-moss-900 underline transition-colors hover:text-black md:text-sm"
         >
           {isExpanded ? "Read less" : "Read more"}
         </button>

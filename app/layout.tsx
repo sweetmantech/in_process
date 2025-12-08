@@ -1,9 +1,10 @@
 import "./globals.css";
-import { Providers } from "@/providers/Providers";
 import { Toaster } from "@/components/ui/sonner";
 import { Suspense } from "react";
-import Layout from "@/components/Layout";
 import { Analytics } from "@vercel/analytics/react";
+import ClientProviders from "@/components/ClientProviders";
+
+export const dynamic = "force-dynamic";
 
 export default function RootLayout({
   children,
@@ -12,11 +13,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="bg-grey-moss-100">
-      <body className="min-h-screen flex flex-col !overflow-x-hidden w-screen !lowercase">
+      <body className="flex min-h-screen w-screen flex-col !overflow-x-hidden !lowercase">
         <Suspense>
-          <Providers>
-            <Layout>{children}</Layout>
-          </Providers>
+          <ClientProviders>{children}</ClientProviders>
           <Toaster />
         </Suspense>
         <Analytics />

@@ -15,25 +15,25 @@ const FaqPage = () => {
   } = faqSections;
 
   return (
-    <div className="relative pt-8 md:pt-16 flex justify-center grow w-full px-2  md:px-6">
-      <div className="w-full max-w-full md:mx-20 px-4 md:px-20">
+    <div className="relative flex w-full grow justify-center px-2 pt-8 md:px-6 md:pt-16">
+      <div className="w-full max-w-full px-4 md:mx-20 md:px-20">
         <FaqHeader />
 
         <FaqSection faqData={faqData} />
 
-        <div className="mt-14 md:mt-18 px-1 md:px-2">
+        <div className="md:mt-18 mt-14 px-1 md:px-2">
           <ImageGallery images={faqImageGalleries.timelineExamples} />
         </div>
 
-        <div className="mt-14 md:mt-18">
+        <div className="md:mt-18 mt-14">
           <FaqSection faqData={additionalFaqData} />
         </div>
 
-        <div className="mt-14 md:mt-18 px-1 md:px-2">
+        <div className="md:mt-18 mt-14 px-1 md:px-2">
           <ImageGallery images={faqImageGalleries.contentTypes} />
         </div>
 
-        <div className="mt-14 md:mt-18">
+        <div className="md:mt-18 mt-14">
           <FaqSection faqData={finalFaqData} />
         </div>
 
@@ -44,21 +44,21 @@ const FaqPage = () => {
           />
         </div>
 
-        <div className="mt-8 md:mt-12 px-1 md:px-2">
+        <div className="mt-8 px-1 md:mt-12 md:px-2">
           <ImageGallery
             images={faqImageGalleries.gettingStarted.slice(2, 4)}
             captionClassName="font-spectral lowercase text-left font-medium tracking-tight text-[#1B1504] text-[14px] md:text-[20px] ml-6 md:ml-4"
           />
         </div>
 
-        <div className="mt-8 md:mt-12 px-1 md:px-2">
+        <div className="mt-8 px-1 md:mt-12 md:px-2">
           <ImageGallery
             images={faqImageGalleries.gettingStarted.slice(4, 6)}
             captionClassName="font-spectral lowercase text-left font-medium tracking-tight text-[#1B1504] text-[14px] md:text-[20px] ml-6 md:ml-4"
           />
         </div>
 
-        <div className="mt-14 md:mt-18">
+        <div className="md:mt-18 mt-14">
           <FaqSection faqData={communityFaqData} />
         </div>
       </div>

@@ -13,19 +13,19 @@ interface FeedTooltipProps {
 
 export const FeedTooltip: React.FC<FeedTooltipProps> = ({ feed, position, isVisible }) => {
   if (!isVisible || !position || !feed) return null;
-  // eslint-disable-next-line
+
   const { isLoading, data } = useMetadata(feed.uri);
 
   return (
     <div
-      className="absolute border-[1px] border-grey-moss-900 z-50 bg-white transform -translate-y-full -translate-x-full pointer-events-none"
+      className="pointer-events-none absolute z-50 -translate-x-full -translate-y-full transform border-[1px] border-grey-moss-900 bg-white"
       style={{
         left: `${position.x - 150}px`,
         top: `${position.y - 50}px`,
         visibility: isVisible ? "visible" : "hidden",
       }}
     >
-      <div className="w-[200px] aspect-[1/1] relative bg-grey-moss-100">
+      <div className="relative aspect-[1/1] w-[200px] bg-grey-moss-100">
         {isLoading ? (
           <Loading className="size-full" />
         ) : (

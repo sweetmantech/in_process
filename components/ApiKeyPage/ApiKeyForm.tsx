@@ -30,8 +30,8 @@ export function ApiKeyForm() {
   return (
     <div className="space-y-4">
       {apiKeys.length >= 5 && (
-        <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-          <p className="text-red-800 text-sm font-archivo-medium">
+        <div className="rounded-lg border border-red-200 bg-red-50 p-4">
+          <p className="font-archivo-medium text-sm text-red-800">
             Maximum 5 API keys reached. Please delete an existing key to create a new one.
           </p>
         </div>
@@ -51,14 +51,14 @@ export function ApiKeyForm() {
             className="mt-1"
             disabled={isCreating || apiKeys.length >= 5}
           />
-          <p className="text-xs font-spectral-italic text-grey-secondary mt-1">
+          <p className="mt-1 font-spectral-italic text-xs text-grey-secondary">
             Choose a descriptive name to identify this API key
           </p>
         </div>
 
         <Button
           type="submit"
-          className="w-full px-4 py-2 rounded-md flex items-center gap-2 bg-grey-moss-900 font-archivo text-grey-eggshell hover:bg-grey-eggshell hover:text-grey-moss-900 disabled:bg-grey-moss-300 disabled:cursor-not-allowed"
+          className="flex w-full items-center gap-2 rounded-md bg-grey-moss-900 px-4 py-2 font-archivo text-grey-eggshell hover:bg-grey-eggshell hover:text-grey-moss-900 disabled:cursor-not-allowed disabled:bg-grey-moss-300"
           disabled={isCreating || !keyName.trim() || apiKeys.length >= 5}
         >
           {isCreating ? (

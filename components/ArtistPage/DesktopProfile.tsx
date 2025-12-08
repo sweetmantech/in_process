@@ -24,24 +24,24 @@ const DesktopProfile = () => {
     <Fragment>
       {isEditing && <EditingStatus />}
       <div className="relative">
-        <div className="flex gap-3 md:gap-4 items-center">
+        <div className="flex items-center gap-3 md:gap-4">
           {isEditing ? (
             <input
               type="text"
               ref={usernameRef}
               value={username}
               onChange={(e) => setUserName(e.target.value)}
-              className="max-w-[120px] md:!max-w-[200px] text-xl md:text-4xl p-1 md:p-3 bg-grey-moss-50 outline-none ring-0 font-archivo-medium"
+              className="max-w-[120px] bg-grey-moss-50 p-1 font-archivo-medium text-xl outline-none ring-0 md:!max-w-[200px] md:p-3 md:text-4xl"
             />
           ) : (
-            <p className="text-xl md:text-5xl font-archivo-medium tracking-[-1px]">
-              {isLoading ? <Skeleton className="w-[150px] h-12" /> : username}
+            <p className="font-archivo-medium text-xl tracking-[-1px] md:text-5xl">
+              {isLoading ? <Skeleton className="h-12 w-[150px]" /> : username}
             </p>
           )}
           {isEditable && !isEditing && (
             <button
               type="button"
-              className="border border-grey-moss-900 rounded-xs p-1 bg-grey-moss-200"
+              className="rounded-xs border border-grey-moss-900 bg-grey-moss-200 p-1"
               onClick={toggleEditing}
             >
               <EditIcon width={20} height={20} />
@@ -54,11 +54,11 @@ const DesktopProfile = () => {
             ref={bioRef}
             value={bio}
             onChange={(e) => setBio(e.target.value)}
-            className="max-w-[150px] md:max-w-auto md:min-w-[250px] outline-none ring-0 p-1 md:p-2 font-spectral text-lg md:text-xl mt-2 md:mt-4 bg-grey-moss-50"
+            className="md:max-w-auto mt-2 max-w-[150px] bg-grey-moss-50 p-1 font-spectral text-lg outline-none ring-0 md:mt-4 md:min-w-[250px] md:p-2 md:text-xl"
           />
         ) : (
-          <p className="text-lg md:text-xl font-spectral pt-2">
-            {isLoading ? <Skeleton className="w-[200px] h-8" /> : bio}
+          <p className="pt-2 font-spectral text-lg md:text-xl">
+            {isLoading ? <Skeleton className="h-8 w-[200px]" /> : bio}
           </p>
         )}
         <SocialAccounts />

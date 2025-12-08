@@ -70,14 +70,14 @@ export function ApiKeyModal({ isOpen, onClose, apiKey }: ApiKeyModalProps) {
             </div>
           </div>
 
-          <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
+          <div className="rounded-lg border border-amber-200 bg-amber-50 p-4">
             <div className="flex items-start gap-3">
-              <AlertTriangle className="h-5 w-5 text-amber-600 mt-0.5 flex-shrink-0" />
+              <AlertTriangle className="mt-0.5 h-5 w-5 flex-shrink-0 text-amber-600" />
               <div>
-                <p className="font-archivo-medium text-amber-800 text-sm">
+                <p className="font-archivo-medium text-sm text-amber-800">
                   Important Security Notice
                 </p>
-                <p className="font-spectral text-amber-700 text-sm mt-1">
+                <p className="mt-1 font-spectral text-sm text-amber-700">
                   {`We don't store app secrets, so this is the only time you can copy it. If you lose
                     it, you'll need to reset it.`}
                 </p>
@@ -90,7 +90,7 @@ export function ApiKeyModal({ isOpen, onClose, apiKey }: ApiKeyModalProps) {
               type="button"
               variant="outline"
               onClick={onClose}
-              className="font-archivo bg-grey-moss-900 text-grey-eggshell hover:bg-grey-eggshell hover:text-grey-moss-900"
+              className="bg-grey-moss-900 font-archivo text-grey-eggshell hover:bg-grey-eggshell hover:text-grey-moss-900"
             >
               Confirm
             </Button>

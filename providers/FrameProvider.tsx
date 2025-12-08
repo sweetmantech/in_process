@@ -1,7 +1,7 @@
 "use client";
 
 import sdk, { type Context } from "@farcaster/frame-sdk";
-import React, { useState, useEffect, ReactNode, createContext, useContext, useMemo } from "react";
+import { useState, useEffect, ReactNode, createContext, useContext, useMemo } from "react";
 
 interface FrameContextType {
   context: Context.FrameContext | undefined;

@@ -53,50 +53,48 @@ export async function GET(req: NextRequest) {
   }
 
   return new ImageResponse(
-    (
+    <div
+      style={{
+        width: "100%",
+        height: "100%",
+        paddingTop: 48,
+        paddingBottom: 48,
+        paddingLeft: 32,
+        paddingRight: 32,
+        display: "flex",
+        justifyContent: "space-between",
+        background: `url('${VERCEL_OG}/bg-gray.png')`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      <ArtistInfo nickName={username} />
       <div
         style={{
-          width: "100%",
-          height: "100%",
-          paddingTop: 48,
-          paddingBottom: 48,
-          paddingLeft: 32,
-          paddingRight: 32,
           display: "flex",
-          justifyContent: "space-between",
-          background: `url('${VERCEL_OG}/bg-gray.png')`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
+          width: "65%",
+          height: "100%",
+          position: "relative",
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: "#E0DDD8",
+          overflow: "hidden",
+          borderRadius: 18,
         }}
       >
-        <ArtistInfo nickName={username} />
-        <div
-          style={{
-            display: "flex",
-            width: "65%",
-            height: "100%",
-            position: "relative",
-            alignItems: "center",
-            justifyContent: "center",
-            backgroundColor: "#E0DDD8",
-            overflow: "hidden",
-            borderRadius: 18,
-          }}
-        >
-          {metadata ? (
-            <>
-              {metadata.content.mime === "text/plain" ? (
-                <TokenWritingPreview writingText={writingText} totalLines={totalLines} />
-              ) : (
-                <TokenImagePreview imageMetadata={imageMetadata} />
-              )}
-            </>
-          ) : (
-            <NoMoments />
-          )}
-        </div>
+        {metadata ? (
+          <>
+            {metadata.content.mime === "text/plain" ? (
+              <TokenWritingPreview writingText={writingText} totalLines={totalLines} />
+            ) : (
+              <TokenImagePreview imageMetadata={imageMetadata} />
+            )}
+          </>
+        ) : (
+          <NoMoments />
+        )}
       </div>
-    ),
+    </div>,
     {
       width: OG_WIDTH,
       height: OG_HEIGHT,

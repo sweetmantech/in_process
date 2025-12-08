@@ -206,10 +206,10 @@ export const recoverCreatorFromCreatorAttribution = async ({
   // hash the eip712 domain based on the parameters emitted from the event:
   const hashedDomain = hashDomain({
     domain: {
-      chainId,
-      name: domainName,
+      chainId: BigInt(chainId),
+      name: domainName || "",
       verifyingContract: tokenContract,
-      version,
+      version: version || "",
     },
     types: {
       EIP712Domain: [

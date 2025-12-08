@@ -5,7 +5,7 @@ import CreatedMomentAirdrop from "./CreatedMomentAirdrop";
 
 const CreatedMoment = () => {
   return (
-    <div className="w-full h-fit">
+    <div className="h-fit w-full">
       <MomentCreatedHeader />
       <CreatedMomentAirdrop />
     </div>
