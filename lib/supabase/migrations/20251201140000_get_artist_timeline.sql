@@ -23,9 +23,6 @@ BEGIN
       m.id
     FROM in_process_moments m
     INNER JOIN in_process_collections c ON m.collection = c.id
-    LEFT JOIN in_process_admins da_admin ON m.collection = da_admin.collection 
-      AND (da_admin.token_id = m.token_id OR da_admin.token_id = 0)
-      AND da_admin.artist_address = c.default_admin
     WHERE
       (p_chainid IS NULL OR c.chain_id = p_chainid)
       AND (
@@ -34,7 +31,17 @@ BEGIN
         (
           (p_type IS NULL OR p_type = 'default') 
           AND c.default_admin = LOWER(p_artist)
-          AND (p_hidden = true OR COALESCE(da_admin.hidden, false) = false)
+          AND (
+            p_hidden = true OR 
+            COALESCE(
+              (SELECT hidden FROM in_process_admins 
+               WHERE collection = m.collection 
+                 AND token_id = m.token_id 
+                 AND artist_address = c.default_admin 
+               LIMIT 1),
+              false
+            ) = false
+          )
         )
         OR
         -- Mutual case: artist is NOT the default admin but IS in the admins list
@@ -68,14 +75,19 @@ BEGIN
       c.default_admin,
       -- Get default admin info
       da.username AS default_admin_username,
-      -- Get default admin hidden status from admins table (if they have an admin entry)
-      COALESCE(da_admin.hidden, false) AS default_admin_hidden
+      -- Get default admin hidden status from admins table
+      -- Priority: exact token_id match, if not found default to false
+      COALESCE(
+        (SELECT hidden FROM in_process_admins 
+         WHERE collection = m.collection 
+           AND token_id = m.token_id 
+           AND artist_address = c.default_admin 
+         LIMIT 1),
+        false
+      ) AS default_admin_hidden
     FROM in_process_moments m
     INNER JOIN in_process_collections c ON m.collection = c.id
     INNER JOIN in_process_artists da ON c.default_admin = da.address
-    LEFT JOIN in_process_admins da_admin ON m.collection = da_admin.collection 
-      AND (da_admin.token_id = m.token_id OR da_admin.token_id = 0)
-      AND da_admin.artist_address = c.default_admin
     WHERE
       (p_chainid IS NULL OR c.chain_id = p_chainid)
       AND (
@@ -84,7 +96,17 @@ BEGIN
         (
           (p_type IS NULL OR p_type = 'default') 
           AND c.default_admin = LOWER(p_artist)
-          AND (p_hidden = true OR COALESCE(da_admin.hidden, false) = false)
+          AND (
+            p_hidden = true OR 
+            COALESCE(
+              (SELECT hidden FROM in_process_admins 
+               WHERE collection = m.collection 
+                 AND token_id = m.token_id 
+                 AND artist_address = c.default_admin 
+               LIMIT 1),
+              false
+            ) = false
+          )
         )
         OR
         -- Mutual case: artist is NOT the default admin but IS in the admins list
