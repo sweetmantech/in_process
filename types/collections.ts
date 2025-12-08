@@ -1,4 +1,5 @@
 import { TokenMetadataJson } from "@/lib/protocolSdk/ipfs/types";
+import { Address, Hash } from "viem";
 
 export interface CollectionsResponse {
   status: "success" | "error";
@@ -43,4 +44,19 @@ export interface CollectionResponse {
 export interface FetchCollectionParams {
   collectionAddress: string;
   chainId?: string;
+}
+
+export interface UpdateCollectionURIInput {
+  collection: {
+    address: Address;
+    chainId: number;
+  };
+  newUri: string;
+  newCollectionName: string;
+  artistAddress: Address;
+}
+
+export interface UpdateCollectionURIResult {
+  hash: Hash;
+  chainId: number;
 }
