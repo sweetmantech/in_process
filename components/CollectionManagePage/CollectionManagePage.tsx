@@ -3,18 +3,17 @@
 import Moments from "./Moments";
 import CollectionOverview from "./CollectionOverview";
 import { TimelineProvider } from "@/providers/TimelineProvider";
-import { useCollectionProvider } from "@/providers/CollectionProvider";
-import { Address } from "viem";
+import { useParams } from "next/navigation";
 
 const CollectionManagePage = () => {
-  const { data } = useCollectionProvider();
-
-  if (!data) return null;
+  const params = useParams();
+  const collection = params.collectionAddress as string;
+  if (!collection) return null;
 
   return (
     <>
       <CollectionOverview />
-      <TimelineProvider collectionAddress={data.address as Address}>
+      <TimelineProvider collection={collection}>
         <Moments />
       </TimelineProvider>
     </>
