@@ -1,7 +1,7 @@
 import { useRef, useCallback, ChangeEvent } from "react";
 import { toast } from "sonner";
 import { useCropImageProvider } from "@/providers/CropImageProvider";
-import { useMomentFormProvider } from "@/providers/MomentFormProvider";
+import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 
 /**
  * Hook for managing preview upload functionality
@@ -9,7 +9,7 @@ import { useMomentFormProvider } from "@/providers/MomentFormProvider";
  */
 export const useUploadPreview = () => {
   const previewRef = useRef<HTMLInputElement>(null);
-  const { setPreviewFile, setIsOpenPreviewUpload } = useMomentFormProvider();
+  const { setPreviewFile, setIsOpenPreviewUpload } = useMetadataFormProvider();
   const { saveCroppedImage } = useCropImageProvider();
 
   const handleClick = useCallback(() => {

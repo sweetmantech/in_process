@@ -2,12 +2,12 @@
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useMomentFormProvider } from "@/providers/MomentFormProvider";
+import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import CurrencySelect from "./CurrencySelect";
 import { useMomentCreateProvider } from "@/providers/MomentCreateProvider/MomentCreateProvider";
 
 export default function Price() {
-  const { form } = useMomentFormProvider();
+  const { form } = useMetadataFormProvider();
   const { creating } = useMomentCreateProvider();
 
   return (

@@ -4,12 +4,12 @@ import ResetButton from "@/components/MetadataCreation/ResetButton";
 import useUpdateMomentURI from "@/hooks/useUpdateMomentURI";
 import { useMomentProvider } from "@/providers/MomentProvider";
 import { useMomentMetadataProvider } from "@/providers/MomentMetadataProvider";
-import { useMomentFormProvider } from "@/providers/MomentFormProvider";
+import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { useOpenFileDialog } from "@/hooks/useOpenFileDialog";
 
 const AnimationUpload = () => {
   const { isOwner } = useMomentProvider();
-  const { hasMedia, fileInputRef } = useMomentFormProvider();
+  const { hasMedia, fileInputRef } = useMetadataFormProvider();
   const { selectFile } = useMomentMetadataProvider();
   const { isLoading: isSaving } = useUpdateMomentURI();
 

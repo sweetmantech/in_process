@@ -3,13 +3,13 @@ import { useCollectionProvider } from "@/providers/CollectionProvider";
 import { usePrivy } from "@privy-io/react-auth";
 import { toast } from "sonner";
 import { callUpdateCollectionURI } from "@/lib/collection/callUpdateCollectionURI";
-import { useCollectionFormProvider } from "@/providers/CollectionFormProvider";
+import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import useCollectionMetadata from "@/hooks/useCollectionMetadata";
 import { Address } from "viem";
 
 const useUpdateCollectionURI = () => {
   const { data: collection, refetch } = useCollectionProvider();
-  const { name, setDescription } = useCollectionFormProvider();
+  const { name, setDescription } = useMetadataFormProvider();
   const { getAccessToken } = usePrivy();
   const { generateMetadataUri } = useCollectionMetadata();
   const [isLoading, setIsLoading] = useState<boolean>(false);

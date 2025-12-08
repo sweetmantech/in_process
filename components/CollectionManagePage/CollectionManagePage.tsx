@@ -4,8 +4,8 @@ import Moments from "./Moments";
 import CollectionOverview from "../Overview/CollectionOverview";
 import { TimelineProvider } from "@/providers/TimelineProvider";
 import { useParams } from "next/navigation";
-import { CollectionFormProvider } from "@/providers/CollectionFormProvider";
-import CollectionMedia from "./CollectionMedia";
+import { MetadataFormProvider } from "@/providers/MetadataFormProvider";
+import CollectionMedia from "../Media/CollectionMedia";
 
 const CollectionManagePage = () => {
   const params = useParams();
@@ -14,13 +14,13 @@ const CollectionManagePage = () => {
   if (!collection) return null;
 
   return (
-    <CollectionFormProvider>
+    <MetadataFormProvider>
       <CollectionOverview />
       <CollectionMedia />
       <TimelineProvider collection={collection}>
         <Moments />
       </TimelineProvider>
-    </CollectionFormProvider>
+    </MetadataFormProvider>
   );
 };
 

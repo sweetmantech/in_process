@@ -9,7 +9,7 @@ import { createMomentApi } from "@/lib/moment/createMomentApi";
 import { usePrivy } from "@privy-io/react-auth";
 import { toast } from "sonner";
 import { migrateMuxToArweaveApi } from "@/lib/mux/migrateMuxToArweaveApi";
-import { useMomentFormProvider } from "@/providers/MomentFormProvider";
+import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { CHAIN_ID } from "@/lib/consts";
 
 export default function useMomentCreate() {
@@ -21,7 +21,7 @@ export default function useMomentCreate() {
   const { fetchParameters } = useMomentCreateParameters();
   const { isPrepared } = useUserProvider();
   const { getAccessToken } = usePrivy();
-  const { mimeType, setUploadProgress, setIsUploading } = useMomentFormProvider();
+  const { mimeType, setUploadProgress, setIsUploading } = useMetadataFormProvider();
 
   const create = async () => {
     try {

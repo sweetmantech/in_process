@@ -3,7 +3,7 @@
 import { Fragment, useState } from "react";
 import ManageTabs, { MANAGE_TABS } from "./ManageTabs";
 import Sale from "./Sale";
-import Media from "./Media";
+import MomentMedia from "../Media/MomentMedia";
 import { useParams } from "next/navigation";
 import { MomentProvider } from "@/providers/MomentProvider";
 import { useCollectionProvider } from "@/providers/CollectionProvider";
@@ -35,7 +35,7 @@ const TokenManagePage = () => {
       <div className="px-4 md:px-10">
         {selectedTab === MANAGE_TABS.AIRDROP && <MomentAirdrop />}
         {selectedTab === MANAGE_TABS.SALE && <Sale />}
-        {selectedTab === MANAGE_TABS.MEDIA && <Media />}
+        {selectedTab === MANAGE_TABS.MEDIA && <MomentMedia />}
       </div>
     </MomentProvider>
   );

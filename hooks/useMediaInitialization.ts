@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { MomentMetadata } from "@/types/moment";
-import { useMomentFormProvider } from "@/providers/MomentFormProvider";
+import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 
 const useMediaInitialization = (meta: MomentMetadata | undefined) => {
   const {
@@ -14,7 +14,7 @@ const useMediaInitialization = (meta: MomentMetadata | undefined) => {
     setDescription,
     setMimeType,
     form,
-  } = useMomentFormProvider();
+  } = useMetadataFormProvider();
 
   const initializedRef = useRef<string | null>(null);
 

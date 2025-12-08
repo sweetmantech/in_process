@@ -1,7 +1,7 @@
 import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
-import { useMomentFormProvider } from "@/providers/MomentFormProvider";
+import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 
 export interface LinkPreview {
   siteName: string;
@@ -30,7 +30,7 @@ async function fetchBlob(link: string): Promise<File> {
 }
 
 const useLinkPreview = () => {
-  const { setPreviewFile, link } = useMomentFormProvider();
+  const { setPreviewFile, link } = useMetadataFormProvider();
 
   const { data } = useQuery({
     queryKey: ["link_preview", link],

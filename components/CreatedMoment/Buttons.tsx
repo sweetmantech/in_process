@@ -3,12 +3,12 @@ import { getShortNetworkName } from "@/lib/zora/zoraToViem";
 import { useMomentCreateProvider } from "@/providers/MomentCreateProvider/MomentCreateProvider";
 import Image from "next/image";
 import { toast } from "sonner";
-import { useMomentFormProvider } from "@/providers/MomentFormProvider";
+import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 
 const Buttons = () => {
   const { createdContract, setCreatedContract, setCreatedTokenId, createdTokenId } =
     useMomentCreateProvider();
-  const { resetForm } = useMomentFormProvider();
+  const { resetForm } = useMetadataFormProvider();
 
   const share = async () => {
     const shortNetworkName = getShortNetworkName(CHAIN.name.toLowerCase());

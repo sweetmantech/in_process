@@ -2,11 +2,11 @@ import { useMomentCreateProvider } from "@/providers/MomentCreateProvider/Moment
 import { Label } from "@/components/ui/label";
 import { Input } from "../ui/input";
 import usePrompt from "@/hooks/usePrompt";
-import { useMomentFormProvider } from "@/providers/MomentFormProvider";
+import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 
 const Prompt = () => {
   const { creating } = useMomentCreateProvider();
-  const { form } = useMomentFormProvider();
+  const { form } = useMetadataFormProvider();
   const { placeholder, onActive, promptRef } = usePrompt();
 
   return (

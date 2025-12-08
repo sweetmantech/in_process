@@ -1,10 +1,10 @@
-import { useCollectionFormProvider } from "@/providers/CollectionFormProvider";
+import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { usePrivy } from "@privy-io/react-auth";
 import { buildMetadataPayload } from "@/lib/metadata/buildMetadataPayload";
 
 const useCollectionMetadata = () => {
   const { getAccessToken } = usePrivy();
-  const { name, description } = useCollectionFormProvider();
+  const { name, description } = useMetadataFormProvider();
 
   const generateMetadataUri = async (): Promise<string> => {
     if (!name) {

@@ -1,11 +1,11 @@
 import { useMomentCreateProvider } from "@/providers/MomentCreateProvider/MomentCreateProvider";
 import LinkInput from "./LinkInput";
 import Image from "next/image";
-import { useMomentFormProvider } from "@/providers/MomentFormProvider";
+import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 
 const LinkPreview = () => {
   const { createdContract } = useMomentCreateProvider();
-  const { link, previewFileUrl } = useMomentFormProvider();
+  const { link, previewFileUrl } = useMetadataFormProvider();
 
   return (
     <div

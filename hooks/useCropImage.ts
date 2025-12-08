@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Area } from "react-easy-crop";
 import getCroppedImg from "@/lib/cropImage/getCroppedImage";
-import { useMomentFormProvider } from "@/providers/MomentFormProvider";
+import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 
 interface UseCropImageReturn {
   crop: { x: number; y: number };
@@ -17,7 +17,7 @@ interface UseCropImageReturn {
 }
 
 export default function useCropImage(): UseCropImageReturn {
-  const { setPreviewFile, previewFile, imageFile } = useMomentFormProvider();
+  const { setPreviewFile, previewFile, imageFile } = useMetadataFormProvider();
   const [crop, setCrop] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
   const [rotation, setRotation] = useState<number>(0);
   const [zoom, setZoom] = useState<number>(1);

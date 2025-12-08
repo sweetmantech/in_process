@@ -2,11 +2,11 @@ import { useMomentCreateProvider } from "@/providers/MomentCreateProvider/Moment
 import { X } from "lucide-react";
 import Image from "next/image";
 import isHtml from "is-html";
-import { useMomentFormProvider } from "@/providers/MomentFormProvider";
+import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 
 const EmbedPage = () => {
   const { createdContract } = useMomentCreateProvider();
-  const { embedCode, setEmbedCode, name } = useMomentFormProvider();
+  const { embedCode, setEmbedCode, name } = useMetadataFormProvider();
 
   if (createdContract)
     return (

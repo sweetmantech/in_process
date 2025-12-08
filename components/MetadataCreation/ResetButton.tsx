@@ -1,4 +1,4 @@
-import { useMomentFormProvider } from "@/providers/MomentFormProvider";
+import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { Pencil1Icon } from "@radix-ui/react-icons";
 
 interface ResetButtonProps {
@@ -6,7 +6,7 @@ interface ResetButtonProps {
 }
 
 const ResetButton = ({ onReset }: ResetButtonProps) => {
-  const { resetFiles } = useMomentFormProvider();
+  const { resetFiles } = useMetadataFormProvider();
 
   const handleClick = () => {
     resetFiles();

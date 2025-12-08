@@ -1,8 +1,8 @@
 import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
-import { useMomentFormProvider } from "@/providers/MomentFormProvider";
+import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 
 const useEmbedCode = () => {
-  const { embedCode } = useMomentFormProvider();
+  const { embedCode } = useMetadataFormProvider();
 
   const uploadEmbedCode = async () => {
     const blob = new Blob(

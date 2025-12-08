@@ -5,7 +5,7 @@ import { useState, useEffect, useRef } from "react";
 import { useMask } from "./useMask";
 import { useBlobUrls } from "./useBlobUrls";
 
-const useMomentForm = () => {
+const useMetadataForm = () => {
   // File input ref for resetting file inputs
   const fileInputRef = useRef<HTMLInputElement>(null);
   // Metadata values state
@@ -236,4 +236,4 @@ const useMomentForm = () => {
   };
 };
 
-export default useMomentForm;
+export default useMetadataForm;

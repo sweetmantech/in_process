@@ -3,14 +3,14 @@ import { validateFile } from "@/lib/fileSelect/validateFile";
 import { handleVideoSelection } from "@/lib/fileSelect/handleVideoSelection";
 import { handleImageSelection } from "@/lib/fileSelect/handleImageSelection";
 import { handleOtherFileSelection } from "@/lib/fileSelect/handleOtherFileSelection";
-import { useMomentFormProvider } from "@/providers/MomentFormProvider";
+import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 
 /**
  * Hook for file selection only - stores files as blobs.
  * Upload logic is handled in useMomentMetadata.generateMetadataUri()
  */
 const useFileSelect = () => {
-  const { setMimeType, setImageFile, setPreviewFile, setAnimationFile } = useMomentFormProvider();
+  const { setMimeType, setImageFile, setPreviewFile, setAnimationFile } = useMetadataFormProvider();
 
   const selectFile = useCallback(
     async (event: any) => {

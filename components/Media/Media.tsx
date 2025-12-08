@@ -1,32 +1,44 @@
 "use client";
 
-import { Fragment, useState } from "react";
+import { Fragment, useState, ReactNode } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Skeleton } from "@/components/ui/skeleton";
-import CollectionOwnerWarning from "./CollectionOwnerWarning";
-import SaveCollectionButton from "./SaveCollectionButton";
-import useUpdateCollectionURI from "@/hooks/useUpdateCollectionURI";
-import useCollectionMediaInitialization from "@/hooks/useCollectionMediaInitialization";
-import { useCollectionFormProvider } from "@/providers/CollectionFormProvider";
+import useMediaInitialization from "@/hooks/useMediaInitialization";
+import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import ContentRenderer from "@/components/Renderers";
-import useCollectionData from "@/hooks/useCollectionData";
-import { useCollectionProvider } from "@/providers/CollectionProvider";
 import ResetButton from "../MetadataCreation/ResetButton";
 import { MomentMetadata } from "@/types/moment";
-import { TokenMetadataJson } from "@/lib/protocolSdk";
 
-const CollectionMedia = () => {
-  const { metadata, isOwner, isLoading } = useCollectionData();
-  const { data: collection } = useCollectionProvider();
-  const { form } = useCollectionFormProvider();
-  const { isLoading: isSaving } = useUpdateCollectionURI();
+interface MediaProps {
+  metadata: MomentMetadata | null;
+  isOwner: boolean;
+  isLoading: boolean;
+  isSaving: boolean;
+  LoadingSkeleton: () => ReactNode;
+  SaveButton: ({ onSuccess }: { onSuccess?: () => void }) => ReactNode;
+  OwnerWarning: () => ReactNode;
+  AnimationUpload?: () => ReactNode;
+  hasMedia?: boolean;
+}
+
+export const Media = ({
+  metadata,
+  isOwner,
+  isLoading,
+  isSaving,
+  LoadingSkeleton,
+  SaveButton,
+  OwnerWarning,
+  AnimationUpload,
+  hasMedia,
+}: MediaProps) => {
+  const { form } = useMetadataFormProvider();
   const [editActive, setEditActive] = useState(false);
 
-  useCollectionMediaInitialization(metadata as unknown as TokenMetadataJson);
+  useMediaInitialization(metadata ?? undefined);
 
-  if (isLoading || !metadata || !collection) {
-    return <Skeleton className="w-full h-[200px]" />;
+  if (isLoading || !metadata) {
+    return <LoadingSkeleton />;
   }
 
   return (
@@ -68,13 +80,19 @@ const CollectionMedia = () => {
             </div>
 
             <div className="md:min-h-auto relative min-h-[400px] bg-[url('/grid.svg')] bg-contain md:aspect-[571/692]">
-              <ContentRenderer metadata={metadata as MomentMetadata} />
-              {!editActive && <ResetButton onReset={() => setEditActive(true)} />}
+              {editActive && AnimationUpload ? (
+                <AnimationUpload />
+              ) : (
+                <>
+                  <ContentRenderer metadata={metadata} />
+                  {!editActive && <ResetButton onReset={() => setEditActive(true)} />}
+                </>
+              )}
             </div>
-            {editActive && (
+            {editActive && (hasMedia ?? true) && (
               <>
-                <SaveCollectionButton onSuccess={() => setEditActive(false)} />
-                <CollectionOwnerWarning />
+                <SaveButton onSuccess={() => setEditActive(false)} />
+                <OwnerWarning />
               </>
             )}
           </div>
@@ -83,5 +101,3 @@ const CollectionMedia = () => {
     </Fragment>
   );
 };
-
-export default CollectionMedia;

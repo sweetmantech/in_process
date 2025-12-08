@@ -2,7 +2,7 @@
 import useUpdateCollectionURI from "@/hooks/useUpdateCollectionURI";
 import { toast } from "sonner";
 import { useFormState } from "react-hook-form";
-import { useCollectionFormProvider } from "@/providers/CollectionFormProvider";
+import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import useCollectionData from "@/hooks/useCollectionData";
 
 interface SaveCollectionButtonProps {
@@ -12,7 +12,7 @@ interface SaveCollectionButtonProps {
 const SaveCollectionButton = ({ onSuccess }: SaveCollectionButtonProps) => {
   const { isOwner } = useCollectionData();
   const { updateCollectionURI, isLoading: isSaving } = useUpdateCollectionURI();
-  const { form } = useCollectionFormProvider();
+  const { form } = useMetadataFormProvider();
   const { errors } = useFormState({ control: form.control });
 
   const handleSave = async () => {

@@ -6,7 +6,7 @@ import { CollectionProvider } from "@/providers/CollectionProvider";
 import { parseCollectionAddress } from "@/lib/timeline/parseCollectionAddress";
 import { Address } from "viem";
 import { MomentMetadataProvider } from "@/providers/MomentMetadataProvider";
-import { MomentFormProvider } from "@/providers/MomentFormProvider";
+import { MetadataFormProvider } from "@/providers/MetadataFormProvider";
 
 const RootLayout = ({ children }: { children: ReactNode }) => {
   const params = useParams();
@@ -24,9 +24,9 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
         chainId,
       }}
     >
-      <MomentFormProvider>
+      <MetadataFormProvider>
         <MomentMetadataProvider>{children}</MomentMetadataProvider>
-      </MomentFormProvider>
+      </MetadataFormProvider>
     </CollectionProvider>
   );
 };
