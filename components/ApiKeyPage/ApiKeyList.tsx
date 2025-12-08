@@ -4,20 +4,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Trash2 } from "lucide-react";
 import { useApiKeyProvider } from "@/providers/ApiKeyProvider";
+import formatDate from "@/lib/date/formateDate";
 
 export function ApiKeyList() {
   const { apiKeys, loadingKeys, deleteApiKey } = useApiKeyProvider();
-
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  };
 
   if (loadingKeys) {
     return (

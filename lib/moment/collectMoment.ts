@@ -8,7 +8,7 @@ import { distributeSplitFunds } from "../splits/distributeSplitFunds";
 import isSplitContract from "../splits/isSplitContract";
 import { MomentType } from "@/types/moment";
 import getCollectCall from "../viem/getCollectCall";
-import { validateBalanceAndAllowance } from "./validateBalanceAndAllowance";
+import { validateBalanceAndAllowance } from "@/lib/sales/validateBalanceAndAllowance";
 import { Call } from "@coinbase/coinbase-sdk/dist/types/calls";
 import { getMomentAdvancedInfo } from "./getMomentAdvancedInfo";
 
