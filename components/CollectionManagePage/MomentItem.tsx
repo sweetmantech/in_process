@@ -2,7 +2,6 @@ import { useMetadata } from "@/hooks/useMetadata";
 import Image from "next/image";
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import { useRouter } from "next/navigation";
-import { useCollectionProvider } from "@/providers/CollectionProvider";
 import { Skeleton } from "../ui/skeleton";
 import { networkConfigByChain } from "@/lib/protocolSdk/apis/chain-constants";
 import { useUserProvider } from "@/providers/UserProvider";
@@ -10,15 +9,14 @@ import HideButton from "../TimelineMoments/HideButton";
 import { TimelineMoment } from "@/types/moment";
 
 const MomentItem = ({ m }: { m: TimelineMoment }) => {
-  const { data, isLoading } = useMetadata(m.uri);
   const { push } = useRouter();
-  const { data: collection } = useCollectionProvider();
   const { connectedAddress } = useUserProvider();
+  const { data, isLoading } = useMetadata(m.uri);
 
   const handleClick = () => {
     if (isLoading) return;
     push(
-      `/manage/${networkConfigByChain[collection?.chain_id ?? 0].zoraCollectPathChainName}:${collection?.address as string}/${m.token_id.toString()}`
+      `/manage/${networkConfigByChain[m.chain_id].zoraCollectPathChainName}:${m.address}/${m.token_id.toString()}`
     );
     return;
   };

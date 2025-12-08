@@ -8,8 +8,8 @@ const Moments = () => {
   if (moments)
     return (
       <div className="grow w-full grid grid-cols-1 md:grid-cols-4 gap-4 px-4 md:px-10 pt-6">
-        {moments.map((m: TimelineMoment, i: number) => (
-          <MomentItem m={m} key={i} />
+        {moments.map((m: TimelineMoment) => (
+          <MomentItem m={m} key={m.id} />
         ))}
       </div>
     );

@@ -8,10 +8,13 @@ import { Address } from "viem";
 
 const CollectionManagePage = () => {
   const { data } = useCollectionProvider();
+
+  if (!data) return null;
+
   return (
     <>
       <CollectionOverview />
-      <TimelineProvider collectionAddress={data?.address as Address}>
+      <TimelineProvider collectionAddress={data.address as Address}>
         <Moments />
       </TimelineProvider>
     </>
