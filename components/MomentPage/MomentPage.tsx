@@ -1,6 +1,6 @@
 "use client";
 
-import Token from "./Token";
+import Moment from "./Moment";
 import { MomentProvider } from "@/providers/MomentProvider";
 import { MomentCommentsProvider } from "@/providers/MomentCommentsProvider";
 import { MomentCollectProvider } from "@/providers/MomentCollectProvider";
@@ -8,7 +8,7 @@ import { useParams } from "next/navigation";
 import { parseCollectionAddress } from "@/lib/timeline/parseCollectionAddress";
 import { Address } from "viem";
 
-const TokenPage = () => {
+const MomentPage = () => {
   const params = useParams();
   const collection = params.collection as string;
   const tokenId = params.tokenId as string;
@@ -31,7 +31,7 @@ const TokenPage = () => {
         >
           <MomentCommentsProvider>
             <MomentCollectProvider>
-              <Token />
+              <Moment />
             </MomentCollectProvider>
           </MomentCommentsProvider>
         </MomentProvider>
@@ -40,4 +40,4 @@ const TokenPage = () => {
   );
 };
 
-export default TokenPage;
+export default MomentPage;

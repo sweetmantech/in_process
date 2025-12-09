@@ -1,4 +1,4 @@
-import TokenPage from "@/components/TokenPage";
+import MomentPage from "@/components/MomentPage";
 import fetchTokenMetadata from "@/lib/fetchTokenMetadata";
 import { APP_URL, VERCEL_OG } from "@/lib/og/consts";
 import { Metadata, NextPage } from "next";
@@ -51,6 +51,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-const Token: NextPage = () => <TokenPage />;
+const Moment: NextPage = () => <MomentPage />;
 
-export default Token;
+export default Moment;

@@ -1,7 +1,7 @@
 "use client";
 
 import AirdropProvider from "@/providers/AirdropProvider";
-import Airdrop from "@/components/TokenManagePage/Airdrop";
+import Airdrop from "@/components/MomentManagePage/Airdrop";
 
 const MomentAirdrop = () => {
   return (
