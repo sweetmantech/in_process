@@ -8,6 +8,14 @@ const nextConfig = {
     "thread-stream",
     "pino",
   ],
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**",
+      },
+    ],
+  },
 };
 
 module.exports = nextConfig;
