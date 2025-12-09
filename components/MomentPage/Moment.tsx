@@ -11,7 +11,7 @@ import BackToTimeline from "./BackToTimeline";
 import MomentAirdrop from "../MomentAirdrop/MomentAirdrop";
 import { useMomentCollectProvider } from "@/providers/MomentCollectProvider";
 
-const Token = () => {
+const Moment = () => {
   const { metadata, isOwner } = useMomentProvider();
   const { collected } = useMomentCollectProvider();
   const isMobile = useIsMobile();
@@ -42,4 +42,4 @@ const Token = () => {
   );
 };
 
-export default Token;
+export default Moment;

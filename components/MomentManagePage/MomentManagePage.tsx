@@ -7,13 +7,13 @@ import MomentMedia from "../Media/MomentMedia";
 import { useParams } from "next/navigation";
 import { MomentProvider } from "@/providers/MomentProvider";
 import { useCollectionProvider } from "@/providers/CollectionProvider";
-import TokenOverview from "../Overview/MomentOverview";
+import MomentOverview from "../Overview/MomentOverview";
 import MomentAirdrop from "../MomentAirdrop";
 import { Address } from "viem";
 import { MetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { MetadataUploadProvider } from "@/providers/MetadataUploadProvider";
 
-const TokenManagePage = () => {
+const MomentManagePage = () => {
   const [selectedTab, setSelectedTab] = useState<number>(MANAGE_TABS.AIRDROP);
   const { data } = useCollectionProvider();
   const params = useParams();
@@ -31,7 +31,7 @@ const TokenManagePage = () => {
             chainId: data.chain_id,
           }}
         >
-          <TokenOverview />
+          <MomentOverview />
           <ManageTabs
             selectedTab={selectedTab}
             onChangeTab={(value: number) => setSelectedTab(value)}
@@ -47,4 +47,4 @@ const TokenManagePage = () => {
   );
 };
 
-export default TokenManagePage;
+export default MomentManagePage;
