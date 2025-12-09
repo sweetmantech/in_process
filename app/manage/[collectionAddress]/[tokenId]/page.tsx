@@ -1,7 +1,7 @@
 "use client";
 
-import TokenManagePage from "@/components/TokenManagePage";
+import MomentManagePage from "@/components/MomentManagePage";
 
-const TokenManage = () => <TokenManagePage />;
+const MomentManage = () => <MomentManagePage />;
 
-export default TokenManage;
+export default MomentManage;

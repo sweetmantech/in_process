@@ -1,7 +1,7 @@
 import { useMomentProvider } from "@/providers/MomentProvider";
 import useUpdateMomentURI from "@/hooks/useUpdateMomentURI";
 import OwnerWarning from "./OwnerWarning";
-import SaveMediaButton from "../TokenManagePage/SaveMediaButton";
+import SaveMediaButton from "../MomentManagePage/SaveMediaButton";
 import { Media } from "./Media";
 
 const MomentMedia = () => {
