@@ -1,11 +1,11 @@
-import { useMomentFormProvider } from "@/providers/MomentFormProvider";
+import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { useMomentCreateProvider } from "@/providers/MomentCreateProvider/MomentCreateProvider";
 import { ChangeEvent, useState } from "react";
 
 type ScrollPosition = "top" | "mid" | "bottom" | null;
 
 const TextInput = () => {
-  const { writingText, setWritingText } = useMomentFormProvider();
+  const { writingText, setWritingText } = useMetadataFormProvider();
   const { creating } = useMomentCreateProvider();
   const [scrollPosition, setScrollPosition] = useState<ScrollPosition>(null);
 

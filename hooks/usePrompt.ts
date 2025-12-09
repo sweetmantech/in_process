@@ -1,4 +1,4 @@
-import { useMomentFormProvider } from "@/providers/MomentFormProvider";
+import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { useEffect, useRef, useState } from "react";
 
 const promptOptions = [
@@ -13,7 +13,7 @@ let timer: NodeJS.Timeout | string | number | undefined = undefined;
 const usePrompt = () => {
   const [prompt, setPrompt] = useState(0);
   const [placeholder, setPlaceholder] = useState(promptOptions[0].label);
-  const { name, setName } = useMomentFormProvider();
+  const { name, setName } = useMetadataFormProvider();
   const promptRef = useRef(null) as any;
 
   const rotatePrompt = () => {

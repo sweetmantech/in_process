@@ -3,9 +3,9 @@ import { useMomentProvider } from "@/providers/MomentProvider";
 import { usePrivy } from "@privy-io/react-auth";
 import { toast } from "sonner";
 import { callUpdateMomentURI } from "@/lib/moment/callUpdateMomentURI";
-import { useMomentFormProvider } from "@/providers/MomentFormProvider";
+import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { migrateMuxToArweaveApi } from "@/lib/mux/migrateMuxToArweaveApi";
-import useMomentMetadata from "@/hooks/useMomentMetadata";
+import useMetadataUpload from "@/hooks/useMetadataUpload";
 
 const useUpdateMomentURI = () => {
   const { moment, fetchMomentData } = useMomentProvider();
@@ -22,9 +22,9 @@ const useUpdateMomentURI = () => {
     setEmbedCode,
     setLink,
     setWritingText,
-  } = useMomentFormProvider();
+  } = useMetadataFormProvider();
   const { getAccessToken } = usePrivy();
-  const { generateMetadataUri } = useMomentMetadata();
+  const { generateMetadataUri } = useMetadataUpload();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const resetMediaState = () => {

@@ -4,7 +4,7 @@ import React, { Fragment } from "react";
 import PdfViewer from "../Renderers/PdfViewer";
 import VideoPlayer from "../Renderers/VideoPlayer";
 import UploadProgressOverlay from "./UploadProgressOverlay";
-import { useMomentFormProvider } from "@/providers/MomentFormProvider";
+import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 
 interface MediaUploadedProps {
   handleImageClick: () => void;
@@ -19,7 +19,7 @@ const Container = ({
 
 const MediaUploaded = ({ handleImageClick }: MediaUploadedProps) => {
   const { mimeType, previewFileUrl, animationFileUrl, isUploading, uploadProgress } =
-    useMomentFormProvider();
+    useMetadataFormProvider();
 
   // For PDFs: use blob URL if file exists, otherwise use uploaded URI
   if (mimeType.includes("pdf")) {

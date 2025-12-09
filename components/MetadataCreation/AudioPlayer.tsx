@@ -3,12 +3,12 @@ import { Button } from "@/components/ui/button";
 import { Pause, Play } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import Image from "next/image";
-import { useMomentFormProvider } from "@/providers/MomentFormProvider";
+import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { useAudioPlayer } from "@/hooks/useAudioPlayer";
 
 const AudioPlayer = ({ onClick }: { onClick: () => void }) => {
   const { createdContract } = useMomentCreateProvider();
-  const { previewFileUrl, animationFileUrl } = useMomentFormProvider();
+  const { previewFileUrl, animationFileUrl } = useMetadataFormProvider();
   const { audioRef, isPlaying, progress, togglePlayPause, handleTimeUpdate, handleSliderChange } =
     useAudioPlayer();
 

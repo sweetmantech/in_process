@@ -3,11 +3,11 @@ import WritingPreview from "./WritingPreview";
 import { Label } from "../ui/label";
 import { useCropImageProvider } from "@/providers/CropImageProvider";
 import CropImage from "@/components/CropImage";
-import { useMomentFormProvider } from "@/providers/MomentFormProvider";
+import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { useUploadPreview } from "@/hooks/useUploadPreview";
 
 const UploadPreview = () => {
-  const { writingText, previewFile } = useMomentFormProvider();
+  const { writingText, previewFile } = useMetadataFormProvider();
   const { isUploading: isUploadingCrop } = useCropImageProvider();
   const { previewRef, handleClick, handlePreviewUpload, handleDoneClick } = useUploadPreview();
 

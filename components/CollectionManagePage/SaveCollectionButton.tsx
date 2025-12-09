@@ -1,17 +1,17 @@
 "use client";
-import { useMomentProvider } from "@/providers/MomentProvider";
-import useUpdateMomentURI from "@/hooks/useUpdateMomentURI";
+import useUpdateCollectionURI from "@/hooks/useUpdateCollectionURI";
 import { toast } from "sonner";
 import { useFormState } from "react-hook-form";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
+import useCollectionData from "@/hooks/useCollectionData";
 
-interface SaveMediaButtonProps {
+interface SaveCollectionButtonProps {
   onSuccess?: () => void;
 }
 
-const SaveMediaButton = ({ onSuccess }: SaveMediaButtonProps) => {
-  const { isOwner } = useMomentProvider();
-  const { updateTokenURI, isLoading: isSaving } = useUpdateMomentURI();
+const SaveCollectionButton = ({ onSuccess }: SaveCollectionButtonProps) => {
+  const { isOwner } = useCollectionData();
+  const { updateCollectionURI, isLoading: isSaving } = useUpdateCollectionURI();
   const { form } = useMetadataFormProvider();
   const { errors } = useFormState({ control: form.control });
 
@@ -28,12 +28,14 @@ const SaveMediaButton = ({ onSuccess }: SaveMediaButtonProps) => {
     }
 
     try {
-      await updateTokenURI();
+      await updateCollectionURI();
       onSuccess?.();
-      toast.info("Successfully saved media. Metadata update will show up after a few seconds...");
+      toast.info(
+        "Successfully saved collection. Metadata update will show up after a few seconds..."
+      );
     } catch (error) {
       console.error(error);
-      toast.error("Failed to save media");
+      toast.error("Failed to save collection");
     }
   };
 
@@ -54,4 +56,4 @@ const SaveMediaButton = ({ onSuccess }: SaveMediaButtonProps) => {
   );
 };
 
-export default SaveMediaButton;
+export default SaveCollectionButton;

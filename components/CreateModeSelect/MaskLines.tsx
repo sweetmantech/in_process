@@ -1,13 +1,13 @@
 "use client";
 
 import useIsMobile from "@/hooks/useIsMobile";
-import { useMomentFormProvider } from "@/providers/MomentFormProvider";
+import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { useMomentCreateProvider } from "@/providers/MomentCreateProvider/MomentCreateProvider";
 import { usePathname } from "next/navigation";
 import React from "react";
 
 const MaskLines = () => {
-  const { maskId, svgRef, masks } = useMomentFormProvider();
+  const { maskId, svgRef, masks } = useMetadataFormProvider();
   const { createdContract } = useMomentCreateProvider();
   const pathname = usePathname();
   const isWritingPage = pathname === "/create/writing";

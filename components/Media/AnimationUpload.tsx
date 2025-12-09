@@ -1,18 +1,19 @@
+import { RefObject } from "react";
 import NoFileSelected from "@/components/MetadataCreation/NoFileSelected";
 import MediaUploaded from "@/components/MetadataCreation/MediaUploaded";
 import ResetButton from "@/components/MetadataCreation/ResetButton";
-import useUpdateMomentURI from "@/hooks/useUpdateMomentURI";
-import { useMomentProvider } from "@/providers/MomentProvider";
-import { useMomentMetadataProvider } from "@/providers/MomentMetadataProvider";
-import { useMomentFormProvider } from "@/providers/MomentFormProvider";
 import { useOpenFileDialog } from "@/hooks/useOpenFileDialog";
+import { useMetadataUploadProvider } from "@/providers/MetadataUploadProvider";
+import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 
-const AnimationUpload = () => {
-  const { isOwner } = useMomentProvider();
-  const { hasMedia, fileInputRef } = useMomentFormProvider();
-  const { selectFile } = useMomentMetadataProvider();
-  const { isLoading: isSaving } = useUpdateMomentURI();
+interface AnimationUploadProps {
+  isOwner: boolean;
+  isSaving: boolean;
+}
 
+const AnimationUpload = ({ isOwner, isSaving }: AnimationUploadProps) => {
+  const { selectFile } = useMetadataUploadProvider();
+  const { hasMedia, fileInputRef } = useMetadataFormProvider();
   const { openFileDialog } = useOpenFileDialog(fileInputRef, isOwner, isSaving);
 
   return (

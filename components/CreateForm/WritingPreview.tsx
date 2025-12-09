@@ -1,11 +1,11 @@
 import { useMeasure } from "react-use";
 import { cn } from "@/lib/utils";
-import { useMomentFormProvider } from "@/providers/MomentFormProvider";
+import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 
 const WritingPreview = () => {
   const [writingRef, { height: contentHeight }] = useMeasure();
   const [containerRef, { height: containerHeight }] = useMeasure();
-  const { writingText } = useMomentFormProvider();
+  const { writingText } = useMetadataFormProvider();
 
   const isOverflowed = contentHeight > containerHeight;
   const shouldCenter = contentHeight < containerHeight;

@@ -1,9 +1,9 @@
 import { Input } from "@/components/ui/input";
 import { LinkIcon } from "../ui/icons";
-import { useMomentFormProvider } from "@/providers/MomentFormProvider";
+import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 
 const LinkInput = () => {
-  const { link, setLink } = useMomentFormProvider();
+  const { link, setLink } = useMetadataFormProvider();
 
   return (
     <div className="mt-4 flex items-center border border-grey-moss-100 bg-grey-moss-50 px-4">

@@ -1,29 +1,41 @@
 "use client";
 
-import { Fragment, useState } from "react";
-import { useMomentProvider } from "@/providers/MomentProvider";
+import { Fragment, useState, ReactNode } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import MediaSkeleton from "./MediaSkeleton";
-import OwnerWarning from "./OwnerWarning";
-import SaveMediaButton from "./SaveMediaButton";
-import useUpdateMomentURI from "@/hooks/useUpdateMomentURI";
 import useMediaInitialization from "@/hooks/useMediaInitialization";
-import AnimationUpload from "./AnimationUpload";
-import { useMomentFormProvider } from "@/providers/MomentFormProvider";
+import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import ContentRenderer from "@/components/Renderers";
 import ResetButton from "../MetadataCreation/ResetButton";
+import { MomentMetadata } from "@/types/moment";
+import AnimationUpload from "./AnimationUpload";
+import { Skeleton } from "../ui/skeleton";
 
-const Media = () => {
-  const { metadata, isOwner, isLoading } = useMomentProvider();
-  const { form, hasMedia } = useMomentFormProvider();
-  const { isLoading: isSaving } = useUpdateMomentURI();
+interface MediaProps {
+  metadata: MomentMetadata | null;
+  isOwner: boolean;
+  isLoading: boolean;
+  isSaving: boolean;
+  SaveButton: ({ onSuccess }: { onSuccess?: () => void }) => ReactNode;
+  OwnerWarning: (props: { isOwner: boolean }) => ReactNode;
+  hasMedia?: boolean;
+}
+
+export const Media = ({
+  metadata,
+  isOwner,
+  isLoading,
+  isSaving,
+  SaveButton,
+  OwnerWarning,
+}: MediaProps) => {
+  const { form, hasMedia } = useMetadataFormProvider();
   const [editActive, setEditActive] = useState(false);
 
-  useMediaInitialization(metadata);
+  useMediaInitialization(metadata ?? undefined);
 
   if (isLoading || !metadata) {
-    return <MediaSkeleton />;
+    return <Skeleton className="w-full h-[200px]" />;
   }
 
   return (
@@ -66,18 +78,18 @@ const Media = () => {
 
             <div className="md:min-h-auto relative min-h-[400px] bg-[url('/grid.svg')] bg-contain md:aspect-[571/692]">
               {editActive ? (
-                <AnimationUpload />
+                <AnimationUpload isOwner={isOwner} isSaving={isSaving} />
               ) : (
                 <>
                   <ContentRenderer metadata={metadata} />
-                  <ResetButton onReset={() => setEditActive(true)} />
+                  {!editActive && <ResetButton onReset={() => setEditActive(true)} />}
                 </>
               )}
             </div>
-            {hasMedia && editActive && (
+            {editActive && (hasMedia ?? true) && (
               <>
-                <SaveMediaButton onSuccess={() => setEditActive(false)} />
-                <OwnerWarning />
+                <SaveButton onSuccess={() => setEditActive(false)} />
+                <OwnerWarning isOwner={isOwner} />
               </>
             )}
           </div>
@@ -86,5 +98,3 @@ const Media = () => {
     </Fragment>
   );
 };
-
-export default Media;

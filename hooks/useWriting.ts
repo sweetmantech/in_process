@@ -1,8 +1,8 @@
 import { uploadWritingFile } from "@/lib/arweave/uploadWritingFile";
-import { useMomentFormProvider } from "@/providers/MomentFormProvider";
+import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 
 const useWriting = () => {
-  const { writingText } = useMomentFormProvider();
+  const { writingText } = useMetadataFormProvider();
   const uploadWriting = async () => {
     const uri = await uploadWritingFile(writingText);
     return uri;

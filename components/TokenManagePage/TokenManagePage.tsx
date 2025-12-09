@@ -3,13 +3,15 @@
 import { Fragment, useState } from "react";
 import ManageTabs, { MANAGE_TABS } from "./ManageTabs";
 import Sale from "./Sale";
-import Media from "./Media";
+import MomentMedia from "../Media/MomentMedia";
 import { useParams } from "next/navigation";
 import { MomentProvider } from "@/providers/MomentProvider";
 import { useCollectionProvider } from "@/providers/CollectionProvider";
-import TokenOverview from "../CollectionManagePage/TokenOverview";
+import TokenOverview from "../Overview/MomentOverview";
 import MomentAirdrop from "../MomentAirdrop";
 import { Address } from "viem";
+import { MetadataFormProvider } from "@/providers/MetadataFormProvider";
+import { MetadataUploadProvider } from "@/providers/MetadataUploadProvider";
 
 const TokenManagePage = () => {
   const [selectedTab, setSelectedTab] = useState<number>(MANAGE_TABS.AIRDROP);
@@ -20,24 +22,28 @@ const TokenManagePage = () => {
   if (!data) return <Fragment />;
 
   return (
-    <MomentProvider
-      moment={{
-        collectionAddress: data.address as Address,
-        tokenId,
-        chainId: data.chain_id,
-      }}
-    >
-      <TokenOverview />
-      <ManageTabs
-        selectedTab={selectedTab}
-        onChangeTab={(value: number) => setSelectedTab(value)}
-      />
-      <div className="px-4 md:px-10">
-        {selectedTab === MANAGE_TABS.AIRDROP && <MomentAirdrop />}
-        {selectedTab === MANAGE_TABS.SALE && <Sale />}
-        {selectedTab === MANAGE_TABS.MEDIA && <Media />}
-      </div>
-    </MomentProvider>
+    <MetadataFormProvider>
+      <MetadataUploadProvider>
+        <MomentProvider
+          moment={{
+            collectionAddress: data.address as Address,
+            tokenId,
+            chainId: data.chain_id,
+          }}
+        >
+          <TokenOverview />
+          <ManageTabs
+            selectedTab={selectedTab}
+            onChangeTab={(value: number) => setSelectedTab(value)}
+          />
+          <div className="px-4 md:px-10">
+            {selectedTab === MANAGE_TABS.AIRDROP && <MomentAirdrop />}
+            {selectedTab === MANAGE_TABS.SALE && <Sale />}
+            {selectedTab === MANAGE_TABS.MEDIA && <MomentMedia />}
+          </div>
+        </MomentProvider>
+      </MetadataUploadProvider>
+    </MetadataFormProvider>
   );
 };
 

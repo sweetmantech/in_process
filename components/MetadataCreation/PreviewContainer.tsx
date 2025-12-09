@@ -3,7 +3,7 @@ import Image from "next/image";
 import React, { Fragment } from "react";
 import PdfViewer from "../Renderers/PdfViewer";
 import VideoPlayer from "../Renderers/VideoPlayer";
-import { useMomentFormProvider } from "@/providers/MomentFormProvider";
+import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import Container from "./Container";
 import UploadProgressOverlay from "./UploadProgressOverlay";
 
@@ -17,7 +17,7 @@ interface PreviewContainerProps {
  * It does NOT handle metadata display after creation.
  */
 const PreviewContainer = ({ handleImageClick }: PreviewContainerProps) => {
-  const { mimeType, imageFile, isUploading, uploadProgress, blobUrls } = useMomentFormProvider();
+  const { mimeType, imageFile, isUploading, uploadProgress, blobUrls } = useMetadataFormProvider();
 
   // For images: check first (most common case) - use imageFile blob URL only
   if (imageFile && blobUrls.image) {

@@ -3,13 +3,13 @@ import { REFERRAL_RECIPIENT } from "@/lib/consts";
 import getSalesConfig from "@/lib/zora/getSalesConfig";
 import getSaleConfigType from "@/lib/getSaleConfigType";
 import { useUserProvider } from "@/providers/UserProvider";
-import { useMomentFormProvider } from "@/providers/MomentFormProvider";
-import { useMomentMetadataProvider } from "@/providers/MomentMetadataProvider";
+import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
+import { useMetadataUploadProvider } from "@/providers/MetadataUploadProvider";
 
 const useMomentCreateParameters = () => {
   const { artistWallet } = useUserProvider();
-  const { form, priceUnit, price, startDate, name } = useMomentFormProvider();
-  const { generateMetadataUri } = useMomentMetadataProvider();
+  const { form, priceUnit, price, startDate, name } = useMetadataFormProvider();
+  const { generateMetadataUri } = useMetadataUploadProvider();
 
   // Use priceUnit to determine if USDC
   const isUsdc = priceUnit === "usdc";

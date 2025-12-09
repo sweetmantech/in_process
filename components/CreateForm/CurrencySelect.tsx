@@ -1,10 +1,10 @@
 "use client";
 
 import { useMomentCreateProvider } from "@/providers/MomentCreateProvider/MomentCreateProvider";
-import { useMomentFormProvider } from "@/providers/MomentFormProvider";
+import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 
 export default function CurrencySelect() {
-  const { form } = useMomentFormProvider();
+  const { form } = useMetadataFormProvider();
   const { creating } = useMomentCreateProvider();
 
   return (

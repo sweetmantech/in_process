@@ -3,13 +3,13 @@ import { Fragment } from "react";
 import NoFileSelected from "./NoFileSelected";
 import ResetButton from "./ResetButton";
 import PreviewContainer from "./PreviewContainer";
-import { useMomentMetadataProvider } from "@/providers/MomentMetadataProvider";
-import { useMomentFormProvider } from "@/providers/MomentFormProvider";
+import { useMetadataUploadProvider } from "@/providers/MetadataUploadProvider";
+import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 
 const MetadataCreation = () => {
-  const { selectFile } = useMomentMetadataProvider();
+  const { selectFile } = useMetadataUploadProvider();
   const { createdContract } = useMomentCreateProvider();
-  const { previewFile, animationFile, imageFile, fileInputRef } = useMomentFormProvider();
+  const { previewFile, animationFile, imageFile, fileInputRef } = useMetadataFormProvider();
   const selected = previewFile || animationFile || imageFile;
   const handleImageClick = () => fileInputRef.current?.click();
 

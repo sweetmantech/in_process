@@ -2,7 +2,7 @@ import useLinkPreview from "./useLinkPreview";
 import useEmbedCode from "./useEmbedCode";
 import useWriting from "./useWriting";
 import useFileSelect from "./useFileSelect";
-import { useMomentFormProvider } from "@/providers/MomentFormProvider";
+import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { usePathname } from "next/navigation";
 import { usePrivy } from "@privy-io/react-auth";
 import { uploadVideoToMuxIfNeeded } from "@/lib/metadata/uploadVideoToMuxIfNeeded";
@@ -11,7 +11,7 @@ import { handleWritingMode } from "@/lib/metadata/handleWritingMode";
 import { handleEmbedMode } from "@/lib/metadata/handleEmbedMode";
 import { buildMetadataPayload } from "@/lib/metadata/buildMetadataPayload";
 
-const useMomentMetadata = () => {
+const useMetadataUpload = () => {
   const pathname = usePathname();
   const { getAccessToken } = usePrivy();
   const {
@@ -25,7 +25,7 @@ const useMomentMetadata = () => {
     previewFile,
     setUploadProgress,
     setIsUploading,
-  } = useMomentFormProvider();
+  } = useMetadataFormProvider();
   const { uploadWriting } = useWriting();
   const { uploadEmbedCode } = useEmbedCode();
   const { selectFile } = useFileSelect();
@@ -133,4 +133,4 @@ const useMomentMetadata = () => {
   };
 };
 
-export default useMomentMetadata;
+export default useMetadataUpload;
