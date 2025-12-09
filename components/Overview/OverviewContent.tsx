@@ -3,7 +3,6 @@ import { Skeleton } from "../ui/skeleton";
 import { MomentMetadata } from "@/types/moment";
 import CopyButton from "../CopyButton";
 import { Address } from "viem";
-import { usePdfContainerClassName } from "@/hooks/usePdfContainerClassName";
 
 interface OverviewContentProps {
   metadata: MomentMetadata | null | undefined;
@@ -11,6 +10,13 @@ interface OverviewContentProps {
   address: Address;
   isLoading?: boolean;
 }
+
+const usePdfContainerClassName = (metadata: MomentMetadata | null | undefined): string => {
+  const isPdf = metadata?.content?.mime?.includes("pdf") ?? false;
+  return isPdf
+    ? "w-fit pt-4 flex flex-col items-center gap-2"
+    : "w-fit pt-4 flex flex-col items-center gap-2 md:flex-row";
+};
 
 const OverviewContent = ({ metadata, name, address, isLoading = false }: OverviewContentProps) => {
   const containerClassName = usePdfContainerClassName(metadata);
