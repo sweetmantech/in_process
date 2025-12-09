@@ -6,6 +6,7 @@ import { TimelineProvider } from "@/providers/TimelineProvider";
 import { useParams } from "next/navigation";
 import { MetadataFormProvider } from "@/providers/MetadataFormProvider";
 import CollectionMedia from "../Media/CollectionMedia";
+import { MetadataUploadProvider } from "@/providers/MetadataUploadProvider";
 
 const CollectionManagePage = () => {
   const params = useParams();
@@ -15,11 +16,15 @@ const CollectionManagePage = () => {
 
   return (
     <MetadataFormProvider>
-      <CollectionOverview />
-      <CollectionMedia />
-      <TimelineProvider collection={collection}>
-        <Moments />
-      </TimelineProvider>
+      <MetadataUploadProvider>
+        <CollectionOverview />
+        <div className="md:px-10 px-4">
+          <CollectionMedia />
+        </div>
+        <TimelineProvider collection={collection}>
+          <Moments />
+        </TimelineProvider>
+      </MetadataUploadProvider>
     </MetadataFormProvider>
   );
 };

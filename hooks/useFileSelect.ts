@@ -7,7 +7,7 @@ import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 
 /**
  * Hook for file selection only - stores files as blobs.
- * Upload logic is handled in useMomentMetadata.generateMetadataUri()
+ * Upload logic is handled in useMetadataUpload.generateMetadataUri()
  */
 const useFileSelect = () => {
   const { setMimeType, setImageFile, setPreviewFile, setAnimationFile } = useMetadataFormProvider();

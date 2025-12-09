@@ -11,7 +11,7 @@ import { handleWritingMode } from "@/lib/metadata/handleWritingMode";
 import { handleEmbedMode } from "@/lib/metadata/handleEmbedMode";
 import { buildMetadataPayload } from "@/lib/metadata/buildMetadataPayload";
 
-const useMomentMetadata = () => {
+const useMetadataUpload = () => {
   const pathname = usePathname();
   const { getAccessToken } = usePrivy();
   const {
@@ -133,4 +133,4 @@ const useMomentMetadata = () => {
   };
 };
 
-export default useMomentMetadata;
+export default useMetadataUpload;

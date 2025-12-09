@@ -8,16 +8,16 @@ import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import ContentRenderer from "@/components/Renderers";
 import ResetButton from "../MetadataCreation/ResetButton";
 import { MomentMetadata } from "@/types/moment";
+import AnimationUpload from "./AnimationUpload";
+import { Skeleton } from "../ui/skeleton";
 
 interface MediaProps {
   metadata: MomentMetadata | null;
   isOwner: boolean;
   isLoading: boolean;
   isSaving: boolean;
-  LoadingSkeleton: () => ReactNode;
   SaveButton: ({ onSuccess }: { onSuccess?: () => void }) => ReactNode;
-  OwnerWarning: () => ReactNode;
-  AnimationUpload?: () => ReactNode;
+  OwnerWarning: (props: { isOwner: boolean }) => ReactNode;
   hasMedia?: boolean;
 }
 
@@ -26,19 +26,16 @@ export const Media = ({
   isOwner,
   isLoading,
   isSaving,
-  LoadingSkeleton,
   SaveButton,
   OwnerWarning,
-  AnimationUpload,
-  hasMedia,
 }: MediaProps) => {
-  const { form } = useMetadataFormProvider();
+  const { form, hasMedia } = useMetadataFormProvider();
   const [editActive, setEditActive] = useState(false);
 
   useMediaInitialization(metadata ?? undefined);
 
   if (isLoading || !metadata) {
-    return <LoadingSkeleton />;
+    return <Skeleton className="w-full h-[200px]" />;
   }
 
   return (
@@ -80,8 +77,8 @@ export const Media = ({
             </div>
 
             <div className="md:min-h-auto relative min-h-[400px] bg-[url('/grid.svg')] bg-contain md:aspect-[571/692]">
-              {editActive && AnimationUpload ? (
-                <AnimationUpload />
+              {editActive ? (
+                <AnimationUpload isOwner={isOwner} isSaving={isSaving} />
               ) : (
                 <>
                   <ContentRenderer metadata={metadata} />
@@ -92,7 +89,7 @@ export const Media = ({
             {editActive && (hasMedia ?? true) && (
               <>
                 <SaveButton onSuccess={() => setEditActive(false)} />
-                <OwnerWarning />
+                <OwnerWarning isOwner={isOwner} />
               </>
             )}
           </div>

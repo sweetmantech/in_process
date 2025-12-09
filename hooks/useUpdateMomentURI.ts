@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { callUpdateMomentURI } from "@/lib/moment/callUpdateMomentURI";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { migrateMuxToArweaveApi } from "@/lib/mux/migrateMuxToArweaveApi";
-import useMomentMetadata from "@/hooks/useMomentMetadata";
+import useMetadataUpload from "@/hooks/useMetadataUpload";
 
 const useUpdateMomentURI = () => {
   const { moment, fetchMomentData } = useMomentProvider();
@@ -24,7 +24,7 @@ const useUpdateMomentURI = () => {
     setWritingText,
   } = useMetadataFormProvider();
   const { getAccessToken } = usePrivy();
-  const { generateMetadataUri } = useMomentMetadata();
+  const { generateMetadataUri } = useMetadataUpload();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const resetMediaState = () => {

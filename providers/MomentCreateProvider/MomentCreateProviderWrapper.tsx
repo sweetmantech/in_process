@@ -2,7 +2,7 @@
 
 import React from "react";
 import { MetadataFormProvider } from "../MetadataFormProvider";
-import { MomentMetadataProvider } from "../MomentMetadataProvider";
+import { MetadataUploadProvider } from "../MetadataUploadProvider";
 import { MomentCreateProvider } from "./MomentCreateProvider";
 
 interface MomentCreateProviderWrapperProps {
@@ -12,9 +12,9 @@ interface MomentCreateProviderWrapperProps {
 const MomentCreateProviderWrapper = ({ children }: MomentCreateProviderWrapperProps) => {
   return (
     <MetadataFormProvider>
-      <MomentMetadataProvider>
+      <MetadataUploadProvider>
         <MomentCreateProvider>{children}</MomentCreateProvider>
-      </MomentMetadataProvider>
+      </MetadataUploadProvider>
     </MetadataFormProvider>
   );
 };

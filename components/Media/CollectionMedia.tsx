@@ -3,10 +3,9 @@
 import { Media } from "../Media/Media";
 import useCollectionData from "@/hooks/useCollectionData";
 import useUpdateCollectionURI from "@/hooks/useUpdateCollectionURI";
-import { Skeleton } from "@/components/ui/skeleton";
 import { MomentMetadata } from "@/types/moment";
 import SaveCollectionButton from "../CollectionManagePage/SaveCollectionButton";
-import CollectionOwnerWarning from "../CollectionManagePage/CollectionOwnerWarning";
+import OwnerWarning from "./OwnerWarning";
 
 const CollectionMedia = () => {
   const { metadata, isOwner, isLoading } = useCollectionData();
@@ -18,9 +17,8 @@ const CollectionMedia = () => {
       isOwner={isOwner}
       isLoading={isLoading}
       isSaving={isSaving}
-      LoadingSkeleton={() => <Skeleton className="w-full h-[200px]" />}
       SaveButton={SaveCollectionButton}
-      OwnerWarning={CollectionOwnerWarning}
+      OwnerWarning={OwnerWarning}
     />
   );
 };

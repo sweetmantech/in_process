@@ -5,6 +5,7 @@ export interface CallUpdateCollectionURIInput {
     address: Address;
     chainId: number;
   };
+  newCollectionName: string;
   newUri: string;
   accessToken: string;
 }
@@ -16,10 +17,11 @@ export interface CallUpdateCollectionURIInput {
 export async function callUpdateCollectionURI({
   collection,
   newUri,
+  newCollectionName,
   accessToken,
 }: CallUpdateCollectionURIInput): Promise<void> {
   try {
-    const response = await fetch("/api/collection/update-uri", {
+    const response = await fetch("/api/collection/uri", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -28,6 +30,7 @@ export async function callUpdateCollectionURI({
       body: JSON.stringify({
         collection,
         newUri,
+        newCollectionName,
       }),
     });
 

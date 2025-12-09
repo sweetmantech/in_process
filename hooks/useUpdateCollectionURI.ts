@@ -4,14 +4,14 @@ import { usePrivy } from "@privy-io/react-auth";
 import { toast } from "sonner";
 import { callUpdateCollectionURI } from "@/lib/collection/callUpdateCollectionURI";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
-import useCollectionMetadata from "@/hooks/useCollectionMetadata";
 import { Address } from "viem";
+import { useMetadataUploadProvider } from "@/providers/MetadataUploadProvider";
 
 const useUpdateCollectionURI = () => {
   const { data: collection, refetch } = useCollectionProvider();
   const { name, setDescription } = useMetadataFormProvider();
   const { getAccessToken } = usePrivy();
-  const { generateMetadataUri } = useCollectionMetadata();
+  const { generateMetadataUri } = useMetadataUploadProvider();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const updateCollectionURI = async () => {
@@ -38,6 +38,7 @@ const useUpdateCollectionURI = () => {
           address: collection.address as Address,
           chainId: collection.chain_id,
         },
+        newCollectionName: name,
         newUri,
         accessToken,
       });
