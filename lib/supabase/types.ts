@@ -478,6 +478,16 @@ export type Database = {
         };
         Returns: Json;
       };
+      get_in_process_payments: {
+        Args: {
+          p_artists?: string[];
+          p_chainid?: number;
+          p_collectors?: string[];
+          p_limit?: number;
+          p_page?: number;
+        };
+        Returns: Json;
+      };
       get_in_process_timeline: {
         Args: {
           p_chainid?: number;
