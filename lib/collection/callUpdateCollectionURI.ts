@@ -19,7 +19,7 @@ export async function callUpdateCollectionURI({
   newUri,
   newCollectionName,
   accessToken,
-}: CallUpdateCollectionURIInput): Promise<void> {
+}: CallUpdateCollectionURIInput): Promise<string> {
   try {
     const response = await fetch("/api/collection/uri", {
       method: "POST",

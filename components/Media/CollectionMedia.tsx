@@ -1,14 +1,16 @@
 "use client";
 
 import { Media } from "../Media/Media";
-import useCollectionData from "@/hooks/useCollectionData";
+import useIsCollectionOwner from "@/hooks/useIsCollectionOwner";
 import useUpdateCollectionURI from "@/hooks/useUpdateCollectionURI";
 import { MomentMetadata } from "@/types/moment";
 import SaveCollectionButton from "../CollectionManagePage/SaveCollectionButton";
-import OwnerWarning from "./OwnerWarning";
+import { useCollectionProvider } from "@/providers/CollectionProvider";
 
 const CollectionMedia = () => {
-  const { metadata, isOwner, isLoading } = useCollectionData();
+  const { data: collection, isLoading } = useCollectionProvider();
+  const isOwner = useIsCollectionOwner();
+  const metadata = collection?.metadata ?? null;
   const { isLoading: isSaving } = useUpdateCollectionURI();
 
   return (
@@ -18,7 +20,6 @@ const CollectionMedia = () => {
       isLoading={isLoading}
       isSaving={isSaving}
       SaveButton={SaveCollectionButton}
-      OwnerWarning={OwnerWarning}
     />
   );
 };

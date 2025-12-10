@@ -10,6 +10,7 @@ import ResetButton from "../MetadataCreation/ResetButton";
 import { MomentMetadata } from "@/types/moment";
 import AnimationUpload from "./AnimationUpload";
 import { Skeleton } from "../ui/skeleton";
+import OwnerWarning from "./OwnerWarning";
 
 interface MediaProps {
   metadata: MomentMetadata | null;
@@ -17,18 +18,10 @@ interface MediaProps {
   isLoading: boolean;
   isSaving: boolean;
   SaveButton: ({ onSuccess }: { onSuccess?: () => void }) => ReactNode;
-  OwnerWarning: (props: { isOwner: boolean }) => ReactNode;
   hasMedia?: boolean;
 }
 
-export const Media = ({
-  metadata,
-  isOwner,
-  isLoading,
-  isSaving,
-  SaveButton,
-  OwnerWarning,
-}: MediaProps) => {
+export const Media = ({ metadata, isOwner, isLoading, isSaving, SaveButton }: MediaProps) => {
   const { form, hasMedia } = useMetadataFormProvider();
   const [editActive, setEditActive] = useState(false);
 
