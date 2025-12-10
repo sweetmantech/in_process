@@ -42,6 +42,7 @@ BEGIN
     json_build_object(
       'id', payment_result.id,
       'amount', payment_result.amount::text,
+      'currency', payment_result.currency,
       'transaction_hash', payment_result.transaction_hash,
       'transferred_at', payment_result.transferred_at,
       'moment', payment_result.moment,
@@ -52,6 +53,7 @@ BEGIN
     SELECT
       p.id,
       p.amount,
+      p.currency,
       p.transaction_hash,
       p.transferred_at,
       json_build_object(
@@ -88,8 +90,8 @@ BEGIN
         json_build_object(
           'id', fr.id,
           'moment', fr.moment,
-          'recipient', fr.recipient,
-          'fee_bps', fr.fee_bps
+          'artist_address', fr.artist_address,
+          'percent_allocation', fr.percent_allocation
         )
       ) AS fee_recipients_array
       FROM in_process_moment_fee_recipients fr
