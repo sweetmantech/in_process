@@ -1,6 +1,6 @@
 import { TableCell, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import type { Payment, PaymentWithType } from "@/hooks/usePayments";
+import type { Payment, PaymentWithType } from "@/types/payments";
 import MomentCell from "@/components/NotificationsPage/MomentCell";
 import NotificationDateCell from "@/components/NotificationsPage/NotificationDateCell";
 import BuyerCell from "./BuyerCell";

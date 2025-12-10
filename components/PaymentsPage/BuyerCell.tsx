@@ -1,6 +1,6 @@
 import { TableCell } from "@/components/ui/table";
 import truncateAddress from "@/lib/truncateAddress";
-import type { Payment, PaymentWithType } from "@/hooks/usePayments";
+import type { Payment, PaymentWithType } from "@/types/payments";
 import PaymentsTypeBadge from "./PaymentsTypeBadge";
 
 interface BuyerCellProps {

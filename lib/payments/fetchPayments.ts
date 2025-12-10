@@ -1,10 +1,4 @@
-import type { InProcessPayment } from "@/lib/supabase/in_process_payments/selectPayments";
-
-export interface PaymentsResponse {
-  status: "success" | "error";
-  payments: InProcessPayment[];
-  message?: string;
-}
+import type { PaymentsResponse } from "@/types/payments";
 
 export async function fetchPayments(
   page = 1,

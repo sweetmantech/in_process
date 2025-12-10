@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import type { Payment, PaymentWithType } from "./usePayments";
+import type { Payment, PaymentWithType } from "@/types/payments";
 import { useUserProvider } from "@/providers/UserProvider";
 import { zeroAddress } from "viem";
 

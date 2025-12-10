@@ -28,7 +28,7 @@ export async function GET(req: NextRequest) {
       artists.push(artist);
     }
 
-    const { data, error } = await selectPayments({
+    const { data, count, error } = await selectPayments({
       limit,
       page,
       artists,
@@ -46,9 +46,18 @@ export async function GET(req: NextRequest) {
       );
     }
 
+    const totalCount = count || 0;
+    const totalPages = Math.ceil(totalCount / limit);
+
     return Response.json({
       status: "success",
       payments: data || [],
+      pagination: {
+        total_count: totalCount,
+        page,
+        limit,
+        total_pages: totalPages,
+      },
     });
   } catch (error) {
     console.error("Error selecting payments:", error);
