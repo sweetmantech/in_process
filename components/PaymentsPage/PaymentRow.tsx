@@ -29,7 +29,8 @@ const PaymentRow = ({ payment }: PaymentRowProps) => {
               : ""
           }`}
         >
-          {isCombinedPayment ? (isEarning ? "+" : "-") : ""}${amount}
+          {isCombinedPayment ? (isEarning ? "+" : "-") : ""}
+          {amount}
         </Badge>
       </TableCell>
       <NotificationDateCell payment={payment} />

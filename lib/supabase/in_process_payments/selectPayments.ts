@@ -13,6 +13,7 @@ export type InProcessPayment = {
   amount: string;
   transaction_hash: string;
   transferred_at: string;
+  currency: string;
 };
 
 export interface InProcessPaymentsQuery {
@@ -33,7 +34,7 @@ export async function selectPayments({
   const cappedLimit = Math.min(limit, 100);
 
   let query = supabase.from("in_process_payments").select(
-    `id, amount, transaction_hash, transferred_at, 
+    `id, amount, currency, transaction_hash, transferred_at, 
       moment:in_process_moments!inner(*, 
         collection:in_process_collections!inner(*),
         fee_recipients:in_process_moment_fee_recipients(*)
