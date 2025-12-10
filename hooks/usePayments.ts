@@ -1,84 +1,57 @@
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import type { InProcessPayment } from "@/lib/supabase/in_process_payments/selectPayments";
 import { fetchPayments } from "@/lib/payments/fetchPayments";
+import type { PaymentsResponse } from "@/types/payments";
 
-export type Payment = InProcessPayment;
-
-export type PaymentWithType = InProcessPayment & {
-  type: "earning" | "expense";
-};
-
-export interface PaymentsResponse {
-  status: "success" | "error";
-  payments: Payment[];
-  pagination: {
-    total_count: number;
-    page: number;
-    limit: number;
-    total_pages: number;
-  };
-  message?: string;
+interface UsePaymentsParams {
+  page?: number;
+  limit?: number;
+  artist?: string;
+  collector?: string;
 }
 
-export interface PaymentsCombinedResponse {
-  status: "success" | "error";
-  payments: PaymentWithType[];
-  message?: string;
-}
+export function usePayments(params: UsePaymentsParams = {}) {
+  const { page = 1, limit = 20, artist, collector } = params;
 
-export function usePayments(
-  page = 1,
-  limit = 20,
-  enabled = true,
-  artist?: string,
-  combined = false
-) {
   const [currentPage, setCurrentPage] = useState(page);
 
-  const query = useQuery({
-    queryKey: ["payments", currentPage, limit, artist, combined],
-    queryFn: async () => {
-      if (combined && artist) {
-        // Combined mode: fetch both earnings and expenses
-        const [earningsResponse, expensesResponse] = await Promise.all([
-          fetchPayments(currentPage, Math.ceil(limit / 2), artist), // artist payments
-          fetchPayments(currentPage, Math.ceil(limit / 2), undefined, artist), // collector payments
-        ]);
-
-        // Combine and type the payments
-        const earnings: PaymentWithType[] = (earningsResponse.payments || []).map((payment) => ({
-          ...payment,
-          type: "earning" as const,
-        }));
-
-        const expenses: PaymentWithType[] = (expensesResponse.payments || []).map((payment) => ({
-          ...payment,
-          type: "expense" as const,
-        }));
-
-        // Combine and sort by transferred_at (most recent first)
-        const combinedPayments = [...earnings, ...expenses].sort(
-          (a, b) => new Date(b.transferred_at).getTime() - new Date(a.transferred_at).getTime()
-        );
-
-        return {
-          status: "success" as const,
-          payments: combinedPayments.slice(0, limit), // Ensure we don't exceed the limit
-        } as PaymentsCombinedResponse;
-      } else {
-        // Regular mode: fetch single type of payments
-        return fetchPayments(currentPage, limit, artist);
-      }
+  const query = useInfiniteQuery({
+    queryKey: ["payments", limit, artist, collector],
+    queryFn: async ({ pageParam = 1 }) => {
+      return fetchPayments(pageParam, limit, artist, collector);
     },
-    enabled: combined ? enabled && Boolean(artist) : enabled,
+    enabled: Boolean(artist || collector),
     staleTime: 1000 * 60 * 5, // 5 minutes
     retry: (failureCount) => failureCount < 3,
+    getNextPageParam: (lastPage: PaymentsResponse) => {
+      const { page, total_pages } = lastPage.pagination;
+      return page < total_pages ? page + 1 : undefined;
+    },
+    initialPageParam: 1,
   });
+
+  // Flatten all pages into a single array
+  const payments = query.data?.pages.flatMap((page) => page.payments) ?? [];
+
+  const pagination = query.data?.pages[query.data.pages.length - 1]?.pagination;
+
+  const fetchMore = () => {
+    if (query.hasNextPage && !query.isFetchingNextPage) {
+      query.fetchNextPage();
+    }
+  };
 
   return {
     ...query,
+    data: query.data
+      ? {
+          status: query.data.pages[0]?.status || "success",
+          payments,
+          pagination: pagination || { page: 1, limit, total_pages: 1, total_count: 0 },
+        }
+      : undefined,
     setCurrentPage,
     currentPage,
+    fetchMore,
   };
 }

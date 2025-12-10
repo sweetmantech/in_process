@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import type { Payment, PaymentWithType } from "./usePayments";
+import type { Payment, PaymentWithType } from "@/types/payments";
 import { useUserProvider } from "@/providers/UserProvider";
+import { zeroAddress } from "viem";
 
 /**
  * Calculates the payment amount, accounting for split contracts.
@@ -26,10 +27,11 @@ const usePaymentAmount = (payment: Payment | PaymentWithType): string => {
           payment.moment.collection.default_admin?.toLowerCase()
       )?.percent_allocation;
 
+      const symbol = payment.currency === zeroAddress ? "ETH" : "USDC";
       if (percentAllocation) {
-        return ((parseFloat(payment.amount) * percentAllocation) / 100).toFixed(2);
+        return `${(Number(payment.amount) * (percentAllocation / 100)).toFixed(9)} ${symbol}`;
       }
-      return payment.amount;
+      return `${Number(payment.amount).toFixed(4)} ${symbol}`;
     },
     enabled: Boolean(artistWallet && payment.moment.collection.default_admin),
     staleTime: 1000 * 60 * 5, // 5 minutes

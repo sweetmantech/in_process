@@ -15,7 +15,12 @@ interface PaymentsTableProps {
 }
 
 const PaymentsTable = ({ limit = 20, address, combined = false }: PaymentsTableProps) => {
-  const { data, isLoading, error } = usePayments(1, limit, true, address, combined);
+  const { data, isLoading, error, fetchMore, hasNextPage } = usePayments({
+    page: 1,
+    limit,
+    artist: address,
+    collector: combined ? address : undefined,
+  });
 
   if (isLoading) return <PaymentsTableLoading />;
   if (error) return <PaymentsTableError error={error} />;
@@ -34,7 +39,11 @@ const PaymentsTable = ({ limit = 20, address, combined = false }: PaymentsTableP
         {payments.length === 0 ? (
           <NoPaymentsFound />
         ) : (
-          <PaymentsTableContents payments={payments} />
+          <PaymentsTableContents
+            payments={payments}
+            fetchMore={fetchMore}
+            hasNextPage={hasNextPage}
+          />
         )}
       </CardContent>
     </Card>
