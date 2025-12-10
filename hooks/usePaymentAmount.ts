@@ -27,9 +27,9 @@ const usePaymentAmount = (payment: Payment | PaymentWithType): string => {
       )?.percent_allocation;
 
       if (percentAllocation) {
-        return ((parseFloat(payment.amount) * percentAllocation) / 100).toFixed(2);
+        return ((parseFloat(payment.amount) * percentAllocation) / 100).toFixed(4);
       }
-      return payment.amount;
+      return Number(payment.amount).toString();
     },
     enabled: Boolean(artistWallet && payment.moment.collection.default_admin),
     staleTime: 1000 * 60 * 5, // 5 minutes

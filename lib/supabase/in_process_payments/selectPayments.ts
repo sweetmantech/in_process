@@ -37,7 +37,7 @@ export async function selectPayments({
       moment:in_process_moments!inner(*, 
         collection:in_process_collections!inner(*),
         fee_recipients:in_process_moment_fee_recipients(*)
-      ), 
+      ),
       buyer:in_process_artists!inner(*)`,
     { count: "exact" }
   );

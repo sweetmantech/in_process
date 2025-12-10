@@ -41,5 +41,6 @@ export async function distributeSplitFunds({
     ],
   });
 
+  console.log('ziad here distribute', distributeTransaction.transactionHash)
   return distributeTransaction.transactionHash as Hash;
 }
