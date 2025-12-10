@@ -15,8 +15,7 @@ interface PaymentsTableProps {
 }
 
 const PaymentsTable = ({ limit = 20, address, combined = false }: PaymentsTableProps) => {
-  const { data, isLoading, error, fetchMore, hasNextPage } = usePayments({
-    page: 1,
+  const { data, isLoading, error, fetchNextPage, hasNextPage } = usePayments({
     limit,
     artist: address,
     collector: combined ? address : undefined,
@@ -25,7 +24,7 @@ const PaymentsTable = ({ limit = 20, address, combined = false }: PaymentsTableP
   if (isLoading) return <PaymentsTableLoading />;
   if (error) return <PaymentsTableError error={error} />;
 
-  const payments = data?.payments || [];
+  const payments = data?.pages.flatMap((page) => page.payments) ?? [];
 
   return (
     <Card>
@@ -41,7 +40,7 @@ const PaymentsTable = ({ limit = 20, address, combined = false }: PaymentsTableP
         ) : (
           <PaymentsTableContents
             payments={payments}
-            fetchMore={fetchMore}
+            fetchMore={fetchNextPage}
             hasNextPage={hasNextPage}
           />
         )}
