@@ -29,7 +29,7 @@ const usePaymentAmount = (payment: Payment | PaymentWithType): string => {
 
       const symbol = payment.currency === zeroAddress ? "ETH" : "USDC";
       if (percentAllocation) {
-        return `${((parseFloat(payment.amount) * percentAllocation) / 100).toFixed(9)} ${symbol}`;
+        return `${(Number(payment.amount) * (percentAllocation / 100)).toFixed(9)} ${symbol}`;
       }
       return `${Number(payment.amount).toFixed(4)} ${symbol}`;
     },
