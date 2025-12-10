@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import { selectPayments } from "@/lib/supabase/in_process_payments/selectPayments";
-import { getOrCreateSmartWallet } from "@/lib/coinbase/getOrCreateSmartWallet";
 import { Address } from "viem";
+import getSmartWalletAddress from "@/lib/smartwallets/getSmartWalletAddress";
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -16,23 +16,19 @@ export async function GET(req: NextRequest) {
   try {
     const collectors: string[] = [];
     if (collector) {
-      const smartAccount = await getOrCreateSmartWallet({
-        address: collector as Address,
-      });
-      collectors.push(smartAccount.address.toLowerCase());
+      const collectorSmartWallet = await getSmartWalletAddress(collector as Address);
+      collectors.push(collectorSmartWallet);
       collectors.push(collector);
     }
 
     const artists: string[] = [];
     if (artist) {
-      const smartAccount = await getOrCreateSmartWallet({
-        address: artist as Address,
-      });
-      artists.push(smartAccount.address.toLowerCase());
+      const artistSmartWallet = await getSmartWalletAddress(artist as Address);
+      artists.push(artistSmartWallet);
       artists.push(artist);
     }
 
-    const { data, error } = await selectPayments({
+    const { data, count, error } = await selectPayments({
       limit,
       page,
       artists,
@@ -50,9 +46,18 @@ export async function GET(req: NextRequest) {
       );
     }
 
+    const totalCount = count || 0;
+    const totalPages = Math.ceil(totalCount / limit);
+
     return Response.json({
       status: "success",
       payments: data || [],
+      pagination: {
+        total_count: totalCount,
+        page,
+        limit,
+        total_pages: totalPages,
+      },
     });
   } catch (error) {
     console.error("Error selecting payments:", error);
