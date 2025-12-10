@@ -29,3 +29,12 @@ export interface PaymentsCombinedResponse extends PaymentsResponse {
     total_pages: number;
   };
 }
+
+export interface CombinedPaginationState {
+  earningsPage: number;
+  expensesPage: number;
+  earningsTotalPages: number;
+  expensesTotalPages: number;
+  earningsFinished: boolean;
+  expensesFinished: boolean;
+}

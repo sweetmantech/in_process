@@ -1,20 +1,16 @@
 import { fetchPayments } from "./fetchPayments";
-import type { PaymentsResponse, PaymentsCombinedResponse, PaymentWithType } from "@/types/payments";
-
-interface PaginationState {
-  earningsPage: number;
-  expensesPage: number;
-  earningsTotalPages: number;
-  expensesTotalPages: number;
-  earningsFinished: boolean;
-  expensesFinished: boolean;
-}
+import type {
+  PaymentsResponse,
+  PaymentsCombinedResponse,
+  PaymentWithType,
+  CombinedPaginationState,
+} from "@/types/payments";
 
 export async function fetchCombinedPayments(
   page: number,
   limit: number,
   artist: string,
-  paginationState: PaginationState
+  paginationState: CombinedPaginationState
 ): Promise<PaymentsCombinedResponse> {
   const perRequestLimit = Math.ceil(limit / 2);
 

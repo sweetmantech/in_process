@@ -3,16 +3,11 @@ import { useState, useRef, useEffect } from "react";
 import { fetchPayments } from "@/lib/payments/fetchPayments";
 import { fetchCombinedPayments } from "@/lib/payments/fetchCombinedPayments";
 import { getNextCombinedPage } from "@/lib/payments/getNextCombinedPage";
-import type { PaymentsResponse, PaymentsCombinedResponse } from "@/types/payments";
-
-interface CombinedPaginationState {
-  earningsPage: number;
-  expensesPage: number;
-  earningsTotalPages: number;
-  expensesTotalPages: number;
-  earningsFinished: boolean;
-  expensesFinished: boolean;
-}
+import type {
+  PaymentsResponse,
+  PaymentsCombinedResponse,
+  CombinedPaginationState,
+} from "@/types/payments";
 
 export function usePayments(
   page = 1,
