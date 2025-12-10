@@ -24,6 +24,7 @@ BEGIN
     INNER JOIN in_process_moments m ON p.moment = m.id
     INNER JOIN in_process_collections c ON m.collection = c.id
     INNER JOIN in_process_artists b ON p.buyer = b.address
+    INNER JOIN in_process_sales s ON s.moment = m.id
     WHERE
       (p_chainid IS NULL OR c.chain_id = p_chainid)
       AND (
@@ -53,7 +54,7 @@ BEGIN
     SELECT
       p.id,
       p.amount,
-      p.currency,
+      s.currency,
       p.transaction_hash,
       p.transferred_at,
       json_build_object(
@@ -85,6 +86,7 @@ BEGIN
     INNER JOIN in_process_moments m ON p.moment = m.id
     INNER JOIN in_process_collections c ON m.collection = c.id
     INNER JOIN in_process_artists b ON p.buyer = b.address
+    INNER JOIN in_process_sales s ON s.moment = m.id
     LEFT JOIN LATERAL (
       SELECT json_agg(
         json_build_object(
