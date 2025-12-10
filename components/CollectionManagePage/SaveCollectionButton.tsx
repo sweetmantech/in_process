@@ -3,14 +3,14 @@ import useUpdateCollectionURI from "@/hooks/useUpdateCollectionURI";
 import { toast } from "sonner";
 import { useFormState } from "react-hook-form";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
-import useCollectionData from "@/hooks/useCollectionData";
+import useIsCollectionOwner from "@/hooks/useIsCollectionOwner";
 
 interface SaveCollectionButtonProps {
   onSuccess?: () => void;
 }
 
 const SaveCollectionButton = ({ onSuccess }: SaveCollectionButtonProps) => {
-  const { isOwner } = useCollectionData();
+  const isOwner = useIsCollectionOwner();
   const { updateCollectionURI, isLoading: isSaving } = useUpdateCollectionURI();
   const { form } = useMetadataFormProvider();
   const { errors } = useFormState({ control: form.control });

@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import { useCollectionProvider } from "@/providers/CollectionProvider";
 import { useUserProvider } from "@/providers/UserProvider";
 
-const useCollectionData = () => {
+const useIsCollectionOwner = () => {
   const { data: collection } = useCollectionProvider();
   const { artistWallet } = useUserProvider();
 
@@ -14,11 +14,7 @@ const useCollectionData = () => {
     return getAddress(artistWallet) === getAddress(defaultAdminAddress);
   }, [collection, artistWallet]);
 
-  return {
-    isOwner,
-    metadata: collection?.metadata ?? null,
-    isLoading: !collection,
-  };
+  return isOwner;
 };
 
-export default useCollectionData;
+export default useIsCollectionOwner;
