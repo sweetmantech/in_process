@@ -7,8 +7,8 @@ export const usePaymentType = (payment: Payment | PaymentWithType): { isExpense:
   const { artistWallet } = useUserProvider();
 
   const isExpense = !(
-    payment.buyer.address === artistWallet?.toLowerCase() ||
-    payment.buyer.address === smartWallet?.toLowerCase()
+    payment.buyer.address.toLowerCase() === artistWallet?.toLowerCase() ||
+    payment.buyer.address.toLowerCase() === smartWallet?.toLowerCase()
   );
 
   return {
