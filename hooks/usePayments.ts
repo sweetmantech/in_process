@@ -6,13 +6,12 @@ import type { PaymentsResponse } from "@/types/payments";
 interface UsePaymentsParams {
   page?: number;
   limit?: number;
-  enabled?: boolean;
   artist?: string;
   collector?: string;
 }
 
 export function usePayments(params: UsePaymentsParams = {}) {
-  const { page = 1, limit = 20, enabled = true, artist, collector } = params;
+  const { page = 1, limit = 20, artist, collector } = params;
 
   const [currentPage, setCurrentPage] = useState(page);
 
@@ -21,7 +20,7 @@ export function usePayments(params: UsePaymentsParams = {}) {
     queryFn: async ({ pageParam = 1 }) => {
       return fetchPayments(pageParam, limit, artist, collector);
     },
-    enabled,
+    enabled: Boolean(artist || collector),
     staleTime: 1000 * 60 * 5, // 5 minutes
     retry: (failureCount) => failureCount < 3,
     getNextPageParam: (lastPage: PaymentsResponse) => {

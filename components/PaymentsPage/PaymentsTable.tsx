@@ -18,7 +18,6 @@ const PaymentsTable = ({ limit = 20, address, combined = false }: PaymentsTableP
   const { data, isLoading, error, fetchMore, hasNextPage } = usePayments({
     page: 1,
     limit,
-    enabled: true,
     artist: address,
     collector: combined ? address : undefined,
   });
