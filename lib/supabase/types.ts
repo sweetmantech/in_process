@@ -367,6 +367,7 @@ export type Database = {
         Row: {
           amount: number;
           buyer: string;
+          currency: string;
           id: string;
           moment: string;
           transaction_hash: string;
@@ -375,6 +376,7 @@ export type Database = {
         Insert: {
           amount: number;
           buyer: string;
+          currency?: string;
           id?: string;
           moment: string;
           transaction_hash: string;
@@ -383,6 +385,7 @@ export type Database = {
         Update: {
           amount?: number;
           buyer?: string;
+          currency?: string;
           id?: string;
           moment?: string;
           transaction_hash?: string;
