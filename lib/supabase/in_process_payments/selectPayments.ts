@@ -43,11 +43,13 @@ export async function selectPayments({
     { count: "exact" }
   );
 
-  if (artists && artists.length > 0) {
+  if (artists && collectors && artists.length > 0 && collectors.length > 0) {
+    query = query.or(
+      `moment.collection.default_admin.in.(${artists.join(",")}),buyer.address.in.(${collectors.join(",")})`
+    );
+  } else if (artists && artists.length > 0) {
     query = query.in("moment.collection.default_admin", artists);
-  }
-
-  if (collectors.length > 0) {
+  } else if (collectors.length > 0) {
     query = query.in("buyer.address", collectors);
   }
 

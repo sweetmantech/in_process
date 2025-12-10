@@ -15,13 +15,13 @@ interface PaymentsTableProps {
 }
 
 const PaymentsTable = ({ limit = 20, address, combined = false }: PaymentsTableProps) => {
-  const { data, isLoading, error, fetchMore, hasNextPage } = usePayments(
-    1,
+  const { data, isLoading, error, fetchMore, hasNextPage } = usePayments({
+    page: 1,
     limit,
-    true,
-    address,
-    combined
-  );
+    enabled: true,
+    artist: address,
+    collector: combined ? address : undefined,
+  });
 
   if (isLoading) return <PaymentsTableLoading />;
   if (error) return <PaymentsTableError error={error} />;
