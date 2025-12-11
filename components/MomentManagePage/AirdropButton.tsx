@@ -4,7 +4,7 @@ import { useMomentProvider } from "@/providers/MomentProvider";
 import { useUserProvider } from "@/providers/UserProvider";
 
 const AirdropButton = () => {
-  const { airdopToItems, onAirdrop, loading } = useAirdropProvider();
+  const { airdropToItems, onAirdrop, loading } = useAirdropProvider();
   const { owner, momentAdmins } = useMomentProvider();
   const { connectedAddress, artistWallet } = useUserProvider();
   const canAirdrop =
@@ -16,7 +16,7 @@ const AirdropButton = () => {
     <button
       type="button"
       disabled={
-        Boolean(airdopToItems.filter((item: AirdropItem) => item.status === "invalid").length) ||
+        Boolean(airdropToItems.filter((item: AirdropItem) => item.status === "invalid").length) ||
         loading ||
         !canAirdrop
       }
