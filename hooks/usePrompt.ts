@@ -1,4 +1,3 @@
-import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { useEffect, useRef, useState } from "react";
 
 const promptOptions = [
@@ -11,43 +10,34 @@ const promptOptions = [
 
 let timer: NodeJS.Timeout | string | number | undefined = undefined;
 const usePrompt = () => {
-  const [prompt, setPrompt] = useState(0);
+  const promptIndexRef = useRef(0);
   const [placeholder, setPlaceholder] = useState(promptOptions[0].label);
-  const { name, setName } = useMetadataFormProvider();
   const promptRef = useRef(null) as any;
 
   const rotatePrompt = () => {
     clearInterval(timer);
-    timer = setInterval(
-      () =>
-        setPrompt((prev) => {
-          const promptIndex = (prev + 1) % promptOptions.length;
-          setPlaceholder(promptOptions[promptIndex].label);
-          return promptIndex;
-        }),
-      1500
-    );
-  };
-
-  const onActive = () => {
-    if (name) return;
-
-    const promptValue = promptOptions[prompt].value;
-    setName(promptValue);
-    setTimeout(() => {
-      promptRef.current.setSelectionRange(promptValue.length, promptValue.length);
-    }, 100);
-    clearInterval(timer);
+    timer = setInterval(() => {
+      promptIndexRef.current = (promptIndexRef.current + 1) % promptOptions.length;
+      setPlaceholder(promptOptions[promptIndexRef.current].label);
+    }, 1500);
   };
 
   useEffect(() => {
-    if (!name) rotatePrompt();
-  }, [name]);
+    rotatePrompt();
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
+
+  const onActive = () => {
+    clearInterval(timer);
+  };
 
   return {
     placeholder,
     onActive,
     promptRef,
+    rotatePrompt,
   };
 };
 

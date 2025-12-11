@@ -7,7 +7,7 @@ import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 const Prompt = () => {
   const { creating } = useMomentCreateProvider();
   const { form } = useMetadataFormProvider();
-  const { placeholder, onActive, promptRef } = usePrompt();
+  const { placeholder, onActive, promptRef, rotatePrompt } = usePrompt();
 
   return (
     <div className="flex w-full flex-col items-start gap-2">
@@ -18,6 +18,7 @@ const Prompt = () => {
         {...form.register("name")}
         placeholder={placeholder}
         onFocus={onActive}
+        onBlur={rotatePrompt}
         className="rounded-[0px] border border-grey bg-white !font-spectral !ring-0 !ring-offset-0"
         disabled={Boolean(creating)}
         ref={(e) => {
