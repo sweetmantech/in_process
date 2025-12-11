@@ -8,21 +8,19 @@ const AirdropBadge = ({ item, i }: { item: AirdropItem; i: number }) => {
 
   return (
     <div
-      className={`${item.status === "invalid" ? "bg-red" : "bg-grey-moss-200"} flex h-fit w-fit items-center gap-2 rounded-full px-4 py-1 text-white`}
+      className={`${item.status === "invalid" ? "bg-red" : "bg-grey-moss-200"} flex h-fit w-fit items-center gap-1.5 rounded-full px-2.5 py-0.5 text-white`}
     >
       {item.status === "validating" ? (
-        <p className="font-archivo text-xs md:text-lg">Validating...</p>
+        <p className="font-archivo text-xs">Validating...</p>
       ) : (
-        <p className="font-archivo text-xs md:text-lg">
-          {item.ensName || truncateAddress(item.address)}
-        </p>
+        <p className="font-archivo text-xs">{item.ensName || truncateAddress(item.address)}</p>
       )}
       <button
         onClick={() => removeAddress(i)}
         type="button"
-        className={`${item.status === "invalid" ? "text-white" : "text-grey-moss-400"} rounded-full p-0.5`}
+        className={`${item.status === "invalid" ? "text-white" : "text-grey-moss-400"} rounded-full p-0.5 hover:opacity-70 transition-opacity`}
       >
-        <X className="size-5" />
+        <X className="size-3.5" />
       </button>
     </div>
   );

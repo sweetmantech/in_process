@@ -8,7 +8,7 @@ const AirdropInput = () => {
   return (
     <input
       type="text"
-      className="h-fit min-w-[300px] px-2 py-1 font-archivo text-xs !outline-0 !ring-0 md:text-lg"
+      className="h-fit min-w-[200px] px-2 py-0.5 font-archivo text-xs !outline-0 !ring-0"
       value={value}
       onChange={(e) => setValue(e.target.value)}
       onKeyDown={handleInput}
