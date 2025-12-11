@@ -58,6 +58,7 @@ const useAirdrop = () => {
     try {
       if (!isPrepared()) return;
       if (!Boolean(artistWallet) || !smartWallet) return;
+      if (airdropToItems.length === 0) return;
       setLoading(true);
 
       const accessToken = await getAccessToken();
