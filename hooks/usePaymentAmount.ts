@@ -2,7 +2,6 @@ import { useQuery } from "@tanstack/react-query";
 import type { Payment, PaymentWithType } from "@/types/payments";
 import { useUserProvider } from "@/providers/UserProvider";
 import { zeroAddress } from "viem";
-import { useSmartWalletProvider } from "@/providers/SmartWalletProvider";
 
 /**
  * Calculates the payment amount, accounting for split contracts.
