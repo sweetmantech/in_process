@@ -16,6 +16,7 @@ const AirdropButton = () => {
     <button
       type="button"
       disabled={
+        !Boolean(airdropToItems.length) ||
         Boolean(airdropToItems.filter((item: AirdropItem) => item.status === "invalid").length) ||
         loading ||
         !canAirdrop
