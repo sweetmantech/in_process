@@ -17,7 +17,7 @@ export interface AirdropItem {
 }
 const useAirdrop = () => {
   const { moment } = useMomentProvider();
-  const [airdopToItems, setAirdropToItems] = useState<AirdropItem[]>([]);
+  const [airdropToItems, setAirdropToItems] = useState<AirdropItem[]>([]);
   const { artistWallet, isPrepared } = useUserProvider();
   const { smartWallet } = useSmartWalletProvider();
   const [loading, setLoading] = useState<boolean>(false);
@@ -49,7 +49,7 @@ const useAirdrop = () => {
   };
 
   const removeAddress = (i: number) => {
-    const temp = [...airdopToItems];
+    const temp = [...airdropToItems];
     temp.splice(i, 1);
     setAirdropToItems(temp);
   };
@@ -64,7 +64,7 @@ const useAirdrop = () => {
       if (!accessToken) throw Error("No access token found");
 
       const hash = await executeAirdrop({
-        airdropToItems: airdopToItems,
+        airdropToItems,
         moment,
         smartWallet: smartWallet as Address,
         artistWallet: artistWallet as Address,
@@ -81,7 +81,7 @@ const useAirdrop = () => {
   };
 
   return {
-    airdopToItems,
+    airdropToItems,
     onChangeAddress,
     loading,
     onAirdrop,

@@ -3,7 +3,7 @@ import { useAirdropProvider } from "@/providers/AirdropProvider";
 
 const AirdropInput = () => {
   const { handleInput, handlePaste, handleBlur, value, setValue } = useAirdropInput();
-  const { airdopToItems } = useAirdropProvider();
+  const { airdropToItems } = useAirdropProvider();
 
   return (
     <input
@@ -15,7 +15,7 @@ const AirdropInput = () => {
       onPaste={handlePaste}
       onBlur={handleBlur}
       autoFocus={true}
-      placeholder={airdopToItems.length > 0 ? "" : "Enter any wallet or ENS to airdrop."}
+      placeholder={airdropToItems.length > 0 ? "" : "Enter any wallet or ENS to airdrop."}
     />
   );
 };
