@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import type { Payment, PaymentWithType } from "@/types/payments";
 import { useUserProvider } from "@/providers/UserProvider";
-import { zeroAddress } from "viem";
+import { getPaymentAmount } from "@/lib/payments/getPaymentAmount";
 
 /**
  * Calculates the payment amount, accounting for split contracts.
@@ -10,6 +10,7 @@ import { zeroAddress } from "viem";
  */
 const usePaymentAmount = (payment: Payment | PaymentWithType): string => {
   const { artistWallet } = useUserProvider();
+
   const { data: amount = "0" } = useQuery({
     queryKey: [
       "paymentAmount",
@@ -19,20 +20,7 @@ const usePaymentAmount = (payment: Payment | PaymentWithType): string => {
       payment.amount,
       artistWallet,
     ],
-    queryFn: async () => {
-      const feeRecipients = payment.moment.fee_recipients;
-      const percentAllocation = feeRecipients.find(
-        (recipient) =>
-          recipient.artist_address?.toLowerCase() ===
-          payment.moment.collection.default_admin?.toLowerCase()
-      )?.percent_allocation;
-
-      const symbol = payment.currency === zeroAddress ? "ETH" : "USDC";
-      if (percentAllocation) {
-        return `${(Number(payment.amount) * (percentAllocation / 100)).toFixed(9)} ${symbol}`;
-      }
-      return `${Number(payment.amount).toFixed(4)} ${symbol}`;
-    },
+    queryFn: () => getPaymentAmount(payment, artistWallet),
     enabled: Boolean(artistWallet && payment.moment.collection.default_admin),
     staleTime: 1000 * 60 * 5, // 5 minutes
     retry: (failureCount) => failureCount < 3,
