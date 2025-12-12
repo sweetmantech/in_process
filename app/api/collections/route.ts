@@ -1,6 +1,11 @@
 import { NextRequest } from "next/server";
 import { CHAIN_ID } from "@/lib/consts";
 import selectCollections from "@/lib/supabase/in_process_collections/selectCollections";
+import { createCollectionSchema } from "@/lib/schema/createCollectionSchema";
+import { createCollection } from "@/lib/collection/createCollection";
+import getCorsHeader from "@/lib/getCorsHeader";
+
+const corsHeaders = getCorsHeader();
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -44,6 +49,37 @@ export async function GET(req: NextRequest) {
       },
       { status: 500 }
     );
+  }
+}
+
+export async function OPTIONS() {
+  return new Response(null, {
+    status: 200,
+    headers: corsHeaders,
+  });
+}
+
+export async function POST(req: NextRequest) {
+  try {
+    const body = await req.json();
+    const parseResult = createCollectionSchema.safeParse(body);
+    if (!parseResult.success) {
+      const errorDetails = parseResult.error.errors.map((err) => ({
+        field: err.path.join("."),
+        message: err.message,
+      }));
+      return Response.json(
+        { message: "Invalid input", errors: errorDetails },
+        { status: 400, headers: corsHeaders }
+      );
+    }
+    const data = parseResult.data;
+    const result = await createCollection(data);
+    return Response.json(result, { headers: corsHeaders });
+  } catch (e: any) {
+    console.log(e);
+    const message = e?.message ?? "Failed to create collection";
+    return Response.json({ message }, { status: 500, headers: corsHeaders });
   }
 }
 
