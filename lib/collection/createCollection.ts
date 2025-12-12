@@ -45,7 +45,7 @@ export async function createCollection(
   if (resolvedSplits && resolvedSplits.length >= 2) {
     const result = await processSplits(resolvedSplits, smartAccount);
     if (result.splitAddress) {
-      royaltyRecipient = getAddress(result.splitAddress) as Address;
+      royaltyRecipient = getAddress(result.splitAddress);
     }
   }
 
