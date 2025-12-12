@@ -1,12 +1,12 @@
 import { useMemo } from "react";
-import { CollectionItem } from "@/types/collections";
 import { useMetadata } from "@/hooks/useMetadata";
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
+import { useCollectionsProvider } from "@/providers/CollectionsProvider";
 
 export const useSelectedCollection = (
-  collections: CollectionItem[],
   selectedAddress: string
 ): { displayName: string; imageUrl: string; isLoading: boolean } => {
+  const { collections } = useCollectionsProvider();
   const selectedCollection = collections.find((c) => c.address === selectedAddress);
 
   const { data: metadata, isLoading } = useMetadata(selectedCollection?.uri || "");

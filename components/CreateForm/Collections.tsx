@@ -17,19 +17,12 @@ import { useCollectionsSelection } from "@/hooks/useCollectionsSelection";
 import CollectionListItem from "./CollectionItem";
 import Image from "next/image";
 import Spinner from "../ui/spinner";
+import { useCollectionsProvider } from "@/providers/CollectionsProvider";
 
 const Collections = () => {
-  const {
-    collections,
-    currentCollection,
-    open,
-    setOpen,
-    displayName,
-    imageUrl,
-    isLoading,
-    handleValueChange,
-    isCollectionsLoading,
-  } = useCollectionsSelection();
+  const { collections, isLoading: isCollectionsLoading } = useCollectionsProvider();
+  const { currentCollection, open, setOpen, displayName, imageUrl, isLoading, handleValueChange } =
+    useCollectionsSelection();
 
   return (
     <div className="flex w-full flex-col items-start gap-2">
