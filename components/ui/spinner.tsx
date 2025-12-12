@@ -1,3 +1,5 @@
-export default function Spinner() {
-  return <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-black" />;
+import { cn } from "@/lib/utils";
+
+export default function Spinner({ className = "size-4" }: { className?: string }) {
+  return <div className={cn("animate-spin rounded-full border-b-2 border-black", className)} />;
 }

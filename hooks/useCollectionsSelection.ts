@@ -1,22 +1,15 @@
 import { useState } from "react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
-import { useCollections } from "@/hooks/useCollections";
-import { useUserProvider } from "@/providers/UserProvider";
 import { useSelectedCollection } from "@/hooks/useSelectedCollection";
 
 export const useCollectionsSelection = () => {
-  const { artistWallet } = useUserProvider();
-  const { collections } = useCollections(artistWallet);
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
   const currentCollection = searchParams.get("collectionAddress") || "new";
   const [open, setOpen] = useState(false);
 
-  const { displayName, imageUrl, isLoading } = useSelectedCollection(
-    collections,
-    currentCollection
-  );
+  const { displayName, imageUrl, isLoading } = useSelectedCollection(currentCollection);
 
   const handleValueChange = (value: string) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -30,7 +23,6 @@ export const useCollectionsSelection = () => {
   };
 
   return {
-    collections,
     currentCollection,
     open,
     setOpen,

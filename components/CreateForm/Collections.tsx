@@ -16,18 +16,13 @@ import { cn } from "@/lib/utils";
 import { useCollectionsSelection } from "@/hooks/useCollectionsSelection";
 import CollectionListItem from "./CollectionItem";
 import Image from "next/image";
+import Spinner from "../ui/spinner";
+import { useCollectionsProvider } from "@/providers/CollectionsProvider";
 
 const Collections = () => {
-  const {
-    collections,
-    currentCollection,
-    open,
-    setOpen,
-    displayName,
-    imageUrl,
-    isLoading,
-    handleValueChange,
-  } = useCollectionsSelection();
+  const { collections, isLoading: isCollectionsLoading } = useCollectionsProvider();
+  const { currentCollection, open, setOpen, displayName, imageUrl, isLoading, handleValueChange } =
+    useCollectionsSelection();
 
   return (
     <div className="flex w-full flex-col items-start gap-2">
@@ -85,14 +80,20 @@ const Collections = () => {
                 </CommandItem>
               </CommandGroup>
               <CommandGroup>
-                {collections.map((collection) => (
-                  <CollectionListItem
-                    key={collection.id}
-                    collection={collection}
-                    isSelected={currentCollection === collection.address}
-                    onSelect={() => handleValueChange(collection.address)}
-                  />
-                ))}
+                {isCollectionsLoading ? (
+                  <div className="flex items-center justify-center py-2">
+                    <Spinner className="size-4" />
+                  </div>
+                ) : (
+                  collections.map((collection) => (
+                    <CollectionListItem
+                      key={collection.id}
+                      collection={collection}
+                      isSelected={currentCollection === collection.address}
+                      onSelect={() => handleValueChange(collection.address)}
+                    />
+                  ))
+                )}
               </CommandGroup>
             </CommandList>
           </Command>
