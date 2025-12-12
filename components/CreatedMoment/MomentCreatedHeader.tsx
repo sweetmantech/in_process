@@ -15,9 +15,7 @@ const MomentCreatedHeader = () => {
             objectPosition="center"
           />
         </div>
-        <div className="hidden md:block">
-          <Buttons />
-        </div>
+        <Buttons />
       </div>
     </div>
   );

@@ -3,7 +3,6 @@
 import { useMomentCreateProvider } from "@/providers/MomentCreateProvider/MomentCreateProvider";
 import CreateButton from "./CreateButton";
 import Prompt from "./Prompt";
-import Buttons from "../CreatedMoment/Buttons";
 import Advanced from "./Advanced";
 import Preview from "./Preview";
 import Collections from "./Collections";
@@ -23,9 +22,6 @@ const CreateForm = () => {
             <p className="!m-0 text-center font-archivo md:text-left">
               {new Date().toLocaleString()}
             </p>
-            <div className="block md:hidden">
-              <Buttons />
-            </div>
           </>
         ) : (
           <>
