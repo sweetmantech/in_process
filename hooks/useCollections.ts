@@ -1,11 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchCollections } from "@/lib/collections/fetchCollections";
+import { useUserProvider } from "@/providers/UserProvider";
 
-export function useCollections(artistAddress?: string) {
+export function useCollections() {
+  const { artistWallet } = useUserProvider();
   const query = useQuery({
-    queryKey: ["collections", artistAddress],
-    queryFn: () => fetchCollections(1, 100, artistAddress),
-    enabled: Boolean(artistAddress),
+    queryKey: ["collections", artistWallet],
+    queryFn: () => fetchCollections(1, 100, artistWallet),
+    enabled: Boolean(artistWallet),
     staleTime: 60_000,
   });
 

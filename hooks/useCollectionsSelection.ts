@@ -1,12 +1,10 @@
 import { useState } from "react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
-import { useCollections } from "@/hooks/useCollections";
-import { useUserProvider } from "@/providers/UserProvider";
+import { useCollectionsProvider } from "@/providers/CollectionsProvider";
 import { useSelectedCollection } from "@/hooks/useSelectedCollection";
 
 export const useCollectionsSelection = () => {
-  const { artistWallet } = useUserProvider();
-  const { collections, isLoading: isCollectionsLoading } = useCollections(artistWallet);
+  const { collections, isLoading: isCollectionsLoading } = useCollectionsProvider();
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
