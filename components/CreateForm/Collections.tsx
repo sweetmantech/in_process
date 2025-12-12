@@ -16,6 +16,7 @@ import { cn } from "@/lib/utils";
 import { useCollectionsSelection } from "@/hooks/useCollectionsSelection";
 import CollectionListItem from "./CollectionItem";
 import Image from "next/image";
+import Spinner from "../ui/spinner";
 
 const Collections = () => {
   const {
@@ -27,6 +28,7 @@ const Collections = () => {
     imageUrl,
     isLoading,
     handleValueChange,
+    isCollectionsLoading,
   } = useCollectionsSelection();
 
   return (
@@ -85,14 +87,20 @@ const Collections = () => {
                 </CommandItem>
               </CommandGroup>
               <CommandGroup>
-                {collections.map((collection) => (
-                  <CollectionListItem
-                    key={collection.id}
-                    collection={collection}
-                    isSelected={currentCollection === collection.address}
-                    onSelect={() => handleValueChange(collection.address)}
-                  />
-                ))}
+                {isCollectionsLoading ? (
+                  <div className="flex items-center justify-center py-2">
+                    <Spinner className="size-4" />
+                  </div>
+                ) : (
+                  collections.map((collection) => (
+                    <CollectionListItem
+                      key={collection.id}
+                      collection={collection}
+                      isSelected={currentCollection === collection.address}
+                      onSelect={() => handleValueChange(collection.address)}
+                    />
+                  ))
+                )}
               </CommandGroup>
             </CommandList>
           </Command>

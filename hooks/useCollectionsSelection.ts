@@ -6,7 +6,7 @@ import { useSelectedCollection } from "@/hooks/useSelectedCollection";
 
 export const useCollectionsSelection = () => {
   const { artistWallet } = useUserProvider();
-  const { collections } = useCollections(artistWallet);
+  const { collections, isLoading: isCollectionsLoading } = useCollections(artistWallet);
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
@@ -38,5 +38,6 @@ export const useCollectionsSelection = () => {
     imageUrl,
     isLoading,
     handleValueChange,
+    isCollectionsLoading,
   };
 };

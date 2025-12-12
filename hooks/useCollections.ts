@@ -11,7 +11,7 @@ export function useCollections(artistAddress?: string) {
 
   return {
     collections: query.data?.collections ?? [],
-    isLoading: query.isLoading,
+    isLoading: query.isLoading || query.isPending,
     error: query.error instanceof Error ? query.error : null,
   };
 }
