@@ -20,6 +20,7 @@ export const CHAIN = IS_TESTNET ? baseSepolia : base;
 export const CHAIN_ID = CHAIN.id;
 // Zora
 export const REFERRAL_RECIPIENT = "0x749B7b7A6944d72266Be9500FC8C221B6A7554Ce";
+export const ROYALTY_BPS_DEFAULT = 1000; // Default royalty bps (10%)
 // IPFS
 export const ONE_MB = 1024 * 1024;
 export const MAX_FILE_SIZE = 222 * ONE_MB;
