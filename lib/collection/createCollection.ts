@@ -62,7 +62,7 @@ export async function createCollection(
 
   const parameters = makeContractParameters({
     abi: zoraCreator1155FactoryImplABI,
-    functionName: "createContractDeterministic",
+    functionName: "createContract",
     account: smartAccount.address,
     address: getFactoryAddress(CHAIN_ID),
     args: [
@@ -81,7 +81,7 @@ export async function createCollection(
   // Encode the function call data
   const functionCallData = encodeFunctionData({
     abi: parameters.abi,
-    functionName: "createContractDeterministic",
+    functionName: "createContract",
     args: parameters.args,
   });
 
