@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { Address } from "viem";
+import { useQueryClient } from "@tanstack/react-query";
 import useMomentCreateParameters from "./useMomentCreateParameters";
 import { useUserProvider } from "@/providers/UserProvider";
 import { createMomentApi } from "@/lib/moment/createMomentApi";
@@ -12,20 +13,26 @@ import { migrateMuxToArweaveApi } from "@/lib/mux/migrateMuxToArweaveApi";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { CHAIN_ID } from "@/lib/consts";
 import { createCollectionApi } from "@/lib/collections/createCollectionApi";
-import { useQueryClient } from "@tanstack/react-query";
+import { useCreatedStatus } from "./useCreatedStatus";
+import { CollectionsResponse, CollectionItem } from "@/types/collections";
 
 export default function useMomentCreate() {
   const [creating, setCreating] = useState<boolean>(false);
   const searchParams = useSearchParams();
   const collection = searchParams.get("collectionAddress") as Address;
-  const [createdContract, setCreatedContract] = useState<string>("");
-  const [createdTokenId, setCreatedTokenId] = useState<string>("");
   const { fetchParameters } = useMomentCreateParameters();
-  const { isPrepared } = useUserProvider();
+  const { isPrepared, artistWallet, profile } = useUserProvider();
   const { getAccessToken } = usePrivy();
-  const { mimeType, setUploadProgress, setIsUploading, resetForm } = useMetadataFormProvider();
-  const { invalidateQueries } = useQueryClient();
-  const { artistWallet } = useUserProvider();
+  const { mimeType, setUploadProgress, setIsUploading, resetForm, name } =
+    useMetadataFormProvider();
+  const {
+    createdContract,
+    setCreatedContract,
+    createdTokenId,
+    setCreatedTokenId,
+    updateUrlWithCollectionAddress,
+  } = useCreatedStatus();
+  const queryClient = useQueryClient();
 
   const create = async () => {
     try {
@@ -53,9 +60,11 @@ export default function useMomentCreate() {
       setCreating(false);
       setIsUploading(false);
       setUploadProgress(100);
-      setCreatedContract(result.contractAddress);
       const tokenId = "tokenId" in result ? result.tokenId : undefined;
-      setCreatedTokenId(tokenId?.toString() || "");
+      if (Boolean(tokenId)) {
+        setCreatedTokenId(tokenId?.toString() || "");
+        setCreatedContract(result.contractAddress);
+      }
 
       if (mimeType.includes("video") && accessToken) {
         await migrateMuxToArweaveApi(
@@ -67,10 +76,51 @@ export default function useMomentCreate() {
           accessToken
         );
       }
-      if (!Boolean(tokenId)) {
+      if (!Boolean(tokenId) && "uri" in parameters) {
         toast.success("Collection created successfully");
+
+        // Add the newly created collection to the collections cache
+        try {
+          if (!artistWallet) {
+            throw new Error("Artist wallet not available");
+          }
+
+          // Get existing cache data
+          const queryKey = ["collections", artistWallet];
+
+          // Create a proper CollectionItem with all required fields
+          const newCollectionItem: CollectionItem = {
+            id: `${result.contractAddress.toLowerCase()}-${CHAIN_ID}`, // Temporary ID - will be replaced with real ID on next refetch
+            address: result.contractAddress.toLowerCase(),
+            chain_id: CHAIN_ID,
+            uri: parameters.uri,
+            name,
+            created_at: new Date().toISOString(),
+            default_admin: {
+              username: profile?.username || null,
+              address: artistWallet.toLowerCase(),
+            },
+          };
+
+          // Update the React Query cache with proper structure
+          queryClient.setQueryData<CollectionsResponse>(queryKey, (oldData) => {
+            const existingCollections = oldData?.collections || [];
+            return {
+              status: "success",
+              collections: [newCollectionItem, ...existingCollections],
+              pagination: oldData?.pagination || {
+                page: 1,
+                limit: 100,
+                total_pages: 1,
+              },
+            };
+          });
+        } catch (error) {
+          // Silently fail - the collection will appear on next refetch
+          console.error("Failed to add collection to cache:", error);
+        }
         resetForm();
-        invalidateQueries({ queryKey: ["collections", artistWallet] });
+        updateUrlWithCollectionAddress(result.contractAddress.toLowerCase());
       }
       return result;
     } catch (err: any) {
