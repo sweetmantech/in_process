@@ -6,12 +6,9 @@ import Advanced from "./Advanced";
 import Preview from "./Preview";
 import Collections from "./Collections";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
-import { useScrollToTopOnContract } from "@/hooks/useScrollToTopOnContract";
 
 const CreateForm = () => {
   const { inputRef } = useMetadataFormProvider();
-
-  useScrollToTopOnContract();
 
   return (
     <div className="col-span-1 w-full md:pl-12">
