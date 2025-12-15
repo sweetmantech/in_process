@@ -1,6 +1,6 @@
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { ChevronDown, ChevronUp } from "lucide-react";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import useTypeParam from "@/hooks/useTypeParam";
 import { useMemo, useState } from "react";
 
@@ -8,15 +8,14 @@ const MobileSelect = () => {
   const { titleRef } = useMetadataFormProvider();
   const [isOpenSelect, setIsOpenSelect] = useState<boolean>(false);
   const { push } = useRouter();
-  const pathname = usePathname();
   const type = useTypeParam();
   const baseRoute = "/create";
   const selectedValue = useMemo(() => {
-    if (pathname === "/create" && !type) return "moment";
+    if (!type) return "moment";
     if (type === "writing") return "thought";
     if (type === "link") return "link";
     if (type === "embed") return "embed";
-  }, [pathname, type]);
+  }, [type]);
 
   const values = useMemo(() => {
     const defaultValues = ["moment", "thought", "link", "embed"];
