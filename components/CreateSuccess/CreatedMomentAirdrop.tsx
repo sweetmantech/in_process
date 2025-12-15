@@ -14,7 +14,7 @@ const CreatedMomentAirdrop = () => {
   const collection = useCollectionParam();
 
   if (!collection) return <Fragment />;
-  
+
   return (
     <MomentProvider
       moment={{

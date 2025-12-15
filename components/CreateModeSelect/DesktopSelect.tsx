@@ -1,32 +1,45 @@
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import CTAButton from "./CTAButton";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import useTypeParam from "@/hooks/useTypeParam";
 
 const DesktopSelect = () => {
   const { titleRef } = useMetadataFormProvider();
   const pathname = usePathname();
   const { push } = useRouter();
   const searchParams = useSearchParams();
-  const urlParams = searchParams.toString();
+  const type = useTypeParam();
   const baseRoute = "/create";
-  const isCreatePage = pathname === "/create";
-  const isWritingPage = pathname === "/create/writing";
-  const isLinkPage = pathname === "/create/link";
-  const isEmbedPage = pathname === "/create/embed";
-  const urlQuery = urlParams ? `?${urlParams}` : "";
+  const isCreatePage = pathname === "/create" && !type;
+  const isWritingPage = type === "writing";
+  const isLinkPage = type === "link";
+  const isEmbedPage = type === "embed";
+
+  // Preserve other search params when changing type
+  const getUrlWithType = (newType: string | null) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (newType) {
+      params.set("type", newType);
+    } else {
+      params.delete("type");
+    }
+    const queryString = params.toString();
+    return queryString ? `${baseRoute}?${queryString}` : baseRoute;
+  };
+
   return (
     <div className="h-fit w-full lg:max-w-[250px] xl:max-w-[300px]">
       <div ref={titleRef} className="flex flex-col gap-3 pb-3">
-        <CTAButton isActive={isCreatePage} onClick={() => push(`${baseRoute}${urlQuery}`)}>
+        <CTAButton isActive={isCreatePage} onClick={() => push(getUrlWithType(null))}>
           new moment
         </CTAButton>
-        <CTAButton isActive={isWritingPage} onClick={() => push(`${baseRoute}/writing${urlQuery}`)}>
+        <CTAButton isActive={isWritingPage} onClick={() => push(getUrlWithType("writing"))}>
           new thought
         </CTAButton>
-        <CTAButton isActive={isLinkPage} onClick={() => push(`${baseRoute}/link${urlQuery}`)}>
+        <CTAButton isActive={isLinkPage} onClick={() => push(getUrlWithType("link"))}>
           new link
         </CTAButton>
-        <CTAButton isActive={isEmbedPage} onClick={() => push(`${baseRoute}/embed${urlQuery}`)}>
+        <CTAButton isActive={isEmbedPage} onClick={() => push(getUrlWithType("embed"))}>
           new embed
         </CTAButton>
       </div>

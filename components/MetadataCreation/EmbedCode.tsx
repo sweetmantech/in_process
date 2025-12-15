@@ -1,10 +1,10 @@
-import { useMomentCreateProvider } from "@/providers/MomentCreateProvider/MomentCreateProvider";
 import { X } from "lucide-react";
 import Image from "next/image";
 import isHtml from "is-html";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
+import { useMomentCreateProvider } from "@/providers/MomentCreateProvider/MomentCreateProvider";
 
-const EmbedPage = () => {
+const EmbedCode = () => {
   const { createdTokenId } = useMomentCreateProvider();
   const { embedCode, setEmbedCode, name } = useMetadataFormProvider();
 
@@ -21,6 +21,7 @@ const EmbedPage = () => {
         </div>
       </div>
     );
+
   return (
     <div className="flex size-full flex-col items-center p-2">
       <div className="relative flex w-full grow flex-col overflow-hidden">
@@ -70,4 +71,4 @@ const EmbedPage = () => {
   );
 };
 
-export default EmbedPage;
+export default EmbedCode;

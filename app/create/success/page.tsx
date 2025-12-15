@@ -1,14 +1,14 @@
 "use client";
 
 import MetadataCreationLayout from "@/components/MetadataCreation/Layout";
-import MetadataCreation from "@/components/MetadataCreation/FileSelect";
+import CreateSuccess from "@/components/CreateSuccess";
 
-const Create = () => {
+const Success = () => {
   return (
     <MetadataCreationLayout>
-      <MetadataCreation />
+      <CreateSuccess />
     </MetadataCreationLayout>
   );
 };
 
-export default Create;
+export default Success;

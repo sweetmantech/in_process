@@ -2,18 +2,16 @@
 
 import useIsMobile from "@/hooks/useIsMobile";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
-import { usePathname } from "next/navigation";
+import useTypeParam from "@/hooks/useTypeParam";
 import React, { Fragment } from "react";
 
 const MaskLines = () => {
   const { maskId, svgRef, masks } = useMetadataFormProvider();
-  const pathname = usePathname();
-  const isWritingPage = pathname === "/create/writing";
-  const isLinkPage = pathname === "/create/link";
-  const isEmbedPage = pathname === "/create/embed";
+  const type = useTypeParam();
+  const isWritingPage = type === "writing";
   const isMobile = useIsMobile();
 
-  if (isWritingPage || isLinkPage || isEmbedPage || isMobile) return <Fragment />;
+  if (!isWritingPage || isMobile) return <Fragment />;
 
   return (
     <div className="pointer-events-none absolute size-full">
