@@ -8,12 +8,12 @@ import { Fragment } from "react";
 import MobileSelect from "./MobileSelect";
 
 const CreateModeSelect = () => {
-  const { createdContract } = useMomentCreateProvider();
+  const { createdTokenId } = useMomentCreateProvider();
   const isMobile = useIsMobile();
 
   return (
     <div className="col-span-1">
-      {createdContract ? (
+      {Boolean(createdTokenId) ? (
         <CreatedStatus />
       ) : (
         <Fragment>{isMobile ? <MobileSelect /> : <DesktopSelect />}</Fragment>

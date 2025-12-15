@@ -1,6 +1,6 @@
 "use client";
 
-import CreatePage from "@/components/CreatePage/CreatePage";
+import CreatePage from "@/components/CreatePage";
 
 const Create = () => <CreatePage />;
 

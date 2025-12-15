@@ -12,6 +12,7 @@ import { migrateMuxToArweaveApi } from "@/lib/mux/migrateMuxToArweaveApi";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { CHAIN_ID } from "@/lib/consts";
 import { createCollectionApi } from "@/lib/collections/createCollectionApi";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function useMomentCreate() {
   const [creating, setCreating] = useState<boolean>(false);
@@ -22,7 +23,9 @@ export default function useMomentCreate() {
   const { fetchParameters } = useMomentCreateParameters();
   const { isPrepared } = useUserProvider();
   const { getAccessToken } = usePrivy();
-  const { mimeType, setUploadProgress, setIsUploading } = useMetadataFormProvider();
+  const { mimeType, setUploadProgress, setIsUploading, resetForm } = useMetadataFormProvider();
+  const { invalidateQueries } = useQueryClient();
+  const { artistWallet } = useUserProvider();
 
   const create = async () => {
     try {
@@ -63,6 +66,11 @@ export default function useMomentCreate() {
           },
           accessToken
         );
+      }
+      if (!Boolean(tokenId)) {
+        toast.success("Collection created successfully");
+        resetForm();
+        invalidateQueries({ queryKey: ["collections", artistWallet] });
       }
       return result;
     } catch (err: any) {

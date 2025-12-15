@@ -8,7 +8,8 @@ export function useCollections() {
     queryKey: ["collections", artistWallet],
     queryFn: () => fetchCollections(1, 100, artistWallet),
     enabled: Boolean(artistWallet),
-    staleTime: 60_000,
+    staleTime: 10_000,
+    refetchInterval: 2_000, // Refetch every 2000 seconds
   });
 
   return {

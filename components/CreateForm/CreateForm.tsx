@@ -10,7 +10,7 @@ import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { useScrollToTopOnContract } from "@/hooks/useScrollToTopOnContract";
 
 const CreateForm = () => {
-  const { createdContract } = useMomentCreateProvider();
+  const { createdTokenId } = useMomentCreateProvider();
   const { inputRef, name } = useMetadataFormProvider();
 
   useScrollToTopOnContract();
@@ -18,7 +18,7 @@ const CreateForm = () => {
   return (
     <div className="col-span-1 w-full md:pl-12">
       <div ref={inputRef} className="flex h-fit flex-col space-y-3 pb-4">
-        {createdContract ? (
+        {Boolean(createdTokenId) ? (
           <>
             <p className="text-center font-archivo-medium text-2xl md:text-left md:text-4xl">
               {name}
