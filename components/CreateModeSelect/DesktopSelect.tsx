@@ -1,21 +1,19 @@
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import CTAButton from "./CTAButton";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import useTypeParam from "@/hooks/useTypeParam";
 
 const DesktopSelect = () => {
   const { titleRef } = useMetadataFormProvider();
-  const pathname = usePathname();
   const { push } = useRouter();
   const searchParams = useSearchParams();
   const type = useTypeParam();
   const baseRoute = "/create";
-  const isCreatePage = pathname === "/create" && !type;
+  const isCreatePage = !type;
   const isWritingPage = type === "writing";
   const isLinkPage = type === "link";
   const isEmbedPage = type === "embed";
 
-  // Preserve other search params when changing type
   const getUrlWithType = (newType: string | null) => {
     const params = new URLSearchParams(searchParams.toString());
     if (newType) {
