@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useSearchParams } from "next/navigation";
 import { Address } from "viem";
 import useMomentCreateParameters from "./useMomentCreateParameters";
 import { useUserProvider } from "@/providers/UserProvider";
@@ -11,11 +10,11 @@ import { toast } from "sonner";
 import { migrateMuxToArweaveApi } from "@/lib/mux/migrateMuxToArweaveApi";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { CHAIN_ID } from "@/lib/consts";
+import useCollectionParam from "./useCollectionParam";
 
 export default function useMomentCreate() {
   const [creating, setCreating] = useState<boolean>(false);
-  const searchParams = useSearchParams();
-  const collection = searchParams.get("collectionAddress") as Address;
+  const collection = useCollectionParam();
   const [createdTokenId, setCreatedTokenId] = useState<string>("");
   const { fetchParameters } = useMomentCreateParameters();
   const { isPrepared } = useUserProvider();
@@ -25,12 +24,13 @@ export default function useMomentCreate() {
   const create = async () => {
     try {
       if (!isPrepared()) return;
+      if (!collection) return;
 
       setCreating(true);
       setIsUploading(true);
       setUploadProgress(0);
 
-      const parameters = await fetchParameters(collection);
+      const parameters = await fetchParameters(collection as Address);
       if (!parameters) {
         throw new Error("Parameters not ready");
       }

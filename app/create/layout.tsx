@@ -10,8 +10,8 @@ import { ReactNode } from "react";
 
 const RootLayout = ({ children }: { children: ReactNode }) => {
   return (
-    <MomentCreateProviderWrapper>
-      <CollectionsProvider>
+    <CollectionsProvider>
+      <MomentCreateProviderWrapper>
         <main className="w-screen grow">
           <div className="relative mt-12 grid w-full grid-cols-1 gap-6 px-6 md:mt-24 md:grid-cols-3 md:px-10">
             <MaskLines />
@@ -20,8 +20,8 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
             <CreateForm />
           </div>
         </main>
-      </CollectionsProvider>
-    </MomentCreateProviderWrapper>
+      </MomentCreateProviderWrapper>
+    </CollectionsProvider>
   );
 };
 
