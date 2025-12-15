@@ -1,12 +1,10 @@
 import useIsMobile from "@/hooks/useIsMobile";
 import { useMomentCreateProvider } from "@/providers/MomentCreateProvider/MomentCreateProvider";
-import { usePathname } from "next/navigation";
 import useTypeParam from "@/hooks/useTypeParam";
 import { ReactNode, useMemo } from "react";
 
 const Preview = ({ children }: { children: ReactNode }) => {
   const { createdTokenId } = useMomentCreateProvider();
-  const pathname = usePathname();
   const type = useTypeParam();
   const isMobile = useIsMobile();
   const gridVisible = useMemo(() => {
@@ -16,7 +14,7 @@ const Preview = ({ children }: { children: ReactNode }) => {
     return true;
   }, [type, isMobile, createdTokenId]);
   const isWritingPage = type === "writing";
-  const isCreatingPage = pathname === "/create" && !type;
+  const isCreatingPage = !type;
 
   return (
     <div

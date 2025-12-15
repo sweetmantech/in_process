@@ -61,7 +61,8 @@ export default function useMomentCreate() {
         );
       }
       const typeParam = type ? `type=${type}&` : "";
-      push(`/create/success?${typeParam}tokenId=${result.tokenId.toString()}`);
+      const collectionParam = collection ? `collection=${collection}&` : "";
+      push(`/create/success?${typeParam}${collectionParam}tokenId=${result.tokenId.toString()}`);
       return result;
     } catch (err: any) {
       setCreating(false);
