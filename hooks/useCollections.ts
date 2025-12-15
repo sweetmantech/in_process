@@ -8,7 +8,7 @@ export function useCollections() {
     queryKey: ["collections", artistWallet],
     queryFn: () => fetchCollections(1, 100, artistWallet),
     enabled: Boolean(artistWallet),
-    staleTime: 10_000,
+    staleTime: 60_000,
   });
 
   return {

@@ -5,11 +5,11 @@ import CreatedMomentAirdrop from "./CreatedMomentAirdrop";
 import { useMomentCreateProvider } from "@/providers/MomentCreateProvider/MomentCreateProvider";
 
 const CreatedStatus = () => {
-  const { createdTokenId } = useMomentCreateProvider();
+  const { createdContract } = useMomentCreateProvider();
   return (
     <div className="h-fit w-full">
       <ButtonsDisplay />
-      {Boolean(createdTokenId) && <CreatedMomentAirdrop />}
+      {createdContract && <CreatedMomentAirdrop />}
     </div>
   );
 };

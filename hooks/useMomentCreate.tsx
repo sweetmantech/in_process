@@ -37,6 +37,7 @@ export default function useMomentCreate() {
   const create = async () => {
     try {
       if (!isPrepared()) return;
+      if (!artistWallet) return;
 
       setCreating(true);
       setIsUploading(true);
@@ -78,47 +79,33 @@ export default function useMomentCreate() {
       }
       if (!Boolean(tokenId) && "uri" in parameters) {
         toast.success("Collection created successfully");
+        const queryKey = ["collections", artistWallet];
+        const newCollectionItem: CollectionItem = {
+          id: `${result.contractAddress.toLowerCase()}-${CHAIN_ID}`,
+          address: result.contractAddress.toLowerCase(),
+          chain_id: CHAIN_ID,
+          uri: parameters.uri,
+          name,
+          created_at: new Date().toISOString(),
+          default_admin: {
+            username: profile?.username || null,
+            address: artistWallet.toLowerCase(),
+          },
+        };
 
-        // Add the newly created collection to the collections cache
-        try {
-          if (!artistWallet) {
-            throw new Error("Artist wallet not available");
-          }
-
-          // Get existing cache data
-          const queryKey = ["collections", artistWallet];
-
-          // Create a proper CollectionItem with all required fields
-          const newCollectionItem: CollectionItem = {
-            id: `${result.contractAddress.toLowerCase()}-${CHAIN_ID}`, // Temporary ID - will be replaced with real ID on next refetch
-            address: result.contractAddress.toLowerCase(),
-            chain_id: CHAIN_ID,
-            uri: parameters.uri,
-            name,
-            created_at: new Date().toISOString(),
-            default_admin: {
-              username: profile?.username || null,
-              address: artistWallet.toLowerCase(),
+        queryClient.setQueryData<CollectionsResponse>(queryKey, (oldData) => {
+          const existingCollections = oldData?.collections || [];
+          return {
+            status: "success",
+            collections: [newCollectionItem, ...existingCollections],
+            pagination: oldData?.pagination || {
+              page: 1,
+              limit: 100,
+              total_pages: 1,
             },
           };
+        });
 
-          // Update the React Query cache with proper structure
-          queryClient.setQueryData<CollectionsResponse>(queryKey, (oldData) => {
-            const existingCollections = oldData?.collections || [];
-            return {
-              status: "success",
-              collections: [newCollectionItem, ...existingCollections],
-              pagination: oldData?.pagination || {
-                page: 1,
-                limit: 100,
-                total_pages: 1,
-              },
-            };
-          });
-        } catch (error) {
-          // Silently fail - the collection will appear on next refetch
-          console.error("Failed to add collection to cache:", error);
-        }
         resetForm();
         updateUrlWithCollectionAddress(result.contractAddress.toLowerCase());
       }
