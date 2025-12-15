@@ -2,6 +2,7 @@ import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import CTAButton from "./CTAButton";
 import { useRouter, useSearchParams } from "next/navigation";
 import useTypeParam from "@/hooks/useTypeParam";
+import { getUrlWithType } from "@/lib/create/getUrlWithType";
 
 const DesktopSelect = () => {
   const { titleRef } = useMetadataFormProvider();
@@ -14,30 +15,22 @@ const DesktopSelect = () => {
   const isLinkPage = type === "link";
   const isEmbedPage = type === "embed";
 
-  const getUrlWithType = (newType: string | null) => {
-    const params = new URLSearchParams(searchParams.toString());
-    if (newType) {
-      params.set("type", newType);
-    } else {
-      params.delete("type");
-    }
-    const queryString = params.toString();
-    return queryString ? `${baseRoute}?${queryString}` : baseRoute;
+  const handleClick = (newType?: string) => {
+    push(getUrlWithType(newType ?? null, searchParams.toString(), baseRoute));
   };
-
   return (
     <div className="h-fit w-full lg:max-w-[250px] xl:max-w-[300px]">
       <div ref={titleRef} className="flex flex-col gap-3 pb-3">
-        <CTAButton isActive={isCreatePage} onClick={() => push(getUrlWithType(null))}>
+        <CTAButton isActive={isCreatePage} onClick={() => handleClick()}>
           new moment
         </CTAButton>
-        <CTAButton isActive={isWritingPage} onClick={() => push(getUrlWithType("writing"))}>
+        <CTAButton isActive={isWritingPage} onClick={() => handleClick("writing")}>
           new thought
         </CTAButton>
-        <CTAButton isActive={isLinkPage} onClick={() => push(getUrlWithType("link"))}>
+        <CTAButton isActive={isLinkPage} onClick={() => handleClick("link")}>
           new link
         </CTAButton>
-        <CTAButton isActive={isEmbedPage} onClick={() => push(getUrlWithType("embed"))}>
+        <CTAButton isActive={isEmbedPage} onClick={() => handleClick("embed")}>
           new embed
         </CTAButton>
       </div>
