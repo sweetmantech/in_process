@@ -4,16 +4,18 @@ import { useMomentCreateProvider } from "@/providers/MomentCreateProvider/Moment
 import Image from "next/image";
 import { toast } from "sonner";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
+import { useParams } from "next/navigation";
 
 const Buttons = () => {
-  const { createdContract, setCreatedContract, setCreatedTokenId, createdTokenId } =
-    useMomentCreateProvider();
+  const { createdContract, setCreatedContract } = useMomentCreateProvider();
   const { resetForm } = useMetadataFormProvider();
+  const params = useParams();
+  const tokenId = params.tokenId as string;
 
   const share = async () => {
     const shortNetworkName = getShortNetworkName(CHAIN.name.toLowerCase());
     await navigator.clipboard.writeText(
-      `${SITE_ORIGINAL_URL}/collect/${shortNetworkName}:${createdContract}/${createdTokenId || 1}`
+      `${SITE_ORIGINAL_URL}/collect/${shortNetworkName}:${createdContract}/${tokenId || 1}`
     );
     toast.success("copied!");
   };
@@ -21,7 +23,6 @@ const Buttons = () => {
   const toggle = () => {
     resetForm();
     setCreatedContract("");
-    setCreatedTokenId("");
   };
 
   return (
