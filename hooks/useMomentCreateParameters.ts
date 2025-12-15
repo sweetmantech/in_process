@@ -13,7 +13,7 @@ const useMomentCreateParameters = () => {
 
   // Use priceUnit to determine if USDC
   const isUsdc = priceUnit === "usdc";
-  const fetchParameters = async (collection: Address | undefined) => {
+  const fetchParameters = async (collection: Address) => {
     const momentMetadataUri = await generateMetadataUri();
     if (!name) return;
     const salesConfig = getSalesConfig(
@@ -25,34 +25,17 @@ const useMomentCreateParameters = () => {
     const formSplits = form.getValues("splits");
     const splitsData = formSplits && formSplits.length > 0 ? formSplits : undefined;
 
-    if (collection) {
-      return {
-        contractAddress: collection,
-        token: {
-          tokenMetadataURI: momentMetadataUri,
-          createReferral: REFERRAL_RECIPIENT,
-          salesConfig,
-          mintToCreatorCount: 1,
-        },
-        account: artistWallet as Address,
-        ...(splitsData && { splits: splitsData }),
-      };
-    } else {
-      return {
-        contract: {
-          name,
-          uri: momentMetadataUri,
-        },
-        token: {
-          tokenMetadataURI: momentMetadataUri,
-          createReferral: REFERRAL_RECIPIENT,
-          salesConfig,
-          mintToCreatorCount: 1,
-        },
-        account: artistWallet as Address,
-        ...(splitsData && { splits: splitsData }),
-      };
-    }
+    return {
+      contractAddress: collection,
+      token: {
+        tokenMetadataURI: momentMetadataUri,
+        createReferral: REFERRAL_RECIPIENT,
+        salesConfig,
+        mintToCreatorCount: 1,
+      },
+      account: artistWallet as Address,
+      ...(splitsData && { splits: splitsData }),
+    };
   };
 
   return { fetchParameters };

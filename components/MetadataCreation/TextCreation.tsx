@@ -2,10 +2,10 @@ import { useMomentCreateProvider } from "@/providers/MomentCreateProvider/Moment
 import TextInput from "./TextInput";
 
 const TextCreation = () => {
-  const { createdContract } = useMomentCreateProvider();
+  const { createdTokenId } = useMomentCreateProvider();
 
   return (
-    <div className={`size-full ${createdContract && "pointer-events-none"}`}>
+    <div className={`size-full ${createdTokenId && "pointer-events-none"}`}>
       <TextInput />
     </div>
   );

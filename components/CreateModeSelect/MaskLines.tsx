@@ -16,7 +16,7 @@ const MaskLines = () => {
   if (isWritingPage || isLinkPage || isEmbedPage || isMobile) return <Fragment />;
 
   return (
-    <div className={"pointer-events-none absolute size-full"}>
+    <div className="pointer-events-none absolute size-full">
       <div className="absolute inset-0" />
       <div
         className="absolute inset-0"

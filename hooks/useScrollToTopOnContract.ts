@@ -2,9 +2,9 @@ import { useEffect } from "react";
 import { useMomentCreateProvider } from "@/providers/MomentCreateProvider/MomentCreateProvider";
 
 export const useScrollToTopOnContract = (): void => {
-  const { createdContract } = useMomentCreateProvider();
+  const { createdTokenId } = useMomentCreateProvider();
   useEffect(() => {
-    if (createdContract) {
+    if (createdTokenId) {
       const intervalId = setTimeout(() => {
         window.scrollTo({
           top: 0,
@@ -16,5 +16,5 @@ export const useScrollToTopOnContract = (): void => {
         clearInterval(intervalId);
       };
     }
-  }, [createdContract]);
+  }, [createdTokenId]);
 };
