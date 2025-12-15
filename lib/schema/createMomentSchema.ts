@@ -101,7 +101,8 @@ export const writingTokenSchema = z.object({
 });
 
 export const createWritingMomentSchema = z.object({
-  contract: writingContractSchema,
+  title: z.string(),
+  contractAddress: addressSchema,
   token: writingTokenSchema,
   account: addressSchema,
 });

@@ -6,10 +6,7 @@ export const convertWritingToContractSchema = (
   contentUri: string
 ): z.infer<typeof createMomentSchema> => {
   return {
-    contract: {
-      name: writingData.contract.name,
-      uri: contentUri,
-    },
+    contractAddress: writingData.contractAddress,
     token: {
       tokenMetadataURI: contentUri,
       createReferral: writingData.token.createReferral,
