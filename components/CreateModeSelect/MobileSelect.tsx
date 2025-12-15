@@ -1,20 +1,21 @@
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { ChevronDown, ChevronUp } from "lucide-react";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
+import useTypeParam from "@/hooks/useTypeParam";
 import { useMemo, useState } from "react";
 
 const MobileSelect = () => {
   const { titleRef } = useMetadataFormProvider();
   const [isOpenSelect, setIsOpenSelect] = useState<boolean>(false);
   const { push } = useRouter();
-  const pathname = usePathname();
+  const type = useTypeParam();
   const baseRoute = "/create";
   const selectedValue = useMemo(() => {
-    if (pathname === "/create") return "moment";
-    if (pathname === "/create/writing") return "thought";
-    if (pathname === "/create/link") return "link";
-    if (pathname === "/create/embed") return "embed";
-  }, [pathname]);
+    if (!type) return "moment";
+    if (type === "writing") return "thought";
+    if (type === "link") return "link";
+    if (type === "embed") return "embed";
+  }, [type]);
 
   const values = useMemo(() => {
     const defaultValues = ["moment", "thought", "link", "embed"];
@@ -24,8 +25,9 @@ const MobileSelect = () => {
 
   const handleClick = (value: string) => {
     if (value === "moment") push(baseRoute);
-    if (value === "thought") push(`${baseRoute}/writing`);
-    if (value !== "moment" && value !== "thought") push(`${baseRoute}/${value}`);
+    if (value === "thought") push(`${baseRoute}?type=writing`);
+    if (value === "link") push(`${baseRoute}?type=link`);
+    if (value === "embed") push(`${baseRoute}?type=embed`);
     setIsOpenSelect(false);
   };
   return (

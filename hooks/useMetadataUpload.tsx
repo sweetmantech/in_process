@@ -3,7 +3,7 @@ import useEmbedCode from "./useEmbedCode";
 import useWriting from "./useWriting";
 import useFileSelect from "./useFileSelect";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
-import { usePathname } from "next/navigation";
+import useTypeParam from "./useTypeParam";
 import { usePrivy } from "@privy-io/react-auth";
 import { uploadVideoToMuxIfNeeded } from "@/lib/metadata/uploadVideoToMuxIfNeeded";
 import { uploadFilesToArweave } from "@/lib/metadata/uploadFilesToArweave";
@@ -12,7 +12,7 @@ import { handleEmbedMode } from "@/lib/metadata/handleEmbedMode";
 import { buildMetadataPayload } from "@/lib/metadata/buildMetadataPayload";
 
 const useMetadataUpload = () => {
-  const pathname = usePathname();
+  const type = useTypeParam();
   const { getAccessToken } = usePrivy();
   const {
     description,
@@ -108,7 +108,7 @@ const useMetadataUpload = () => {
     }
 
     // Handle writing mode
-    if (pathname === "/create/writing" || pathname === "/create/usdc/writing") {
+    if (type === "writing") {
       const writingResult = await handleWritingMode(uploadWriting, writingText);
       mime = writingResult.mime;
       animation_url = writingResult.animationUrl;
@@ -117,7 +117,7 @@ const useMetadataUpload = () => {
     }
 
     // Handle embed mode
-    if (pathname === "/create/embed" || pathname === "/create/usdc/embed") {
+    if (type === "embed") {
       const embedResult = await handleEmbedMode(uploadEmbedCode);
       mime = embedResult.mime;
       animation_url = embedResult.animationUrl;

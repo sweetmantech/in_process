@@ -1,41 +1,23 @@
 "use client";
 
-import { useMomentCreateProvider } from "@/providers/MomentCreateProvider/MomentCreateProvider";
 import CreateButton from "./CreateButton";
 import Prompt from "./Prompt";
 import Advanced from "./Advanced";
 import Preview from "./Preview";
 import Collections from "./Collections";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
-import { useScrollToTopOnContract } from "@/hooks/useScrollToTopOnContract";
 
 const CreateForm = () => {
-  const { createdTokenId } = useMomentCreateProvider();
-  const { inputRef, name } = useMetadataFormProvider();
-
-  useScrollToTopOnContract();
+  const { inputRef } = useMetadataFormProvider();
 
   return (
     <div className="col-span-1 w-full md:pl-12">
       <div ref={inputRef} className="flex h-fit flex-col space-y-3 pb-4">
-        {createdTokenId ? (
-          <>
-            <p className="text-center font-archivo-medium text-2xl md:text-left md:text-4xl">
-              {name}
-            </p>
-            <p className="!m-0 text-center font-archivo md:text-left">
-              {new Date().toLocaleString()}
-            </p>
-          </>
-        ) : (
-          <>
-            <Collections />
-            <Prompt />
-            <Advanced />
-            <Preview />
-            <CreateButton />
-          </>
-        )}
+        <Collections />
+        <Prompt />
+        <Advanced />
+        <Preview />
+        <CreateButton />
       </div>
     </div>
   );
