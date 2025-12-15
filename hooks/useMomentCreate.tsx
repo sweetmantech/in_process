@@ -24,7 +24,10 @@ export default function useMomentCreate() {
   const create = async () => {
     try {
       if (!isPrepared()) return;
-      if (!collection) return;
+      if (!collection) {
+        toast.error("No collection selected");
+        return;
+      }
 
       setCreating(true);
       setIsUploading(true);
