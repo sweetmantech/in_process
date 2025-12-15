@@ -77,7 +77,7 @@ export default function useMomentCreate() {
           accessToken
         );
       }
-      if (!Boolean(tokenId) && "uri" in parameters) {
+      if (tokenId === undefined && "uri" in parameters) {
         toast.success("Collection created successfully");
         const queryKey = ["collections", artistWallet];
         const newCollectionItem: CollectionItem = {
