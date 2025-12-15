@@ -39,16 +39,8 @@ const useMomentCreateParameters = () => {
       };
     } else {
       return {
-        contract: {
-          name,
-          uri: momentMetadataUri,
-        },
-        token: {
-          tokenMetadataURI: momentMetadataUri,
-          createReferral: REFERRAL_RECIPIENT,
-          salesConfig,
-          mintToCreatorCount: 1,
-        },
+        name,
+        uri: momentMetadataUri,
         account: artistWallet as Address,
         ...(splitsData && { splits: splitsData }),
       };
