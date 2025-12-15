@@ -5,11 +5,14 @@ import Image from "next/image";
 import { toast } from "sonner";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import useCollectionParam from "@/hooks/useCollectionParam";
+import { useRouter } from "next/navigation";
 
 const Buttons = () => {
   const { createdTokenId, setCreatedTokenId } = useMomentCreateProvider();
   const { resetForm } = useMetadataFormProvider();
   const collection = useCollectionParam();
+  const { push } = useRouter();
+
   const share = async () => {
     const shortNetworkName = getShortNetworkName(CHAIN.name.toLowerCase());
     await navigator.clipboard.writeText(
@@ -21,6 +24,7 @@ const Buttons = () => {
   const toggle = () => {
     resetForm();
     setCreatedTokenId("");
+    push("/create");
   };
 
   return (

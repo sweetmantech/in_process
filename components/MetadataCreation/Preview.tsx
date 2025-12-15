@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import useTypeParam from "@/hooks/useTypeParam";
 import { ReactNode, useMemo } from "react";
 
-const Moment = ({ children }: { children: ReactNode }) => {
+const Preview = ({ children }: { children: ReactNode }) => {
   const { createdTokenId } = useMomentCreateProvider();
   const pathname = usePathname();
   const type = useTypeParam();
@@ -27,4 +27,4 @@ const Moment = ({ children }: { children: ReactNode }) => {
   );
 };
 
-export default Moment;
+export default Preview;

@@ -11,7 +11,7 @@ const MetadataCreation = () => {
       {type === "writing" && <TextCreation />}
       {type === "link" && <LinkPreview />}
       {type === "embed" && <EmbedCode />}
-      {type === "create" && <FileSelect />}
+      {!type && <FileSelect />}
     </>
   );
 };

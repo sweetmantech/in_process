@@ -11,6 +11,8 @@ import { migrateMuxToArweaveApi } from "@/lib/mux/migrateMuxToArweaveApi";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { CHAIN_ID } from "@/lib/consts";
 import useCollectionParam from "./useCollectionParam";
+import { useRouter } from "next/navigation";
+import useTypeParam from "./useTypeParam";
 
 export default function useMomentCreate() {
   const [creating, setCreating] = useState<boolean>(false);
@@ -20,6 +22,8 @@ export default function useMomentCreate() {
   const { isPrepared } = useUserProvider();
   const { getAccessToken } = usePrivy();
   const { mimeType, setUploadProgress, setIsUploading } = useMetadataFormProvider();
+  const { push } = useRouter();
+  const type = useTypeParam();
 
   const create = async () => {
     try {
@@ -56,6 +60,8 @@ export default function useMomentCreate() {
           accessToken
         );
       }
+      const typeParam = type ? `type=${type}&` : "";
+      push(`/create/success?${typeParam}tokenId=${result.tokenId.toString()}`);
       return result;
     } catch (err: any) {
       setCreating(false);

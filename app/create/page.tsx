@@ -1,7 +1,7 @@
 "use client";
 
 import MetadataCreationLayout from "@/components/MetadataCreation/Layout";
-import MetadataCreation from "@/components/MetadataCreation/FileSelect";
+import MetadataCreation from "@/components/MetadataCreation";
 
 const Create = () => {
   return (

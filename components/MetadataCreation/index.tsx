@@ -1,2 +1,3 @@
-import MetadataCreation from "./FileSelect";
+import MetadataCreation from "./MetadataCreation";
+
 export default MetadataCreation;
