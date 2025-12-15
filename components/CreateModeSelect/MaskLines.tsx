@@ -8,7 +8,7 @@ import React from "react";
 
 const MaskLines = () => {
   const { maskId, svgRef, masks } = useMetadataFormProvider();
-  const { createdContract } = useMomentCreateProvider();
+  const { createdTokenId } = useMomentCreateProvider();
   const pathname = usePathname();
   const isWritingPage = pathname === "/create/writing";
   const isLinkPage = pathname === "/create/link";
@@ -17,7 +17,7 @@ const MaskLines = () => {
 
   return (
     <div
-      className={`pointer-events-none absolute size-full ${(isWritingPage || ((isLinkPage || isEmbedPage) && isMobile)) && !createdContract ? "opacity-1" : "opacity-0"}`}
+      className={`pointer-events-none absolute size-full ${(isWritingPage || ((isLinkPage || isEmbedPage) && isMobile)) && !createdTokenId ? "opacity-1" : "opacity-0"}`}
     >
       <div className="absolute inset-0" />
       <div
