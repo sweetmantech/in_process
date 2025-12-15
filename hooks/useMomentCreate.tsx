@@ -16,7 +16,6 @@ export default function useMomentCreate() {
   const [creating, setCreating] = useState<boolean>(false);
   const searchParams = useSearchParams();
   const collection = searchParams.get("collectionAddress") as Address;
-  const [createdContract, setCreatedContract] = useState<string>("");
   const [createdTokenId, setCreatedTokenId] = useState<string>("");
   const { fetchParameters } = useMomentCreateParameters();
   const { isPrepared } = useUserProvider();
@@ -42,14 +41,13 @@ export default function useMomentCreate() {
       setCreating(false);
       setIsUploading(false);
       setUploadProgress(100);
-      setCreatedContract(result.contractAddress);
-      setCreatedTokenId(result.tokenId?.toString() || "");
+      setCreatedTokenId(result.tokenId.toString());
 
       if (mimeType.includes("video") && accessToken) {
         await migrateMuxToArweaveApi(
           {
             collectionAddress: result.contractAddress as Address,
-            tokenIds: ["0", result.tokenId?.toString()],
+            tokenIds: [result.tokenId.toString()],
             chainId: CHAIN_ID,
           },
           accessToken
@@ -65,10 +63,8 @@ export default function useMomentCreate() {
   };
 
   return {
-    createdContract,
     createdTokenId,
     setCreatedTokenId,
-    setCreatedContract,
     create,
     creating,
   };

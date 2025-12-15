@@ -5,10 +5,10 @@ import isHtml from "is-html";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 
 const EmbedPage = () => {
-  const { createdContract } = useMomentCreateProvider();
+  const { createdTokenId } = useMomentCreateProvider();
   const { embedCode, setEmbedCode, name } = useMetadataFormProvider();
 
-  if (createdContract)
+  if (createdTokenId)
     return (
       <div className="size-full h-fit overflow-hidden rounded-2xl">
         <div

@@ -8,7 +8,7 @@ import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 
 const MetadataCreation = () => {
   const { selectFile } = useMetadataUploadProvider();
-  const { createdContract } = useMomentCreateProvider();
+  const { createdTokenId } = useMomentCreateProvider();
   const { previewFile, animationFile, imageFile, fileInputRef } = useMetadataFormProvider();
   const selected = previewFile || animationFile || imageFile;
   const handleImageClick = () => fileInputRef.current?.click();
@@ -21,11 +21,11 @@ const MetadataCreation = () => {
         type="file"
         className={`cursor-pointer ${selected ? "hidden" : "z-2 absolute size-full opacity-0"}`}
         onChange={selectFile}
-        disabled={Boolean(createdContract)}
+        disabled={Boolean(createdTokenId)}
       />
       {selected ? (
         <>
-          {!createdContract && <ResetButton />}
+          {!createdTokenId && <ResetButton />}
           <PreviewContainer handleImageClick={handleImageClick} />
         </>
       ) : (

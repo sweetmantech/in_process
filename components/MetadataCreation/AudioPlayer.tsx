@@ -7,7 +7,7 @@ import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { useAudioPlayer } from "@/hooks/useAudioPlayer";
 
 const AudioPlayer = ({ onClick }: { onClick: () => void }) => {
-  const { createdContract } = useMomentCreateProvider();
+  const { createdTokenId } = useMomentCreateProvider();
   const { previewFileUrl, animationFileUrl } = useMetadataFormProvider();
   const { audioRef, isPlaying, progress, togglePlayPause, handleTimeUpdate, handleSliderChange } =
     useAudioPlayer();
@@ -26,7 +26,7 @@ const AudioPlayer = ({ onClick }: { onClick: () => void }) => {
           />
         ) : (
           <>
-            {!createdContract && (
+            {!createdTokenId && (
               <div className="flex size-full items-center justify-center">
                 <button className="rounded-md border border-gray-200 px-3 py-2 shadow-md">
                   Upload Audio Cover
