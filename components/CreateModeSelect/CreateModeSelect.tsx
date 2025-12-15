@@ -1,7 +1,7 @@
 "use client";
 
 import { useMomentCreateProvider } from "@/providers/MomentCreateProvider/MomentCreateProvider";
-import CreatedStatus from "../CreatedStatus";
+import CreatedMoment from "../CreatedMoment/CreatedMoment";
 import DesktopSelect from "./DesktopSelect";
 import useIsMobile from "@/hooks/useIsMobile";
 import { Fragment } from "react";
@@ -14,7 +14,7 @@ const CreateModeSelect = () => {
   return (
     <div className="col-span-1">
       {createdContract ? (
-        <CreatedStatus />
+        <CreatedMoment />
       ) : (
         <Fragment>{isMobile ? <MobileSelect /> : <DesktopSelect />}</Fragment>
       )}

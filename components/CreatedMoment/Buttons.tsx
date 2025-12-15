@@ -12,10 +12,9 @@ const Buttons = () => {
 
   const share = async () => {
     const shortNetworkName = getShortNetworkName(CHAIN.name.toLowerCase());
-    const shareUrl = Boolean(createdTokenId)
-      ? `${SITE_ORIGINAL_URL}/collect/${shortNetworkName}:${createdContract}/${createdTokenId || ""}`
-      : `${SITE_ORIGINAL_URL}/collection/${shortNetworkName}:${createdContract}`;
-    await navigator.clipboard.writeText(shareUrl);
+    await navigator.clipboard.writeText(
+      `${SITE_ORIGINAL_URL}/collect/${shortNetworkName}:${createdContract}/${createdTokenId || 1}`
+    );
     toast.success("copied!");
   };
 

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Buttons from "./Buttons";
 
-const ButtonsDisplay = () => {
+const MomentCreatedHeader = () => {
   return (
     <div className="flex w-full items-end gap-3">
       <div className="relative w-full">
@@ -21,4 +21,4 @@ const ButtonsDisplay = () => {
   );
 };
 
-export default ButtonsDisplay;
+export default MomentCreatedHeader;
