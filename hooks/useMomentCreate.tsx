@@ -44,11 +44,6 @@ export default function useMomentCreate() {
       setUploadProgress(100);
       setCreatedContract(result.contractAddress);
       setCreatedTokenId(result.tokenId?.toString() || "");
-      // Scroll to top after state update to show success page
-      window.scroll({
-        behavior: "smooth",
-        top: 0,
-      });
 
       if (mimeType.includes("video") && accessToken) {
         await migrateMuxToArweaveApi(

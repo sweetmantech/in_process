@@ -7,10 +7,23 @@ import Advanced from "./Advanced";
 import Preview from "./Preview";
 import Collections from "./Collections";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
+import { useEffect } from "react";
 
 const CreateForm = () => {
   const { createdContract } = useMomentCreateProvider();
   const { inputRef, name } = useMetadataFormProvider();
+
+  useEffect(() => {
+    if (createdContract) {
+      setInterval(() => {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      }, 1500);
+    }
+  }, [createdContract]);
+
   return (
     <div className="col-span-1 w-full md:pl-12">
       <div ref={inputRef} className="flex h-fit flex-col space-y-3 pb-4">
