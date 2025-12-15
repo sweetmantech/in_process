@@ -11,7 +11,6 @@ import { toast } from "sonner";
 import { migrateMuxToArweaveApi } from "@/lib/mux/migrateMuxToArweaveApi";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { CHAIN_ID } from "@/lib/consts";
-import { createCollectionApi } from "@/lib/collections/createCollectionApi";
 
 export default function useMomentCreate() {
   const [creating, setCreating] = useState<boolean>(false);
@@ -36,14 +35,7 @@ export default function useMomentCreate() {
       if (!parameters) {
         throw new Error("Parameters not ready");
       }
-
-      let result = null;
-      if ("token" in parameters) {
-        result = await createMomentApi(parameters);
-      } else {
-        result = await createCollectionApi(parameters);
-      }
-
+      const result = await createMomentApi(parameters);
       await new Promise((resolve) => setTimeout(resolve, 3000));
       const accessToken = await getAccessToken();
 
@@ -51,14 +43,13 @@ export default function useMomentCreate() {
       setIsUploading(false);
       setUploadProgress(100);
       setCreatedContract(result.contractAddress);
-      const tokenId = "tokenId" in result ? result.tokenId : undefined;
-      setCreatedTokenId(tokenId?.toString() || "");
+      setCreatedTokenId(result.tokenId?.toString() || "");
 
       if (mimeType.includes("video") && accessToken) {
         await migrateMuxToArweaveApi(
           {
             collectionAddress: result.contractAddress as Address,
-            tokenIds: [tokenId?.toString() || "0"],
+            tokenIds: ["0", result.tokenId?.toString()],
             chainId: CHAIN_ID,
           },
           accessToken
