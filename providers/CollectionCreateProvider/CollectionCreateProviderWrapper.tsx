@@ -1,17 +1,18 @@
 "use client";
 
 import { CreateCollectionProvider } from "./CreateCollectionProvider";
-import CreateCollectionModal from "@/components/CreateForm/CreateCollectionModal";
 import { MetadataUploadProvider } from "../MetadataUploadProvider";
 import { MetadataFormProvider } from "../MetadataFormProvider";
 
-const CollectionCreateProviderWrapper = () => {
+interface CollectionCreateProviderWrapperProps {
+  children: React.ReactNode;
+}
+
+const CollectionCreateProviderWrapper = ({ children }: CollectionCreateProviderWrapperProps) => {
   return (
     <MetadataFormProvider>
       <MetadataUploadProvider>
-        <CreateCollectionProvider>
-          <CreateCollectionModal />
-        </CreateCollectionProvider>
+        <CreateCollectionProvider>{children}</CreateCollectionProvider>
       </MetadataUploadProvider>
     </MetadataFormProvider>
   );

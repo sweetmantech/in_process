@@ -5,6 +5,7 @@ import { CollectionsProvider } from "@/providers/CollectionsProvider";
 import { ReactNode } from "react";
 import { CreateCollectionModalTriggerProvider } from "@/providers/CollectionCreateProvider/CreateCollectionModalTriggerProvider";
 import CollectionCreateProviderWrapper from "@/providers/CollectionCreateProvider/CollectionCreateProviderWrapper";
+import CreateCollectionModal from "@/components/CreateForm/CreateCollectionModal";
 
 const RootLayout = ({ children }: { children: ReactNode }) => {
   return (
@@ -17,7 +18,9 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
             </div>
           </main>
         </MomentCreateProviderWrapper>
-        <CollectionCreateProviderWrapper />
+        <CollectionCreateProviderWrapper>
+          <CreateCollectionModal />
+        </CollectionCreateProviderWrapper>
       </CollectionsProvider>
     </CreateCollectionModalTriggerProvider>
   );
