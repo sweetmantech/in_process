@@ -19,14 +19,21 @@ import Spinner from "../ui/spinner";
 import { useCollectionsProvider } from "@/providers/CollectionsProvider";
 import CreateCollectionModal from "./CreateCollectionModal";
 import { useCollectionFormProvider } from "@/providers/CollectionFormProvider";
-import { useCollectionsDropdown } from "@/hooks/useCollectionsDropdown";
+import { useUserProvider } from "@/providers/UserProvider";
 
 const Collections = () => {
+  const { isPrepared } = useUserProvider();
   const { collections, isLoading: isCollectionsLoading } = useCollectionsProvider();
   const { currentCollection, open, setOpen, displayName, imageUrl, isLoading, handleValueChange } =
     useCollectionsSelection();
   const { setIsCreateModalOpen } = useCollectionFormProvider();
-  const { handleOpenChange } = useCollectionsDropdown(setOpen);
+
+  const handleOpenChange = (newOpen: boolean) => {
+    if (newOpen && !isPrepared()) {
+      return;
+    }
+    setOpen(newOpen);
+  };
 
   return (
     <div className="flex w-full flex-col items-start gap-2">
