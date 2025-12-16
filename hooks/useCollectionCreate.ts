@@ -54,7 +54,7 @@ export const useCollectionCreate = () => {
         imageFile.type
       );
 
-      const imageUri = imageUploadResult.image;
+      const imageUri = imageUploadResult.image || imageUploadResult.uploadedImageUri;
       if (!imageUri) {
         throw new Error("Failed to upload collection image");
       }
