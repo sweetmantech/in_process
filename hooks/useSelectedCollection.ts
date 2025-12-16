@@ -4,17 +4,20 @@ import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import { useCollectionsProvider } from "@/providers/CollectionsProvider";
 
 export const useSelectedCollection = (
-  selectedAddress: string
+  selectedAddress: string | null
 ): { displayName: string; imageUrl: string; isLoading: boolean } => {
   const { collections } = useCollectionsProvider();
-  const selectedCollection = collections.find((c) => c.address === selectedAddress);
+  const selectedCollection = selectedAddress
+    ? collections.find((c) => c.address === selectedAddress)
+    : null;
 
   const { data: metadata, isLoading } = useMetadata(selectedCollection?.uri || "");
 
   const displayName = useMemo(() => {
-    if (!selectedCollection) return "New Collection";
+    if (!selectedAddress) return "Please select a collection";
+    if (!selectedCollection) return "Please select a collection";
     return selectedCollection.name || selectedCollection.address;
-  }, [selectedCollection]);
+  }, [selectedAddress, selectedCollection]);
 
   const imageUrl = useMemo(() => {
     if (!selectedCollection) return "/images/placeholder.png";
