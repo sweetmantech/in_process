@@ -4,7 +4,7 @@ import { Address, Hash } from "viem";
 export interface CollectionsResponse {
   status: "success" | "error";
   collections: Array<{
-    id: number;
+    id: string;
     address: string;
     chain_id: number;
     uri: string;

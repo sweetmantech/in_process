@@ -21,7 +21,7 @@ const CreateCollectionModal = () => {
     handleClose,
   } = useCollectionFormProvider();
 
-  const { handleSubmit } = useCollectionCreate();
+  const { handleSubmit, isCreating, uploadProgress } = useCollectionCreate();
 
   return (
     <Dialog open={isCreateModalOpen} onOpenChange={handleClose}>
@@ -40,6 +40,7 @@ const CreateCollectionModal = () => {
               onChange={(e) => setName(e.target.value)}
               placeholder="Enter collection name"
               className="font-spectral"
+              disabled={isCreating}
             />
           </div>
 
@@ -52,6 +53,7 @@ const CreateCollectionModal = () => {
                 accept="image/*"
                 onChange={handleImageSelect}
                 className="hidden"
+                disabled={isCreating}
               />
               {imagePreview ? (
                 <div className="relative w-full aspect-square overflow-hidden rounded border border-grey">
@@ -67,6 +69,7 @@ const CreateCollectionModal = () => {
                     variant="outline"
                     onClick={handleImageClick}
                     className="absolute bottom-2 right-2 font-spectral bg-grey-moss-100"
+                    disabled={isCreating}
                   >
                     Change Image
                   </Button>
@@ -77,6 +80,7 @@ const CreateCollectionModal = () => {
                   variant="outline"
                   onClick={handleImageClick}
                   className="w-full h-32 font-spectral border-dashed"
+                  disabled={isCreating}
                 >
                   Click to upload image
                 </Button>
@@ -84,23 +88,39 @@ const CreateCollectionModal = () => {
             </div>
           </div>
 
-          <div className="flex gap-2 justify-end">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => handleClose()}
-              className="font-spectral"
-            >
-              Cancel
-            </Button>
-            <Button
-              type="button"
-              onClick={handleSubmit}
-              disabled={!name.trim() || !imageFile}
-              className="font-spectral bg-black text-grey-eggshell hover:bg-grey-moss-300"
-            >
-              Create
-            </Button>
+          <div className="flex flex-col gap-2">
+            {isCreating && (
+              <div className="flex flex-col gap-1">
+                <div className="h-2 w-full overflow-hidden rounded-full bg-grey-moss-300">
+                  <div
+                    className="h-full bg-grey-moss-900 transition-all duration-300"
+                    style={{ width: `${uploadProgress || 0}%` }}
+                  />
+                </div>
+                <div className="text-right font-spectral text-sm text-grey-moss-600">
+                  {Math.round(uploadProgress || 0)}%
+                </div>
+              </div>
+            )}
+            <div className="flex gap-2 justify-end">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => handleClose()}
+                disabled={isCreating}
+                className="font-spectral"
+              >
+                Cancel
+              </Button>
+              <Button
+                type="button"
+                onClick={handleSubmit}
+                disabled={!name.trim() || !imageFile || isCreating}
+                className="font-spectral bg-black text-grey-eggshell hover:bg-grey-moss-300"
+              >
+                {isCreating ? "Creating..." : "Create"}
+              </Button>
+            </div>
           </div>
         </div>
       </DialogContent>
