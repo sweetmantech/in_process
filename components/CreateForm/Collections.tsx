@@ -19,19 +19,21 @@ import Spinner from "../ui/spinner";
 import { useCollectionsProvider } from "@/providers/CollectionsProvider";
 import CreateCollectionModal from "./CreateCollectionModal";
 import { useCollectionFormProvider } from "@/providers/CollectionFormProvider";
+import { useCollectionsDropdown } from "@/hooks/useCollectionsDropdown";
 
 const Collections = () => {
   const { collections, isLoading: isCollectionsLoading } = useCollectionsProvider();
   const { currentCollection, open, setOpen, displayName, imageUrl, isLoading, handleValueChange } =
     useCollectionsSelection();
   const { setIsCreateModalOpen } = useCollectionFormProvider();
+  const { handleOpenChange } = useCollectionsDropdown(setOpen);
 
   return (
     <div className="flex w-full flex-col items-start gap-2">
       <Label htmlFor="collection" className="text-md font-archivo">
         collection
       </Label>
-      <Popover open={open} onOpenChange={setOpen}>
+      <Popover open={open} onOpenChange={handleOpenChange}>
         <PopoverTrigger asChild>
           <Button
             id="collection"
