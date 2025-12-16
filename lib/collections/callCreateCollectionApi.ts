@@ -1,14 +1,12 @@
 import type { CreateCollectionInput, CreateCollectionResult } from "@/types/collections";
 
 export async function callCreateCollectionApi(
-  accessToken: string,
   input: CreateCollectionInput
 ): Promise<CreateCollectionResult> {
   const response = await fetch("/api/collections", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${accessToken}`,
     },
     body: JSON.stringify(input),
   });

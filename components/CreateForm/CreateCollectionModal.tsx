@@ -4,24 +4,28 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useCollectionCreate } from "@/hooks/useCollectionCreate";
-import { useCollectionFormProvider } from "@/providers/CollectionFormProvider";
+import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
+import { useCreateCollectionProvider } from "@/providers/CollectionCreateProvider/CreateCollectionProvider";
+import { useCreateCollectionModalTriggerProvider } from "@/providers/CollectionCreateProvider/CreateCollectionModalTriggerProvider";
 import Image from "next/image";
+import CreateCollectionButton from "./CreateCollectionButton";
+import { useMetadataUploadProvider } from "@/providers/MetadataUploadProvider";
 
 const CreateCollectionModal = () => {
-  const {
-    name,
-    setName,
-    imageFile,
-    imagePreview,
-    fileInputRef,
-    handleImageSelect,
-    handleImageClick,
-    isCreateModalOpen,
-    handleClose,
-  } = useCollectionFormProvider();
+  const { name, setName, fileInputRef, blobUrls, resetForm } = useMetadataFormProvider();
+  const { selectFile } = useMetadataUploadProvider();
 
-  const { handleSubmit, isCreating, uploadProgress } = useCollectionCreate();
+  const { isCreating } = useCreateCollectionProvider();
+  const { isCreateModalOpen, closeModal } = useCreateCollectionModalTriggerProvider();
+
+  const handleImageClick = () => fileInputRef.current?.click();
+
+  const handleClose = () => {
+    resetForm();
+    closeModal();
+  };
+
+  const imagePreview = blobUrls.image || "";
 
   return (
     <Dialog open={isCreateModalOpen} onOpenChange={handleClose}>
@@ -51,7 +55,7 @@ const CreateCollectionModal = () => {
                 ref={fileInputRef}
                 type="file"
                 accept="image/*"
-                onChange={handleImageSelect}
+                onChange={selectFile}
                 className="hidden"
                 disabled={isCreating}
               />
@@ -87,41 +91,7 @@ const CreateCollectionModal = () => {
               )}
             </div>
           </div>
-
-          <div className="flex flex-col gap-2">
-            {isCreating && (
-              <div className="flex flex-col gap-1">
-                <div className="h-2 w-full overflow-hidden rounded-full bg-grey-moss-300">
-                  <div
-                    className="h-full bg-grey-moss-900 transition-all duration-300"
-                    style={{ width: `${uploadProgress || 0}%` }}
-                  />
-                </div>
-                <div className="text-right font-spectral text-sm text-grey-moss-600">
-                  {Math.round(uploadProgress || 0)}%
-                </div>
-              </div>
-            )}
-            <div className="flex gap-2 justify-end">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => handleClose()}
-                disabled={isCreating}
-                className="font-spectral"
-              >
-                Cancel
-              </Button>
-              <Button
-                type="button"
-                onClick={handleSubmit}
-                disabled={!name.trim() || !imageFile || isCreating}
-                className="font-spectral bg-black text-grey-eggshell hover:bg-grey-moss-300"
-              >
-                {isCreating ? "Creating..." : "Create"}
-              </Button>
-            </div>
-          </div>
+          <CreateCollectionButton />
         </div>
       </DialogContent>
     </Dialog>
