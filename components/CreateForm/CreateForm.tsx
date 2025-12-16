@@ -6,8 +6,6 @@ import Advanced from "./Advanced";
 import Preview from "./Preview";
 import Collections from "./Collections";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
-import { CollectionFormProvider } from "@/providers/CollectionFormProvider";
-import { CreateCollectionModalTriggerProvider } from "@/providers/CollectionCreateProvider/CreateCollectionModalTriggerProvider";
 
 const CreateForm = () => {
   const { inputRef } = useMetadataFormProvider();
