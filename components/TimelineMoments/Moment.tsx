@@ -1,12 +1,13 @@
 import { FC, useState } from "react";
 import { motion } from "framer-motion";
 import MomentHover from "./MomentHover";
-import { useClickTimelineMoment } from "@/hooks/useClickTimelineMoment";
 import truncated from "@/lib/truncated";
 import { TIMLINE_STEP_OFFSET } from "@/lib/consts";
 import HideButton from "./HideButton";
 import useArtistEditable from "@/hooks/useArtistEditable";
 import { TimelineMoment } from "@/types/moment";
+import { useMomentNavigation } from "@/hooks/useMomentNavigation";
+import { useMetadata } from "@/hooks/useMetadata";
 
 interface MomentProps {
   moment: TimelineMoment;
@@ -17,7 +18,8 @@ interface MomentProps {
 }
 
 const Moment: FC<MomentProps> = ({ moment, hovered, step, height, index }) => {
-  const { isLoading, data, handleClick, formattedDate } = useClickTimelineMoment(moment);
+  const { handleMomentClick } = useMomentNavigation(moment);
+  const { isLoading, data } = useMetadata(moment.uri);
   const [isFadingOut, setIsFadingOut] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
   const { isEditable } = useArtistEditable();
@@ -44,7 +46,7 @@ const Moment: FC<MomentProps> = ({ moment, hovered, step, height, index }) => {
           data-moment-button
           data-moment-index={index}
           className="focus-visible:ring-primary relative z-10 transition-transform hover:scale-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75"
-          onClick={handleClick}
+          onClick={handleMomentClick}
         >
           {hovered ? (
             <tspan
@@ -79,9 +81,9 @@ const Moment: FC<MomentProps> = ({ moment, hovered, step, height, index }) => {
           </div>
         )}
         <p
-          className={`min-w-[200px] text-center font-archivo ${hovered ? "md:text-md translate-y-6 text-sm" : "pt-8 text-xs opacity-0 md:text-sm md:opacity-[1]"}`}
+          className={`min-w-[200px] normal-case text-center font-archivo ${hovered ? "md:text-md translate-y-6 text-sm" : "pt-8 text-xs opacity-0 md:text-sm md:opacity-[1]"}`}
         >
-          {formattedDate}
+          {new Date(moment.created_at).toLocaleString()}
         </p>
       </fieldset>
     </motion.div>
