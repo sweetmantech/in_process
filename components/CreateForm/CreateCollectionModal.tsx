@@ -4,12 +4,13 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import CollectionImage from "@/components/CollectionImage";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { useCreateCollectionProvider } from "@/providers/CollectionCreateProvider/CreateCollectionProvider";
 import { useCreateCollectionModalTriggerProvider } from "@/providers/CollectionCreateProvider/CreateCollectionModalTriggerProvider";
-import Image from "next/image";
 import CreateCollectionButton from "./CreateCollectionButton";
 import { useMetadataUploadProvider } from "@/providers/MetadataUploadProvider";
+import { UploadIcon } from "lucide-react";
 
 const CreateCollectionModal = () => {
   const { name, setName, fileInputRef, blobUrls, resetForm } = useMetadataFormProvider();
@@ -34,8 +35,8 @@ const CreateCollectionModal = () => {
           <DialogTitle className="font-archivo">Create New Collection</DialogTitle>
         </DialogHeader>
         <div className="flex flex-col gap-4">
-          <div className="flex grid grid-cols-2 items-start gap-2">
-            <fieldset className="col-span-1">
+          <div className="flex items-start gap-2">
+            <fieldset>
               <Label htmlFor="collection-image" className="font-archivo">
                 Image
               </Label>
@@ -48,29 +49,26 @@ const CreateCollectionModal = () => {
                 disabled={isCreating}
               />
               {imagePreview ? (
-                <div className="relative w-full aspect-video flex-shrink-0 overflow-hidden rounded border border-grey">
-                  <Image
-                    src={imagePreview}
-                    alt="Collection preview"
-                    fill
-                    className="object-cover cursor-pointer"
-                    onClick={handleImageClick}
-                    unoptimized
-                  />
-                </div>
-              ) : (
-                <Button
-                  type="button"
-                  variant="outline"
+                <CollectionImage
+                  src={imagePreview}
+                  alt="Collection preview"
                   onClick={handleImageClick}
-                  className="w-full aspect-video flex-shrink-0 font-spectral border-dashed p-0"
-                  disabled={isCreating}
-                >
-                  <span className="text-xs">Select an image</span>
-                </Button>
+                />
+              ) : (
+                <div>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={handleImageClick}
+                    className="w-10 h-10 flex-shrink-0 font-spectral border-dashed p-0"
+                    disabled={isCreating}
+                  >
+                    <UploadIcon className="size-4" />
+                  </Button>
+                </div>
               )}
             </fieldset>
-            <fieldset className="col-span-1">
+            <fieldset className="grow">
               <Label htmlFor="collection-name" className="font-archivo">
                 Name
               </Label>
