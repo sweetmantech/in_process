@@ -8,9 +8,7 @@ export const useMomentNavigation = (moment: TimelineMoment) => {
   const handleMomentClick = () => {
     const { chain_id, address, token_id } = moment;
     const shortName = chain_id === base.id ? "base" : "bsep";
-    if (shortName) {
-      push(`/collect/${shortName}:${address}/${token_id}`);
-    }
+    push(`/collect/${shortName}:${address}/${token_id}`);
   };
 
   return { handleMomentClick };
