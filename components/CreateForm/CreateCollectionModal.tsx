@@ -37,9 +37,6 @@ const CreateCollectionModal = () => {
         <div className="flex flex-col gap-4">
           <div className="flex items-start gap-2">
             <fieldset>
-              <Label htmlFor="collection-image" className="font-archivo">
-                Image
-              </Label>
               <input
                 ref={fileInputRef}
                 type="file"
@@ -55,23 +52,18 @@ const CreateCollectionModal = () => {
                   onClick={handleImageClick}
                 />
               ) : (
-                <div>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={handleImageClick}
-                    className="w-10 h-10 flex-shrink-0 font-spectral border-dashed p-0"
-                    disabled={isCreating}
-                  >
-                    <UploadIcon className="size-4" />
-                  </Button>
-                </div>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={handleImageClick}
+                  className="w-10 h-10 flex-shrink-0 font-spectral border-dashed p-0"
+                  disabled={isCreating}
+                >
+                  <UploadIcon className="size-4" />
+                </Button>
               )}
             </fieldset>
             <fieldset className="grow">
-              <Label htmlFor="collection-name" className="font-archivo">
-                Name
-              </Label>
               <Input
                 id="collection-name"
                 value={name}
