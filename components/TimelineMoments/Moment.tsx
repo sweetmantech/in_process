@@ -81,7 +81,7 @@ const Moment: FC<MomentProps> = ({ moment, hovered, step, height, index }) => {
           </div>
         )}
         <p
-          className={`min-w-[200px] lowercase text-center font-archivo ${hovered ? "md:text-md translate-y-6 text-sm" : "pt-8 text-xs opacity-0 md:text-sm md:opacity-[1]"}`}
+          className={`min-w-[200px] normal-case text-center font-archivo ${hovered ? "md:text-md translate-y-6 text-sm" : "pt-8 text-xs opacity-0 md:text-sm md:opacity-[1]"}`}
         >
           {new Date(moment.created_at).toLocaleString()}
         </p>
