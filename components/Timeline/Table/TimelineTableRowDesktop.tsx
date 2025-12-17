@@ -1,20 +1,20 @@
 import { useMetadata } from "@/hooks/useMetadata";
-import { useRouter } from "next/navigation";
 import { TableRow, TableCell } from "@/components/ui/table";
 import truncateAddress from "@/lib/truncateAddress";
 import { type TimelineMoment } from "@/types/moment";
+import { useMomentNavigation } from "@/hooks/useMomentNavigation";
 
 const fontFamilies = ["font-archivo", "font-spectral-italic", "font-archivo"];
 const fontSizes = ["text-sm md:text-xl", "text-sm md:text-lg", "text-sm md:text-md"];
 
 const TimelineTableRowDesktop = ({ moment }: { moment: TimelineMoment }) => {
   const { data } = useMetadata(moment.uri);
-  const { push } = useRouter();
+  const { handleMomentClick } = useMomentNavigation(moment);
 
   return (
     <TableRow
       className="!border-b !border-transparent hover:!border-b-grey-moss-300 hover:!bg-transparent hover:!text-grey-moss-300"
-      onClick={() => push(`/${moment.default_admin.address}`)}
+      onClick={handleMomentClick}
     >
       <TableCell
         className={`cursor-pointer border-none md:py-3 ${fontFamilies[0]} ${fontSizes[0]}`}
