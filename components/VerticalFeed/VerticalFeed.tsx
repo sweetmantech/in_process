@@ -1,5 +1,4 @@
 import Slider from "../Slider";
-import { Autoplay } from "swiper/modules";
 import useIsMobile from "@/hooks/useIsMobile";
 import SliderFeed from "./SliderFeed";
 import { useTimelineProvider } from "@/providers/TimelineProvider";
@@ -17,12 +16,7 @@ const VerticalFeed = () => {
         mousewheel: {
           sensitivity: 1,
         },
-        autoplay: {
-          delay: 4000,
-          disableOnInteraction: false,
-        },
         direction: "vertical",
-        modules: [Autoplay],
         threshold: 5,
         roundLengths: true,
         loop: true,

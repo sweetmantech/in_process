@@ -18,9 +18,9 @@ const MomentsTimeline = ({ alt }: MomentsTimelineProps) => {
 
   if (!reversedMoments.length)
     return (
-      <div className="flex grow items-center justify-center">
+      <div className="flex items-center justify-center border border-red">
         {isLoading ? (
-          <Loading className="aspect-[1/1] w-[180px] md:w-[300px]" />
+          <Loading className="aspect-[1/1] w-[100px] md:w-[200px]" />
         ) : (
           <p className="font-archivo text-lg md:text-5xl">No moments yet!</p>
         )}

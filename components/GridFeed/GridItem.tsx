@@ -15,10 +15,14 @@ const GridItem = ({ feed }: GridItemProps) => {
   return (
     <div className="col-span-1">
       {isLoading || !data ? (
-        <Loading className="size-full border border-grey bg-grey-moss-100" />
+        <Loading className="size-full border border-grey bg-grey-moss-100 aspect-video" />
       ) : (
-        <button type="button" onClick={handleMomentClick} className="w-full">
-          <div className="relative aspect-video w-full overflow-hidden rounded-md bg-grey-moss-100 font-spectral">
+        <button
+          type="button"
+          onClick={handleMomentClick}
+          className="size-full aspect-video flex flex-col"
+        >
+          <div className="relative grow w-full overflow-hidden rounded-md bg-grey-moss-100 font-spectral">
             <ContentRenderer metadata={data} />
           </div>
           <div className="px-2 pt-2">
