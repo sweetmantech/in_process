@@ -12,7 +12,7 @@ import ProfileProvider from "@/providers/ProfileProvider";
 import { Address } from "viem";
 
 const ArtistPage = () => {
-  const [alt, setAlt] = useState<"timeline" | "grid">("timeline");
+  const [alt, setAlt] = useState<"timeline" | "grid">("grid");
   const isMobile = useIsMobile();
   const { artistAddress } = useParams();
   const address = artistAddress?.toString().toLowerCase() || "";
