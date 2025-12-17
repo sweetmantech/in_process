@@ -12,14 +12,14 @@ import ProfileProvider from "@/providers/ProfileProvider";
 import { Address } from "viem";
 
 const ArtistPage = () => {
-  const [alt, setAlt] = useState<"timeline" | "grid">("timeline");
+  const [alt, setAlt] = useState<"timeline" | "grid">("grid");
   const isMobile = useIsMobile();
   const { artistAddress } = useParams();
   const address = artistAddress?.toString().toLowerCase() || "";
 
   return (
     <ProfileProvider address={artistAddress as Address}>
-      <div className="relative flex min-h-[450px] w-screen grow flex-col overflow-hidden pb-20 pt-6 md:min-h-[550px] md:pt-10">
+      <div className="relative grow flex w-screen flex-col overflow-hidden pb-20 pt-6 md:pt-10">
         <div className="relative flex items-start justify-between px-2 pb-2 md:px-10">
           {isMobile ? <MobileProfile /> : <DesktopProfile />}
           <AltToggle alt={alt} setAlt={setAlt} />
