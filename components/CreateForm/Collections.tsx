@@ -17,8 +17,7 @@ import CollectionListItem from "./CollectionItem";
 import Image from "next/image";
 import Spinner from "../ui/spinner";
 import { useCollectionsProvider } from "@/providers/CollectionsProvider";
-import CreateCollectionModal from "./CreateCollectionModal";
-import { useCollectionFormProvider } from "@/providers/CollectionFormProvider";
+import { useCreateCollectionModalTriggerProvider } from "@/providers/CollectionCreateProvider/CreateCollectionModalTriggerProvider";
 import { useUserProvider } from "@/providers/UserProvider";
 
 const Collections = () => {
@@ -26,7 +25,7 @@ const Collections = () => {
   const { collections, isLoading: isCollectionsLoading } = useCollectionsProvider();
   const { currentCollection, open, setOpen, displayName, imageUrl, isLoading, handleValueChange } =
     useCollectionsSelection();
-  const { setIsCreateModalOpen } = useCollectionFormProvider();
+  const { openModal } = useCreateCollectionModalTriggerProvider();
 
   const handleOpenChange = (newOpen: boolean) => {
     if (newOpen && !isPrepared()) {
@@ -79,7 +78,7 @@ const Collections = () => {
                   value="new"
                   onSelect={() => {
                     setOpen(false);
-                    setIsCreateModalOpen(true);
+                    openModal();
                   }}
                   className="border-b border-grey font-spectral"
                   keywords={["new", "collection"]}
@@ -108,7 +107,6 @@ const Collections = () => {
           </Command>
         </PopoverContent>
       </Popover>
-      <CreateCollectionModal />
     </div>
   );
 };
