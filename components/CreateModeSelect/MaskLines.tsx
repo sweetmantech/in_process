@@ -2,23 +2,19 @@
 
 import useIsMobile from "@/hooks/useIsMobile";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
-import { useMomentCreateProvider } from "@/providers/MomentCreateProvider/MomentCreateProvider";
-import { usePathname } from "next/navigation";
-import React from "react";
+import useTypeParam from "@/hooks/useTypeParam";
+import React, { Fragment } from "react";
 
 const MaskLines = () => {
   const { maskId, svgRef, masks } = useMetadataFormProvider();
-  const { createdContract } = useMomentCreateProvider();
-  const pathname = usePathname();
-  const isWritingPage = pathname === "/create/writing";
-  const isLinkPage = pathname === "/create/link";
-  const isEmbedPage = pathname === "/create/embed";
+  const type = useTypeParam();
+  const isWritingPage = type === "writing";
   const isMobile = useIsMobile();
 
+  if (!isWritingPage || isMobile) return <Fragment />;
+
   return (
-    <div
-      className={`pointer-events-none absolute size-full ${(isWritingPage || ((isLinkPage || isEmbedPage) && isMobile)) && !createdContract ? "opacity-1" : "opacity-0"}`}
-    >
+    <div className="pointer-events-none absolute size-full">
       <div className="absolute inset-0" />
       <div
         className="absolute inset-0"

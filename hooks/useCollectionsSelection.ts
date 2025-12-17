@@ -6,17 +6,18 @@ export const useCollectionsSelection = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
-  const currentCollection = searchParams.get("collectionAddress") || "new";
+  const collectionAddress = searchParams.get("collectionAddress");
+  const currentCollection = collectionAddress || null;
   const [open, setOpen] = useState(false);
 
   const { displayName, imageUrl, isLoading } = useSelectedCollection(currentCollection);
 
   const handleValueChange = (value: string) => {
     const params = new URLSearchParams(searchParams.toString());
-    if (value === "new") {
-      params.delete("collectionAddress");
-    } else {
+    if (value) {
       params.set("collectionAddress", value);
+    } else {
+      params.delete("collectionAddress");
     }
     router.push(`${pathname}?${params.toString()}`);
     setOpen(false);

@@ -38,16 +38,8 @@ export async function create1155(input: CreateMomentContractInput) {
       : undefined,
   };
 
-  // Check if creating new contract or adding to existing contract
-  if ("contract" in input) {
-    return creatorClient.create1155({
-      ...commonParams,
-      contract: input.contract,
-    });
-  } else {
-    return creatorClient.create1155OnExistingContract({
-      ...commonParams,
-      contractAddress: input.contractAddress,
-    });
-  }
+  return creatorClient.create1155OnExistingContract({
+    ...commonParams,
+    contractAddress: input.contractAddress,
+  });
 }

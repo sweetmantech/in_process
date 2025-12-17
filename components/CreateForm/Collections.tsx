@@ -12,24 +12,34 @@ import {
 } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 import { useCollectionsSelection } from "@/hooks/useCollectionsSelection";
 import CollectionListItem from "./CollectionItem";
 import Image from "next/image";
 import Spinner from "../ui/spinner";
 import { useCollectionsProvider } from "@/providers/CollectionsProvider";
+import { useCreateCollectionModalTriggerProvider } from "@/providers/CollectionCreateProvider/CreateCollectionModalTriggerProvider";
+import { useUserProvider } from "@/providers/UserProvider";
 
 const Collections = () => {
+  const { isPrepared } = useUserProvider();
   const { collections, isLoading: isCollectionsLoading } = useCollectionsProvider();
   const { currentCollection, open, setOpen, displayName, imageUrl, isLoading, handleValueChange } =
     useCollectionsSelection();
+  const { openModal } = useCreateCollectionModalTriggerProvider();
+
+  const handleOpenChange = (newOpen: boolean) => {
+    if (newOpen && !isPrepared()) {
+      return;
+    }
+    setOpen(newOpen);
+  };
 
   return (
     <div className="flex w-full flex-col items-start gap-2">
       <Label htmlFor="collection" className="text-md font-archivo">
         collection
       </Label>
-      <Popover open={open} onOpenChange={setOpen}>
+      <Popover open={open} onOpenChange={handleOpenChange}>
         <PopoverTrigger asChild>
           <Button
             id="collection"
@@ -39,7 +49,7 @@ const Collections = () => {
             className="h-9 w-full justify-between rounded-[0px] border border-grey bg-white !font-spectral !ring-0 !ring-offset-0"
           >
             <div className="flex items-center gap-2">
-              {isLoading ? (
+              {isLoading || !currentCollection ? (
                 <div className="h-[24px] w-[24px] animate-pulse rounded bg-neutral-200" />
               ) : (
                 <div className="h-[24px] w-[24px] shrink-0 overflow-hidden rounded">
@@ -66,16 +76,14 @@ const Collections = () => {
               <CommandGroup>
                 <CommandItem
                   value="new"
-                  onSelect={() => handleValueChange("new")}
+                  onSelect={() => {
+                    setOpen(false);
+                    openModal();
+                  }}
                   className="border-b border-grey font-spectral"
                   keywords={["new", "collection"]}
                 >
-                  <Check
-                    className={cn(
-                      "mr-2 h-4 w-4",
-                      currentCollection === "new" ? "opacity-100" : "opacity-0"
-                    )}
-                  />
+                  <Check className="mr-2 h-4 w-4 opacity-0" />
                   New Collection
                 </CommandItem>
               </CommandGroup>

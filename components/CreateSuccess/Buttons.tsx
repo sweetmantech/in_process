@@ -4,24 +4,27 @@ import { useMomentCreateProvider } from "@/providers/MomentCreateProvider/Moment
 import Image from "next/image";
 import { toast } from "sonner";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
+import useCollectionParam from "@/hooks/useCollectionParam";
+import { useRouter } from "next/navigation";
 
 const Buttons = () => {
-  const { createdContract, setCreatedContract, setCreatedTokenId, createdTokenId } =
-    useMomentCreateProvider();
+  const { createdTokenId, setCreatedTokenId } = useMomentCreateProvider();
   const { resetForm } = useMetadataFormProvider();
+  const collection = useCollectionParam();
+  const { push } = useRouter();
 
   const share = async () => {
     const shortNetworkName = getShortNetworkName(CHAIN.name.toLowerCase());
     await navigator.clipboard.writeText(
-      `${SITE_ORIGINAL_URL}/collect/${shortNetworkName}:${createdContract}/${createdTokenId || 1}`
+      `${SITE_ORIGINAL_URL}/collect/${shortNetworkName}:${collection}/${createdTokenId || 1}`
     );
     toast.success("copied!");
   };
 
   const toggle = () => {
     resetForm();
-    setCreatedContract("");
     setCreatedTokenId("");
+    push("/create");
   };
 
   return (

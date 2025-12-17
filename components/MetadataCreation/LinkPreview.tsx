@@ -4,14 +4,14 @@ import Image from "next/image";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 
 const LinkPreview = () => {
-  const { createdContract } = useMomentCreateProvider();
+  const { createdTokenId } = useMomentCreateProvider();
   const { link, previewFileUrl } = useMetadataFormProvider();
 
   return (
     <div
-      className={`overflow-hidden rounded-2xl bg-white ${createdContract ? "" : "m-4 px-4 py-6"}`}
+      className={`overflow-hidden rounded-2xl bg-white ${createdTokenId ? "" : "m-4 px-4 py-6"}`}
     >
-      {createdContract ? (
+      {createdTokenId ? (
         <>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={previewFileUrl} alt="not found image" />

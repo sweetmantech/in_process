@@ -1,7 +1,14 @@
 "use client";
 
-import CreatePage from "@/components/CreatePage/CreatePage";
+import MetadataCreationLayout from "@/components/MetadataCreation/Layout";
+import MetadataCreation from "@/components/MetadataCreation";
 
-const Create = () => <CreatePage />;
+const Create = () => {
+  return (
+    <MetadataCreationLayout>
+      <MetadataCreation />
+    </MetadataCreationLayout>
+  );
+};
 
 export default Create;
