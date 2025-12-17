@@ -34,23 +34,11 @@ const CreateCollectionModal = () => {
           <DialogTitle className="font-archivo">Create New Collection</DialogTitle>
         </DialogHeader>
         <div className="flex flex-col gap-4">
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="collection-name" className="font-archivo pl-2">
-              Name
-            </Label>
-            <Input
-              id="collection-name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Enter collection name"
-              className="font-spectral"
-              disabled={isCreating}
-            />
-          </div>
-
-          <div className="flex flex-col gap-2">
-            <Label className="font-archivo pl-2">Image</Label>
-            <div className="flex flex-col gap-2">
+          <div className="flex grid grid-cols-2 items-start gap-2">
+            <fieldset className="col-span-1">
+              <Label htmlFor="collection-image" className="font-archivo">
+                Image
+              </Label>
               <input
                 ref={fileInputRef}
                 type="file"
@@ -60,36 +48,41 @@ const CreateCollectionModal = () => {
                 disabled={isCreating}
               />
               {imagePreview ? (
-                <div className="relative w-full aspect-square overflow-hidden rounded border border-grey">
+                <div className="relative w-full aspect-video flex-shrink-0 overflow-hidden rounded border border-grey">
                   <Image
                     src={imagePreview}
                     alt="Collection preview"
                     fill
-                    className="object-cover"
+                    className="object-cover cursor-pointer"
+                    onClick={handleImageClick}
                     unoptimized
                   />
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={handleImageClick}
-                    className="absolute bottom-2 right-2 font-spectral bg-grey-moss-100"
-                    disabled={isCreating}
-                  >
-                    Change Image
-                  </Button>
                 </div>
               ) : (
                 <Button
                   type="button"
                   variant="outline"
                   onClick={handleImageClick}
-                  className="w-full h-32 font-spectral border-dashed"
+                  className="w-full aspect-video flex-shrink-0 font-spectral border-dashed p-0"
                   disabled={isCreating}
                 >
-                  Click to upload image
+                  <span className="text-xs">Select an image</span>
                 </Button>
               )}
-            </div>
+            </fieldset>
+            <fieldset className="col-span-1">
+              <Label htmlFor="collection-name" className="font-archivo">
+                Name
+              </Label>
+              <Input
+                id="collection-name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Enter collection name"
+                className="font-spectral flex-1"
+                disabled={isCreating}
+              />
+            </fieldset>
           </div>
           <CreateCollectionButton />
         </div>
