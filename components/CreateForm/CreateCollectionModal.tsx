@@ -3,13 +3,13 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import CollectionImage from "@/components/CollectionImage";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { useCreateCollectionProvider } from "@/providers/CollectionCreateProvider/CreateCollectionProvider";
 import { useCreateCollectionModalTriggerProvider } from "@/providers/CollectionCreateProvider/CreateCollectionModalTriggerProvider";
-import Image from "next/image";
 import CreateCollectionButton from "./CreateCollectionButton";
 import { useMetadataUploadProvider } from "@/providers/MetadataUploadProvider";
+import { UploadIcon } from "lucide-react";
 
 const CreateCollectionModal = () => {
   const { name, setName, fileInputRef, blobUrls, resetForm } = useMetadataFormProvider();
@@ -34,23 +34,8 @@ const CreateCollectionModal = () => {
           <DialogTitle className="font-archivo">Create New Collection</DialogTitle>
         </DialogHeader>
         <div className="flex flex-col gap-4">
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="collection-name" className="font-archivo pl-2">
-              Name
-            </Label>
-            <Input
-              id="collection-name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Enter collection name"
-              className="font-spectral"
-              disabled={isCreating}
-            />
-          </div>
-
-          <div className="flex flex-col gap-2">
-            <Label className="font-archivo pl-2">Image</Label>
-            <div className="flex flex-col gap-2">
+          <div className="flex items-start gap-2">
+            <fieldset>
               <input
                 ref={fileInputRef}
                 type="file"
@@ -60,36 +45,33 @@ const CreateCollectionModal = () => {
                 disabled={isCreating}
               />
               {imagePreview ? (
-                <div className="relative w-full aspect-square overflow-hidden rounded border border-grey">
-                  <Image
-                    src={imagePreview}
-                    alt="Collection preview"
-                    fill
-                    className="object-cover"
-                    unoptimized
-                  />
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={handleImageClick}
-                    className="absolute bottom-2 right-2 font-spectral bg-grey-moss-100"
-                    disabled={isCreating}
-                  >
-                    Change Image
-                  </Button>
-                </div>
+                <CollectionImage
+                  src={imagePreview}
+                  alt="Collection preview"
+                  onClick={handleImageClick}
+                />
               ) : (
                 <Button
                   type="button"
                   variant="outline"
                   onClick={handleImageClick}
-                  className="w-full h-32 font-spectral border-dashed"
+                  className="w-10 h-10 flex-shrink-0 font-spectral border-dashed p-0"
                   disabled={isCreating}
                 >
-                  Click to upload image
+                  <UploadIcon className="size-4" />
                 </Button>
               )}
-            </div>
+            </fieldset>
+            <fieldset className="grow">
+              <Input
+                id="collection-name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Enter collection name"
+                className="font-spectral flex-1"
+                disabled={isCreating}
+              />
+            </fieldset>
           </div>
           <CreateCollectionButton />
         </div>
