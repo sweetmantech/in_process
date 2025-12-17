@@ -6,8 +6,8 @@ const VerticalFeed = () => {
 
   return (
     <div className="w-full h-[770px] overflow-y-auto">
-      {moments.map((feed, i) => (
-        <SliderFeed feed={feed} key={i} />
+      {moments.map((feed) => (
+        <SliderFeed feed={feed} key={feed.id} />
       ))}
     </div>
   );
