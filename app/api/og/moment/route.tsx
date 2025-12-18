@@ -9,7 +9,9 @@ import {
   WRITING_SHORT_LINES,
 } from "@/lib/og/consts";
 import { imageMeta } from "image-meta";
-import fetchTokenMetadata from "@/lib/fetchTokenMetadata";
+import { getMomentAdvancedInfo } from "@/lib/moment/getMomentAdvancedInfo";
+import { CHAIN_ID } from "@/lib/consts";
+import { fetchTokenMetadata } from "@/lib/protocolSdk/ipfs/token-metadata";
 
 export const dynamic = "force-dynamic";
 export const runtime = "edge";
@@ -24,16 +26,26 @@ const spectralFont = fetch(`${VERCEL_OG}/fonts/Spectral-Regular.ttf`).then((res)
 
 export async function GET(req: NextRequest) {
   const queryParams = req.nextUrl.searchParams;
-  const collection: any = queryParams.get("collection");
+  const collectionAddress: any = queryParams.get("collectionAddress");
   const tokenId: any = queryParams.get("tokenId");
+  const chainId: any = queryParams.get("chainId");
 
-  if (!tokenId || !collection) throw Error("collection or tokenId should be provided.");
+  if (!tokenId || !collectionAddress)
+    throw Error("collectionAddress or tokenId should be provided.");
 
-  const metadata = await fetchTokenMetadata(collection as string, tokenId as string);
+  const moment = {
+    collectionAddress,
+    tokenId,
+    chainId: Number(chainId || CHAIN_ID),
+  };
+
+  const { uri } = await getMomentAdvancedInfo(moment);
+  const metadata = await fetchTokenMetadata(getFetchableUrl(uri || "") || "");
+
   if (!metadata) throw Error("failed to get token metadata");
 
   const previewBackgroundUrl = getFetchableUrl(metadata.image);
-  const isWriting = metadata.content.mime === "text/plain";
+  const isWriting = metadata.content?.mime === "text/plain";
 
   let orientation = 1;
   let originalWidth = 1;
@@ -43,7 +55,7 @@ export async function GET(req: NextRequest) {
   let writingText = "";
 
   if (isWriting) {
-    const response = await fetch(getFetchableUrl(metadata.content.uri) || "");
+    const response = await fetch(getFetchableUrl(metadata.content?.uri || "") || "");
     const data = await response.text();
     writingText = data;
     const paragraphs = writingText.split("\n");
