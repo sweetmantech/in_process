@@ -40,7 +40,9 @@ export async function GET(req: NextRequest) {
   };
 
   const { uri } = await getMomentAdvancedInfo(moment);
-  const metadata = await fetchTokenMetadata(getFetchableUrl(uri || "") || "");
+  if (uri) throw Error("failed to get moment uri");
+
+  const metadata = await fetchTokenMetadata(getFetchableUrl(uri) || "");
 
   if (!metadata) throw Error("failed to get token metadata");
 
