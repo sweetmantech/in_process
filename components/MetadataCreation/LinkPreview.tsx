@@ -40,8 +40,15 @@ const LinkPreview = () => {
           </div>
           <LinkInput />
           {previewFileUrl && (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={previewFileUrl} alt="not found image" className="pt-4" />
+            <div className="relative size-full mt-4 overflow-hidden aspect-video">
+              <Image
+                src={previewFileUrl}
+                alt="not found image"
+                fill
+                className="object-contain"
+                unoptimized
+              />
+            </div>
           )}
         </>
       )}

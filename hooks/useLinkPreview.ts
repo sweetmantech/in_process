@@ -2,15 +2,7 @@ import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
-
-export interface LinkPreview {
-  siteName: string;
-  title: string;
-  description: string;
-  url: string;
-  images: string[];
-  favicons: string[];
-}
+import { LinkPreview } from "@/types/link";
 
 async function fetchLinkPreview(link: string): Promise<LinkPreview> {
   const response = await fetch(`/api/link/get_detail?url=${encodeURIComponent(link)}`);
