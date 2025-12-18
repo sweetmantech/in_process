@@ -13,8 +13,6 @@ const LinkPreview = () => {
     >
       {createdTokenId ? (
         <>
-          {/* Plain img used here because Next.js Image requires explicit dimensions or a positioned container,
-              and this image should display at its natural size without aspect ratio constraints */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={previewFileUrl} alt="not found image" />
           <div className="py-4 text-center">
@@ -48,7 +46,7 @@ const LinkPreview = () => {
                 alt="not found image"
                 fill
                 className="object-contain"
-                unoptimized // Required for blob/object URLs - Next.js Image optimization doesn't work with blob URLs
+                unoptimized
               />
             </div>
           )}
