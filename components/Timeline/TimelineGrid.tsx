@@ -2,7 +2,7 @@ import TimelineTable from "@/components/Timeline/Table/TimelineTable";
 import ArtSlider from "@/components/ArtSlider/ArtSlider";
 
 const TimelineGrid = () => (
-  <div className="relative z-30 w-full gap-10 pb-6 pt-20 md:grid md:grid-cols-12">
+  <div className="relative z-30 w-full gap-10 pb-6 md:grid md:grid-cols-12">
     <div className="h-fit w-full md:col-span-8">
       <TimelineTable />
     </div>
