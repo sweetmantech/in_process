@@ -124,11 +124,6 @@ const useMetadataUpload = () => {
       contentUri = embedResult.contentUri;
     }
 
-    if (type === "link") {
-      contentUri = link;
-      mime = "text/html";
-    }
-
     return buildMetadataPayload(name, description, link, image, animation_url, mime, contentUri);
   };
 
