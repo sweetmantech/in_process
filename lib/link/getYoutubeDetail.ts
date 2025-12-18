@@ -1,4 +1,4 @@
-import { LinkPreview } from "@/hooks/useLinkPreview";
+import { LinkPreview } from "@/types/link";
 import youtubeParser from "./youtubeParser";
 
 const getYoutubeDetail = async (url: string): Promise<LinkPreview | null> => {
