@@ -24,17 +24,17 @@ const TimelinePage = () => {
   return (
     <main className="relative flex grow flex-col px-2 md:px-10">
       <TimelineHero />
-      <TimelineSpiral />
       <MobileMomentsSection />
-      <div className="pt-8 md:pt-28">
-        <TimelineMobileMoon />
-      </div>
-      <TimelineGrid />
       <div className="block h-[300px] overflow-hidden pb-20 md:hidden">
         <TimelineAnimationProvider moments={moments}>
           <HorizontalTimeline />
         </TimelineAnimationProvider>
       </div>
+      <div className="pt-4">
+        <TimelineMobileMoon />
+      </div>
+      <TimelineGrid />
+      <TimelineSpiral />
     </main>
   );
 };
