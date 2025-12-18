@@ -26,15 +26,15 @@ const spectralFont = fetch(`${VERCEL_OG}/fonts/Spectral-Regular.ttf`).then((res)
 
 export async function GET(req: NextRequest) {
   const queryParams = req.nextUrl.searchParams;
-  const collectionAddress: any = queryParams.get("collectionAddress");
-  const tokenId: any = queryParams.get("tokenId");
-  const chainId: any = queryParams.get("chainId");
+  const collectionAddress = queryParams.get("collectionAddress");
+  const tokenId = queryParams.get("tokenId");
+  const chainId = queryParams.get("chainId");
 
   if (!tokenId || !collectionAddress)
     throw Error("collectionAddress or tokenId should be provided.");
 
   const moment = {
-    collectionAddress,
+    collectionAddress: collectionAddress.toLowerCase() as `0x${string}`,
     tokenId,
     chainId: Number(chainId || CHAIN_ID),
   };
@@ -42,7 +42,9 @@ export async function GET(req: NextRequest) {
   const { uri } = await getMomentAdvancedInfo(moment);
   if (!uri) throw Error("failed to get moment uri");
 
-  const metadata = await fetchTokenMetadata(getFetchableUrl(uri) || "");
+  const metadataUrl = getFetchableUrl(uri);
+  if (!metadataUrl) throw Error("failed to convert uri to fetchable url");
+  const metadata = await fetchTokenMetadata(metadataUrl);
 
   if (!metadata) throw Error("failed to get token metadata");
 
@@ -57,7 +59,9 @@ export async function GET(req: NextRequest) {
   let writingText = "";
 
   if (isWriting) {
-    const response = await fetch(getFetchableUrl(metadata.content?.uri || "") || "");
+    const fetchableUrl = getFetchableUrl(metadata.content?.uri);
+    if (!fetchableUrl) throw Error("failed to convert content uri to fetchable url");
+    const response = await fetch(fetchableUrl);
     const data = await response.text();
     writingText = data;
     const paragraphs = writingText.split("\n");
