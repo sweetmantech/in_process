@@ -1,4 +1,4 @@
-export const VERCEL_OG = "https://in-process-seven.vercel.app";
+export const VERCEL_OG = "https://inprocess.world";
 export const APP_URL = process.env.NEXT_PUBLIC_URL;
 export const rotation: any = {
   1: "rotate(0deg)",
