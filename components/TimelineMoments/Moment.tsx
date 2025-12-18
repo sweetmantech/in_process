@@ -6,8 +6,7 @@ import { TIMLINE_STEP_OFFSET } from "@/lib/consts";
 import HideButton from "./HideButton";
 import useArtistEditable from "@/hooks/useArtistEditable";
 import { TimelineMoment } from "@/types/moment";
-import { useMomentNavigation } from "@/hooks/useMomentNavigation";
-import { useMetadata } from "@/hooks/useMetadata";
+import { useMomentClick } from "@/hooks/useMomentClick";
 
 interface MomentProps {
   moment: TimelineMoment;
@@ -18,8 +17,7 @@ interface MomentProps {
 }
 
 const Moment: FC<MomentProps> = ({ moment, hovered, step, height, index }) => {
-  const { handleMomentClick } = useMomentNavigation(moment);
-  const { isLoading, data } = useMetadata(moment.uri);
+  const { handleMomentClick, isLoading, data } = useMomentClick(moment);
   const [isFadingOut, setIsFadingOut] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
   const { isEditable } = useArtistEditable();

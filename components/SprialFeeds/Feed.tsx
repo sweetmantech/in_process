@@ -2,9 +2,8 @@ import React from "react";
 import useIsMobile from "@/hooks/useIsMobile";
 import { formatFeedText, generateSpacer } from "@/lib/spiralUtils";
 import { TimelineMoment } from "@/types/moment";
-import { useMetadata } from "@/hooks/useMetadata";
 import truncateAddress from "@/lib/truncateAddress";
-import { useMomentNavigation } from "@/hooks/useMomentNavigation";
+import { useMomentClick } from "@/hooks/useMomentClick";
 
 interface FeedProps {
   feed: TimelineMoment;
@@ -15,8 +14,7 @@ interface FeedProps {
 }
 const Feed = ({ feed, index, spacerWidth, handleMouseLeave, handleMouseMove }: FeedProps) => {
   const isMobile = useIsMobile();
-  const { data } = useMetadata(feed.uri);
-  const { handleMomentClick } = useMomentNavigation(feed);
+  const { handleMomentClick, data } = useMomentClick(feed);
 
   return (
     <React.Fragment>

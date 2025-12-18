@@ -1,15 +1,13 @@
-import { useMetadata } from "@/hooks/useMetadata";
 import { TableRow, TableCell } from "@/components/ui/table";
 import truncateAddress from "@/lib/truncateAddress";
 import { type TimelineMoment } from "@/types/moment";
-import { useMomentNavigation } from "@/hooks/useMomentNavigation";
+import { useMomentClick } from "@/hooks/useMomentClick";
 
 const fontFamilies = ["font-archivo", "font-spectral-italic", "font-archivo"];
 const fontSizes = ["text-sm md:text-xl", "text-sm md:text-lg", "text-sm md:text-md"];
 
 const TimelineTableRowDesktop = ({ moment }: { moment: TimelineMoment }) => {
-  const { data } = useMetadata(moment.uri);
-  const { handleMomentClick } = useMomentNavigation(moment);
+  const { handleMomentClick, data } = useMomentClick(moment);
 
   return (
     <TableRow
