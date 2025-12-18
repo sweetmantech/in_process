@@ -1,12 +1,10 @@
-import { useMetadata } from "@/hooks/useMetadata";
-import { useMomentNavigation } from "@/hooks/useMomentNavigation";
+import { useMomentClick } from "@/hooks/useMomentClick";
 import truncateAddress from "@/lib/truncateAddress";
 import { type TimelineMoment } from "@/types/moment";
 import truncated from "@/lib/truncated";
 
 const TimelineTableRow = ({ moment }: { moment: TimelineMoment }) => {
-  const { data } = useMetadata(moment.uri);
-  const { handleMomentClick } = useMomentNavigation(moment);
+  const { handleMomentClick, data } = useMomentClick(moment);
 
   return (
     <button

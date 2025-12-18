@@ -1,16 +1,14 @@
-import { useMetadata } from "@/hooks/useMetadata";
 import { TimelineMoment } from "@/types/moment";
 import Loading from "../Loading";
 import ContentRenderer from "../Renderers";
-import { useMomentNavigation } from "@/hooks/useMomentNavigation";
+import { useMomentClick } from "@/hooks/useMomentClick";
 
 interface GridItemProps {
   feed: TimelineMoment;
 }
 
 const GridItem = ({ feed }: GridItemProps) => {
-  const { data, isLoading } = useMetadata(feed.uri);
-  const { handleMomentClick } = useMomentNavigation(feed);
+  const { handleMomentClick, isLoading, data } = useMomentClick(feed);
 
   return (
     <div className="col-span-1">

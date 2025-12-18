@@ -1,6 +1,5 @@
-import { useMetadata } from "@/hooks/useMetadata";
 import Loading from "../Loading";
-import { useMomentNavigation } from "@/hooks/useMomentNavigation";
+import { useMomentClick } from "@/hooks/useMomentClick";
 import CarouselItem from "./CarouselItem";
 import { TimelineMoment } from "@/types/moment";
 
@@ -9,8 +8,7 @@ interface SliderFeedProps {
 }
 
 const SliderFeed = ({ feed }: SliderFeedProps) => {
-  const { data, isLoading } = useMetadata(feed.uri);
-  const { handleMomentClick } = useMomentNavigation(feed);
+  const { handleMomentClick, isLoading, data } = useMomentClick(feed);
   return (
     <button
       className="relative h-[200px] w-full overflow-hidden rounded-md bg-grey-moss-100 font-spectral md:h-auto"
