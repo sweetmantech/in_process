@@ -40,7 +40,7 @@ const LinkPreview = () => {
           </div>
           <LinkInput />
           {previewFileUrl && (
-            <div className="relative size-full mt-4 overflow-hidden aspect-video">
+            <div className="relative w-full mt-4 overflow-hidden aspect-video">
               <Image
                 src={previewFileUrl}
                 alt="not found image"
