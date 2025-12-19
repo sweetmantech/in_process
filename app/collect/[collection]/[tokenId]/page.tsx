@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const frame = {
     version: "next",
-    imageUrl: `${VERCEL_OG}/api/og/moment?collectionAddress=${moment.collectionAddress}&tokenId=${moment.tokenId}`,
+    imageUrl: `${VERCEL_OG}/api/og/moment?collectionAddress=${moment.collectionAddress}&tokenId=${moment.tokenId}&chainId=${moment.chainId}`,
     aspectRatio: "3:2",
     button: {
       title: "Collect",
@@ -40,7 +40,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         type: "launch_frame",
         name: "In Process",
         url: `${APP_URL}/collect/${collection}/${tokenId}`,
-        iconImageUrl: `${VERCEL_OG}/api/og/moment?collectionAddress=${moment.collectionAddress}&tokenId=${moment.tokenId}`,
+        iconImageUrl: `${VERCEL_OG}/api/og/moment?collectionAddress=${moment.collectionAddress}&tokenId=${moment.tokenId}&chainId=${moment.chainId}`,
         splashImageUrl: `${VERCEL_OG}/desktop_footer_logo.png`,
         splashBackgroundColor: "#e9ccbb",
       },
@@ -54,7 +54,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title,
       description,
       images: [
-        `${VERCEL_OG}/api/og/moment?collectionAddress=${moment.collectionAddress}&tokenId=${moment.tokenId}`,
+        `${VERCEL_OG}/api/og/moment?collectionAddress=${moment.collectionAddress}&tokenId=${moment.tokenId}&chainId=${moment.chainId}`,
       ],
     },
     other: {
