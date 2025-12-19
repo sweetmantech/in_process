@@ -1,4 +1,5 @@
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
+import { validateUrl } from "@/lib/url/validateUrl";
 import { useMomentProvider } from "@/providers/MomentProvider";
 import { useState } from "react";
 
@@ -10,11 +11,19 @@ const useDownload = () => {
     if (!metadata.data) return;
     try {
       setIsDownloading(true);
+      const contentUri = metadata.data.content.uri;
+      const fetchableUrl = getFetchableUrl(contentUri);
+
+      // Validate URL before downloading to prevent malicious downloads
+      if (!fetchableUrl || !validateUrl(fetchableUrl)) {
+        console.error("Invalid or unsafe URL for download");
+        setIsDownloading(false);
+        return;
+      }
+
       const link = document.createElement("a");
       link.download = metadata.data.name;
-      const data = await fetch(getFetchableUrl(metadata.data.content.uri) || "").then((res) =>
-        res.blob()
-      );
+      const data = await fetch(fetchableUrl).then((res) => res.blob());
       link.href = window.URL.createObjectURL(
         new Blob([data], { type: metadata.data.content.mime })
       );

@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import { SpiralPath } from "@/components/SprialFeeds/SpiralPath";
 import { useSpiralAnimation } from "@/hooks/useSpiralAnimation";
 import { generateSpacer } from "@/lib/spiralUtils";

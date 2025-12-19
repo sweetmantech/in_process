@@ -2,6 +2,7 @@ import { useMomentCreateProvider } from "@/providers/MomentCreateProvider/Moment
 import LinkInput from "./LinkInput";
 import Image from "next/image";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
+import { validateUrl } from "@/lib/url/validateUrl";
 
 const LinkPreview = () => {
   const { createdTokenId } = useMomentCreateProvider();
@@ -16,13 +17,18 @@ const LinkPreview = () => {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={previewFileUrl} alt="not found image" />
           <div className="py-4 text-center">
-            <a
-              className="font-spectral-italic hover:text-grey-moss-400"
-              href={link}
-              target="_blank"
-            >
-              {link}
-            </a>
+            {validateUrl(link) ? (
+              <a
+                className="font-spectral-italic hover:text-grey-moss-400"
+                href={link}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {link}
+              </a>
+            ) : (
+              <p className="font-spectral-italic text-grey-moss-400">Invalid or unsafe URL</p>
+            )}
           </div>
         </>
       ) : (

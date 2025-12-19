@@ -7,10 +7,14 @@ export async function GET(req: NextRequest) {
     if (!uri) {
       return Response.json({ message: "No URI provided" }, { status: 400 });
     }
+    const fetchableUrl = getFetchableUrl(uri as string);
+    if (!fetchableUrl) {
+      return Response.json({ message: "Invalid or unsupported URI" }, { status: 400 });
+    }
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 3000);
     try {
-      const response = await fetch(getFetchableUrl(uri as string) || "", {
+      const response = await fetch(fetchableUrl, {
         signal: controller.signal,
       });
       clearTimeout(timeoutId);

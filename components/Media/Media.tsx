@@ -7,13 +7,13 @@ import useMediaInitialization from "@/hooks/useMediaInitialization";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import ContentRenderer from "@/components/Renderers";
 import ResetButton from "../MetadataCreation/ResetButton";
-import { MomentMetadata } from "@/types/moment";
 import AnimationUpload from "./AnimationUpload";
 import { Skeleton } from "../ui/skeleton";
 import OwnerWarning from "./OwnerWarning";
+import { TokenMetadataJson } from "@/lib/protocolSdk";
 
 interface MediaProps {
-  metadata: MomentMetadata | null;
+  metadata: TokenMetadataJson | null;
   isOwner: boolean;
   isLoading: boolean;
   isSaving: boolean;

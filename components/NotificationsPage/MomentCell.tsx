@@ -13,7 +13,7 @@ interface MomentCellProps {
 }
 
 const MomentCell = ({ moment, className }: MomentCellProps) => {
-  const tokenUrl = `https://inprocess.fun/collect/base:${moment.collection.address}/${moment.token_id || 1}`;
+  const tokenUrl = `https://inprocess.fun/collect/base:${moment.collection.address}/${moment.token_id}`;
   const { data: metadata, isLoading } = useMetadata(moment.uri);
 
   return (
@@ -33,7 +33,7 @@ const MomentCell = ({ moment, className }: MomentCellProps) => {
           <>
             {metadata?.image && (
               <Image
-                src={getFetchableUrl(metadata.image) || ""}
+                src={getFetchableUrl(metadata.image) || "/images/placeholder.png"}
                 alt={metadata.name || "Moment"}
                 width={48}
                 height={48}
