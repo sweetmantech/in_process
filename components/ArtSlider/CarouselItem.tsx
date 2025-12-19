@@ -5,6 +5,7 @@ import PdfViewer from "../Renderers/PdfViewer";
 import VideoPlayer from "../Renderers/VideoPlayer";
 import AudioPlayer from "../Renderers/AudioPlayer";
 import Writing from "../Renderers/Writing";
+import ErrorContent from "../Renderers/ErrorContent";
 
 interface CarouselItemProps {
   metadata: MomentMetadata;
@@ -12,40 +13,35 @@ interface CarouselItemProps {
 
 const CarouselItem = ({ metadata }: CarouselItemProps) => {
   const mimeType = metadata?.content?.mime || "";
+  const animationUrl = getFetchableUrl(metadata.animation_url);
 
   if (mimeType.includes("pdf")) {
-    const pdfUrl = getFetchableUrl(metadata.animation_url);
-    if (!pdfUrl) return null;
-    return <PdfViewer fileUrl={pdfUrl} />;
+    if (!animationUrl) return <ErrorContent />;
+    return <PdfViewer fileUrl={animationUrl} />;
   }
   if (mimeType.includes("audio")) {
-    const audioUrl = getFetchableUrl(metadata.animation_url);
+    if (!animationUrl) return <ErrorContent />;
     const thumbnailUrl = getFetchableUrl(metadata.image);
-    if (!audioUrl) return null;
     return (
-      <AudioPlayer thumbnailUrl={thumbnailUrl || "/images/placeholder.png"} audioUrl={audioUrl} />
+      <AudioPlayer
+        thumbnailUrl={thumbnailUrl || "/images/placeholder.png"}
+        audioUrl={animationUrl}
+      />
     );
   }
   if (mimeType.includes("video")) {
-    const videoUrl = getFetchableUrl(metadata.animation_url);
-    if (!videoUrl) return null;
+    if (!animationUrl) return <ErrorContent />;
     return (
       <div className="flex size-full justify-center">
-        <VideoPlayer url={videoUrl} />
+        <VideoPlayer url={animationUrl} />
       </div>
     );
   }
 
   if (mimeType.includes("html")) {
     const iframeUrl = metadata.animation_url;
-    const fetchableUrl = getFetchableUrl(iframeUrl);
+    if (!animationUrl) return <ErrorContent />;
 
-    if (!fetchableUrl)
-      return (
-        <div className="flex size-full items-center justify-center p-4 text-center">
-          <p className="text-grey-moss-400">Error loading HTML content.</p>
-        </div>
-      );
     // Only allow IPFS/Arweave URLs in iframes to prevent phishing and malicious content
     if (!isSafeIframeUrl(iframeUrl)) {
       return (
@@ -60,7 +56,7 @@ const CarouselItem = ({ metadata }: CarouselItemProps) => {
     return (
       <div className="flex size-full justify-center">
         <iframe
-          src={fetchableUrl}
+          src={animationUrl}
           className="w-full"
           title={metadata?.name || "Embedded content"}
           sandbox="allow-same-origin"
@@ -72,9 +68,10 @@ const CarouselItem = ({ metadata }: CarouselItemProps) => {
   }
   if (mimeType.includes("text/plain")) {
     const fileUrl = getFetchableUrl(metadata.content.uri);
+    if (!fileUrl) return <ErrorContent />;
     return (
       <div className="size-full">
-        <Writing fileUrl={fileUrl || ""} description={metadata.description} />
+        <Writing fileUrl={fileUrl} description={metadata.description} />
       </div>
     );
   }
