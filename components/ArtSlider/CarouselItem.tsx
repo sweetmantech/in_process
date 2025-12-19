@@ -29,8 +29,17 @@ const CarouselItem = ({ metadata }: CarouselItemProps) => {
         <VideoPlayer url={getFetchableUrl(metadata.animation_url) || ""} />
       </div>
     );
+
   if (mimeType.includes("html")) {
     const iframeUrl = metadata.animation_url;
+    const fetchableUrl = getFetchableUrl(iframeUrl);
+
+    if (!fetchableUrl)
+      return (
+        <div className="flex size-full items-center justify-center p-4 text-center">
+          <p className="text-grey-moss-400">Error loading HTML content.</p>
+        </div>
+      );
     // Only allow IPFS/Arweave URLs in iframes to prevent phishing and malicious content
     if (!isSafeIframeUrl(iframeUrl)) {
       return (
