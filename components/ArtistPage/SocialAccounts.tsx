@@ -3,6 +3,7 @@ import { TwitterIcon, TwitterXsIcon } from "../ui/icons";
 import { Send, InstagramIcon } from "lucide-react";
 import Social from "./Social";
 import useIsMobile from "@/hooks/useIsMobile";
+import { extractSocialUsername } from "@/lib/socials/extractSocialUsername";
 
 const SocialAccounts = () => {
   const {
@@ -57,19 +58,19 @@ const SocialAccounts = () => {
     <div className="flex items-center gap-2 pt-2">
       {instagram && (
         <Social
-          link={`https://instagram.com/${instagram}`}
+          link={`https://instagram.com/${extractSocialUsername(instagram)}`}
           icon={<InstagramIcon className="size-5 text-grey-eggshell md:size-7" />}
         />
       )}
       {twitter && (
         <Social
-          link={`https://x.com/@${twitter}`}
+          link={`https://x.com/@${extractSocialUsername(twitter)}`}
           icon={isMobile ? <TwitterXsIcon /> : <TwitterIcon />}
         />
       )}
       {telegram && (
         <Social
-          link={`https://t.me/${telegram}`}
+          link={`https://t.me/${extractSocialUsername(telegram)}`}
           icon={<Send className="size-5 text-grey-eggshell md:size-7" />}
         />
       )}
