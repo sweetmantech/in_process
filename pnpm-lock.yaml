@@ -145,6 +145,9 @@ importers:
       dom-to-image-more:
         specifier: ^3.5.0
         version: 3.7.2
+      dompurify:
+        specifier: ^3.3.1
+        version: 3.3.1
       framer-motion:
         specifier: ^12.23.25
         version: 12.23.25(@emotion/is-prop-valid@1.2.2)(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
@@ -257,6 +260,9 @@ importers:
       "@types/dom-to-image":
         specifier: ^2.6.7
         version: 2.6.7
+      "@types/dompurify":
+        specifier: ^3.2.0
+        version: 3.2.0
       "@types/node":
         specifier: ^20.14.0
         version: 20.19.25
@@ -4381,6 +4387,13 @@ packages:
         integrity: sha512-me5VbCv+fcXozblWwG13krNBvuEOm6kA5xoa4RrjDJCNFOZSWR3/QLtOXimBHk1Fisq69Gx3JtOoXtg1N1tijg==,
       }
 
+  "@types/dompurify@3.2.0":
+    resolution:
+      {
+        integrity: sha512-Fgg31wv9QbLDA0SpTOXO3MaxySc4DKGLi8sna4/Utjo4r3ZRPdCt4UQee8BWr+Q5z21yifghREPJGYaEOEIACg==,
+      }
+    deprecated: This is a stub types definition. dompurify provides its own type definitions, so you do not need this installed.
+
   "@types/estree@1.0.8":
     resolution:
       {
@@ -6974,6 +6987,12 @@ packages:
         integrity: sha512-l32Xp/TLgWb8ReqbVJAFIvXmY7go4nTxxlWiAFyhoQw9RKEOHBZNnyGvJWqDVSPmq3Y9HlM4npqF/T6VMOXhww==,
       }
     deprecated: dommatrix is no longer maintained. Please use @thednp/dommatrix.
+
+  dompurify@3.3.1:
+    resolution:
+      {
+        integrity: sha512-qkdCKzLNtrgPFP1Vo+98FRzJnBRGe4ffyCea9IwHB1fyxPOeNTHpLKYGd4Uk9xvNoH0ZoOjwZxNptyMwqrId1Q==,
+      }
 
   domutils@3.2.2:
     resolution:
@@ -17366,6 +17385,10 @@ snapshots:
 
   "@types/dom-to-image@2.6.7": {}
 
+  "@types/dompurify@3.2.0":
+    dependencies:
+      dompurify: 3.3.1
+
   "@types/estree@1.0.8": {}
 
   "@types/js-cookie@2.2.7": {}
@@ -19826,6 +19849,10 @@ snapshots:
       domelementtype: 2.3.0
 
   dommatrix@1.0.3: {}
+
+  dompurify@3.3.1:
+    optionalDependencies:
+      "@types/trusted-types": 2.0.7
 
   domutils@3.2.2:
     dependencies:

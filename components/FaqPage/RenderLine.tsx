@@ -1,4 +1,4 @@
-import { sanitizeHTML } from "@/lib/faq/sanitizeHTML";
+import { sanitizeHtml } from "@/lib/faq/sanitizeHtml";
 
 export const RenderLine = (line: string, lineIndex: number) => {
   if (line.trim() === "") {
@@ -6,7 +6,7 @@ export const RenderLine = (line: string, lineIndex: number) => {
   }
 
   const isBulletPoint = line.trim().startsWith("•");
-  const sanitizedHTML = sanitizeHTML(line);
+  const sanitizedHTML = sanitizeHtml(line, false);
 
   return (
     <div key={lineIndex} className={`mb-1 ${isBulletPoint ? "ml-4" : ""}`}>

@@ -1,6 +1,7 @@
 import { useMeasure } from "react-use";
 import { cn } from "@/lib/utils";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
+import { escapeHtml } from "@/lib/faq/sanitizeHtml";
 
 const WritingPreview = () => {
   const [writingRef, { height: contentHeight }] = useMeasure();
@@ -26,14 +27,14 @@ const WritingPreview = () => {
           !containerHeight && "opacity-0"
         )}
         dangerouslySetInnerHTML={{
-          __html: writingText.replaceAll("\n", "<br/>"),
+          __html: escapeHtml(writingText).replaceAll("\n", "<br/>"),
         }}
       />
       <div className="pointer-events-none absolute left-0 top-0 size-full opacity-0">
         <div
           className={cn("md:!text-md bg-grey-eggshell p-2 text-left !text-sm !normal-case")}
           dangerouslySetInnerHTML={{
-            __html: writingText.replaceAll("\n", "<br/>"),
+            __html: escapeHtml(writingText).replaceAll("\n", "<br/>"),
           }}
           ref={writingRef as any}
         />
