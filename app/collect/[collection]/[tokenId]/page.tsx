@@ -5,6 +5,7 @@ import { parseCollectionAddress } from "@/lib/timeline/parseCollectionAddress";
 import { CHAIN_ID } from "@/lib/consts";
 import { getMomentAdvancedInfo } from "@/lib/moment/getMomentAdvancedInfo";
 import { fetchTokenMetadata } from "@/lib/protocolSdk/ipfs/token-metadata";
+import { isAddress } from "viem";
 
 type Props = {
   params: Promise<{ collection: string; tokenId: string }>;
@@ -15,11 +16,11 @@ export const revalidate = 300;
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { tokenId, collection } = await params;
   const { address } = parseCollectionAddress(collection);
-  if (!address) throw new Error("Collection address is required");
+  if (!address || !isAddress(address)) throw new Error("Collection address is required");
   if (!tokenId) throw new Error("Token ID is required");
 
   const moment = {
-    collectionAddress: address.toLowerCase() as `0x${string}`,
+    collectionAddress: address,
     tokenId,
     chainId: CHAIN_ID,
   };
