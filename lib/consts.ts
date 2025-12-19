@@ -50,6 +50,137 @@ export const Z_BEHIND_PRIVY = 999999;
 
 export const PDFJS_DIST_VERSION = "2.16.105";
 
+/**
+ * Comprehensive list of event handler attributes to forbid
+ * Includes all on* event handlers to prevent XSS via event handlers
+ * Especially important: animation/transition handlers that can enable CSS-based XSS
+ */
+export const FORBIDDEN_EVENT_HANDLERS = [
+  // Mouse events
+  "onclick",
+  "ondblclick",
+  "onmousedown",
+  "onmouseup",
+  "onmouseover",
+  "onmousemove",
+  "onmouseout",
+  "onmouseenter",
+  "onmouseleave",
+  "oncontextmenu",
+  "onauxclick",
+  // Keyboard events
+  "onkeydown",
+  "onkeyup",
+  "onkeypress",
+  // Form events
+  "onchange",
+  "oninput",
+  "onsubmit",
+  "onreset",
+  "onselect",
+  "oninvalid",
+  "onsearch",
+  // Focus events
+  "onfocus",
+  "onblur",
+  "onfocusin",
+  "onfocusout",
+  // Load/error events
+  "onload",
+  "onerror",
+  "onabort",
+  "onbeforeunload",
+  "onunload",
+  // Media events
+  "onplay",
+  "onpause",
+  "onplaying",
+  "onended",
+  "onseeked",
+  "onseeking",
+  "onstalled",
+  "onsuspend",
+  "onwaiting",
+  "onvolumechange",
+  "ontimeupdate",
+  "onratechange",
+  "ondurationchange",
+  "oncanplay",
+  "oncanplaythrough",
+  "onloadeddata",
+  "onloadedmetadata",
+  "onloadstart",
+  "onprogress",
+  // CSS Animation/Transition events (critical for CSS-based XSS)
+  "onanimationstart",
+  "onanimationend",
+  "onanimationiteration",
+  "onanimationcancel",
+  "ontransitionstart",
+  "ontransitionend",
+  "ontransitionrun",
+  "ontransitioncancel",
+  // Touch events
+  "ontouchstart",
+  "ontouchend",
+  "ontouchmove",
+  "ontouchcancel",
+  // Pointer events
+  "onpointerdown",
+  "onpointerup",
+  "onpointermove",
+  "onpointerover",
+  "onpointerout",
+  "onpointerenter",
+  "onpointerleave",
+  "onpointercancel",
+  "ongotpointercapture",
+  "onlostpointercapture",
+  // Drag and drop events
+  "ondrag",
+  "ondragend",
+  "ondragenter",
+  "ondragleave",
+  "ondragover",
+  "ondragstart",
+  "ondrop",
+  // Clipboard events
+  "oncopy",
+  "oncut",
+  "onpaste",
+  // Selection events
+  "onselectstart",
+  "onselectionchange",
+  // Scroll events
+  "onscroll",
+  "onscrollend",
+  // Wheel events
+  "onwheel",
+  // Window events
+  "onresize",
+  "onhashchange",
+  "onpopstate",
+  "onpageshow",
+  "onpagehide",
+  "onbeforeprint",
+  "onafterprint",
+  "onlanguagechange",
+  "onmessage",
+  "onmessageerror",
+  "onoffline",
+  "ononline",
+  "onrejectionhandled",
+  "onunhandledrejection",
+  "onstorage",
+  "onvisibilitychange",
+  // Other events
+  "ontoggle",
+  "onshow",
+  "onsort",
+  "onwebkitfullscreenchange",
+  "onwebkitfullscreenerror",
+];
+
 export const SPIRAL_POINTS: Point[] = [
   [14, 123],
   [48, 115],

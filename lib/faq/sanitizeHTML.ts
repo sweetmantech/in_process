@@ -1,10 +1,16 @@
 import DOMPurify from "isomorphic-dompurify";
+import { FORBIDDEN_EVENT_HANDLERS } from "../consts";
 
 /**
  * Sanitizes HTML content to prevent XSS attacks using DOMPurify
  * Works consistently on both client and server using isomorphic-dompurify
  * For embed code, allows more permissive settings
  * For text content, uses strict settings
+ *
+ * Security measures:
+ * - Removes style attribute to prevent CSS-based XSS (e.g., via animation handlers)
+ * - Explicitly forbids all on* event handler attributes for defense-in-depth
+ * - Uses DOMPurify's allow-list model for robust sanitization
  */
 export const sanitizeHTML = (html: string, isEmbedCode = false): string => {
   if (isEmbedCode) {
@@ -39,7 +45,6 @@ export const sanitizeHTML = (html: string, isEmbedCode = false): string => {
         "sandbox",
         "class",
         "id",
-        "style",
         "href",
         "target",
         "rel",
@@ -52,7 +57,8 @@ export const sanitizeHTML = (html: string, isEmbedCode = false): string => {
       KEEP_CONTENT: true,
       // Remove any script tags that might be in the HTML
       FORBID_TAGS: ["script", "style"],
-      FORBID_ATTR: ["onerror", "onload", "onclick"],
+      // Explicitly forbid all event handler attributes for defense-in-depth
+      FORBID_ATTR: FORBIDDEN_EVENT_HANDLERS,
     });
   }
 
@@ -62,5 +68,7 @@ export const sanitizeHTML = (html: string, isEmbedCode = false): string => {
     ALLOWED_ATTR: ["href", "target", "rel"],
     ALLOW_DATA_ATTR: false,
     KEEP_CONTENT: true,
+    // Explicitly forbid all event handler attributes for defense-in-depth
+    FORBID_ATTR: FORBIDDEN_EVENT_HANDLERS,
   });
 };
