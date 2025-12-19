@@ -36,7 +36,16 @@ export async function GET(req: NextRequest) {
     const collection = collections?.[0] ?? null;
 
     const { uri, owner, saleConfig } = await getMomentAdvancedInfo(moment);
-    const metadata = await fetchTokenMetadata(uri || "");
+
+    if (!uri) {
+      return NextResponse.json(
+        {
+          error: "Invalid moment URI provided",
+        },
+        { status: 404 }
+      );
+    }
+    const metadata = await fetchTokenMetadata(uri);
 
     let admins: Database["public"]["Tables"]["in_process_admins"]["Row"][] = [];
     if (collection) {
