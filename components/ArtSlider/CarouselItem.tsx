@@ -1,14 +1,14 @@
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import { isSafeIframeUrl } from "@/lib/protocolSdk/ipfs/isSafeIframeUrl";
-import { MomentMetadata } from "@/types/moment";
 import PdfViewer from "../Renderers/PdfViewer";
 import VideoPlayer from "../Renderers/VideoPlayer";
 import AudioPlayer from "../Renderers/AudioPlayer";
 import Writing from "../Renderers/Writing";
 import ErrorContent from "../Renderers/ErrorContent";
+import { TokenMetadataJson } from "@/lib/protocolSdk";
 
 interface CarouselItemProps {
-  metadata: MomentMetadata;
+  metadata: TokenMetadataJson;
 }
 
 const CarouselItem = ({ metadata }: CarouselItemProps) => {
@@ -67,11 +67,11 @@ const CarouselItem = ({ metadata }: CarouselItemProps) => {
     );
   }
   if (mimeType.includes("text/plain")) {
-    const fileUrl = getFetchableUrl(metadata.content.uri);
+    const fileUrl = getFetchableUrl(metadata.content?.uri);
     if (!fileUrl) return <ErrorContent />;
     return (
       <div className="size-full">
-        <Writing fileUrl={fileUrl} description={metadata.description} />
+        <Writing fileUrl={fileUrl} description={metadata?.description || ""} />
       </div>
     );
   }

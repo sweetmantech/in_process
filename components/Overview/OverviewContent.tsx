@@ -1,25 +1,21 @@
 import ContentRenderer from "../Renderers";
 import { Skeleton } from "../ui/skeleton";
-import { MomentMetadata } from "@/types/moment";
 import CopyButton from "../CopyButton";
 import { Address } from "viem";
+import { TokenMetadataJson } from "@/lib/protocolSdk";
 
 interface OverviewContentProps {
-  metadata: MomentMetadata | null | undefined;
+  metadata: TokenMetadataJson;
   name: string | null | undefined;
   address: Address;
   isLoading?: boolean;
 }
 
-const usePdfContainerClassName = (metadata: MomentMetadata | null | undefined): string => {
+const OverviewContent = ({ metadata, name, address, isLoading = false }: OverviewContentProps) => {
   const isPdf = metadata?.content?.mime?.includes("pdf") ?? false;
-  return isPdf
+  const containerClassName =  isPdf
     ? "w-fit pt-4 flex flex-col items-center gap-2"
     : "w-fit pt-4 flex flex-col items-center gap-2 md:flex-row";
-};
-
-const OverviewContent = ({ metadata, name, address, isLoading = false }: OverviewContentProps) => {
-  const containerClassName = usePdfContainerClassName(metadata);
 
   return (
     <div className={containerClassName}>
@@ -27,7 +23,7 @@ const OverviewContent = ({ metadata, name, address, isLoading = false }: Overvie
         {isLoading ? (
           <Skeleton className="size-full" />
         ) : (
-          <ContentRenderer metadata={metadata as MomentMetadata} />
+          <ContentRenderer metadata={metadata} />
         )}
       </div>
       <div className="space-y-2">

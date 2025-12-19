@@ -1,8 +1,8 @@
 import { useEffect, useRef } from "react";
-import { MomentMetadata } from "@/types/moment";
+import { TokenMetadataJson } from "@/lib/protocolSdk";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 
-const useMediaInitialization = (meta: MomentMetadata | undefined) => {
+const useMediaInitialization = (meta: TokenMetadataJson | undefined) => {
   const {
     name,
     description,
