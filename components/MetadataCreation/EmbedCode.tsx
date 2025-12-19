@@ -3,7 +3,7 @@ import Image from "next/image";
 import isHtml from "is-html";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { useMomentCreateProvider } from "@/providers/MomentCreateProvider/MomentCreateProvider";
-import { sanitizeHTML } from "@/lib/faq/sanitizeHTML";
+import { parseHTML } from "@/lib/faq/parseHTML";
 
 const EmbedCode = () => {
   const { createdTokenId } = useMomentCreateProvider();
@@ -12,11 +12,7 @@ const EmbedCode = () => {
   if (createdTokenId)
     return (
       <div className="size-full h-fit overflow-hidden rounded-2xl">
-        <div
-          dangerouslySetInnerHTML={{
-            __html: sanitizeHTML(embedCode, true),
-          }}
-        />
+        <div>{parseHTML(embedCode, true)}</div>
         <div className="bg-white py-4 text-center">
           <p className="font-spectral-italic">{name}</p>
         </div>
