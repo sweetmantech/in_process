@@ -11,7 +11,11 @@ export async function GET(req: NextRequest) {
 
     const owner = await getOwner(collection as Address);
     const uri = await getTokenURI(collection as Address, parseInt(tokenId as string, 10));
-    const response = await fetch(getFetchableUrl(uri) || "");
+    const fetchableUrl = getFetchableUrl(uri);
+    if (!fetchableUrl) {
+      return Response.json({ message: "Invalid or unsupported URI" }, { status: 400 });
+    }
+    const response = await fetch(fetchableUrl);
     const metadata = await response.json();
 
     return Response.json({

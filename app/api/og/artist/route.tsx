@@ -39,16 +39,22 @@ export async function GET(req: NextRequest) {
 
   if (metadata) {
     if (metadata.content.mime === "text/plain") {
-      const response = await fetch(getFetchableUrl(metadata.content.uri) || "");
-      const data = await response.text();
-      writingText = data;
-      const paragraphs = writingText.split("\n");
-      paragraphs.map(
-        (paragraph) =>
-          (totalLines = totalLines + parseInt(Number(paragraph.length / 32).toFixed()) + 1)
-      );
+      const fetchableUri = getFetchableUrl(metadata.content.uri);
+      if (fetchableUri) {
+        const response = await fetch(fetchableUri);
+        const data = await response.text();
+        writingText = data;
+        const paragraphs = writingText.split("\n");
+        paragraphs.map(
+          (paragraph) =>
+            (totalLines = totalLines + parseInt(Number(paragraph.length / 32).toFixed()) + 1)
+        );
+      }
     } else {
-      imageMetadata = await getImageMetadata(getFetchableUrl(metadata.image) || "");
+      const fetchableImageUrl = getFetchableUrl(metadata.image);
+      if (fetchableImageUrl) {
+        imageMetadata = await getImageMetadata(fetchableImageUrl);
+      }
     }
   }
 

@@ -4,7 +4,7 @@ import { getFetchableUrl } from "./protocolSdk/ipfs/gateway";
 const getImageMetadata = async (previewBackgroundUrl: string | undefined) => {
   try {
     if (!previewBackgroundUrl) return null;
-    const fetchableUrl = getFetchableUrl(previewBackgroundUrl || "") || "";
+    const fetchableUrl = getFetchableUrl(previewBackgroundUrl);
     if (!fetchableUrl) return null;
     const response = await fetch(fetchableUrl);
     if (!response.ok) throw new Error();

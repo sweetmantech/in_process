@@ -50,7 +50,7 @@ const AudioPlayer = ({ audioUrl, thumbnailUrl }: AudioPlayerProps) => {
       <div className="relative h-3/4 w-full">
         {thumbnailUrl && (
           <Image
-            src={getFetchableUrl(thumbnailUrl) || ""}
+            src={thumbnailUrl}
             alt="Audio cover"
             layout="fill"
             objectFit="contain"

@@ -7,6 +7,7 @@ import VideoPlayer from "./VideoPlayer";
 import AudioPlayer from "./AudioPlayer";
 import useIsMobile from "@/hooks/useIsMobile";
 import Writing from "./Writing";
+import ErrorContent from "./ErrorContent";
 
 interface ContentRendererProps {
   metadata: MomentMetadata;
@@ -18,24 +19,31 @@ const ContentRenderer = ({ metadata }: ContentRendererProps) => {
   const isCollect = pathname.includes("/collect");
   const isMobile = useIsMobile();
 
-  if (mimeType.includes("pdf"))
-    return <PdfViewer fileUrl={getFetchableUrl(metadata.animation_url) || ""} />;
+  // Compute all URLs upfront
+  const animationUrl = getFetchableUrl(metadata.animation_url);
+  const imageUrl = getFetchableUrl(metadata.image);
+  const contentUri = getFetchableUrl(metadata?.content?.uri);
+
+  if (mimeType.includes("pdf")) {
+    if (!animationUrl) return <ErrorContent />;
+    return <PdfViewer fileUrl={animationUrl} />;
+  }
 
   if (mimeType.includes("audio")) {
+    if (!animationUrl) return <ErrorContent />;
     return (
-      <AudioPlayer
-        thumbnailUrl={getFetchableUrl(metadata.image) || ""}
-        audioUrl={getFetchableUrl(metadata.animation_url) || ""}
-      />
+      <AudioPlayer thumbnailUrl={imageUrl || "/images/placeholder.png"} audioUrl={animationUrl} />
     );
   }
 
-  if (mimeType.includes("video"))
+  if (mimeType.includes("video")) {
+    if (!animationUrl) return <ErrorContent />;
     return (
       <div className="flex size-full justify-center">
-        <VideoPlayer url={getFetchableUrl(metadata.animation_url) || ""} />
+        <VideoPlayer url={animationUrl} />
       </div>
     );
+  }
 
   if (mimeType.includes("html")) {
     const iframeUrl = metadata.animation_url;
@@ -50,10 +58,13 @@ const ContentRenderer = ({ metadata }: ContentRendererProps) => {
         </div>
       );
     }
+    if (!animationUrl) {
+      return <ErrorContent />;
+    }
     return (
       <div className="flex size-full justify-center">
         <iframe
-          src={getFetchableUrl(iframeUrl) || ""}
+          src={animationUrl}
           className="h-full w-full"
           title={metadata?.name || "Embedded content"}
           sandbox="allow-same-origin"
@@ -64,24 +75,17 @@ const ContentRenderer = ({ metadata }: ContentRendererProps) => {
     );
   }
 
-  if (mimeType.includes("text/plain"))
-    return (
-      <Writing
-        fileUrl={getFetchableUrl(metadata?.content?.uri) || ""}
-        description={metadata.description}
-      />
-    );
+  if (mimeType.includes("text/plain")) {
+    if (!contentUri) return <ErrorContent />;
+    return <Writing fileUrl={contentUri} description={metadata.description} />;
+  }
 
   return (
     <div className="relative h-full w-full">
       {/* eslint-disable-next-line */}
       <img
-        src={
-          (isCollect && getFetchableUrl(metadata.animation_url)) ||
-          getFetchableUrl(metadata.image) ||
-          "/images/placeholder.png"
-        }
-        alt={metadata?.name || metadata?.description || "Token image"}
+        src={(isCollect && animationUrl) || imageUrl || "/images/placeholder.png"}
+        alt={metadata?.name || metadata?.description || "Moment image"}
         className="absolute inset-0 block h-full w-full object-cover"
         loading="lazy"
         decoding="async"

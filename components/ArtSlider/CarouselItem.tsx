@@ -13,22 +13,28 @@ interface CarouselItemProps {
 const CarouselItem = ({ metadata }: CarouselItemProps) => {
   const mimeType = metadata?.content?.mime || "";
 
-  if (mimeType.includes("pdf"))
-    return <PdfViewer fileUrl={getFetchableUrl(metadata.animation_url) || ""} />;
+  if (mimeType.includes("pdf")) {
+    const pdfUrl = getFetchableUrl(metadata.animation_url);
+    if (!pdfUrl) return null;
+    return <PdfViewer fileUrl={pdfUrl} />;
+  }
   if (mimeType.includes("audio")) {
+    const audioUrl = getFetchableUrl(metadata.animation_url);
+    const thumbnailUrl = getFetchableUrl(metadata.image);
+    if (!audioUrl) return null;
     return (
-      <AudioPlayer
-        thumbnailUrl={getFetchableUrl(metadata.image) || ""}
-        audioUrl={getFetchableUrl(metadata.animation_url) || ""}
-      />
+      <AudioPlayer thumbnailUrl={thumbnailUrl || "/images/placeholder.png"} audioUrl={audioUrl} />
     );
   }
-  if (mimeType.includes("video"))
+  if (mimeType.includes("video")) {
+    const videoUrl = getFetchableUrl(metadata.animation_url);
+    if (!videoUrl) return null;
     return (
       <div className="flex size-full justify-center">
-        <VideoPlayer url={getFetchableUrl(metadata.animation_url) || ""} />
+        <VideoPlayer url={videoUrl} />
       </div>
     );
+  }
 
   if (mimeType.includes("html")) {
     const iframeUrl = metadata.animation_url;
@@ -54,7 +60,7 @@ const CarouselItem = ({ metadata }: CarouselItemProps) => {
     return (
       <div className="flex size-full justify-center">
         <iframe
-          src={getFetchableUrl(iframeUrl) || ""}
+          src={fetchableUrl}
           className="w-full"
           title={metadata?.name || "Embedded content"}
           sandbox="allow-same-origin"
@@ -64,15 +70,14 @@ const CarouselItem = ({ metadata }: CarouselItemProps) => {
       </div>
     );
   }
-  if (mimeType.includes("text/plain"))
+  if (mimeType.includes("text/plain")) {
+    const fileUrl = getFetchableUrl(metadata.content.uri);
     return (
       <div className="size-full">
-        <Writing
-          fileUrl={getFetchableUrl(metadata.content.uri) || ""}
-          description={metadata.description}
-        />
+        <Writing fileUrl={fileUrl || ""} description={metadata.description} />
       </div>
     );
+  }
   return (
     <div className="relative size-full grow">
       {/* eslint-disable-next-line */}

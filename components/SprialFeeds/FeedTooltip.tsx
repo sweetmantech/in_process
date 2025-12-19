@@ -30,7 +30,7 @@ export const FeedTooltip: React.FC<FeedTooltipProps> = ({ feed, position, isVisi
           <Loading className="size-full" />
         ) : (
           <Image
-            src={getFetchableUrl(data?.image) || ""}
+            src={getFetchableUrl(data?.image) || "/images/placeholder.png"}
             alt="not found image"
             layout="fill"
             objectFit="contain"
