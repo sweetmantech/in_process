@@ -7,6 +7,7 @@ import { updateProfile } from "@/hooks/useProfile";
 import { useUserProvider } from "@/providers/UserProvider";
 import { useState } from "react";
 import ConnectButton from "./ConnectButton";
+import { extractSocialUsername } from "@/lib/socials/extractSocialUsername";
 
 const AccountPage = () => {
   const { profile, artistWallet } = useUserProvider();
@@ -26,14 +27,15 @@ const AccountPage = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const onSave = async () => {
     setIsLoading(true);
+
     await updateProfile({
       address: artistWallet as string,
       username,
       bio,
-      farcaster_username: farcaster,
-      twitter_username: twitter,
-      instagram_username: instagram,
-      telegram_username: telegram,
+      farcaster_username: extractSocialUsername(farcaster),
+      twitter_username: extractSocialUsername(twitter),
+      instagram_username: extractSocialUsername(instagram),
+      telegram_username: extractSocialUsername(telegram),
     });
     setIsLoading(false);
   };
