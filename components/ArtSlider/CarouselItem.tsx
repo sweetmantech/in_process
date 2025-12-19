@@ -1,4 +1,5 @@
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
+import { isSafeIframeUrl } from "@/lib/protocolSdk/ipfs/isSafeIframeUrl";
 import { MomentMetadata } from "@/types/moment";
 import PdfViewer from "../Renderers/PdfViewer";
 import VideoPlayer from "../Renderers/VideoPlayer";
@@ -28,11 +29,23 @@ const CarouselItem = ({ metadata }: CarouselItemProps) => {
         <VideoPlayer url={getFetchableUrl(metadata.animation_url) || ""} />
       </div>
     );
-  if (mimeType.includes("html"))
+  if (mimeType.includes("html")) {
+    const iframeUrl = metadata.animation_url;
+    // Only allow IPFS/Arweave URLs in iframes to prevent phishing and malicious content
+    if (!isSafeIframeUrl(iframeUrl)) {
+      return (
+        <div className="flex size-full items-center justify-center p-4 text-center">
+          <p className="text-grey-moss-400">
+            HTML content from external URLs is not allowed for security reasons. Please use IPFS or
+            Arweave URLs.
+          </p>
+        </div>
+      );
+    }
     return (
       <div className="flex size-full justify-center">
         <iframe
-          src={getFetchableUrl(metadata.animation_url) || ""}
+          src={getFetchableUrl(iframeUrl) || ""}
           className="w-full"
           title={metadata?.name || "Embedded content"}
           sandbox="allow-same-origin"
@@ -41,6 +54,7 @@ const CarouselItem = ({ metadata }: CarouselItemProps) => {
         />
       </div>
     );
+  }
   if (mimeType.includes("text/plain"))
     return (
       <div className="size-full">
