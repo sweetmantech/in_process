@@ -3,7 +3,7 @@ import Image from "next/image";
 import isHtml from "is-html";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { useMomentCreateProvider } from "@/providers/MomentCreateProvider/MomentCreateProvider";
-import { sanitizeHtml } from "@/lib/faq/sanitizeHtml";
+import { sanitizeHTML } from "@/lib/faq/sanitizeHTML";
 
 const EmbedCode = () => {
   const { createdTokenId } = useMomentCreateProvider();
@@ -14,7 +14,7 @@ const EmbedCode = () => {
       <div className="size-full h-fit overflow-hidden rounded-2xl">
         <div
           dangerouslySetInnerHTML={{
-            __html: sanitizeHtml(embedCode, true),
+            __html: sanitizeHTML(embedCode, true),
           }}
         />
         <div className="bg-white py-4 text-center">

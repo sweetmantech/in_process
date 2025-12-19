@@ -5,7 +5,7 @@ import DOMPurify from "dompurify";
  * For embed code, allows more permissive settings
  * For text content, uses strict settings
  */
-export const sanitizeHtml = (html: string, isEmbedCode = false): string => {
+export const sanitizeHTML = (html: string, isEmbedCode = false): string => {
   if (typeof window === "undefined") {
     // Server-side: strict sanitization
     // Remove all script tags and event handlers
@@ -86,21 +86,4 @@ export const sanitizeHtml = (html: string, isEmbedCode = false): string => {
     ALLOW_DATA_ATTR: false,
     KEEP_CONTENT: true,
   });
-};
-
-/**
- * Escapes HTML entities in text (for plain text that should not contain HTML)
- */
-export const escapeHtml = (text: string): string => {
-  if (typeof window === "undefined") {
-    return text
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
-  }
-  const div = document.createElement("div");
-  div.textContent = text;
-  return div.innerHTML;
 };
