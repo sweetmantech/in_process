@@ -31,7 +31,14 @@ const CarouselItem = ({ metadata }: CarouselItemProps) => {
   if (mimeType.includes("html"))
     return (
       <div className="flex size-full justify-center">
-        <iframe src={getFetchableUrl(metadata.animation_url) || ""} className="w-full" />
+        <iframe
+          src={getFetchableUrl(metadata.animation_url) || ""}
+          className="w-full"
+          title={metadata?.name || "Embedded content"}
+          sandbox="allow-same-origin"
+          referrerPolicy="no-referrer"
+          loading="lazy"
+        />
       </div>
     );
   if (mimeType.includes("text/plain"))

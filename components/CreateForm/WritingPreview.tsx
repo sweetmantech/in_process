@@ -22,21 +22,21 @@ const WritingPreview = () => {
     >
       <div
         className={cn(
-          "bg-grey-eggshell p-2 text-left !normal-case",
+          "bg-grey-eggshell p-2 text-left !normal-case whitespace-pre-wrap",
           !containerHeight && "opacity-0"
         )}
-        dangerouslySetInnerHTML={{
-          __html: writingText.replaceAll("\n", "<br/>"),
-        }}
-      />
+      >
+        {writingText}
+      </div>
       <div className="pointer-events-none absolute left-0 top-0 size-full opacity-0">
         <div
-          className={cn("md:!text-md bg-grey-eggshell p-2 text-left !text-sm !normal-case")}
-          dangerouslySetInnerHTML={{
-            __html: writingText.replaceAll("\n", "<br/>"),
-          }}
+          className={cn(
+            "md:!text-md bg-grey-eggshell p-2 text-left !text-sm !normal-case whitespace-pre-wrap"
+          )}
           ref={writingRef as any}
-        />
+        >
+          {writingText}
+        </div>
       </div>
       {isOverflowed && (
         <div className="absolute bottom-0 left-0 size-full h-1/2 bg-gradientBottomTop" />

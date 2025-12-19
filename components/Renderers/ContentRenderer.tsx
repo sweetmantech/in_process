@@ -43,7 +43,7 @@ const ContentRenderer = ({ metadata }: ContentRendererProps) => {
           src={getFetchableUrl(metadata.animation_url) || ""}
           className="h-full w-full"
           title={metadata?.name || "Embedded content"}
-          sandbox="allow-scripts allow-same-origin"
+          sandbox="allow-same-origin"
           referrerPolicy="no-referrer"
           loading="lazy"
         />
