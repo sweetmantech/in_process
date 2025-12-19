@@ -18,9 +18,10 @@ export const extractSocialUsername = (url: string): string => {
   // Trim whitespace
   const trimmed = url.trim();
 
-  // If it's already just a username (no slashes or protocol), return as-is
+  // If it's already just a username (no slashes or protocol), normalize and return
+  // Strip leading "@" if present (e.g., "@kahlilnewton" -> "kahlilnewton")
   if (!trimmed.includes("/") && !trimmed.includes(":")) {
-    return trimmed;
+    return trimmed.replace(/^@/, "");
   }
 
   // Patterns for different social media platforms
@@ -39,11 +40,11 @@ export const extractSocialUsername = (url: string): string => {
   for (const pattern of patterns) {
     const match = trimmed.match(pattern);
     if (match && match[1]) {
-      // Remove trailing slash if present
-      return match[1].replace(/\/$/, "");
+      // Remove leading @ and trailing slash if present
+      return match[1].replace(/^@/, "").replace(/\/$/, "");
     }
   }
 
   // If no pattern matches, return the original string (might already be a username)
-  return trimmed;
+  return trimmed.replace(/^@/, "");
 };

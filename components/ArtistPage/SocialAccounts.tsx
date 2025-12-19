@@ -63,7 +63,7 @@ const SocialAccounts = () => {
       )}
       {twitter && (
         <Social
-          link={`https://x.com/${twitter}`}
+          link={`https://x.com/@${twitter}`}
           icon={isMobile ? <TwitterXsIcon /> : <TwitterIcon />}
         />
       )}
