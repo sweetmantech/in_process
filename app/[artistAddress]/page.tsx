@@ -1,6 +1,7 @@
 import { Metadata, NextPage } from "next";
 import ArtistPage from "@/components/ArtistPage";
-import { APP_URL, VERCEL_OG } from "@/lib/og/consts";
+import { VERCEL_OG } from "@/lib/og/consts";
+import { SITE_ORIGINAL_URL } from "@/lib/consts";
 import truncateAddress from "@/lib/truncateAddress";
 import { Address } from "viem";
 import getArtistProfile from "@/lib/getArtistProfile";
@@ -34,7 +35,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
           action: {
             type: "launch_frame",
             name: "In Process",
-            url: `${APP_URL}/${artistAddress}`,
+            url: `${SITE_ORIGINAL_URL}/${artistAddress}`,
             iconImageUrl: `${VERCEL_OG}/api/og/artist?artistAddress=${artistAddress}`,
             splashImageUrl: `${VERCEL_OG}/desktop_footer_logo.png`,
             splashBackgroundColor: "#e9ccbb",
