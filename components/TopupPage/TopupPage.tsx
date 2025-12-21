@@ -3,26 +3,20 @@
 import { Deposit } from "./Deposit";
 import { useUserProvider } from "@/providers/UserProvider";
 import SignToInProcess from "../ManagePage/SignToInProcess";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment } from "react";
 import { usePrivy } from "@privy-io/react-auth";
 import { UsdcBalance } from "../Balances/UsdcBalance";
 import { EthBalance } from "../Balances/EthBalance";
 import { Address } from "viem";
 import { Wallet } from "../Balances/Wallet";
 import { useSmartWalletProvider } from "@/providers/SmartWalletProvider";
+import { useDelayedReady } from "@/hooks/useDelayedReady";
 
 const TopupPage = () => {
   const { connectedAddress } = useUserProvider();
-  const [loaded, setLoaded] = useState<boolean>(false);
   const { ready } = usePrivy();
+  const loaded = useDelayedReady(ready, 1000);
   const { smartWallet, isLoading, balance: usdcBalance, ethBalance } = useSmartWalletProvider();
-
-  useEffect(() => {
-    if (ready)
-      setTimeout(() => {
-        setLoaded(true);
-      }, 1000);
-  }, [ready]);
 
   if (!loaded) return <Fragment />;
   if (!connectedAddress) return <SignToInProcess />;

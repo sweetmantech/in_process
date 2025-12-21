@@ -3,26 +3,20 @@
 import { Withdraw } from "./Withdraw";
 import { useUserProvider } from "@/providers/UserProvider";
 import SignToInProcess from "../ManagePage/SignToInProcess";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment } from "react";
 import { usePrivy } from "@privy-io/react-auth";
 import { UsdcBalance } from "../Balances/UsdcBalance";
 import { EthBalance } from "../Balances/EthBalance";
 import { useSocialWalletBalanceProvider } from "@/providers/SocialWalletBalanceProvider";
 import { Wallet } from "../Balances/Wallet";
 import { Address } from "viem";
+import { useDelayedReady } from "@/hooks/useDelayedReady";
 
 const FundsPage = () => {
   const { connectedAddress } = useUserProvider();
-  const [loaded, setLoaded] = useState<boolean>(false);
   const { ready } = usePrivy();
+  const loaded = useDelayedReady(ready, 1000);
   const { isLoading, balance: usdcBalance, ethBalance } = useSocialWalletBalanceProvider();
-
-  useEffect(() => {
-    if (ready)
-      setTimeout(() => {
-        setLoaded(true);
-      }, 1000);
-  }, [ready]);
 
   if (!loaded) return <Fragment />;
   if (!connectedAddress) return <SignToInProcess />;
