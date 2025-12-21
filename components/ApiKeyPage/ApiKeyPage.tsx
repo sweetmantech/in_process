@@ -1,22 +1,14 @@
 "use client";
 
-import { Fragment, useEffect, useState } from "react";
-import { usePrivy } from "@privy-io/react-auth";
+import { Fragment } from "react";
 import ApiKeyManager from "./ApiKeyManager";
 import { useUserProvider } from "@/providers/UserProvider";
 import SignToInProcess from "../ManagePage/SignToInProcess";
+import { useDelayedReady } from "@/hooks/useDelayedReady";
 
 const ApiKeyPage = () => {
   const { artistWallet } = useUserProvider();
-  const [loaded, setLoaded] = useState<boolean>(false);
-  const { ready } = usePrivy();
-
-  useEffect(() => {
-    if (ready)
-      setTimeout(() => {
-        setLoaded(true);
-      }, 1000);
-  }, [ready]);
+  const loaded = useDelayedReady();
 
   if (!loaded) return <Fragment />;
   if (!artistWallet) return <SignToInProcess />;

@@ -1,12 +1,14 @@
+import { usePrivy } from "@privy-io/react-auth";
 import { useEffect, useState } from "react";
 
-export const useDelayedReady = (ready: boolean, delayMs = 1000) => {
+export const useDelayedReady = () => {
+  const { ready } = usePrivy();
   const [loaded, setLoaded] = useState(false);
   useEffect(() => {
     if (ready) {
-      const timer = setTimeout(() => setLoaded(true), delayMs);
+      const timer = setTimeout(() => setLoaded(true), 1000);
       return () => clearTimeout(timer);
     }
-  }, [ready, delayMs]);
+  }, [ready]);
   return loaded;
 };

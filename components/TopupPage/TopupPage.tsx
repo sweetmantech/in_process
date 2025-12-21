@@ -4,7 +4,6 @@ import { Deposit } from "./Deposit";
 import { useUserProvider } from "@/providers/UserProvider";
 import SignToInProcess from "../ManagePage/SignToInProcess";
 import { Fragment } from "react";
-import { usePrivy } from "@privy-io/react-auth";
 import { UsdcBalance } from "../Balances/UsdcBalance";
 import { EthBalance } from "../Balances/EthBalance";
 import { Address } from "viem";
@@ -14,8 +13,7 @@ import { useDelayedReady } from "@/hooks/useDelayedReady";
 
 const TopupPage = () => {
   const { connectedAddress } = useUserProvider();
-  const { ready } = usePrivy();
-  const loaded = useDelayedReady(ready, 1000);
+  const loaded = useDelayedReady();
   const { smartWallet, isLoading, balance: usdcBalance, ethBalance } = useSmartWalletProvider();
 
   if (!loaded) return <Fragment />;

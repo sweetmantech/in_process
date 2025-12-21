@@ -3,7 +3,6 @@
 import useConnectedWallet from "@/hooks/useConnectedWallet";
 import { useFrameProvider } from "@/providers/FrameProvider";
 import { useAccount } from "wagmi";
-import { usePrivy } from "@privy-io/react-auth";
 import { Fragment, ReactNode } from "react";
 import { ArrowRight } from "@/components/ui/icons";
 import SignToInProcess from "@/components/ManagePage/SignToInProcess";
@@ -17,8 +16,7 @@ const ManagePage = ({ children }: { children: ReactNode }) => {
   const { context } = useFrameProvider();
   const { connectedWallet } = useConnectedWallet();
   const { address } = useAccount();
-  const { ready } = usePrivy();
-  const loaded = useDelayedReady(ready, 1000);
+  const loaded = useDelayedReady();
   const signedWallet = context ? address : connectedWallet;
   const { push } = useRouter();
   const { artistWallet } = useUserProvider();
