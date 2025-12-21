@@ -3,18 +3,17 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Copy, Check, Wallet as WalletIcon } from "lucide-react";
-import { useState } from "react";
-import { useSmartWalletProvider } from "@/providers/SmartWalletProvider";
+import { Fragment, useState } from "react";
 import getViemNetwork from "@/lib/viem/getViemNetwork";
 import { CHAIN_ID } from "@/lib/consts";
+import { Address } from "viem";
 
-export function Wallet() {
+export function Wallet({ address, title }: { address: Address; title: string }) {
   const [copied, setCopied] = useState(false);
-  const { smartWallet } = useSmartWalletProvider();
 
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText(smartWallet);
+      await navigator.clipboard.writeText(address);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
@@ -33,7 +32,7 @@ export function Wallet() {
           <WalletIcon className="h-5 w-5 text-grey-moss-900" />
         </div>
         <div>
-          <p className="font-archivo-medium text-sm text-grey-primary">Smart Wallet</p>
+          <p className="font-archivo-medium text-sm text-grey-primary">{title}</p>
         </div>
       </div>
 
@@ -42,7 +41,7 @@ export function Wallet() {
           <p className="mb-2 font-archivo-medium text-xs text-grey-secondary">YOUR ADDRESS</p>
           <div className="flex items-center justify-between gap-2">
             <code className="break-all font-spectral text-sm font-medium text-grey-moss-900">
-              {smartWallet}
+              {address}
             </code>
           </div>
         </div>
@@ -77,7 +76,7 @@ export function Wallet() {
         <div className="flex items-center justify-between text-sm">
           <span className="font-archivo text-grey-secondary">Short Address</span>
           <code className="font-spectral text-xs font-medium text-grey-moss-900">
-            {formatAddress(smartWallet)}
+            {formatAddress(address)}
           </code>
         </div>
       </div>

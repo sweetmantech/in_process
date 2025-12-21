@@ -1,20 +1,20 @@
 "use client";
 
-import { Deposit } from "./Deposit";
+import { Withdraw } from "./Withdraw";
 import { useUserProvider } from "@/providers/UserProvider";
 import SignToInProcess from "../ManagePage/SignToInProcess";
 import { Fragment } from "react";
 import { UsdcBalance } from "../Balances/UsdcBalance";
 import { EthBalance } from "../Balances/EthBalance";
-import { Address } from "viem";
+import { useSocialWalletBalanceProvider } from "@/providers/SocialWalletBalanceProvider";
 import { Wallet } from "../Balances/Wallet";
-import { useSmartWalletProvider } from "@/providers/SmartWalletProvider";
+import { Address } from "viem";
 import { useDelayedReady } from "@/hooks/useDelayedReady";
 
-const TopupPage = () => {
+const FundsPage = () => {
   const { connectedAddress } = useUserProvider();
   const loaded = useDelayedReady();
-  const { smartWallet, isLoading, balance: usdcBalance, ethBalance } = useSmartWalletProvider();
+  const { isLoading, balance: usdcBalance, ethBalance } = useSocialWalletBalanceProvider();
 
   if (!loaded) return <Fragment />;
   if (!connectedAddress) return <SignToInProcess />;
@@ -24,23 +24,23 @@ const TopupPage = () => {
       <div className="mx-auto max-w-4xl space-y-6">
         <div className="space-y-2">
           <h1 className="text-balance font-archivo-bold text-4xl tracking-tight text-grey-moss-900">
-            Top Up Wallet
+            Withdraw Funds
           </h1>
           <p className="text-pretty font-spectral-italic text-grey-primary">
-            Manage your digital assets and view your current balance
+            Withdraw your digital assets to your external wallet
           </p>
         </div>
         <div className="grid gap-6 md:grid-cols-2">
-          <Wallet address={smartWallet as Address} title="Smart Wallet" />
+          <Wallet address={connectedAddress as Address} title="Social Wallet" />
           <div className="space-y-6">
             <UsdcBalance isLoading={isLoading} balance={usdcBalance} />
             <EthBalance isLoading={isLoading} balance={ethBalance} />
           </div>
         </div>
-        <Deposit />
+        <Withdraw />
       </div>
     </main>
   );
 };
 
-export default TopupPage;
+export default FundsPage;
