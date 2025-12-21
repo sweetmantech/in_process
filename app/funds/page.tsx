@@ -1,10 +1,10 @@
 import FundsPage from "@/components/FundsPage";
-import TopupProvider from "@/providers/TopupProvider";
+import SocialWalletBalanceProvider from "@/providers/SocialWalletBalanceProvider";
 
 const Funds = () => (
-  <TopupProvider>
+  <SocialWalletBalanceProvider>
     <FundsPage />
-  </TopupProvider>
+  </SocialWalletBalanceProvider>
 );
 
 export default Funds;

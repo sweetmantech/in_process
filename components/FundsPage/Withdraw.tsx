@@ -9,6 +9,7 @@ import { useUserProvider } from "@/providers/UserProvider";
 import useWithdraw from "@/hooks/useWithdraw";
 import { Address, isAddress } from "viem";
 import { toast } from "sonner";
+import { useSocialWalletBalanceProvider } from "@/providers/SocialWalletBalanceProvider";
 
 type WithdrawCurrency = "usdc" | "eth";
 
@@ -18,6 +19,7 @@ export function Withdraw() {
   const [recipientAddress, setRecipientAddress] = useState<string>("");
   const { connectedAddress } = useUserProvider();
   const { withdraw, isWithdrawing } = useWithdraw();
+  const { fetchSocialWallet } = useSocialWalletBalanceProvider();
 
   if (!connectedAddress) return <Fragment />;
 
@@ -37,6 +39,7 @@ export function Withdraw() {
       withdrawAmount,
       recipientAddress: recipientAddress as Address,
     });
+    fetchSocialWallet();
   };
 
   return (

@@ -1,10 +1,10 @@
 "use client";
 
 import { Card } from "@/components/ui/card";
-import useSocialWallet from "@/hooks/useSocialWallet";
+import { useSocialWalletBalanceProvider } from "@/providers/SocialWalletBalanceProvider";
 
 export function Balance() {
-  const { isLoading, balance } = useSocialWallet();
+  const { isLoading, balance } = useSocialWalletBalanceProvider();
 
   return (
     <Card className="h-fit space-y-4 p-6">
