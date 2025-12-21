@@ -1,5 +1,6 @@
 import MomentPage from "@/components/MomentPage";
-import { APP_URL, VERCEL_OG } from "@/lib/og/consts";
+import { VERCEL_OG } from "@/lib/og/consts";
+import { SITE_ORIGINAL_URL } from "@/lib/consts";
 import { Metadata, NextPage } from "next";
 import { parseCollectionAddress } from "@/lib/timeline/parseCollectionAddress";
 import { CHAIN_ID } from "@/lib/consts";
@@ -40,7 +41,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       action: {
         type: "launch_frame",
         name: "In Process",
-        url: `${APP_URL}/collect/${collection}/${tokenId}`,
+        url: `${SITE_ORIGINAL_URL}/collect/${collection}/${tokenId}`,
         iconImageUrl: `${VERCEL_OG}/api/og/moment?collectionAddress=${moment.collectionAddress}&tokenId=${moment.tokenId}&chainId=${moment.chainId}`,
         splashImageUrl: `${VERCEL_OG}/desktop_footer_logo.png`,
         splashBackgroundColor: "#e9ccbb",

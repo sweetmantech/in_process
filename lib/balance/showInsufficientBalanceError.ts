@@ -1,11 +1,12 @@
 import { toast } from "sonner";
+import { SITE_ORIGINAL_URL } from "../consts";
 
 export const showInsufficientBalanceError = (currency: "eth" | "usdc"): never => {
   toast.error(`Insufficient ${currency} balance. Please add funds to collect.`, {
     action: {
       label: "Topup",
       onClick: () => {
-        window.open("https://inprocess.fun/topup", "_blank");
+        window.open(`${SITE_ORIGINAL_URL}/topup`, "_blank");
       },
     },
   });

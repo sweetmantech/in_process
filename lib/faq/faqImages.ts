@@ -33,7 +33,7 @@ export const faqImageGalleries = {
     {
       src: "/images/faq/faq5.png",
       alt: "FAQ Image 5",
-      caption: "1. go to inprocess.fun",
+      caption: "1. go to inprocess.world",
     },
     {
       src: "/images/faq/faq6.png",
