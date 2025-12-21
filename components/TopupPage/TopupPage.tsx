@@ -7,7 +7,6 @@ import { Fragment, useEffect, useState } from "react";
 import { usePrivy } from "@privy-io/react-auth";
 import { UsdcBalance } from "../Balances/UsdcBalance";
 import { EthBalance } from "../Balances/EthBalance";
-import { useSocialWalletBalanceProvider } from "@/providers/SocialWalletBalanceProvider";
 import { Address } from "viem";
 import { Wallet } from "../Balances/Wallet";
 import { useSmartWalletProvider } from "@/providers/SmartWalletProvider";
@@ -16,8 +15,7 @@ const TopupPage = () => {
   const { connectedAddress } = useUserProvider();
   const [loaded, setLoaded] = useState<boolean>(false);
   const { ready } = usePrivy();
-  const { isLoading, balance: usdcBalance, ethBalance } = useSocialWalletBalanceProvider();
-  const { smartWallet } = useSmartWalletProvider();
+  const { smartWallet, isLoading, balance: usdcBalance, ethBalance } = useSmartWalletProvider();
 
   useEffect(() => {
     if (ready)
