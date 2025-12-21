@@ -5,9 +5,11 @@ import getSaleConfigType from "@/lib/getSaleConfigType";
 import { useUserProvider } from "@/providers/UserProvider";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { useMetadataUploadProvider } from "@/providers/MetadataUploadProvider";
+import { useSmartWalletProvider } from "@/providers/SmartWalletProvider";
 
 const useMomentCreateParameters = () => {
-  const { artistWallet } = useUserProvider();
+  const { artistWallet, isExternalWallet } = useUserProvider();
+  const { smartWallet } = useSmartWalletProvider();
   const { form, priceUnit, price, startDate, name } = useMetadataFormProvider();
   const { generateMetadataUri } = useMetadataUploadProvider();
 
@@ -32,6 +34,7 @@ const useMomentCreateParameters = () => {
         createReferral: REFERRAL_RECIPIENT,
         salesConfig,
         mintToCreatorCount: 1,
+        payoutRecipient: isExternalWallet ? artistWallet : smartWallet,
       },
       account: artistWallet as Address,
       ...(splitsData && { splits: splitsData }),
