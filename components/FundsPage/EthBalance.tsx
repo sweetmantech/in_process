@@ -1,10 +1,10 @@
 "use client";
 
 import { Card } from "@/components/ui/card";
-import useSocialWallet from "@/hooks/useSocialWallet";
+import { useSmartWalletProvider } from "@/providers/SmartWalletProvider";
 
 export function EthBalance() {
-  const { isLoading, ethBalance } = useSocialWallet();
+  const { isLoading, ethBalance } = useSmartWalletProvider();
 
   return (
     <Card className="h-fit space-y-4 p-6">
