@@ -62,10 +62,16 @@ const useWithdraw = () => {
         return;
       }
 
-      toast.success("Withdrawal successful");
-      await publicClient.waitForTransactionReceipt({
+      toast.info("Transaction submitted, waiting for confirmation...");
+      const receipt = await publicClient.waitForTransactionReceipt({
         hash: transaction.hash,
       });
+
+      if (receipt.status === "success") {
+        toast.success("Withdrawal successful");
+      } else {
+        toast.error("Transaction failed");
+      }
     } catch (error) {
       console.error(error);
       toast.error("Withdrawal failed");
