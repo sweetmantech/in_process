@@ -1,18 +1,23 @@
 "use client";
 
-import { Balance } from "./Balance";
-import { EthBalance } from "./EthBalance";
-import { Wallet } from "./Wallet";
 import { Deposit } from "./Deposit";
 import { useUserProvider } from "@/providers/UserProvider";
 import SignToInProcess from "../ManagePage/SignToInProcess";
 import { Fragment, useEffect, useState } from "react";
 import { usePrivy } from "@privy-io/react-auth";
+import { UsdcBalance } from "../Balances/UsdcBalance";
+import { EthBalance } from "../Balances/EthBalance";
+import { useSocialWalletBalanceProvider } from "@/providers/SocialWalletBalanceProvider";
+import { Address } from "viem";
+import { Wallet } from "../Balances/Wallet";
+import { useSmartWalletProvider } from "@/providers/SmartWalletProvider";
 
 const TopupPage = () => {
   const { connectedAddress } = useUserProvider();
   const [loaded, setLoaded] = useState<boolean>(false);
   const { ready } = usePrivy();
+  const { isLoading, balance: usdcBalance, ethBalance } = useSocialWalletBalanceProvider();
+  const { smartWallet } = useSmartWalletProvider();
 
   useEffect(() => {
     if (ready)
@@ -36,10 +41,10 @@ const TopupPage = () => {
           </p>
         </div>
         <div className="grid gap-6 md:grid-cols-2">
-          <Wallet />
+          <Wallet address={smartWallet as Address} title="Smart Wallet" />
           <div className="space-y-6">
-            <Balance />
-            <EthBalance />
+            <UsdcBalance isLoading={isLoading} balance={usdcBalance} />
+            <EthBalance isLoading={isLoading} balance={ethBalance} />
           </div>
         </div>
         <Deposit />

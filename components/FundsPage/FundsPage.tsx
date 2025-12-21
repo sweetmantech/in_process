@@ -1,18 +1,21 @@
 "use client";
 
-import { Balance } from "./Balance";
-import { EthBalance } from "../TopupPage/EthBalance";
 import { Withdraw } from "./Withdraw";
 import { useUserProvider } from "@/providers/UserProvider";
 import SignToInProcess from "../ManagePage/SignToInProcess";
 import { Fragment, useEffect, useState } from "react";
 import { usePrivy } from "@privy-io/react-auth";
-import { SocialWallet } from "./SocialWallet";
+import { UsdcBalance } from "../Balances/UsdcBalance";
+import { EthBalance } from "../Balances/EthBalance";
+import { useSocialWalletBalanceProvider } from "@/providers/SocialWalletBalanceProvider";
+import { Wallet } from "../Balances/Wallet";
+import { Address } from "viem";
 
 const FundsPage = () => {
   const { connectedAddress } = useUserProvider();
   const [loaded, setLoaded] = useState<boolean>(false);
   const { ready } = usePrivy();
+  const { isLoading, balance: usdcBalance, ethBalance } = useSocialWalletBalanceProvider();
 
   useEffect(() => {
     if (ready)
@@ -36,10 +39,10 @@ const FundsPage = () => {
           </p>
         </div>
         <div className="grid gap-6 md:grid-cols-2">
-          <SocialWallet />
+          <Wallet address={connectedAddress as Address} title="Social Wallet" />
           <div className="space-y-6">
-            <Balance />
-            <EthBalance />
+            <UsdcBalance isLoading={isLoading} balance={usdcBalance} />
+            <EthBalance isLoading={isLoading} balance={ethBalance} />
           </div>
         </div>
         <Withdraw />
