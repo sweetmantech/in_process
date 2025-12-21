@@ -36,7 +36,7 @@ export const USDC_ADDRESS = IS_TESTNET
 
 export const SITE_ORIGINAL_URL = IS_TESTNET
   ? "https://in-process-git-test-sweetmantechs-projects.vercel.app"
-  : "https://inprocess.fun";
+  : "https://inprocess.world";
 export const BLOCKLISTS = [
   "0x323e8bcb41ae2454c3f4899e094c599aab6b84bc",
   "0x51027631b9def86e088c33368ec4e3a4be0ad264",
