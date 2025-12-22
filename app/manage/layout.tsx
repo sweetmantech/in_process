@@ -10,19 +10,19 @@ import { useRouter } from "next/navigation";
 import { useUserProvider } from "@/providers/UserProvider";
 import { useHasMutualMoments } from "@/hooks/useHasMutualMoments";
 import MutualMomentsButton from "@/components/ManagePage/MutualMomentsButton";
-import { useDelayedReady } from "@/hooks/useDelayedReady";
+import { usePrivy } from "@privy-io/react-auth";
 
 const ManagePage = ({ children }: { children: ReactNode }) => {
   const { context } = useFrameProvider();
   const { connectedWallet } = useConnectedWallet();
   const { address } = useAccount();
-  const loaded = useDelayedReady();
+  const { ready } = usePrivy();
   const signedWallet = context ? address : connectedWallet;
   const { push } = useRouter();
   const { artistWallet } = useUserProvider();
   const { hasMutualMoments } = useHasMutualMoments(artistWallet);
 
-  if (!loaded) return <Fragment />;
+  if (!ready) return <Fragment />;
   if (!signedWallet) return <SignToInProcess />;
 
   return (
