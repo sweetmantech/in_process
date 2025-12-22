@@ -9,14 +9,14 @@ import { EthBalance } from "../Balances/EthBalance";
 import { useSocialWalletBalanceProvider } from "@/providers/SocialWalletBalanceProvider";
 import { Wallet } from "../Balances/Wallet";
 import { Address } from "viem";
-import { useDelayedReady } from "@/hooks/useDelayedReady";
+import { usePrivy } from "@privy-io/react-auth";
 
 const FundsPage = () => {
   const { connectedAddress } = useUserProvider();
-  const loaded = useDelayedReady();
+  const { ready } = usePrivy();
   const { isLoading, balance: usdcBalance, ethBalance } = useSocialWalletBalanceProvider();
 
-  if (!loaded) return <Fragment />;
+  if (!ready) return <Fragment />;
   if (!connectedAddress) return <SignToInProcess />;
 
   return (
