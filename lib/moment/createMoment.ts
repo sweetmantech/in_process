@@ -17,6 +17,7 @@ import { processSplits } from "@/lib/splits/processSplits";
 import { resolveSplitAddresses } from "@/lib/splits/resolveSplitAddresses";
 import { getAdminPermissionSetupActions } from "@/lib/zora/getAdminPermissionSetupActions";
 import { getSplitAdminAddresses } from "@/lib/splits/getSplitAdminAddresses";
+import { getFactoryAddress } from "@/lib/protocolSdk/create/factory-addresses";
 
 export type CreateMomentContractInput = z.infer<typeof createMomentSchema>;
 
@@ -28,7 +29,7 @@ export interface CreateContractResult {
 }
 
 /**
- * Creates a new In Process moment on an existing collection using a smart account via Coinbase CDP.
+ * Creates a new In Process moment using a smart account via Coinbase CDP.
  * Accepts the full API input shape for creating a Moment.
  * Handles splits configuration by creating split contract if needed.
  */
@@ -75,10 +76,15 @@ export async function createMoment(
     additionalSetupActions,
   });
 
-  // Encode the function call data for adding token to existing contract
+  // Determine if creating new contract or adding to existing contract
+  // Check if the target address is the factory (new contract) or an existing contract
+  const factoryAddress = getFactoryAddress(CHAIN_ID);
+  const isNewContract = getAddress(parameters.address) === getAddress(factoryAddress);
+
+  // Encode the function call data
   const functionCallData = encodeFunctionData({
     abi: parameters.abi,
-    functionName: "multicall",
+    functionName: isNewContract ? "createContract" : "multicall",
     args: parameters.args,
   });
 
@@ -94,15 +100,30 @@ export async function createMoment(
     ],
   });
 
-  // Parse token creation event
+  // Parse token creation event (always present)
   const collectionLogs = parseEventLogs({
     abi: zoraCreator1155ImplABI,
     logs: transaction.logs,
     eventName: "SetupNewToken",
   }) as ParseEventLogsReturnType;
 
-  // Use the provided contract address
-  const contractAddress = getAddress(input.contractAddress);
+  // Parse contract creation event (only present when creating new contract)
+  let contractAddress: Address;
+  if (isNewContract) {
+    const factoryLogs = parseEventLogs({
+      abi: parameters.abi,
+      logs: transaction.logs,
+      eventName: "SetupNewContract",
+    }) as ParseEventLogsReturnType;
+    contractAddress = (factoryLogs[0].args as { newContract: Address }).newContract;
+  } else {
+    // Use the provided contract address when adding to existing contract
+    if ("contractAddress" in input) {
+      contractAddress = input.contractAddress;
+    } else {
+      throw new Error("Expected contractAddress when adding token to existing contract");
+    }
+  }
 
   return {
     contractAddress,
