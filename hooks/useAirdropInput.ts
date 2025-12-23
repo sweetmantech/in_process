@@ -3,7 +3,7 @@ import { useAirdropProvider } from "@/providers/AirdropProvider";
 
 const useAirdropInput = () => {
   const [value, setValue] = useState("");
-  const { onChangeAddress } = useAirdropProvider();
+  const { setPendingInputValue, onChangeAddress } = useAirdropProvider();
   // When the user presses Enter we want to submit whatever is currently in the
   // input. The user might have typed or pasted multiple lines, so we split the
   // value on new-lines, trim each entry and ignore blank rows.
@@ -14,8 +14,13 @@ const useAirdropInput = () => {
         .map((item) => item.trim())
         .filter(Boolean);
 
-      for (const item of items) {
-        await onChangeAddress(item);
+      if (items.length > 0) {
+        // Add to pendingInputValue for resolution on button click
+        // Also add to airdropToItems immediately for UI feedback (with status "validating")
+        setPendingInputValue(items);
+        for (const item of items) {
+          onChangeAddress(item);
+        }
       }
       setValue("");
     }
@@ -35,14 +40,25 @@ const useAirdropInput = () => {
       .map((item) => item.trim())
       .filter(Boolean);
 
-    for (const item of items) {
-      await onChangeAddress(item);
+    if (items.length > 0) {
+      // Add to pendingInputValue for resolution on button click
+      // Also add to airdropToItems immediately for UI feedback (with status "validating")
+      setPendingInputValue(items);
+      for (const item of items) {
+        onChangeAddress(item);
+      }
     }
     setValue("");
   };
 
   const handleBlur = async () => {
-    await onChangeAddress(value);
+    const trimmedValue = value.trim();
+    if (trimmedValue) {
+      // Add to pendingInputValue for resolution on button click
+      // Also add to airdropToItems immediately for UI feedback (with status "validating")
+      setPendingInputValue([trimmedValue]);
+      onChangeAddress(trimmedValue);
+    }
     setValue("");
   };
 

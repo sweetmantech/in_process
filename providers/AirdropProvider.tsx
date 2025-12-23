@@ -1,9 +1,9 @@
 import useAirdrop from "@/hooks/useAirdrop";
 import { createContext, useMemo, useContext } from "react";
 
-const AirdropContext = createContext<ReturnType<typeof useAirdrop>>(
-  {} as ReturnType<typeof useAirdrop>
-);
+interface AirdropContextValue extends ReturnType<typeof useAirdrop> {}
+
+const AirdropContext = createContext<AirdropContextValue>({} as AirdropContextValue);
 
 const AirdropProvider = ({ children }: { children: React.ReactNode }) => {
   const airDrop = useAirdrop();

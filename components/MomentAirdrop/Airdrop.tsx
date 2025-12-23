@@ -2,7 +2,7 @@
 
 import { useAirdropProvider } from "@/providers/AirdropProvider";
 import AirdropButton from "./AirdropButton";
-import { AirdropItem } from "@/hooks/useAirdrop";
+import { AirdropItem } from "@/types/airdrop";
 import AirdropBadge from "./AirdropBadge";
 import AirdropInput from "./AirdropInput";
 
