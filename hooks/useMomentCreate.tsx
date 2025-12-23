@@ -57,7 +57,7 @@ export default function useMomentCreate() {
         );
       }
       const typeParam = type ? `type=${type}&` : "";
-      const collectionParam = collection ? `collectionAddress=${collection}&` : "";
+      const collectionParam = `collectionAddress=${result.contractAddress}&`;
       push(`/create/success?${typeParam}${collectionParam}tokenId=${result.tokenId.toString()}`);
       return result;
     } catch (err: any) {
