@@ -38,8 +38,21 @@ export async function create1155(input: CreateMomentContractInput) {
       : undefined,
   };
 
-  return creatorClient.create1155OnExistingContract({
-    ...commonParams,
-    contractAddress: input.contractAddress,
-  });
+  // Check if creating new contract or adding to existing contract
+  // If contract.address is provided, use existing contract; otherwise create new contract
+  if (input.contract.address) {
+    return creatorClient.create1155OnExistingContract({
+      ...commonParams,
+      contractAddress: input.contract.address,
+    });
+  } else {
+    // Create new contract - contract.name and contract.uri are required (validated by schema)
+    return creatorClient.create1155({
+      ...commonParams,
+      contract: {
+        name: input.contract.name!,
+        uri: input.contract.uri!,
+      },
+    });
+  }
 }
