@@ -77,14 +77,17 @@ export async function createMoment(
   });
 
   // Determine if creating new contract or adding to existing contract
+  // Check if contract.address is provided (existing collection) or contract.name/uri (new collection)
+  const isNewContract = !input.contract.address;
+
   // Check if the target address is the factory (new contract) or an existing contract
   const factoryAddress = getFactoryAddress(CHAIN_ID);
-  const isNewContract = getAddress(parameters.address) === getAddress(factoryAddress);
+  const isNewContractByAddress = getAddress(parameters.address) === getAddress(factoryAddress);
 
   // Encode the function call data
   const functionCallData = encodeFunctionData({
     abi: parameters.abi,
-    functionName: isNewContract ? "createContract" : "multicall",
+    functionName: isNewContractByAddress ? "createContract" : "multicall",
     args: parameters.args,
   });
 
@@ -109,7 +112,7 @@ export async function createMoment(
 
   // Parse contract creation event (only present when creating new contract)
   let contractAddress: Address;
-  if (isNewContract) {
+  if (isNewContractByAddress) {
     const factoryLogs = parseEventLogs({
       abi: parameters.abi,
       logs: transaction.logs,
@@ -118,10 +121,10 @@ export async function createMoment(
     contractAddress = (factoryLogs[0].args as { newContract: Address }).newContract;
   } else {
     // Use the provided contract address when adding to existing contract
-    if ("contractAddress" in input) {
-      contractAddress = input.contractAddress;
+    if (input.contract.address) {
+      contractAddress = getAddress(input.contract.address);
     } else {
-      throw new Error("Expected contractAddress when adding token to existing contract");
+      throw new Error("Expected contract.address when adding token to existing contract");
     }
   }
 
