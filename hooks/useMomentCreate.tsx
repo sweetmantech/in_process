@@ -28,16 +28,12 @@ export default function useMomentCreate() {
   const create = async () => {
     try {
       if (!isPrepared()) return;
-      if (!collection) {
-        toast.error("No collection selected");
-        return;
-      }
 
       setCreating(true);
       setIsUploading(true);
       setUploadProgress(0);
 
-      const parameters = await fetchParameters(collection as Address);
+      const parameters = await fetchParameters();
       if (!parameters) {
         throw new Error("Parameters not ready");
       }

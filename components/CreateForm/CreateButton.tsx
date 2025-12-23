@@ -3,18 +3,15 @@
 import { Button } from "@/components/ui/button";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { useMomentCreateProvider } from "@/providers/MomentCreateProvider/MomentCreateProvider";
-import { useCollectionsSelection } from "@/hooks/useCollectionsSelection";
 import { toast } from "sonner";
 
 const CreateButton = () => {
   const { create, creating } = useMomentCreateProvider();
   const { link, embedCode, writingText, animationFile, imageFile, previewFile, form } =
     useMetadataFormProvider();
-  const { currentCollection } = useCollectionsSelection();
 
   const hasMedia = Boolean(link || embedCode || imageFile || animationFile || writingText);
   const hasPreview = Boolean(previewFile || writingText);
-  const hasCollection = currentCollection !== null;
 
   const toastCreateError = () => {
     const formIsValid = form.formState.isValid;
@@ -40,13 +37,9 @@ const CreateButton = () => {
 
   const handleCreate = async () => {
     const isValid = await form.trigger();
-    const canCreate = Boolean(!creating && isValid && hasPreview && hasMedia && hasCollection);
+    const canCreate = Boolean(!creating && isValid && hasPreview && hasMedia);
 
     if (!canCreate) {
-      if (!hasCollection) {
-        toast.error("Please select a collection");
-        return;
-      }
       toastCreateError();
       return;
     }
@@ -56,7 +49,7 @@ const CreateButton = () => {
   return (
     <Button
       onClick={handleCreate}
-      disabled={creating || !hasCollection}
+      disabled={creating}
       className="disabled:opacity-1 z-10 w-fit transform self-center !rounded-sm bg-black px-14 py-5 !font-archivo !text-xl text-grey-eggshell transition-transform duration-150 hover:bg-grey-moss-300 disabled:!pointer-events-auto disabled:!cursor-not-allowed md:!mt-4 md:h-[60px] md:w-full md:py-6"
     >
       {creating ? "creating..." : "create"}
