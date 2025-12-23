@@ -47,48 +47,41 @@ const useAirdrop = () => {
 
       setLoading(true);
 
-      // Collect all items that need resolution
-      const itemsToResolve: string[] = [];
-      const itemsToResolveSet = new Set<string>();
+      // Separate items into those that need resolution and those that are already valid
+      const itemsNeedingResolution: Array<{ item: AirdropItem; originalIndex: number }> = [];
+      const alreadyValidItems: AirdropItem[] = [];
 
-      // Add items from airdropToItems that are still validating or have empty addresses
-      const itemsNeedingResolution = airdropToItems.filter(
-        (item) => item.status === "validating" || (item.status === "valid" && !item.address)
-      );
-      itemsNeedingResolution.forEach((item) => {
-        if (item.ensName && !itemsToResolveSet.has(item.ensName)) {
-          itemsToResolve.push(item.ensName);
-          itemsToResolveSet.add(item.ensName);
+      airdropToItems.forEach((item, index) => {
+        if (item.status === "validating" || (item.status === "valid" && !item.address)) {
+          // Item needs resolution - preserve original index for mapping
+          itemsNeedingResolution.push({ item, originalIndex: index });
+        } else if (item.status === "valid" && item.address) {
+          // Item is already valid - keep as is
+          alreadyValidItems.push(item);
         }
       });
 
-      // Resolve all items that need resolution
-      const resolvedNewItems = await Promise.all(
-        itemsToResolve.map((item) => resolveAddressForAirdrop(item))
+      // Resolve each item individually (preserve duplicates)
+      const resolvedItems = await Promise.all(
+        itemsNeedingResolution.map(({ item }) =>
+          item.ensName ? resolveAddressForAirdrop(item.ensName) : Promise.resolve(item)
+        )
       );
 
-      // Get existing valid items (exclude items that we just resolved)
-      const existingValidItems = airdropToItems.filter((item) => {
-        // Keep items that are already valid and have an address
-        if (item.status === "valid" && item.address) {
-          // Exclude if this item's ENS name is being resolved
-          if (item.ensName) {
-            return !itemsToResolveSet.has(item.ensName);
-          }
-          // For direct addresses (no ENS name), keep them
-          return true;
-        }
-        return false;
+      // Build the final array preserving original order and duplicates
+      // Start with already valid items, then merge resolved items at their original positions
+      const finalItems: AirdropItem[] = [...airdropToItems];
+
+      // Update items that were resolved, preserving their original positions
+      itemsNeedingResolution.forEach(({ originalIndex }, resolvedIndex) => {
+        finalItems[originalIndex] = resolvedItems[resolvedIndex];
       });
 
-      // Merge resolved items with existing valid items
-      const resolvedItems: AirdropItem[] = [...existingValidItems, ...resolvedNewItems];
+      // Update state with all resolved items (preserving order and duplicates)
+      setAirdropToItems(finalItems);
 
-      // Update state with all resolved items
-      setAirdropToItems(resolvedItems);
-
-      // Filter out invalid items
-      const validItems = resolvedItems.filter((item) => item.status === "valid" && item.address);
+      // Filter out invalid items for airdrop execution
+      const validItems = finalItems.filter((item) => item.status === "valid" && item.address);
 
       if (validItems.length === 0) {
         setLoading(false);
