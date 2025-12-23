@@ -1,5 +1,5 @@
 import { useAirdropProvider } from "@/providers/AirdropProvider";
-import { AirdropItem } from "@/hooks/useAirdrop";
+import { AirdropItem } from "@/types/airdrop";
 import truncateAddress from "@/lib/truncateAddress";
 import { X } from "lucide-react";
 

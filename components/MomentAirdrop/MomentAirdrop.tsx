@@ -1,7 +1,7 @@
 "use client";
 
 import AirdropProvider from "@/providers/AirdropProvider";
-import Airdrop from "@/components/MomentManagePage/Airdrop";
+import Airdrop from "@/components/MomentAirdrop/Airdrop";
 
 const MomentAirdrop = () => {
   return (
