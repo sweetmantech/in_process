@@ -10,13 +10,11 @@ import { toast } from "sonner";
 import { migrateMuxToArweaveApi } from "@/lib/mux/migrateMuxToArweaveApi";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { CHAIN_ID } from "@/lib/consts";
-import useCollectionParam from "./useCollectionParam";
 import { useRouter } from "next/navigation";
 import useTypeParam from "./useTypeParam";
 
 export default function useMomentCreate() {
   const [creating, setCreating] = useState<boolean>(false);
-  const collection = useCollectionParam();
   const [createdTokenId, setCreatedTokenId] = useState<string>("");
   const { fetchParameters } = useMomentCreateParameters();
   const { isPrepared } = useUserProvider();
