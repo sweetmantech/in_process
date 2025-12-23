@@ -12,7 +12,6 @@ import resolveAddressForAirdrop from "@/lib/ens/resolveAddressForAirdrop";
 const useAirdrop = () => {
   const { moment } = useMomentProvider();
   const [airdropToItems, setAirdropToItems] = useState<AirdropItem[]>([]);
-  const [pendingInputValue, setPendingInputValue] = useState<string[]>([]);
   const { artistWallet, isPrepared } = useUserProvider();
   const { smartWallet } = useSmartWalletProvider();
   const [loading, setLoading] = useState<boolean>(false);
@@ -38,14 +37,13 @@ const useAirdrop = () => {
     setAirdropToItems(temp);
   };
 
-  const onAirdrop = async (pendingInputValue?: string[]) => {
+  const onAirdrop = async () => {
     try {
       if (!isPrepared()) return;
       if (!Boolean(artistWallet) || !smartWallet) return;
 
-      // Check if we have existing items or pending input
-      const hasPendingInput = pendingInputValue && pendingInputValue.length > 0;
-      if (airdropToItems.length === 0 && !hasPendingInput) return;
+      // Check if we have existing items
+      if (airdropToItems.length === 0) return;
 
       setLoading(true);
 
@@ -63,16 +61,6 @@ const useAirdrop = () => {
           itemsToResolveSet.add(item.ensName);
         }
       });
-
-      // Add pending input values (avoid duplicates)
-      if (hasPendingInput) {
-        pendingInputValue.forEach((item) => {
-          if (!itemsToResolveSet.has(item)) {
-            itemsToResolve.push(item);
-            itemsToResolveSet.add(item);
-          }
-        });
-      }
 
       // Resolve all items that need resolution
       const resolvedNewItems = await Promise.all(
@@ -134,8 +122,6 @@ const useAirdrop = () => {
     loading,
     onAirdrop,
     removeAddress,
-    pendingInputValue,
-    setPendingInputValue,
   };
 };
 
