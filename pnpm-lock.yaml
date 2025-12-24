@@ -235,6 +235,9 @@ importers:
       tailwindcss-animate:
         specifier: ^1.0.7
         version: 1.0.7(tailwindcss@3.4.18(yaml@2.8.2))
+      telnyx:
+        specifier: ^4.6.0
+        version: 4.6.0
       usehooks-ts:
         specifier: ^3.1.1
         version: 3.1.1(react@19.2.1)
@@ -11800,6 +11803,12 @@ packages:
       }
     engines: { node: ">=6" }
 
+  standardwebhooks@1.0.0:
+    resolution:
+      {
+        integrity: sha512-BbHGOQK9olHPMvQNHWul6MYlrRTAOKn03rOe4A8O3CLWhNf4YHBqq2HJKKC+sfqpxiBY52pNeesD6jIiLDz8jg==,
+      }
+
   starknet@6.24.1:
     resolution:
       {
@@ -12184,6 +12193,12 @@ packages:
     resolution:
       {
         integrity: sha512-+G0LLgjjo9BZX2MfdvPfH+MKLCrxlXSYec5DaPYP1fe6Iyhf0/fSmJ0bFiZ1F8BT6cGXl2LpltQptzjXKWEkKA==,
+      }
+
+  telnyx@4.6.0:
+    resolution:
+      {
+        integrity: sha512-oh6LGaVQuGbKIlA4lLZ6rWq4m4r6WpJcvcJ0wMB+gKiz5DwQqc+nrE/NlbR8nc+o0TCMfV95VzAUDEvxLbprhw==,
       }
 
   text-encoding-utf-8@1.0.2:
@@ -23432,6 +23447,11 @@ snapshots:
     dependencies:
       type-fest: 0.7.1
 
+  standardwebhooks@1.0.0:
+    dependencies:
+      "@stablelib/base64": 1.0.1
+      fast-sha256: 1.3.0
+
   starknet@6.24.1:
     dependencies:
       "@noble/curves": 1.7.0
@@ -23720,6 +23740,11 @@ snapshots:
   tdigest@0.1.2:
     dependencies:
       bintrees: 1.0.2
+
+  telnyx@4.6.0:
+    dependencies:
+      standardwebhooks: 1.0.0
+      tweetnacl: 1.0.3
 
   text-encoding-utf-8@1.0.2: {}
 
