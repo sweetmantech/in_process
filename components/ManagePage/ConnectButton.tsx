@@ -10,7 +10,7 @@ const ConnectButton = () => {
   const { artistWallet, fetchArtistWallet, isSocialWallet, connectedAddress } = useUserProvider();
   const shouldConnect =
     artistWallet === connectedAddress && Boolean(artistWallet) && isSocialWallet;
-  const buttonText = shouldConnect ? "connect" : "disconnect";
+  const buttonText = shouldConnect ? "connect wallet" : "disconnect wallet";
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { connectWallet } = useConnectWallet({
@@ -32,7 +32,7 @@ const ConnectButton = () => {
   if (!isSocialWallet || !artistWallet) return <Fragment />;
 
   return (
-    <div className="flex w-full flex-col items-end gap-2 md:flex-row md:justify-end">
+    <div className="flex flex-col items-end gap-2 md:flex-row md:justify-end">
       {!shouldConnect && <CopyButton address={artistWallet as Address} />}
       <button
         disabled={isLoading}
