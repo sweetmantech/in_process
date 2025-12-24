@@ -1,9 +1,10 @@
 import { NextRequest } from "next/server";
 import { authMiddleware } from "@/middleware/authMiddleware";
-import { insertPhone } from "@/lib/supabase/in_process_artist_phones/insertPhone";
+import { upsertPhone } from "@/lib/supabase/in_process_artist_phones/upsertPhone";
 import { sendSmsVerification } from "@/lib/phones/sendSmsVerification";
-import { generateVerificationCode } from "@/lib/phones/generateVerificationCode";
+import { selectArtist } from "@/lib/supabase/in_process_artists/selectArtist";
 import getCorsHeader from "@/lib/getCorsHeader";
+import truncateAddress from "@/lib/truncateAddress";
 
 const corsHeaders = getCorsHeader();
 
@@ -26,8 +27,8 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Insert phone number into Supabase with verified = false
-    const { error: insertError } = await insertPhone({
+    // Upsert phone number into Supabase with verified = false
+    const { error: insertError } = await upsertPhone({
       artist_address: artistAddress.toLowerCase(),
       phone_number: phone_number.trim(),
       verified: false,
@@ -37,14 +38,17 @@ export async function POST(req: NextRequest) {
       throw new Error(`Failed to insert phone number: ${insertError.message}`);
     }
 
-    // Generate verification code and send SMS
-    const verificationCode = generateVerificationCode();
-    await sendSmsVerification(phone_number.trim(), verificationCode);
+    // Get artist name for SMS message
+    const artist = await selectArtist(artistAddress.toLowerCase());
+    const artistName = artist?.username || truncateAddress(artistAddress);
+
+    // Send SMS verification message
+    await sendSmsVerification(phone_number.trim(), artistName);
 
     return Response.json(
       {
         success: true,
-        message: "Phone number registered and verification code sent",
+        message: "Phone number registered and verification message sent",
       },
       { headers: corsHeaders }
     );
