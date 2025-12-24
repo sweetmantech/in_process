@@ -13,7 +13,7 @@ export async function upsertPhone({
       verified,
     },
     {
-      onConflict: "artist_address,phone_number",
+      onConflict: "phone_number",
     }
   );
 
