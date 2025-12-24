@@ -105,6 +105,38 @@ export type Database = {
           },
         ];
       };
+      in_process_artist_phones: {
+        Row: {
+          artist_address: string;
+          created_at: string;
+          id: string;
+          phone_number: string;
+          verified: boolean;
+        };
+        Insert: {
+          artist_address: string;
+          created_at?: string;
+          id?: string;
+          phone_number: string;
+          verified?: boolean;
+        };
+        Update: {
+          artist_address?: string;
+          created_at?: string;
+          id?: string;
+          phone_number?: string;
+          verified?: boolean;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "in_process_artist_phones_artist_address_fkey";
+            columns: ["artist_address"];
+            isOneToOne: false;
+            referencedRelation: "in_process_artists";
+            referencedColumns: ["address"];
+          },
+        ];
+      };
       in_process_artist_social_wallets: {
         Row: {
           artist_address: string;
