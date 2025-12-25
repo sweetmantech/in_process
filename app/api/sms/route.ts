@@ -31,8 +31,6 @@ export async function POST(req: NextRequest) {
 
         // Check if message is "yes"
         if (messageText === "yes" && fromPhoneNumber) {
-          console.log("ziad here", fromPhoneNumber);
-
           // Update verified field to true for this phone number
           const { error } = await updatePhoneVerified(fromPhoneNumber);
           if (error) {
