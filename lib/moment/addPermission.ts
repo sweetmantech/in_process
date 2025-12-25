@@ -14,8 +14,19 @@ export interface AddPermissionResult {
 }
 
 /**
- * Collect a In Process 1155 token using a smart account via Coinbase CDP.
- * Accepts the full API input shape to collect a Moment.
+ * Adds a permission to a Moment via the smart account flow using Coinbase CDP.
+ *
+ * This function adds or updates an admin permission for a specified address on a Moment.
+ * The operation is executed through a smart account (contract wallet) associated with
+ * the artist address, allowing gasless transactions via user operations.
+ *
+ * @param {AddPermissionInput} params - The permission details and context
+ * @param {Moment} params.moment - The Moment object containing collection address and token ID
+ * @param {Address} params.adminAddress - The address to grant admin permission to
+ * @param {Address} params.artistAddress - The artist's address used to get or create the smart account
+ * @returns {Promise<AddPermissionResult>} The transaction hash and chain ID of the executed permission update
+ *
+ * @sideEffect Adds or updates the admin permission on the Moment's collection contract
  */
 export async function addPermission({
   moment,
@@ -27,7 +38,7 @@ export async function addPermission({
     address: artistAddress,
   });
 
-  // Get the collect call using the shared function
+  // Get the add permission call using the shared function
   const addPermissionCall = getAddPermissionCall(moment, adminAddress);
 
   // Send the transaction and wait for receipt using the helper
