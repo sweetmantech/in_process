@@ -5,13 +5,20 @@ import { Trash2 } from "lucide-react";
 import truncateAddress from "@/lib/truncateAddress";
 import { Address } from "viem";
 import useRemoveMomentAdmin from "@/hooks/useRemoveMomentAdmin";
+import { useArtistProfile } from "@/hooks/useArtistProfile";
 
 const MomentAdmin = ({ address }: { address: Address }) => {
   const { handleRemoveAdmin, isRemoving } = useRemoveMomentAdmin();
-
+  const { data: artistProfile } = useArtistProfile(address);
   return (
     <div className="flex items-center justify-between rounded-lg border border-grey-secondary bg-grey-eggshell p-3">
-      <p className="font-archivo text-sm text-grey-moss-600">{truncateAddress(address)}</p>
+      {artistProfile ? (
+        <p className="font-archivo text-sm text-grey-moss-600">
+          {artistProfile.username || truncateAddress(address)}
+        </p>
+      ) : (
+        <p className="font-archivo text-sm text-grey-moss-600">Loading...</p>
+      )}
       <Button
         type="button"
         variant="outline"
