@@ -6,10 +6,11 @@ import { EvmSmartAccount } from "@coinbase/cdp-sdk";
 import { Call } from "@coinbase/coinbase-sdk/dist/types/calls";
 
 /**
- * Distributes funds from a split contract to its recipients.
- * Uses 0xSplits SDK to generate the distribution call data and executes it via smart wallet.
+ * Generates call data to distribute funds from a split contract to its recipients.
+ * Uses 0xSplits SDK to generate the distribution call data.
+ * Returns a Call object that can be executed via smart wallet.
  */
-export async function distributeSplitCall({
+export async function distributeCall({
   splitAddress,
   tokenAddress = USDC_ADDRESS,
   smartAccount,
