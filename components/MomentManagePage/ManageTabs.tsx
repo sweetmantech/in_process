@@ -1,9 +1,10 @@
-import { cn } from "@/lib/utils";
+import TabButton from "./TabButton";
 
 export enum MANAGE_TABS {
   AIRDROP,
   SALE,
   MEDIA,
+  ADMIN,
 }
 interface ManageTabsProps {
   onChangeTab: (_value: number) => void;
@@ -12,37 +13,27 @@ interface ManageTabsProps {
 const ManageTabs = ({ selectedTab, onChangeTab }: ManageTabsProps) => {
   return (
     <section className="w-full px-4 pt-4 md:px-10">
-      <div className="flex gap-4">
-        <button
-          type="button"
-          className={cn(
-            "min-w-[80px] font-archivo-medium",
-            selectedTab === MANAGE_TABS.AIRDROP && "border-b-[2px] border-b-grey-moss-300"
-          )}
+      <div className="flex gap-1 md:gap-4">
+        <TabButton
+          label="Airdrop"
+          active={selectedTab === MANAGE_TABS.AIRDROP}
           onClick={() => onChangeTab(MANAGE_TABS.AIRDROP)}
-        >
-          Airdrop
-        </button>
-        <button
-          type="button"
-          className={cn(
-            "min-w-[80px] font-archivo-medium",
-            selectedTab === MANAGE_TABS.SALE && "border-b-[2px] border-b-grey-moss-300"
-          )}
+        />
+        <TabButton
+          label="Sale"
+          active={selectedTab === MANAGE_TABS.SALE}
           onClick={() => onChangeTab(MANAGE_TABS.SALE)}
-        >
-          Sale
-        </button>
-        <button
-          type="button"
-          className={cn(
-            "min-w-[80px] font-archivo-medium",
-            selectedTab === MANAGE_TABS.MEDIA && "border-b-[2px] border-b-grey-moss-300"
-          )}
+        />
+        <TabButton
+          label="Media"
+          active={selectedTab === MANAGE_TABS.MEDIA}
           onClick={() => onChangeTab(MANAGE_TABS.MEDIA)}
-        >
-          Media
-        </button>
+        />
+        <TabButton
+          label="Admins"
+          active={selectedTab === MANAGE_TABS.ADMIN}
+          onClick={() => onChangeTab(MANAGE_TABS.ADMIN)}
+        />
       </div>
     </section>
   );
