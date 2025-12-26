@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
 import { useMomentProvider } from "@/providers/MomentProvider";
+import { toast } from "sonner";
 
 const useMomentAdmins = () => {
   const { momentAdmins } = useMomentProvider();
@@ -12,13 +13,13 @@ const useMomentAdmins = () => {
 
   const handleAddAdmin = () => {
     // TODO: Implement add admin logic
-    console.log("Add admin:", newAdminAddress);
+    toast.success("we are cooking this feature");
     setNewAdminAddress("");
   };
 
   const handleRemoveAdmin = (address: string) => {
     // TODO: Implement remove admin logic
-    console.log("Remove admin:", address);
+    toast.success("we are cooking this feature");
   };
 
   return {
