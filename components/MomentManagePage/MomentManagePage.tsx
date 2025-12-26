@@ -12,6 +12,8 @@ import MomentAirdrop from "../MomentAirdrop";
 import { Address } from "viem";
 import { MetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { MetadataUploadProvider } from "@/providers/MetadataUploadProvider";
+import { MomentAdminsProvider } from "@/providers/MomentAdminsProvider";
+import Admins from "./Admins";
 
 const MomentManagePage = () => {
   const [selectedTab, setSelectedTab] = useState<number>(MANAGE_TABS.AIRDROP);
@@ -40,6 +42,11 @@ const MomentManagePage = () => {
             {selectedTab === MANAGE_TABS.AIRDROP && <MomentAirdrop />}
             {selectedTab === MANAGE_TABS.SALE && <Sale />}
             {selectedTab === MANAGE_TABS.MEDIA && <MomentMedia />}
+            {selectedTab === MANAGE_TABS.ADMIN && (
+              <MomentAdminsProvider>
+                <Admins />
+              </MomentAdminsProvider>
+            )}
           </div>
         </MomentProvider>
       </MetadataUploadProvider>
