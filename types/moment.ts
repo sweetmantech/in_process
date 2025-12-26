@@ -1,5 +1,4 @@
 import { Address, Hash } from "viem";
-import type { Database } from "@/lib/supabase/types";
 
 export interface Moment {
   collectionAddress: Address;
