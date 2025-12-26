@@ -7,8 +7,14 @@ import { Trash2 } from "lucide-react";
 import truncateAddress from "@/lib/truncateAddress";
 
 const Admins = () => {
-  const { admins, newAdminAddress, setNewAdminAddress, handleAddAdmin, handleRemoveAdmin } =
-    useMomentAdminsProvider();
+  const {
+    admins,
+    newAdminAddress,
+    setNewAdminAddress,
+    handleAddAdmin,
+    handleRemoveAdmin,
+    isAdding,
+  } = useMomentAdminsProvider();
 
   return (
     <div className="w-full font-archivo">
@@ -47,18 +53,19 @@ const Admins = () => {
           <div className="flex gap-2">
             <Input
               type="text"
-              placeholder="Enter admin address (0x...)"
+              placeholder="Enter admin address or ENS name (0x... or name.eth)"
               value={newAdminAddress}
               onChange={(e) => setNewAdminAddress(e.target.value)}
+              disabled={isAdding}
               className="flex-1"
             />
             <Button
               type="button"
               onClick={handleAddAdmin}
-              disabled={!newAdminAddress.trim()}
+              disabled={!newAdminAddress.trim() || isAdding}
               className="w-fit rounded-md bg-black px-8 py-2 text-grey-eggshell disabled:opacity-50"
             >
-              Add
+              {isAdding ? "Adding..." : "Add"}
             </Button>
           </div>
         </div>
