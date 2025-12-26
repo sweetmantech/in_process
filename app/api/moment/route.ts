@@ -59,11 +59,15 @@ export async function GET(req: NextRequest) {
       });
     }
 
+    const uniqueAdmins = collection
+      ? Array.from(new Set(admins.map((admin) => admin.artist_address)))
+      : [owner];
+
     return NextResponse.json({
       uri,
       owner,
       saleConfig,
-      momentAdmins: collection ? admins.map((admin) => admin.artist_address) : [owner],
+      momentAdmins: uniqueAdmins,
       metadata: {
         name: metadata.name || "",
         image: metadata.image || "",
