@@ -60,7 +60,9 @@ export async function GET(req: NextRequest) {
     }
 
     const uniqueAdmins = collection
-      ? Array.from(new Set(admins.map((admin) => admin.artist_address)))
+      ? Array.from(new Set(admins.map((admin) => admin.artist_address))).sort((b, a) =>
+          b.localeCompare(a)
+        )
       : [owner];
 
     return NextResponse.json({
