@@ -35,8 +35,6 @@ const useRemoveMomentAdmin = () => {
     } catch (error: any) {
       console.error("Error removing admin:", error);
       toast.error(error?.message || "Failed to remove admin");
-    } finally {
-      setIsRemoving(false);
     }
   };
 
