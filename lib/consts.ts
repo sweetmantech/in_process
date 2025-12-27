@@ -45,6 +45,7 @@ export const BLOCKLISTS = [
 ];
 
 export const TELNYX_PHONE_NUMBER = "+18083530994";
+export const TELNYX_MESSAGING_PROFILE_ID = "40019b4c-b5af-4052-966b-3f7546c2e7c0";
 export const INDEXER_ID = "802bf29";
 export const TIMLINE_STEP_OFFSET = 12;
 export const Z_BEHIND_PRIVY = 999999;
