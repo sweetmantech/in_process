@@ -1,7 +1,6 @@
 import { Address } from "viem";
-import getEnsName from "./viem/getEnsName";
-import getZoraProfile from "./zora/getZoraProfile";
 import { getProfile } from "./supabase/in_process_artists/getProfile";
+import resolveAddressToEns from "./ens/resolveAddressToEns";
 
 const getArtistProfile = async (address: string) => {
   const emptyFields = {
@@ -13,25 +12,19 @@ const getArtistProfile = async (address: string) => {
     telegram_username: "",
   };
   try {
+    const ensName = await resolveAddressToEns(address as Address);
+
     const profile = await getProfile(address as Address);
-    if (profile) return profile;
-    const zora = await getZoraProfile(address as Address);
-    if (zora)
+    if (profile)
       return {
-        ...emptyFields,
-        username: zora.displayName,
-        bio: zora.description,
-        twitter_username: zora.socialAccounts.twitter?.username || "",
-        instagram_username: zora.socialAccounts.instagram?.username || "",
+        ...profile,
+        username: profile.username || ensName,
       };
 
-    const ensName = await getEnsName(address as Address);
-    if (ensName)
-      return {
-        ...emptyFields,
-        username: ensName,
-      };
-    return emptyFields;
+    return {
+      ...emptyFields,
+      username: ensName,
+    };
   } catch (error) {
     console.error(error);
     return emptyFields;
