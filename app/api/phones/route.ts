@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
     const artistName = artist?.username || truncateAddress(artistAddress);
 
     // Send SMS verification message
-    // await sendSmsVerification(phone_number, artistName);
+    await sendSmsVerification(phone_number, artistName);
 
     return Response.json(
       {
