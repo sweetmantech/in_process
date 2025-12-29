@@ -62,6 +62,7 @@ export const usePhoneVerify = () => {
         "A verification message has been sent to your phone. Please check your messages."
       );
       setPhoneNumber("");
+      setStatus(PHONE_VERIFICATION_STATUS.CONFIRMING);
       return true;
     } catch (error: any) {
       console.error(error);

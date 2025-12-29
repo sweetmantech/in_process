@@ -1,18 +1,10 @@
-import { PHONE_VERIFICATION_STATUS } from "@/types/phone";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { usePhoneVerificationProvider } from "@/providers/PhoneVerificationProvider";
 
 const PhoneNumberInput = () => {
-  const { phoneNumber, isLoading, handlePhoneNumberChange, verify, setStatus, setIsDialogOpen } =
+  const { phoneNumber, isLoading, handlePhoneNumberChange, verify } =
     usePhoneVerificationProvider();
-
-  const handleVerify = async () => {
-    const success = await verify();
-    if (success) {
-      setStatus(PHONE_VERIFICATION_STATUS.CONFIRMING);
-    }
-  };
 
   return (
     <>
@@ -32,11 +24,11 @@ const PhoneNumberInput = () => {
         />
         <button
           type="button"
-          onClick={handleVerify}
+          onClick={verify}
           disabled={isLoading || !phoneNumber.trim()}
           className="mt-6 flex w-full items-center justify-center gap-2 rounded-md bg-grey-moss-900 py-2 font-archivo text-grey-eggshell hover:bg-grey-eggshell hover:text-grey-moss-900 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {isLoading ? "verifying..." : "verify"}
+          {isLoading ? "sending..." : "send verification message"}
         </button>
       </fieldset>
     </>
