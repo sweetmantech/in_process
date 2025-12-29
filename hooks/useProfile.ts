@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useArtistProfile } from "./useArtistProfile";
 import { Address } from "viem";
 import truncateAddress from "@/lib/truncateAddress";
@@ -31,7 +31,7 @@ export const updateProfile = async ({
 };
 
 const useProfile = (artistAddress?: Address) => {
-  const { data, isLoading } = useArtistProfile(artistAddress);
+  const { data, isLoading, refetch } = useArtistProfile(artistAddress);
   const [username, setUserName] = useState<string>("");
   const [bio, setBio] = useState<string>("");
   const [saving, setSaving] = useState<boolean>(false);
@@ -39,6 +39,8 @@ const useProfile = (artistAddress?: Address) => {
   const [instagram, setInstagram] = useState<string>("");
   const [farcaster, setFarcaster] = useState<string>("");
   const [telegram, setTelegram] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState<string>("");
+  const [phoneVerified, setPhoneVerified] = useState<boolean>(false);
 
   useEffect(() => {
     if (data) {
@@ -48,6 +50,10 @@ const useProfile = (artistAddress?: Address) => {
       setTelegram(data.telegram_username || "");
       setInstagram(data.instagram_username || "");
       setFarcaster(data.farcaster_username || "");
+      if (data.phone[0]?.verified) {
+        setPhoneNumber(data.phone[0].phone_number || "");
+        setPhoneVerified(data.phone[0].verified);
+      }
     }
   }, [data, artistAddress]);
 
@@ -67,6 +73,10 @@ const useProfile = (artistAddress?: Address) => {
     setInstagram,
     farcaster,
     setFarcaster,
+    refetch,
+    phoneNumber,
+    phoneVerified,
+    setPhoneVerified,
   };
 };
 

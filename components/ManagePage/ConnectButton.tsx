@@ -33,7 +33,7 @@ const ConnectButton = () => {
 
   return (
     <div className="flex w-full md:w-fit flex-col items-end gap-2 md:flex-row md:justify-end">
-      {!shouldConnect && <CopyButton address={artistWallet as Address} />}
+      {!shouldConnect && <CopyButton text={artistWallet as Address} />}
       <button
         disabled={isLoading}
         onClick={shouldConnect ? connectWallet : disconnect}

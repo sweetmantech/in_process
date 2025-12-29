@@ -24,7 +24,7 @@ const OverviewContent = ({ metadata, name, address, isLoading = false }: Overvie
       </div>
       <div className="space-y-2">
         <p className="font-archivo-medium text-xl md:text-4xl">{name}</p>
-        <CopyButton address={address} />
+        <CopyButton text={address} />
       </div>
     </div>
   );

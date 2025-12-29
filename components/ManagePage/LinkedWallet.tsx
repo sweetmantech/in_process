@@ -15,7 +15,7 @@ const LinkedWallet = ({ walletAddress, className }: LinkedWalletProps) => {
           <UnlinkWallet walletAddress={walletAddress} />
         </div>
         <CopyButton
-          address={walletAddress}
+          text={walletAddress}
           className="hover:text-grey-moss-600 flex items-center gap-2 break-all bg-transparent p-0 font-archivo text-lg text-black hover:bg-transparent"
         />
       </div>
