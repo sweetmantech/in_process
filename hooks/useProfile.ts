@@ -50,12 +50,15 @@ const useProfile = (artistAddress?: Address) => {
       setTelegram(data.telegram_username || "");
       setInstagram(data.instagram_username || "");
       setFarcaster(data.farcaster_username || "");
-      if (data?.phone && data?.phone?.verified) {
-        setPhoneNumber(data.phone.phone_number || "");
-        setPhoneVerified(data.phone.verified);
-      }
     }
   }, [data, artistAddress]);
+
+  useEffect(() => {
+    if (data?.phone) {
+      setPhoneNumber(data.phone.phone_number || "");
+      setPhoneVerified(data.phone.verified);
+    }
+  }, [data?.phone]);
 
   return {
     username,

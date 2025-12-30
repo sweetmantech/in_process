@@ -32,6 +32,9 @@ const PhoneButton = () => {
         {status === PHONE_VERIFICATION_STATUS.CONFIRMING && (
           <p>A verification message has been sent to your phone. Please check your messages.</p>
         )}
+        {status === PHONE_VERIFICATION_STATUS.CONFIRMING && (
+          <p>Your phone number has been verified</p>
+        )}
       </DialogContent>
     </Dialog>
   );

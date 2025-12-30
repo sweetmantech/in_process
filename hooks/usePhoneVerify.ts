@@ -34,8 +34,9 @@ export const usePhoneVerify = () => {
     if (profile) {
       if (profile.phoneVerified) {
         setStatus(PHONE_VERIFICATION_STATUS.VERIFIED);
-        setIsDialogOpen(false);
-        toast.success("Your phone number has been verified");
+        setTimeout(() => {
+          setIsDialogOpen(false);
+        }, 1000);
       }
     }
   }, [profile]);
