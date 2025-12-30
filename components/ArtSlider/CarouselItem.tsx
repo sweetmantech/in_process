@@ -39,11 +39,10 @@ const CarouselItem = ({ metadata }: CarouselItemProps) => {
   }
 
   if (mimeType.includes("html")) {
-    const iframeUrl = metadata.animation_url;
     if (!animationUrl) return <ErrorContent />;
 
     // Only allow IPFS/Arweave URLs in iframes to prevent phishing and malicious content
-    if (!isSafeIframeUrl(iframeUrl)) {
+    if (!isSafeIframeUrl(metadata.animation_url)) {
       return (
         <div className="flex size-full items-center justify-center p-4 text-center">
           <p className="text-grey-moss-400">
@@ -59,7 +58,7 @@ const CarouselItem = ({ metadata }: CarouselItemProps) => {
           src={animationUrl}
           className="w-full"
           title={metadata?.name || "Embedded content"}
-          sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox"
+          sandbox="allow-same-origin"
           referrerPolicy="no-referrer"
           loading="lazy"
         />
