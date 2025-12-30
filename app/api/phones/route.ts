@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server";
 import { authMiddleware } from "@/middleware/authMiddleware";
 import { upsertPhone } from "@/lib/supabase/in_process_artist_phones/upsertPhone";
+import { deletePhone } from "@/lib/supabase/in_process_artist_phones/deletePhone";
 import { sendSmsVerification } from "@/lib/phones/sendSmsVerification";
 import { selectArtist } from "@/lib/supabase/in_process_artists/selectArtist";
 import getCorsHeader from "@/lib/getCorsHeader";
@@ -56,6 +57,34 @@ export async function POST(req: NextRequest) {
   } catch (e: any) {
     console.log(e);
     const message = e?.message ?? "Failed to register phone number";
+    return Response.json({ message }, { status: 500, headers: corsHeaders });
+  }
+}
+
+export async function DELETE(req: NextRequest) {
+  try {
+    const authResult = await authMiddleware(req, { corsHeaders });
+    if (authResult instanceof Response) {
+      return authResult;
+    }
+    const { artistAddress } = authResult;
+
+    const { error: deleteError } = await deletePhone(artistAddress.toLowerCase());
+
+    if (deleteError) {
+      throw new Error(`Failed to disconnect phone number: ${deleteError.message}`);
+    }
+
+    return Response.json(
+      {
+        success: true,
+        message: "Phone number is disconnected successfully",
+      },
+      { headers: corsHeaders }
+    );
+  } catch (e: any) {
+    console.log(e);
+    const message = e?.message ?? "Failed to disconnect phone number";
     return Response.json({ message }, { status: 500, headers: corsHeaders });
   }
 }
