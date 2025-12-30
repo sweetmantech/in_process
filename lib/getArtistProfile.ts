@@ -19,6 +19,7 @@ const getArtistProfile = async (address: string) => {
       return {
         ...profile,
         username: profile.username || ensName,
+        phone: profile.phone ? profile.phone[0] : undefined,
       };
 
     return {
