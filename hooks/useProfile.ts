@@ -55,9 +55,12 @@ const useProfile = (artistAddress?: Address) => {
 
   useEffect(() => {
     if (data?.phone) {
-      setPhoneNumber(data.phone.phone_number || "");
+      setPhoneNumber(data.phone.phone_number);
       setPhoneVerified(data.phone.verified);
+      return;
     }
+    setPhoneNumber("");
+    setPhoneVerified(false);
   }, [data?.phone]);
 
   return {
