@@ -23,7 +23,7 @@ const Feed = ({ feed, index, spacerWidth, handleMouseLeave, handleMouseMove }: F
         onMouseMove={(e) => handleMouseMove(e, feed)}
         onMouseLeave={handleMouseLeave}
         onClick={handleMomentClick}
-        dominant-baseline="middle"
+        dominantBaseline="middle"
       >
         <tspan fill="#1B1504" fontSize={isMobile ? 3 : 6} textAnchor="middle">
           ⬤

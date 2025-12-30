@@ -34,9 +34,9 @@ const DesktopProfile = () => {
               className="max-w-[120px] bg-grey-moss-50 p-1 font-archivo-medium text-xl outline-none ring-0 md:!max-w-[200px] md:p-3 md:text-4xl"
             />
           ) : (
-            <p className="font-archivo-medium text-xl tracking-[-1px] md:text-5xl">
+            <div className="font-archivo-medium text-xl tracking-[-1px] md:text-5xl">
               {isLoading ? <Skeleton className="h-12 w-[150px]" /> : username}
-            </p>
+            </div>
           )}
           {isEditable && !isEditing && (
             <button
@@ -57,9 +57,9 @@ const DesktopProfile = () => {
             className="md:max-w-auto mt-2 max-w-[150px] bg-grey-moss-50 p-1 font-spectral text-lg outline-none ring-0 md:mt-4 md:min-w-[250px] md:p-2 md:text-xl"
           />
         ) : (
-          <p className="pt-2 font-spectral text-lg md:text-xl">
+          <div className="pt-2 font-spectral text-lg md:text-xl">
             {isLoading ? <Skeleton className="h-8 w-[200px]" /> : bio}
-          </p>
+          </div>
         )}
         <SocialAccounts />
       </div>

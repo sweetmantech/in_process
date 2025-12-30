@@ -46,7 +46,7 @@ const nextConfig = {
             key: "Content-Security-Policy",
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://*.privy.io https://*.vercel-insights.com https://*.vercel-analytics.com https://*.walletconnect.com https://*.walletconnect.org",
+              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://*.privy.io https://*.vercel-insights.com https://*.vercel-analytics.com https://*.vercel-scripts.com https://*.walletconnect.com https://*.walletconnect.org",
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
               "img-src 'self' data: https: blob:",
               "font-src 'self' data: https://fonts.gstatic.com",
