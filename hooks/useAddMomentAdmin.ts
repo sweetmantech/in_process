@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { useMomentProvider } from "@/providers/MomentProvider";
 import { toast } from "sonner";
 import { usePrivy } from "@privy-io/react-auth";
@@ -11,22 +11,6 @@ const useAddMomentAdmin = () => {
   const [newAdminAddress, setNewAdminAddress] = useState("");
   const [isAdding, setIsAdding] = useState(false);
   const { getAccessToken } = usePrivy();
-  const prevAdminsLengthRef = useRef<number>(momentAdmins?.length ?? 0);
-
-  useEffect(() => {
-    const currentLength = momentAdmins?.length ?? 0;
-    const prevLength = prevAdminsLengthRef.current;
-
-    if (currentLength > prevLength && prevLength !== 0) {
-      toast.success(
-        "Admin added successfully."
-      );
-      setIsAdding(false);
-      setNewAdminAddress("");
-    }
-
-    prevAdminsLengthRef.current = currentLength;
-  }, [momentAdmins?.length]);
 
   const handleAddAdmin = async () => {
     try {
@@ -77,10 +61,12 @@ const useAddMomentAdmin = () => {
         adminAddress: normalizedAddress,
         accessToken,
       });
-
     } catch (error: any) {
       console.error("Error adding admin:", error);
       toast.error(error?.message || "Failed to add admin");
+    } finally {
+      setIsAdding(false);
+      setNewAdminAddress("");
     }
   };
 

@@ -4,9 +4,11 @@ import { useMomentProvider } from "@/providers/MomentProvider";
 import AddAdmin from "./AddAdmin";
 import MomentAdmin from "./MomentAdmin";
 import { Address } from "viem";
+import useAdminsListener from "@/hooks/useAdminsListener";
 
 const Admins = () => {
   const { momentAdmins } = useMomentProvider();
+  useAdminsListener();
 
   return (
     <div className="w-full font-archivo">
