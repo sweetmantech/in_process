@@ -1,9 +1,11 @@
 import { useUserProvider } from "@/providers/UserProvider";
 import CopyButton from "../CopyButton";
+import useDisconnectPhone from "@/hooks/useDisconnectPhone";
 
 const DisconnectPhone = () => {
   const { profile } = useUserProvider();
   const { phoneNumber } = profile;
+  const { handleDisconnect, isDisconnecting } = useDisconnectPhone();
 
   return (
     <div className="flex w-full md:w-fit flex-col items-end gap-2 md:flex-row md:justify-end">
@@ -11,8 +13,10 @@ const DisconnectPhone = () => {
       <button
         type="button"
         className="flex w-full items-center justify-center gap-2 rounded-md bg-grey-moss-900 py-2 font-archivo text-grey-eggshell hover:bg-grey-eggshell hover:text-grey-moss-900 md:w-fit md:min-w-[150px]"
+        onClick={handleDisconnect}
+        disabled={isDisconnecting}
       >
-        disconnect phone
+        {isDisconnecting ? "disconnecting..." : "disconnect phone"}
       </button>
     </div>
   );
