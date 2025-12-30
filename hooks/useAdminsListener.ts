@@ -15,7 +15,7 @@ const useAdminsListener = () => {
       toast.success("Admin added successfully.");
     }
 
-    if (currentLength < prevLength && prevLength !== 0) {
+    if (currentLength < prevLength && prevLength > 1) {
       toast.success("Admin removed successfully.");
     }
 
