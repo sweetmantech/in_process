@@ -4,7 +4,7 @@ import { CHAIN_ID, IS_TESTNET, USDC_ADDRESS } from "@/lib/consts";
 import { sendUserOperation } from "@/lib/coinbase/sendUserOperation";
 import { getOrCreateSmartWallet } from "../coinbase/getOrCreateSmartWallet";
 import { collectSchema } from "../schema/collectSchema";
-import { distributeCall } from "../splits/distributeCall";
+import { getSplitCall } from "../splits/getSplitCall";
 import isSplitContract from "../splits/isSplitContract";
 import { MomentType } from "@/types/moment";
 import getCollectCall from "../viem/getCollectCall";
@@ -58,7 +58,7 @@ export async function collectMoment({
   if (saleConfig.fundsRecipient) {
     const isSplit = await isSplitContract(saleConfig.fundsRecipient as Address, CHAIN_ID);
     if (isSplit) {
-      const splitCall = await distributeCall({
+      const splitCall = await getSplitCall({
         splitAddress: saleConfig.fundsRecipient,
         tokenAddress: saleConfig.type === MomentType.Erc20Mint ? USDC_ADDRESS : zeroAddress, // zeroAddress for native ETH
         smartAccount,

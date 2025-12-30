@@ -1,4 +1,4 @@
-import { Address, Hash } from "viem";
+import { Address } from "viem";
 import { CHAIN_ID, USDC_ADDRESS } from "@/lib/consts";
 import { getSplitsClient } from "./getSplitsClient";
 import { getPublicClient } from "@/lib/viem/publicClient";
@@ -10,7 +10,7 @@ import { Call } from "@coinbase/coinbase-sdk/dist/types/calls";
  * Uses 0xSplits SDK to generate the distribution call data.
  * Returns a Call object that can be executed via smart wallet.
  */
-export async function distributeCall({
+export async function getSplitCall({
   splitAddress,
   tokenAddress = USDC_ADDRESS,
   smartAccount,
