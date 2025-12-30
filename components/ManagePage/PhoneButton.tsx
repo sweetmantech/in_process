@@ -6,11 +6,14 @@ import { usePhoneVerificationProvider } from "@/providers/PhoneVerificationProvi
 import { PHONE_VERIFICATION_STATUS } from "@/types/phone";
 import PhoneNumberInput from "./PhoneNumberInput";
 import DisconnectPhone from "./DisconnectPhone";
+import { useUserProvider } from "@/providers/UserProvider";
 
 const PhoneButton = () => {
   const { status, setIsDialogOpen, isDialogOpen } = usePhoneVerificationProvider();
+  const { profile } = useUserProvider();
+  const { phoneVerified } = profile;
 
-  if (status === PHONE_VERIFICATION_STATUS.VERIFIED) {
+  if (phoneVerified) {
     return <DisconnectPhone />;
   }
 
@@ -31,6 +34,9 @@ const PhoneButton = () => {
         {status === PHONE_VERIFICATION_STATUS.READY_TO_VERIFY && <PhoneNumberInput />}
         {status === PHONE_VERIFICATION_STATUS.CONFIRMING && (
           <p>A verification message has been sent to your phone. Please check your messages.</p>
+        )}
+        {status === PHONE_VERIFICATION_STATUS.VERIFIED && (
+          <p>Your phone number has been verified</p>
         )}
       </DialogContent>
     </Dialog>
