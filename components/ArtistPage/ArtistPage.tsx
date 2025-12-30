@@ -8,7 +8,7 @@ import DesktopProfile from "./DesktopProfile";
 import { useParams } from "next/navigation";
 import MomentsTimeline from "../Timeline/MomentsTimeline";
 import { TimelineProvider } from "@/providers/TimelineProvider";
-import ProfileProvider from "@/providers/ProfileProvider";
+import ProfileFormProvider from "@/providers/ProfileFormProvider";
 import { Address } from "viem";
 
 const ArtistPage = () => {
@@ -18,7 +18,7 @@ const ArtistPage = () => {
   const address = artistAddress?.toString().toLowerCase() || "";
 
   return (
-    <ProfileProvider address={artistAddress as Address}>
+    <ProfileFormProvider address={artistAddress as Address}>
       <div className="relative grow flex w-screen flex-col overflow-hidden pb-20 pt-6 md:pt-10">
         <div className="relative flex items-start justify-between px-2 pb-2 md:px-10">
           {isMobile ? <MobileProfile /> : <DesktopProfile />}
@@ -32,7 +32,7 @@ const ArtistPage = () => {
           </TimelineProvider>
         </div>
       </div>
-    </ProfileProvider>
+    </ProfileFormProvider>
   );
 };
 

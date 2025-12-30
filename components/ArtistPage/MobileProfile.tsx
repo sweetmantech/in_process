@@ -1,5 +1,5 @@
 import { EditIcon } from "../ui/icons";
-import { useProfileProvider } from "@/providers/ProfileProvider";
+import { useProfileFormProvider } from "@/providers/ProfileFormProvider";
 import SocialAccounts from "./SocialAccounts";
 import { Skeleton } from "../ui/skeleton";
 import EditingStatus from "./EditingStatus";
@@ -16,7 +16,7 @@ const MobileProfile = () => {
     setBio,
     usernameRef,
     bioRef,
-  } = useProfileProvider();
+  } = useProfileFormProvider();
   const { isEditable } = useArtistEditable();
 
   if (isEditing)

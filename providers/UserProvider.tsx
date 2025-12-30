@@ -1,19 +1,10 @@
-import useProfile from "@/hooks/useProfile";
 import useArtistWallet from "@/hooks/useArtistWallet";
 import useUser from "@/hooks/useUser";
 import { createContext, useMemo, useContext } from "react";
 import { Address } from "viem";
 
-const UserContext = createContext<
-  ReturnType<typeof useUser> &
-    ReturnType<typeof useArtistWallet> & {
-      profile: ReturnType<typeof useProfile>;
-    }
->(
-  {} as ReturnType<typeof useUser> &
-    ReturnType<typeof useArtistWallet> & {
-      profile: ReturnType<typeof useProfile>;
-    }
+const UserContext = createContext<ReturnType<typeof useUser> & ReturnType<typeof useArtistWallet>>(
+  {} as ReturnType<typeof useUser> & ReturnType<typeof useArtistWallet>
 );
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
@@ -22,17 +13,13 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     connectedAddress: (user.connectedAddress as Address | undefined) ?? undefined,
     isSocialWallet: user.isSocialWallet,
   });
-  const profile = useProfile(
-    artistwallet.artistWallet || (user.connectedAddress as Address | undefined)
-  );
 
   const value = useMemo(
     () => ({
       ...user,
       ...artistwallet,
-      profile,
     }),
-    [user, artistwallet, profile]
+    [user, artistwallet]
   );
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

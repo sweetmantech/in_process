@@ -3,14 +3,15 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { updateProfile } from "@/hooks/useProfile";
 import { useUserProvider } from "@/providers/UserProvider";
 import { useState } from "react";
 import ConnectButton from "./ConnectButton";
 import { extractSocialUsername } from "@/lib/socials/extractSocialUsername";
+import { useProfileFormProvider } from "@/providers/ProfileFormProvider";
+import { updateProfile } from "@/lib/artists/updateProfile";
 
 const AccountPage = () => {
-  const { profile, artistWallet } = useUserProvider();
+  const { artistWallet } = useUserProvider();
   const {
     twitter,
     instagram,
@@ -23,11 +24,11 @@ const AccountPage = () => {
     setInstagram,
     setFarcaster,
     setUserName,
-  } = profile;
+  } = useProfileFormProvider();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const onSave = async () => {
     setIsLoading(true);
-
     await updateProfile({
       address: artistWallet as string,
       username,

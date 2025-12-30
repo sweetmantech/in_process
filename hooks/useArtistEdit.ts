@@ -1,14 +1,14 @@
 import { useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Address } from "viem";
-import useProfile, { updateProfile } from "./useProfile";
 import useArtistEditable from "./useArtistEditable";
+import { updateProfile } from "@/lib/artists/updateProfile";
+import useProfileForm from "./useProfileForm";
 
-const useArtistEdit = (
-  artistProfile: ReturnType<typeof useProfile>,
-  artistAddress: Address | undefined
-) => {
-  const { setSaving, username, bio, instagram, telegram, twitter, farcaster } = artistProfile;
+const useArtistEdit = (artistAddress: Address | undefined) => {
+  const [isUpdating, setIsUpdating] = useState<boolean>(false);
+  const profileForm = useProfileForm(artistAddress);
+  const { username, bio, twitter, instagram, farcaster, telegram } = profileForm;
   const usernameRef = useRef(null) as any;
   const bioRef = useRef(null) as any;
   const statusRef = useRef(null) as any;
@@ -39,7 +39,7 @@ const useArtistEdit = (
         socialRef.current.contains(e.target)
       )
         return;
-      setSaving(true);
+      setIsUpdating(true);
       await updateProfile({
         address: artistAddress as Address,
         username,
@@ -51,7 +51,7 @@ const useArtistEdit = (
       });
       setTimeout(() => {
         toggleEditing();
-        setSaving(false);
+        setIsUpdating(false);
       }, 500);
     };
 
@@ -68,6 +68,8 @@ const useArtistEdit = (
     isEditable,
     isEditing,
     toggleEditing,
+    isUpdating,
+    ...profileForm,
   };
 };
 

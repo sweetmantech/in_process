@@ -1,7 +1,7 @@
-import { useProfileProvider } from "@/providers/ProfileProvider";
+import { useProfileFormProvider } from "@/providers/ProfileFormProvider";
 
 const EditingStatus = () => {
-  const { saving, statusRef } = useProfileProvider();
+  const { saving, statusRef } = useProfileFormProvider();
 
   return (
     <div

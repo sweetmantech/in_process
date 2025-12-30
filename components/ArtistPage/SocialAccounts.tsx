@@ -1,4 +1,4 @@
-import { useProfileProvider } from "@/providers/ProfileProvider";
+import { useProfileFormProvider } from "@/providers/ProfileFormProvider";
 import { TwitterIcon, TwitterXsIcon } from "../ui/icons";
 import { Send, InstagramIcon } from "lucide-react";
 import Social from "./Social";
@@ -15,7 +15,7 @@ const SocialAccounts = () => {
     setTwitter,
     setInstagram,
     setTelegram,
-  } = useProfileProvider();
+  } = useProfileFormProvider();
 
   const isMobile = useIsMobile();
 
