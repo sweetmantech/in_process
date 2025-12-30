@@ -13,10 +13,10 @@ import { sendUserOperation } from "@/lib/coinbase/sendUserOperation";
 import { zoraCreator1155FactoryImplABI } from "@zoralabs/protocol-deployments";
 import { getOrCreateSmartWallet } from "../coinbase/getOrCreateSmartWallet";
 import { getFactoryAddress } from "@/lib/protocolSdk/create/factory-addresses";
-import { getAdminPermissionSetupActions } from "@/lib/zora/getAdminPermissionSetupActions";
 import { makeContractParameters } from "@/lib/protocolSdk/utils";
 import { processSplits } from "@/lib/splits/processSplits";
 import { resolveSplitAddresses } from "@/lib/splits/resolveSplitAddresses";
+import { addPermissionCall } from "../zora/addPermissionCall";
 
 export type CreateCollectionInput = z.infer<typeof createCollectionSchema>;
 
@@ -48,9 +48,6 @@ export async function createCollection(
     }
   }
 
-  // Generate admin permission setup actions
-  const additionalSetupActions = getAdminPermissionSetupActions([smartAccount.address], BigInt(0));
-
   const parameters = makeContractParameters({
     abi: zoraCreator1155FactoryImplABI,
     functionName: "createContract",
@@ -65,7 +62,7 @@ export async function createCollection(
         royaltyRecipient,
       },
       accountAddress,
-      additionalSetupActions,
+      [addPermissionCall(smartAccount.address, BigInt(0))],
     ],
   });
 
