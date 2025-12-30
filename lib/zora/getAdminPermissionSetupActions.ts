@@ -1,6 +1,5 @@
-import { Address, encodeFunctionData, Hex } from "viem";
-import { PERMISSION_BIT_ADMIN } from "@/lib/consts";
-import { zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
+import { Address, Hex } from "viem";
+import { addPermissionCall } from "./addPermissionCall";
 
 /**
  * Generates admin permission setup actions for In Process moment creation.
@@ -12,11 +11,5 @@ export function getAdminPermissionSetupActions(
   adminAddresses: Address[],
   tokenId: bigint = BigInt(0)
 ): Hex[] {
-  return adminAddresses.map((address) =>
-    encodeFunctionData({
-      abi: zoraCreator1155ImplABI,
-      functionName: "addPermission",
-      args: [tokenId, address, BigInt(PERMISSION_BIT_ADMIN)],
-    })
-  );
+  return adminAddresses.map((address) => addPermissionCall(address, tokenId));
 }

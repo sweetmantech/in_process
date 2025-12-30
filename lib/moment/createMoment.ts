@@ -5,6 +5,7 @@ import {
   parseEventLogs,
   ParseEventLogsReturnType,
   getAddress,
+  Hex,
 } from "viem";
 import { z } from "zod";
 import { CHAIN_ID, IS_TESTNET } from "@/lib/consts";
@@ -15,7 +16,7 @@ import { zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
 import { getOrCreateSmartWallet } from "../coinbase/getOrCreateSmartWallet";
 import { processSplits } from "@/lib/splits/processSplits";
 import { resolveSplitAddresses } from "@/lib/splits/resolveSplitAddresses";
-import { getAdminPermissionSetupActions } from "@/lib/zora/getAdminPermissionSetupActions";
+import { addPermissionCall } from "@/lib/zora/addPermissionCall";
 import { getSplitAdminAddresses } from "@/lib/splits/getSplitAdminAddresses";
 import { getFactoryAddress } from "@/lib/protocolSdk/create/factory-addresses";
 
@@ -57,21 +58,41 @@ export async function createMoment(
     ...(payoutRecipient && { payoutRecipient }),
   };
 
-  // Get split addresses for admin permissions
-  const { addresses: splitAddresses, smartWallets: splitSmartWallets } =
-    await getSplitAdminAddresses(resolvedSplits);
+  // Get split addresses for admin permissions (when splits exist or creating new contract)
+  let additionalSetupActions: ((args: { tokenId: bigint }) => Hex[]) | undefined;
 
-  // Generate admin permission setup actions callback
-  // The callback will receive the tokenId from the Zora SDK
-  const adminAddresses = [smartAccount.address, ...splitAddresses, ...splitSmartWallets];
-  const additionalSetupActions = (args: { tokenId: bigint }) =>
-    getAdminPermissionSetupActions(adminAddresses, args.tokenId);
+  if ((resolvedSplits && resolvedSplits.length > 0) || !input.contract.address) {
+    const otherAddresses: Address[] = [];
+
+    if (resolvedSplits && resolvedSplits.length > 0) {
+      const { addresses: splitAddresses, smartWallets: splitSmartWallets } =
+        await getSplitAdminAddresses(resolvedSplits);
+      otherAddresses.push(...splitAddresses, ...splitSmartWallets);
+    }
+
+    // Generate admin permission setup actions callback
+    // smartAccount.address gets permission at tokenId = 0 (collection level)
+    // Other addresses get permission at the specific tokenId level
+    additionalSetupActions = (args: { tokenId: bigint }) => {
+      const actions: Hex[] = [];
+
+      // Add smartAccount permission at tokenId = 0 (collection level)
+      actions.push(addPermissionCall(smartAccount.address, BigInt(0)));
+
+      // Add other addresses permissions at specific tokenId level
+      for (const address of otherAddresses) {
+        actions.push(addPermissionCall(address, args.tokenId));
+      }
+
+      return actions;
+    };
+  }
 
   // Use the protocol SDK to generate calldata
   const { parameters } = await create1155({
     ...input,
     token: tokenWithPayout,
-    additionalSetupActions,
+    ...(additionalSetupActions && { additionalSetupActions }),
   });
 
   // Check if the target address is the factory (new contract) or an existing contract
