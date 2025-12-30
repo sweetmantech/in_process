@@ -6,10 +6,19 @@ import truncateAddress from "@/lib/truncateAddress";
 import { Address } from "viem";
 import useRemoveMomentAdmin from "@/hooks/useRemoveMomentAdmin";
 import { useArtistProfile } from "@/hooks/useArtistProfile";
+import { useSmartWalletProvider } from "@/providers/SmartWalletProvider";
+import { useUserProvider } from "@/providers/UserProvider";
 
 const MomentAdmin = ({ address }: { address: Address }) => {
   const { handleRemoveAdmin, isRemoving } = useRemoveMomentAdmin();
   const { data: artistProfile } = useArtistProfile(address);
+  const { smartWallet } = useSmartWalletProvider();
+  const { artistWallet } = useUserProvider();
+
+  const isRemovable =
+    address.toLowerCase() !== artistWallet?.toLowerCase() &&
+    address.toLowerCase() !== smartWallet.toLowerCase();
+
   return (
     <div className="flex items-center justify-between rounded-lg border border-grey-secondary bg-grey-eggshell p-3">
       {artistProfile ? (
@@ -24,7 +33,7 @@ const MomentAdmin = ({ address }: { address: Address }) => {
         variant="outline"
         size="sm"
         onClick={() => handleRemoveAdmin(address)}
-        disabled={isRemoving}
+        disabled={isRemoving || !isRemovable}
         className="border-red-300 text-red-600 hover:bg-red-50"
       >
         <Trash2 className="h-4 w-4" />

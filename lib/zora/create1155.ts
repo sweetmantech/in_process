@@ -6,7 +6,7 @@ import { z } from "zod";
 import { createMomentSchema } from "@/lib/schema/createMomentSchema";
 
 export type CreateMomentContractInput = z.infer<typeof createMomentSchema> & {
-  additionalSetupActions?: Hex[];
+  additionalSetupActions?: Hex[] | ((args: { tokenId: bigint }) => Hex[]);
 };
 
 export async function create1155(input: CreateMomentContractInput) {
@@ -34,7 +34,9 @@ export async function create1155(input: CreateMomentContractInput) {
     token: tokenParams,
     account: input.account as Address,
     getAdditionalSetupActions: input.additionalSetupActions
-      ? () => input.additionalSetupActions!
+      ? typeof input.additionalSetupActions === "function"
+        ? input.additionalSetupActions
+        : () => input.additionalSetupActions as Hex[]
       : undefined,
   };
 

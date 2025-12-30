@@ -8,6 +8,8 @@ import { Address } from "viem";
 const Admins = () => {
   const { momentAdmins } = useMomentProvider();
 
+  if (!momentAdmins) return <div>Loading...</div>;
+
   return (
     <div className="w-full font-archivo">
       <div className="mt-4 flex w-full max-w-md flex-col gap-4 rounded-2xl bg-white p-4 pt-4">
