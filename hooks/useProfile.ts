@@ -50,9 +50,9 @@ const useProfile = (artistAddress?: Address) => {
       setTelegram(data.telegram_username || "");
       setInstagram(data.instagram_username || "");
       setFarcaster(data.farcaster_username || "");
-      if (data?.phone && data?.phone?.verified) {
-        setPhoneNumber(data.phone.phone_number || "");
-        setPhoneVerified(data.phone.verified);
+      if (data.phone[0]?.verified) {
+        setPhoneNumber(data.phone[0].phone_number || "");
+        setPhoneVerified(data.phone[0].verified);
       }
     }
   }, [data, artistAddress]);
