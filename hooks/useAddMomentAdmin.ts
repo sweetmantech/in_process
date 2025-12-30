@@ -61,6 +61,7 @@ const useAddMomentAdmin = () => {
         adminAddress: normalizedAddress,
         accessToken,
       });
+      toast.success("Admin added successfully.");
     } catch (error: any) {
       console.error("Error adding admin:", error);
       toast.error(error?.message || "Failed to add admin");
