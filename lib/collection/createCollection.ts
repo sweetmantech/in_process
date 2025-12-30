@@ -54,11 +54,11 @@ export async function createCollection(
     await getSplitAdminAddresses(resolvedSplits);
 
   // Generate admin permission setup actions
-  const additionalSetupActions = getAdminPermissionSetupActions([
-    smartAccount.address,
-    ...splitAddresses,
-    ...splitSmartWallets,
-  ]);
+  // Using tokenId 0 for collection-level permissions (no token created yet)
+  const additionalSetupActions = getAdminPermissionSetupActions(
+    [smartAccount.address, ...splitAddresses, ...splitSmartWallets],
+    BigInt(0)
+  );
 
   const parameters = makeContractParameters({
     abi: zoraCreator1155FactoryImplABI,

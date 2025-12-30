@@ -61,13 +61,11 @@ export async function createMoment(
   const { addresses: splitAddresses, smartWallets: splitSmartWallets } =
     await getSplitAdminAddresses(resolvedSplits);
 
-  // Generate admin permission setup actions
-  // (Note: create1155 also uses this internally via callback)
-  const additionalSetupActions = getAdminPermissionSetupActions([
-    smartAccount.address,
-    ...splitAddresses,
-    ...splitSmartWallets,
-  ]);
+  // Generate admin permission setup actions callback
+  // The callback will receive the tokenId from the Zora SDK
+  const adminAddresses = [smartAccount.address, ...splitAddresses, ...splitSmartWallets];
+  const additionalSetupActions = (args: { tokenId: bigint }) =>
+    getAdminPermissionSetupActions(adminAddresses, args.tokenId);
 
   // Use the protocol SDK to generate calldata
   const { parameters } = await create1155({
@@ -75,10 +73,6 @@ export async function createMoment(
     token: tokenWithPayout,
     additionalSetupActions,
   });
-
-  // Determine if creating new contract or adding to existing contract
-  // Check if contract.address is provided (existing collection) or contract.name/uri (new collection)
-  const isNewContract = !input.contract.address;
 
   // Check if the target address is the factory (new contract) or an existing contract
   const factoryAddress = getFactoryAddress(CHAIN_ID);
