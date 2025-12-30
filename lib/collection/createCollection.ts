@@ -17,7 +17,6 @@ import { getAdminPermissionSetupActions } from "@/lib/zora/getAdminPermissionSet
 import { makeContractParameters } from "@/lib/protocolSdk/utils";
 import { processSplits } from "@/lib/splits/processSplits";
 import { resolveSplitAddresses } from "@/lib/splits/resolveSplitAddresses";
-import { getSplitAdminAddresses } from "@/lib/splits/getSplitAdminAddresses";
 
 export type CreateCollectionInput = z.infer<typeof createCollectionSchema>;
 
@@ -49,16 +48,8 @@ export async function createCollection(
     }
   }
 
-  // Get split addresses for admin permissions
-  const { addresses: splitAddresses, smartWallets: splitSmartWallets } =
-    await getSplitAdminAddresses(resolvedSplits);
-
   // Generate admin permission setup actions
-  // Using tokenId 0 for collection-level permissions (no token created yet)
-  const additionalSetupActions = getAdminPermissionSetupActions(
-    [smartAccount.address, ...splitAddresses, ...splitSmartWallets],
-    BigInt(0)
-  );
+  const additionalSetupActions = getAdminPermissionSetupActions([smartAccount.address], BigInt(0));
 
   const parameters = makeContractParameters({
     abi: zoraCreator1155FactoryImplABI,
