@@ -29,9 +29,7 @@ const useRemoveMomentAdmin = () => {
         accessToken,
       });
 
-      toast.success(
-        "Admin removed successfully. It will disappear from the list after the transaction is confirmed."
-      );
+      toast.success("Admin removed successfully");
     } catch (error: any) {
       console.error("Error removing admin:", error);
       toast.error(error?.message || "Failed to remove admin");

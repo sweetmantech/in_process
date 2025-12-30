@@ -7,7 +7,7 @@ import { addMomentAdmin } from "@/lib/moment/addMomentAdmin";
 import resolveEnsToAddress from "@/lib/ens/resolveEnsToAddress";
 
 const useAddMomentAdmin = () => {
-  const { momentAdmins, moment, fetchMomentData } = useMomentProvider();
+  const { momentAdmins, moment } = useMomentProvider();
   const [newAdminAddress, setNewAdminAddress] = useState("");
   const [isAdding, setIsAdding] = useState(false);
   const { getAccessToken } = usePrivy();
@@ -61,19 +61,13 @@ const useAddMomentAdmin = () => {
         adminAddress: normalizedAddress,
         accessToken,
       });
-
-      // Refresh moment data to get updated admins list
-      await fetchMomentData();
-
-      toast.success(
-        "Admin added successfully. It will appear in the list after the transaction is confirmed."
-      );
-      setNewAdminAddress("");
+      toast.success("Admin added successfully.");
     } catch (error: any) {
       console.error("Error adding admin:", error);
       toast.error(error?.message || "Failed to add admin");
     } finally {
       setIsAdding(false);
+      setNewAdminAddress("");
     }
   };
 
