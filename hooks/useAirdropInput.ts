@@ -14,8 +14,11 @@ const useAirdropInput = () => {
         .map((item) => item.trim())
         .filter(Boolean);
 
-      for (const item of items) {
-        await onChangeAddress(item);
+      if (items.length > 0) {
+        // Add to airdropToItems immediately for UI feedback (with status "validating")
+        for (const item of items) {
+          onChangeAddress(item);
+        }
       }
       setValue("");
     }
@@ -35,14 +38,22 @@ const useAirdropInput = () => {
       .map((item) => item.trim())
       .filter(Boolean);
 
-    for (const item of items) {
-      await onChangeAddress(item);
+    if (items.length > 0) {
+      // Add to airdropToItems immediately for UI feedback (with status "validating")
+      // Resolution will happen on button click via onAirdrop
+      for (const item of items) {
+        onChangeAddress(item);
+      }
     }
     setValue("");
   };
 
   const handleBlur = async () => {
-    await onChangeAddress(value);
+    const trimmedValue = value.trim();
+    if (trimmedValue) {
+      // Add to airdropToItems immediately for UI feedback (with status "validating")
+      onChangeAddress(trimmedValue);
+    }
     setValue("");
   };
 

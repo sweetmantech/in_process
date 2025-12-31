@@ -10,14 +10,18 @@ const useArtistWallet = ({
   isSocialWallet: boolean;
 }) => {
   const [artistWallet, setArtistWallet] = useState<Address | undefined>(undefined);
+  const [isExternalWallet, setIsExternalWallet] = useState<boolean>(false);
+
   const fetchArtistWallet = useCallback(async () => {
     if (!connectedAddress) {
       setArtistWallet(undefined);
+      setIsExternalWallet(false);
       return;
     }
     const artistWallet = isSocialWallet
       ? await getArtistWallet(connectedAddress)
       : connectedAddress;
+    setIsExternalWallet(Boolean(artistWallet));
     setArtistWallet(artistWallet || connectedAddress);
   }, [connectedAddress, isSocialWallet]);
 
@@ -28,6 +32,7 @@ const useArtistWallet = ({
   return {
     artistWallet,
     fetchArtistWallet,
+    isExternalWallet,
   };
 };
 

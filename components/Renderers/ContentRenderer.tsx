@@ -1,16 +1,16 @@
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import { isSafeIframeUrl } from "@/lib/protocolSdk/ipfs/isSafeIframeUrl";
 import { usePathname } from "next/navigation";
-import { MomentMetadata } from "@/types/moment";
 import PdfViewer from "./PdfViewer";
 import VideoPlayer from "./VideoPlayer";
 import AudioPlayer from "./AudioPlayer";
 import useIsMobile from "@/hooks/useIsMobile";
 import Writing from "./Writing";
 import ErrorContent from "./ErrorContent";
+import { TokenMetadataJson } from "@/lib/protocolSdk";
 
 interface ContentRendererProps {
-  metadata: MomentMetadata;
+  metadata: TokenMetadataJson;
 }
 
 const ContentRenderer = ({ metadata }: ContentRendererProps) => {
@@ -77,7 +77,7 @@ const ContentRenderer = ({ metadata }: ContentRendererProps) => {
 
   if (mimeType.includes("text/plain")) {
     if (!contentUri) return <ErrorContent />;
-    return <Writing fileUrl={contentUri} description={metadata.description} />;
+    return <Writing fileUrl={contentUri} description={metadata?.description || ""} />;
   }
 
   return (

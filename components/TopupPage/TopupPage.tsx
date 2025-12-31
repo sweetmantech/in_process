@@ -1,27 +1,22 @@
 "use client";
 
-import { Balance } from "./Balance";
-import { EthBalance } from "./EthBalance";
-import { Wallet } from "./Wallet";
 import { Deposit } from "./Deposit";
 import { useUserProvider } from "@/providers/UserProvider";
 import SignToInProcess from "../ManagePage/SignToInProcess";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment } from "react";
+import { UsdcBalance } from "../Balances/UsdcBalance";
+import { EthBalance } from "../Balances/EthBalance";
+import { Address } from "viem";
+import { Wallet } from "../Balances/Wallet";
+import { useSmartWalletProvider } from "@/providers/SmartWalletProvider";
 import { usePrivy } from "@privy-io/react-auth";
 
 const TopupPage = () => {
   const { connectedAddress } = useUserProvider();
-  const [loaded, setLoaded] = useState<boolean>(false);
   const { ready } = usePrivy();
+  const { smartWallet, isLoading, balance: usdcBalance, ethBalance } = useSmartWalletProvider();
 
-  useEffect(() => {
-    if (ready)
-      setTimeout(() => {
-        setLoaded(true);
-      }, 1000);
-  }, [ready]);
-
-  if (!loaded) return <Fragment />;
+  if (!ready) return <Fragment />;
   if (!connectedAddress) return <SignToInProcess />;
 
   return (
@@ -36,10 +31,10 @@ const TopupPage = () => {
           </p>
         </div>
         <div className="grid gap-6 md:grid-cols-2">
-          <Wallet />
+          <Wallet address={smartWallet as Address} title="Smart Wallet" />
           <div className="space-y-6">
-            <Balance />
-            <EthBalance />
+            <UsdcBalance isLoading={isLoading} balance={usdcBalance} />
+            <EthBalance isLoading={isLoading} balance={ethBalance} />
           </div>
         </div>
         <Deposit />

@@ -1,4 +1,4 @@
-import { AirdropItem } from "@/hooks/useAirdrop";
+import { AirdropItem } from "@/types/airdrop";
 import { useAirdropProvider } from "@/providers/AirdropProvider";
 import { useMomentProvider } from "@/providers/MomentProvider";
 import { useUserProvider } from "@/providers/UserProvider";

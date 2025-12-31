@@ -36,7 +36,7 @@ export const USDC_ADDRESS = IS_TESTNET
 
 export const SITE_ORIGINAL_URL = IS_TESTNET
   ? "https://in-process-git-test-sweetmantechs-projects.vercel.app"
-  : "https://inprocess.fun";
+  : "https://inprocess.world";
 export const BLOCKLISTS = [
   "0x323e8bcb41ae2454c3f4899e094c599aab6b84bc",
   "0x51027631b9def86e088c33368ec4e3a4be0ad264",
@@ -44,6 +44,7 @@ export const BLOCKLISTS = [
   "0x1053db8955355d967BB0f3cabe7a71FD23ebfAB7",
 ];
 
+export const TELNYX_PHONE_NUMBER = "+18083530994";
 export const INDEXER_ID = "802bf29";
 export const TIMLINE_STEP_OFFSET = 12;
 export const Z_BEHIND_PRIVY = 999999;

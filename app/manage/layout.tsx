@@ -3,34 +3,26 @@
 import useConnectedWallet from "@/hooks/useConnectedWallet";
 import { useFrameProvider } from "@/providers/FrameProvider";
 import { useAccount } from "wagmi";
-import { usePrivy } from "@privy-io/react-auth";
-import { Fragment, ReactNode, useEffect, useState } from "react";
+import { Fragment, ReactNode } from "react";
 import { ArrowRight } from "@/components/ui/icons";
 import SignToInProcess from "@/components/ManagePage/SignToInProcess";
 import { useRouter } from "next/navigation";
 import { useUserProvider } from "@/providers/UserProvider";
 import { useHasMutualMoments } from "@/hooks/useHasMutualMoments";
 import MutualMomentsButton from "@/components/ManagePage/MutualMomentsButton";
+import { usePrivy } from "@privy-io/react-auth";
 
 const ManagePage = ({ children }: { children: ReactNode }) => {
   const { context } = useFrameProvider();
   const { connectedWallet } = useConnectedWallet();
   const { address } = useAccount();
   const { ready } = usePrivy();
-  const [loaded, setLoaded] = useState<boolean>(false);
   const signedWallet = context ? address : connectedWallet;
   const { push } = useRouter();
   const { artistWallet } = useUserProvider();
   const { hasMutualMoments } = useHasMutualMoments(artistWallet);
 
-  useEffect(() => {
-    if (ready)
-      setTimeout(() => {
-        setLoaded(true);
-      }, 1000);
-  }, [ready]);
-
-  if (!loaded) return <Fragment />;
+  if (!ready) return <Fragment />;
   if (!signedWallet) return <SignToInProcess />;
 
   return (

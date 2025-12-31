@@ -1,4 +1,4 @@
-import { APP_URL } from "@/lib/og/consts";
+import { SITE_ORIGINAL_URL } from "@/lib/consts";
 import { Metadata } from "next";
 import { TimelineProvider } from "@/providers/TimelineProvider";
 import TimelinePage from "@/components/Timeline/TimelinePage";
@@ -11,21 +11,21 @@ export const metadata: Metadata = {
   openGraph: {
     title: "In Process",
     description: "A Collective Onchain Timeline for artists",
-    images: [`${APP_URL}/site_preview.png`],
+    images: [`${SITE_ORIGINAL_URL}/site_preview.png`],
   },
   other: {
     "fc:frame": JSON.stringify({
       version: "next",
       name: process.env.NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME || "In Process",
-      imageUrl: `${APP_URL}/site_preview.png`,
+      imageUrl: `${SITE_ORIGINAL_URL}/site_preview.png`,
       aspectRatio: "1:1",
       button: {
         title: "Open",
         action: {
           type: "launch_frame",
           name: process.env.NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME || "In Process",
-          url: APP_URL,
-          splashImageUrl: `${APP_URL}/site_preview.png`,
+          url: SITE_ORIGINAL_URL,
+          splashImageUrl: `${SITE_ORIGINAL_URL}/site_preview.png`,
           splashBackgroundColor: "#e4e0db",
         },
       },

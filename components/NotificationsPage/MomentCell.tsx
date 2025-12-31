@@ -4,6 +4,7 @@ import Image from "next/image";
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { Database } from "@/lib/supabase/types";
+import { SITE_ORIGINAL_URL } from "@/lib/consts";
 
 interface MomentCellProps {
   moment: Database["public"]["Tables"]["in_process_moments"]["Row"] & {
@@ -13,7 +14,7 @@ interface MomentCellProps {
 }
 
 const MomentCell = ({ moment, className }: MomentCellProps) => {
-  const tokenUrl = `https://inprocess.fun/collect/base:${moment.collection.address}/${moment.token_id}`;
+  const tokenUrl = `${SITE_ORIGINAL_URL}/collect/base:${moment.collection.address}/${moment.token_id}`;
   const { data: metadata, isLoading } = useMetadata(moment.uri);
 
   return (
