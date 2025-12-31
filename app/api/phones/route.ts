@@ -2,7 +2,7 @@ import { NextRequest } from "next/server";
 import { authMiddleware } from "@/middleware/authMiddleware";
 import { upsertPhone } from "@/lib/supabase/in_process_artist_phones/upsertPhone";
 import { deletePhone } from "@/lib/supabase/in_process_artist_phones/deletePhone";
-import { sendSmsVerification } from "@/lib/phones/sendSmsVerification";
+import { sendVerificationSms } from "@/lib/phones/sendVerificationSms";
 import { selectArtist } from "@/lib/supabase/in_process_artists/selectArtist";
 import getCorsHeader from "@/lib/getCorsHeader";
 import truncateAddress from "@/lib/truncateAddress";
@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
     const artistName = artist?.username || truncateAddress(artistAddress);
 
     // Send SMS verification message
-    await sendSmsVerification(phone_number, artistName);
+    await sendVerificationSms(phone_number, artistName);
 
     return Response.json(
       {

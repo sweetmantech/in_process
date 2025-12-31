@@ -3,6 +3,7 @@ import client from "@/lib/telnyx/client";
 import getCorsHeader from "@/lib/getCorsHeader";
 import type { InboundMessageWebhookEvent } from "telnyx/resources/webhooks";
 import { updatePhoneVerified } from "@/lib/supabase/in_process_artist_phones/updatePhoneVerified";
+import { sendSms } from "@/lib/phones/sendSms";
 
 const corsHeaders = getCorsHeader();
 
@@ -36,6 +37,10 @@ export async function POST(req: NextRequest) {
           if (error) {
             console.error("Failed to update phone verification:", error);
           }
+          await sendSms(
+            fromPhoneNumber,
+            "Your phone number has been verified! You can now text photos and captions and we'll post them to In Process."
+          );
         }
       }
 
