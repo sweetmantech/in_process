@@ -1,6 +1,5 @@
 import { MessageSendResponse } from "telnyx/resources/messages/messages.mjs";
-import client from "../telnyx/client";
-import { TELNYX_MESSAGING_PROFILE_ID, TELNYX_PHONE_NUMBER } from "../consts";
+import { sendSms } from "./sendSms";
 
 /**
  * Sends SMS verification message to a phone number using Telnyx API.
@@ -18,20 +17,13 @@ import { TELNYX_MESSAGING_PROFILE_ID, TELNYX_PHONE_NUMBER } from "../consts";
  * @param artistName - The name of the artist to include in the message
  * @returns Promise that resolves when SMS is sent
  */
-export async function sendSmsVerification(
+export async function sendVerificationSms(
   phoneNumber: string,
   artistName: string
 ): Promise<MessageSendResponse> {
   try {
     const messageText = `Someone is trying to connect this phone number to the artist profile for ${artistName} on In Process. If this was you, please reply 'yes'. If this was not you, please ignore this message.`;
-
-    const response = await client.messages.send({
-      from: TELNYX_PHONE_NUMBER,
-      to: phoneNumber,
-      text: messageText,
-      messaging_profile_id: TELNYX_MESSAGING_PROFILE_ID,
-    });
-
+    const response = await sendSms(phoneNumber, messageText);
     return response;
   } catch (error) {
     console.error(error);
