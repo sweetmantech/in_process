@@ -39,11 +39,10 @@ const CarouselItem = ({ metadata }: CarouselItemProps) => {
   }
 
   if (mimeType.includes("html")) {
-    const iframeUrl = metadata.animation_url;
     if (!animationUrl) return <ErrorContent />;
 
     // Only allow IPFS/Arweave URLs in iframes to prevent phishing and malicious content
-    if (!isSafeIframeUrl(iframeUrl)) {
+    if (!isSafeIframeUrl(metadata.animation_url)) {
       return (
         <div className="flex size-full items-center justify-center p-4 text-center">
           <p className="text-grey-moss-400">

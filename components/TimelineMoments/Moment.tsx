@@ -47,13 +47,12 @@ const Moment: FC<MomentProps> = ({ moment, hovered, step, height, index }) => {
           onClick={handleMomentClick}
         >
           {hovered ? (
-            <tspan
-              fill="#4E4E4E"
-              font-size="8"
+            <span
+              style={{ color: "#4E4E4E", fontSize: "8px" }}
               className="absolute left-[4px] -translate-x-1/2 -translate-y-1/2"
             >
               ⬤
-            </tspan>
+            </span>
           ) : (
             <div className="absolute bottom-[0px] size-2 rounded-full border border-grey-moss-900 bg-grey-moss-100 md:bottom-[-2px]" />
           )}

@@ -31,9 +31,9 @@ const Breadcrumbs = ({ items }: BreadcrumbsProps) => {
               {item.isLoading ? <Skeleton className="h-4 w-12 rounded-sm" /> : item.label}
             </button>
           ) : (
-            <p className="rounded-md px-2 py-1 hover:bg-black hover:text-grey-eggshell">
+            <div className="rounded-md px-2 py-1 hover:bg-black hover:text-grey-eggshell">
               {item.isLoading ? <Skeleton className="h-4 w-12 rounded-sm" /> : item.label}
-            </p>
+            </div>
           )}
         </div>
       ))}
