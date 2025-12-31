@@ -39,7 +39,7 @@ export async function POST(req: NextRequest) {
           }
           await sendSms(
             fromPhoneNumber,
-            "Your phone number has been verified!. You can now text photos and captions and we'll post them to In Process."
+            "Your phone number has been verified! You can now text photos and captions and we'll post them to In Process."
           );
         }
       }
