@@ -5,16 +5,16 @@ import AnimatedCopyIcon from "./AnimatedCopyIcon";
 import { cn } from "@/lib/utils";
 
 interface CopyButtonProps {
-  address: string;
+  text: string;
   className?: string;
   shorten?: boolean;
 }
 
-const CopyButton = ({ address, className = "", shorten = true }: CopyButtonProps) => {
+const CopyButton = ({ text, className = "", shorten = true }: CopyButtonProps) => {
   const [isCopied, setIsCopied] = useState(false);
 
   const handleCopy = async () => {
-    await navigator.clipboard.writeText(address);
+    await navigator.clipboard.writeText(text);
     toast.success("copied!");
     setIsCopied(true);
     setTimeout(() => setIsCopied(false), 2000);
@@ -29,7 +29,7 @@ const CopyButton = ({ address, className = "", shorten = true }: CopyButtonProps
       type="button"
       onClick={handleCopy}
     >
-      {shorten ? truncateAddress(address) : address}
+      {shorten ? truncateAddress(text) : text}
       <AnimatedCopyIcon isCopied={isCopied} />
     </button>
   );

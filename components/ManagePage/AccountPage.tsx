@@ -7,7 +7,9 @@ import { updateProfile } from "@/hooks/useProfile";
 import { useUserProvider } from "@/providers/UserProvider";
 import { useState } from "react";
 import ConnectButton from "./ConnectButton";
+import PhoneButton from "./PhoneButton";
 import { extractSocialUsername } from "@/lib/socials/extractSocialUsername";
+import { PhoneVerificationProvider } from "@/providers/PhoneVerificationProvider";
 
 const AccountPage = () => {
   const { profile, artistWallet } = useUserProvider();
@@ -102,6 +104,9 @@ const AccountPage = () => {
         </div>
       </section>
       <section className="mt-4 flex flex-col items-end justify-end gap-3 md:flex-row">
+        <PhoneVerificationProvider>
+          <PhoneButton />
+        </PhoneVerificationProvider>
         <ConnectButton />
         <button
           className="flex w-full items-center justify-center gap-2 rounded-md bg-grey-moss-900 py-2 font-archivo text-grey-eggshell hover:bg-grey-eggshell hover:text-grey-moss-900 md:mr-4 md:w-fit md:min-w-[100px]"
