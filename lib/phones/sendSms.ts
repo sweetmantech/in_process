@@ -1,6 +1,6 @@
 import { MessageSendResponse } from "telnyx/resources/messages/messages.mjs";
 import client from "../telnyx/client";
-import { TELNYX_MESSAGING_PROFILE_ID, TELNYX_PHONE_NUMBER } from "../consts";
+import { TELNYX_PHONE_NUMBER } from "../consts";
 
 export async function sendSms(phoneNumber: string, message: string): Promise<MessageSendResponse> {
   try {
@@ -8,7 +8,6 @@ export async function sendSms(phoneNumber: string, message: string): Promise<Mes
       from: TELNYX_PHONE_NUMBER,
       to: phoneNumber,
       text: message,
-      messaging_profile_id: TELNYX_MESSAGING_PROFILE_ID,
     });
 
     return response;
