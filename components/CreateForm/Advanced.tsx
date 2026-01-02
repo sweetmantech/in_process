@@ -2,11 +2,11 @@ import { Button } from "../ui/button";
 import { DateTimePicker } from "../ui/date-time-picker";
 import { ChevronDown } from "lucide-react";
 import { Textarea } from "../ui/textarea";
-import { Input } from "../ui/input";
 import Price from "./Price";
 import SplitsForm from "./SplitsForm";
 import { Controller } from "react-hook-form";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
+import TotalSupplyInput from "./TotalSupplyInput";
 
 const Advanced = () => {
   const { isOpenAdvanced, form, setIsOpenAdvanced } = useMetadataFormProvider();
@@ -39,37 +39,7 @@ const Advanced = () => {
           )}
           <Price />
           <SplitsForm />
-          <p className="pt-2 font-archivo font-medium">Total Supply</p>
-          <Controller
-            name="totalSupply"
-            control={form.control}
-            render={({ field }) => (
-              <Input
-                type="number"
-                min={1}
-                placeholder="Leave empty for open edition"
-                value={field.value === undefined ? "" : field.value}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  if (value === "") {
-                    field.onChange(undefined);
-                  } else {
-                    const num = parseInt(value, 10);
-                    if (!isNaN(num) && num >= 1) {
-                      field.onChange(num);
-                    }
-                  }
-                }}
-                onBlur={field.onBlur}
-                className="font-spectral"
-              />
-            )}
-          />
-          {form.formState.errors.totalSupply && (
-            <p className="mt-1 font-spectral text-xs text-red-500">
-              {form.formState.errors.totalSupply.message}
-            </p>
-          )}
+          <TotalSupplyInput />
           <p className="pt-2 font-archivo font-medium">time</p>
           <Controller
             name="startDate"
