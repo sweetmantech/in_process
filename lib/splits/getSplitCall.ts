@@ -10,6 +10,7 @@ export interface GetSplitCallParams {
 
 /**
  * Gets the call data for distributing funds from a split contract.
+ * If tokenAddress is not provided, uses zeroAddress for native token distribution.
  */
 export const getSplitCall = async ({ splitAddress, tokenAddress, chainId }: GetSplitCallParams) => {
   const publicClient = getPublicClient(chainId);
