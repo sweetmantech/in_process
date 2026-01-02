@@ -28,6 +28,7 @@ const useMomentCreateParameters = () => {
 
     const formSplits = form.getValues("splits");
     const splitsData = formSplits && formSplits.length > 0 ? formSplits : undefined;
+    const totalSupply = form.getValues("totalSupply");
 
     // Unified contract format: use address if collection exists, otherwise use name/uri for new collection
     const contract = collection
@@ -47,6 +48,7 @@ const useMomentCreateParameters = () => {
         salesConfig,
         mintToCreatorCount: 1,
         payoutRecipient: isExternalWallet ? artistWallet : smartWallet,
+        ...(totalSupply !== undefined && { maxSupply: totalSupply }),
       },
       account: artistWallet as Address,
       ...(splitsData && { splits: splitsData }),

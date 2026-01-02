@@ -6,6 +6,7 @@ import Price from "./Price";
 import SplitsForm from "./SplitsForm";
 import { Controller } from "react-hook-form";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
+import TotalSupplyInput from "./TotalSupplyInput";
 
 const Advanced = () => {
   const { isOpenAdvanced, form, setIsOpenAdvanced } = useMetadataFormProvider();
@@ -38,6 +39,7 @@ const Advanced = () => {
           )}
           <Price />
           <SplitsForm />
+          <TotalSupplyInput />
           <p className="pt-2 font-archivo font-medium">time</p>
           <Controller
             name="startDate"
