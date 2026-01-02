@@ -41,6 +41,7 @@ const useMetadataForm = () => {
   // Advanced values state
   const [startDate, setStartDate] = useState<Date>();
   const [isOpenAdvanced, setIsOpenAdvanced] = useState<boolean>(false);
+  const [totalSupply, setTotalSupply] = useState<number | undefined>(undefined);
 
   // Mask values state
   const mask = useMask(isOpenAdvanced, writingText);
@@ -106,6 +107,7 @@ const useMetadataForm = () => {
       description: description || undefined,
       startDate: startDate,
       splits: undefined,
+      totalSupply: totalSupply,
     },
     mode: "onChange",
   });
@@ -123,6 +125,8 @@ const useMetadataForm = () => {
         setDescription(value.description || "");
       } else if (name === "startDate" && value.startDate) {
         setStartDate(value.startDate);
+      } else if (name === "totalSupply") {
+        setTotalSupply(value.totalSupply);
       }
     });
     return () => subscription.unsubscribe();
@@ -164,6 +168,12 @@ const useMetadataForm = () => {
     }
   }, [startDate, form]);
 
+  useEffect(() => {
+    if (form.getValues("totalSupply") !== totalSupply) {
+      form.setValue("totalSupply", totalSupply, { shouldValidate: false });
+    }
+  }, [totalSupply, form]);
+
   const onChangeStartDate = (value: Date) => setStartDate(value);
 
   // Check if any media files are selected
@@ -204,6 +214,8 @@ const useMetadataForm = () => {
     onChangeStartDate,
     isOpenAdvanced,
     setIsOpenAdvanced,
+    totalSupply,
+    setTotalSupply,
 
     // Mask values
     ...mask,

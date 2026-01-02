@@ -29,6 +29,11 @@ export const createFormSchema = z
     description: z.string().optional(),
     startDate: z.date().optional(),
     splits: z.array(formSplitSchema).optional(),
+    totalSupply: z
+      .number()
+      .int("Total supply must be a whole number")
+      .min(1, "Total supply must be at least 1")
+      .optional(),
   })
   .refine(
     (data) => {
