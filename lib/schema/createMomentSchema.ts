@@ -23,6 +23,7 @@ export const tokenSchema = z.object({
   salesConfig: salesConfigSchema,
   mintToCreatorCount: z.number(),
   payoutRecipient: addressSchema.optional(),
+  maxSupply: z.number().int().min(1).optional(),
 });
 
 // Unified contract schema - supports both existing collection (address) and new collection (name/uri)
