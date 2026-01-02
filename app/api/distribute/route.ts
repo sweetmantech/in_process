@@ -2,7 +2,6 @@ import { NextRequest } from "next/server";
 import getCorsHeader from "@/lib/getCorsHeader";
 import { distributeSchema } from "@/lib/schema/distributeSchema";
 import { distribute } from "@/lib/splits/distribute";
-import { CHAIN_ID } from "@/lib/consts";
 
 const corsHeaders = getCorsHeader();
 
@@ -26,7 +25,7 @@ export async function POST(req: NextRequest) {
     const hash = await distribute({
       splitAddress,
       tokenAddress,
-      chainId: chainId ?? CHAIN_ID,
+      chainId,
     });
     return Response.json(
       {

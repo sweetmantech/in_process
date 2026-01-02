@@ -1,17 +1,12 @@
 import { z } from "zod";
 import { zeroAddress } from "viem";
 import addressSchema from "./addressSchema";
+import { CHAIN_ID } from "../consts";
 
 export const distributeSchema = z.object({
   splitAddress: addressSchema,
   tokenAddress: addressSchema
     .optional()
     .transform((val) => (val === undefined ? zeroAddress : val)),
-  chainId: z
-    .string()
-    .optional()
-    .refine((val) => val === undefined || (!isNaN(Number(val)) && Number(val) > 0), {
-      message: "chainId must be a positive number",
-    })
-    .transform((val) => (val ? Number(val) : undefined)),
+  chainId: z.coerce.number().optional().default(CHAIN_ID),
 });
