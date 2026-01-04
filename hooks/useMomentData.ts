@@ -4,10 +4,12 @@ import { useQuery } from "@tanstack/react-query";
 import { useUserProvider } from "@/providers/UserProvider";
 import { getMomentApi } from "@/lib/moment/getMomentApi";
 import { Moment, MomentSaleConfig } from "@/types/moment";
+import useIsSoldOut from "./useIsSoldOut";
 
 const useMomentData = (moment: Moment) => {
   const { collectionAddress, tokenId, chainId } = moment;
   const { artistWallet } = useUserProvider();
+  const { isLoading: isCheckingSoldOut, data: isSoldOut } = useIsSoldOut(moment);
 
   const query = useQuery({
     queryKey: ["tokenInfo", collectionAddress, tokenId, chainId],
@@ -37,11 +39,14 @@ const useMomentData = (moment: Moment) => {
     metadata,
     tokenUri,
     momentAdmins,
-    isLoading: query.isLoading,
+    isLoading: query.isLoading || isCheckingSoldOut,
     isSetSale,
     fetchMomentData: query.refetch,
     owner,
     isOwner,
+    isSoldOut:
+      isSoldOut ||
+      parseInt(BigInt(saleConfig?.saleEnd?.toString() || 0).toString(), 10) * 1000 < Date.now(),
   };
 };
 
