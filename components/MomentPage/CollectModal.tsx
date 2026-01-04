@@ -16,11 +16,10 @@ import Advanced from "./Advanced";
 const CollectModal = () => {
   const { comment, isOpenCommentModal, setIsOpenCommentModal, setComment } =
     useMomentCommentsProvider();
-  const { saleConfig, isLoading, metadata, isSoldOut } = useMomentProvider();
+  const { saleConfig, isLoading, isSetSale, metadata } = useMomentProvider();
 
   const { amountToCollect } = useMomentCollectProvider();
   const { isPrepared } = useUserProvider();
-
   const isSaleActive =
     parseInt(BigInt(saleConfig?.saleStart?.toString() || 0).toString(), 10) * 1000 < Date.now();
 
@@ -31,7 +30,7 @@ const CollectModal = () => {
     return;
   };
 
-  if (isLoading || !metadata) return <Fragment />;
+  if (!isSetSale || !saleConfig || !metadata) return <Fragment />;
 
   return (
     <>
@@ -42,14 +41,14 @@ const CollectModal = () => {
         <DialogTrigger
           asChild
           onClick={handleCollect}
-          disabled={!isSaleActive || isSoldOut}
+          disabled={!isSaleActive}
           className="disabled:cursor-not-allowed disabled:bg-grey-moss-300"
         >
           <button
             type="button"
             className="h-fit w-full rounded-md bg-black py-2 font-archivo text-2xl text-grey-eggshell hover:bg-grey-moss-300 md:h-[60px] md:w-[420px]"
           >
-            {isSoldOut ? "sold out" : "collect"}
+            collect
           </button>
         </DialogTrigger>
         <DialogContent className="flex max-w-xl flex-col items-center !gap-0 overflow-hidden !rounded-3xl border-none !bg-white bg-transparent px-8 py-10 shadow-lg">
