@@ -12,7 +12,7 @@ import MomentAirdrop from "../MomentAirdrop/MomentAirdrop";
 import { useMomentCollectProvider } from "@/providers/MomentCollectProvider";
 
 const Moment = () => {
-  const { metadata, isOwner } = useMomentProvider();
+  const { metadata, isOwner, isSoldOut } = useMomentProvider();
   const { collected } = useMomentCollectProvider();
   const isMobile = useIsMobile();
 
@@ -33,7 +33,7 @@ const Moment = () => {
             <div className="md:!min-w-[420px]">
               {collected ? <MetaAndComments priceHidden /> : <CollectModal />}
               {!collected && isMobile && <CommentSection />}
-              {!collected && isOwner && <MomentAirdrop />}
+              {!collected && isOwner && !isSoldOut && <MomentAirdrop />}
             </div>
           </>
         )}
