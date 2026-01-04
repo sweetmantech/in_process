@@ -4,10 +4,12 @@ import { useQuery } from "@tanstack/react-query";
 import { useUserProvider } from "@/providers/UserProvider";
 import { getMomentApi } from "@/lib/moment/getMomentApi";
 import { Moment, MomentSaleConfig } from "@/types/moment";
+import useIsSoldOut from "./useIsSoldOut";
 
 const useMomentData = (moment: Moment) => {
   const { collectionAddress, tokenId, chainId } = moment;
   const { artistWallet } = useUserProvider();
+  const { isLoading: isCheckingSoldOut, data: isSoldOut } = useIsSoldOut(moment);
 
   const query = useQuery({
     queryKey: ["tokenInfo", collectionAddress, tokenId, chainId],
@@ -32,16 +34,28 @@ const useMomentData = (moment: Moment) => {
     return Boolean(artistWallet && owner && getAddress(artistWallet) === getAddress(owner));
   }, [artistWallet, owner]);
 
+  const isSaleActive = useMemo(() => {
+    if (!saleConfig) return false;
+    const saleStartMs = saleConfig.saleStart * 1000;
+    return saleStartMs < Date.now();
+  }, [saleConfig]);
+
+  const saleEndMs = useMemo(() => {
+    return saleConfig?.saleEnd ? saleConfig.saleEnd * 1000 : 0;
+  }, [saleConfig]);
+
   return {
     saleConfig,
     metadata,
     tokenUri,
     momentAdmins,
-    isLoading: query.isLoading,
+    isLoading: query.isLoading || isCheckingSoldOut,
     isSetSale,
     fetchMomentData: query.refetch,
     owner,
     isOwner,
+    isSaleActive,
+    isSoldOut: isSoldOut || saleEndMs < Date.now(),
   };
 };
 

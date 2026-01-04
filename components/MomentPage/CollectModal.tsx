@@ -12,16 +12,15 @@ import getPrice from "@/lib/getPrice";
 import getPriceUnit from "@/lib/getPriceUnit";
 import truncated from "@/lib/truncated";
 import Advanced from "./Advanced";
+import { MomentType } from "@/types/moment";
 
 const CollectModal = () => {
   const { comment, isOpenCommentModal, setIsOpenCommentModal, setComment } =
     useMomentCommentsProvider();
-  const { saleConfig, isLoading, isSetSale, metadata } = useMomentProvider();
+  const { saleConfig, isLoading, metadata, isSoldOut, isSaleActive } = useMomentProvider();
 
   const { amountToCollect } = useMomentCollectProvider();
   const { isPrepared } = useUserProvider();
-  const isSaleActive =
-    parseInt(BigInt(saleConfig?.saleStart?.toString() || 0).toString(), 10) * 1000 < Date.now();
 
   const handleCollect = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -30,7 +29,7 @@ const CollectModal = () => {
     return;
   };
 
-  if (!isSetSale || !saleConfig || !metadata) return <Fragment />;
+  if (isLoading || !metadata || !saleConfig) return <Fragment />;
 
   return (
     <>
@@ -41,14 +40,14 @@ const CollectModal = () => {
         <DialogTrigger
           asChild
           onClick={handleCollect}
-          disabled={!isSaleActive}
+          disabled={!isSaleActive || isSoldOut}
           className="disabled:cursor-not-allowed disabled:bg-grey-moss-300"
         >
           <button
             type="button"
             className="h-fit w-full rounded-md bg-black py-2 font-archivo text-2xl text-grey-eggshell hover:bg-grey-moss-300 md:h-[60px] md:w-[420px]"
           >
-            collect
+            {isSoldOut ? "sold out" : "collect"}
           </button>
         </DialogTrigger>
         <DialogContent className="flex max-w-xl flex-col items-center !gap-0 overflow-hidden !rounded-3xl border-none !bg-white bg-transparent px-8 py-10 shadow-lg">
@@ -61,9 +60,9 @@ const CollectModal = () => {
               <Skeleton className="h-5 w-10 rounded-none" />
             ) : (
               <>
-                {BigInt(saleConfig.pricePerToken) === BigInt(0)
+                {BigInt(saleConfig?.pricePerToken || 0) === BigInt(0)
                   ? "free"
-                  : `${getPrice(BigInt(saleConfig.pricePerToken) * BigInt(amountToCollect), saleConfig.type)} ${getPriceUnit(saleConfig.type)}`}
+                  : `${getPrice(BigInt(saleConfig?.pricePerToken || 0) * BigInt(amountToCollect), saleConfig?.type || MomentType.FixedPriceMint)} ${getPriceUnit(saleConfig?.type || MomentType.FixedPriceMint)}`}
               </>
             )}
           </section>
