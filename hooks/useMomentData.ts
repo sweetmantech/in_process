@@ -34,6 +34,16 @@ const useMomentData = (moment: Moment) => {
     return Boolean(artistWallet && owner && getAddress(artistWallet) === getAddress(owner));
   }, [artistWallet, owner]);
 
+  const isSaleActive = useMemo(() => {
+    if (!saleConfig) return false;
+    const saleStartMs = saleConfig.saleStart * 1000;
+    return saleStartMs < Date.now();
+  }, [saleConfig]);
+
+  const saleEndMs = useMemo(() => {
+    return saleConfig?.saleEnd ? saleConfig.saleEnd * 1000 : 0;
+  }, [saleConfig]);
+
   return {
     saleConfig,
     metadata,
@@ -44,9 +54,8 @@ const useMomentData = (moment: Moment) => {
     fetchMomentData: query.refetch,
     owner,
     isOwner,
-    isSoldOut:
-      isSoldOut ||
-      parseInt(BigInt(saleConfig?.saleEnd?.toString() || 0).toString(), 10) * 1000 < Date.now(),
+    isSaleActive,
+    isSoldOut: isSoldOut || saleEndMs < Date.now(),
   };
 };
 

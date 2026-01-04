@@ -12,17 +12,15 @@ import getPrice from "@/lib/getPrice";
 import getPriceUnit from "@/lib/getPriceUnit";
 import truncated from "@/lib/truncated";
 import Advanced from "./Advanced";
+import { MomentType } from "@/types/moment";
 
 const CollectModal = () => {
   const { comment, isOpenCommentModal, setIsOpenCommentModal, setComment } =
     useMomentCommentsProvider();
-  const { saleConfig, isLoading, metadata, isSoldOut } = useMomentProvider();
+  const { saleConfig, isLoading, metadata, isSoldOut, isSaleActive } = useMomentProvider();
 
   const { amountToCollect } = useMomentCollectProvider();
   const { isPrepared } = useUserProvider();
-
-  const isSaleActive =
-    parseInt(BigInt(saleConfig?.saleStart?.toString() || 0).toString(), 10) * 1000 < Date.now();
 
   const handleCollect = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -31,7 +29,7 @@ const CollectModal = () => {
     return;
   };
 
-  if (isLoading || !metadata) return <Fragment />;
+  if (isLoading || !metadata || !saleConfig) return <Fragment />;
 
   return (
     <>
@@ -62,9 +60,9 @@ const CollectModal = () => {
               <Skeleton className="h-5 w-10 rounded-none" />
             ) : (
               <>
-                {BigInt(saleConfig.pricePerToken) === BigInt(0)
+                {BigInt(saleConfig?.pricePerToken || 0) === BigInt(0)
                   ? "free"
-                  : `${getPrice(BigInt(saleConfig.pricePerToken) * BigInt(amountToCollect), saleConfig.type)} ${getPriceUnit(saleConfig.type)}`}
+                  : `${getPrice(BigInt(saleConfig?.pricePerToken || 0) * BigInt(amountToCollect), saleConfig?.type || MomentType.FixedPriceMint)} ${getPriceUnit(saleConfig?.type || MomentType.FixedPriceMint)}`}
               </>
             )}
           </section>
