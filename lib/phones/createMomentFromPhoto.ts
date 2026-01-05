@@ -4,6 +4,7 @@ import { REFERRAL_RECIPIENT } from "@/lib/consts";
 import getPhotoBlob from "@/lib/phones/getPhotoBlob";
 import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
 import { createMoment } from "@/lib/moment/createMoment";
+import { uploadJson } from "../arweave/uploadJson";
 
 const createMomentFromPhoto = async (
   photo: InboundMessageWebhookEvent.Data.Payload.Media,
@@ -13,7 +14,16 @@ const createMomentFromPhoto = async (
   const blob = await getPhotoBlob(photo);
   const name = payload?.subject || payload?.text || `photo-${Date.now()}`;
   const file = new File([blob], name, { type: photo.content_type });
-  const arweaveUri = await clientUploadToArweave(file);
+  const imageUri = await clientUploadToArweave(file);
+  const arweaveUri = await uploadJson({
+    name,
+    description: payload?.text || "",
+    image: imageUri,
+    content: {
+      mime: photo.content_type,
+      uri: imageUri,
+    },
+  });
   const momentCreateParameters = {
     contract: {
       name,
