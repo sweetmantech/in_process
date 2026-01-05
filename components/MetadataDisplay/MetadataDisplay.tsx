@@ -82,7 +82,7 @@ const MetadataDisplay = () => {
           src={animationUrl}
           className="h-full w-full"
           title={metadata?.name || "Embedded content"}
-          sandbox="allow-same-origin"
+          sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox"
           referrerPolicy="no-referrer"
           loading="lazy"
         />
