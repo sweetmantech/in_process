@@ -15,6 +15,7 @@ export async function create1155(input: CreateMomentContractInput) {
   const tokenParams = {
     ...input.token,
     createReferral: input.token.createReferral as Address,
+    mintToCreatorCount: input.token.maxSupply === undefined ? input.token.mintToCreatorCount : 0,
     payoutRecipient: input.token.payoutRecipient as Address | undefined,
     salesConfig: {
       ...input.token.salesConfig,
