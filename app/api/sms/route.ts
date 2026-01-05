@@ -22,48 +22,12 @@ export async function POST(req: NextRequest) {
     });
 
     // Verify webhook signature using Telnyx SDK
+    let event: InboundMessageWebhookEvent;
     try {
-      const event = client.webhooks.unwrap<InboundMessageWebhookEvent>(body, {
+      event = client.webhooks.unwrap<InboundMessageWebhookEvent>(body, {
         headers,
         key: process.env.TELNYX_PUBLIC_KEY,
       });
-
-      // Check if this is a message.received event
-      if (event.data?.event_type === "message.received") {
-        const messageText = event.data.payload?.text?.toLowerCase().trim();
-        const fromPhoneNumber = event.data.payload?.from?.phone_number;
-        const type = event.data.payload?.type;
-        const media = event.data.payload?.media;
-
-        if (fromPhoneNumber) {
-          if (messageText === "yes" && type === "SMS") {
-            const { error } = await updatePhoneVerified(fromPhoneNumber);
-            if (error) {
-              console.error("Failed to update phone verification:", error);
-            }
-            await sendSms(
-              fromPhoneNumber,
-              "Your phone number has been verified! You can now text photos and captions and we'll post them to In Process."
-            );
-          }
-          if (type === "MMS" && media && media?.length > 0) {
-            const phone = await selectPhone(fromPhoneNumber);
-            if (!phone.verified) return;
-            const photo = media[0];
-            const { contractAddress, tokenId } = await createMomentFromPhoto(
-              photo,
-              event.data.payload,
-              phone.artist.address
-            );
-            await sendSms(
-              fromPhoneNumber,
-              `Moment created! https://${SITE_ORIGINAL_URL}/collect/${IS_TESTNET ? "bsep" : "base"}:${contractAddress}/${tokenId}`
-            );
-          }
-        }
-      }
-
-      return Response.json({ success: true }, { headers: corsHeaders });
     } catch (err) {
       console.error("Signature verification failed:", err);
       return Response.json(
@@ -71,6 +35,42 @@ export async function POST(req: NextRequest) {
         { status: 400, headers: corsHeaders }
       );
     }
+    // Check if this is a message.received event
+    if (event.data?.event_type === "message.received") {
+      const messageText = event.data.payload?.text?.toLowerCase().trim();
+      const fromPhoneNumber = event.data.payload?.from?.phone_number;
+      const type = event.data.payload?.type;
+      const media = event.data.payload?.media;
+
+      if (fromPhoneNumber) {
+        if (messageText === "yes" && type === "SMS") {
+          const { error } = await updatePhoneVerified(fromPhoneNumber);
+          if (error) {
+            console.error("Failed to update phone verification:", error);
+          }
+          await sendSms(
+            fromPhoneNumber,
+            "Your phone number has been verified! You can now text photos and captions and we'll post them to In Process."
+          );
+        }
+        if (type === "MMS" && media && media?.length > 0) {
+          const phone = await selectPhone(fromPhoneNumber);
+          if (!phone.verified) throw new Error("Phone number is not verified.");
+          const photo = media[0];
+          const { contractAddress, tokenId } = await createMomentFromPhoto(
+            photo,
+            event.data.payload,
+            phone.artist.address
+          );
+          await sendSms(
+            fromPhoneNumber,
+            `Moment created! https://${SITE_ORIGINAL_URL}/collect/${IS_TESTNET ? "bsep" : "base"}:${contractAddress}/${tokenId}`
+          );
+        }
+      }
+    }
+
+    return Response.json({ success: true }, { headers: corsHeaders });
   } catch (e: any) {
     console.error("Webhook processing error:", e);
     return Response.json(
