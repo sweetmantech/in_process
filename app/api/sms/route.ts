@@ -64,7 +64,7 @@ export async function POST(req: NextRequest) {
           );
           await sendSms(
             fromPhoneNumber,
-            `Moment created! https://${SITE_ORIGINAL_URL}/collect/${IS_TESTNET ? "bsep" : "base"}:${contractAddress}/${tokenId}`
+            `Moment created! ${SITE_ORIGINAL_URL}/collect/${IS_TESTNET ? "bsep" : "base"}:${contractAddress}/${tokenId}`
           );
         }
       }
