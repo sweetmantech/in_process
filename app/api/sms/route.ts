@@ -4,6 +4,9 @@ import getCorsHeader from "@/lib/getCorsHeader";
 import type { InboundMessageWebhookEvent } from "telnyx/resources/webhooks";
 import { updatePhoneVerified } from "@/lib/supabase/in_process_artist_phones/updatePhoneVerified";
 import { sendSms } from "@/lib/phones/sendSms";
+import selectPhone from "@/lib/supabase/in_process_artist_phones/selectPhone";
+import createMomentFromPhoto from "@/lib/phones/createMomentFromPhoto";
+import { IS_TESTNET, SITE_ORIGINAL_URL } from "@/lib/consts";
 
 const corsHeaders = getCorsHeader();
 
@@ -29,18 +32,34 @@ export async function POST(req: NextRequest) {
       if (event.data?.event_type === "message.received") {
         const messageText = event.data.payload?.text?.toLowerCase().trim();
         const fromPhoneNumber = event.data.payload?.from?.phone_number;
+        const type = event.data.payload?.type;
+        const media = event.data.payload?.media;
 
-        // Check if message is "yes"
-        if (messageText === "yes" && fromPhoneNumber) {
-          // Update verified field to true for this phone number
-          const { error } = await updatePhoneVerified(fromPhoneNumber);
-          if (error) {
-            console.error("Failed to update phone verification:", error);
+        if (fromPhoneNumber) {
+          if (messageText === "yes" && type === "SMS") {
+            const { error } = await updatePhoneVerified(fromPhoneNumber);
+            if (error) {
+              console.error("Failed to update phone verification:", error);
+            }
+            await sendSms(
+              fromPhoneNumber,
+              "Your phone number has been verified! You can now text photos and captions and we'll post them to In Process."
+            );
           }
-          await sendSms(
-            fromPhoneNumber,
-            "Your phone number has been verified! You can now text photos and captions and we'll post them to In Process."
-          );
+          if (type === "MMS" && media && media?.length > 0) {
+            const phone = await selectPhone(fromPhoneNumber);
+            if (!phone.verified) return;
+            const photo = media[0];
+            const { contractAddress, tokenId } = await createMomentFromPhoto(
+              photo,
+              event.data.payload,
+              phone.artist.address
+            );
+            await sendSms(
+              fromPhoneNumber,
+              `Moment created! https://${SITE_ORIGINAL_URL}/collect/${IS_TESTNET ? "bsep" : "base"}:${contractAddress}/${tokenId}`
+            );
+          }
         }
       }
 
