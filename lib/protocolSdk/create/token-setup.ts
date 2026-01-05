@@ -151,14 +151,11 @@ export function constructCreate1155TokenCalls(
     salesConfig: new1155TokenPropsWithDefaults.salesConfig,
   });
 
-  const adminMintCall =
-    new1155TokenPropsWithDefaults.maxSupply === OPEN_EDITION_MINT_SIZE
-      ? makeAdminMintCall({
-          ownerAddress,
-          mintQuantity: mintToCreatorCount,
-          nextTokenId,
-        })
-      : null;
+  const adminMintCall = makeAdminMintCall({
+    ownerAddress,
+    mintQuantity: mintToCreatorCount,
+    nextTokenId,
+  });
 
   const setupActions = [
     verifyTokenIdExpected,
