@@ -50,7 +50,7 @@ const nextConfig = {
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
               "img-src 'self' data: https: blob:",
               "font-src 'self' data: https://fonts.gstatic.com",
-              "connect-src 'self' https: wss: https://*.privy.io https://*.walletconnect.com https://*.walletconnect.org https://*.alchemy.com https://*.alchemyapi.io",
+              "connect-src 'self' https: wss: blob: https://*.privy.io https://*.walletconnect.com https://*.walletconnect.org https://*.alchemy.com https://*.alchemyapi.io",
               "frame-src 'self' https://*.privy.io https://*.mux.com https://*.arweave.net https://*.ipfs.io https://ipfs.io https://gateway.pinata.cloud https://*.walletconnect.com",
               "media-src 'self' https: blob:",
               "worker-src 'self' blob: https://unpkg.com",
