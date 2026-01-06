@@ -10,7 +10,7 @@ const LinkPreview = () => {
 
   return (
     <div
-      className={`overflow-hidden rounded-2xl bg-white ${createdTokenId ? "" : "m-4 px-4 py-6"}`}
+      className={`overflow-hidden rounded-2xl bg-white py-6 px-4 ${createdTokenId ? "flex flex-col items-center " : "m-4"}`}
     >
       {createdTokenId ? (
         <>
