@@ -54,6 +54,11 @@ export const useAudioPlayer = () => {
     }
   };
 
+  const handleEnded = () => {
+    setIsPlaying(false);
+    setProgress(0);
+  };
+
   return {
     audioRef,
     isPlaying,
@@ -61,5 +66,6 @@ export const useAudioPlayer = () => {
     togglePlayPause,
     handleTimeUpdate,
     handleSliderChange,
+    handleEnded,
   };
 };

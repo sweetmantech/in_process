@@ -5,8 +5,15 @@ import { useAudioPlayer } from "@/hooks/useAudioPlayer";
 import Image from "next/image";
 
 const AudioPlayer = ({ thumbnailUrl, audioUrl }: { thumbnailUrl?: string; audioUrl: string }) => {
-  const { audioRef, isPlaying, progress, togglePlayPause, handleTimeUpdate, handleSliderChange } =
-    useAudioPlayer();
+  const {
+    audioRef,
+    isPlaying,
+    progress,
+    togglePlayPause,
+    handleTimeUpdate,
+    handleSliderChange,
+    handleEnded,
+  } = useAudioPlayer();
 
   return (
     <div className="flex size-full flex-col items-center justify-center overflow-hidden rounded-lg bg-white shadow-lg px-2">
@@ -22,7 +29,7 @@ const AudioPlayer = ({ thumbnailUrl, audioUrl }: { thumbnailUrl?: string; audioU
           />
         )}
       </div>
-      <audio ref={audioRef} src={audioUrl} onTimeUpdate={handleTimeUpdate} />
+      <audio ref={audioRef} src={audioUrl} onTimeUpdate={handleTimeUpdate} onEnded={handleEnded} />
       <div className="text-center">
         <Button
           variant="ghost"
