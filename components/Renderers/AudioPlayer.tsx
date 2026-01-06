@@ -10,16 +10,18 @@ const AudioPlayer = ({ thumbnailUrl, audioUrl }: { thumbnailUrl?: string; audioU
 
   return (
     <div className="flex size-full flex-col items-center justify-center overflow-hidden rounded-lg bg-white shadow-lg px-2">
-      {thumbnailUrl && (
-        <Image
-          src={thumbnailUrl}
-          alt="Audio cover"
-          layout="fill"
-          objectFit="contain"
-          objectPosition="center"
-          unoptimized
-        />
-      )}
+      <div className="relative h-3/4 w-full">
+        {thumbnailUrl && (
+          <Image
+            src={thumbnailUrl}
+            alt="Audio cover"
+            layout="fill"
+            objectFit="contain"
+            objectPosition="center"
+            unoptimized
+          />
+        )}
+      </div>
       <audio ref={audioRef} src={audioUrl} onTimeUpdate={handleTimeUpdate} />
       <div className="text-center">
         <Button
