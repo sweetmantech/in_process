@@ -5,6 +5,7 @@ interface BlobUrls {
   image?: string;
   pdf?: string;
   video?: string;
+  audio?: string;
 }
 
 interface UseBlobUrlsParams {
@@ -90,10 +91,26 @@ export const useBlobUrls = ({
     }
   }, [animationFile, mimeType]);
 
+  // Create blob URL for audio file (using animationFile)
+  useEffect(() => {
+    if (mimeType.includes("audio") && animationFile) {
+      const blobUrl = URL.createObjectURL(animationFile);
+      setBlobUrls((prev) => ({ ...prev, audio: blobUrl }));
+      return () => URL.revokeObjectURL(blobUrl);
+    } else {
+      setBlobUrls((prev) => {
+        if (prev.audio) URL.revokeObjectURL(prev.audio);
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { audio: _audio, ...rest } = prev;
+        return rest;
+      });
+    }
+  }, [animationFile, mimeType]);
+
   return {
     blobUrls,
     // Legacy blob URLs for backward compatibility
     previewFileUrl: blobUrls.preview || "",
-    animationFileUrl: blobUrls.video || blobUrls.pdf || "",
+    animationFileUrl: blobUrls.video || blobUrls.pdf || blobUrls.audio || "",
   };
 };

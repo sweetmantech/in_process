@@ -1,4 +1,4 @@
-import AudioPlayer from "./AudioPlayer";
+import AudioPlayer from "../Renderers/AudioPlayer";
 import Image from "next/image";
 import React, { Fragment } from "react";
 import PdfViewer from "../Renderers/PdfViewer";
@@ -46,10 +46,10 @@ const PreviewContainer = ({ handleImageClick }: PreviewContainerProps) => {
     );
   }
 
-  if (mimeType.includes("audio")) {
+  if (mimeType.includes("audio") && blobUrls.audio) {
     return (
       <Container className="relative">
-        <AudioPlayer onClick={handleImageClick} />
+        <AudioPlayer audioUrl={blobUrls.audio} />
         {isUploading && <UploadProgressOverlay uploadProgress={uploadProgress} />}
       </Container>
     );
