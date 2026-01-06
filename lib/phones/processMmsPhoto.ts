@@ -9,9 +9,13 @@ export const processMmsPhoto = async (
   photo: InboundMessageWebhookEvent.Data.Payload.Media,
   payload: InboundMessageWebhookEvent.Data.Payload | undefined
 ): Promise<{ contractAddress: string; tokenId: string }> => {
-  const phone = await selectPhone(phoneNumber);
-  if (!phone.verified) {
-    throw new Error("Phone number is not verified.");
+  const { data: phone, error } = await selectPhone(phoneNumber);
+  if (!phone || !phone.verified || error) {
+    await sendSms(
+      phoneNumber,
+      "Welcome to In Process! To get started please visit https://inprocess.world/manage and link your phone number."
+    );
+    throw new Error("Phone number is not linked,");
   }
   const { contractAddress, tokenId } = await createMomentFromPhoto(
     photo,

@@ -7,9 +7,7 @@ const selectPhone = async (phone_number: string) => {
     .eq("phone_number", phone_number)
     .single();
 
-  if (error) throw new Error("Phone number does not exist");
-
-  return data;
+  return { data, error };
 };
 
 export default selectPhone;
