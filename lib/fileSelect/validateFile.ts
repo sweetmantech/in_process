@@ -7,7 +7,7 @@ export const validateFile = (file: File | null): file is File => {
   }
 
   if (file.size > MAX_FILE_SIZE) {
-    toast.error("File size is too large, Please select a file smaller than 222MB");
+    toast.error("File size is too large, please select a file smaller than 222MB");
     throw new Error("File size is too large, Please select a file smaller than 222MB");
   }
 
