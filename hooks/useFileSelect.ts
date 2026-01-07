@@ -13,7 +13,6 @@ const useFileSelect = () => {
   const { setMimeType, setImageFile, setPreviewFile, setAnimationFile, imageFile } =
     useMetadataFormProvider();
 
-  console.log("ziad here 222", imageFile);
   const selectFile = useCallback(
     async (event: any) => {
       const file: File = event.target.files[0];
