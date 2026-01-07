@@ -62,7 +62,7 @@ export async function POST(req: NextRequest) {
           return;
         }
         if (type === "MMS" && media && media?.length > 0) {
-          await processMmsPhoto(fromPhoneNumber, media[0], event.data.payload);
+          await processMmsPhoto(phone, media[0], event.data.payload);
         }
       }
     }
