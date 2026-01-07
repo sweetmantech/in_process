@@ -44,18 +44,6 @@ export const usePhoneVerify = () => {
     }
   }, [profile]);
 
-  useEffect(() => {
-    if (isDialogOpen) {
-      // Refetch profile when dialog opens to get latest verification state
-      // This handles the case where SMS verification was completed externally
-      refetch();
-    } else if (status === PHONE_VERIFICATION_STATUS.CONFIRMING) {
-      // Reset status and verifying phone number when dialog is closed during confirmation
-      setStatus(PHONE_VERIFICATION_STATUS.READY_TO_VERIFY);
-      setVerifyingPhoneNumber("");
-    }
-  }, [isDialogOpen, status, refetch]);
-
   const handlePhoneNumberChange = (value: string) => {
     setPhoneNumber(value);
   };
