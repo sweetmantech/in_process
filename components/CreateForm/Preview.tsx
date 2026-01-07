@@ -3,6 +3,7 @@ import PreviewModal from "./PreviewModal";
 import WritingPreview from "./WritingPreview";
 import PreviewSection from "./PreviewSection";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
+import useTypeParam from "@/hooks/useTypeParam";
 
 const Preview = () => {
   const {
@@ -14,6 +15,7 @@ const Preview = () => {
     uploadProgress,
     previewFileUrl,
   } = useMetadataFormProvider();
+  const type = useTypeParam();
 
   // Show preview if we have selected files (blob data only - this is creation phase)
   const hasSelectedFile = previewFile || animationFile || imageFile;
@@ -39,7 +41,7 @@ const Preview = () => {
           <WritingPreview />
         </PreviewSection>
       )}
-      {hasSelectedFile && <PreviewModal />}
+      {(hasSelectedFile || type === "link") && <PreviewModal />}
     </div>
   );
 };

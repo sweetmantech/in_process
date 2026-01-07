@@ -10,11 +10,12 @@ export async function GET(req: NextRequest) {
     }
 
     // Validate URL to prevent fetching malicious content
-    if (!validateUrl(url)) {
+    const validatedUrl = validateUrl(url);
+    if (!validatedUrl) {
       return Response.json({ message: "Invalid or unsafe URL" }, { status: 400 });
     }
 
-    const data = await getDetail(url);
+    const data = await getDetail(validatedUrl);
     return Response.json(data);
   } catch (e: any) {
     console.log(e);

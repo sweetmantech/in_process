@@ -1,4 +1,4 @@
-import AudioPlayer from "./AudioPlayer";
+import AudioPlayer from "../Renderers/AudioPlayer";
 import Image from "next/image";
 import React, { Fragment } from "react";
 import PdfViewer from "../Renderers/PdfViewer";
@@ -32,9 +32,10 @@ const MediaUploaded = ({ handleImageClick }: MediaUploadedProps) => {
   }
 
   if (mimeType.includes("audio")) {
+    if (!animationFileUrl) return <Fragment />;
     return (
       <Container className="relative">
-        <AudioPlayer onClick={handleImageClick} />
+        <AudioPlayer thumbnailUrl={previewFileUrl} audioUrl={animationFileUrl} />
         {isUploading && <UploadProgressOverlay uploadProgress={uploadProgress} />}
       </Container>
     );
