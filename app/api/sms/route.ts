@@ -5,6 +5,7 @@ import type { InboundMessageWebhookEvent } from "telnyx/resources/webhooks";
 import { updatePhoneVerified } from "@/lib/supabase/in_process_artist_phones/updatePhoneVerified";
 import { sendSms } from "@/lib/phones/sendSms";
 import { processMmsPhoto } from "@/lib/phones/processMmsPhoto";
+import selectPhone from "@/lib/supabase/in_process_artist_phones/selectPhone";
 
 const corsHeaders = getCorsHeader();
 
@@ -41,6 +42,14 @@ export async function POST(req: NextRequest) {
       const media = event.data.payload?.media;
 
       if (fromPhoneNumber) {
+        const { data: phone, error } = await selectPhone(fromPhoneNumber);
+        if (!phone || !phone.verified || error) {
+          await sendSms(
+            fromPhoneNumber,
+            "Welcome to In Process! To get started please visit https://inprocess.world/manage and link your phone number."
+          );
+          throw new Error("Phone number is not linked,");
+        }
         if (messageText === "yes" && type === "SMS") {
           const { error } = await updatePhoneVerified(fromPhoneNumber);
           if (error) {
@@ -50,6 +59,7 @@ export async function POST(req: NextRequest) {
             fromPhoneNumber,
             "Your phone number has been verified! You can now text photos and captions and we'll post them to In Process."
           );
+          return;
         }
         if (type === "MMS" && media && media?.length > 0) {
           await processMmsPhoto(fromPhoneNumber, media[0], event.data.payload);
