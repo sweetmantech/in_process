@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Pause, Play, ImageIcon } from "lucide-react";
+import { Pause, Play } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import { useAudioPlayer } from "@/hooks/useAudioPlayer";
 import Image from "next/image";

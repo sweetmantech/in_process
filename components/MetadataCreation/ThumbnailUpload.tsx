@@ -9,13 +9,14 @@ const ThumbnailUpload = () => {
   if (!isCreateMode) return null;
 
   return (
-    <div
+    <button
+      type="button"
       className="flex size-full flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg bg-gray-50/50 cursor-pointer"
       onClick={() => setIsOpenPreviewUpload(true)}
     >
       <ImageIcon className="mb-3 size-12 text-gray-400" strokeWidth={1.5} />
       <p className="text-sm font-medium text-gray-500">Upload thumbnail</p>
-    </div>
+    </button>
   );
 };
 
