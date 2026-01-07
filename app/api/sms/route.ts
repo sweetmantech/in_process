@@ -49,13 +49,13 @@ export async function POST(req: NextRequest) {
             fromPhoneNumber,
             "Welcome to In Process! To get started please visit https://inprocess.world/manage and link your phone number."
           );
-          throw new Error("Phone number is not linked,");
-        }
-        if (messageText === "yes" && type === "SMS") {
-          await verifyPhone(fromPhoneNumber);
-        }
-        if (type === "MMS" && media && media?.length > 0) {
-          await processMmsPhoto(phone, media[0], event.data.payload);
+        } else {
+          if (messageText === "yes" && type === "SMS") {
+            await verifyPhone(fromPhoneNumber);
+          }
+          if (type === "MMS" && media && media?.length > 0) {
+            await processMmsPhoto(phone, media[0], event.data.payload);
+          }
         }
       }
     }
