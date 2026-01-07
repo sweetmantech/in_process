@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import { verifyPhoneNumber } from "@/lib/phones/verifyPhoneNumber";
 import { useUserProvider } from "@/providers/UserProvider";
 import { PHONE_VERIFICATION_STATUS } from "@/types/phone";
+import { normalizeUsPhoneNumber } from "@/lib/phones/normalizeUsPhoneNumber";
 
 export const usePhoneVerify = () => {
   const [phoneNumber, setPhoneNumber] = useState<string>("");
@@ -58,7 +59,10 @@ export const usePhoneVerify = () => {
         throw new Error("Authentication required");
       }
 
-      await verifyPhoneNumber(phoneNumber.trim(), accessToken);
+      // Normalize phone number to E.164 format (assumes USA if no country code)
+      const normalizedPhoneNumber = normalizeUsPhoneNumber(phoneNumber.trim());
+
+      await verifyPhoneNumber(normalizedPhoneNumber, accessToken);
       toast.success(
         "A verification message has been sent to your phone. Please check your messages."
       );
