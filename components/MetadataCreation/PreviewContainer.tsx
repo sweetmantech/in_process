@@ -17,10 +17,10 @@ interface PreviewContainerProps {
  * It does NOT handle metadata display after creation.
  */
 const PreviewContainer = ({ handleImageClick }: PreviewContainerProps) => {
-  const { mimeType, imageFile, isUploading, uploadProgress, blobUrls } = useMetadataFormProvider();
+  const { mimeType, isUploading, uploadProgress, blobUrls } = useMetadataFormProvider();
 
   // For images: check first (most common case) - use imageFile blob URL only
-  if (imageFile && blobUrls.image) {
+  if (mimeType.includes("image") && blobUrls.image) {
     return (
       <div className="relative size-full cursor-pointer">
         <Image
@@ -49,7 +49,7 @@ const PreviewContainer = ({ handleImageClick }: PreviewContainerProps) => {
   if (mimeType.includes("audio") && blobUrls.audio) {
     return (
       <Container className="relative">
-        <AudioPlayer audioUrl={blobUrls.audio} />
+        <AudioPlayer audioUrl={blobUrls.audio} thumbnailUrl={blobUrls.preview} />
         {isUploading && <UploadProgressOverlay uploadProgress={uploadProgress} />}
       </Container>
     );

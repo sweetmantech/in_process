@@ -1,5 +1,5 @@
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
-import { Pencil1Icon } from "@radix-ui/react-icons";
+import { TrashIcon } from "@radix-ui/react-icons";
 
 interface ResetButtonProps {
   onReset?: () => void;
@@ -19,7 +19,7 @@ const ResetButton = ({ onReset }: ResetButtonProps) => {
       className="absolute right-4 top-4 z-[3] rounded-full bg-grey p-2 text-white"
       onClick={handleClick}
     >
-      <Pencil1Icon className="size-4" />
+      <TrashIcon className="size-4" />
     </button>
   );
 };

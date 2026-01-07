@@ -350,22 +350,63 @@ export const handleImageSelection = async (
 
 // hooks/useFileSelect.ts
 // Hook for file selection only - stores files as blobs.
-// Upload logic is handled in useMomentMetadata.generateMetadataUri()
+// Upload logic is handled in useMetadataUpload.generateMetadataUri()
 const useFileSelect = () => {
-  const selectFile = async (event: any) => {
-    const file = event.target.files[0];
-    await handleImageSelection(file, handlers);
-  };
+  const { setMimeType, setImageFile, setPreviewFile, setAnimationFile, imageFile } =
+    useMetadataFormProvider();
+
+  const selectFile = useCallback(
+    async (event: any) => {
+      const file: File = event.target.files[0];
+      if (!file || !validateFile(file)) {
+        return;
+      }
+
+      const mimeType = file.type;
+      const isImage = mimeType.includes("image");
+      const isVideo = mimeType.includes("video");
+
+      // Store files as blobs - no upload happens here
+      if (isVideo) {
+        await handleVideoSelection(file, {
+          setAnimationFile,
+          setMimeType,
+          setPreviewFile,
+        });
+      } else if (isImage) {
+        await handleImageSelection(file, {
+          setMimeType,
+          setImageFile,
+          setPreviewFile,
+        });
+      } else {
+        await handleOtherFileSelection(file, {
+          setMimeType,
+          setAnimationFile,
+          setPreviewFile,
+        });
+        if (imageFile) {
+          setPreviewFile(imageFile);
+          setImageFile(null);
+        }
+      }
+    },
+    [setMimeType, setImageFile, setPreviewFile, setAnimationFile, imageFile]
+  );
+
   return { selectFile };
 };
 
-// hooks/useMomentMetadata.tsx
-const useMomentMetadata = () => {
+// hooks/useMetadataUpload.tsx
+const useMetadataUpload = () => {
   const generateMetadataUri = async () => {
     // Upload happens here, when needed (e.g., on form submission)
-    const result = await uploadFilesToArweave({ imageFile, previewFile });
+    // Handles video uploads to Mux, other files to Arweave
+    const videoResult = await uploadVideoToMuxIfNeeded(animationFile, mimeType, getAccessToken, setUploadProgress);
+    const fileUploadResult = await uploadFilesToArweave(previewFile, imageFile, animationFile, animation_url, setUploadProgress, mimeType);
+    // ... build metadata payload
   };
-  return { generateMetadataUri };
+  return { generateMetadataUri, selectFile };
 };
 ```
 
@@ -438,25 +479,40 @@ type CollectionItem = CollectionsResponse["collections"][number]; // ✅ Using i
 ---
 
 ### Blob URL Management Pattern
-**Rule**: Manage blob URLs separately from file storage with proper cleanup.
+**Rule**: Manage blob URLs separately from file storage with proper cleanup. Use `mimeType` to determine which blob URL type to create.
 
 **Pattern for each file type:**
 1. Create object URL when file exists
 2. Add URL to blobUrls state
 3. Revoke previous URL in cleanup (when file changes or component unmounts)
+4. Use `mimeType.includes()` checks to determine file type (pdf, video, audio)
+5. Set URL to `undefined` when file is removed (instead of destructuring)
+
+**Note**: Types `BlobUrls` and `UseBlobUrlsParams` should be moved to `types/` folder per the types organization rule.
 
 ```typescript
 // hooks/useBlobUrls.ts
+// ⚠️ TODO: Move BlobUrls and UseBlobUrlsParams to types/blobUrls.ts
+interface BlobUrls {
+  preview?: string;
+  image?: string;
+  pdf?: string;
+  video?: string;
+  audio?: string;
+}
+
 interface UseBlobUrlsParams {
   previewFile: File | null;
   imageFile: File | null;
   animationFile: File | null;
+  mimeType: string; // Required to determine file type
 }
 
 export const useBlobUrls = ({
   previewFile,
   imageFile,
   animationFile,
+  mimeType,
 }: UseBlobUrlsParams) => {
   const [blobUrls, setBlobUrls] = useState<BlobUrls>({});
   
@@ -467,52 +523,79 @@ export const useBlobUrls = ({
       setBlobUrls((prev) => ({ ...prev, preview: blobUrl }));
       return () => URL.revokeObjectURL(blobUrl);
     } else {
-      // Cleanup when file is removed
+      // Cleanup when file is removed - set to undefined
       setBlobUrls((prev) => {
         if (prev.preview) URL.revokeObjectURL(prev.preview);
-        const { preview: _preview, ...rest } = prev;
-        return rest;
+        return { ...prev, preview: undefined };
       });
     }
   }, [previewFile]);
   
-  // Pattern: Create URL for animationFile (same pattern as previewFile)
-  useEffect(() => {
-    if (animationFile) {
-      const blobUrl = URL.createObjectURL(animationFile);
-      setBlobUrls((prev) => ({ ...prev, animation: blobUrl }));
-      return () => URL.revokeObjectURL(blobUrl);
-    } else {
-      // Cleanup when file is removed
-      setBlobUrls((prev) => {
-        if (prev.animation) URL.revokeObjectURL(prev.animation);
-        const { animation: _animation, ...rest } = prev;
-        return rest;
-      });
-    }
-  }, [animationFile]);
-  
-  // Pattern: Create URL for imageFile (same pattern as above)
+  // Pattern: Create URL for imageFile
   useEffect(() => {
     if (imageFile) {
       const blobUrl = URL.createObjectURL(imageFile);
       setBlobUrls((prev) => ({ ...prev, image: blobUrl }));
       return () => URL.revokeObjectURL(blobUrl);
     } else {
-      // Cleanup when file is removed
+      // Cleanup when file is removed - set to undefined
       setBlobUrls((prev) => {
         if (prev.image) URL.revokeObjectURL(prev.image);
-        const { image: _image, ...rest } = prev;
-        return rest;
+        return { ...prev, image: undefined };
       });
     }
   }, [imageFile]);
   
+  // Pattern: Create URL for PDF (using animationFile + mimeType check)
+  useEffect(() => {
+    if (mimeType.includes("pdf") && animationFile) {
+      const blobUrl = URL.createObjectURL(animationFile);
+      setBlobUrls((prev) => ({ ...prev, pdf: blobUrl }));
+      return () => URL.revokeObjectURL(blobUrl);
+    } else {
+      // Cleanup when file is removed or mimeType changes
+      setBlobUrls((prev) => {
+        if (prev.pdf) URL.revokeObjectURL(prev.pdf);
+        return { ...prev, pdf: undefined };
+      });
+    }
+  }, [animationFile, mimeType]);
+  
+  // Pattern: Create URL for video (using animationFile + mimeType check)
+  useEffect(() => {
+    if (mimeType.includes("video") && animationFile) {
+      const blobUrl = URL.createObjectURL(animationFile);
+      setBlobUrls((prev) => ({ ...prev, video: blobUrl }));
+      return () => URL.revokeObjectURL(blobUrl);
+    } else {
+      // Cleanup when file is removed or mimeType changes
+      setBlobUrls((prev) => {
+        if (prev.video) URL.revokeObjectURL(prev.video);
+        return { ...prev, video: undefined };
+      });
+    }
+  }, [animationFile, mimeType]);
+  
+  // Pattern: Create URL for audio (using animationFile + mimeType check)
+  useEffect(() => {
+    if (mimeType.includes("audio") && animationFile) {
+      const blobUrl = URL.createObjectURL(animationFile);
+      setBlobUrls((prev) => ({ ...prev, audio: blobUrl }));
+      return () => URL.revokeObjectURL(blobUrl);
+    } else {
+      // Cleanup when file is removed or mimeType changes
+      setBlobUrls((prev) => {
+        if (prev.audio) URL.revokeObjectURL(prev.audio);
+        return { ...prev, audio: undefined };
+      });
+    }
+  }, [animationFile, mimeType]);
+  
   return {
     blobUrls,
+    // Legacy blob URLs for backward compatibility
     previewFileUrl: blobUrls.preview || "",
-    animationFileUrl: blobUrls.animation || "",
-    imageFileUrl: blobUrls.image || "",
+    animationFileUrl: blobUrls.video || blobUrls.pdf || blobUrls.audio || "",
   };
 };
 ```

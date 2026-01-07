@@ -36,9 +36,10 @@ export const useBlobUrls = ({
     } else {
       setBlobUrls((prev) => {
         if (prev.preview) URL.revokeObjectURL(prev.preview);
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { preview: _preview, ...rest } = prev;
-        return rest;
+        return {
+          ...prev,
+          preview: undefined,
+        };
       });
     }
   }, [previewFile]);
@@ -52,9 +53,10 @@ export const useBlobUrls = ({
     } else {
       setBlobUrls((prev) => {
         if (prev.image) URL.revokeObjectURL(prev.image);
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { image: _image, ...rest } = prev;
-        return rest;
+        return {
+          ...prev,
+          image: undefined,
+        };
       });
     }
   }, [imageFile]);
@@ -68,9 +70,10 @@ export const useBlobUrls = ({
     } else {
       setBlobUrls((prev) => {
         if (prev.pdf) URL.revokeObjectURL(prev.pdf);
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { pdf: _pdf, ...rest } = prev;
-        return rest;
+        return {
+          ...prev,
+          pdf: undefined,
+        };
       });
     }
   }, [animationFile, mimeType]);
@@ -84,9 +87,10 @@ export const useBlobUrls = ({
     } else {
       setBlobUrls((prev) => {
         if (prev.video) URL.revokeObjectURL(prev.video);
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { video: _video, ...rest } = prev;
-        return rest;
+        return {
+          ...prev,
+          video: undefined,
+        };
       });
     }
   }, [animationFile, mimeType]);
@@ -100,9 +104,10 @@ export const useBlobUrls = ({
     } else {
       setBlobUrls((prev) => {
         if (prev.audio) URL.revokeObjectURL(prev.audio);
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { audio: _audio, ...rest } = prev;
-        return rest;
+        return {
+          ...prev,
+          audio: undefined,
+        };
       });
     }
   }, [animationFile, mimeType]);

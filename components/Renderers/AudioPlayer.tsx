@@ -3,6 +3,7 @@ import { Pause, Play } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import { useAudioPlayer } from "@/hooks/useAudioPlayer";
 import Image from "next/image";
+import ThumbnailUpload from "../MetadataCreation/ThumbnailUpload";
 
 const AudioPlayer = ({ thumbnailUrl, audioUrl }: { thumbnailUrl?: string; audioUrl: string }) => {
   const {
@@ -18,7 +19,7 @@ const AudioPlayer = ({ thumbnailUrl, audioUrl }: { thumbnailUrl?: string; audioU
   return (
     <div className="flex size-full flex-col items-center justify-center overflow-hidden rounded-lg bg-white shadow-lg px-2">
       <div className="relative h-3/4 w-full">
-        {thumbnailUrl && (
+        {thumbnailUrl ? (
           <Image
             src={thumbnailUrl}
             alt="Audio cover"
@@ -27,6 +28,8 @@ const AudioPlayer = ({ thumbnailUrl, audioUrl }: { thumbnailUrl?: string; audioU
             objectPosition="center"
             unoptimized
           />
+        ) : (
+          <ThumbnailUpload />
         )}
       </div>
       <audio ref={audioRef} src={audioUrl} onTimeUpdate={handleTimeUpdate} onEnded={handleEnded} />

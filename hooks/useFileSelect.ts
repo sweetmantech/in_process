@@ -10,7 +10,8 @@ import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
  * Upload logic is handled in useMetadataUpload.generateMetadataUri()
  */
 const useFileSelect = () => {
-  const { setMimeType, setImageFile, setPreviewFile, setAnimationFile } = useMetadataFormProvider();
+  const { setMimeType, setImageFile, setPreviewFile, setAnimationFile, imageFile } =
+    useMetadataFormProvider();
 
   const selectFile = useCallback(
     async (event: any) => {
@@ -42,9 +43,13 @@ const useFileSelect = () => {
           setAnimationFile,
           setPreviewFile,
         });
+        if (imageFile) {
+          setPreviewFile(imageFile);
+          setImageFile(null);
+        }
       }
     },
-    [setMimeType, setImageFile, setPreviewFile, setAnimationFile]
+    [setMimeType, setImageFile, setPreviewFile, setAnimationFile, imageFile]
   );
 
   return { selectFile };
