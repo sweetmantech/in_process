@@ -9,7 +9,7 @@ import DisconnectPhone from "./DisconnectPhone";
 import { useUserProvider } from "@/providers/UserProvider";
 
 const PhoneButton = () => {
-  const { status, setIsDialogOpen, isDialogOpen } = usePhoneVerificationProvider();
+  const { status, setIsDialogOpen, isDialogOpen, phoneNumber } = usePhoneVerificationProvider();
   const { profile } = useUserProvider();
   const { phoneVerified } = profile;
 
@@ -33,7 +33,11 @@ const PhoneButton = () => {
         </VisuallyHidden>
         {status === PHONE_VERIFICATION_STATUS.READY_TO_VERIFY && <PhoneNumberInput />}
         {status === PHONE_VERIFICATION_STATUS.CONFIRMING && (
-          <p>A verification message has been sent to your phone. Please check your messages.</p>
+          <p className="text-center">
+            A verification message has been sent to{" "}
+            <span className="font-semibold">{phoneNumber || "your phone"}</span>. Please check your
+            messages.
+          </p>
         )}
         {status === PHONE_VERIFICATION_STATUS.VERIFIED && (
           <p>Your phone number has been verified</p>
