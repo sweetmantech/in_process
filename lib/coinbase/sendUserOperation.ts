@@ -25,6 +25,9 @@ export async function sendUserOperation({ smartAccount, calls, network }: SendUs
   await cdp.evm.waitForUserOperation({
     smartAccountAddress: smartAccount.address,
     userOpHash: sendResult.userOpHash,
+    waitOptions: {
+      timeoutSeconds: 60,
+    },
   });
 
   // Get the user operation
