@@ -59,7 +59,6 @@ export async function POST(req: NextRequest) {
             fromPhoneNumber,
             "Your phone number has been verified! You can now text photos and captions and we'll post them to In Process."
           );
-          return;
         }
         if (type === "MMS" && media && media?.length > 0) {
           await processMmsPhoto(phone, media[0], event.data.payload);
