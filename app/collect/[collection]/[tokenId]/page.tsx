@@ -16,14 +16,14 @@ export const revalidate = 300;
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { tokenId, collection } = await params;
-  const { address } = parseCollectionAddress(collection);
+  const { address, chainId } = parseCollectionAddress(collection);
   if (!address || !isAddress(address)) throw new Error("Collection address is required");
   if (!tokenId) throw new Error("Token ID is required");
 
   const moment = {
     collectionAddress: address,
     tokenId,
-    chainId: CHAIN_ID,
+    chainId: chainId || CHAIN_ID,
   };
   const { uri } = await getMomentAdvancedInfo(moment);
   if (!uri) throw Error("failed to get moment uri");

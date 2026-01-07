@@ -24,8 +24,5 @@ export const handleOtherFileSelection = async (
       // Fallback: use PDF file itself (though it won't display as image)
       handlers.setPreviewFile(file);
     }
-  } else {
-    // For other file types, use file itself as preview
-    handlers.setPreviewFile(file);
   }
 };
