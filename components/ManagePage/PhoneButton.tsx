@@ -7,10 +7,10 @@ import { PHONE_VERIFICATION_STATUS } from "@/types/phone";
 import PhoneNumberInput from "./PhoneNumberInput";
 import DisconnectPhone from "./DisconnectPhone";
 import { useUserProvider } from "@/providers/UserProvider";
+import { normalizeUsPhoneNumber } from "@/lib/phones/normalizeUsPhoneNumber";
 
 const PhoneButton = () => {
-  const { status, setIsDialogOpen, isDialogOpen, verifyingPhoneNumber } =
-    usePhoneVerificationProvider();
+  const { status, setIsDialogOpen, isDialogOpen, phoneNumber } = usePhoneVerificationProvider();
   const { profile } = useUserProvider();
   const { phoneVerified } = profile;
 
@@ -36,8 +36,10 @@ const PhoneButton = () => {
         {status === PHONE_VERIFICATION_STATUS.CONFIRMING && (
           <p className="text-center">
             A verification message has been sent to{" "}
-            <span className="font-semibold">{verifyingPhoneNumber || "your phone"}</span>. Please
-            check your messages.
+            <span className="font-semibold">
+              {normalizeUsPhoneNumber(phoneNumber.trim()) || "your phone"}
+            </span>
+            . Please check your messages.
           </p>
         )}
         {status === PHONE_VERIFICATION_STATUS.VERIFIED && (

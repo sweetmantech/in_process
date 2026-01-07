@@ -8,7 +8,6 @@ import { normalizeUsPhoneNumber } from "@/lib/phones/normalizeUsPhoneNumber";
 
 export const usePhoneVerify = () => {
   const [phoneNumber, setPhoneNumber] = useState<string>("");
-  const [verifyingPhoneNumber, setVerifyingPhoneNumber] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { getAccessToken } = usePrivy();
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
@@ -36,7 +35,7 @@ export const usePhoneVerify = () => {
     if (profile) {
       if (profile.phoneVerified) {
         setStatus(PHONE_VERIFICATION_STATUS.VERIFIED);
-        setVerifyingPhoneNumber("");
+        setPhoneNumber("");
         setTimeout(() => {
           setIsDialogOpen(false);
         }, 1000);
@@ -68,8 +67,7 @@ export const usePhoneVerify = () => {
       toast.success(
         "A verification message has been sent to your phone. Please check your messages."
       );
-      setVerifyingPhoneNumber(normalizedPhoneNumber);
-      setPhoneNumber("");
+      setPhoneNumber(normalizedPhoneNumber);
       setStatus(PHONE_VERIFICATION_STATUS.CONFIRMING);
       return true;
     } catch (error: any) {
@@ -83,7 +81,6 @@ export const usePhoneVerify = () => {
 
   return {
     phoneNumber,
-    verifyingPhoneNumber,
     isLoading,
     handlePhoneNumberChange,
     verify,
