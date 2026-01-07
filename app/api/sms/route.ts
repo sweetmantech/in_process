@@ -62,11 +62,8 @@ export async function POST(req: NextRequest) {
 
     return Response.json({ success: true }, { headers: corsHeaders });
   } catch (e: any) {
-    console.error("Webhook processing error:", e);
-    return Response.json(
-      { message: "Failed to process webhook" },
-      { status: 500, headers: corsHeaders }
-    );
+    const message = e?.message || "Failed to process webhook";
+    return Response.json({ message }, { status: 500, headers: corsHeaders });
   }
 }
 
