@@ -36,10 +36,8 @@ const PhoneButton = () => {
         {status === PHONE_VERIFICATION_STATUS.CONFIRMING && (
           <p className="text-center">
             A verification message has been sent to{" "}
-            <span className="font-semibold">
-              {normalizeUsPhoneNumber(phoneNumber.trim()) || "your phone"}
-            </span>
-            . Please check your messages.
+            <span className="font-semibold">{phoneNumber || "your phone"}</span>. Please check your
+            messages.
           </p>
         )}
         {status === PHONE_VERIFICATION_STATUS.VERIFIED && (
