@@ -49,7 +49,7 @@ const useFileSelect = () => {
         }
       }
     },
-    [setMimeType, setImageFile, setPreviewFile, setAnimationFile]
+    [setMimeType, setImageFile, setPreviewFile, setAnimationFile, imageFile]
   );
 
   return { selectFile };
