@@ -35,7 +35,6 @@ export const usePhoneVerify = () => {
     if (profile) {
       if (profile.phoneVerified) {
         setStatus(PHONE_VERIFICATION_STATUS.VERIFIED);
-        setPhoneNumber("");
         setTimeout(() => {
           setIsDialogOpen(false);
         }, 1000);
@@ -67,7 +66,6 @@ export const usePhoneVerify = () => {
       toast.success(
         "A verification message has been sent to your phone. Please check your messages."
       );
-      setPhoneNumber(normalizedPhoneNumber);
       setStatus(PHONE_VERIFICATION_STATUS.CONFIRMING);
       return true;
     } catch (error: any) {
