@@ -2,7 +2,6 @@ import { NextRequest } from "next/server";
 import client from "@/lib/telnyx/client";
 import getCorsHeader from "@/lib/getCorsHeader";
 import type { InboundMessageWebhookEvent } from "telnyx/resources/webhooks";
-import { updatePhoneVerified } from "@/lib/supabase/in_process_artist_phones/updatePhoneVerified";
 import { sendSms } from "@/lib/phones/sendSms";
 import { processMmsPhoto } from "@/lib/phones/processMmsPhoto";
 import selectPhone from "@/lib/supabase/in_process_artist_phones/selectPhone";
@@ -44,7 +43,6 @@ export async function POST(req: NextRequest) {
       const media = event.data.payload?.media;
 
       if (fromPhoneNumber) {
-        if (fromPhoneNumber === TELNYX_PRIMARY_PHONE_NUMBER) return;
         const { data: phone, error } = await selectPhone(fromPhoneNumber);
         if (!phone || !phone.verified || error) {
           await sendSms(
