@@ -6,6 +6,7 @@ import { updatePhoneVerified } from "@/lib/supabase/in_process_artist_phones/upd
 import { sendSms } from "@/lib/phones/sendSms";
 import { processMmsPhoto } from "@/lib/phones/processMmsPhoto";
 import selectPhone from "@/lib/supabase/in_process_artist_phones/selectPhone";
+import verifyPhone from "@/lib/phones/verifyPhone";
 
 const corsHeaders = getCorsHeader();
 
@@ -51,14 +52,7 @@ export async function POST(req: NextRequest) {
           throw new Error("Phone number is not linked,");
         }
         if (messageText === "yes" && type === "SMS") {
-          const { error } = await updatePhoneVerified(fromPhoneNumber);
-          if (error) {
-            console.error("Failed to update phone verification:", error);
-          }
-          await sendSms(
-            fromPhoneNumber,
-            "Your phone number has been verified! You can now text photos and captions and we'll post them to In Process."
-          );
+          await verifyPhone(fromPhoneNumber);
         }
         if (type === "MMS" && media && media?.length > 0) {
           await processMmsPhoto(phone, media[0], event.data.payload);
