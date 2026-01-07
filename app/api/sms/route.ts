@@ -7,6 +7,7 @@ import { sendSms } from "@/lib/phones/sendSms";
 import { processMmsPhoto } from "@/lib/phones/processMmsPhoto";
 import selectPhone from "@/lib/supabase/in_process_artist_phones/selectPhone";
 import verifyPhone from "@/lib/phones/verifyPhone";
+import { TELNYX_PRIMARY_PHONE_NUMBER } from "@/lib/consts";
 
 const corsHeaders = getCorsHeader();
 
@@ -43,6 +44,7 @@ export async function POST(req: NextRequest) {
       const media = event.data.payload?.media;
 
       if (fromPhoneNumber) {
+        if (fromPhoneNumber === TELNYX_PRIMARY_PHONE_NUMBER) return;
         const { data: phone, error } = await selectPhone(fromPhoneNumber);
         if (!phone || !phone.verified || error) {
           await sendSms(
