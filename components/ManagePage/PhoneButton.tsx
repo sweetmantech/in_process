@@ -7,7 +7,6 @@ import { PHONE_VERIFICATION_STATUS } from "@/types/phone";
 import PhoneNumberInput from "./PhoneNumberInput";
 import DisconnectPhone from "./DisconnectPhone";
 import { useUserProvider } from "@/providers/UserProvider";
-import { normalizeUsPhoneNumber } from "@/lib/phones/normalizeUsPhoneNumber";
 
 const PhoneButton = () => {
   const { status, setIsDialogOpen, isDialogOpen, phoneNumber } = usePhoneVerificationProvider();
