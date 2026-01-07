@@ -2,8 +2,11 @@ import { NextRequest } from "next/server";
 import client from "@/lib/telnyx/client";
 import getCorsHeader from "@/lib/getCorsHeader";
 import type { InboundMessageWebhookEvent } from "telnyx/resources/webhooks";
-import { updatePhoneVerified } from "@/lib/supabase/in_process_artist_phones/updatePhoneVerified";
 import { sendSms } from "@/lib/phones/sendSms";
+import { processMmsPhoto } from "@/lib/phones/processMmsPhoto";
+import selectPhone from "@/lib/supabase/in_process_artist_phones/selectPhone";
+import verifyPhone from "@/lib/phones/verifyPhone";
+import { TELNYX_PRIMARY_PHONE_NUMBER } from "@/lib/consts";
 
 const corsHeaders = getCorsHeader();
 
@@ -19,32 +22,12 @@ export async function POST(req: NextRequest) {
     });
 
     // Verify webhook signature using Telnyx SDK
+    let event: InboundMessageWebhookEvent;
     try {
-      const event = client.webhooks.unwrap<InboundMessageWebhookEvent>(body, {
+      event = client.webhooks.unwrap<InboundMessageWebhookEvent>(body, {
         headers,
         key: process.env.TELNYX_PUBLIC_KEY,
       });
-
-      // Check if this is a message.received event
-      if (event.data?.event_type === "message.received") {
-        const messageText = event.data.payload?.text?.toLowerCase().trim();
-        const fromPhoneNumber = event.data.payload?.from?.phone_number;
-
-        // Check if message is "yes"
-        if (messageText === "yes" && fromPhoneNumber) {
-          // Update verified field to true for this phone number
-          const { error } = await updatePhoneVerified(fromPhoneNumber);
-          if (error) {
-            console.error("Failed to update phone verification:", error);
-          }
-          await sendSms(
-            fromPhoneNumber,
-            "Your phone number has been verified! You can now text photos and captions and we'll post them to In Process."
-          );
-        }
-      }
-
-      return Response.json({ success: true }, { headers: corsHeaders });
     } catch (err) {
       console.error("Signature verification failed:", err);
       return Response.json(
@@ -52,12 +35,35 @@ export async function POST(req: NextRequest) {
         { status: 400, headers: corsHeaders }
       );
     }
+    // Check if this is a message.received event
+    if (event.data?.event_type === "message.received") {
+      const messageText = event.data.payload?.text?.toLowerCase().trim();
+      const fromPhoneNumber = event.data.payload?.from?.phone_number;
+      const type = event.data.payload?.type;
+      const media = event.data.payload?.media;
+
+      if (fromPhoneNumber) {
+        const { data: phone, error } = await selectPhone(fromPhoneNumber);
+        if (!phone || !phone.verified || error) {
+          await sendSms(
+            fromPhoneNumber,
+            "Welcome to In Process! To get started please visit https://inprocess.world/manage and link your phone number."
+          );
+          throw new Error("Phone number is not linked,");
+        }
+        if (messageText === "yes" && type === "SMS") {
+          await verifyPhone(fromPhoneNumber);
+        }
+        if (type === "MMS" && media && media?.length > 0) {
+          await processMmsPhoto(phone, media[0], event.data.payload);
+        }
+      }
+    }
+
+    return Response.json({ success: true }, { headers: corsHeaders });
   } catch (e: any) {
-    console.error("Webhook processing error:", e);
-    return Response.json(
-      { message: "Failed to process webhook" },
-      { status: 500, headers: corsHeaders }
-    );
+    const message = e?.message || "Failed to process webhook";
+    return Response.json({ message }, { status: 500, headers: corsHeaders });
   }
 }
 
