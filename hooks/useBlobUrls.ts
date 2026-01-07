@@ -37,7 +37,7 @@ export const useBlobUrls = ({
       setBlobUrls((prev) => {
         if (prev.preview) URL.revokeObjectURL(prev.preview);
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { preview: _preview, ...rest } = prev;
+        const { preview: undefined, ...rest } = prev;
         return rest;
       });
     }
@@ -53,7 +53,7 @@ export const useBlobUrls = ({
       setBlobUrls((prev) => {
         if (prev.image) URL.revokeObjectURL(prev.image);
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { image: _image, ...rest } = prev;
+        const { image: undefined, ...rest } = prev;
         return rest;
       });
     }
@@ -69,7 +69,7 @@ export const useBlobUrls = ({
       setBlobUrls((prev) => {
         if (prev.pdf) URL.revokeObjectURL(prev.pdf);
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { pdf: _pdf, ...rest } = prev;
+        const { pdf: undefined, ...rest } = prev;
         return rest;
       });
     }
@@ -85,7 +85,7 @@ export const useBlobUrls = ({
       setBlobUrls((prev) => {
         if (prev.video) URL.revokeObjectURL(prev.video);
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { video: _video, ...rest } = prev;
+        const { video: undefined, ...rest } = prev;
         return rest;
       });
     }
@@ -101,7 +101,7 @@ export const useBlobUrls = ({
       setBlobUrls((prev) => {
         if (prev.audio) URL.revokeObjectURL(prev.audio);
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { audio: _audio, ...rest } = prev;
+        const { audio: undefined, ...rest } = prev;
         return rest;
       });
     }
