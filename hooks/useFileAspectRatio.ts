@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 /**
- * Hook to calculate the aspect ratio from a File object (image, video, etc.)
+ * Hook to calculate the aspect ratio from a File object
  * Returns the aspect ratio (width/height) or null if unable to determine.
  */
 export const useFileAspectRatio = (file: File | null | undefined): number | null => {
