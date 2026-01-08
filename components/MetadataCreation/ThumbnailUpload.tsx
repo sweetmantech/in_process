@@ -1,12 +1,12 @@
-import useIsCreateMode from "@/hooks/useIsCreateMode";
+import useIsCreatePage from "@/hooks/useIsCreatePage";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { ImageIcon } from "lucide-react";
 
 const ThumbnailUpload = () => {
-  const isCreateMode = useIsCreateMode();
+  const isCreatePage = useIsCreatePage();
   const { setIsOpenPreviewUpload } = useMetadataFormProvider();
 
-  if (!isCreateMode) return null;
+  if (!isCreatePage) return null;
 
   return (
     <button
