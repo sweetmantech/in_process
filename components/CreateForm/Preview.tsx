@@ -4,6 +4,7 @@ import WritingPreview from "./WritingPreview";
 import PreviewSection from "./PreviewSection";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import useTypeParam from "@/hooks/useTypeParam";
+import { useFileAspectRatio } from "@/hooks/useFileAspectRatio";
 
 const Preview = () => {
   const {
@@ -17,6 +18,8 @@ const Preview = () => {
   } = useMetadataFormProvider();
   const type = useTypeParam();
 
+  const aspectRatio = useFileAspectRatio(previewFile);
+
   // Show preview if we have selected files (blob data only - this is creation phase)
   const hasSelectedFile = previewFile || animationFile || imageFile;
   const showWritingPreview = writingText && !hasSelectedFile;
@@ -25,7 +28,11 @@ const Preview = () => {
   return (
     <div>
       {showImagePreview && previewFileUrl && (
-        <PreviewSection showProgress={isUploading} uploadProgress={uploadProgress}>
+        <PreviewSection
+          showProgress={isUploading}
+          uploadProgress={uploadProgress}
+          aspectRatio={aspectRatio}
+        >
           <Image
             key={previewFile ? `${previewFile.name}-${previewFile.lastModified}` : previewFileUrl}
             layout="fill"
