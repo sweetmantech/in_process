@@ -6,7 +6,6 @@ import { sendSms } from "@/lib/phones/sendSms";
 import { processMmsPhoto } from "@/lib/phones/processMmsPhoto";
 import selectPhone from "@/lib/supabase/in_process_artist_phones/selectPhone";
 import verifyPhone from "@/lib/phones/verifyPhone";
-import { TELNYX_PRIMARY_PHONE_NUMBER } from "@/lib/consts";
 
 const corsHeaders = getCorsHeader();
 

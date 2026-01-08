@@ -1,3 +1,4 @@
+import { TELNYX_MESSAGING_PROFILE_ID } from "@/lib/consts";
 import getCorsHeader from "@/lib/getCorsHeader";
 import client from "@/lib/telnyx/client";
 
@@ -17,6 +18,7 @@ export async function GET() {
       text: "Hello, World!",
       type: "SMS" as const,
       subject: "10DLC test",
+      messaging_profile_id: TELNYX_MESSAGING_PROFILE_ID,
     };
 
     const response = await client.messages.send(messageParams);
