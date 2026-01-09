@@ -1,6 +1,6 @@
 import getCorsHeader from "@/lib/getCorsHeader";
 import client from "@/lib/telnyx/client";
-import { TELNYX_PRIMARY_PHONE_NUMBER, TELNYX_SECONDARY_PHONE_NUMBER } from "@/lib/consts";
+import { TELNYX_SECONDARY_PHONE_NUMBER } from "@/lib/consts";
 
 const corsHeaders = getCorsHeader();
 
@@ -15,7 +15,7 @@ export async function GET() {
   try {
     const messageParams = {
       from: TELNYX_SECONDARY_PHONE_NUMBER,
-      to: TELNYX_PRIMARY_PHONE_NUMBER,
+      to: "+18885993909",
       text: "Hello, World!",
       media_urls: ["https://i.imgur.com/x5tfTAY.jpeg"],
       type: "MMS" as const,

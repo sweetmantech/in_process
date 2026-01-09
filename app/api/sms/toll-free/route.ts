@@ -15,9 +15,8 @@ export async function GET() {
   try {
     const messageParams = {
       to: "+12063566783",
-      text: "Hello, World!",
+      text: "In Process is testing phone number features. no action required.",
       type: "SMS" as const,
-      subject: "10DLC test",
       messaging_profile_id: TELNYX_MESSAGING_PROFILE_ID,
     };
 
