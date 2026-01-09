@@ -18,7 +18,7 @@ export async function GET(req: NextRequest) {
     const phone_number = params.get("phone_number");
     const messageParams = {
       to: `+1${phone_number}` as string,
-      text: "In Process is testing phone number features. no action required.",
+      text: "Long Text Test: 'Someone is trying to connect this phone number to the artist profile for ... on In Process. If this was you, please reply 'yes'. If this was not you, please ignore this message.' no action required.",
       type: "SMS" as const,
       messaging_profile_id: TELNYX_MESSAGING_PROFILE_ID,
     };
