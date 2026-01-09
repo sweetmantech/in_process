@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import { TELNYX_MESSAGING_PROFILE_ID, TELNYX_TOLL_FREE_PHONE_NUMBER } from "@/lib/consts";
+import { TELNYX_MESSAGING_PROFILE_ID } from "@/lib/consts";
 import getCorsHeader from "@/lib/getCorsHeader";
 import client from "@/lib/telnyx/client";
 
@@ -17,7 +17,6 @@ export async function GET(req: NextRequest) {
     const params = req.nextUrl.searchParams;
     const phone_number = params.get("phone_number");
     const messageParams = {
-      from: TELNYX_TOLL_FREE_PHONE_NUMBER,
       to: `+1${phone_number}` as string,
       text: "In Process is testing phone number features. no action required.",
       type: "SMS" as const,
