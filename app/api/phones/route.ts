@@ -2,11 +2,11 @@ import { NextRequest } from "next/server";
 import { authMiddleware } from "@/middleware/authMiddleware";
 import { upsertPhone } from "@/lib/supabase/in_process_artist_phones/upsertPhone";
 import { deletePhone } from "@/lib/supabase/in_process_artist_phones/deletePhone";
-import { sendVerificationSms } from "@/lib/phones/sendVerificationSms";
 import { selectArtist } from "@/lib/supabase/in_process_artists/selectArtist";
 import getCorsHeader from "@/lib/getCorsHeader";
 import truncateAddress from "@/lib/truncateAddress";
 import { registerPhoneSchema } from "@/lib/schema/phoneNumberSchema";
+import { sendSms } from "@/lib/phones/sendSms";
 
 const corsHeaders = getCorsHeader();
 
@@ -45,7 +45,10 @@ export async function POST(req: NextRequest) {
     const artistName = artist?.username || truncateAddress(artistAddress);
 
     // Send SMS verification message
-    await sendVerificationSms(phone_number, artistName);
+    await sendSms(
+      phone_number,
+      `Someone is trying to connect this phone number to the artist profile for ${artistName} on In Process. If this was you, please reply 'yes'. If this was not you, please ignore this message.`
+    );
 
     return Response.json(
       {
