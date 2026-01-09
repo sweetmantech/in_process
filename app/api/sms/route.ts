@@ -38,23 +38,29 @@ export async function POST(req: NextRequest) {
     if (event.data?.event_type === "message.received") {
       const messageText = event.data.payload?.text?.toLowerCase().trim();
       const fromPhoneNumber = event.data.payload?.from?.phone_number;
-      const type = event.data.payload?.type;
       const media = event.data.payload?.media;
 
       if (fromPhoneNumber) {
-        const { data: phone, error } = await selectPhone(fromPhoneNumber);
-        if (!phone || !phone.verified || error) {
+        const { data: phone } = await selectPhone(fromPhoneNumber);
+        if (phone) {
+          if (phone.verified) {
+            if (media && media?.length > 0)
+              await processMmsPhoto(phone, media[0], event.data.payload);
+          } else {
+            if (messageText === "yes") {
+              await verifyPhone(fromPhoneNumber);
+            } else {
+              await sendSms(
+                fromPhoneNumber,
+                "Your phone number is not verified. Please reply 'yes' to verify your phone number."
+              );
+            }
+          }
+        } else {
           await sendSms(
             fromPhoneNumber,
             "Welcome to In Process! To get started please visit https://inprocess.world/manage and link your phone number."
           );
-        } else {
-          if (messageText === "yes" && type === "SMS") {
-            await verifyPhone(fromPhoneNumber);
-          }
-          if (type === "MMS" && media && media?.length > 0) {
-            await processMmsPhoto(phone, media[0], event.data.payload);
-          }
         }
       }
     }
