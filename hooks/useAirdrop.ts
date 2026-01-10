@@ -8,6 +8,7 @@ import { executeAirdrop } from "@/lib/moment/executeAirdrop";
 import { useMomentProvider } from "@/providers/MomentProvider";
 import { AirdropItem } from "@/types/airdrop";
 import { processAirdropItems } from "@/lib/airdrop/processAirdropItems";
+import resolveAddressForAirdrop from "@/lib/ens/resolveAddressForAirdrop";
 
 const useAirdrop = () => {
   const { moment } = useMomentProvider();
@@ -17,18 +18,51 @@ const useAirdrop = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const { getAccessToken } = usePrivy();
 
-  const onChangeAddress = (value: string) => {
+  const onChangeAddress = async (value: string) => {
     if (!value) return;
-    // Add item to list for UI feedback, but don't start async resolution
-    // Resolution will happen on button click via onAirdrop
-    setAirdropToItems((prev) => [
-      ...prev,
-      {
-        address: isAddress(value) ? value : "",
-        status: isAddress(value) ? "valid" : "validating",
-        ensName: isAddress(value) ? "" : value,
-      },
-    ]);
+
+    // If it's already a valid address, add it immediately
+    if (isAddress(value)) {
+      setAirdropToItems((prev) => [
+        ...prev,
+        {
+          address: value,
+          status: "valid",
+          ensName: "",
+        },
+      ]);
+      return;
+    }
+
+    // For ENS names, add with "validating" status first for immediate UI feedback
+    const newItem: AirdropItem = {
+      address: "",
+      status: "validating",
+      ensName: value,
+    };
+
+    // Add the item to the list
+    setAirdropToItems((prev) => [...prev, newItem]);
+
+    // Immediately resolve the ENS name
+    const resolvedItem = await resolveAddressForAirdrop(value);
+
+    // Update the item - find the last matching item with this ensName and validating status
+    setAirdropToItems((current) => {
+      const updated = [...current];
+      // Find the last item that matches (most recently added)
+      for (let i = updated.length - 1; i >= 0; i--) {
+        if (
+          updated[i]?.ensName === value &&
+          updated[i]?.status === "validating" &&
+          !updated[i]?.address
+        ) {
+          updated[i] = resolvedItem;
+          break;
+        }
+      }
+      return updated;
+    });
   };
 
   const removeAddress = (i: number) => {
