@@ -1,6 +1,6 @@
 import type { InboundMessageWebhookEvent } from "telnyx/resources/webhooks";
 import { maxUint64, parseUnits, Address } from "viem";
-import { REFERRAL_RECIPIENT } from "@/lib/consts";
+import { REFERRAL_RECIPIENT, USDC_ADDRESS } from "@/lib/consts";
 import getPhotoBlob from "@/lib/phones/getPhotoBlob";
 import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
 import { createMoment } from "@/lib/moment/createMoment";
@@ -38,6 +38,7 @@ const createMomentFromPhoto = async (
         pricePerToken: parseUnits("1", 6).toString(),
         saleStart: BigInt(Number(new Date().getTime() / 1000).toFixed(0)),
         saleEnd: maxUint64,
+        currency: USDC_ADDRESS as Address,
       },
       mintToCreatorCount: 1,
       payoutRecipient: artistAddress as Address,
