@@ -35,7 +35,7 @@ const createMomentFromPhoto = async (
       createReferral: getAddress(REFERRAL_RECIPIENT),
       salesConfig: {
         type: MomentType.Erc20Mint,
-        pricePerToken: parseUnits("1", 6),
+        pricePerToken: parseUnits("1", 6).toString(),
         saleStart: BigInt(Number(new Date().getTime() / 1000).toFixed(0)),
         saleEnd: maxUint64,
       },
