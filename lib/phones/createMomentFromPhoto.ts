@@ -1,5 +1,5 @@
 import type { InboundMessageWebhookEvent } from "telnyx/resources/webhooks";
-import { maxUint64, getAddress, parseUnits } from "viem";
+import { maxUint64, parseUnits, Address } from "viem";
 import { REFERRAL_RECIPIENT } from "@/lib/consts";
 import getPhotoBlob from "@/lib/phones/getPhotoBlob";
 import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
@@ -32,7 +32,7 @@ const createMomentFromPhoto = async (
     },
     token: {
       tokenMetadataURI: arweaveUri,
-      createReferral: getAddress(REFERRAL_RECIPIENT),
+      createReferral: REFERRAL_RECIPIENT as Address,
       salesConfig: {
         type: MomentType.Erc20Mint,
         pricePerToken: parseUnits("1", 6).toString(),
@@ -40,9 +40,9 @@ const createMomentFromPhoto = async (
         saleEnd: maxUint64,
       },
       mintToCreatorCount: 1,
-      payoutRecipient: getAddress(artistAddress),
+      payoutRecipient: artistAddress as Address,
     },
-    account: getAddress(artistAddress),
+    account: artistAddress as Address,
   };
   const { contractAddress, tokenId } = await createMoment(momentCreateParameters);
   return {
