@@ -1,10 +1,11 @@
 import type { InboundMessageWebhookEvent } from "telnyx/resources/webhooks";
-import { maxUint64, getAddress } from "viem";
+import { maxUint64, getAddress, parseUnits } from "viem";
 import { REFERRAL_RECIPIENT } from "@/lib/consts";
 import getPhotoBlob from "@/lib/phones/getPhotoBlob";
 import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
 import { createMoment } from "@/lib/moment/createMoment";
 import { uploadJson } from "../arweave/uploadJson";
+import { MomentType } from "@/types/moment";
 
 const createMomentFromPhoto = async (
   photo: InboundMessageWebhookEvent.Data.Payload.Media,
@@ -33,8 +34,8 @@ const createMomentFromPhoto = async (
       tokenMetadataURI: arweaveUri,
       createReferral: getAddress(REFERRAL_RECIPIENT),
       salesConfig: {
-        type: "fixedPrice",
-        pricePerToken: "0",
+        type: MomentType.Erc20Mint,
+        pricePerToken: parseUnits("1", 6).toString(),
         saleStart: BigInt(Number(new Date().getTime() / 1000).toFixed(0)),
         saleEnd: maxUint64,
       },
