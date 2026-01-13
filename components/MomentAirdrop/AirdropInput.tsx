@@ -1,3 +1,5 @@
+"use client";
+
 import useAirdropInput from "@/hooks/useAirdropInput";
 import { useAirdropProvider } from "@/providers/AirdropProvider";
 
