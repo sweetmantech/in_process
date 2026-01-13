@@ -14,7 +14,7 @@ export async function getAirdrops({ artist_address, chainId, offset }: GetAirdro
   const formattedAirdrops =
     airdrops?.map((airdrop) => ({
       collectionAddress: airdrop.moment.collection.address,
-      tokenId: airdrop.moment.token_id,
+      tokenId: airdrop.moment.token_id.toString(),
       recipient: {
         address: airdrop.recipient.address,
         username: airdrop.recipient.username || null,
