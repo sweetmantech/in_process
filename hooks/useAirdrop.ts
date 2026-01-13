@@ -103,6 +103,8 @@ const useAirdrop = () => {
         accessToken,
       });
 
+      // Clear airdrop items after successful airdrop
+      setAirdropToItems([]);
       setLoading(false);
       toast.success("airdropped!");
       return hash;
