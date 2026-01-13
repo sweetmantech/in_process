@@ -1,16 +1,11 @@
+"use client";
+
 import useAirdropRecipients from "@/hooks/useAirdropRecipients";
 import { createContext, useMemo, useContext } from "react";
 
-interface AirdropRecipient {
-  address: string;
-  username: string | null;
-}
-
 interface AirdropRecipientsContextValue extends ReturnType<typeof useAirdropRecipients> {}
 
-const AirdropRecipientsContext = createContext<AirdropRecipientsContextValue>(
-  {} as AirdropRecipientsContextValue
-);
+const AirdropRecipientsContext = createContext<AirdropRecipientsContextValue | null>(null);
 
 const AirdropRecipientsProvider = ({ children }: { children: React.ReactNode }) => {
   const recipientsData = useAirdropRecipients();
