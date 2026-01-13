@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { useAirdropProvider } from "@/providers/AirdropProvider";
 import AirdropButton from "./AirdropButton";
 import { AirdropItem } from "@/types/airdrop";
@@ -10,7 +9,6 @@ import AirdropRecipientsPopup from "./AirdropRecipientsPopup";
 
 const Airdrop = () => {
   const { airdropToItems } = useAirdropProvider();
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   return (
     <div className="w-full">
@@ -21,16 +19,9 @@ const Airdrop = () => {
           ))}
           <AirdropInput />
         </div>
-        <button
-          type="button"
-          onClick={() => setIsPopupOpen(true)}
-          className="absolute bottom-2 right-2 whitespace-nowrap rounded-md bg-black px-3 py-2 text-xs font-archivo text-white transition-opacity hover:opacity-80"
-        >
-          regular addies
-        </button>
+        <AirdropRecipientsPopup />
       </div>
       <AirdropButton />
-      <AirdropRecipientsPopup isOpen={isPopupOpen} onOpenChange={setIsPopupOpen} />
     </div>
   );
 };
