@@ -13,7 +13,6 @@ const cleanTemporaryAssets = async () => {
     }
   } catch (assetsError: any) {
     console.log("Error fetching assets list:", assetsError);
-    // Continue with upload creation even if asset listing fails
   }
 };
 
