@@ -13,7 +13,7 @@ const createUploadUrl = async (accessToken: string): Promise<CreateUploadUrlResp
   });
 
   if (!response.ok) {
-    throw new Error("Failed to create upload URL");
+    throw new Error("Failed to upload a video to mux");
   }
 
   const data = await response.json();
