@@ -1,13 +1,12 @@
-import { Moment } from "@/types/moment";
 import { AirdropResponse } from "@/types/airdrop";
+import { Address } from "viem";
+import { CHAIN_ID } from "../consts";
 
-export const getAirdropsApi = async (moment: Moment): Promise<AirdropResponse[]> => {
-  const { collectionAddress, tokenId, chainId } = moment;
+export const getAirdropsApi = async (artist_address: Address): Promise<AirdropResponse[]> => {
   const params = new URLSearchParams({
-    collectionAddress: collectionAddress,
-    tokenId: tokenId || "1",
-    chainId: chainId.toString(),
-    offset: "0",
+    artist_address,
+    chainId: CHAIN_ID.toString(),
+    offset: "1000",
   });
 
   const response = await fetch(`/api/moment/airdrop?${params.toString()}`);

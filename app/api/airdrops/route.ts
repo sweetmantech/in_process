@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
-import { getAirdropSchema } from "@/lib/schema/getAirdropSchema";
-import { getAirdrops } from "@/lib/moment/getAirdrops";
+import { getAirdropsSchema } from "@/lib/schema/getAirdropsSchema";
+import { getAirdrops } from "@/lib/airdrop/getAirdrops";
 import getCorsHeader from "@/lib/getCorsHeader";
 
 // CORS headers for allowing cross-origin requests
@@ -22,7 +22,7 @@ export async function GET(req: NextRequest) {
       offset: searchParams.get("offset"),
     };
 
-    const parseResult = getAirdropSchema.safeParse(queryParams);
+    const parseResult = getAirdropsSchema.safeParse(queryParams);
     if (!parseResult.success) {
       const errorDetails = parseResult.error.errors.map((err) => ({
         field: err.path.join("."),

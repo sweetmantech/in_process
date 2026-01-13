@@ -1,8 +1,8 @@
 import { z } from "zod";
-import { getAirdropSchema } from "../schema/getAirdropSchema";
+import { getAirdropsSchema } from "../schema/getAirdropsSchema";
 import selectAirdrops from "../supabase/in_process_airdrops/selectAirdrops";
 
-export type GetAirdropsInput = z.infer<typeof getAirdropSchema>;
+export type GetAirdropsInput = z.infer<typeof getAirdropsSchema>;
 
 export async function getAirdrops({ artist_address, chainId, offset }: GetAirdropsInput) {
   const airdrops = await selectAirdrops({
