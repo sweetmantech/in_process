@@ -5,6 +5,8 @@ export interface AirdropItem {
 }
 
 export interface AirdropResponse {
+  collectionAddress: string;
+  tokenId: string;
   recipient: {
     address: string;
     username: string | null;
