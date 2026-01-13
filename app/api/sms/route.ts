@@ -3,7 +3,7 @@ import client from "@/lib/telnyx/client";
 import getCorsHeader from "@/lib/getCorsHeader";
 import type { InboundMessageWebhookEvent } from "telnyx/resources/webhooks";
 import { sendSms } from "@/lib/phones/sendSms";
-import { processMmsPhoto } from "@/lib/phones/processMmsPhoto";
+import { processMmsMedia } from "@/lib/phones/processMmsMedia";
 import selectPhone from "@/lib/supabase/in_process_artist_phones/selectPhone";
 import verifyPhone from "@/lib/phones/verifyPhone";
 
@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
         if (phone) {
           if (phone.verified) {
             if (media && media?.length > 0)
-              await processMmsPhoto(phone, media[0], event.data.payload);
+              await processMmsMedia(phone, media[0], event.data.payload);
           } else {
             if (messageText === "yes") {
               await verifyPhone(fromPhoneNumber);

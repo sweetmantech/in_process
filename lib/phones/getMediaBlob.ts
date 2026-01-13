@@ -1,6 +1,6 @@
 import { InboundMessageWebhookEvent } from "telnyx/resources/webhooks.mjs";
 
-const getPhotoBlob = async (
+const getMediaBlob = async (
   photo: InboundMessageWebhookEvent.Data.Payload.Media
 ): Promise<Blob> => {
   if (!photo.url) {
@@ -17,4 +17,4 @@ const getPhotoBlob = async (
   return blob;
 };
 
-export default getPhotoBlob;
+export default getMediaBlob;
