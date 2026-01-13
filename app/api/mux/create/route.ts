@@ -3,6 +3,7 @@ import mux from "@/lib/mux";
 import { v4 as uuidv4 } from "uuid";
 import { authMiddleware } from "@/middleware/authMiddleware";
 import getCorsHeader from "@/lib/getCorsHeader";
+import cleanTemporaryAssets from "@/lib/mux/cleanTemporaryAssets";
 
 // CORS headers for allowing cross-origin requests
 const corsHeaders = getCorsHeader();
@@ -20,6 +21,8 @@ export async function POST(req: NextRequest) {
     if (authResult instanceof Response) {
       return authResult;
     }
+
+    await cleanTemporaryAssets();
 
     const id = uuidv4();
     const upload = await mux.video.uploads.create({
