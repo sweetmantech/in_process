@@ -24,7 +24,7 @@ const AirdropButton = () => {
       className="mt-2 w-fit rounded-md bg-black px-3 py-2 text-xs font-archivo text-white transition-opacity hover:opacity-80 disabled:cursor-not-allowed disabled:bg-grey-moss-300 disabled:hover:opacity-100"
       onClick={onAirdrop}
     >
-      {loading ? "Loading..." : "Airdrop"}
+      {loading ? "Loading..." : "airdrop"}
     </button>
   );
 };
