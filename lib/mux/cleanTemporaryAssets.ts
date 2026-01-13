@@ -12,7 +12,7 @@ const cleanTemporaryAssets = async () => {
       }
     }
   } catch (assetsError: any) {
-    console.log("Error fetching assets list:", assetsError);
+    console.error("Error fetching assets list:", assetsError);
   }
 };
 
