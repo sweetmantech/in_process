@@ -4,12 +4,16 @@ import { deleteMuxAsset } from "./deleteAsset";
 const cleanTemporaryAssets = async () => {
   const temporaryAssets = [];
   const currentEpoch = Date.now();
+  const AGE_MS = 60 * 60 * 1000; // 1 hour in milliseconds
   try {
     for await (const asset of mux.video.assets.list()) {
       // Delete temporary assets: if an asset was uploaded more than 1 hour ago and is still in Mux,
       // it indicates the artist uploaded the asset but never completed the moment creation process.
-      if (Number(asset.created_at) * 1000 > currentEpoch - 60 * 60 * 1000)
+      const assetCreatedAt = Number(asset.created_at) * 1000;
+      const threshold = currentEpoch - AGE_MS;
+      if (assetCreatedAt < threshold) {
         temporaryAssets.push(asset);
+      }
     }
     const promise = temporaryAssets.map(async (asset) => {
       await deleteMuxAsset(asset.id);
