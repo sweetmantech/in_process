@@ -1,26 +1,20 @@
 import { z } from "zod";
 import { getAirdropSchema } from "../schema/getAirdropSchema";
-import selectMoments from "../supabase/in_process_moments/selectMoments";
 import selectAirdrops from "../supabase/in_process_airdrops/selectAirdrops";
 
 export type GetAirdropsInput = z.infer<typeof getAirdropSchema>;
 
-export async function getAirdrops({ moment, offset }: GetAirdropsInput) {
-  const data = await selectMoments(moment);
-
-  const momentData = data[0];
-
-  if (!momentData) {
-    throw new Error("Moment not found");
-  }
-
+export async function getAirdrops({ artist_address, chainId, offset }: GetAirdropsInput) {
   const airdrops = await selectAirdrops({
-    momentId: momentData.id,
+    artist_address,
+    chainId,
     offset,
   });
 
   const formattedAirdrops =
     airdrops?.map((airdrop) => ({
+      collectionAddress: airdrop.moment.collection.address,
+      tokenId: airdrop.moment.token_id,
       recipient: {
         address: airdrop.recipient.address,
         username: airdrop.recipient.username || null,
