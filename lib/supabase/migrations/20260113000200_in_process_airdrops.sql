@@ -3,7 +3,7 @@
     "artist_address" text not null,
     "amount" numeric not null,
     "updated_at" timestamp with time zone not null,
-    "moment" uuid not null default gen_random_uuid()
+    "moment" uuid not null
       );
 
 
