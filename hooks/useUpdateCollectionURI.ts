@@ -10,7 +10,7 @@ import { migrateMuxToArweaveApi } from "@/lib/mux/migrateMuxToArweaveApi";
 
 const useUpdateCollectionURI = () => {
   const { data: collection, refetch } = useCollectionProvider();
-  const { name, setDescription, mimeType } = useMetadataFormProvider();
+  const { name, mimeType } = useMetadataFormProvider();
   const { getAccessToken } = usePrivy();
   const { generateMetadataUri } = useMetadataUploadProvider();
   const [isLoading, setIsLoading] = useState<boolean>(false);
