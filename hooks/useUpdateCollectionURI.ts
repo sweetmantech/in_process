@@ -6,10 +6,11 @@ import { callUpdateCollectionURI } from "@/lib/collection/callUpdateCollectionUR
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { Address } from "viem";
 import { useMetadataUploadProvider } from "@/providers/MetadataUploadProvider";
+import { migrateMuxToArweaveApi } from "@/lib/mux/migrateMuxToArweaveApi";
 
 const useUpdateCollectionURI = () => {
   const { data: collection, refetch } = useCollectionProvider();
-  const { name, setDescription } = useMetadataFormProvider();
+  const { name, mimeType } = useMetadataFormProvider();
   const { getAccessToken } = usePrivy();
   const { generateMetadataUri } = useMetadataUploadProvider();
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -25,8 +26,9 @@ const useUpdateCollectionURI = () => {
         throw new Error("Collection not found");
       }
 
-      // Use existing metadata generation
-      const newUri = await generateMetadataUri();
+      // Use existing metadata generation, merging with existing metadata
+      const existingMetadata = collection.metadata ?? null;
+      const newUri = await generateMetadataUri(existingMetadata);
 
       const accessToken = await getAccessToken();
       if (!accessToken) {
@@ -43,8 +45,16 @@ const useUpdateCollectionURI = () => {
         accessToken,
       });
 
-      // Reset description state after successful save
-      setDescription("");
+      if (mimeType.includes("video")) {
+        await migrateMuxToArweaveApi(
+          {
+            collectionAddress: collection.address as Address,
+            tokenIds: ["0"],
+            chainId: collection.chain_id,
+          },
+          accessToken
+        );
+      }
 
       // Fetch updated metadata
       refetch();
