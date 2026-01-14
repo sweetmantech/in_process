@@ -56,9 +56,6 @@ const useUpdateCollectionURI = () => {
         );
       }
 
-      // Reset description state after successful save
-      setDescription("");
-
       // Fetch updated metadata
       refetch();
     } catch (error: any) {
