@@ -8,7 +8,7 @@ import { migrateMuxToArweaveApi } from "@/lib/mux/migrateMuxToArweaveApi";
 import useMetadataUpload from "@/hooks/useMetadataUpload";
 
 const useUpdateMomentURI = () => {
-  const { moment, fetchMomentData } = useMomentProvider();
+  const { moment, fetchMomentData, metadata } = useMomentProvider();
   const {
     name,
     mimeType,
@@ -46,8 +46,8 @@ const useUpdateMomentURI = () => {
         throw new Error("Missing token name");
       }
 
-      // Use existing metadata generation from creation flow
-      const newUri = await generateMetadataUri();
+      const existingMetadata = metadata ?? null;
+      const newUri = await generateMetadataUri(existingMetadata);
 
       const accessToken = await getAccessToken();
       if (!accessToken) {

@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useState, ReactNode } from "react";
+import { Fragment, useState, ReactNode, useMemo } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import useMediaInitialization from "@/hooks/useMediaInitialization";
@@ -22,7 +22,7 @@ interface MediaProps {
 }
 
 export const Media = ({ metadata, isOwner, isLoading, isSaving, SaveButton }: MediaProps) => {
-  const { form, hasMedia } = useMetadataFormProvider();
+  const { form } = useMetadataFormProvider();
   const [editActive, setEditActive] = useState(false);
 
   useMediaInitialization(metadata ?? undefined);
@@ -79,12 +79,12 @@ export const Media = ({ metadata, isOwner, isLoading, isSaving, SaveButton }: Me
                 </>
               )}
             </div>
-            {editActive && (hasMedia ?? true) && (
-              <>
-                <SaveButton onSuccess={() => setEditActive(false)} />
-                <OwnerWarning isOwner={isOwner} />
-              </>
-            )}
+            <SaveButton
+              onSuccess={() => {
+                setEditActive(false);
+              }}
+            />
+            <OwnerWarning isOwner={isOwner} />
           </div>
         </div>
       </div>
