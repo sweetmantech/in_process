@@ -10,7 +10,14 @@ export const processMmsMedia = async (
   },
   media: InboundMessageWebhookEvent.Data.Payload.Media,
   payload: InboundMessageWebhookEvent.Data.Payload | undefined
-): Promise<{ contractAddress: string; tokenId: string }> => {
+): Promise<{ contractAddress: string; tokenId: string } | void> => {
+  if (media.content_type?.includes("video")) {
+    await sendSms(
+      phone.phone_number,
+      "Sorry, videos are not supported because their quality is significantly degraded when sent via SMS text message. Please post your video on a platform like YouTube or TikTok and send the link to the video here to add videos to your timeline."
+    );
+    return;
+  }
   const { contractAddress, tokenId } = await createMomentFromMedia(
     media,
     payload,
