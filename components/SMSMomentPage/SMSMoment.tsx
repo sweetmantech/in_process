@@ -10,13 +10,11 @@ import useShareMoment from "@/hooks/useShareMoment";
 import { Skeleton } from "../ui/skeleton";
 import getPrice from "@/lib/getPrice";
 import getPriceUnit from "@/lib/getPriceUnit";
-import { useUserProvider } from "@/providers/UserProvider";
 import Notes from "./Notes";
 
 const SMSMoment = () => {
   const { metadata, isOwner, isSoldOut, saleConfig, isLoading, isSetSale } = useMomentProvider();
   const { share } = useShareMoment();
-  const { artistWallet } = useUserProvider();
 
   if (!metadata) {
     return null;
