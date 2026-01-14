@@ -25,7 +25,7 @@ export const processMmsMedia = async (
   );
   await sendSms(
     phone.phone_number,
-    `Moment created! ${SITE_ORIGINAL_URL}/collect/${IS_TESTNET ? "bsep" : "base"}:${contractAddress}/${tokenId}`
+    `Moment created! ${SITE_ORIGINAL_URL}/sms/${IS_TESTNET ? "bsep" : "base"}:${contractAddress}/${tokenId}`
   );
   return { contractAddress, tokenId };
 };
