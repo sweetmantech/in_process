@@ -12,6 +12,7 @@ import MomentAirdrop from "../MomentAirdrop";
 import { Address } from "viem";
 import { MetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { MetadataUploadProvider } from "@/providers/MetadataUploadProvider";
+import { MomentUriUpdateProvider } from "@/providers/MomentUriUpdateProvider";
 import Admins from "./Admins";
 
 const MomentManagePage = () => {
@@ -32,17 +33,19 @@ const MomentManagePage = () => {
             chainId: data.chain_id,
           }}
         >
-          <MomentOverview />
-          <ManageTabs
-            selectedTab={selectedTab}
-            onChangeTab={(value: number) => setSelectedTab(value)}
-          />
-          <div className="px-4 md:px-10">
-            {selectedTab === MANAGE_TABS.AIRDROP && <MomentAirdrop />}
-            {selectedTab === MANAGE_TABS.SALE && <Sale />}
-            {selectedTab === MANAGE_TABS.MEDIA && <MomentMedia />}
-            {selectedTab === MANAGE_TABS.ADMIN && <Admins />}
-          </div>
+          <MomentUriUpdateProvider>
+            <MomentOverview />
+            <ManageTabs
+              selectedTab={selectedTab}
+              onChangeTab={(value: number) => setSelectedTab(value)}
+            />
+            <div className="px-4 md:px-10">
+              {selectedTab === MANAGE_TABS.AIRDROP && <MomentAirdrop />}
+              {selectedTab === MANAGE_TABS.SALE && <Sale />}
+              {selectedTab === MANAGE_TABS.MEDIA && <MomentMedia />}
+              {selectedTab === MANAGE_TABS.ADMIN && <Admins />}
+            </div>
+          </MomentUriUpdateProvider>
         </MomentProvider>
       </MetadataUploadProvider>
     </MetadataFormProvider>

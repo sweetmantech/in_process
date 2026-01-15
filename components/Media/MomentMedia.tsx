@@ -1,11 +1,11 @@
 import { useMomentProvider } from "@/providers/MomentProvider";
-import useUpdateMomentURI from "@/hooks/useUpdateMomentURI";
+import { useMomentUriUpdateProvider } from "@/providers/MomentUriUpdateProvider";
 import SaveMediaButton from "../MomentManagePage/SaveMediaButton";
 import { Media } from "./Media";
 
 const MomentMedia = () => {
   const { metadata, isOwner, isLoading } = useMomentProvider();
-  const { isLoading: isSaving } = useUpdateMomentURI();
+  const { isLoading: isSaving } = useMomentUriUpdateProvider();
 
   return (
     <Media

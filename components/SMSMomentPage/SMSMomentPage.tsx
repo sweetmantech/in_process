@@ -5,6 +5,9 @@ import { MomentProvider } from "@/providers/MomentProvider";
 import { useParams } from "next/navigation";
 import { parseCollectionAddress } from "@/lib/timeline/parseCollectionAddress";
 import { Address } from "viem";
+import { MetadataFormProvider } from "@/providers/MetadataFormProvider";
+import { MetadataUploadProvider } from "@/providers/MetadataUploadProvider";
+import { MomentUriUpdateProvider } from "@/providers/MomentUriUpdateProvider";
 
 const SMSMomentPage = () => {
   const params = useParams();
@@ -20,15 +23,21 @@ const SMSMomentPage = () => {
   return (
     <main className="flex w-screen grow">
       <div className="flex w-full flex-col items-center justify-center pt-12 md:pt-14">
-        <MomentProvider
-          moment={{
-            collectionAddress: address as Address,
-            tokenId,
-            chainId,
-          }}
-        >
-          <SMSMoment />
-        </MomentProvider>
+        <MetadataFormProvider>
+          <MetadataUploadProvider>
+            <MomentProvider
+              moment={{
+                collectionAddress: address as Address,
+                tokenId,
+                chainId,
+              }}
+            >
+              <MomentUriUpdateProvider>
+                <SMSMoment />
+              </MomentUriUpdateProvider>
+            </MomentProvider>
+          </MetadataUploadProvider>
+        </MetadataFormProvider>
       </div>
     </main>
   );
