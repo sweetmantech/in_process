@@ -14,9 +14,10 @@ import useMediaInitialization from "@/hooks/useMediaInitialization";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { useMetadataUploadProvider } from "@/providers/MetadataUploadProvider";
 import SaveMediaButton from "../MomentManagePage/SaveMediaButton";
-import Title from "./Title";
-import DescriptionEditor from "./DescriptionEditor";
 import { useMomentUriUpdateProvider } from "@/providers/MomentUriUpdateProvider";
+import TitleInput from "../Media/TitleInput";
+import DescriptionInput from "../Media/DescriptionInput";
+import Description from "../MomentPage/Description";
 
 const SMSMoment = () => {
   const { metadata, isOwner, isSoldOut, isLoading } = useMomentProvider();
@@ -24,6 +25,7 @@ const SMSMoment = () => {
   const { fileInputRef, blobUrls, previewFileUrl } = useMetadataFormProvider();
   const { selectFile } = useMetadataUploadProvider();
   const { isLoading: isUpdating } = useMomentUriUpdateProvider();
+  const canEdit = isOwner && !isUpdating;
 
   useMediaInitialization(metadata ?? undefined);
 
@@ -63,9 +65,17 @@ const SMSMoment = () => {
                   onClick={isOwner ? handleImageClick : undefined}
                 />
               </div>
-              <Title />
+              {isOwner ? (
+                <TitleInput disabled={!canEdit} labelHidden />
+              ) : (
+                <p className="font-archivo text-lg text-grey-moss-900">{metadata.name}</p>
+              )}
             </div>
-            <DescriptionEditor />
+            {isOwner ? (
+              <DescriptionInput disabled={!canEdit} labelHidden />
+            ) : (
+              <Description description={metadata.description || ""} />
+            )}
             <div className="flex items-center gap-2 mt-4">
               <TooltipProvider>
                 <Tooltip>
