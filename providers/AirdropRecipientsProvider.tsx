@@ -5,7 +5,9 @@ import { createContext, useMemo, useContext } from "react";
 
 interface AirdropRecipientsContextValue extends ReturnType<typeof useAirdropRecipients> {}
 
-const AirdropRecipientsContext = createContext<AirdropRecipientsContextValue | null>(null);
+const AirdropRecipientsContext = createContext<AirdropRecipientsContextValue>(
+  {} as AirdropRecipientsContextValue
+);
 
 const AirdropRecipientsProvider = ({ children }: { children: React.ReactNode }) => {
   const recipientsData = useAirdropRecipients();
