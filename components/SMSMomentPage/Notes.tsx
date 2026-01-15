@@ -7,7 +7,7 @@ const Notes = () => {
   const { artistWallet } = useUserProvider();
   const { isOwner } = useMomentProvider();
 
-  if (artistWallet || !isOwner)
+  if (artistWallet && !isOwner)
     return (
       <div className="rounded-lg border border-grey-moss-200 bg-grey-moss-50 p-4 mb-4">
         <div className="flex items-start gap-3">
