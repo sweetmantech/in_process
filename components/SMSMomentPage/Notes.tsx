@@ -2,7 +2,7 @@ import { Fragment } from "react";
 import { useUserProvider } from "@/providers/UserProvider";
 import { LoginButton } from "../LoginButton/LoginButton";
 import { useMomentProvider } from "@/providers/MomentProvider";
-import Note from "../Note";
+import Note from "./Note";
 
 const Notes = () => {
   const { artistWallet } = useUserProvider();
