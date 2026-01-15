@@ -1,6 +1,6 @@
 "use client";
 import { useMomentProvider } from "@/providers/MomentProvider";
-import useUpdateMomentURI from "@/hooks/useUpdateMomentURI";
+import { useMomentUriUpdateProvider } from "@/providers/MomentUriUpdateProvider";
 import { toast } from "sonner";
 import { useFormState } from "react-hook-form";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
@@ -11,7 +11,7 @@ interface SaveMediaButtonProps {
 
 const SaveMediaButton = ({ onSuccess }: SaveMediaButtonProps) => {
   const { isOwner } = useMomentProvider();
-  const { updateTokenURI, isLoading: isSaving } = useUpdateMomentURI();
+  const { updateTokenURI, isLoading: isSaving } = useMomentUriUpdateProvider();
   const { form } = useMetadataFormProvider();
   const { errors } = useFormState({ control: form.control });
 
@@ -45,7 +45,7 @@ const SaveMediaButton = ({ onSuccess }: SaveMediaButtonProps) => {
 
   return (
     <button
-      className="w-fit rounded-md bg-black px-8 py-2 text-grey-eggshell transition-colors hover:bg-grey-moss-300 disabled:opacity-50"
+      className="w-fit rounded-md bg-black px-4 md:px-8 md:py-2 py-1 text-grey-eggshell transition-colors hover:bg-grey-moss-300 disabled:opacity-50"
       onClick={handleSave}
       disabled={isSaving || !isOwner || !isFormValid}
     >

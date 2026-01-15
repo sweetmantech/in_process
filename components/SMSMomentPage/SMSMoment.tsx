@@ -2,7 +2,6 @@
 
 import { useMomentProvider } from "@/providers/MomentProvider";
 import MetadataDisplay from "../MetadataDisplay";
-import Description from "../MomentPage/Description";
 import MomentAirdrop from "../MomentAirdrop/MomentAirdrop";
 import { Share2Icon } from "lucide-react";
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "../ui/tooltip";
@@ -11,10 +10,34 @@ import Notes from "./Notes";
 import { Skeleton } from "../ui/skeleton";
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import CollectionImage from "../CollectionImage";
+import useMediaInitialization from "@/hooks/useMediaInitialization";
+import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
+import { useMetadataUploadProvider } from "@/providers/MetadataUploadProvider";
+import SaveMediaButton from "../MomentManagePage/SaveMediaButton";
+import Title from "./Title";
+import DescriptionEditor from "./DescriptionEditor";
+import { useMomentUriUpdateProvider } from "@/providers/MomentUriUpdateProvider";
 
 const SMSMoment = () => {
   const { metadata, isOwner, isSoldOut, isLoading } = useMomentProvider();
   const { share } = useShareMoment();
+  const { fileInputRef, blobUrls, previewFileUrl } = useMetadataFormProvider();
+  const { selectFile } = useMetadataUploadProvider();
+  const { isLoading: isUpdating } = useMomentUriUpdateProvider();
+
+  useMediaInitialization(metadata ?? undefined);
+
+  const handleImageClick = () => {
+    if (isOwner && !isUpdating) {
+      fileInputRef.current?.click();
+    }
+  };
+
+  const imageUrl =
+    blobUrls?.image ||
+    previewFileUrl ||
+    getFetchableUrl(metadata?.image) ||
+    "/images/placeholder.png";
 
   if (!metadata || isLoading)
     return (
@@ -34,31 +57,43 @@ const SMSMoment = () => {
             <div className="flex items-center gap-2 md:block">
               <div className="md:hidden">
                 <CollectionImage
-                  src={getFetchableUrl(metadata.image) || "/images/placeholder.png"}
+                  src={imageUrl}
                   alt={metadata.name || "Moment thumbnail"}
                   className="h-14 w-14"
+                  onClick={isOwner ? handleImageClick : undefined}
                 />
               </div>
-              <h3 className="font-spectral text-xl">{metadata.name}</h3>
+              <Title />
             </div>
-            <Description description={metadata.description || ""} />
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <button
-                    type="button"
-                    onClick={share}
-                    className="rounded-sm border border-grey-moss-900 bg-white p-1"
-                    aria-label="Copy SMS link"
-                  >
-                    <Share2Icon className="size-4 text-grey-moss-900" />
-                  </button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>copy link</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            <DescriptionEditor />
+            <div className="flex items-center gap-2 mt-4">
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <button
+                      type="button"
+                      onClick={share}
+                      className="rounded-sm border border-grey-moss-900 bg-white p-1"
+                      aria-label="Copy SMS link"
+                    >
+                      <Share2Icon className="size-4 text-grey-moss-900" />
+                    </button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>copy link</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+              {isOwner && <SaveMediaButton />}
+            </div>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              onChange={selectFile}
+              className="hidden"
+              disabled={!isOwner || isUpdating}
+            />
           </div>
           <div className="hidden md:flex w-full grow justify-center">
             <div className="relative aspect-[576/700] h-fit w-full overflow-hidden font-spectral">
