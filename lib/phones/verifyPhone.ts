@@ -8,7 +8,7 @@ const verifyPhone = async (phoneNumber: string) => {
   }
   await sendSms(
     phoneNumber,
-    "Your phone number has been verified! You can now text photos and description to post them on In Process."
+    "Your phone number has been verified! You can now text photos and descriptions to post them on In Process."
   );
 };
 
