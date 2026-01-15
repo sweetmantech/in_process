@@ -19,6 +19,8 @@ const Notes = () => {
       </div>
     );
 
+  if (artistWallet) return null;
+
   return (
     <>
       <div className="rounded-lg border border-grey-moss-200 bg-grey-moss-50 p-4 mb-4">
