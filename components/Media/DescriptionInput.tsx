@@ -16,7 +16,6 @@ const DescriptionInput = ({ disabled, labelHidden }: DescriptionInputProps) => {
         {...form.register("description")}
         className="focus:border-grey-moss-500 !font-spectral !text-md"
         minRows={3}
-        maxRows={10}
         placeholder="enter a description"
         disabled={disabled}
       />

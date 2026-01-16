@@ -24,14 +24,14 @@ const Breadcrumbs = ({ items }: BreadcrumbsProps) => {
             <button
               type="button"
               onClick={() => push(item.href!)}
-              className={`rounded-md px-2 py-1 hover:bg-black hover:text-grey-eggshell truncate min-w-0 max-w-[200px] ${
+              className={`rounded-md px-2 py-1 hover:bg-black hover:text-grey-eggshell ${
                 index === 0 ? "hover:text-grey-moss-100" : ""
               }`}
             >
               {item.isLoading ? <Skeleton className="h-4 w-12 rounded-sm" /> : item.label}
             </button>
           ) : (
-            <div className="rounded-md px-2 py-1 hover:bg-black hover:text-grey-eggshell truncate min-w-0 max-w-[200px]">
+            <div className="rounded-md px-2 py-1 hover:bg-black hover:text-grey-eggshell">
               {item.isLoading ? <Skeleton className="h-4 w-12 rounded-sm" /> : item.label}
             </div>
           )}

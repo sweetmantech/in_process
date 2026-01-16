@@ -21,7 +21,7 @@ const CollectionManagePage = () => {
         <div className="md:px-10 px-4">
           <CollectionMedia />
         </div>
-        <TimelineProvider collection={collection} includeHidden={true}>
+        <TimelineProvider collection={collection}>
           <Moments />
         </TimelineProvider>
       </MetadataUploadProvider>
