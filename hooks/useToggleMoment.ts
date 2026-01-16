@@ -4,6 +4,7 @@ import { toggleMoment } from "@/lib/timeline/toggleMoment";
 import { toast } from "sonner";
 import { usePrivy } from "@privy-io/react-auth";
 import { Address } from "viem";
+import { useQueryClient } from "@tanstack/react-query";
 import { useMomentAdminHidden } from "./useMomentAdminHidden";
 
 /**
@@ -14,6 +15,7 @@ export const useToggleMoment = (moment: TimelineMoment) => {
   const hidden = useMomentAdminHidden(moment);
   const [isHidden, setIsHidden] = useState(false);
   const { getAccessToken } = usePrivy();
+  const queryClient = useQueryClient();
 
   // Sync local state when hidden value changes
   useEffect(() => {
@@ -42,6 +44,7 @@ export const useToggleMoment = (moment: TimelineMoment) => {
       } else {
         toast("Moment visibility toggled");
       }
+      await queryClient.invalidateQueries({ queryKey: ["timeline"] });
     } catch (error) {
       console.error("Failed to toggle moment visibility:", error);
       toast("Failed to toggle moment visibility");
