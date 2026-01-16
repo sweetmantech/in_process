@@ -24,7 +24,7 @@ const GridItem = ({ feed }: GridItemProps) => {
             <ContentRenderer metadata={data} />
           </div>
           <div className="px-2 pt-2">
-            <p className="font-archivo text-sm text-left">{data.name}</p>
+            <p className="font-archivo text-sm text-left truncate">{data.name}</p>
             <p className="font-archivo text-sm text-left">
               {new Date(feed.created_at).toLocaleString()}
             </p>
