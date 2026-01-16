@@ -39,7 +39,7 @@ BEGIN
 
   -- Get moments array with admins
   WITH moment_data AS (
-    SELECT DISTINCT
+    SELECT
       m.id,
       m.collection,
       m.token_id,
@@ -53,13 +53,23 @@ BEGIN
       -- Get default admin info
       da.username AS default_admin_username,
       -- Get default admin hidden status from admins table (if they have an admin entry)
+      -- Prioritize token-specific admin entry over collection-level (token_id = 0)
       COALESCE(da_admin.hidden, false) AS default_admin_hidden
     FROM in_process_moments m
     INNER JOIN in_process_collections c ON m.collection = c.id
     INNER JOIN in_process_artists da ON c.default_admin = da.address
-    LEFT JOIN in_process_admins da_admin ON m.collection = da_admin.collection 
-      AND (da_admin.token_id = m.token_id OR da_admin.token_id = 0)
-      AND da_admin.artist_address = c.default_admin
+    LEFT JOIN LATERAL (
+      SELECT DISTINCT ON (da_admin.artist_address)
+        da_admin.hidden
+      FROM in_process_admins da_admin
+      WHERE da_admin.collection = m.collection 
+        AND (da_admin.token_id = m.token_id OR da_admin.token_id = 0)
+        AND da_admin.artist_address = c.default_admin
+      ORDER BY da_admin.artist_address,
+        CASE WHEN da_admin.token_id = m.token_id THEN 0 ELSE 1 END,
+        da_admin.granted_at ASC
+      LIMIT 1
+    ) da_admin ON true
     WHERE
       c.address = LOWER(p_collection)
       AND (p_chainid IS NULL OR c.chain_id = p_chainid)
