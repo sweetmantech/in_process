@@ -39,7 +39,9 @@ const MomentItem = ({ m }: { m: TimelineMoment }) => {
             />
           </div>
           <div className="flex items-center justify-between gap-6 py-2">
-            <p className="font-archivo text-grey-moss-900">{data?.name}</p>
+            <p className="font-archivo text-grey-moss-900 truncate min-w-0 max-w-[200px]">
+              {data?.name}
+            </p>
             <p className="font-archivo text-sm text-grey-moss-900 bg-grey-moss-100 rounded-md px-2">
               id: {m.token_id}
             </p>

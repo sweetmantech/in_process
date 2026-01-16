@@ -23,7 +23,9 @@ const OverviewContent = ({ metadata, name, address, isLoading = false }: Overvie
         {isLoading ? <Skeleton className="size-full" /> : <ContentRenderer metadata={metadata} />}
       </div>
       <div className="space-y-2">
-        <p className="font-archivo-medium text-xl md:text-4xl">{name}</p>
+        <p className="font-archivo-medium text-xl md:text-4xl truncate min-w-0 max-w-[200px]">
+          {name}
+        </p>
         <CopyButton text={address} />
       </div>
     </div>
