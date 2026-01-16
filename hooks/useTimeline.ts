@@ -40,6 +40,8 @@ export function useTimeline({
     },
     enabled,
     staleTime: 1000 * 60 * 5,
+    refetchOnWindowFocus: true,
+    refetchOnMount: true,
     retry: (failureCount) => failureCount < 3,
     getNextPageParam: (lastPage) => {
       const { page, total_pages } = lastPage.pagination;
