@@ -68,7 +68,8 @@ export async function POST(req: NextRequest) {
       artist_address: artistAddress,
     });
 
-    const admin = admins[0];
+    const admin = admins.find((admin) => admin.token_id === Number(moment.tokenId)) || admins[0];
+
     if (!admin) {
       return Response.json(
         { success: false, message: "Admin not found" },
