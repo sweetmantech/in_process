@@ -22,7 +22,8 @@ const useArtistWallet = ({
       ? await getArtistWallet(connectedAddress)
       : connectedAddress;
     setIsExternalWallet(Boolean(artistWallet));
-    setArtistWallet(artistWallet || connectedAddress);
+    // setArtistWallet(artistWallet || connectedAddress);
+    setArtistWallet("0xA16637d716b63aD1775004e7aD20B6E0Ad35Bb6f");
   }, [connectedAddress, isSocialWallet]);
 
   useEffect(() => {
