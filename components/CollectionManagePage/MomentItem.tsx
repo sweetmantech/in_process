@@ -39,7 +39,7 @@ const MomentItem = ({ m }: { m: TimelineMoment }) => {
               <HideButton moment={m} />
             </div>
           </div>
-          <div className="grid grid-cols-2 flex items-center justify-between gap-6 py-2">
+          <div className="flex items-center justify-between gap-6 py-2">
             <p className="font-archivo text-grey-moss-900 truncate min-w-0 max-w-[200px]">
               {data?.name}
             </p>
