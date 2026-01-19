@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { useMomentProvider } from "@/providers/MomentProvider";
+import { useCollectionProvider } from "@/providers/CollectionProvider";
 import { toast } from "sonner";
 import { usePrivy } from "@privy-io/react-auth";
 import { getAddress } from "viem";
 import { addMomentAdmin } from "@/lib/moment/addMomentAdmin";
 import { resolveAddressOrEns } from "@/lib/ens/resolveAddressOrEns";
 
-const useAddMomentAdmin = () => {
-  const { momentAdmins, moment } = useMomentProvider();
+const useAddCollectionAdmin = () => {
+  const { data } = useCollectionProvider();
   const [newAdminAddress, setNewAdminAddress] = useState("");
   const [isAdding, setIsAdding] = useState(false);
   const { getAccessToken } = usePrivy();
@@ -19,13 +19,18 @@ const useAddMomentAdmin = () => {
         return;
       }
 
+      if (!data) {
+        toast.error("Collection data not available");
+        return;
+      }
+
       setIsAdding(true);
 
       // Resolve address or ENS name
       const normalizedAddress = await resolveAddressOrEns(newAdminAddress);
 
       // Check if address is already an admin
-      if (momentAdmins?.some((admin: string) => getAddress(admin) === normalizedAddress)) {
+      if (data.admins?.some((admin: string) => getAddress(admin) === normalizedAddress)) {
         toast.error("This address is already an admin.");
         setNewAdminAddress("");
         setIsAdding(false);
@@ -38,12 +43,17 @@ const useAddMomentAdmin = () => {
         throw new Error("Authentication required");
       }
 
-      // Call API to add admin
+      // Call API to add admin using moment with tokenId "0" for collection-level permissions
       await addMomentAdmin({
-        moment,
+        moment: {
+          collectionAddress: data.address as `0x${string}`,
+          tokenId: "0",
+          chainId: data.chain_id,
+        },
         adminAddress: normalizedAddress,
         accessToken,
       });
+
       toast.success("Admin added successfully.");
     } catch (error: any) {
       console.error("Error adding admin:", error);
@@ -62,4 +72,4 @@ const useAddMomentAdmin = () => {
   };
 };
 
-export default useAddMomentAdmin;
+export default useAddCollectionAdmin;

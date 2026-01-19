@@ -14,19 +14,19 @@ export interface AddPermissionResult {
 }
 
 /**
- * Adds a permission to a Moment via the smart account flow using Coinbase CDP.
+ * Adds admin permissions to a Moment via the smart account flow using Coinbase CDP.
  *
- * This function adds or updates an admin permission for a specified address on a Moment.
- * The operation is executed through a smart account (contract wallet) associated with
- * the artist address, allowing gasless transactions via user operations.
+ * This function adds admin permissions for both the specified admin address and the smart account
+ * address associated with that admin address. The operation is executed through a smart account
+ * (contract wallet) associated with the artist address, allowing gasless transactions via user operations.
  *
  * @param {AddPermissionInput} params - The permission details and context
  * @param {Moment} params.moment - The Moment object containing collection address and token ID
- * @param {Address} params.adminAddress - The address to grant admin permission to
- * @param {Address} params.artistAddress - The artist's address used to get or create the smart account
+ * @param {Address} params.adminAddress - The address to grant admin permission to (and its associated smart account)
+ * @param {Address} params.artistAddress - The artist's address used to get or create the smart account for executing the transaction
  * @returns {Promise<AddPermissionResult>} The transaction hash and chain ID of the executed permission update
  *
- * @sideEffect Adds or updates the admin permission on the Moment's collection contract
+ * @sideEffect Adds or updates admin permissions on the Moment's collection contract for both the admin address and the admin's smart account address
  */
 export async function addPermission({
   moment,
@@ -38,14 +38,23 @@ export async function addPermission({
     address: artistAddress,
   });
 
-  // Get the add permission call using the shared function
+  // Get the add permission call for the admin address
   const addPermissionCall = getAddPermissionCall(moment, adminAddress);
+
+  // Get or create a smart account for the admin address and add its permission
+  const adminSmartAccount = await getOrCreateSmartWallet({
+    address: adminAddress,
+  });
+  const addSmartAccountPermissionCall = getAddPermissionCall(
+    moment,
+    adminSmartAccount.address as Address
+  );
 
   // Send the transaction and wait for receipt using the helper
   const transaction = await sendUserOperation({
     smartAccount,
     network: IS_TESTNET ? "base-sepolia" : "base",
-    calls: [addPermissionCall],
+    calls: [addPermissionCall, addSmartAccountPermissionCall],
   });
 
   return {
