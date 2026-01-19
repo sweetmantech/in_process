@@ -36,6 +36,7 @@ export interface CollectionResponse {
     address: string;
     username: string | null;
   };
+  admins: Address[];
   payout_recipient: string;
   created_at: string;
   updated_at: string;
