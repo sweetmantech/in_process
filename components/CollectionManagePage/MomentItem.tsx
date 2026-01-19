@@ -4,13 +4,11 @@ import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import { useRouter } from "next/navigation";
 import { Skeleton } from "../ui/skeleton";
 import { networkConfigByChain } from "@/lib/protocolSdk/apis/chain-constants";
-import { useUserProvider } from "@/providers/UserProvider";
 import HideButton from "../TimelineMoments/HideButton";
 import { TimelineMoment } from "@/types/moment";
 
 const MomentItem = ({ m }: { m: TimelineMoment }) => {
   const { push } = useRouter();
-  const { connectedAddress } = useUserProvider();
   const { data, isLoading } = useMetadata(m.uri);
 
   const handleClick = () => {
@@ -37,15 +35,17 @@ const MomentItem = ({ m }: { m: TimelineMoment }) => {
               objectFit="cover"
               objectPosition="center center"
             />
+            <div className="absolute right-4 top-4 z-[100]">
+              <HideButton moment={m} />
+            </div>
           </div>
           <div className="flex items-center justify-between gap-6 py-2">
             <p className="font-archivo text-grey-moss-900 truncate min-w-0 max-w-[200px]">
               {data?.name}
             </p>
-            <p className="font-archivo text-sm text-grey-moss-900 bg-grey-moss-100 rounded-md px-2">
+            <p className="font-archivo text-sm text-grey-moss-900 bg-grey-moss-100 rounded-md px-2 text-right">
               id: {m.token_id}
             </p>
-            {connectedAddress && <HideButton moment={m} />}
           </div>
         </>
       )}
