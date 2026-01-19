@@ -39,9 +39,13 @@ const useRemoveCollectionAdmin = () => {
       });
 
       toast.success("Admin removed successfully");
-    } catch (error: any) {
-      console.error("Error removing admin:", error);
-      toast.error(error?.message || "Failed to remove admin");
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        const msg = typeof error === "string" ? error : JSON.stringify(error);
+        toast.error(msg || "Failed to remove admin");
+      }
     } finally {
       setIsRemoving(false);
     }
