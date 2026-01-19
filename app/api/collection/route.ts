@@ -3,7 +3,6 @@ import { CHAIN_ID } from "@/lib/consts";
 import { fetchTokenMetadata } from "@/lib/protocolSdk/ipfs/token-metadata";
 import selectCollections from "@/lib/supabase/in_process_collections/selectCollections";
 import selectAdmins from "@/lib/supabase/in_process_admins/selectAdmins";
-import { supabase } from "@/lib/supabase/client";
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
