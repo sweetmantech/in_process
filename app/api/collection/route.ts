@@ -2,6 +2,7 @@ import { NextRequest } from "next/server";
 import { CHAIN_ID } from "@/lib/consts";
 import { fetchTokenMetadata } from "@/lib/protocolSdk/ipfs/token-metadata";
 import selectCollections from "@/lib/supabase/in_process_collections/selectCollections";
+import selectAdmins from "@/lib/supabase/in_process_admins/selectAdmins";
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -33,9 +34,23 @@ export async function GET(req: NextRequest) {
 
     const metadata = await fetchTokenMetadata(collection.uri);
 
+    const admins = await selectAdmins({
+      moments: [
+        {
+          collectionId: collection.id,
+          token_id: 0,
+        },
+      ],
+    });
+
+    const uniqueAdmins = Array.from(new Set(admins.map((admin) => admin.artist_address))).sort(
+      (b, a) => b.localeCompare(a)
+    );
+
     const response = {
       ...collection,
       metadata,
+      admins: uniqueAdmins,
     };
 
     return Response.json(response);
