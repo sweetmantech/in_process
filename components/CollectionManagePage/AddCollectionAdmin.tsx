@@ -6,12 +6,6 @@ import { useState } from "react";
 
 const AddCollectionAdmin = () => {
   const [newAdminAddress, setNewAdminAddress] = useState("");
-  const isAdding = false; // TODO: Replace with actual adding state
-
-  // TODO: Replace with actual add admin handler
-  const handleAddAdmin = () => {
-    // Placeholder for add admin functionality
-  };
 
   return (
     <div className="flex flex-col gap-2 border-t border-grey-secondary pt-4">
@@ -22,16 +16,14 @@ const AddCollectionAdmin = () => {
           placeholder="Enter admin address or ENS name (0x... or name.eth)"
           value={newAdminAddress}
           onChange={(e) => setNewAdminAddress(e.target.value)}
-          disabled={isAdding}
           className="flex-1"
         />
         <Button
           type="button"
-          onClick={handleAddAdmin}
-          disabled={!newAdminAddress.trim() || isAdding}
+          disabled={!newAdminAddress.trim()}
           className="w-fit rounded-md bg-black px-8 py-2 text-grey-eggshell disabled:opacity-50"
         >
-          {isAdding ? "Adding..." : "Add"}
+          Add
         </Button>
       </div>
     </div>

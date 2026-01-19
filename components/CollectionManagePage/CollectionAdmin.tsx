@@ -5,17 +5,17 @@ import { Trash2 } from "lucide-react";
 import truncateAddress from "@/lib/truncateAddress";
 import { Address } from "viem";
 import { useArtistProfile } from "@/hooks/useArtistProfile";
+import { useSmartWalletProvider } from "@/providers/SmartWalletProvider";
+import { useUserProvider } from "@/providers/UserProvider";
 
 const CollectionAdmin = ({ address }: { address: Address }) => {
   const { data: artistProfile } = useArtistProfile(address);
+  const { smartWallet } = useSmartWalletProvider();
+  const { artistWallet } = useUserProvider();
 
-  // TODO: Replace with actual remove admin handler
-  const handleRemoveAdmin = () => {
-    // Placeholder for remove admin functionality
-  };
-
-  const isRemoving = false;
-  const isRemovable = true; // TODO: Add logic to check if admin can be removed
+  const isRemovable =
+    address.toLowerCase() !== artistWallet?.toLowerCase() &&
+    address.toLowerCase() !== smartWallet.toLowerCase();
 
   return (
     <div className="flex items-center justify-between rounded-lg border border-grey-secondary bg-grey-eggshell p-3">
@@ -30,8 +30,7 @@ const CollectionAdmin = ({ address }: { address: Address }) => {
         type="button"
         variant="outline"
         size="sm"
-        onClick={handleRemoveAdmin}
-        disabled={isRemoving || !isRemovable}
+        disabled={!isRemovable}
         className="border-red-300 text-red-600 hover:bg-red-50"
       >
         <Trash2 className="h-4 w-4" />
