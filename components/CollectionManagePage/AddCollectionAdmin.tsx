@@ -2,10 +2,10 @@
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import useAddCollectionAdmin from "@/hooks/useAddCollectionAdmin";
 
 const AddCollectionAdmin = () => {
-  const [newAdminAddress, setNewAdminAddress] = useState("");
+  const { newAdminAddress, setNewAdminAddress, handleAddAdmin, isAdding } = useAddCollectionAdmin();
 
   return (
     <div className="flex flex-col gap-2 border-t border-grey-secondary pt-4">
@@ -16,14 +16,16 @@ const AddCollectionAdmin = () => {
           placeholder="Enter admin address or ENS name (0x... or name.eth)"
           value={newAdminAddress}
           onChange={(e) => setNewAdminAddress(e.target.value)}
+          disabled={isAdding}
           className="flex-1"
         />
         <Button
           type="button"
-          disabled={!newAdminAddress.trim()}
+          onClick={handleAddAdmin}
+          disabled={!newAdminAddress.trim() || isAdding}
           className="w-fit rounded-md bg-black px-8 py-2 text-grey-eggshell disabled:opacity-50"
         >
-          Add
+          {isAdding ? "Adding..." : "Add"}
         </Button>
       </div>
     </div>
