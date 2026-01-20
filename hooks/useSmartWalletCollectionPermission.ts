@@ -7,8 +7,12 @@ const useSmartWalletCollectionPermission = () => {
   const { data } = useCollectionProvider();
 
   const hasPermission = data && data?.admins.includes(smartWallet.toLowerCase() as Address);
+  const hasNotPermission = data && !data?.admins.includes(smartWallet.toLowerCase() as Address);
 
-  return hasPermission;
+  return {
+    hasPermission,
+    hasNotPermission,
+  };
 };
 
 export default useSmartWalletCollectionPermission;
