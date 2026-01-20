@@ -16,7 +16,7 @@ const AirdropRecipientsPopup = () => {
       <button
         type="button"
         onClick={() => setIsOpen(true)}
-        className="absolute bottom-2 right-2 whitespace-nowrap rounded-md bg-black px-3 py-2 text-xs font-archivo text-white transition-opacity hover:opacity-80"
+        className="absolute top-1/2 -translate-y-1/2 right-2 whitespace-nowrap rounded-md bg-black px-3 py-2 text-xs font-archivo text-white transition-opacity hover:opacity-80"
       >
         regular addies
       </button>
