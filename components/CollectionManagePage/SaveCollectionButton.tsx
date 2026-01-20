@@ -21,7 +21,7 @@ const SaveCollectionButton = (props: SaveCollectionButtonProps) => {
           onClick={onSave}
           disabled={isSaving || isDisabled}
         >
-          {isSaving ? "saving..." : "Save"}
+          {isSaving ? "saving..." : "save"}
         </button>
       )}
     </div>
