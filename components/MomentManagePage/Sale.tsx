@@ -2,13 +2,10 @@ import useSaleConfig from "@/hooks/useSaleConfig";
 import { Fragment } from "react";
 import { DateTimePicker } from "../ui/date-time-picker";
 import { useMomentProvider } from "@/providers/MomentProvider";
-import useMomentLegacyWarning from "@/hooks/useMomentLegacyWarning";
-import Warning from "./Warning";
 
 const Sale = () => {
   const { saleStart, setSaleStart, setSale, isLoading } = useSaleConfig();
-  const { saleConfig, isOwner } = useMomentProvider();
-  const hasWarning = useMomentLegacyWarning();
+  const { saleConfig } = useMomentProvider();
 
   if (!saleConfig) return <Fragment />;
   return (
@@ -18,7 +15,6 @@ const Sale = () => {
           <div>sale is not yet activated.</div>
         ) : (
           <>
-            <Warning />
             <div>
               <p className="pb-2">
                 sale start:{" "}
@@ -31,9 +27,9 @@ const Sale = () => {
               <DateTimePicker date={saleStart} setDate={(value) => setSaleStart(value)} />
             </div>
             <button
-              className="w-fit rounded-md bg-black px-8 py-2 text-grey-eggshell disabled:opacity-50"
+              className="w-fit rounded-md bg-black px-8 py-2 text-grey-eggshell"
               onClick={setSale}
-              disabled={isLoading || !isOwner || hasWarning}
+              disabled={isLoading}
             >
               {isLoading ? "setting..." : "set sale"}
             </button>
