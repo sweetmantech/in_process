@@ -21,7 +21,6 @@ const useSaveCollectionButton = ({ onSuccess }: SaveCollectionButtonProps) => {
   const isFormValid = hasValidName && !nameError;
 
   const isDisabled = !isOwner || !isFormValid || hasNotPermission;
-  const hasWarning = isOwner && hasNotPermission;
 
   const onSave = useCallback(async () => {
     const isValid = await form.trigger();
@@ -51,7 +50,7 @@ const useSaveCollectionButton = ({ onSuccess }: SaveCollectionButtonProps) => {
     isSaving,
     isDisabled,
     onSave,
-    hasWarning,
+    hasNotPermission,
   };
 };
 
