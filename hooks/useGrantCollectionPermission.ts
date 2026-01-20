@@ -88,7 +88,6 @@ const useGrantCollectionPermission = () => {
   return {
     grantPermission,
     isGranting,
-    hasExternalWallet: Boolean(externalWallet),
   };
 };
 
