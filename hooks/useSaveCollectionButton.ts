@@ -4,12 +4,10 @@ import { useFormState } from "react-hook-form";
 import useUpdateCollectionURI from "@/hooks/useUpdateCollectionURI";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import useIsCollectionOwner from "@/hooks/useIsCollectionOwner";
-import useSmartWalletCollectionPermission from "@/hooks/useSmartWalletCollectionPermission";
 import { SaveCollectionButtonProps } from "@/types/ui";
 
 const useSaveCollectionButton = ({ onSuccess }: SaveCollectionButtonProps) => {
   const isOwner = useIsCollectionOwner();
-  const { hasNotPermission } = useSmartWalletCollectionPermission();
   const { updateCollectionURI, isLoading: isSaving } = useUpdateCollectionURI();
   const { form } = useMetadataFormProvider();
   const { errors } = useFormState({ control: form.control });
@@ -20,8 +18,7 @@ const useSaveCollectionButton = ({ onSuccess }: SaveCollectionButtonProps) => {
   const hasValidName = nameValue && typeof nameValue === "string" && nameValue.trim().length > 0;
   const isFormValid = hasValidName && !nameError;
 
-  const isDisabled = !isOwner || !isFormValid || hasNotPermission;
-  const hasWarning = isOwner && hasNotPermission;
+  const isDisabled = !isOwner || !isFormValid;
 
   const onSave = useCallback(async () => {
     const isValid = await form.trigger();
@@ -51,7 +48,6 @@ const useSaveCollectionButton = ({ onSuccess }: SaveCollectionButtonProps) => {
     isSaving,
     isDisabled,
     onSave,
-    hasWarning,
   };
 };
 

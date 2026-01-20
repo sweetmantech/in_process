@@ -1,23 +1,21 @@
 "use client";
+
+import useCollectionLegacyWarning from "@/hooks/useCollectionLegacyWarning";
 import useSaveCollectionButton from "@/hooks/useSaveCollectionButton";
 import { SaveCollectionButtonProps } from "@/types/ui";
+import Warning from "./Warning";
 
 const SaveCollectionButton = (props: SaveCollectionButtonProps) => {
-  const { isSaving, isDisabled, onSave, hasWarning } = useSaveCollectionButton(props);
+  const { isSaving, isDisabled, onSave } = useSaveCollectionButton(props);
+  const hasWarning = useCollectionLegacyWarning();
 
   return (
     <div>
-      {hasWarning && (
-        <p className="mb-4 text-sm text-amber-600">
-          The In Process smart wallet does not have permission to edit legacy moments. Please sign a
-          transaction with your external wallet to grant the smart wallet permission to edit this
-          collection.
-        </p>
-      )}
+      <Warning />
       <button
         className="w-fit rounded-md bg-black px-8 py-2 text-grey-eggshell transition-colors hover:bg-grey-moss-300 disabled:opacity-50"
         onClick={onSave}
-        disabled={isSaving || isDisabled}
+        disabled={isSaving || isDisabled || hasWarning}
       >
         {isSaving ? "saving..." : "Save"}
       </button>
