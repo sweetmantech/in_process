@@ -4,6 +4,7 @@ import { DateTimePicker } from "../ui/date-time-picker";
 import { useMomentProvider } from "@/providers/MomentProvider";
 import useMomentLegacyWarning from "@/hooks/useMomentLegacyWarning";
 import Warning from "./Warning";
+import GrantMomentPermissionButton from "./GrantMomentPermissionButton";
 
 const Sale = () => {
   const { saleStart, setSaleStart, setSale, isLoading } = useSaleConfig();
@@ -30,13 +31,17 @@ const Sale = () => {
               </p>
               <DateTimePicker date={saleStart} setDate={(value) => setSaleStart(value)} />
             </div>
-            <button
-              className="w-fit rounded-md bg-black px-8 py-2 text-grey-eggshell disabled:opacity-50"
-              onClick={setSale}
-              disabled={isLoading || !isOwner || hasWarning}
-            >
-              {isLoading ? "setting..." : "set sale"}
-            </button>
+            {hasWarning ? (
+              <GrantMomentPermissionButton />
+            ) : (
+              <button
+                className="w-fit rounded-md bg-black px-8 py-2 text-grey-eggshell disabled:opacity-50"
+                onClick={setSale}
+                disabled={isLoading || !isOwner}
+              >
+                {isLoading ? "setting..." : "set sale"}
+              </button>
+            )}
           </>
         )}
       </div>

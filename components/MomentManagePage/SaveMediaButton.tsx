@@ -6,6 +6,7 @@ import { useFormState } from "react-hook-form";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import useMomentLegacyWarning from "@/hooks/useMomentLegacyWarning";
 import Warning from "./Warning";
+import GrantMomentPermissionButton from "./GrantMomentPermissionButton";
 
 interface SaveMediaButtonProps {
   onSuccess?: () => void;
@@ -49,13 +50,17 @@ const SaveMediaButton = ({ onSuccess }: SaveMediaButtonProps) => {
   return (
     <div>
       <Warning />
-      <button
-        className="w-fit rounded-md bg-black px-4 md:px-8 md:py-2 py-1 text-grey-eggshell transition-colors hover:bg-grey-moss-300 disabled:opacity-50"
-        onClick={handleSave}
-        disabled={isSaving || !isOwner || !isFormValid || hasWarning}
-      >
-        {isSaving ? "saving..." : "Save"}
-      </button>
+      {hasWarning ? (
+        <GrantMomentPermissionButton />
+      ) : (
+        <button
+          className="w-fit rounded-md bg-black px-4 md:px-8 md:py-2 py-1 text-grey-eggshell transition-colors hover:bg-grey-moss-300 disabled:opacity-50"
+          onClick={handleSave}
+          disabled={isSaving || !isOwner || !isFormValid}
+        >
+          {isSaving ? "saving..." : "Save"}
+        </button>
+      )}
     </div>
   );
 };
