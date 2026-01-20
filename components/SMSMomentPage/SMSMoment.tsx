@@ -73,7 +73,7 @@ const SMSMoment = () => {
         <Description description={metadata.description || ""} />
       )}
 
-      <div className="flex items-center gap-2 mt-4">
+      <div className="flex items-center gap-2 pt-4 pb-2">
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
