@@ -7,7 +7,6 @@ export interface CreateMomentResult {
   contractAddress: string;
   tokenId: number;
 }
-
 export async function createMomentApi(
   parameters: CreateMomentParameters
 ): Promise<CreateMomentResult> {
