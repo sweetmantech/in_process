@@ -5,7 +5,8 @@ const useMomentLegacyWarning = () => {
   const { smartWallet } = useSmartWalletProvider();
   const { momentAdmins, isOwner } = useMomentProvider();
 
-  const hasWarning = momentAdmins && !momentAdmins.includes(smartWallet.toLowerCase()) && isOwner;
+  const hasWarning =
+    smartWallet && momentAdmins && !momentAdmins.includes(smartWallet.toLowerCase()) && isOwner;
 
   return hasWarning;
 };

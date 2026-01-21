@@ -9,7 +9,7 @@ const useCollectionLegacyWarning = () => {
   const isOwner = useIsCollectionOwner();
 
   const hasWarning =
-    data && !data?.admins.includes(smartWallet.toLowerCase() as Address) && isOwner;
+    smartWallet && data && !data?.admins.includes(smartWallet.toLowerCase() as Address) && isOwner;
 
   return hasWarning;
 };
