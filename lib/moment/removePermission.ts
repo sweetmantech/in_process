@@ -40,12 +40,18 @@ export async function removePermission({
 
   // Get the remove permission call using the shared function
   const removePermissionCall = getRemovePermissionCall(moment, adminAddress);
-
+  const adminSmartAccount = await getOrCreateSmartWallet({
+    address: adminAddress,
+  });
+  const removeSmartAccountPermissionCall = getRemovePermissionCall(
+    moment,
+    adminSmartAccount.address
+  );
   // Send the transaction and wait for receipt using the helper
   const transaction = await sendUserOperation({
     smartAccount,
     network: IS_TESTNET ? "base-sepolia" : "base",
-    calls: [removePermissionCall],
+    calls: [removePermissionCall, removeSmartAccountPermissionCall],
   });
 
   return {
