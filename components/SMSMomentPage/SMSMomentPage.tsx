@@ -21,25 +21,21 @@ const SMSMomentPage = () => {
   }
 
   return (
-    <main className="flex w-screen grow">
-      <div className="flex w-full flex-col items-center justify-center pt-12 md:pt-14">
-        <MetadataFormProvider>
-          <MetadataUploadProvider>
-            <MomentProvider
-              moment={{
-                collectionAddress: address as Address,
-                tokenId,
-                chainId,
-              }}
-            >
-              <MomentUriUpdateProvider>
-                <SMSMoment />
-              </MomentUriUpdateProvider>
-            </MomentProvider>
-          </MetadataUploadProvider>
-        </MetadataFormProvider>
-      </div>
-    </main>
+    <MetadataFormProvider>
+      <MetadataUploadProvider>
+        <MomentProvider
+          moment={{
+            collectionAddress: address as Address,
+            tokenId,
+            chainId,
+          }}
+        >
+          <MomentUriUpdateProvider>
+            <SMSMoment />
+          </MomentUriUpdateProvider>
+        </MomentProvider>
+      </MetadataUploadProvider>
+    </MetadataFormProvider>
   );
 };
 
