@@ -24,6 +24,7 @@ const AccountPage = () => {
     setTwitter,
     setInstagram,
     setFarcaster,
+    setTelegram,
     setUserName,
   } = profile;
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -99,6 +100,15 @@ const AccountPage = () => {
               className="mt-1 resize-none font-spectral"
               value={farcaster}
               onChange={(e) => setFarcaster(e.target.value)}
+            />
+          </fieldset>
+          <fieldset>
+            <Label>telegram</Label>
+            <Input
+              placeholder="ex: @sweetman_eth"
+              className="mt-1 resize-none font-spectral"
+              value={telegram}
+              onChange={(e) => setTelegram(e.target.value)}
             />
           </fieldset>
         </div>
