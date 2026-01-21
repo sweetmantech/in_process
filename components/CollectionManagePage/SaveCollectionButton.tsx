@@ -2,9 +2,12 @@
 
 import useCollectionLegacyWarning from "@/hooks/useCollectionLegacyWarning";
 import useSaveCollectionButton from "@/hooks/useSaveCollectionButton";
-import { SaveCollectionButtonProps } from "@/types/ui";
 import Warning from "./Warning";
 import GrantCollectionPermissionButton from "./GrantCollectionPermissionButton";
+
+export interface SaveCollectionButtonProps {
+  onSuccess?: () => void;
+}
 
 const SaveCollectionButton = (props: SaveCollectionButtonProps) => {
   const { isSaving, isDisabled, onSave } = useSaveCollectionButton(props);

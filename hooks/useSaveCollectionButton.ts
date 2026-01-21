@@ -4,7 +4,7 @@ import { useFormState } from "react-hook-form";
 import useUpdateCollectionURI from "@/hooks/useUpdateCollectionURI";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import useIsCollectionOwner from "@/hooks/useIsCollectionOwner";
-import { SaveCollectionButtonProps } from "@/types/ui";
+import { SaveCollectionButtonProps } from "@/components/CollectionManagePage/SaveCollectionButton";
 
 const useSaveCollectionButton = ({ onSuccess }: SaveCollectionButtonProps) => {
   const isOwner = useIsCollectionOwner();
