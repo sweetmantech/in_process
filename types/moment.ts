@@ -126,7 +126,7 @@ export type MomentResponse = {
 
 export type MomentAdvancedInfo = {
   uri: string | null;
-  owner: string | null;
+  owner: string;
   saleConfig: MomentSaleConfig | null;
 };
 

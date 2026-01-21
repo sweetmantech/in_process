@@ -4,7 +4,9 @@ import selectAdmins from "@/lib/supabase/in_process_admins/selectAdmins";
 import { getMomentAdvancedInfo } from "@/lib/moment/getMomentAdvancedInfo";
 import selectCollections from "@/lib/supabase/in_process_collections/selectCollections";
 import { momentSchema } from "@/lib/schema/momentSchema";
-import { Database } from "@/lib/supabase/types";
+import { getOrCreateSmartWallet } from "@/lib/coinbase/getOrCreateSmartWallet";
+import { Address } from "viem";
+import getPermission from "@/lib/zora/getPermission";
 
 export async function GET(req: NextRequest) {
   try {
@@ -47,9 +49,9 @@ export async function GET(req: NextRequest) {
     }
     const metadata = await fetchTokenMetadata(uri);
 
-    let admins: Database["public"]["Tables"]["in_process_admins"]["Row"][] = [];
+    let adminAddresses: Address[] = [];
     if (collection) {
-      admins = await selectAdmins({
+      const admins = await selectAdmins({
         moments: [
           {
             collectionId: collection.id,
@@ -57,19 +59,27 @@ export async function GET(req: NextRequest) {
           },
         ],
       });
+      adminAddresses = admins.map((admin) => admin.artist_address as Address);
+    } else {
+      const smartAccount = await getOrCreateSmartWallet({
+        address: owner as Address,
+      });
+      const permission = await getPermission(moment.collectionAddress, smartAccount.address);
+      if (permission) {
+        adminAddresses.push(smartAccount.address.toLowerCase() as Address);
+      }
+      adminAddresses.push(owner.toLowerCase() as Address);
     }
 
-    const uniqueAdmins = collection
-      ? Array.from(new Set(admins.map((admin) => admin.artist_address))).sort((b, a) =>
-          b.localeCompare(a)
-        )
-      : [owner];
+    const uniqueAdminAddresses = Array.from(new Set(adminAddresses)).sort((b, a) =>
+      b.localeCompare(a)
+    );
 
     return NextResponse.json({
       uri,
       owner,
       saleConfig,
-      momentAdmins: uniqueAdmins,
+      momentAdmins: uniqueAdminAddresses,
       metadata: {
         name: metadata.name || "",
         image: metadata.image || "",
