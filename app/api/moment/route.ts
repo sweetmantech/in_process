@@ -64,7 +64,11 @@ export async function GET(req: NextRequest) {
       const smartAccount = await getOrCreateSmartWallet({
         address: owner as Address,
       });
-      const permission = await getPermission(moment.collectionAddress, smartAccount.address);
+      const permission = await getPermission(
+        moment.collectionAddress,
+        smartAccount.address,
+        moment.chainId
+      );
       if (permission) {
         adminAddresses.push(smartAccount.address.toLowerCase() as Address);
       }
