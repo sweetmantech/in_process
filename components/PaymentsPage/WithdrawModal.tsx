@@ -6,45 +6,47 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
+  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { useState, useEffect } from "react";
 import { useSocialWalletBalanceProvider } from "@/providers/SocialWalletBalanceProvider";
-import { useUserProvider } from "@/providers/UserProvider";
+import { useWithdraw, type WithdrawCurrency } from "@/hooks/useWithdraw";
 
-type WithdrawCurrency = "usdc" | "eth";
-
-interface WithdrawModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
-
-export function WithdrawModal({ isOpen, onClose }: WithdrawModalProps) {
-  const [withdrawAmount, setWithdrawAmount] = useState<string>("");
-  const [currency, setCurrency] = useState<WithdrawCurrency>("usdc");
-  const [recipientAddress, setRecipientAddress] = useState<string>("");
+export function WithdrawModal() {
   const {
     smartWallet,
     smartWalletIsLoading: isLoading,
     smartWalletBalance: usdcBalance,
     smartWalletEthBalance: ethBalance,
   } = useSocialWalletBalanceProvider();
-  const { isExternalWallet, artistWallet } = useUserProvider();
 
-  // Auto-fill recipient address with external wallet address when connected
-  useEffect(() => {
-    if (isOpen && isExternalWallet && artistWallet) {
-      setRecipientAddress(artistWallet);
-    } else if (isOpen && !isExternalWallet) {
-      setRecipientAddress("");
-    }
-  }, [isOpen, isExternalWallet, artistWallet]);
+  const {
+    withdrawAmount,
+    setWithdrawAmount,
+    currency,
+    setCurrency,
+    recipientAddress,
+    setRecipientAddress,
+    isOpen,
+    setIsOpen,
+    withdraw,
+    isWithdrawing,
+  } = useWithdraw();
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogTrigger asChild>
+        <Button
+          onClick={() => setIsOpen(true)}
+          className="rounded-md bg-grey-moss-900 px-4 py-2 font-archivo text-grey-eggshell hover:bg-grey-eggshell hover:text-grey-moss-900"
+        >
+          Withdraw
+        </Button>
+      </DialogTrigger>
+
       <DialogContent className="max-w-lg">
         <DialogHeader>
           <DialogTitle className="font-archivo-bold text-grey-moss-900">
@@ -136,8 +138,12 @@ export function WithdrawModal({ isOpen, onClose }: WithdrawModalProps) {
                 </div>
               </div>
             </div>
-            <Button className="flex w-full items-center justify-center gap-2 rounded-md bg-grey-moss-900 px-4 py-2 font-archivo text-grey-eggshell hover:bg-grey-eggshell hover:text-grey-moss-900">
-              Withdraw
+            <Button
+              className="flex w-full items-center justify-center gap-2 rounded-md bg-grey-moss-900 px-4 py-2 font-archivo text-grey-eggshell hover:bg-grey-eggshell hover:text-grey-moss-900"
+              onClick={withdraw}
+              disabled={!withdrawAmount || !recipientAddress || isWithdrawing}
+            >
+              {isWithdrawing ? "Withdrawing..." : "Withdraw"}
             </Button>
           </div>
         </div>
