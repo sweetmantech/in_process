@@ -1,7 +1,7 @@
 import { getArtistWallet } from "../supabase/in_process_artist_social_wallets/getArtistWallet";
 import privyClient from "./client";
 
-export async function getArtistAddressByAuthToken(
+export async function getAddressesByAuthToken(
   authToken: string
 ): Promise<{ artistAddress: string | undefined; socialWallet: string | undefined }> {
   const verified = await privyClient.utils().auth().verifyAuthToken(authToken);

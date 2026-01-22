@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getBearerToken } from "@/lib/api-keys/getBearerToken";
-import { getArtistAddressByAuthToken } from "@/lib/privy/getArtistAddressByAuthToken";
+import { getAddressesByAuthToken } from "@/lib/privy/getAddressesByAuthToken";
 import { getArtistAddressByApiKey } from "@/lib/api-keys/getArtistAddressByApiKey";
 import getCorsHeader from "@/lib/getCorsHeader";
 import { AuthErrorMessages, AuthErrorTypes } from "./errors";
@@ -46,7 +46,7 @@ export async function authMiddleware(
   try {
     if (authToken) {
       const { artistAddress: artistAddressFromToken, socialWallet: socialWalletFromToken } =
-        await getArtistAddressByAuthToken(authToken);
+        await getAddressesByAuthToken(authToken);
       artistAddress = artistAddressFromToken || socialWalletFromToken || "";
       authMethod = "token";
     } else if (apiKey) {

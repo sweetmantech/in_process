@@ -8,7 +8,7 @@ import { deleteApiKey } from "@/lib/supabase/in_process_api_keys/deleteApiKey";
 import { createApiKeySchema } from "@/lib/schema/apiKeySchema";
 import { PRIVY_PROJECT_SECRET } from "@/lib/consts";
 import privyClient from "@/lib/privy/client";
-import { getArtistAddressByAuthToken } from "@/lib/privy/getArtistAddressByAuthToken";
+import { getAddressesByAuthToken } from "@/lib/privy/getAddressesByAuthToken";
 import { upsertProfile } from "@/lib/supabase/in_process_artists/upsertProfile";
 
 export async function GET(req: NextRequest) {
@@ -18,7 +18,7 @@ export async function GET(req: NextRequest) {
     if (!authToken) throw new Error("Authorization header with Bearer token required");
 
     const { artistAddress: artistAddressFromToken, socialWallet: socialWalletFromToken } =
-      await getArtistAddressByAuthToken(authToken);
+      await getAddressesByAuthToken(authToken);
     const artistAddress = artistAddressFromToken || socialWalletFromToken || "";
     if (!artistAddress) throw new Error("No artist address found for this API key");
 
@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
     if (!authToken) throw new Error("Authorization header with Bearer token required");
 
     const { artistAddress: artistAddressFromToken, socialWallet: socialWalletFromToken } =
-      await getArtistAddressByAuthToken(authToken);
+      await getAddressesByAuthToken(authToken);
     const artistAddress = artistAddressFromToken || socialWalletFromToken || "";
     if (!artistAddress) throw new Error("No artist address found for this API key");
 
