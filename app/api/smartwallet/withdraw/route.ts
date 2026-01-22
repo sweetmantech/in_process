@@ -4,7 +4,6 @@ import { Address } from "viem";
 import { validate } from "@/lib/schema/validate";
 import { withdrawSchema } from "@/lib/schema/withdrawSchema";
 import { withdraw } from "@/lib/smartwallets/withdraw";
-import selectSocial from "@/lib/supabase/in_process_artist_social_wallets/selectSocial";
 import { getArtistAddressByAuthToken } from "@/lib/privy/getArtistAddressByAuthToken";
 import { getBearerToken } from "@/lib/api-keys/getBearerToken";
 
@@ -24,21 +23,15 @@ export async function POST(req: NextRequest) {
     const authToken = getBearerToken(authHeader);
     if (!authToken) throw new Error("Authorization header with Bearer token required");
 
-    const { artistAddress: artistAddressFromToken, socialWallet: socialWalletFromToken } =
-      await getArtistAddressByAuthToken(authToken);
-    const artistAddress = artistAddressFromToken || socialWalletFromToken || "";
+    const { socialWallet } = await getArtistAddressByAuthToken(authToken);
 
-    if (!artistAddress) throw new Error("No artist address found for this withdrawal");
+    if (!socialWallet) throw new Error("No social wallet found for this withdrawal");
 
     const body = await req.json();
     const validationResult = validate(withdrawSchema, body);
     if (!validationResult.success) {
       return validationResult.response;
     }
-
-    const { data: social } = await selectSocial({
-      artist_address: artistAddress as string,
-    });
 
     const {
       currency: currencyAddress,
@@ -48,7 +41,7 @@ export async function POST(req: NextRequest) {
     } = validationResult.data;
 
     const result = await withdraw({
-      artistAddress: (social?.social_wallet as Address) || (artistAddress as Address),
+      artistAddress: socialWallet as Address,
       currencyAddress,
       amount,
       recipientAddress,
