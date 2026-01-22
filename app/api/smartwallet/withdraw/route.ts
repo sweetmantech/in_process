@@ -1,11 +1,12 @@
 import { NextRequest } from "next/server";
 import getCorsHeader from "@/lib/getCorsHeader";
-import { authMiddleware } from "@/middleware/authMiddleware";
 import { Address } from "viem";
 import { validate } from "@/lib/schema/validate";
 import { withdrawSchema } from "@/lib/schema/withdrawSchema";
 import { withdraw } from "@/lib/smartwallets/withdraw";
 import selectSocial from "@/lib/supabase/in_process_artist_social_wallets/selectSocial";
+import { getArtistAddressByAuthToken } from "@/lib/privy/getArtistAddressByAuthToken";
+import { getBearerToken } from "@/lib/api-keys/getBearerToken";
 
 // CORS headers for allowing cross-origin requests
 const corsHeaders = getCorsHeader();
@@ -19,11 +20,15 @@ export async function OPTIONS() {
 
 export async function POST(req: NextRequest) {
   try {
-    const authResult = await authMiddleware(req, { corsHeaders });
-    if (authResult instanceof Response) {
-      return authResult;
-    }
-    const { artistAddress } = authResult;
+    const authHeader = req.headers.get("authorization");
+    const authToken = getBearerToken(authHeader);
+    if (!authToken) throw new Error("Authorization header with Bearer token required");
+
+    const { artistAddress: artistAddressFromToken, socialWallet: socialWalletFromToken } =
+      await getArtistAddressByAuthToken(authToken);
+    const artistAddress = artistAddressFromToken || socialWalletFromToken || "";
+
+    if (!artistAddress) throw new Error("No artist address found for this withdrawal");
 
     const body = await req.json();
     const validationResult = validate(withdrawSchema, body);
