@@ -1,3 +1,4 @@
+"use client";
 import FundsPage from "@/components/FundsPage";
 import SocialWalletBalanceProvider from "@/providers/SocialWalletBalanceProvider";
 
