@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useUserProvider } from "@/providers/UserProvider";
 import { Address } from "viem";
 import { getWalletBalances } from "@/lib/viem/getWalletBalances";
-import { getSmartWalleBalances } from "@/lib/smartwallets/getSmartWalleBalance";
+import { getSmartWalleBalances } from "@/lib/smartwallets/getSmartWalleBalances";
 
 const useSocialWallet = () => {
   const { connectedAddress, isSocialWallet } = useUserProvider();
