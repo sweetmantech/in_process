@@ -1,14 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import { useUserProvider } from "@/providers/UserProvider";
 import { Address } from "viem";
-import { fetchSmartWalleBalance } from "@/lib/smartwallets/fetchSmartWalleBalance";
+import { getSmartWalleBalances } from "@/lib/smartwallets/getSmartWalleBalance";
 
 const useSmartWallet = () => {
   const { artistWallet } = useUserProvider();
 
   const query = useQuery({
     queryKey: ["smart_wallet", artistWallet],
-    queryFn: () => fetchSmartWalleBalance(artistWallet as Address),
+    queryFn: () => getSmartWalleBalances(artistWallet as Address),
     enabled: Boolean(artistWallet),
     staleTime: 1000 * 60 * 5, // 5 minutes
     retry: (failureCount) => failureCount < 3,

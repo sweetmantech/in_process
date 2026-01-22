@@ -1,25 +1,36 @@
 import { Address, formatEther } from "viem";
+import getSmartWallet from "./getSmartWallet";
 import getUsdcBalance from "@/lib/balance/getUsdcBalance";
 import { getPublicClient } from "@/lib/viem/publicClient";
 import { CHAIN_ID } from "@/lib/consts";
 
-export interface SocialWalletData {
+export interface SmartWalletBalance {
+  smartWallet: Address;
   usdcBalance: string;
   ethBalance: string;
 }
 
-export const fetchSocialWalletData = async (socialWallet: Address): Promise<SocialWalletData> => {
+export const getSmartWalleBalances = async (
+  walletAddress: Address
+): Promise<SmartWalletBalance> => {
+  const smartWallet = await getSmartWallet(walletAddress);
+
+  if (!smartWallet) {
+    throw new Error("Failed to fetch smart wallet address");
+  }
+
   const publicClient = getPublicClient(CHAIN_ID);
 
   // Fetch balances in parallel
   const [usdcBalance, ethBalanceWei] = await Promise.all([
-    getUsdcBalance(socialWallet as Address),
+    getUsdcBalance(smartWallet as Address),
     publicClient.getBalance({
-      address: socialWallet as Address,
+      address: smartWallet as Address,
     }),
   ]);
 
   return {
+    smartWallet: smartWallet as Address,
     usdcBalance,
     ethBalance: formatEther(ethBalanceWei),
   };
