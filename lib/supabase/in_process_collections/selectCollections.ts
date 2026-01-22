@@ -6,6 +6,7 @@ const selectCollections = async ({
   collectionAddress,
   moments,
   artists,
+  defaultAdmin,
   limit = 100,
   page = 1,
   chainId = CHAIN_ID,
@@ -13,6 +14,7 @@ const selectCollections = async ({
   collectionAddress?: string;
   moments?: Moment[];
   artists?: string[];
+  defaultAdmin?: string;
   limit?: number;
   page?: number;
   chainId?: number;
@@ -39,6 +41,10 @@ const selectCollections = async ({
   if (artists) {
     query = query.in("admins.artist_address", artists);
     query = query.eq("admins.token_id", 0);
+  }
+
+  if (defaultAdmin) {
+    query = query.eq("default_admin.address", defaultAdmin);
   }
 
   if (chainId) {
