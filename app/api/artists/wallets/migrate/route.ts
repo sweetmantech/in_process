@@ -4,7 +4,6 @@ import { Address } from "viem";
 import { migrateWallet } from "@/lib/wallets/migrateWallet";
 import { getAddressesByAuthToken } from "@/lib/privy/getAddressesByAuthToken";
 import { getBearerToken } from "@/lib/api-keys/getBearerToken";
-import { z } from "zod";
 
 const corsHeaders = getCorsHeader();
 
