@@ -28,8 +28,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Get addresses from auth token
-    const { artistAddress, socialWallet } =
-      await getAddressesByAuthToken(authToken);
+    const { artistAddress, socialWallet } = await getAddressesByAuthToken(authToken);
 
     if (!artistAddress || !socialWallet) {
       return NextResponse.json(
@@ -41,7 +40,7 @@ export async function POST(req: NextRequest) {
     // Perform migration
     const result = await migrateWallet({
       socialWallet: socialWallet as Address,
-      artistWallet: artistAddress as Address  ,
+      artistWallet: artistAddress as Address,
     });
 
     return NextResponse.json(result, { headers: corsHeaders });
