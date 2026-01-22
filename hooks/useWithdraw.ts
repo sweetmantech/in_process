@@ -1,89 +1,64 @@
-import { useState } from "react";
-import { Address, encodeFunctionData, erc20Abi, Hash, parseEther, parseUnits } from "viem";
-import { CHAIN_ID, USDC_ADDRESS } from "@/lib/consts";
-import { toast } from "sonner";
-import { useSendTransaction } from "@privy-io/react-auth";
+import { useEffect, useState } from "react";
 import { useUserProvider } from "@/providers/UserProvider";
-import { publicClient } from "@/lib/viem/publicClient";
+import { toast } from "sonner";
+import { usePrivy } from "@privy-io/react-auth";
+import { useSocialWalletBalanceProvider } from "@/providers/SocialWalletBalanceProvider";
+import { CHAIN_ID, USDC_ADDRESS } from "@/lib/consts";
+import { zeroAddress } from "viem";
+import { withdrawApi } from "@/lib/smartwallets/withdrawApi";
 
-type WithdrawCurrency = "usdc" | "eth";
+export type WithdrawCurrency = "usdc" | "eth";
 
-interface UseWithdrawParams {
-  currency: WithdrawCurrency;
-  withdrawAmount: string;
-  recipientAddress: Address;
-}
+export const useWithdraw = () => {
+  const [withdrawAmount, setWithdrawAmount] = useState<string>("");
+  const [currency, setCurrency] = useState<WithdrawCurrency>("usdc");
+  const [recipientAddress, setRecipientAddress] = useState<string>("");
+  const { isExternalWallet, artistWallet } = useUserProvider();
+  const [isOpen, setIsOpen] = useState(false);
+  const { getAccessToken } = usePrivy();
+  const { getSmartWalletBalances } = useSocialWalletBalanceProvider();
 
-const useWithdraw = () => {
-  const [isWithdrawing, setIsWithdrawing] = useState<boolean>(false);
-  const { connectedAddress } = useUserProvider();
-  const { sendTransaction } = useSendTransaction();
+  useEffect(() => {
+    if (isOpen && isExternalWallet && artistWallet) {
+      setRecipientAddress(artistWallet as string);
+    } else if (isOpen && !isExternalWallet) {
+      setRecipientAddress("");
+    }
+  }, [isOpen, isExternalWallet, artistWallet]);
 
-  const withdraw = async ({ currency, withdrawAmount, recipientAddress }: UseWithdrawParams) => {
-    if (!connectedAddress) {
-      toast.error("Please connect your social wallet first");
+  const withdraw = async () => {
+    if (!recipientAddress || !withdrawAmount) {
+      toast.error("Please fill in all fields");
       return;
     }
+    const accessToken = await getAccessToken();
 
-    if (!withdrawAmount || parseFloat(withdrawAmount) <= 0) {
-      toast.error("Please enter a valid withdrawal amount");
-      return;
-    }
+    if (!accessToken) throw new Error("No access token found");
 
-    setIsWithdrawing(true);
     try {
-      let transaction:
-        | {
-            hash: Hash;
-          }
-        | undefined;
-      if (currency === "usdc") {
-        transaction = await sendTransaction({
-          to: USDC_ADDRESS,
-          data: encodeFunctionData({
-            abi: erc20Abi,
-            functionName: "transfer",
-            args: [recipientAddress, parseUnits(withdrawAmount, 6)],
-          }),
-          chainId: CHAIN_ID,
-        });
-      }
-      if (currency === "eth") {
-        transaction = await sendTransaction({
-          to: recipientAddress,
-          value: parseEther(withdrawAmount),
-          chainId: CHAIN_ID,
-        });
-      }
-
-      if (!transaction) {
-        toast.error("Withdrawal failed");
-        setIsWithdrawing(false);
-        return;
-      }
-
-      toast.info("Transaction submitted, waiting for confirmation...");
-      const receipt = await publicClient.waitForTransactionReceipt({
-        hash: transaction.hash,
+      await withdrawApi({
+        accessToken,
+        amount: withdrawAmount,
+        currency: currency === "usdc" ? USDC_ADDRESS : zeroAddress,
+        to: recipientAddress as `0x${string}`,
+        chainId: CHAIN_ID,
       });
-
-      if (receipt.status === "success") {
-        toast.success("Withdrawal successful");
-      } else {
-        toast.error("Transaction failed");
-      }
-    } catch (error) {
-      console.error(error);
-      toast.error("Withdrawal failed");
-    } finally {
-      setIsWithdrawing(false);
+      getSmartWalletBalances();
+      toast.success("Withdrawal was successful");
+    } catch (error: any) {
+      toast.error(error?.message || "Failed to withdraw");
     }
   };
 
   return {
+    withdrawAmount,
+    setWithdrawAmount,
+    currency,
+    setCurrency,
+    recipientAddress,
+    setRecipientAddress,
+    isOpen,
+    setIsOpen,
     withdraw,
-    isWithdrawing,
   };
 };
-
-export default useWithdraw;

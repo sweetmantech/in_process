@@ -27,13 +27,13 @@ const useSocialWallet = () => {
     isLoading: socialWalletQuery.isLoading || socialWalletQuery.isFetching,
     balance: socialWalletQuery.data?.usdcBalance || "0.00",
     ethBalance: socialWalletQuery.data?.ethBalance || "0.00",
-    fetchSocialWallet: socialWalletQuery.refetch,
+    getSocialWalletBalances: socialWalletQuery.refetch,
     // Smart wallet data
     smartWallet: smartWalletQuery.data?.smartWallet || "",
     smartWalletIsLoading: smartWalletQuery.isLoading || smartWalletQuery.isFetching,
     smartWalletBalance: smartWalletQuery.data?.usdcBalance || "0.00",
     smartWalletEthBalance: smartWalletQuery.data?.ethBalance || "0.00",
-    fetchSmartWallet: smartWalletQuery.refetch,
+    getSmartWalletBalances: smartWalletQuery.refetch,
   };
 };
 
