@@ -28,11 +28,11 @@ export async function getAddressesByAuthToken(
     if (artistData)
       return {
         artistAddress: artistData.artist_address,
-        socialWallet: socialAccount.address,
+        socialWallet: socialAccount.address.toLowerCase(),
       };
     return {
       artistAddress: undefined,
-      socialWallet: socialAccount.address,
+      socialWallet: socialAccount.address.toLowerCase(),
     };
   }
   const externalAccount = data.linked_accounts.find(
@@ -40,7 +40,7 @@ export async function getAddressesByAuthToken(
   );
   if (externalAccount?.address) {
     return {
-      artistAddress: externalAccount.address,
+      artistAddress: externalAccount.address.toLowerCase(),
       socialWallet: undefined,
     };
   }
