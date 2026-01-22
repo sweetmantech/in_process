@@ -9,6 +9,7 @@ import { createApiKeySchema } from "@/lib/schema/apiKeySchema";
 import { PRIVY_PROJECT_SECRET } from "@/lib/consts";
 import privyClient from "@/lib/privy/client";
 import { getArtistAddressByAuthToken } from "@/lib/privy/getArtistAddressByAuthToken";
+import { upsertProfile } from "@/lib/supabase/in_process_artists/upsertProfile";
 
 export async function GET(req: NextRequest) {
   try {
@@ -53,6 +54,11 @@ export async function POST(req: NextRequest) {
 
     const rawApiKey = generateApiKey("art_sk");
     const keyHash = hashApiKey(rawApiKey, PRIVY_PROJECT_SECRET);
+
+    const { error: profileError } = await upsertProfile({
+      address: artistAddress.toLowerCase(),
+    });
+    if (profileError) throw new Error("Failed to upsert profile");
 
     const { error } = await insertApiKey({
       name: key_name.trim(),
