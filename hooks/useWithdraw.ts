@@ -32,12 +32,12 @@ export const useWithdraw = () => {
       toast.error("Please fill in all fields");
       return;
     }
-    const accessToken = await getAccessToken();
-
-    if (!accessToken) throw new Error("No access token found");
 
     setIsWithdrawing(true);
     try {
+      const accessToken = await getAccessToken();
+      if (!accessToken) throw new Error("No access token found");
+
       await withdrawApi({
         accessToken,
         amount: withdrawAmount,
