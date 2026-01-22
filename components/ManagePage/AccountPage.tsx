@@ -27,6 +27,7 @@ const AccountPage = () => {
     setTelegram,
     setUserName,
   } = profile;
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const onSave = async () => {
     setIsLoading(true);
