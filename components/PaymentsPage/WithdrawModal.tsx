@@ -104,7 +104,7 @@ export function WithdrawModal({ isOpen, onClose }: WithdrawModalProps) {
               />
             </div>
             <div>
-              <Label htmlFor="amount" className="font-archivo-medium">
+              <Label htmlFor="withdraw-amount" className="font-archivo-medium">
                 Amount
               </Label>
               <div className="flex items-center gap-2 mt-1">
@@ -136,13 +136,7 @@ export function WithdrawModal({ isOpen, onClose }: WithdrawModalProps) {
                 </div>
               </div>
             </div>
-            <Button
-              className="flex w-full items-center justify-center gap-2 rounded-md bg-grey-moss-900 px-4 py-2 font-archivo text-grey-eggshell hover:bg-grey-eggshell hover:text-grey-moss-900"
-              onClick={() => {
-                // TODO: Implement withdraw functionality
-                console.log("Withdraw clicked", { currency, withdrawAmount, recipientAddress });
-              }}
-            >
+            <Button className="flex w-full items-center justify-center gap-2 rounded-md bg-grey-moss-900 px-4 py-2 font-archivo text-grey-eggshell hover:bg-grey-eggshell hover:text-grey-moss-900">
               Withdraw
             </Button>
           </div>
