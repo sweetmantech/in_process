@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Fragment, useState } from "react";
 import { useUserProvider } from "@/providers/UserProvider";
-import useWithdraw from "@/hooks/useWithdraw";
+import useSocialWalletWithdraw from "@/hooks/useSocialWalletWithdraw";
 import { Address, isAddress } from "viem";
 import { toast } from "sonner";
 import { useSocialWalletBalanceProvider } from "@/providers/SocialWalletBalanceProvider";
@@ -18,7 +18,7 @@ export function Withdraw() {
   const [currency, setCurrency] = useState<WithdrawCurrency>("usdc");
   const [recipientAddress, setRecipientAddress] = useState<string>("");
   const { connectedAddress } = useUserProvider();
-  const { withdraw, isWithdrawing } = useWithdraw();
+  const { withdraw, isWithdrawing } = useSocialWalletWithdraw();
   const { getSocialWalletBalances } = useSocialWalletBalanceProvider();
 
   if (!connectedAddress) return <Fragment />;
