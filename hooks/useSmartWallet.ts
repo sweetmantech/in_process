@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useUserProvider } from "@/providers/UserProvider";
 import { Address } from "viem";
-import { getSmartWalleBalances } from "@/lib/smartwallets/getSmartWalleBalance";
+import { getSmartWalleBalances } from "@/lib/smartwallets/getSmartWalleBalances";
 
 const useSmartWallet = () => {
   const { artistWallet } = useUserProvider();
