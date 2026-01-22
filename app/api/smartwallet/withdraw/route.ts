@@ -6,6 +6,7 @@ import { withdrawSchema } from "@/lib/schema/withdrawSchema";
 import { withdraw } from "@/lib/smartwallets/withdraw";
 import { getAddressesByAuthToken } from "@/lib/privy/getAddressesByAuthToken";
 import { getBearerToken } from "@/lib/api-keys/getBearerToken";
+import { authMiddleware } from "@/middleware/authMiddleware";
 
 // CORS headers for allowing cross-origin requests
 const corsHeaders = getCorsHeader();
@@ -19,13 +20,11 @@ export async function OPTIONS() {
 
 export async function POST(req: NextRequest) {
   try {
-    const authHeader = req.headers.get("authorization");
-    const authToken = getBearerToken(authHeader);
-    if (!authToken) throw new Error("Authorization header with Bearer token required");
-
-    const { socialWallet } = await getAddressesByAuthToken(authToken);
-
-    if (!socialWallet) throw new Error("No social wallet found for this withdrawal");
+    const authResult = await authMiddleware(req, { corsHeaders });
+    if (authResult instanceof Response) {
+      return authResult;
+    }
+    const { artistAddress } = authResult;
 
     const body = await req.json();
     const validationResult = validate(withdrawSchema, body);
@@ -33,19 +32,9 @@ export async function POST(req: NextRequest) {
       return validationResult.response;
     }
 
-    const {
-      currency: currencyAddress,
-      amount,
-      to: recipientAddress,
-      chainId,
-    } = validationResult.data;
-
     const result = await withdraw({
-      artistAddress: socialWallet as Address,
-      currencyAddress,
-      amount,
-      recipientAddress,
-      chainId,
+      ...validationResult.data,
+      artistAddress: artistAddress as Address,
     });
 
     return Response.json(result, { headers: corsHeaders });
