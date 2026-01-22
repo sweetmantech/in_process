@@ -15,6 +15,7 @@ export const useWithdraw = () => {
   const [recipientAddress, setRecipientAddress] = useState<string>("");
   const { isExternalWallet, artistWallet } = useUserProvider();
   const [isOpen, setIsOpen] = useState(false);
+  const [isWithdrawing, setIsWithdrawing] = useState<boolean>(false);
   const { getAccessToken } = usePrivy();
   const { getSmartWalletBalances } = useSocialWalletBalanceProvider();
 
@@ -35,6 +36,7 @@ export const useWithdraw = () => {
 
     if (!accessToken) throw new Error("No access token found");
 
+    setIsWithdrawing(true);
     try {
       await withdrawApi({
         accessToken,
@@ -47,6 +49,8 @@ export const useWithdraw = () => {
       toast.success("Withdrawal was successful");
     } catch (error: any) {
       toast.error(error?.message || "Failed to withdraw");
+    } finally {
+      setIsWithdrawing(false);
     }
   };
 
@@ -60,5 +64,6 @@ export const useWithdraw = () => {
     isOpen,
     setIsOpen,
     withdraw,
+    isWithdrawing,
   };
 };

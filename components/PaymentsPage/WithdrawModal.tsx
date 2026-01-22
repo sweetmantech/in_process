@@ -33,10 +33,11 @@ export function WithdrawModal() {
     isOpen,
     setIsOpen,
     withdraw,
+    isWithdrawing,
   } = useWithdraw();
 
   return (
-    <Dialog open={isOpen} onOpenChange={(open) => setIsOpen(!open)}>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button
           onClick={() => setIsOpen(true)}
@@ -140,8 +141,9 @@ export function WithdrawModal() {
             <Button
               className="flex w-full items-center justify-center gap-2 rounded-md bg-grey-moss-900 px-4 py-2 font-archivo text-grey-eggshell hover:bg-grey-eggshell hover:text-grey-moss-900"
               onClick={withdraw}
+              disabled={!withdrawAmount || !recipientAddress || isWithdrawing}
             >
-              Withdraw
+              {isWithdrawing ? "Withdrawing..." : "Withdraw"}
             </Button>
           </div>
         </div>
