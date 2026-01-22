@@ -45,7 +45,9 @@ export async function authMiddleware(
 
   try {
     if (authToken) {
-      artistAddress = await getArtistAddressByAuthToken(authToken);
+      const { artistAddress: artistAddressFromToken, socialWallet: socialWalletFromToken } =
+        await getArtistAddressByAuthToken(authToken);
+      artistAddress = artistAddressFromToken || socialWalletFromToken || "";
       authMethod = "token";
     } else if (apiKey) {
       artistAddress = await getArtistAddressByApiKey(apiKey);
