@@ -2,8 +2,10 @@ import { NextRequest } from "next/server";
 import getCorsHeader from "@/lib/getCorsHeader";
 import { authMiddleware } from "@/middleware/authMiddleware";
 import { Address } from "viem";
+import { validate } from "@/lib/schema/validate";
 import { withdrawSchema } from "@/lib/schema/withdrawSchema";
 import { withdraw } from "@/lib/smartwallets/withdraw";
+import selectSocial from "@/lib/supabase/in_process_artist_social_wallets/selectSocial";
 
 // CORS headers for allowing cross-origin requests
 const corsHeaders = getCorsHeader();
@@ -24,25 +26,28 @@ export async function POST(req: NextRequest) {
     const { artistAddress } = authResult;
 
     const body = await req.json();
-    const parseResult = withdrawSchema.safeParse(body);
-    if (!parseResult.success) {
-      const errorDetails = parseResult.error.errors.map((err) => ({
-        field: err.path.join("."),
-        message: err.message,
-      }));
-      return Response.json(
-        { message: "Invalid input", errors: errorDetails },
-        { status: 400, headers: corsHeaders }
-      );
+    const validationResult = validate(withdrawSchema, body);
+    if (!validationResult.success) {
+      return validationResult.response;
     }
 
-    const { currency: currencyAddress, amount, to: recipientAddress } = parseResult.data;
+    const { data: social } = await selectSocial({
+      artist_address: artistAddress as string,
+    });
+
+    const {
+      currency: currencyAddress,
+      amount,
+      to: recipientAddress,
+      chainId,
+    } = validationResult.data;
 
     const result = await withdraw({
-      artistAddress: artistAddress as Address,
+      artistAddress: (social?.social_wallet as Address) || (artistAddress as Address),
       currencyAddress,
       amount,
       recipientAddress,
+      chainId,
     });
 
     return Response.json(result, { headers: corsHeaders });

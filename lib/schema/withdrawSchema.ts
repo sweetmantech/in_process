@@ -17,4 +17,5 @@ export const withdrawSchema = z.object({
       }
     ),
   to: addressSchema,
+  chainId: z.number().int().optional().default(8453),
 });

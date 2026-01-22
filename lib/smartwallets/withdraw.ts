@@ -9,7 +9,6 @@ import {
 } from "viem";
 import { getOrCreateSmartWallet } from "@/lib/coinbase/getOrCreateSmartWallet";
 import { sendUserOperation } from "@/lib/coinbase/sendUserOperation";
-import { CHAIN_ID, IS_TESTNET } from "@/lib/consts";
 import { Call } from "@coinbase/coinbase-sdk/dist/types/calls";
 import { OneOf } from "viem";
 
@@ -18,6 +17,7 @@ export interface WithdrawInput {
   currencyAddress: Address;
   amount: string;
   recipientAddress: Address;
+  chainId?: number;
 }
 
 export interface WithdrawResult {
@@ -34,11 +34,16 @@ export async function withdraw({
   currencyAddress,
   amount,
   recipientAddress,
+  chainId = 8453,
 }: WithdrawInput): Promise<WithdrawResult> {
   // Get or create smart wallet
   const smartAccount = await getOrCreateSmartWallet({
     address: artistAddress,
   });
+
+  // Map chainId to network
+  // 8453 = Base, 84532 = Base Sepolia
+  const network = chainId === 84532 ? "base-sepolia" : "base";
 
   let call: OneOf<Call<unknown, { [key: string]: unknown }>>;
 
@@ -63,12 +68,12 @@ export async function withdraw({
   // Send the transaction
   const transaction = await sendUserOperation({
     smartAccount,
-    network: IS_TESTNET ? "base-sepolia" : "base",
+    network,
     calls: [call],
   });
 
   return {
     hash: transaction.transactionHash as Hash,
-    chainId: CHAIN_ID,
+    chainId,
   };
 }
