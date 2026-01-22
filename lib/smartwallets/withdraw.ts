@@ -13,7 +13,7 @@ import { CHAIN_ID, IS_TESTNET } from "@/lib/consts";
 import { Call } from "@coinbase/coinbase-sdk/dist/types/calls";
 import { OneOf } from "viem";
 
-export interface WithdrawFromSmartWalletInput {
+export interface WithdrawInput {
   artistAddress: Address;
   currencyAddress: Address;
   amount: string;
@@ -29,12 +29,12 @@ export interface WithdrawResult {
  * Withdraw funds from a smart wallet.
  * Supports both native ETH (when currencyAddress is zeroAddress) and ERC20 tokens.
  */
-export async function withdrawFromSmartWallet({
+export async function withdraw({
   artistAddress,
   currencyAddress,
   amount,
   recipientAddress,
-}: WithdrawFromSmartWalletInput): Promise<WithdrawResult> {
+}: WithdrawInput): Promise<WithdrawResult> {
   // Get or create smart wallet
   const smartAccount = await getOrCreateSmartWallet({
     address: artistAddress,

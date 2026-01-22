@@ -3,7 +3,7 @@ import getCorsHeader from "@/lib/getCorsHeader";
 import { authMiddleware } from "@/middleware/authMiddleware";
 import { Address } from "viem";
 import { withdrawSchema } from "@/lib/schema/withdrawSchema";
-import { withdrawFromSmartWallet } from "@/lib/payments/withdrawFromSmartWallet";
+import { withdraw } from "@/lib/smartwallets/withdraw";
 
 // CORS headers for allowing cross-origin requests
 const corsHeaders = getCorsHeader();
@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
 
     const { currency: currencyAddress, amount, to: recipientAddress } = parseResult.data;
 
-    const result = await withdrawFromSmartWallet({
+    const result = await withdraw({
       artistAddress: artistAddress as Address,
       currencyAddress,
       amount,
