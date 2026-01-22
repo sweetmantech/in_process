@@ -4,14 +4,16 @@ import getUsdcBalance from "@/lib/balance/getUsdcBalance";
 import { getPublicClient } from "@/lib/viem/publicClient";
 import { CHAIN_ID } from "@/lib/consts";
 
-export interface SmartWalletData {
+export interface SmartWalletBalance {
   smartWallet: Address;
   usdcBalance: string;
   ethBalance: string;
 }
 
-export const fetchSmartWalletData = async (artistWallet: Address): Promise<SmartWalletData> => {
-  const smartWallet = await getSmartWallet(artistWallet);
+export const fetchSmartWalleBalance = async (
+  walletAddress: Address
+): Promise<SmartWalletBalance> => {
+  const smartWallet = await getSmartWallet(walletAddress);
 
   if (!smartWallet) {
     throw new Error("Failed to fetch smart wallet address");

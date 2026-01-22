@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useUserProvider } from "@/providers/UserProvider";
 import { Address } from "viem";
 import { fetchSocialWalletData } from "@/lib/socialwallet/fetchSocialWalletData";
-import { fetchSmartWalletData } from "@/lib/smartwallets/fetchSmartWalletData";
+import { fetchSmartWalleBalance } from "@/lib/smartwallets/fetchSmartWalleBalance";
 
 const useSocialWallet = () => {
   const { connectedAddress, isSocialWallet } = useUserProvider();
@@ -17,7 +17,7 @@ const useSocialWallet = () => {
 
   const smartWalletQuery = useQuery({
     queryKey: ["social_wallet_smart_wallet", connectedAddress],
-    queryFn: () => fetchSmartWalletData(connectedAddress as Address),
+    queryFn: () => fetchSmartWalleBalance(connectedAddress as Address),
     enabled: Boolean(connectedAddress) && isSocialWallet,
     staleTime: 1000 * 60 * 5, // 5 minutes
     retry: (failureCount) => failureCount < 3,
