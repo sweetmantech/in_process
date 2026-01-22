@@ -17,7 +17,11 @@ export async function GET(req: NextRequest) {
     const authToken = getBearerToken(authHeader);
     if (!authToken) throw new Error("Authorization header with Bearer token required");
 
-    const artistAddress = await getArtistAddressByAuthToken(authToken);
+    const { artistAddress: artistAddressFromToken, socialWallet: socialWalletFromToken } =
+      await getArtistAddressByAuthToken(authToken);
+    const artistAddress = artistAddressFromToken || socialWalletFromToken || "";
+    if (!artistAddress) throw new Error("No artist address found for this API key");
+
     const { data, error } = await getApiKeys(artistAddress.toLowerCase());
 
     if (error) throw new Error("Failed to fetch API keys");
@@ -38,7 +42,11 @@ export async function POST(req: NextRequest) {
     const authToken = getBearerToken(authHeader);
     if (!authToken) throw new Error("Authorization header with Bearer token required");
 
-    const artistAddress = await getArtistAddressByAuthToken(authToken);
+    const { artistAddress: artistAddressFromToken, socialWallet: socialWalletFromToken } =
+      await getArtistAddressByAuthToken(authToken);
+    if (!artistAddressFromToken && !socialWalletFromToken)
+      throw new Error("No artist address found for this API key");
+    const artistAddress = artistAddressFromToken || socialWalletFromToken || "";
 
     const body = await req.json();
     const parseResult = createApiKeySchema.safeParse(body);
