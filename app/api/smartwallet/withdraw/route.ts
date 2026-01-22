@@ -4,7 +4,7 @@ import { Address } from "viem";
 import { validate } from "@/lib/schema/validate";
 import { withdrawSchema } from "@/lib/schema/withdrawSchema";
 import { withdraw } from "@/lib/smartwallets/withdraw";
-import { getArtistAddressByAuthToken } from "@/lib/privy/getArtistAddressByAuthToken";
+import { getAddressesByAuthToken } from "@/lib/privy/getAddressesByAuthToken";
 import { getBearerToken } from "@/lib/api-keys/getBearerToken";
 
 // CORS headers for allowing cross-origin requests
@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
     const authToken = getBearerToken(authHeader);
     if (!authToken) throw new Error("Authorization header with Bearer token required");
 
-    const { socialWallet } = await getArtistAddressByAuthToken(authToken);
+    const { socialWallet } = await getAddressesByAuthToken(authToken);
 
     if (!socialWallet) throw new Error("No social wallet found for this withdrawal");
 
