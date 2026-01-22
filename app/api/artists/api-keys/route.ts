@@ -44,9 +44,8 @@ export async function POST(req: NextRequest) {
 
     const { artistAddress: artistAddressFromToken, socialWallet: socialWalletFromToken } =
       await getArtistAddressByAuthToken(authToken);
-    if (!artistAddressFromToken && !socialWalletFromToken)
-      throw new Error("No artist address found for this API key");
     const artistAddress = artistAddressFromToken || socialWalletFromToken || "";
+    if (!artistAddress) throw new Error("No artist address found for this API key");
 
     const body = await req.json();
     const parseResult = createApiKeySchema.safeParse(body);
