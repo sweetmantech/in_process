@@ -2,6 +2,8 @@ import { NextRequest } from "next/server";
 import { Address, formatEther, formatUnits } from "viem";
 import getCorsHeader from "@/lib/getCorsHeader";
 import { getSocialSmartWalletsBalances } from "@/lib/smartwallets/getSocialSmartWalletsBalances";
+import { getSmartWalletBalancesSchema } from "@/lib/schema/getSmartWalletBalancesSchema";
+import { validate } from "@/lib/schema/validate";
 
 const corsHeaders = getCorsHeader();
 
@@ -15,29 +17,17 @@ export async function OPTIONS() {
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
-    const artistAddressParam = searchParams.get("artist_address");
-    const chainIdParam = searchParams.get("chainId");
+    const queryParams = {
+      artist_address: searchParams.get("artist_address"),
+      chainId: searchParams.get("chainId"),
+    };
 
-    if (!artistAddressParam) {
-      return Response.json(
-        { message: "artist_address parameter is required" },
-        { status: 400, headers: corsHeaders }
-      );
+    const validationResult = validate(getSmartWalletBalancesSchema, queryParams);
+    if (!validationResult.success) {
+      return validationResult.response;
     }
 
-    const artistAddress = artistAddressParam.toLowerCase() as Address;
-
-    let chainId = 8453;
-    if (chainIdParam) {
-      const parsedChainId = parseInt(chainIdParam, 10);
-      if (isNaN(parsedChainId)) {
-        return Response.json(
-          { message: "chainId must be a valid integer" },
-          { status: 400, headers: corsHeaders }
-        );
-      }
-      chainId = parsedChainId;
-    }
+    const { artist_address: artistAddress, chainId } = validationResult.data;
 
     const { totalEthBalance, totalUsdcBalance, walletsBalances } =
       await getSocialSmartWalletsBalances(artistAddress, chainId);
