@@ -38,8 +38,7 @@ export const useWithdraw = () => {
     }
 
     // Check if withdraw amount is valid
-    const availableBalance =
-      currency === "eth" ? totalEthBalance : totalUsdcBalance;
+    const availableBalance = currency === "eth" ? totalEthBalance : totalUsdcBalance;
     const withdrawAmountNum = parseFloat(withdrawAmount);
     const availableBalanceNum = parseFloat(availableBalance);
 
@@ -49,9 +48,7 @@ export const useWithdraw = () => {
     }
 
     if (withdrawAmountNum > availableBalanceNum) {
-      toast.error(
-        `Insufficient balance. Available: ${availableBalance} ${currency.toUpperCase()}`
-      );
+      toast.error(`Insufficient balance. Available: ${availableBalance} ${currency.toUpperCase()}`);
       return;
     }
 
