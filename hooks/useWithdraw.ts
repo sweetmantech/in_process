@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import { useUserProvider } from "@/providers/UserProvider";
 import { toast } from "sonner";
 import { usePrivy } from "@privy-io/react-auth";
-import { CHAIN_ID, USDC_ADDRESS } from "@/lib/consts";
-import { zeroAddress } from "viem";
+import { CHAIN_ID } from "@/lib/consts";
 import { withdrawApi } from "@/lib/smartwallets/withdrawApi";
 import { useSocialSmartWalletsBalancesProvider } from "@/providers/SocialSmartWalletsBalancesProvider";
 
@@ -38,6 +37,21 @@ export const useWithdraw = () => {
       return;
     }
 
+    // Check if withdraw amount is valid
+    const availableBalance = currency === "eth" ? totalEthBalance : totalUsdcBalance;
+    const withdrawAmountNum = parseFloat(withdrawAmount);
+    const availableBalanceNum = parseFloat(availableBalance);
+
+    if (isNaN(withdrawAmountNum) || withdrawAmountNum <= 0) {
+      toast.error("Please enter a valid amount");
+      return;
+    }
+
+    if (withdrawAmountNum > availableBalanceNum) {
+      toast.error(`Insufficient balance. Available: ${availableBalance} ${currency.toUpperCase()}`);
+      return;
+    }
+
     setIsWithdrawing(true);
     try {
       const accessToken = await getAccessToken();
@@ -46,7 +60,7 @@ export const useWithdraw = () => {
       await withdrawApi({
         accessToken,
         amount: withdrawAmount,
-        currency: currency === "usdc" ? USDC_ADDRESS : zeroAddress,
+        currency,
         to: recipientAddress as `0x${string}`,
         chainId: CHAIN_ID,
       });

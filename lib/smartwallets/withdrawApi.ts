@@ -1,9 +1,10 @@
 import { Address } from "viem";
+import { WithdrawCurrency } from "@/hooks/useWithdraw";
 
 export interface WithdrawApiParams {
   accessToken: string;
   amount: string;
-  currency: Address;
+  currency: WithdrawCurrency;
   to: Address;
   chainId: number;
 }
