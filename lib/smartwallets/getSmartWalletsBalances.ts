@@ -5,15 +5,17 @@ import getViemNetwork from "@/lib/viem/getViemNetwork";
 import getAlchemyRpcUrl from "@/lib/alchemy/getAlchemyRpcUrl";
 import getUsdcAddress from "@/lib/getUsdcAddress";
 import { EvmSmartAccount } from "@coinbase/cdp-sdk";
+import { SmartWallet } from "./getSocialSmartWallets";
 
 export interface WalletBalance {
   usdcBalance: bigint;
   ethBalance: bigint;
   smartAccount: EvmSmartAccount;
+  address: string;
 }
 
 async function getSmartWalletsBalances(
-  wallets: EvmSmartAccount[],
+  wallets: SmartWallet[],
   chainId: number
 ): Promise<{
   totalEthBalance: bigint;
@@ -33,14 +35,16 @@ async function getSmartWalletsBalances(
 
   const [ethBalances, erc20BalanceResults] = await Promise.all([
     Promise.all(
-      wallets.map((wallet) => batchedClient.getBalance({ address: wallet.address as Address }))
+      wallets.map((wallet) =>
+        batchedClient.getBalance({ address: wallet.smartWallet.address as Address })
+      )
     ),
     publicClient.multicall({
       contracts: wallets.map((wallet) => ({
         address: getUsdcAddress(chainId),
         abi: erc20Abi,
         functionName: "balanceOf",
-        args: [wallet.address as Address],
+        args: [wallet.smartWallet.address as Address],
       })),
     }),
   ]);
@@ -56,7 +60,8 @@ async function getSmartWalletsBalances(
     balancesMap.set(walletAddress, {
       ethBalance: ethBalances[index],
       usdcBalance: (erc20BalanceResults[index]?.result as bigint) || BigInt(0),
-      smartAccount: wallet,
+      smartAccount: wallet.smartWallet,
+      address: wallet.address,
     });
   });
 
