@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import { usePrivy } from "@privy-io/react-auth";
 import { CHAIN_ID } from "@/lib/consts";
 import { withdrawApi } from "@/lib/smartwallets/withdrawApi";
+import { useSocialSmartWalletsBalancesProvider } from "@/providers/SocialSmartWalletsBalancesProvider";
 
 export type WithdrawCurrency = "usdc" | "eth";
 
@@ -15,11 +16,7 @@ export const useWithdraw = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isWithdrawing, setIsWithdrawing] = useState<boolean>(false);
   const { getAccessToken } = usePrivy();
-  const {
-    getSmartWalletBalances,
-    totalUsdcBalance,
-    totalEthBalance,
-  } = useSocialSmartWalletsBalancesProvider();
+  const { refetch, totalEthBalance, totalUsdcBalance } = useSocialSmartWalletsBalancesProvider();
 
   useEffect(() => {
     if (isOpen && isExternalWallet && artistWallet) {
@@ -29,6 +26,11 @@ export const useWithdraw = () => {
     }
   }, [isOpen, isExternalWallet, artistWallet]);
 
+  const setMax = () => {
+    const maxAmount = currency === "eth" ? totalEthBalance : totalUsdcBalance;
+    setWithdrawAmount(maxAmount);
+  };
+
   const withdraw = async () => {
     if (!recipientAddress || !withdrawAmount) {
       toast.error("Please fill in all fields");
@@ -37,7 +39,7 @@ export const useWithdraw = () => {
 
     // Check if withdraw amount is valid
     const availableBalance =
-      currency === "eth" ? ethBalance : totalUsdcBalance;
+      currency === "eth" ? totalEthBalance : totalUsdcBalance;
     const withdrawAmountNum = parseFloat(withdrawAmount);
     const availableBalanceNum = parseFloat(availableBalance);
 
@@ -65,7 +67,7 @@ export const useWithdraw = () => {
         to: recipientAddress as `0x${string}`,
         chainId: CHAIN_ID,
       });
-      getSmartWalletBalances();
+      refetch();
       toast.success("Withdrawal was successful");
     } catch (error: any) {
       toast.error(error?.message || "Failed to withdraw");
@@ -85,5 +87,6 @@ export const useWithdraw = () => {
     setIsOpen,
     withdraw,
     isWithdrawing,
+    setMax,
   };
 };

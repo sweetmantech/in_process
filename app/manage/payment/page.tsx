@@ -3,20 +3,20 @@
 import PaymentsTable from "@/components/PaymentsPage/PaymentsTable";
 import { useUserProvider } from "@/providers/UserProvider";
 import { WithdrawModal } from "@/components/PaymentsPage/WithdrawModal";
-import SocialWalletBalanceProvider from "@/providers/SocialWalletBalanceProvider";
+import SocialSmartWalletsBalancesProvider from "@/providers/SocialSmartWalletsBalancesProvider";
 
 const Payments = () => {
   const { artistWallet } = useUserProvider();
 
   return (
-    <SocialWalletBalanceProvider>
+    <SocialSmartWalletsBalancesProvider>
       <main className="flex flex-col gap-4 font-archivo">
         <div className="flex justify-end">
           <WithdrawModal />
         </div>
         <PaymentsTable limit={50} address={artistWallet} combined={true} />
       </main>
-    </SocialWalletBalanceProvider>
+    </SocialSmartWalletsBalancesProvider>
   );
 };
 

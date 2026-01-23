@@ -10,7 +10,7 @@ export interface SmartWalletBalance {
   ethBalance: string;
 }
 
-export const getSmartWalleBalances = async (
+export const getSmartWalletBalances = async (
   walletAddress: Address
 ): Promise<SmartWalletBalance> => {
   const smartWallet = await getSmartWallet(walletAddress);
