@@ -9,14 +9,14 @@ const PaymentsPage = () => {
   const { artistWallet } = useUserProvider();
 
   return (
-    <SocialSmartWalletsBalancesProvider>
-      <main className="flex flex-col gap-4 font-archivo">
-        <div className="flex justify-end">
+    <main className="flex flex-col gap-4 font-archivo">
+      <div className="flex justify-end">
+        <SocialSmartWalletsBalancesProvider>
           <WithdrawModal />
-        </div>
-        <PaymentsTable limit={50} address={artistWallet} combined={true} />
-      </main>
-    </SocialSmartWalletsBalancesProvider>
+        </SocialSmartWalletsBalancesProvider>
+      </div>
+      <PaymentsTable limit={50} address={artistWallet} combined={true} />
+    </main>
   );
 };
 
