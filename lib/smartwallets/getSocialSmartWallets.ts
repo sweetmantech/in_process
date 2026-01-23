@@ -17,6 +17,7 @@ export async function getSocialSmartWallets(artistAddress: Address): Promise<Evm
     for (const social of socials) {
       const smartwallet = await getOrCreateSmartWallet({ address: social });
       socialSmartWallets.push(smartwallet);
+      new Promise((resolve) => setTimeout(resolve, 200));
     }
   } else {
     const artistSmartWallet = await getOrCreateSmartWallet({ address: artistAddress });
