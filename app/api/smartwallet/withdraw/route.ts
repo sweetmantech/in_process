@@ -18,26 +18,33 @@ export async function OPTIONS() {
   });
 }
 
-export async function POST(req: NextRequest) {
+export async function GET(req: NextRequest) {
   try {
-    const authResult = await authMiddleware(req, { corsHeaders });
-    if (authResult instanceof Response) {
-      return authResult;
-    }
-    const { artistAddress } = authResult;
+    // const authResult = await authMiddleware(req, { corsHeaders });
+    // if (authResult instanceof Response) {
+    //   return authResult;
+    // }
+    // const { artistAddress } = authResult;
 
-    const body = await req.json();
-    const validationResult = validate(withdrawSchema, body);
-    if (!validationResult.success) {
-      return validationResult.response;
-    }
+    // const body = await req.json();
+    // const validationResult = validate(withdrawSchema, body);
+    // if (!validationResult.success) {
+    //   return validationResult.response;
+    // }
 
-    const result = await withdraw({
-      ...validationResult.data,
+    const artistAddress = "0xaf1452d289e22fbd0dea9d5097353c72a90fac33";
+    const body = {
+      to: "0xaf1452d289e22fbd0dea9d5097353c72a90fac33" as Address,
+      amount: "0.00002",
+      currency: "eth" as const,
+      chainId: 84532,
+    };
+    const results = await withdraw({
+      ...body,
       artistAddress: artistAddress as Address,
     });
 
-    return Response.json(result, { headers: corsHeaders });
+    return Response.json(results, { headers: corsHeaders });
   } catch (e: any) {
     console.log(e);
     const message = e?.message ?? "Failed to withdraw from smart wallet";

@@ -1,10 +1,9 @@
 import { z } from "zod";
-import { zeroAddress } from "viem";
 import addressSchema from "./addressSchema";
 
 export const withdrawSchema = z.object({
   to: addressSchema,
-  currency: addressSchema.optional().transform((val) => (val === undefined ? zeroAddress : val)),
+  currency: z.enum(["usdc", "eth"]),
   amount: z
     .string()
     .optional()

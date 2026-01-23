@@ -1,189 +1,198 @@
 import {
   Address,
-  encodeFunctionData,
-  erc20Abi,
   Hash,
   parseEther,
   parseUnits,
-  zeroAddress,
+  encodeFunctionData,
+  erc20Abi,
+  formatEther,
+  formatUnits,
 } from "viem";
+import { baseSepolia } from "viem/chains";
 import { z } from "zod";
-import { getOrCreateSmartWallet } from "@/lib/coinbase/getOrCreateSmartWallet";
-import { sendUserOperation } from "@/lib/coinbase/sendUserOperation";
-import { Call } from "@coinbase/coinbase-sdk/dist/types/calls";
-import { OneOf } from "viem";
 import { withdrawSchema } from "@/lib/schema/withdrawSchema";
 import { selectSocialWallets } from "@/lib/supabase/in_process_artist_social_wallets/selectSocialWallets";
-import { getPublicClient } from "@/lib/viem/publicClient";
+import getSmartWalletsBalances from "./getSmartWalletsBalances";
+import { getOrCreateSmartWallet } from "@/lib/coinbase/getOrCreateSmartWallet";
+import { Call } from "@coinbase/coinbase-sdk/dist/types/calls";
+import { sendUserOperation } from "@/lib/coinbase/sendUserOperation";
+import getUsdcAddress from "@/lib/getUsdcAddress";
 
 export type WithdrawInput = z.infer<typeof withdrawSchema> & {
   artistAddress: Address;
 };
 
 export interface WithdrawResult {
-  hash: Hash;
+  hash: Hash | null;
   chainId: number;
   walletAddress: Address;
+  withdrawnAmount: string;
+  remainingAmount: string;
 }
 
-/**
- * Withdraw funds from all smart wallets linked to an artist wallet.
- * This includes:
- * - The artist's own smart wallet (created from artistAddress)
- * - All social wallets linked to the artist
- *
- * Supports both native ETH (when currency is zeroAddress) and ERC20 tokens.
- * If amount is not provided, defaults to the full balance of each smart wallet.
- */
+export interface WithdrawResponse {
+  withdrawals: WithdrawResult[];
+  remainingTotalEthBalance: string;
+  remainingTotalUsdcBalance: string;
+}
+
 export async function withdraw({
   artistAddress,
   currency,
   amount,
   to,
   chainId = 8453,
-}: WithdrawInput): Promise<WithdrawResult[]> {
-  // Get all social wallets linked to the artist
+}: WithdrawInput): Promise<WithdrawResponse> {
   const { data: socialWallets, error } = await selectSocialWallets({
-    artistAddress: artistAddress.toLowerCase() as Address,
+    artistAddress,
   });
 
-  if (error) {
-    throw new Error(`Failed to fetch social wallets: ${error.message}`);
+  if (error || !socialWallets) throw new Error("Failed to fetch social wallets");
+
+  const socials = socialWallets.map((social) => social.social_wallet as Address);
+
+  const socialSmartWallets = [];
+  if (socials.length) {
+    for (const social of socials) {
+      const smartwallet = await getOrCreateSmartWallet({ address: social });
+      socialSmartWallets.push(smartwallet);
+    }
+  } else {
+    const artistSmartWallet = await getOrCreateSmartWallet({ address: artistAddress });
+    socialSmartWallets.push(artistSmartWallet);
   }
 
-  // Store smart account objects and their addresses
-  // Map: smartWalletAddress -> { smartAccount, originalAddress }
-  const smartWalletMap = new Map<
-    Address,
-    { smartAccount: Awaited<ReturnType<typeof getOrCreateSmartWallet>>; originalAddress: Address }
-  >();
+  const { walletsBalances, totalEthBalance, totalUsdcBalance } = await getSmartWalletsBalances(
+    socialSmartWallets,
+    chainId
+  );
 
-  // Get artist's smart wallet
-  const artistSmartAccount = await getOrCreateSmartWallet({
-    address: artistAddress.toLowerCase() as Address,
-  });
-  if (artistSmartAccount?.address) {
-    smartWalletMap.set(artistSmartAccount.address.toLowerCase() as Address, {
-      smartAccount: artistSmartAccount,
-      originalAddress: artistAddress.toLowerCase() as Address,
-    });
+  let totalAmount = currency === "eth" ? totalEthBalance : totalUsdcBalance;
+  if (totalAmount === BigInt(0)) throw new Error("No balance to withdraw");
+  if (amount) {
+    const expectedAmount = currency === "eth" ? parseEther(amount) : parseUnits(amount, 6);
+    if (expectedAmount > totalAmount) {
+      throw new Error("Insufficient balance");
+    }
+    totalAmount = expectedAmount;
   }
 
-  // Get all social wallets' smart wallets
-  if (socialWallets && socialWallets.length > 0) {
-    for (const socialWallet of socialWallets) {
-      const smartAccount = await getOrCreateSmartWallet({
-        address: socialWallet.social_wallet.toLowerCase() as Address,
-      });
-      if (smartAccount?.address) {
-        smartWalletMap.set(smartAccount.address.toLowerCase() as Address, {
-          smartAccount,
-          originalAddress: socialWallet.social_wallet.toLowerCase() as Address,
-        });
-      }
+  // Iterate through wallet balances sequentially until cumulative sum equals totalAmount
+  const walletAmounts: Array<{ address: Address; amount: bigint }> = [];
+  let cumulativeSum = BigInt(0);
+
+  for (const [address, balance] of walletsBalances.entries()) {
+    if (cumulativeSum >= totalAmount) {
+      break;
+    }
+
+    const walletBalance = currency === "eth" ? balance.ethBalance : balance.usdcBalance;
+    const remainingNeeded = totalAmount - cumulativeSum;
+    const amountToTake = walletBalance < remainingNeeded ? walletBalance : remainingNeeded;
+
+    if (amountToTake > BigInt(0)) {
+      walletAmounts.push({ address, amount: amountToTake });
+      cumulativeSum += amountToTake;
     }
   }
 
-  const smartWallets = Array.from(smartWalletMap.keys());
-
-  // Map chainId to network
-  // 8453 = Base, 84532 = Base Sepolia
-  const network = chainId === 84532 ? "base-sepolia" : "base";
-
-  // If amount is not provided, fetch full balances from all smart wallets using multicall
-  let balances: SmartWalletBalance[] = [];
-  let erc20Decimals: number | null = null;
-
-  if (!amount) {
-    balances = await getSmartWalletBalances(smartWallets, currency, chainId);
-  } else if (currency.toLowerCase() !== zeroAddress.toLowerCase()) {
-    // For ERC20, we need to get decimals to parse the amount correctly
-    const publicClient = getPublicClient(chainId);
-    const decimalsResult = await publicClient.readContract({
-      address: currency,
-      abi: erc20Abi,
-      functionName: "decimals",
-      args: [],
-    });
-    erc20Decimals = decimalsResult as number;
+  if (cumulativeSum < totalAmount) {
+    throw new Error("Insufficient balance across all wallets");
   }
 
-  // Withdraw from all wallets in parallel
-  const withdrawPromises = smartWallets.map(async (smartWalletAddress) => {
-    try {
-      // Get the smart account from our map
-      const walletInfo = smartWalletMap.get(smartWalletAddress);
-      if (!walletInfo) {
-        throw new Error(`Smart wallet info not found for ${smartWalletAddress}`);
-      }
+  // Determine network based on chainId
+  const network = chainId === baseSepolia.id ? "base-sepolia" : "base";
+  const usdcAddress = getUsdcAddress(chainId);
 
-      const { smartAccount } = walletInfo;
+  // Build withdrawal calls and send user operations for each wallet
+  // Track withdrawals by wallet address (store bigint amount to avoid precision issues)
+  const withdrawalsMap = new Map<Address, { hash: Hash; withdrawnAmount: bigint }>();
 
-      // Determine the amount to withdraw
-      let withdrawAmount: bigint;
-      if (amount) {
-        // Use provided amount
-        if (currency.toLowerCase() === zeroAddress.toLowerCase()) {
-          withdrawAmount = parseEther(amount);
-        } else {
-          // For ERC20, use the decimals we fetched
-          if (erc20Decimals === null) {
-            throw new Error("ERC20 decimals not fetched");
-          }
-          withdrawAmount = parseUnits(amount, erc20Decimals);
-        }
-      } else {
-        // Use full balance from the balances we fetched
-        const walletBalance = balances.find(
-          (b) => b.walletAddress.toLowerCase() === smartWalletAddress.toLowerCase()
-        );
-        if (!walletBalance) {
-          throw new Error(`Balance not found for smart wallet ${smartWalletAddress}`);
-        }
-        withdrawAmount = walletBalance.balance;
-      }
+  for (const { address, amount } of walletAmounts) {
+    const walletBalance = walletsBalances.get(address);
+    if (!walletBalance) {
+      throw new Error(`Wallet balance not found for address: ${address}`);
+    }
+    const smartAccount = walletBalance.smartAccount;
 
-      // Prepare the call for withdrawal
-      let call: OneOf<Call<unknown, { [key: string]: unknown }>>;
+    let call: Call;
 
-      // If currency is zeroAddress (ETH), send native ETH
-      if (currency.toLowerCase() === zeroAddress.toLowerCase()) {
-        call = {
-          to,
-          value: withdrawAmount,
-        };
-      } else {
-        // For ERC20 tokens, encode transfer function
-        call = {
-          to: currency,
-          data: encodeFunctionData({
-            abi: erc20Abi,
-            functionName: "transfer",
-            args: [to, withdrawAmount],
-          }),
-        };
-      }
-
-      // Send the transaction
-      const transaction = await sendUserOperation({
-        smartAccount,
-        network,
-        calls: [call],
-      });
-
-      return {
-        hash: transaction.transactionHash as Hash,
-        chainId,
-        walletAddress: smartWalletAddress,
+    if (currency === "eth") {
+      // ETH transfer - simple value transfer
+      call = {
+        to,
+        value: amount,
       };
-    } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : String(error);
-      throw new Error(`Failed to withdraw from wallet ${smartWalletAddress}: ${errorMessage}`);
+    } else {
+      // USDC transfer - ERC20 transfer call
+      call = {
+        to: usdcAddress,
+        data: encodeFunctionData({
+          abi: erc20Abi,
+          functionName: "transfer",
+          args: [to, amount],
+        }),
+      };
     }
-  });
 
-  // Wait for all withdrawals to complete
-  const results = await Promise.all(withdrawPromises);
+    // Send user operation and wait for transaction receipt
+    const transaction = await sendUserOperation({
+      smartAccount,
+      network,
+      calls: [call],
+    });
 
-  return results;
+    withdrawalsMap.set(address, {
+      hash: transaction.transactionHash as Hash,
+      withdrawnAmount: amount,
+    });
+  }
+
+  // Include all wallets in results
+  const results: WithdrawResult[] = [];
+  let remainingTotalEthBalance = totalEthBalance;
+  let remainingTotalUsdcBalance = totalUsdcBalance;
+
+  for (const [address, walletBalance] of walletsBalances.entries()) {
+    const withdrawal = withdrawalsMap.get(address);
+    const originalBalance =
+      currency === "eth" ? walletBalance.ethBalance : walletBalance.usdcBalance;
+
+    // Calculate remaining balance: if withdrawal happened, subtract withdrawn amount; otherwise use original balance
+    const remainingBalance = withdrawal
+      ? originalBalance - withdrawal.withdrawnAmount
+      : originalBalance;
+
+    const remainingAmount =
+      currency === "eth" ? formatEther(remainingBalance) : formatUnits(remainingBalance, 6);
+
+    const withdrawnAmount = withdrawal
+      ? currency === "eth"
+        ? formatEther(withdrawal.withdrawnAmount)
+        : formatUnits(withdrawal.withdrawnAmount, 6)
+      : "0";
+
+    // Update remaining total balances
+    if (withdrawal) {
+      if (currency === "eth") {
+        remainingTotalEthBalance -= withdrawal.withdrawnAmount;
+      } else {
+        remainingTotalUsdcBalance -= withdrawal.withdrawnAmount;
+      }
+    }
+
+    results.push({
+      hash: withdrawal?.hash ?? null,
+      chainId,
+      walletAddress: address,
+      withdrawnAmount,
+      remainingAmount,
+    });
+  }
+
+  return {
+    withdrawals: results,
+    remainingTotalEthBalance: formatEther(remainingTotalEthBalance),
+    remainingTotalUsdcBalance: formatUnits(remainingTotalUsdcBalance, 6),
+  };
 }
