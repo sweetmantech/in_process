@@ -49,9 +49,8 @@ export async function GET(req: NextRequest) {
     };
 
     return Response.json(response, { headers: corsHeaders });
-  } catch (e: any) {
-    console.log(e);
-    const message = e?.message ?? "Failed to get balances";
+  } catch (e: unknown) {
+    const message = e instanceof Error ? e.message : "Failed to get balances";
     return Response.json({ message }, { status: 500, headers: corsHeaders });
   }
 }
