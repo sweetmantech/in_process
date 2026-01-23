@@ -34,7 +34,7 @@ const getCollectCall = (
           contractAddress,
           BigInt(tokenId),
           totalPrice,
-          USDC_ADDRESS,
+          USDC_ADDRESS[CHAIN_ID],
           account,
           comment,
         ],

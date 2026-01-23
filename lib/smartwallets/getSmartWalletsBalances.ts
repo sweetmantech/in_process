@@ -3,9 +3,9 @@ import { getPublicClient } from "@/lib/viem/publicClient";
 import { createPublicClient, http } from "viem";
 import getViemNetwork from "@/lib/viem/getViemNetwork";
 import getAlchemyRpcUrl from "@/lib/alchemy/getAlchemyRpcUrl";
-import getUsdcAddress from "@/lib/getUsdcAddress";
 import { EvmSmartAccount } from "@coinbase/cdp-sdk";
 import { SmartWallet } from "./getSocialSmartWallets";
+import { USDC_ADDRESS } from "../consts";
 
 export interface WalletBalance {
   usdcBalance: bigint;
@@ -41,7 +41,7 @@ async function getSmartWalletsBalances(
     ),
     publicClient.multicall({
       contracts: wallets.map((wallet) => ({
-        address: getUsdcAddress(chainId),
+        address: USDC_ADDRESS[chainId],
         abi: erc20Abi,
         functionName: "balanceOf",
         args: [wallet.smartWallet.address as Address],

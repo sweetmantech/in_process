@@ -1,6 +1,6 @@
 import { TimedSaleParamsType } from "@/lib/protocolSdk";
 import { maxUint64, parseEther, parseUnits } from "viem";
-import { USDC_ADDRESS } from "../consts";
+import { USDC_ADDRESS, CHAIN_ID } from "../consts";
 import { MomentType } from "@/types/moment";
 
 const getSalesConfig = (saleStrategy: string, price: string, saleStart: Date | undefined) => {
@@ -16,7 +16,7 @@ const getSalesConfig = (saleStrategy: string, price: string, saleStart: Date | u
       ? BigInt(Number(saleStart.getTime() / 1000).toFixed(0)).toString()
       : BigInt(0).toString(),
     saleEnd: maxUint64.toString(),
-    currency: USDC_ADDRESS,
+    currency: USDC_ADDRESS[CHAIN_ID],
   };
   const fixedPriceSaleConfig = {
     type: "fixedPrice",

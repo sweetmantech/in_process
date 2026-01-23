@@ -1,5 +1,6 @@
 import { Point } from "@/types/spiral";
 import { baseSepolia, base } from "viem/chains";
+import { Address } from "viem";
 
 export const INPROCESS_GROUP_CHAT_ID = "-1002592953370";
 
@@ -30,9 +31,10 @@ export const TELEGRAM_MAX_FILE_SIZE = 50 * 1024 * 1024;
 export const PERMISSION_BIT_ADMIN = 2;
 export const MULTICALL3_ADDRESS = "0xcA11bde05977b3631167028862bE2a173976CA11";
 
-export const USDC_ADDRESS = IS_TESTNET
-  ? "0x14196F08a4Fa0B66B7331bC40dd6bCd8A1dEeA9F"
-  : "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913";
+export const USDC_ADDRESS: Record<number, Address> = {
+  [base.id]: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+  [baseSepolia.id]: "0x14196F08a4Fa0B66B7331bC40dd6bCd8A1dEeA9F",
+} as const;
 
 export const SITE_ORIGINAL_URL = IS_TESTNET
   ? "https://in-process-git-test-sweetmantechs-projects.vercel.app"
