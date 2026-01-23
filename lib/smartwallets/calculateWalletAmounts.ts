@@ -1,8 +1,9 @@
 import { Address } from "viem";
 import { WalletBalance } from "./getSmartWalletsBalances";
+import { Currency } from "@/types/balances";
 
 export function calculateWalletAmounts(
-  currency: "eth" | "usdc",
+  currency: Currency,
   totalAmount: bigint,
   walletsBalances: Map<Address, WalletBalance>
 ): Array<{ address: Address; amount: bigint }> {

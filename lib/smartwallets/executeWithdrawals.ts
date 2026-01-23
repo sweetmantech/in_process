@@ -3,9 +3,10 @@ import { baseSepolia } from "viem/chains";
 import { sendUserOperation } from "@/lib/coinbase/sendUserOperation";
 import { WalletBalance } from "./getSmartWalletsBalances";
 import { getWithdrawalCall } from "./getWithdrawalCall";
+import { Currency } from "@/types/balances";
 
 export async function executeWithdrawals(
-  currency: "eth" | "usdc",
+  currency: Currency,
   walletAmounts: Array<{ address: Address; amount: bigint }>,
   walletsBalances: Map<Address, WalletBalance>,
   to: Address,

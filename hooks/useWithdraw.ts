@@ -5,12 +5,11 @@ import { usePrivy } from "@privy-io/react-auth";
 import { CHAIN_ID } from "@/lib/consts";
 import { withdrawApi } from "@/lib/smartwallets/withdrawApi";
 import { useSocialSmartWalletsBalancesProvider } from "@/providers/SocialSmartWalletsBalancesProvider";
-
-export type WithdrawCurrency = "usdc" | "eth";
+import { Currency } from "@/types/balances";
 
 export const useWithdraw = () => {
   const [withdrawAmount, setWithdrawAmount] = useState<string>("");
-  const [currency, setCurrency] = useState<WithdrawCurrency>("usdc");
+  const [currency, setCurrency] = useState<Currency>("usdc");
   const [recipientAddress, setRecipientAddress] = useState<string>("");
   const { isExternalWallet, artistWallet } = useUserProvider();
   const [isOpen, setIsOpen] = useState(false);

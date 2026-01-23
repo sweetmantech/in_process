@@ -1,7 +1,8 @@
 import { parseEther, parseUnits } from "viem";
+import { Currency } from "@/types/balances";
 
 export function calculateTotalWithdrawAmount(
-  currency: "eth" | "usdc",
+  currency: Currency,
   amount: string | undefined,
   totalEthBalance: bigint,
   totalUsdcBalance: bigint

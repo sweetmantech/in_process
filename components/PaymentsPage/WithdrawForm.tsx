@@ -3,7 +3,8 @@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { useWithdraw, type WithdrawCurrency } from "@/hooks/useWithdraw";
+import { useWithdraw } from "@/hooks/useWithdraw";
+import { Currency } from "@/types/balances";
 
 export function WithdrawForm() {
   const {
@@ -54,7 +55,7 @@ export function WithdrawForm() {
               <select
                 value={currency}
                 onChange={(e) => {
-                  setCurrency(e.target.value as WithdrawCurrency);
+                  setCurrency(e.target.value as Currency);
                 }}
                 className="flex h-7 min-w-[55px] cursor-pointer appearance-none items-center !rounded-[0px] !border-none bg-white px-1.5 py-0 text-[10px] text-center font-spectral focus:outline-none"
               >
