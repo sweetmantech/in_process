@@ -2,9 +2,10 @@ import { Address } from "viem";
 import { encodeFunctionData, erc20Abi } from "viem";
 import { Call } from "@coinbase/coinbase-sdk/dist/types/calls";
 import { USDC_ADDRESS } from "../consts";
+import { Currency } from "@/types/balances";
 
 export function getWithdrawalCall(
-  currency: "eth" | "usdc",
+  currency: Currency,
   amount: bigint,
   to: Address,
   chainId: number

@@ -4,14 +4,15 @@ import { createFormSchema, CreateFormData } from "@/lib/schema/createFormSchema"
 import { useState, useEffect, useRef } from "react";
 import { useMask } from "./useMask";
 import { useBlobUrls } from "./useBlobUrls";
+import { Currency } from "@/types/balances";
 
 const useMetadataForm = () => {
   // File input ref for resetting file inputs
   const fileInputRef = useRef<HTMLInputElement>(null);
   // Metadata values state
   const [name, setName] = useState<string>("");
-  const [priceUnit, setPriceUnit] = useState<string>("usdc");
-  const [price, setPrice] = useState("");
+  const [priceUnit, setPriceUnit] = useState<Currency>("usdc");
+  const [price, setPrice] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [isTimedSale, setIsTimedSale] = useState<boolean>(false);
   const [mimeType, setMimeType] = useState<string>("");
@@ -103,7 +104,7 @@ const useMetadataForm = () => {
     defaultValues: {
       name,
       price,
-      priceUnit: priceUnit as "eth" | "usdc",
+      priceUnit: priceUnit as Currency,
       description: description || undefined,
       startDate: startDate,
       splits: undefined,
@@ -147,7 +148,7 @@ const useMetadataForm = () => {
 
   useEffect(() => {
     if (form.getValues("priceUnit") !== priceUnit) {
-      form.setValue("priceUnit", priceUnit as "eth" | "usdc", {
+      form.setValue("priceUnit", priceUnit as Currency, {
         shouldValidate: false,
       });
     }

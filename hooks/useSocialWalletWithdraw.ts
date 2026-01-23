@@ -5,11 +5,10 @@ import { toast } from "sonner";
 import { useSendTransaction } from "@privy-io/react-auth";
 import { useUserProvider } from "@/providers/UserProvider";
 import { publicClient } from "@/lib/viem/publicClient";
-
-type WithdrawCurrency = "usdc" | "eth";
+import { Currency } from "@/types/balances";
 
 interface UseWithdrawParams {
-  currency: WithdrawCurrency;
+  currency: Currency;
   withdrawAmount: string;
   recipientAddress: Address;
 }

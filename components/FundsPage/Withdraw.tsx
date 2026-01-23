@@ -10,12 +10,11 @@ import useSocialWalletWithdraw from "@/hooks/useSocialWalletWithdraw";
 import { Address, isAddress } from "viem";
 import { toast } from "sonner";
 import { useSocialWalletBalanceProvider } from "@/providers/SocialWalletBalanceProvider";
-
-type WithdrawCurrency = "usdc" | "eth";
+import { Currency } from "@/types/balances";
 
 export function Withdraw() {
   const [withdrawAmount, setWithdrawAmount] = useState<string>("");
-  const [currency, setCurrency] = useState<WithdrawCurrency>("usdc");
+  const [currency, setCurrency] = useState<Currency>("usdc");
   const [recipientAddress, setRecipientAddress] = useState<string>("");
   const { connectedAddress } = useUserProvider();
   const { withdraw, isWithdrawing } = useSocialWalletWithdraw();
@@ -86,7 +85,7 @@ export function Withdraw() {
                 <select
                   value={currency}
                   onChange={(e) => {
-                    setCurrency(e.target.value as WithdrawCurrency);
+                    setCurrency(e.target.value as Currency);
                   }}
                   className="flex h-auto min-w-[70px] cursor-pointer appearance-none items-center !rounded-[0px] !border-none bg-white px-3 py-0 text-center font-spectral focus:outline-none"
                 >

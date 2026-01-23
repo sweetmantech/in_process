@@ -1,9 +1,10 @@
 import { Address, Hash, formatEther, formatUnits } from "viem";
 import { WithdrawResult, WithdrawResponse } from "./withdraw";
 import { WalletBalance } from "./getSmartWalletsBalances";
+import { Currency } from "@/types/balances";
 
 export function buildWithdrawResponse(
-  currency: "eth" | "usdc",
+  currency: Currency,
   chainId: number,
   walletsBalances: Map<Address, WalletBalance>,
   withdrawalsMap: Map<Address, { hash: Hash; withdrawnAmount: bigint }>,
