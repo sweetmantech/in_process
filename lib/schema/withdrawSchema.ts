@@ -1,14 +1,15 @@
 import { z } from "zod";
-import { zeroAddress } from "viem";
 import addressSchema from "./addressSchema";
 
 export const withdrawSchema = z.object({
-  currency: addressSchema.optional().transform((val) => (val === undefined ? zeroAddress : val)),
+  to: addressSchema,
+  currency: z.enum(["usdc", "eth"]),
   amount: z
     .string()
-    .min(1, "Amount is required")
+    .optional()
     .refine(
       (val) => {
+        if (val === undefined) return true; // Optional - if not provided, defaults to full balance
         const num = parseFloat(val);
         return !isNaN(num) && num > 0;
       },
@@ -16,6 +17,5 @@ export const withdrawSchema = z.object({
         message: "Amount must be a valid positive number",
       }
     ),
-  to: addressSchema,
   chainId: z.number().int().optional().default(8453),
 });

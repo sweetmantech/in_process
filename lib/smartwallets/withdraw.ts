@@ -1,79 +1,68 @@
-import {
-  Address,
-  encodeFunctionData,
-  erc20Abi,
-  Hash,
-  parseEther,
-  parseUnits,
-  zeroAddress,
-} from "viem";
-import { getOrCreateSmartWallet } from "@/lib/coinbase/getOrCreateSmartWallet";
-import { sendUserOperation } from "@/lib/coinbase/sendUserOperation";
-import { Call } from "@coinbase/coinbase-sdk/dist/types/calls";
-import { OneOf } from "viem";
+import { Address, Hash } from "viem";
+import { z } from "zod";
+import { withdrawSchema } from "@/lib/schema/withdrawSchema";
+import getSmartWalletsBalances from "./getSmartWalletsBalances";
+import { getSocialSmartWallets } from "./getSocialSmartWallets";
+import { calculateTotalWithdrawAmount } from "./calculateTotalWithdrawAmount";
+import { calculateWalletAmounts } from "./calculateWalletAmounts";
+import { executeWithdrawals } from "./executeWithdrawals";
+import { buildWithdrawResponse } from "./buildWithdrawResponse";
 
-export interface WithdrawInput {
+export type WithdrawInput = z.infer<typeof withdrawSchema> & {
   artistAddress: Address;
-  currencyAddress: Address;
-  amount: string;
-  recipientAddress: Address;
-  chainId?: number;
-}
+};
 
 export interface WithdrawResult {
-  hash: Hash;
+  hash: Hash | null;
   chainId: number;
+  walletAddress: Address;
+  withdrawnAmount: string;
+  remainingAmount: string;
 }
 
-/**
- * Withdraw funds from a smart wallet.
- * Supports both native ETH (when currencyAddress is zeroAddress) and ERC20 tokens.
- */
+export interface WithdrawResponse {
+  withdrawals: WithdrawResult[];
+  remainingTotalEthBalance: string;
+  remainingTotalUsdcBalance: string;
+}
+
 export async function withdraw({
   artistAddress,
-  currencyAddress,
+  currency,
   amount,
-  recipientAddress,
+  to,
   chainId = 8453,
-}: WithdrawInput): Promise<WithdrawResult> {
-  // Get or create smart wallet
-  const smartAccount = await getOrCreateSmartWallet({
-    address: artistAddress,
-  });
+}: WithdrawInput): Promise<WithdrawResponse> {
+  const socialSmartWallets = await getSocialSmartWallets(artistAddress);
 
-  // Map chainId to network
-  // 8453 = Base, 84532 = Base Sepolia
-  const network = chainId === 84532 ? "base-sepolia" : "base";
+  const { walletsBalances, totalEthBalance, totalUsdcBalance } = await getSmartWalletsBalances(
+    socialSmartWallets,
+    chainId
+  );
 
-  let call: OneOf<Call<unknown, { [key: string]: unknown }>>;
+  const totalAmount = calculateTotalWithdrawAmount(
+    currency,
+    amount,
+    totalEthBalance,
+    totalUsdcBalance
+  );
 
-  // If currency is zeroAddress (ETH), send native ETH
-  if (currencyAddress.toLowerCase() === zeroAddress.toLowerCase()) {
-    call = {
-      to: recipientAddress,
-      value: parseEther(amount),
-    };
-  } else {
-    // For ERC20 tokens (e.g., USDC), encode transfer function
-    call = {
-      to: currencyAddress,
-      data: encodeFunctionData({
-        abi: erc20Abi,
-        functionName: "transfer",
-        args: [recipientAddress, parseUnits(amount, 6)], // USDC uses 6 decimals
-      }),
-    };
-  }
+  const walletAmounts = calculateWalletAmounts(currency, totalAmount, walletsBalances);
 
-  // Send the transaction
-  const transaction = await sendUserOperation({
-    smartAccount,
-    network,
-    calls: [call],
-  });
+  const withdrawalsMap = await executeWithdrawals(
+    currency,
+    walletAmounts,
+    walletsBalances,
+    to,
+    chainId
+  );
 
-  return {
-    hash: transaction.transactionHash as Hash,
+  return buildWithdrawResponse(
+    currency,
     chainId,
-  };
+    walletsBalances,
+    withdrawalsMap,
+    totalEthBalance,
+    totalUsdcBalance
+  );
 }
