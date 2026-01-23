@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { useUserProvider } from "@/providers/UserProvider";
 import { toast } from "sonner";
 import { usePrivy } from "@privy-io/react-auth";
-import { useSocialWalletBalanceProvider } from "@/providers/SocialWalletBalanceProvider";
 import { CHAIN_ID, USDC_ADDRESS } from "@/lib/consts";
 import { zeroAddress } from "viem";
 import { withdrawApi } from "@/lib/smartwallets/withdrawApi";
+import { useSocialSmartWalletsBalancesProvider } from "@/providers/SocialSmartWalletsBalancesProvider";
 
 export type WithdrawCurrency = "usdc" | "eth";
 
@@ -17,7 +17,7 @@ export const useWithdraw = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isWithdrawing, setIsWithdrawing] = useState<boolean>(false);
   const { getAccessToken } = usePrivy();
-  const { getSmartWalletBalances } = useSocialWalletBalanceProvider();
+  const { refetch, totalEthBalance, totalUsdcBalance } = useSocialSmartWalletsBalancesProvider();
 
   useEffect(() => {
     if (isOpen && isExternalWallet && artistWallet) {
@@ -26,6 +26,11 @@ export const useWithdraw = () => {
       setRecipientAddress("");
     }
   }, [isOpen, isExternalWallet, artistWallet]);
+
+  const setMax = () => {
+    const maxAmount = currency === "eth" ? totalEthBalance : totalUsdcBalance;
+    setWithdrawAmount(maxAmount);
+  };
 
   const withdraw = async () => {
     if (!recipientAddress || !withdrawAmount) {
@@ -45,7 +50,7 @@ export const useWithdraw = () => {
         to: recipientAddress as `0x${string}`,
         chainId: CHAIN_ID,
       });
-      getSmartWalletBalances();
+      refetch();
       toast.success("Withdrawal was successful");
     } catch (error: any) {
       toast.error(error?.message || "Failed to withdraw");
@@ -65,5 +70,6 @@ export const useWithdraw = () => {
     setIsOpen,
     withdraw,
     isWithdrawing,
+    setMax,
   };
 };
