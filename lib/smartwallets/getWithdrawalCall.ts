@@ -1,7 +1,7 @@
 import { Address } from "viem";
 import { encodeFunctionData, erc20Abi } from "viem";
 import { Call } from "@coinbase/coinbase-sdk/dist/types/calls";
-import getUsdcAddress from "@/lib/usdc/getUsdcAddress";
+import { USDC_ADDRESS } from "../consts";
 
 export function getWithdrawalCall(
   currency: "eth" | "usdc",
@@ -17,7 +17,7 @@ export function getWithdrawalCall(
     };
   } else {
     // USDC transfer - ERC20 transfer call
-    const usdcAddress = getUsdcAddress(chainId);
+    const usdcAddress = USDC_ADDRESS[chainId];
     return {
       to: usdcAddress,
       data: encodeFunctionData({

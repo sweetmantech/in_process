@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Address, erc20Abi } from "viem";
 import { usePublicClient } from "wagmi";
-import { USDC_ADDRESS } from "@/lib/consts";
+import { CHAIN_ID, USDC_ADDRESS } from "@/lib/consts";
 import useSignedAddress from "./useSignedAddress";
 
 const useBalance = () => {
@@ -20,7 +20,7 @@ const useBalance = () => {
       setEthBalance(data);
 
       data = await publicClient.readContract({
-        address: USDC_ADDRESS,
+        address: USDC_ADDRESS[CHAIN_ID],
         abi: erc20Abi,
         functionName: "balanceOf",
         args: [signedAddress as Address],

@@ -5,7 +5,7 @@ import { CHAIN_ID, USDC_ADDRESS } from "../consts";
 const getAllowance = async (owner: Address, spender: Address) => {
   const publicClient = getPublicClient(CHAIN_ID);
   const balance = await publicClient.readContract({
-    address: USDC_ADDRESS,
+    address: USDC_ADDRESS[CHAIN_ID],
     abi: erc20Abi,
     functionName: "allowance",
     args: [owner, spender],

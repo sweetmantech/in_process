@@ -1,4 +1,4 @@
-import { USDC_ADDRESS } from "@/lib/consts";
+import { USDC_ADDRESS, CHAIN_ID } from "@/lib/consts";
 import { useMemo, useState } from "react";
 import { zeroAddress } from "viem";
 import { useConnectWallet } from "@privy-io/react-auth";
@@ -26,7 +26,7 @@ const useTopup = () => {
   const callData = useMemo(() => {
     return {
       totalPrice: depositAmount,
-      _usdc: currency === "usdc" ? USDC_ADDRESS : zeroAddress,
+      _usdc: currency === "usdc" ? USDC_ADDRESS[CHAIN_ID] : zeroAddress,
     };
   }, [depositAmount, currency]);
 
