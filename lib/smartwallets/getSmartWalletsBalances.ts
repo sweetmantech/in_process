@@ -3,7 +3,7 @@ import { getPublicClient } from "@/lib/viem/publicClient";
 import { createPublicClient, http } from "viem";
 import getViemNetwork from "@/lib/viem/getViemNetwork";
 import getAlchemyRpcUrl from "@/lib/alchemy/getAlchemyRpcUrl";
-import getUsdcAddress from "@/lib/getUsdcAddress";
+import getUsdcAddress from "@/lib/usdc/getUsdcAddress";
 import { EvmSmartAccount } from "@coinbase/cdp-sdk";
 import { SmartWallet } from "./getSocialSmartWallets";
 

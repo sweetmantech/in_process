@@ -1,7 +1,7 @@
 import { Address } from "viem";
 import { encodeFunctionData, erc20Abi } from "viem";
 import { Call } from "@coinbase/coinbase-sdk/dist/types/calls";
-import getUsdcAddress from "@/lib/getUsdcAddress";
+import getUsdcAddress from "@/lib/usdc/getUsdcAddress";
 
 export function getWithdrawalCall(
   currency: "eth" | "usdc",
