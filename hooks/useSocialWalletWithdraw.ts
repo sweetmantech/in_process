@@ -39,7 +39,7 @@ const useWithdraw = () => {
         | undefined;
       if (currency === "usdc") {
         transaction = await sendTransaction({
-          to: USDC_ADDRESS,
+          to: USDC_ADDRESS[CHAIN_ID],
           data: encodeFunctionData({
             abi: erc20Abi,
             functionName: "transfer",

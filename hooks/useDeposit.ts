@@ -48,7 +48,7 @@ const useDeposit = ({ currency, depositAmount, currencyLabel }: UseDepositParams
       } else {
         // Send USDC via ERC20 transfer
         hash = await client.writeContract({
-          address: USDC_ADDRESS as Address,
+          address: USDC_ADDRESS[CHAIN_ID],
           abi: erc20Abi,
           functionName: "transfer",
           args: [smartWallet as Address, parseUnits(depositAmount, 6)],

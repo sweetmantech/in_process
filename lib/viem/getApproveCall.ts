@@ -4,7 +4,7 @@ import { erc20MinterAddresses } from "../protocolSdk/constants";
 
 const getApproveCall = (totalPrice: number) => {
   return {
-    to: USDC_ADDRESS,
+    to: USDC_ADDRESS[CHAIN_ID],
     data: encodeFunctionData({
       abi: erc20Abi,
       functionName: "approve",
