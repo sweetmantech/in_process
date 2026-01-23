@@ -4,8 +4,6 @@ import { Address } from "viem";
 import { validate } from "@/lib/schema/validate";
 import { withdrawSchema } from "@/lib/schema/withdrawSchema";
 import { withdraw } from "@/lib/smartwallets/withdraw";
-import { getAddressesByAuthToken } from "@/lib/privy/getAddressesByAuthToken";
-import { getBearerToken } from "@/lib/api-keys/getBearerToken";
 import { authMiddleware } from "@/middleware/authMiddleware";
 
 // CORS headers for allowing cross-origin requests
@@ -18,33 +16,26 @@ export async function OPTIONS() {
   });
 }
 
-export async function GET(req: NextRequest) {
+export async function POST(req: NextRequest) {
   try {
-    // const authResult = await authMiddleware(req, { corsHeaders });
-    // if (authResult instanceof Response) {
-    //   return authResult;
-    // }
-    // const { artistAddress } = authResult;
+    const authResult = await authMiddleware(req, { corsHeaders });
+    if (authResult instanceof Response) {
+      return authResult;
+    }
+    const { artistAddress } = authResult;
 
-    // const body = await req.json();
-    // const validationResult = validate(withdrawSchema, body);
-    // if (!validationResult.success) {
-    //   return validationResult.response;
-    // }
+    const body = await req.json();
+    const validationResult = validate(withdrawSchema, body);
+    if (!validationResult.success) {
+      return validationResult.response;
+    }
 
-    const artistAddress = "0xaf1452d289e22fbd0dea9d5097353c72a90fac33";
-    const body = {
-      to: "0xaf1452d289e22fbd0dea9d5097353c72a90fac33" as Address,
-      amount: "0.00002",
-      currency: "eth" as const,
-      chainId: 84532,
-    };
-    const results = await withdraw({
-      ...body,
+    const result = await withdraw({
+      ...validationResult.data,
       artistAddress: artistAddress as Address,
     });
 
-    return Response.json(results, { headers: corsHeaders });
+    return Response.json(result, { headers: corsHeaders });
   } catch (e: any) {
     console.log(e);
     const message = e?.message ?? "Failed to withdraw from smart wallet";
