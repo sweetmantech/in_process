@@ -1,8 +1,7 @@
 import { Address, Hash } from "viem";
 import { z } from "zod";
 import { withdrawSchema } from "@/lib/schema/withdrawSchema";
-import getSmartWalletsBalances from "./getSmartWalletsBalances";
-import { getSocialSmartWallets } from "./getSocialSmartWallets";
+import { getSocialSmartWalletsBalances } from "./getSocialSmartWalletsBalances";
 import { calculateTotalWithdrawAmount } from "./calculateTotalWithdrawAmount";
 import { calculateWalletAmounts } from "./calculateWalletAmounts";
 import { executeWithdrawals } from "./executeWithdrawals";
@@ -33,12 +32,8 @@ export async function withdraw({
   to,
   chainId = 8453,
 }: WithdrawInput): Promise<WithdrawResponse> {
-  const socialSmartWallets = await getSocialSmartWallets(artistAddress);
-
-  const { walletsBalances, totalEthBalance, totalUsdcBalance } = await getSmartWalletsBalances(
-    socialSmartWallets,
-    chainId
-  );
+  const { walletsBalances, totalEthBalance, totalUsdcBalance } =
+    await getSocialSmartWalletsBalances(artistAddress, chainId);
 
   const totalAmount = calculateTotalWithdrawAmount(
     currency,
