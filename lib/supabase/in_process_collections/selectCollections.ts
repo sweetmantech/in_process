@@ -37,8 +37,7 @@ const selectCollections = async ({
   }
 
   if (artists) {
-    query = query.in("admins.artist_address", artists);
-    query = query.eq("admins.token_id", 0);
+    query = query.in("default_admin.address", artists);
   }
 
   if (chainId) {
