@@ -2,7 +2,7 @@ import { NextRequest } from "next/server";
 import getCorsHeader from "@/lib/getCorsHeader";
 import { authMiddleware } from "@/middleware/authMiddleware";
 import { selectSocialWallets } from "@/lib/supabase/in_process_artist_social_wallets/selectSocialWallets";
-import { Address, Hash } from "viem";
+import { Address } from "viem";
 import selectCollections from "@/lib/supabase/in_process_collections/selectCollections";
 import { getOrCreateSmartWallet } from "@/lib/coinbase/getOrCreateSmartWallet";
 import migrateMoments from "@/lib/moment/migrateMoments";
