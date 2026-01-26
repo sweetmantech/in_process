@@ -27,10 +27,18 @@ const migrateMoments = async ({
 
   const calls: Array<{ to: Address; data: `0x${string}` }> = [];
 
-  const filtered = collections.filter((collection) =>
-    collection.admins.some(
-      (admin) => admin.artist_address.toLowerCase() === smartAccount.address.toLowerCase()
-    )
+  const filtered = collections.filter(
+    (collection) =>
+      collection.admins.some(
+        (admin) => admin.artist_address.toLowerCase() === smartAccount.address.toLowerCase()
+      ) &&
+      !collection.admins.some(
+        (admin) =>
+          admin.artist_address.toLowerCase() === artistWallet.smartWalletAddress.toLowerCase()
+      ) &&
+      !collection.admins.some(
+        (admin) => admin.artist_address.toLowerCase() === artistWallet.address.toLowerCase()
+      )
   );
 
   if (!filtered.length) return null;
