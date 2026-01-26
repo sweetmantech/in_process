@@ -140,3 +140,17 @@ export interface UpdateMomentURIResult {
   hash: Hash;
   chainId: number;
 }
+
+export interface MigrateMomentsApiInput {
+  chainId?: number;
+}
+
+export interface MigrateMomentsResult {
+  hash: Hash;
+  chainId: number;
+}
+
+export interface MigrateMomentsApiResult {
+  message: string;
+  results: MigrateMomentsResult[];
+}
