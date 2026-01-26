@@ -35,6 +35,10 @@ const migrateMoments = async ({
 
   if (!filtered.length) return null;
 
+  console.log(
+    "ziad here",
+    filtered.map((c) => c.address)
+  );
   for (const collection of filtered) {
     const collectionAddress = getAddress(collection.address);
     const addPermissionCall = getAddPermissionCall(collectionAddress, "0", artistWallet.address);
