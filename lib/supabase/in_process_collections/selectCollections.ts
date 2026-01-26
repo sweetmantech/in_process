@@ -44,6 +44,7 @@ const selectCollections = async ({
     query = query.eq("chain_id", chainId);
   }
 
+  query = query.in("admins.token_id", [0]);
   query = query.order("created_at", { ascending: false });
   query = query.range((page - 1) * cappedLimit, page * cappedLimit - 1);
 
