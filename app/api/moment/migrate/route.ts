@@ -18,7 +18,7 @@ export async function OPTIONS() {
   });
 }
 
-export async function GET(req: NextRequest) {
+export async function POST(req: NextRequest) {
   try {
     const { chainId } = await req.json();
     const authResult = await authMiddleware(req, { corsHeaders });
