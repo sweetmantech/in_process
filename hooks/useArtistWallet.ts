@@ -27,7 +27,7 @@ const useArtistWallet = ({
       : connectedAddress;
     setIsExternalWallet(Boolean(artistWallet));
     setArtistWallet(artistWallet || connectedAddress);
-    if (Boolean(artistWallet)) {
+    if (artistWallet) {
       try {
         const accessToken = await getAccessToken();
         if (accessToken) {
