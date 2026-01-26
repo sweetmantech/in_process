@@ -20,18 +20,15 @@ export async function OPTIONS() {
 
 export async function GET(req: NextRequest) {
   try {
-    // const { chainId } = await req.json();
-    // const authResult = await authMiddleware(req, { corsHeaders });
-    // if (authResult instanceof Response) {
-    //   return authResult;
-    // }
-    // const { artistAddress } = authResult;
-
-    const artistAddress = "0xAF1452d289E22FbD0DEA9d5097353c72a90FAC33".toLowerCase() as Address;
-    const chainId = 84532;
+    const { chainId } = await req.json();
+    const authResult = await authMiddleware(req, { corsHeaders });
+    if (authResult instanceof Response) {
+      return authResult;
+    }
+    const { artistAddress } = authResult;
 
     const { data: socials, error: socialError } = await selectSocialWallets({
-      artistAddress,
+      artistAddress: artistAddress as Address,
     });
     if (socialError) {
       return Response.json({ message: socialError.message }, { status: 500, headers: corsHeaders });
