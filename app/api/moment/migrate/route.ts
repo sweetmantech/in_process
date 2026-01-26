@@ -45,6 +45,7 @@ export async function POST(req: NextRequest) {
     for (const social of socials) {
       const { data: collections, error: collectionError } = await selectCollections({
         artists: [social.social_wallet as Address],
+        chainId: chainId || CHAIN_ID,
       });
       if (!collectionError && collections && collections.length > 0) {
         const transaction = await migrateMoments({
