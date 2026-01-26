@@ -2,15 +2,14 @@ import { Address } from "viem";
 import { PERMISSION_BIT_ADMIN } from "../consts";
 import { encodeFunctionData } from "viem";
 import { zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
-import { Moment } from "@/types/moment";
 
-const getAddPermissionCall = (moment: Moment, account: Address) => {
+const getAddPermissionCall = (collectionAddress: Address, tokenId: string, account: Address) => {
   return {
-    to: moment.collectionAddress,
+    to: collectionAddress,
     data: encodeFunctionData({
       abi: zoraCreator1155ImplABI,
       functionName: "addPermission",
-      args: [BigInt(moment.tokenId), account, BigInt(PERMISSION_BIT_ADMIN)],
+      args: [BigInt(tokenId), account, BigInt(PERMISSION_BIT_ADMIN)],
     }),
   };
 };
