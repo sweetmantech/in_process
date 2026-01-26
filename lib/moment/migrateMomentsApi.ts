@@ -1,11 +1,4 @@
-export interface MigrateMomentsApiInput {
-  chainId?: number;
-}
-
-export interface MigrateMomentsApiResult {
-  message: string;
-  results: any[];
-}
+import { MigrateMomentsApiInput, MigrateMomentsApiResult } from "@/types/moment";
 
 /**
  * Client-side API call to migrate moments
