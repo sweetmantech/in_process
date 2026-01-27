@@ -5,14 +5,13 @@ import { Address } from "viem";
 import selectCollections from "@/lib/supabase/in_process_collections/selectCollections";
 import { getOrCreateSmartWallet } from "@/lib/coinbase/getOrCreateSmartWallet";
 import migrateMoments from "@/lib/moment/migrateMoments";
-import { migrateMomentsSchema } from "@/lib/schema/migrateMomentsSchema";
-import { validateWithAuth } from "@/lib/schema/validateWithAuth";
+import { validateMomentMigratePost } from "@/lib/schema/validateMomentMigratePost";
 
 const corsHeaders = getCorsHeader();
 
 export async function momentMigratePostHandler(req: NextRequest): Promise<Response> {
   try {
-    const validationResult = await validateWithAuth(req, migrateMomentsSchema, corsHeaders);
+    const validationResult = await validateMomentMigratePost(req, corsHeaders);
     if (!validationResult.success) {
       return validationResult.response;
     }
