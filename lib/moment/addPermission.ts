@@ -39,19 +39,14 @@ export async function addPermission({
   });
 
   // Get the add permission call for the admin address
-  const addPermissionCall = getAddPermissionCall(
-    moment.collectionAddress,
-    moment.tokenId,
-    adminAddress
-  );
+  const addPermissionCall = getAddPermissionCall(moment, adminAddress);
 
   // Get or create a smart account for the admin address and add its permission
   const adminSmartAccount = await getOrCreateSmartWallet({
     address: adminAddress,
   });
   const addSmartAccountPermissionCall = getAddPermissionCall(
-    moment.collectionAddress,
-    moment.tokenId,
+    moment,
     adminSmartAccount.address as Address
   );
 
