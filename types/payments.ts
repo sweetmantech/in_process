@@ -1,4 +1,17 @@
-import type { InProcessPayment } from "@/lib/supabase/in_process_payments/selectPayments";
+import { Database } from "@/lib/supabase/types";
+
+export type InProcessPayment = {
+  id: string;
+  moment: Database["public"]["Tables"]["in_process_moments"]["Row"] & {
+    collection: Database["public"]["Tables"]["in_process_collections"]["Row"];
+    fee_recipients: Database["public"]["Tables"]["in_process_moment_fee_recipients"]["Row"][];
+  };
+  buyer: Database["public"]["Tables"]["in_process_artists"]["Row"];
+  amount: string;
+  transaction_hash: string;
+  transferred_at: string;
+  currency: string;
+};
 
 export type Payment = InProcessPayment;
 

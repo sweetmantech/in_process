@@ -68,45 +68,6 @@ export interface TimelinePagination {
   total_pages: number;
 }
 
-export interface GetInProcessTimelineParams {
-  limit?: number;
-  page?: number;
-  chainId?: number;
-  hidden?: boolean;
-}
-
-export interface GetInProcessTimelineResponse {
-  moments: TimelineMoment[];
-  pagination: TimelinePagination;
-}
-
-export interface GetArtistTimelineParams {
-  artist: string;
-  type?: "mutual" | "default" | null;
-  limit?: number;
-  page?: number;
-  chainId?: number;
-  hidden?: boolean;
-}
-
-export interface GetArtistTimelineResponse {
-  moments: TimelineMoment[];
-  pagination: TimelinePagination;
-}
-
-export interface GetCollectionTimelineParams {
-  collection: string;
-  limit?: number;
-  page?: number;
-  chainId?: number;
-  hidden?: boolean;
-}
-
-export interface GetCollectionTimelineResponse {
-  moments: TimelineMoment[];
-  pagination: TimelinePagination;
-}
-
 export type MomentSaleConfig = {
   pricePerToken: string;
   saleStart: number;
@@ -116,29 +77,10 @@ export type MomentSaleConfig = {
   type: MomentType;
 };
 
-export type MomentResponse = {
-  uri: string | null;
-  owner: string | null;
-  saleConfig: MomentSaleConfig | null;
-  momentAdmins: string[];
-  metadata: MomentMetadata;
-};
-
-export type MomentAdvancedInfo = {
-  uri: string | null;
-  owner: string;
-  saleConfig: MomentSaleConfig | null;
-};
-
 export interface UpdateMomentURIInput {
   moment: Moment;
   newUri: string;
   artistAddress: Address;
-}
-
-export interface UpdateMomentURIResult {
-  hash: Hash;
-  chainId: number;
 }
 
 export interface MigrateMomentsApiInput {

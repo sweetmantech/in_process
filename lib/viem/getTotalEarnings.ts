@@ -1,6 +1,6 @@
 import { Address } from "viem";
 import fetchArtistPayments from "@/lib/payments/fetchArtistPayments";
-import { InProcessPayment } from "@/lib/supabase/in_process_payments/selectPayments";
+import { InProcessPayment } from "@/types/payments";
 
 const getTotalEarnings = async (artistAddress: Address): Promise<number> => {
   const payments = await fetchArtistPayments(artistAddress);

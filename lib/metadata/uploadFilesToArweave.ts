@@ -1,4 +1,4 @@
-import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
+import uploadToArweave from "@/lib/arweave/uploadToArweave";
 
 export interface FileUploadResult {
   uploadedPreviewUri: string;
@@ -64,7 +64,7 @@ export const uploadFilesToArweave = async (
     };
 
     // Upload file and get URI
-    const uploadedUri = await clientUploadToArweave(file, fileProgressCallback);
+    const uploadedUri = await uploadToArweave(file, fileProgressCallback);
 
     // Assign uploaded URI based on file type
     if (name === "preview") {
