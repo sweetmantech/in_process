@@ -15,8 +15,7 @@ npm run lint     # Run ESLint
 ### Key Architecture Rules
 
 1. **One function per file** - File name must match function name
-2. **Types in `types/` folder only** - Never define types in lib/, components/, or hooks/
-3. **Components = JSX only** - No business logic, extract to hooks/utilities
+2. **Components = JSX only** - No business logic, extract to hooks/lib
 
 ### File Organization
 
