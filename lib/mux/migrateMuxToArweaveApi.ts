@@ -1,4 +1,5 @@
 import { Address } from "viem";
+import { IN_PROCESS_API } from "@/lib/consts";
 
 export interface MigrateMuxToArweaveApiInput {
   collectionAddress: Address;
@@ -19,7 +20,7 @@ export async function migrateMuxToArweaveApi(
   input: MigrateMuxToArweaveApiInput,
   accessToken: string
 ): Promise<MigrateMuxToArweaveApiResult> {
-  const response = await fetch("/api/moment/trigger-mux-to-arweave", {
+  const response = await fetch(`${IN_PROCESS_API}/moment/trigger-mux-to-arweave`, {
     method: "POST",
     headers: {
       "content-type": "application/json",

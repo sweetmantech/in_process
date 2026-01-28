@@ -1,10 +1,12 @@
+import { IN_PROCESS_API } from "@/lib/consts";
+
 type CreateUploadUrlResponse = {
   uploadURL: string;
   uploadId: string;
 };
 
 const createUploadUrl = async (accessToken: string): Promise<CreateUploadUrlResponse> => {
-  const response = await fetch("/api/mux/create", {
+  const response = await fetch(`${IN_PROCESS_API}/mux/create`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

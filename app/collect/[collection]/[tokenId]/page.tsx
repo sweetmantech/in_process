@@ -1,6 +1,5 @@
 import MomentPage from "@/components/MomentPage";
-import { VERCEL_OG } from "@/lib/og/consts";
-import { SITE_ORIGINAL_URL } from "@/lib/consts";
+import { IN_PROCESS_API, SITE_ORIGINAL_URL } from "@/lib/consts";
 import { Metadata, NextPage } from "next";
 import { parseCollectionAddress } from "@/lib/timeline/parseCollectionAddress";
 import { CHAIN_ID } from "@/lib/consts";
@@ -34,7 +33,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const frame = {
     version: "next",
-    imageUrl: `${VERCEL_OG}/api/og/moment?collectionAddress=${moment.collectionAddress}&tokenId=${moment.tokenId}&chainId=${moment.chainId}`,
+    imageUrl: `${IN_PROCESS_API}/og/moment?collectionAddress=${moment.collectionAddress}&tokenId=${moment.tokenId}&chainId=${moment.chainId}`,
     aspectRatio: "3:2",
     button: {
       title: "Collect",
@@ -42,8 +41,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         type: "launch_frame",
         name: "In Process",
         url: `${SITE_ORIGINAL_URL}/collect/${collection}/${tokenId}`,
-        iconImageUrl: `${VERCEL_OG}/api/og/moment?collectionAddress=${moment.collectionAddress}&tokenId=${moment.tokenId}&chainId=${moment.chainId}`,
-        splashImageUrl: `${VERCEL_OG}/desktop_footer_logo.png`,
+        iconImageUrl: `${IN_PROCESS_API}/og/moment?collectionAddress=${moment.collectionAddress}&tokenId=${moment.tokenId}&chainId=${moment.chainId}`,
+        splashImageUrl: `${SITE_ORIGINAL_URL}/desktop_footer_logo.png`,
         splashBackgroundColor: "#e9ccbb",
       },
     },
@@ -56,7 +55,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title,
       description,
       images: [
-        `${VERCEL_OG}/api/og/moment?collectionAddress=${moment.collectionAddress}&tokenId=${moment.tokenId}&chainId=${moment.chainId}`,
+        `${IN_PROCESS_API}/og/moment?collectionAddress=${moment.collectionAddress}&tokenId=${moment.tokenId}&chainId=${moment.chainId}`,
       ],
     },
     other: {

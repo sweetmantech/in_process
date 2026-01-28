@@ -1,5 +1,6 @@
 import { Moment } from "@/types/moment";
 import { Address } from "viem";
+import { IN_PROCESS_API } from "@/lib/consts";
 
 export interface RemoveMomentAdminInput {
   moment: Moment;
@@ -26,7 +27,7 @@ export async function removeMomentAdmin({
   adminAddress,
   accessToken,
 }: RemoveMomentAdminInput): Promise<RemoveMomentAdminResult> {
-  const response = await fetch("/api/moment/permission", {
+  const response = await fetch(`${IN_PROCESS_API}/moment/permission`, {
     method: "DELETE",
     headers: {
       "content-type": "application/json",

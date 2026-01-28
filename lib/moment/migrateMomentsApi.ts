@@ -1,4 +1,5 @@
 import { MigrateMomentsApiInput, MigrateMomentsApiResult } from "@/types/moment";
+import { IN_PROCESS_API } from "@/lib/consts";
 
 /**
  * Client-side API call to migrate moments
@@ -7,7 +8,7 @@ export async function migrateMomentsApi(
   input: MigrateMomentsApiInput,
   accessToken: string
 ): Promise<MigrateMomentsApiResult> {
-  const response = await fetch("/api/moment/migrate", {
+  const response = await fetch(`${IN_PROCESS_API}/moment/migrate`, {
     method: "POST",
     headers: {
       "content-type": "application/json",

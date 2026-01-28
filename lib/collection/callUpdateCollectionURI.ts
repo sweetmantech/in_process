@@ -1,4 +1,5 @@
 import { Address } from "viem";
+import { IN_PROCESS_API } from "@/lib/consts";
 
 export interface CallUpdateCollectionURIInput {
   collection: {
@@ -21,7 +22,7 @@ export async function callUpdateCollectionURI({
   accessToken,
 }: CallUpdateCollectionURIInput): Promise<string> {
   try {
-    const response = await fetch("/api/collection/uri", {
+    const response = await fetch(`${IN_PROCESS_API}/collection/uri`, {
       method: "POST",
       headers: {
         "content-type": "application/json",

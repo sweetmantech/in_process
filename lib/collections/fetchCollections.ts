@@ -1,4 +1,5 @@
 import { CollectionsResponse } from "@/types/collections";
+import { IN_PROCESS_API } from "@/lib/consts";
 
 export async function fetchCollections(
   page = 1,
@@ -10,7 +11,7 @@ export async function fetchCollections(
     limit: String(limit),
   });
   if (artist) params.append("artist", artist);
-  const res = await fetch(`/api/collections?${params.toString()}`);
+  const res = await fetch(`${IN_PROCESS_API}/collections?${params.toString()}`);
   if (!res.ok) throw new Error("Failed to fetch collections");
   return res.json();
 }

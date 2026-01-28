@@ -1,4 +1,5 @@
 import { MintComment, MomentCommentsInput, MomentCommentsResult } from "@/types/moment";
+import { IN_PROCESS_API } from "@/lib/consts";
 
 async function fetchComments({ moment, offset }: MomentCommentsInput): Promise<MintComment[]> {
   try {
@@ -9,7 +10,7 @@ async function fetchComments({ moment, offset }: MomentCommentsInput): Promise<M
       offset: offset?.toString() || "0",
     });
 
-    const response = await fetch(`/api/moment/comments?${queryString}`);
+    const response = await fetch(`${IN_PROCESS_API}/moment/comments?${queryString}`);
 
     if (!response.ok) {
       throw new Error("Failed to fetch comments.");

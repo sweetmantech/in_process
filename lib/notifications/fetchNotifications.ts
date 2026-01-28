@@ -1,4 +1,5 @@
 import type { InProcessNotification } from "@/lib/supabase/in_process_notifications/selectNotifications";
+import { IN_PROCESS_API } from "@/lib/consts";
 
 export interface NotificationsResponse {
   status: "success" | "error";
@@ -20,7 +21,7 @@ export async function fetchNotifications(
   if (artist) params.append("artist", artist);
   if (viewed !== undefined) params.append("viewed", String(viewed));
 
-  const res = await fetch(`/api/notifications?${params.toString()}`);
+  const res = await fetch(`${IN_PROCESS_API}/notifications?${params.toString()}`);
   if (!res.ok) throw new Error("Failed to fetch notifications");
   return res.json();
 }

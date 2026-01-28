@@ -1,5 +1,6 @@
 import { Moment } from "@/types/moment";
 import { Database } from "../supabase/types";
+import { IN_PROCESS_API } from "@/lib/consts";
 
 /**
  * Toggles the hidden state of a timeline moment by calling the hide API
@@ -13,7 +14,7 @@ export const toggleMoment = async (
   success: boolean;
   updated: Database["public"]["Tables"]["in_process_admins"]["Row"][];
 }> => {
-  const response = await fetch("/api/moment/hide", {
+  const response = await fetch(`${IN_PROCESS_API}/moment/hide`, {
     method: "POST",
     headers: {
       "content-type": "application/json",

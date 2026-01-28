@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { CHAIN_ID } from "@/lib/consts";
+import { CHAIN_ID, IN_PROCESS_API } from "@/lib/consts";
 
 export interface SocialSmartWalletBalance {
   social_wallet: string;
@@ -23,7 +23,7 @@ export const getSocialSmartWalletsBalancesApi = async (
     chainId: String(chainId),
   });
 
-  const res = await fetch(`/api/smartwallet/balances?${params.toString()}`);
+  const res = await fetch(`${IN_PROCESS_API}/smartwallet/balances?${params.toString()}`);
   if (!res.ok) {
     throw new Error("Failed to fetch social smart wallets balances");
   }

@@ -1,3 +1,5 @@
+import { IN_PROCESS_API } from "@/lib/consts";
+
 export type MuxVideoAsset = {
   playbackUrl: string;
   assetId?: string;
@@ -14,7 +16,7 @@ export type MuxVideoAssetResponse = {
 };
 
 export const fetchAsset = async (uploadId: string): Promise<MuxVideoAssetResponse> => {
-  const response = await fetch(`/api/mux/asset?uploadId=${uploadId}`);
+  const response = await fetch(`${IN_PROCESS_API}/mux/asset?uploadId=${uploadId}`);
 
   if (!response.ok) {
     throw new Error("Failed to fetch playback URL");

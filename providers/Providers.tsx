@@ -6,7 +6,6 @@ import { WagmiProvider } from "./WagmiProvider";
 import UserProvider from "./UserProvider";
 import FrameProvider from "./FrameProvider";
 import LayoutProvider from "./LayoutProvider";
-import EthPriceProvider from "./EthPriceProvider";
 import SmartWalletProvider from "./SmartWalletProvider";
 
 interface ProvidersProps {
@@ -15,18 +14,16 @@ interface ProvidersProps {
 
 export function Providers({ children }: ProvidersProps): React.ReactElement {
   return (
-    <EthPriceProvider>
-      <WagmiProvider>
-        <PrivyProvider>
-          <FrameProvider>
-            <UserProvider>
-              <SmartWalletProvider>
-                <LayoutProvider>{children}</LayoutProvider>
-              </SmartWalletProvider>
-            </UserProvider>
-          </FrameProvider>
-        </PrivyProvider>
-      </WagmiProvider>
-    </EthPriceProvider>
+    <WagmiProvider>
+      <PrivyProvider>
+        <FrameProvider>
+          <UserProvider>
+            <SmartWalletProvider>
+              <LayoutProvider>{children}</LayoutProvider>
+            </SmartWalletProvider>
+          </UserProvider>
+        </FrameProvider>
+      </PrivyProvider>
+    </WagmiProvider>
   );
 }

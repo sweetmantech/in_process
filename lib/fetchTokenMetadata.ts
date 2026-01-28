@@ -1,5 +1,5 @@
 import { MomentMetadata } from "@/types/moment";
-import { VERCEL_OG } from "./og/consts";
+import { IN_PROCESS_API } from "./consts";
 
 const fetchTokenMetadata = async (
   tokenContract: string,
@@ -7,7 +7,7 @@ const fetchTokenMetadata = async (
 ): Promise<MomentMetadata | null> => {
   try {
     const response = await fetch(
-      `${VERCEL_OG}/api/token/metadata?tokenId=${BigInt(tokenId).toString()}&collection=${tokenContract}`
+      `${IN_PROCESS_API}/token/metadata?tokenId=${BigInt(tokenId).toString()}&collection=${tokenContract}`
     );
     if (!response.ok) throw new Error("failed to get token metadata");
     const data = await response.json();

@@ -1,5 +1,6 @@
 import { Address } from "viem";
 import { Database } from "./supabase/types";
+import { IN_PROCESS_API } from "@/lib/consts";
 
 const fetchArtistProfile = async (
   artistAddress: Address
@@ -8,7 +9,7 @@ const fetchArtistProfile = async (
     phone: Database["public"]["Tables"]["in_process_artist_phones"]["Row"];
   }
 > => {
-  const response = await fetch(`/api/profile?address=${artistAddress}`);
+  const response = await fetch(`${IN_PROCESS_API}/profile?address=${artistAddress}`);
   const data = await response.json();
   return data;
 };

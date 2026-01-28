@@ -1,8 +1,5 @@
 import { useState } from "react";
-import { zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
-import { zoraCreatorFixedPriceSaleStrategyAddress } from "@/lib/protocolSdk/constants";
-import { CHAIN } from "@/lib/consts";
-import { Address, encodeAbiParameters, parseAbiParameters } from "viem";
+import { Address } from "viem";
 import { useMomentProvider } from "@/providers/MomentProvider";
 import { useUserProvider } from "@/providers/UserProvider";
 import { toast } from "sonner";
@@ -10,23 +7,6 @@ import useCollectBalanceValidation from "./useCollectBalanceValidation";
 import { usePrivy } from "@privy-io/react-auth";
 import { collectMomentApi } from "@/lib/moment/collectMomentApi";
 import { useMomentCommentsProvider } from "@/providers/MomentCommentsProvider";
-
-const mintOnSmartWallet = async (parameters: any) => {
-  const response = await fetch(`/api/smartwallet/sendUserOperation`, {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-      accept: "application/json",
-    },
-    body: JSON.stringify({
-      parameters,
-    }),
-  });
-
-  const data = await response.json();
-
-  return data.transactionHash;
-};
 
 const useMomentCollect = () => {
   const [amountToCollect, setAmountToCollect] = useState(1);
@@ -43,32 +23,13 @@ const useMomentCollect = () => {
       if (!saleConfig) return;
       if (!artistWallet) return;
       setIsLoading(true);
-      const minterArguments = encodeAbiParameters(parseAbiParameters("address, string"), [
-        artistWallet,
-        comment,
-      ]);
 
-      if (BigInt(saleConfig.pricePerToken) === BigInt(0)) {
-        await mintOnSmartWallet({
-          address: moment.collectionAddress,
-          abi: zoraCreator1155ImplABI,
-          functionName: "mint",
-          args: [
-            zoraCreatorFixedPriceSaleStrategyAddress[CHAIN.id],
-            moment.tokenId,
-            amountToCollect,
-            [],
-            minterArguments,
-          ],
-        });
-      } else {
-        validateBalance(saleConfig, amountToCollect);
-        const accessToken = await getAccessToken();
-        if (!accessToken) {
-          throw new Error("Failed to get access token");
-        }
-        await collectMomentApi(moment, amountToCollect, comment, accessToken);
+      validateBalance(saleConfig, amountToCollect);
+      const accessToken = await getAccessToken();
+      if (!accessToken) {
+        throw new Error("Failed to get access token");
       }
+      await collectMomentApi(moment, amountToCollect, comment, accessToken);
       addComment({
         sender: artistWallet as Address,
         comment,

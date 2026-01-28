@@ -1,6 +1,6 @@
 import { Address } from "viem";
 import getPermission from "@/lib/zora/getPermission";
-import { PERMISSION_BIT_ADMIN } from "@/lib/consts";
+import { PERMISSION_BIT_ADMIN, IN_PROCESS_API } from "@/lib/consts";
 import { Moment } from "@/types/moment";
 
 export interface AirdropRecipient {
@@ -43,7 +43,7 @@ export const executeAirdrop = async ({
   }
 
   // Execute airdrop API call
-  const response = await fetch("/api/moment/airdrop", {
+  const response = await fetch(`${IN_PROCESS_API}/moment/airdrop`, {
     method: "POST",
     body: JSON.stringify({
       recipients,
