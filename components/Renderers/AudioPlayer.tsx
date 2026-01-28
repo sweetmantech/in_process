@@ -37,19 +37,24 @@ const AudioPlayer = ({ thumbnailUrl, audioUrl }: { thumbnailUrl?: string; audioU
         <Button
           variant="ghost"
           size="icon"
-          onClick={togglePlayPause}
+          onClick={(e) => {
+            e.stopPropagation();
+            togglePlayPause();
+          }}
           className="text-primary hover:text-primary-dark"
         >
           {isPlaying ? <Pause className="size-6" /> : <Play className="size-6" />}
         </Button>
       </div>
-      <Slider
-        value={[progress]}
-        onValueChange={handleSliderChange}
-        max={100}
-        step={1}
-        className="w-full bg-black"
-      />
+      <div onClick={(e) => e.stopPropagation()} className="w-full">
+        <Slider
+          value={[progress]}
+          onValueChange={handleSliderChange}
+          max={100}
+          step={1}
+          className="w-full bg-black"
+        />
+      </div>
     </div>
   );
 };

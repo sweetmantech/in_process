@@ -1,20 +1,15 @@
 "use client";
 
-import LoginButton from "../LoginButton";
+import dynamic from "next/dynamic";
 import Logo from "../Logo";
-import useSignedAddress from "@/hooks/useSignedAddress";
-import { DropdownMenu } from "../LoginButton/DropdownMenu";
 import { useLayoutProvider } from "@/providers/LayoutProvider";
-import CreateCTAButton from "./CreateCTAButton";
-import useIsMobile from "@/hooks/useIsMobile";
-import NotificationButton from "./NotificationButton";
 import { Z_BEHIND_PRIVY } from "@/lib/consts";
 import ArtistSearch from "../ArtistSearch";
 
+const HeaderAuthSection = dynamic(() => import("./HeaderAuthSection"), { ssr: false });
+
 const Header = () => {
-  const signedAddress = useSignedAddress();
-  const { isOpenNavbar, toggleNavbar, menuRef, isExpandedSearchInput } = useLayoutProvider();
-  const isMobile = useIsMobile();
+  const { isOpenNavbar, menuRef } = useLayoutProvider();
 
   return (
     <div
@@ -24,23 +19,7 @@ const Header = () => {
         <Logo />
         <div className="flex items-center gap-1 md:gap-2" ref={menuRef}>
           <ArtistSearch />
-          {signedAddress && <NotificationButton />}
-          {!isMobile && <CreateCTAButton />}
-          <div className="flex items-center gap-1 md:relative md:gap-2">
-            {!isExpandedSearchInput && <LoginButton />}
-            {signedAddress && (
-              <button
-                onClick={toggleNavbar}
-                type="button"
-                className="block flex flex-col rounded-md bg-grey-moss-400 px-2 py-1.5 md:hidden"
-              >
-                <div className="size-2 rounded-full bg-grey-moss-100" />
-                <div className="size-2 rounded-full bg-grey-moss-100" />
-                <div className="size-2 rounded-full bg-grey-moss-100" />
-              </button>
-            )}
-            {isOpenNavbar && signedAddress && <DropdownMenu />}
-          </div>
+          <HeaderAuthSection />
         </div>
       </div>
       {/* Black line from logo to wallet dropdown */}

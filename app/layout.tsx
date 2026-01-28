@@ -4,8 +4,6 @@ import { Suspense } from "react";
 import { Analytics } from "@vercel/analytics/react";
 import ClientProviders from "@/components/ClientProviders";
 
-export const dynamic = "force-dynamic";
-
 export default function RootLayout({
   children,
 }: Readonly<{
