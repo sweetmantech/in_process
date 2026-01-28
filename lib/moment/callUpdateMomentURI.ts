@@ -1,4 +1,5 @@
 import { Moment } from "@/types/moment";
+import { IN_PROCESS_API } from "@/lib/consts";
 
 export interface CallUpdateMomentURIInput {
   moment: Moment;
@@ -16,7 +17,7 @@ export async function callUpdateMomentURI({
   accessToken,
 }: CallUpdateMomentURIInput): Promise<void> {
   try {
-    const response = await fetch("/api/moment/update-uri", {
+    const response = await fetch(`${IN_PROCESS_API}/moment/update-uri`, {
       method: "POST",
       headers: {
         "content-type": "application/json",

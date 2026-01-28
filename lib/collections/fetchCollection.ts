@@ -1,4 +1,5 @@
 import { CollectionResponse, FetchCollectionParams } from "@/types/collections";
+import { IN_PROCESS_API } from "@/lib/consts";
 
 export async function fetchCollection({
   collectionAddress,
@@ -9,7 +10,7 @@ export async function fetchCollection({
   });
   if (chainId) params.append("chainId", String(chainId));
 
-  const res = await fetch(`/api/collection?${params.toString()}`);
+  const res = await fetch(`${IN_PROCESS_API}/collection?${params.toString()}`);
   if (!res.ok) {
     const errorData = await res.json().catch(() => ({}));
     throw new Error(errorData.message || "Failed to fetch collection");

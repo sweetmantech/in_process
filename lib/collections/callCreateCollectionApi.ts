@@ -1,9 +1,10 @@
 import type { CreateCollectionInput, CreateCollectionResult } from "@/types/collections";
+import { IN_PROCESS_API } from "@/lib/consts";
 
 export async function callCreateCollectionApi(
   input: CreateCollectionInput
 ): Promise<CreateCollectionResult> {
-  const response = await fetch("/api/collections", {
+  const response = await fetch(`${IN_PROCESS_API}/collections`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

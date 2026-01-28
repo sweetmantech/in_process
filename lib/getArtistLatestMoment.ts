@@ -1,5 +1,5 @@
 import { MomentMetadata } from "@/types/moment";
-import { VERCEL_OG } from "./og/consts";
+import { IN_PROCESS_API } from "./consts";
 import fetchTokenMetadata from "./fetchTokenMetadata";
 
 const getArtistLatestMoment = async (
@@ -8,7 +8,7 @@ const getArtistLatestMoment = async (
 ): Promise<MomentMetadata | null> => {
   try {
     const response = await fetch(
-      `${VERCEL_OG}/api/collections?artistAddress=${artistAddress}&chainId=${chainId}`,
+      `${IN_PROCESS_API}/collections?artistAddress=${artistAddress}&chainId=${chainId}`,
       {
         method: "POST",
         headers: {

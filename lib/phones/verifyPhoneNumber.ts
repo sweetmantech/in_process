@@ -1,3 +1,5 @@
+import { IN_PROCESS_API } from "@/lib/consts";
+
 /**
  * Calls the API endpoint to verify a phone number.
  * Sends SMS verification message to the provided phone number.
@@ -10,7 +12,7 @@ export async function verifyPhoneNumber(
   phoneNumber: string,
   accessToken: string
 ): Promise<{ success: boolean; message: string }> {
-  const response = await fetch("/api/phones", {
+  const response = await fetch(`${IN_PROCESS_API}/phones`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

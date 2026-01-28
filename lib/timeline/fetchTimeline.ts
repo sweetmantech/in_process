@@ -1,4 +1,5 @@
 import { TimelineResponse, FetchTimelineParams } from "@/types/timeline";
+import { IN_PROCESS_API } from "@/lib/consts";
 
 export async function fetchTimeline({
   page = 1,
@@ -23,7 +24,7 @@ export async function fetchTimeline({
   } else if (type === "default") {
     params.append("type", "default");
   }
-  const res = await fetch(`/api/timeline?${params.toString()}`);
+  const res = await fetch(`${IN_PROCESS_API}/timeline?${params.toString()}`);
   if (!res.ok) throw new Error("Failed to fetch timeline");
   return res.json();
 }

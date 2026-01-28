@@ -1,3 +1,5 @@
+import { IN_PROCESS_API } from "@/lib/consts";
+
 export interface CreateMomentParameters {
   // Add the actual parameter types based on what fetchParameters returns
   [key: string]: any;
@@ -11,7 +13,7 @@ export interface CreateMomentResult {
 export async function createMomentApi(
   parameters: CreateMomentParameters
 ): Promise<CreateMomentResult> {
-  const response = await fetch("/api/moment/create", {
+  const response = await fetch(`${IN_PROCESS_API}/moment/create`, {
     method: "POST",
     headers: { "content-type": "application/json" },
     body: JSON.stringify(parameters),

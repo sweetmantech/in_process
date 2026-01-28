@@ -1,5 +1,6 @@
 import { toast } from "sonner";
 import { Address } from "viem";
+import { IN_PROCESS_API } from "@/lib/consts";
 
 const submitFeedback = async (
   feedback: string,
@@ -14,7 +15,7 @@ const submitFeedback = async (
     if (wallet) formData.append("wallet", wallet);
     if (mediaFile) formData.append("media", mediaFile);
 
-    const response = await fetch(`/api/feedback`, {
+    const response = await fetch(`${IN_PROCESS_API}/feedback`, {
       method: "POST",
       body: formData,
     });

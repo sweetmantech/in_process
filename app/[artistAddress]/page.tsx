@@ -1,7 +1,6 @@
 import { Metadata, NextPage } from "next";
 import ArtistPage from "@/components/ArtistPage";
-import { VERCEL_OG } from "@/lib/og/consts";
-import { SITE_ORIGINAL_URL } from "@/lib/consts";
+import { SITE_ORIGINAL_URL, IN_PROCESS_API } from "@/lib/consts";
 import truncateAddress from "@/lib/truncateAddress";
 import { Address } from "viem";
 import getArtistProfile from "@/lib/getArtistProfile";
@@ -23,12 +22,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: title,
       description: description,
-      images: [`${VERCEL_OG}/api/og/artist?artistAddress=${artistAddress}`],
+      images: [`${IN_PROCESS_API}/og/artist?artistAddress=${artistAddress}`],
     },
     other: {
       "fc:frame": JSON.stringify({
         version: "next",
-        imageUrl: `${VERCEL_OG}/api/og/artist?artistAddress=${artistAddress}`,
+        imageUrl: `${IN_PROCESS_API}/og/artist?artistAddress=${artistAddress}`,
         aspectRatio: "3:2",
         button: {
           title: title,
@@ -36,8 +35,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
             type: "launch_frame",
             name: "In Process",
             url: `${SITE_ORIGINAL_URL}/${artistAddress}`,
-            iconImageUrl: `${VERCEL_OG}/api/og/artist?artistAddress=${artistAddress}`,
-            splashImageUrl: `${VERCEL_OG}/desktop_footer_logo.png`,
+            iconImageUrl: `${IN_PROCESS_API}/og/artist?artistAddress=${artistAddress}`,
+            splashImageUrl: `${SITE_ORIGINAL_URL}/desktop_footer_logo.png`,
             splashBackgroundColor: "#e9ccbb",
           },
         },

@@ -1,4 +1,5 @@
 import { Moment } from "@/types/moment";
+import { IN_PROCESS_API } from "@/lib/consts";
 
 export const collectMomentApi = async (
   moment: Moment,
@@ -7,7 +8,7 @@ export const collectMomentApi = async (
   accessToken: string
 ): Promise<string> => {
   try {
-    const response = await fetch("/api/moment/collect", {
+    const response = await fetch(`${IN_PROCESS_API}/moment/collect`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -3,6 +3,7 @@ import { useArtistProfile } from "./useArtistProfile";
 import { Address } from "viem";
 import truncateAddress from "@/lib/truncateAddress";
 import { Database } from "@/lib/supabase/types";
+import { IN_PROCESS_API } from "@/lib/consts";
 
 export const updateProfile = async ({
   address,
@@ -13,7 +14,7 @@ export const updateProfile = async ({
   twitter_username,
   farcaster_username,
 }: Database["public"]["Tables"]["in_process_artists"]["Insert"]) => {
-  await fetch("/api/profile/create", {
+  await fetch(`${IN_PROCESS_API}/profile/create`, {
     method: "POST",
     headers: {
       "content-type": "application/json",

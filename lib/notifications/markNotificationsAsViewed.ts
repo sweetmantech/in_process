@@ -1,3 +1,5 @@
+import { IN_PROCESS_API } from "@/lib/consts";
+
 export interface MarkNotificationsAsViewedResponse {
   status: "success" | "error";
   updated: number;
@@ -10,7 +12,7 @@ export async function markNotificationsAsViewed(
   const params = new URLSearchParams();
   if (artist) params.append("artist", artist);
 
-  const res = await fetch(`/api/notifications?${params.toString()}`, {
+  const res = await fetch(`${IN_PROCESS_API}/notifications?${params.toString()}`, {
     method: "PUT",
   });
 

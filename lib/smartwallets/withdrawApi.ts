@@ -1,5 +1,6 @@
 import { Address } from "viem";
 import { Currency } from "@/types/balances";
+import { IN_PROCESS_API } from "@/lib/consts";
 
 export interface WithdrawApiParams {
   accessToken: string;
@@ -21,7 +22,7 @@ export async function withdrawApi({
   to,
   chainId,
 }: WithdrawApiParams): Promise<WithdrawApiResult> {
-  const response = await fetch("/api/smartwallet/withdraw", {
+  const response = await fetch(`${IN_PROCESS_API}/smartwallet/withdraw`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
