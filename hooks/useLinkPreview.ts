@@ -1,4 +1,4 @@
-import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
+import uploadToArweave from "@/lib/arweave/uploadToArweave";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";

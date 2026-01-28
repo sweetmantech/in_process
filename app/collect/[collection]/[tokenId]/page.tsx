@@ -3,9 +3,9 @@ import { IN_PROCESS_API, SITE_ORIGINAL_URL } from "@/lib/consts";
 import { Metadata, NextPage } from "next";
 import { parseCollectionAddress } from "@/lib/timeline/parseCollectionAddress";
 import { CHAIN_ID } from "@/lib/consts";
-import { getMomentAdvancedInfo } from "@/lib/moment/getMomentAdvancedInfo";
 import { fetchTokenMetadata } from "@/lib/protocolSdk/ipfs/token-metadata";
 import { isAddress } from "viem";
+import { getMomentApi } from "@/lib/moment/getMomentApi";
 
 type Props = {
   params: Promise<{ collection: string; tokenId: string }>;
@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     tokenId,
     chainId: chainId || CHAIN_ID,
   };
-  const { uri } = await getMomentAdvancedInfo(moment);
+  const { uri } = await getMomentApi(moment);
   if (!uri) throw Error("failed to get moment uri");
   const metadata = await fetchTokenMetadata(uri);
 

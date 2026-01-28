@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { InProcessPayment } from "@/lib/supabase/in_process_payments/selectPayments";
+import { InProcessPayment } from "@/types/payments";
 import { IN_PROCESS_API } from "@/lib/consts";
 
 export interface PaymentsApiResponse {

@@ -1,5 +1,14 @@
-import type { InProcessNotification } from "@/lib/supabase/in_process_notifications/selectNotifications";
+import { Database } from "@/lib/supabase/types";
 import { IN_PROCESS_API } from "@/lib/consts";
+import { InProcessPayment } from "@/types/payments";
+
+export type InProcessNotification = {
+  id: string;
+  payment: InProcessPayment;
+  artist: Database["public"]["Tables"]["in_process_artists"]["Row"];
+  viewed: boolean;
+  created_at: string | null;
+};
 
 export interface NotificationsResponse {
   status: "success" | "error";

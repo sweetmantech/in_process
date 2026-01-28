@@ -57,11 +57,6 @@ export interface UpdateCollectionURIInput {
   artistAddress: Address;
 }
 
-export interface UpdateCollectionURIResult {
-  hash: Hash;
-  chainId: number;
-}
-
 export interface CreateCollectionInput {
   account: Address;
   uri: string;

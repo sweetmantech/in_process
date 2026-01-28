@@ -1,5 +1,5 @@
 import { TableCell } from "@/components/ui/table";
-import type { InProcessPayment } from "@/lib/supabase/in_process_payments/selectPayments";
+import type { InProcessPayment } from "@/types/payments";
 
 interface NotificationDateCellProps {
   payment: InProcessPayment;

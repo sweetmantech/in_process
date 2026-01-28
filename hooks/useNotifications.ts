@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import type { InProcessNotification } from "@/lib/supabase/in_process_notifications/selectNotifications";
-import { fetchNotifications } from "@/lib/notifications/fetchNotifications";
+import { fetchNotifications, InProcessNotification } from "@/lib/notifications/fetchNotifications";
 
 export type Notification = InProcessNotification;
 

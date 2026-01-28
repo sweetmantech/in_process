@@ -8,7 +8,7 @@ const arweave = Arweave.init({
   logging: false,
 });
 
-const clientUploadToArweave = async (
+const uploadToArweave = async (
   file: File,
   getProgress: (progress: number) => void = () => {}
 ): Promise<string> => {
@@ -41,4 +41,4 @@ const clientUploadToArweave = async (
   return `ar://${transaction.id}`;
 };
 
-export default clientUploadToArweave;
+export default uploadToArweave;

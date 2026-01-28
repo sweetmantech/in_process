@@ -1,4 +1,4 @@
-import clientUploadToArweave from "@/lib/arweave/clientUploadToArweave";
+import uploadToArweave from "@/lib/arweave/uploadToArweave";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 
 const useEmbedCode = () => {
@@ -16,7 +16,7 @@ const useEmbedCode = () => {
     const fileName = "embed";
     const fileType = "text/html";
     const textImage = new File([blob], fileName, { type: fileType });
-    const uri = await clientUploadToArweave(textImage);
+    const uri = await uploadToArweave(textImage);
     return uri;
   };
 
