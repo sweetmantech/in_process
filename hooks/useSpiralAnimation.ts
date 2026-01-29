@@ -29,7 +29,7 @@ export function useSpiralAnimation(): SpiralAnimationConfig {
   );
 
   useEffect(() => {
-    const speed = 0.015;
+    const speed = 0.008;
 
     const animate = (currentTime: number) => {
       if (!lastTimeRef.current) {

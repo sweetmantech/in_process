@@ -18,11 +18,10 @@ export const FeedTooltip: React.FC<FeedTooltipProps> = ({ feed, position, isVisi
 
   return (
     <div
-      className="pointer-events-none absolute z-50 -translate-x-full -translate-y-full transform border-[1px] border-grey-moss-900 bg-white"
+      className="pointer-events-none absolute z-50 border-[1px] border-grey-moss-900 bg-white"
       style={{
-        left: `${position.x - 150}px`,
-        top: `${position.y - 50}px`,
-        visibility: isVisible ? "visible" : "hidden",
+        left: `${position.x + 10}px`,
+        top: `${position.y + 10}px`,
       }}
     >
       <div className="relative aspect-[1/1] w-[200px] bg-grey-moss-100">
