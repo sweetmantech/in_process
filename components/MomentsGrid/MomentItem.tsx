@@ -2,7 +2,7 @@ import { useMetadata } from "@/hooks/useMetadata";
 import Image from "next/image";
 import truncateAddress from "@/lib/truncateAddress";
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import truncated from "@/lib/truncated";
 import HideButton from "@/components/TimelineMoments/HideButton";
 import { type TimelineMoment } from "@/types/moment";
@@ -21,11 +21,12 @@ const MomentItem = ({ m, variant = "collection" }: MomentItemProps) => {
   const { data, isLoading } = useMetadata(m.uri);
   const { push } = useRouter();
   const { copied, copy } = useCopy(m.address);
+  const { artistAddress } = useParams();
 
   const handleClick = () => {
     if (isLoading) return;
     push(
-      `/manage/${m.chain_id === 8453 ? "base" : "bsep"}:${m.address}${variant === "moment" ? `/${m.token_id}` : ""}`
+      `/${artistAddress ? "collect" : "manage"}/${m.chain_id === 8453 ? "base" : "bsep"}:${m.address}${variant === "moment" ? `/${m.token_id}` : ""}`
     );
   };
 
