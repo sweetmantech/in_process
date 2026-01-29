@@ -5,7 +5,7 @@ import { useTimelineProvider } from "@/providers/TimelineProvider";
 import FetchMoreInspector from "../FetchMoreInspector";
 import useIsMobile from "@/hooks/useIsMobile";
 import VerticalFeed from "../VerticalFeed";
-import GridFeed from "../GridFeed";
+import Moments from "../MomentsGrid/Moments";
 
 interface MomentsTimelineProps {
   alt: "timeline" | "grid";
@@ -30,7 +30,7 @@ const MomentsTimeline = ({ alt }: MomentsTimelineProps) => {
   if (alt === "grid")
     return (
       <>
-        {isMobile ? <VerticalFeed /> : <GridFeed />}
+        {isMobile ? <VerticalFeed /> : <Moments variant="moment" />}
         <FetchMoreInspector fetchMore={fetchMore} />
       </>
     );

@@ -1,7 +1,7 @@
 "use client";
 
-import Moments from "@/components/ManagePage/Moments";
-import MomentsSkeleton from "@/components/ManagePage/MomentsSkeleton";
+import Moments from "@/components/MomentsGrid/Moments";
+import MomentsSkeleton from "@/components/MomentsGrid/MomentsSkeleton";
 import { TimelineProvider } from "@/providers/TimelineProvider";
 import { useUserProvider } from "@/providers/UserProvider";
 import { Address } from "viem";

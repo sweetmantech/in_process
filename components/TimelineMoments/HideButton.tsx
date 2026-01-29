@@ -29,15 +29,15 @@ const HideButton: FC<HideButtonProps> = ({
   return (
     <button
       type="button"
-      className={`rounded border border-grey-moss-900 bg-grey-moss-200 px-1 py-1 ${className}`}
+      className={`rounded-full bg-white/80 p-2 shadow-md backdrop-blur-sm transition-all duration-200 hover:bg-white hover:shadow-lg active:scale-95 ${className}`}
       aria-label="Toggle visibility"
       onClick={handleClick}
       {...props}
     >
       {isHidden ? (
-        <EyeOff className="size-4 text-grey-eggshell" />
+        <EyeOff className="size-4 text-grey-moss-400" />
       ) : (
-        <Eye className="size-4 text-grey-eggshell" />
+        <Eye className="size-4 text-grey-moss-900" />
       )}
     </button>
   );
