@@ -1,18 +1,23 @@
 "use client";
 
-import Collections from "@/components/ManagePage/Collections";
+import Moments from "@/components/ManagePage/Moments";
+import MomentsSkeleton from "@/components/ManagePage/MomentsSkeleton";
 import { TimelineProvider } from "@/providers/TimelineProvider";
 import { useUserProvider } from "@/providers/UserProvider";
 import { Address } from "viem";
+import SignToInProcess from "@/components/ManagePage/SignToInProcess";
 
-const Moments = () => {
-  const { artistWallet } = useUserProvider();
+const ManageMoments = () => {
+  const { artistWallet, artistWalletLoaded } = useUserProvider();
+
+  if (!artistWalletLoaded) return <MomentsSkeleton />;
+  if (!artistWallet) return <SignToInProcess />;
 
   return (
     <TimelineProvider artistAddress={artistWallet as Address} includeHidden={true} type="default">
-      <Collections />
+      <Moments />
     </TimelineProvider>
   );
 };
 
-export default Moments;
+export default ManageMoments;
