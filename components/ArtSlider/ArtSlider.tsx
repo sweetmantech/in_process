@@ -1,5 +1,6 @@
 import Slider from "../Slider";
 import SliderFeed from "./SliderFeed";
+import ArtSliderSkeleton from "./ArtSliderSkeleton";
 import { Autoplay } from "swiper/modules";
 import useIsMobile from "@/hooks/useIsMobile";
 import { ArrowRight } from "../ui/icons";
@@ -9,9 +10,13 @@ import { useTimelineProvider } from "@/providers/TimelineProvider";
 
 const ArtSlider = () => {
   const isMobile = useIsMobile();
-  const { moments } = useTimelineProvider();
+  const { moments, isLoading } = useTimelineProvider();
   const [swiper, setSwiper] = useState<Swiper | null>(null);
   const slides = moments.slice(0, 55);
+
+  if (isLoading) {
+    return <ArtSliderSkeleton />;
+  }
 
   return (
     <div className="relative h-full">

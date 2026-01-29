@@ -1,10 +1,15 @@
 import { useTimelineProvider } from "@/providers/TimelineProvider";
 import TimelineTableRow from "@/components/Timeline/Table/TimelineTableRow";
 import TimelineTableRowDesktop from "@/components/Timeline/Table/TimelineTableRowDesktop";
+import TimelineTableSkeleton from "@/components/Timeline/Table/TimelineTableSkeleton";
 import { Table, TableBody } from "@/components/ui/table";
 
 const TimelineTable = () => {
-  const { moments } = useTimelineProvider();
+  const { moments, isLoading } = useTimelineProvider();
+
+  if (isLoading) {
+    return <TimelineTableSkeleton />;
+  }
 
   return (
     <div className="w-full">

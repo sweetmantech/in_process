@@ -11,14 +11,8 @@ import { TimelineAnimationProvider } from "@/providers/TimelineAnimationProvider
 import TimelineGrid from "@/components/Timeline/TimelineGrid";
 
 const TimelinePage = () => {
-  const { isLoading, error, moments } = useTimelineProvider();
+  const { error, moments } = useTimelineProvider();
 
-  if (isLoading)
-    return (
-      <div className="flex grow items-center justify-center overflow-hidden">
-        <Loading className="aspect-[1/1] w-[200px] md:w-[400px]" />
-      </div>
-    );
   if (error) return <main>Error loading timeline.</main>;
 
   return (
