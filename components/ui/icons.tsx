@@ -719,7 +719,7 @@ const ArrowRight = (props: SVGProps<SVGSVGElement>) => (
   >
     <path
       d="M0.722657 1.13525L12.2229 15.5106C12.5151 15.8758 12.5151 16.3947 12.2229 16.7599L0.722656 31.1353"
-      stroke="#1B1504"
+      stroke="currentColor"
       strokeLinecap="round"
     />
   </svg>
