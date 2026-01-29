@@ -11,7 +11,7 @@ const updateProfile = async ({
   farcaster_username,
 }: Database["public"]["Tables"]["in_process_artists"]["Insert"]) => {
   try {
-    await fetch(`${IN_PROCESS_API}/profile/create`, {
+    const res = await fetch(`${IN_PROCESS_API}/profile/create`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -26,6 +26,11 @@ const updateProfile = async ({
         farcaster_username,
       }),
     });
+
+    if (!res.ok) {
+      const errorText = await res.text();
+      throw new Error(errorText || `HTTP ${res.status}`);
+    }
   } catch (error) {
     console.error("Failed to update profile:", error);
     throw error;

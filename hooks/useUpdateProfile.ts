@@ -24,10 +24,15 @@ const useUpdateProfile = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const onSave = async () => {
+    if (!artistWallet) {
+      toast.error("Wallet not connected");
+      return;
+    }
+
     setIsLoading(true);
     try {
       await updateProfile({
-        address: artistWallet as string,
+        address: artistWallet,
         username,
         bio,
         farcaster_username: extractSocialUsername(farcaster),
