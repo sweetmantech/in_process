@@ -56,7 +56,7 @@ const MomentItem = ({ m, variant = "collection" }: MomentItemProps) => {
         <div className="p-2">
           <div className="flex items-center justify-between gap-2">
             <p className="truncate font-archivo-medium text-sm text-grey-moss-900">
-              {truncated(`${data?.name}`, 20)}
+              {truncated(data?.name ?? "", 20)}
             </p>
             <span className="shrink-0 font-archivo text-xs text-grey-moss-200">
               {new Date(m.created_at).toLocaleDateString("en-US")}
