@@ -2,7 +2,7 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import { Suspense } from "react";
 import { Analytics } from "@vercel/analytics/react";
-import ClientProviders from "@/components/ClientProviders";
+import { Providers } from "@/providers/Providers";
 
 export default function RootLayout({
   children,
@@ -13,7 +13,7 @@ export default function RootLayout({
     <html lang="en" className="bg-grey-moss-100">
       <body className="flex min-h-screen w-screen flex-col !overflow-x-hidden !lowercase">
         <Suspense>
-          <ClientProviders>{children}</ClientProviders>
+          <Providers>{children}</Providers>
           <Toaster />
         </Suspense>
         <Analytics />

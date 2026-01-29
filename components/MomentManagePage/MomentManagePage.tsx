@@ -40,9 +40,9 @@ const MomentManagePage = () => {
               onChangeTab={(value: number) => setSelectedTab(value)}
             />
             <div className="px-4 md:px-10">
-              {selectedTab === MANAGE_TABS.MEDIA && <MomentMedia />}
               {selectedTab === MANAGE_TABS.AIRDROP && <MomentAirdrop />}
               {selectedTab === MANAGE_TABS.SALE && <Sale />}
+              {selectedTab === MANAGE_TABS.MEDIA && <MomentMedia />}
               {selectedTab === MANAGE_TABS.ADMIN && <Admins />}
             </div>
           </MomentUriUpdateProvider>

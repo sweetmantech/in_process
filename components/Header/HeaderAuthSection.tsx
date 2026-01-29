@@ -23,7 +23,9 @@ const HeaderAuthSection = () => {
           <button
             onClick={toggleNavbar}
             type="button"
-            className="block flex flex-col rounded-md bg-grey-moss-400 px-2 py-1.5 md:hidden"
+            className="flex flex-col rounded-md bg-grey-moss-400 px-2 py-1.5 md:hidden"
+            aria-label="Toggle navigation"
+            aria-expanded={isOpenNavbar}
           >
             <div className="size-2 rounded-full bg-grey-moss-100" />
             <div className="size-2 rounded-full bg-grey-moss-100" />

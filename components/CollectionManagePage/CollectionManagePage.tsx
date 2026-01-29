@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, Fragment } from "react";
+import { useState } from "react";
 import Moments from "./Moments";
 import CollectionOverview from "../Overview/CollectionOverview";
 import { TimelineProvider } from "@/providers/TimelineProvider";
@@ -16,7 +16,7 @@ const CollectionManagePage = () => {
   const params = useParams();
   const collection = params.collectionAddress as string;
 
-  if (!collection) return <Fragment />;
+  if (!collection) return null;
 
   return (
     <MetadataFormProvider>

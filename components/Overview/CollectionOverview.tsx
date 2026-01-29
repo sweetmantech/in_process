@@ -1,24 +1,16 @@
-"use client";
-
 import { useCollectionProvider } from "@/providers/CollectionProvider";
 import { networkConfigByChain } from "@/lib/protocolSdk/apis/chain-constants";
 import { Address } from "viem";
 import Breadcrumbs from "./Breadcrumbs";
 import OverviewContent from "./OverviewContent";
-import CollectionOverviewSkeleton from "./CollectionOverviewSkeleton";
 
 const CollectionOverview = () => {
   const { data, isLoading } = useCollectionProvider();
-  const metadata = data?.metadata;
-  const name = data?.name;
-  const address = data?.address as Address;
 
   const collectionHref =
     data?.chain_id !== undefined && data?.address
       ? `/manage/${networkConfigByChain[data.chain_id].zoraCollectPathChainName}:${data.address}`
       : undefined;
-
-  if (isLoading || !metadata) return <CollectionOverviewSkeleton />;
 
   return (
     <div className="w-full px-4 pt-8 md:px-10">
@@ -35,7 +27,14 @@ const CollectionOverview = () => {
           },
         ]}
       />
-      <OverviewContent metadata={metadata} name={name} address={address as Address} />
+      {data?.metadata && (
+        <OverviewContent
+          metadata={data.metadata}
+          name={data.name}
+          address={data.address as Address}
+          isLoading={isLoading}
+        />
+      )}
     </div>
   );
 };
