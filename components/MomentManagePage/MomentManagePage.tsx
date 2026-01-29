@@ -16,7 +16,7 @@ import { MomentUriUpdateProvider } from "@/providers/MomentUriUpdateProvider";
 import Admins from "./Admins";
 
 const MomentManagePage = () => {
-  const [selectedTab, setSelectedTab] = useState<number>(MANAGE_TABS.MEDIA);
+  const [selectedTab, setSelectedTab] = useState<number>(MANAGE_TABS.AIRDROP);
   const { data } = useCollectionProvider();
   const params = useParams();
   const tokenId = params.tokenId as string;
