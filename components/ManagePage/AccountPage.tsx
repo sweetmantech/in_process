@@ -3,20 +3,19 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { updateProfile } from "@/hooks/useProfile";
 import { useUserProvider } from "@/providers/UserProvider";
-import { useState } from "react";
+import useUpdateProfile from "@/hooks/useUpdateProfile";
 import ConnectButton from "./ConnectButton";
 import PhoneButton from "./PhoneButton";
-import { extractSocialUsername } from "@/lib/socials/extractSocialUsername";
 import { PhoneVerificationProvider } from "@/providers/PhoneVerificationProvider";
 import AccountPageSkeleton from "./AccountPageSkeleton";
 import SignToInProcess from "./SignToInProcess";
 
 const AccountPage = () => {
-  const { profile, artistWallet, artistWalletLoaded } = useUserProvider();
-
+  const { artistWallet, artistWalletLoaded } = useUserProvider();
   const {
+    isLoading,
+    onSave,
     twitter,
     instagram,
     farcaster,
@@ -29,23 +28,7 @@ const AccountPage = () => {
     setFarcaster,
     setTelegram,
     setUserName,
-  } = profile;
-
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const onSave = async () => {
-    setIsLoading(true);
-
-    await updateProfile({
-      address: artistWallet as string,
-      username,
-      bio,
-      farcaster_username: extractSocialUsername(farcaster),
-      twitter_username: extractSocialUsername(twitter),
-      instagram_username: extractSocialUsername(instagram),
-      telegram_username: extractSocialUsername(telegram),
-    });
-    setIsLoading(false);
-  };
+  } = useUpdateProfile();
 
   if (!artistWalletLoaded) return <AccountPageSkeleton />;
   if (!artistWallet) return <SignToInProcess />;
