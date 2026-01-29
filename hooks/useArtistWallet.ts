@@ -8,14 +8,13 @@ import useConnectedWallet from "./useConnectedWallet";
 
 const useArtistWallet = ({ isSocialWallet }: { isSocialWallet: boolean }) => {
   const { privyWallet } = useConnectedWallet();
-  const { ready } = usePrivy();
-  const [artistWallet, setArtistWallet] = useState<Address | undefined>(undefined);
+  const [artistWallet, setArtistWallet] = useState<Address | undefined>();
   const [isExternalWallet, setIsExternalWallet] = useState<boolean>(false);
   const { getAccessToken } = usePrivy();
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
   const fetchArtistWallet = useCallback(async () => {
-    if (ready) {
+    if (privyWallet !== null) {
       if (!privyWallet?.address) {
         setArtistWallet(undefined);
         setIsExternalWallet(false);
@@ -39,7 +38,7 @@ const useArtistWallet = ({ isSocialWallet }: { isSocialWallet: boolean }) => {
         }
       }
     }
-  }, [privyWallet, isSocialWallet, getAccessToken, ready]);
+  }, [privyWallet, isSocialWallet, getAccessToken]);
 
   useEffect(() => {
     fetchArtistWallet();
@@ -49,7 +48,7 @@ const useArtistWallet = ({ isSocialWallet }: { isSocialWallet: boolean }) => {
     artistWallet,
     fetchArtistWallet,
     isExternalWallet,
-    isLoaded,
+    artistWalletLoaded: isLoaded,
   };
 };
 

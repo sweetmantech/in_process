@@ -1,9 +1,11 @@
 import { useWallets } from "@privy-io/react-auth";
 
 const useConnectedWallet = () => {
-  const { wallets } = useWallets();
-  const privyWallet = wallets?.find((wallet) => wallet.walletClientType === "privy");
-  const externalWallet = wallets?.find((wallet) => wallet.walletClientType !== "privy");
+  const { wallets, ready } = useWallets();
+  const privyWallet =
+    ready && wallets ? wallets?.find((wallet) => wallet.walletClientType === "privy") : null;
+  const externalWallet =
+    ready && wallets ? wallets?.find((wallet) => wallet.walletClientType !== "privy") : null;
 
   return {
     externalWallet,

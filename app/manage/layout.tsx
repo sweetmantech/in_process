@@ -1,29 +1,16 @@
 "use client";
 
-import useConnectedWallet from "@/hooks/useConnectedWallet";
-import { useFrameProvider } from "@/providers/FrameProvider";
-import { useAccount } from "wagmi";
-import { Fragment, ReactNode } from "react";
+import { ReactNode } from "react";
 import { ArrowRight } from "@/components/ui/icons";
-import SignToInProcess from "@/components/ManagePage/SignToInProcess";
 import { useRouter } from "next/navigation";
 import { useUserProvider } from "@/providers/UserProvider";
 import { useHasMutualMoments } from "@/hooks/useHasMutualMoments";
 import MutualMomentsButton from "@/components/ManagePage/MutualMomentsButton";
-import { usePrivy } from "@privy-io/react-auth";
 
 const ManagePage = ({ children }: { children: ReactNode }) => {
-  const { context } = useFrameProvider();
-  const { privyWallet } = useConnectedWallet();
-  const { address } = useAccount();
-  const { ready } = usePrivy();
-  const signedWallet = context ? address : privyWallet?.address;
   const { push } = useRouter();
   const { artistWallet } = useUserProvider();
   const { hasMutualMoments } = useHasMutualMoments(artistWallet);
-
-  if (!ready) return <Fragment />;
-  if (!signedWallet) return <SignToInProcess />;
 
   return (
     <main className="flex grid w-screen grow grid-cols-12 flex-col gap-4 px-2 pt-10 md:gap-6 md:px-8 md:pt-16">

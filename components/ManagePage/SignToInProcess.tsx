@@ -19,7 +19,7 @@ const SignToInProcess = () => {
     login();
   };
   return (
-    <div className="flex w-screen flex-col items-center gap-6 pt-20">
+    <div className="flex w-full flex-col items-center gap-6 pt-20">
       <p className="font-archivo text-4xl">{`It's time to log into In Process`}</p>
       <button
         type="button"
