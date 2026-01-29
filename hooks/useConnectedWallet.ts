@@ -4,7 +4,8 @@ const useConnectedWallet = () => {
   const { wallets, ready } = useWallets();
   const privyWallet =
     ready && wallets ? wallets?.find((wallet) => wallet.walletClientType === "privy") : null;
-  const externalWallet = wallets?.find((wallet) => wallet.walletClientType !== "privy");
+  const externalWallet =
+    ready && wallets ? wallets?.find((wallet) => wallet.walletClientType !== "privy") : null;
 
   return {
     externalWallet,

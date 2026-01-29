@@ -7,15 +7,15 @@ import { useRouter } from "next/navigation";
 import truncated from "@/lib/truncated";
 import HideButton from "../TimelineMoments/HideButton";
 import { type TimelineMoment } from "@/types/moment";
-import CollectionItemSkeleton from "./CollectionItemSkeleton";
+import CollectionItemSkeleton from "./MomentItemSkeleton";
 
-const CollectionItem = ({ c }: { c: TimelineMoment }) => {
-  const { data, isLoading } = useMetadata(c.uri);
+const MomentItem = ({ m }: { m: TimelineMoment }) => {
+  const { data, isLoading } = useMetadata(m.uri);
   const { push } = useRouter();
 
   const handleClick = () => {
-    const shortNetworkName = getShortNetworkName(c.chain_id === 8453 ? "base" : "base sepolia");
-    push(`/manage/${shortNetworkName}:${c.address}`);
+    const shortNetworkName = getShortNetworkName(m.chain_id === 8453 ? "base" : "base sepolia");
+    push(`/manage/${shortNetworkName}:${m.address}`);
     return;
   };
 
@@ -31,7 +31,7 @@ const CollectionItem = ({ c }: { c: TimelineMoment }) => {
       >
         <div className="relative aspect-video w-full overflow-hidden">
           <div className="absolute bottom-2 right-2 z-20">
-            <HideButton moment={c} />
+            <HideButton moment={m} />
           </div>
           <Image
             src={getFetchableUrl(data.image) || "/images/placeholder.png"}
@@ -45,10 +45,10 @@ const CollectionItem = ({ c }: { c: TimelineMoment }) => {
         </div>
         <div className="px-4 py-2">
           <p className="text-left font-archivo text-white">{truncated(data?.name, 30)}</p>
-          <p className="text-left font-archivo text-white">{truncateAddress(c.address)}</p>
+          <p className="text-left font-archivo text-white">{truncateAddress(m.address)}</p>
         </div>
       </div>
     );
 };
 
-export default CollectionItem;
+export default MomentItem;
