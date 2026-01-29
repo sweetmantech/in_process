@@ -9,6 +9,7 @@ import { type TimelineMoment } from "@/types/moment";
 import MomentItemSkeleton from "./MomentItemSkeleton";
 import { Copy, Check } from "lucide-react";
 import useCopy from "@/hooks/useCopy";
+import useArtistEditable from "@/hooks/useArtistEditable";
 
 export type MomentItemVariant = "collection" | "moment";
 
@@ -22,6 +23,9 @@ const MomentItem = ({ m, variant = "collection" }: MomentItemProps) => {
   const { push } = useRouter();
   const { copied, copy } = useCopy(m.address);
   const { artistAddress } = useParams();
+  const { isEditable } = useArtistEditable();
+
+  const showHideButton = !artistAddress || isEditable;
 
   const handleClick = () => {
     if (isLoading) return;
@@ -41,9 +45,11 @@ const MomentItem = ({ m, variant = "collection" }: MomentItemProps) => {
         onKeyDown={(e) => e.key === "Enter" && handleClick()}
       >
         <div className="relative aspect-square w-full overflow-hidden rounded-t-xl bg-grey-moss-50">
-          <div className="absolute right-1.5 top-1.5 z-20">
-            <HideButton moment={m} />
-          </div>
+          {showHideButton && (
+            <div className="absolute right-1.5 top-1.5 z-20">
+              <HideButton moment={m} />
+            </div>
+          )}
           <Image
             src={getFetchableUrl(data.image) || "/images/placeholder.png"}
             alt={data?.name || "Moment image"}
