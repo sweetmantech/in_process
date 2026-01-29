@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import { TimelineMoment } from "@/types/moment";
 
 const useSpiralMouseOver = () => {
@@ -7,7 +7,14 @@ const useSpiralMouseOver = () => {
     position: { x: number; y: number };
   } | null>(null);
 
+  const lastUpdateRef = useRef<number>(0);
+  const throttleMs = 100;
+
   const handleMouseMove = useCallback((event: React.MouseEvent, feed: TimelineMoment) => {
+    const now = Date.now();
+    if (now - lastUpdateRef.current < throttleMs) return;
+    lastUpdateRef.current = now;
+
     const svgElement = event.currentTarget.closest("svg");
     if (!svgElement) return;
 
@@ -20,25 +27,17 @@ const useSpiralMouseOver = () => {
     pt.y = event.clientY;
     const svgPoint = pt.matrixTransform(ctm.inverse());
 
-    if ((event.currentTarget as any)._timeout) {
-      clearTimeout((event.currentTarget as any)._timeout);
-    }
-
-    (event.currentTarget as any)._timeout = setTimeout(() => {
-      setHoveredFeed({
-        feed,
-        position: {
-          x: svgPoint.x,
-          y: svgPoint.y,
-        },
-      });
-    }, 50);
+    setHoveredFeed({
+      feed,
+      position: {
+        x: svgPoint.x,
+        y: svgPoint.y,
+      },
+    });
   }, []);
 
   const handleMouseLeave = useCallback(() => {
-    setTimeout(() => {
-      setHoveredFeed(null);
-    }, 50);
+    setHoveredFeed(null);
   }, []);
 
   return {
