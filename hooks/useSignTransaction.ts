@@ -6,7 +6,7 @@ import { useFrameProvider } from "@/providers/FrameProvider";
 import { useSwitchChain, useWriteContract } from "wagmi";
 
 const useSignTransaction = () => {
-  const { wallet } = useConnectedWallet();
+  const { externalWallet } = useConnectedWallet();
   const { context } = useFrameProvider();
   const { writeContractAsync } = useWriteContract();
   const { switchChainAsync } = useSwitchChain();
@@ -22,9 +22,9 @@ const useSignTransaction = () => {
       return hash;
     }
 
-    if (!wallet || !account) throw new Error("No wallet connected for transaction signing");
-    await wallet.switchChain(chainId);
-    const provider = await wallet.getEthereumProvider();
+    if (!externalWallet || !account) throw new Error("No wallet connected for transaction signing");
+    await externalWallet.switchChain(chainId);
+    const provider = await externalWallet.getEthereumProvider();
     const client = createWalletClient({
       account,
       chain: getViemNetwork(chainId),
