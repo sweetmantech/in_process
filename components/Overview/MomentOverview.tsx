@@ -1,16 +1,18 @@
-import { Skeleton } from "../ui/skeleton";
+"use client";
+
 import { networkConfigByChain } from "@/lib/protocolSdk/apis/chain-constants";
 import { useMomentProvider } from "@/providers/MomentProvider";
 import { useCollectionProvider } from "@/providers/CollectionProvider";
 import Breadcrumbs from "./Breadcrumbs";
 import OverviewContent from "./OverviewContent";
+import MomentOverviewSkeleton from "./MomentOverviewSkeleton";
 import { Address } from "viem";
 
 const MomentOverview = () => {
   const { metadata, isLoading } = useMomentProvider();
   const { data: collection, isLoading: isCollectionLoading } = useCollectionProvider();
 
-  if (isLoading || !metadata || !collection) return <Skeleton className="w-full h-[200px]" />;
+  if (isLoading || !metadata || !collection) return <MomentOverviewSkeleton />;
 
   const collectionHref = `/manage/${networkConfigByChain[collection.chain_id].zoraCollectPathChainName}:${collection.address}`;
 
@@ -33,15 +35,11 @@ const MomentOverview = () => {
           },
         ]}
       />
-      {isLoading || !metadata ? (
-        <Skeleton className="w-full h-full" />
-      ) : (
-        <OverviewContent
-          metadata={metadata}
-          name={metadata?.name}
-          address={collection.address as Address}
-        />
-      )}
+      <OverviewContent
+        metadata={metadata}
+        name={metadata?.name}
+        address={collection.address as Address}
+      />
     </div>
   );
 };

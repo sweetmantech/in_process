@@ -5,7 +5,7 @@ import { networkConfigByChain } from "@/lib/protocolSdk/apis/chain-constants";
 import { Address } from "viem";
 import Breadcrumbs from "./Breadcrumbs";
 import OverviewContent from "./OverviewContent";
-import { Fragment } from "react";
+import CollectionOverviewSkeleton from "./CollectionOverviewSkeleton";
 
 const CollectionOverview = () => {
   const { data, isLoading } = useCollectionProvider();
@@ -18,7 +18,7 @@ const CollectionOverview = () => {
       ? `/manage/${networkConfigByChain[data.chain_id].zoraCollectPathChainName}:${data.address}`
       : undefined;
 
-  if (isLoading || !metadata) return <Fragment />;
+  if (isLoading || !metadata) return <CollectionOverviewSkeleton />;
 
   return (
     <div className="w-full px-4 pt-8 md:px-10">

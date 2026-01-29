@@ -24,8 +24,8 @@ const CollectionManagePage = () => {
         <CollectionOverview />
         <Tabs selectedTab={selectedTab} onChangeTab={(value: number) => setSelectedTab(value)} />
         <div className="px-4 md:px-10">
-          {/* {selectedTab === COLLECTION_MANAGE_TABS.MEDIA && <CollectionMedia />} */}
-          {/* {selectedTab === COLLECTION_MANAGE_TABS.ADMINS && <Admins />} */}
+          {selectedTab === COLLECTION_MANAGE_TABS.MEDIA && <CollectionMedia />}
+          {selectedTab === COLLECTION_MANAGE_TABS.ADMINS && <Admins />}
         </div>
         <div className="px-4 md:px-10 pt-6">
           <h2 className="text-xl font-semibold">Moments</h2>
