@@ -1,6 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
-const CollectionItemSkeleton = () => (
+const MomentItemSkeleton = () => (
   <div className="col-span-1 w-full overflow-hidden rounded-lg">
     <Skeleton className="aspect-video w-full rounded-none" />
     <div className="px-4 py-2">
@@ -10,4 +10,4 @@ const CollectionItemSkeleton = () => (
   </div>
 );
 
-export default CollectionItemSkeleton;
+export default MomentItemSkeleton;
