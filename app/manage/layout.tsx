@@ -1,47 +1,23 @@
 "use client";
 
 import { ReactNode } from "react";
-import { ArrowRight } from "@/components/ui/icons";
-import { useRouter } from "next/navigation";
 import { useUserProvider } from "@/providers/UserProvider";
 import { useHasMutualMoments } from "@/hooks/useHasMutualMoments";
-import MutualMomentsButton from "@/components/ManagePage/MutualMomentsButton";
+import NavButton from "@/components/ManagePage/NavButton";
 
 const ManagePage = ({ children }: { children: ReactNode }) => {
-  const { push } = useRouter();
   const { artistWallet } = useUserProvider();
   const { hasMutualMoments } = useHasMutualMoments(artistWallet);
 
   return (
-    <main className="flex grid w-screen grow grid-cols-12 flex-col gap-4 px-2 pt-10 md:gap-6 md:px-8 md:pt-16">
-      <div className="col-span-12 flex flex-col gap-2 md:col-span-3">
-        <button
-          type="button"
-          className="flex w-full items-center justify-between rounded-md px-2 py-1 font-archivo-medium text-2xl hover:bg-grey-eggshell"
-          onClick={() => push("/manage/account")}
-        >
-          <p className="text-base md:text-2xl">account</p>
-          <ArrowRight className="size-4" />
-        </button>
-        <button
-          type="button"
-          className="flex w-full items-center justify-between rounded-md px-2 py-1 font-archivo-medium text-2xl hover:bg-grey-eggshell"
-          onClick={() => push("/manage/payment")}
-        >
-          <p className="text-base md:text-2xl">payment</p>
-          <ArrowRight className="size-4" />
-        </button>
-        <button
-          type="button"
-          className="flex w-full items-center justify-between rounded-md px-2 py-1 font-archivo-medium text-2xl hover:bg-grey-eggshell"
-          onClick={() => push("/manage/moments")}
-        >
-          <p className="text-base md:text-2xl">moments</p>
-          <ArrowRight className="size-4" />
-        </button>
-        {hasMutualMoments && <MutualMomentsButton />}
+    <main className="flex flex-col md:flex-row w-screen grow gap-4 px-2 pt-10 md:gap-6 md:px-8 md:pt-16">
+      <div className="flex flex-row w-full md:w-[400px] overflow-x-auto no-scrollbar md:flex-col md:gap-2 md:overflow-visible">
+        <NavButton label="account" href="/manage/account" />
+        <NavButton label="payment" href="/manage/payment" />
+        <NavButton label="moments" href="/manage/moments" />
+        {hasMutualMoments && <NavButton label="mutual moments" href="/manage/mutual-moments" />}
       </div>
-      <div className="col-span-12 md:col-span-9">{children}</div>
+      <div className="w-full md:grow">{children}</div>
     </main>
   );
 };
