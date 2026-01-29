@@ -2,20 +2,20 @@ import { useEffect, useState } from "react";
 import { Address, erc20Abi } from "viem";
 import { usePublicClient } from "wagmi";
 import { CHAIN_ID, USDC_ADDRESS } from "@/lib/consts";
-import useSignedAddress from "./useSignedAddress";
+import useConnectedWallet from "./useConnectedWallet";
 
 const useBalance = () => {
   const publicClient = usePublicClient();
   const [ethBalance, setEthBalance] = useState(BigInt(0));
   const [usdcBalance, setUsdcBalance] = useState(BigInt(0));
-  const signedAddress = useSignedAddress();
+  const { privyWallet } = useConnectedWallet();
 
   useEffect(() => {
     const getBalance = async () => {
       if (!publicClient) return;
-      if (!signedAddress) return;
+      if (!privyWallet?.address) return;
       let data = await publicClient.getBalance({
-        address: signedAddress as Address,
+        address: privyWallet.address as Address,
       });
       setEthBalance(data);
 
@@ -23,12 +23,12 @@ const useBalance = () => {
         address: USDC_ADDRESS[CHAIN_ID],
         abi: erc20Abi,
         functionName: "balanceOf",
-        args: [signedAddress as Address],
+        args: [privyWallet.address as Address],
       });
       setUsdcBalance(data);
     };
     getBalance();
-  }, [publicClient, signedAddress]);
+  }, [publicClient, privyWallet]);
 
   return {
     ethBalance,

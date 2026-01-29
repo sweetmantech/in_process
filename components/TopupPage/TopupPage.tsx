@@ -12,12 +12,12 @@ import { useSmartWalletProvider } from "@/providers/SmartWalletProvider";
 import { usePrivy } from "@privy-io/react-auth";
 
 const TopupPage = () => {
-  const { connectedAddress } = useUserProvider();
+  const { socialWalletAddress } = useUserProvider();
   const { ready } = usePrivy();
   const { smartWallet, isLoading, balance: usdcBalance, ethBalance } = useSmartWalletProvider();
 
   if (!ready) return <Fragment />;
-  if (!connectedAddress) return <SignToInProcess />;
+  if (!socialWalletAddress) return <SignToInProcess />;
 
   return (
     <main className="min-h-screen p-4 md:p-8">

@@ -15,11 +15,11 @@ interface UseWithdrawParams {
 
 const useWithdraw = () => {
   const [isWithdrawing, setIsWithdrawing] = useState<boolean>(false);
-  const { connectedAddress } = useUserProvider();
+  const { socialWalletAddress } = useUserProvider();
   const { sendTransaction } = useSendTransaction();
 
   const withdraw = async ({ currency, withdrawAmount, recipientAddress }: UseWithdrawParams) => {
-    if (!connectedAddress) {
+    if (!socialWalletAddress) {
       toast.error("Please connect your social wallet first");
       return;
     }

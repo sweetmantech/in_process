@@ -1,17 +1,17 @@
 "use client";
 
 import { useNotifications } from "@/hooks/useNotifications";
-import useSignedAddress from "@/hooks/useSignedAddress";
+import useConnectedWallet from "@/hooks/useConnectedWallet";
 import { Badge } from "@/components/ui/badge";
 
 const NotificationCountBadge = () => {
-  const signedAddress = useSignedAddress();
+  const { privyWallet } = useConnectedWallet();
 
   const { data: unviewedData } = useNotifications(
     1,
     100, // Get up to 100 unviewed notifications for counting
-    !!signedAddress, // Only fetch if user is connected
-    signedAddress?.toLowerCase(),
+    !!privyWallet?.address, // Only fetch if user is connected
+    privyWallet?.address?.toLowerCase(),
     false // viewed = false (unviewed notifications)
   );
 

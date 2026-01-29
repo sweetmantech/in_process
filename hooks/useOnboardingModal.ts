@@ -5,13 +5,13 @@ import { useState, useEffect } from "react";
 
 export function useOnboardingModal() {
   const [isOpen, setIsOpen] = useState(false);
-  const { profile, connectedAddress } = useUserProvider();
+  const { profile, socialWalletAddress } = useUserProvider();
 
   useEffect(() => {
-    if (!profile || !connectedAddress) return;
-    const onboarded = window.localStorage.getItem(`onboarded:${connectedAddress}`);
+    if (!profile || !socialWalletAddress) return;
+    const onboarded = window.localStorage.getItem(`onboarded:${socialWalletAddress}`);
     const shouldOnboard = !Boolean(profile?.username) && !Boolean(onboarded);
-    if (shouldOnboard) window.localStorage.setItem(`onboarded:${connectedAddress}`, "true");
+    if (shouldOnboard) window.localStorage.setItem(`onboarded:${socialWalletAddress}`, "true");
     setIsOpen(shouldOnboard);
   }, [profile]);
 

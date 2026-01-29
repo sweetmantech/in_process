@@ -8,13 +8,13 @@ import { useRouter } from "next/navigation";
 const Buttons = () => {
   const { setCollected } = useMomentCollectProvider();
   const { push } = useRouter();
-  const { connectedWallet } = useConnectedWallet();
+  const { privyWallet } = useConnectedWallet();
   const { share } = useShareMoment();
   const { download, isDownloading } = useDownload();
 
   const visit = () => {
     setCollected(true);
-    push(`/${connectedWallet}`);
+    push(`/${privyWallet?.address}`);
   };
 
   return (

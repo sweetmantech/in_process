@@ -16,11 +16,11 @@ export function Withdraw() {
   const [withdrawAmount, setWithdrawAmount] = useState<string>("");
   const [currency, setCurrency] = useState<Currency>("usdc");
   const [recipientAddress, setRecipientAddress] = useState<string>("");
-  const { connectedAddress } = useUserProvider();
+  const { socialWalletAddress } = useUserProvider();
   const { withdraw, isWithdrawing } = useSocialWalletWithdraw();
   const { getSocialWalletBalances } = useSocialWalletBalanceProvider();
 
-  if (!connectedAddress) return <Fragment />;
+  if (!socialWalletAddress) return <Fragment />;
 
   const handleWithdraw = async () => {
     if (!recipientAddress) {

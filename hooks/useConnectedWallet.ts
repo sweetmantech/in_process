@@ -1,22 +1,13 @@
-import { usePrivy, useWallets } from "@privy-io/react-auth";
-import { useEffect } from "react";
-import { Address } from "viem";
+import { useWallets } from "@privy-io/react-auth";
 
 const useConnectedWallet = () => {
-  const { wallets, ready } = useWallets();
-  const { logout, authenticated } = usePrivy();
+  const { wallets } = useWallets();
   const privyWallet = wallets?.find((wallet) => wallet.walletClientType === "privy");
   const externalWallet = wallets?.find((wallet) => wallet.walletClientType !== "privy");
-  const wallet = authenticated && ready ? privyWallet || externalWallet : undefined;
-  const connectedWallet = wallet?.address as Address | undefined;
 
-  useEffect(() => {
-    if (ready && !wallets.length) logout();
-  }, [ready, wallets]);
   return {
     externalWallet,
-    connectedWallet,
-    wallet,
+    privyWallet,
   };
 };
 

@@ -16,7 +16,7 @@ interface OnboardingModalProps {
 }
 
 export default function OnboardingModal({ isOpen, onClose }: OnboardingModalProps) {
-  const { connectedWallet } = useConnectedWallet();
+  const { privyWallet } = useConnectedWallet();
   const [currentSlide, setCurrentSlide] = useState(0);
   const isLastSlide = currentSlide === slides.length - 1;
   const router = useRouter();
@@ -26,11 +26,11 @@ export default function OnboardingModal({ isOpen, onClose }: OnboardingModalProp
       const isMobile = window.innerWidth <= 768;
       setCurrentSlide(isMobile ? slides.length - 1 : 0);
     }
-  }, [isOpen, connectedWallet]);
+  }, [isOpen, privyWallet]);
 
   const handleAdvance = () => {
     if (isLastSlide) {
-      router.push(`/${connectedWallet}?editing=true`);
+      router.push(`/${privyWallet?.address}?editing=true`);
       return;
     }
     setCurrentSlide((prev) => prev + 1);

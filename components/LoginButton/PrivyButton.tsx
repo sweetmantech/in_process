@@ -14,14 +14,14 @@ interface PrivyButtonProps {
 
 export function PrivyButton({ className = "" }: PrivyButtonProps) {
   const { login, ready } = usePrivy();
-  const { connectedWallet } = useConnectedWallet();
+  const { privyWallet } = useConnectedWallet();
   const { toggleNavbar, isOpenNavbar } = useLayoutProvider();
   const { profile } = useUserProvider();
 
   if (!ready) return null;
 
   const handleClick = async () => {
-    if (!connectedWallet) {
+    if (!privyWallet) {
       login();
       return;
     }
@@ -38,12 +38,13 @@ export function PrivyButton({ className = "" }: PrivyButtonProps) {
     >
       <div className="flex items-center gap-2 rounded-md bg-grey-moss-400 px-4 py-2 md:bg-transparent">
         <div
-          className={`h-2 w-2 rounded-full ${connectedWallet ? "bg-grey-moss-100" : "border border-grey-moss-100"}`}
+          className={`h-2 w-2 rounded-full ${privyWallet ? "bg-grey-moss-100" : "border border-grey-moss-100"}`}
         />
-        {connectedWallet ? (
+        {privyWallet ? (
           <>
             <p className="min-w-20 text-left">
-              {truncated(profile?.username || "", 9) || truncateAddress(connectedWallet as string)}
+              {truncated(profile?.username || "", 9) ||
+                truncateAddress(privyWallet.address as string)}
             </p>
             <Image
               src="/images/down-arrow.svg"

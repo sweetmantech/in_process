@@ -7,16 +7,17 @@ import CopyButton from "../CopyButton";
 import disconnectSocialWallet from "@/lib/artists/disconnectSocialWallet";
 
 const ConnectButton = () => {
-  const { artistWallet, fetchArtistWallet, isSocialWallet, connectedAddress } = useUserProvider();
+  const { artistWallet, fetchArtistWallet, isSocialWallet, socialWalletAddress } =
+    useUserProvider();
   const shouldConnect =
-    artistWallet === connectedAddress && Boolean(artistWallet) && isSocialWallet;
+    artistWallet === socialWalletAddress && Boolean(artistWallet) && isSocialWallet;
   const buttonText = shouldConnect ? "connect wallet" : "disconnect wallet";
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { connectWallet } = useConnectWallet({
     onSuccess: async ({ wallet }) => {
       setIsLoading(true);
-      await connectSocialWallet(wallet.address as Address, connectedAddress as Address);
+      await connectSocialWallet(wallet.address as Address, socialWalletAddress as Address);
       await fetchArtistWallet();
       setIsLoading(false);
     },
@@ -24,7 +25,7 @@ const ConnectButton = () => {
 
   const disconnect = async () => {
     setIsLoading(true);
-    await disconnectSocialWallet(connectedAddress as Address);
+    await disconnectSocialWallet(socialWalletAddress as Address);
     await fetchArtistWallet();
     setIsLoading(false);
   };

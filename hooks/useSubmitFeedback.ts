@@ -1,6 +1,7 @@
 import submitFeedback from "@/lib/submitFeedback";
 import { useState } from "react";
 import useConnectedWallet from "./useConnectedWallet";
+import { Address } from "viem";
 
 export type UseSubmitFeedbackReturn = {
   submit: () => Promise<void>;
@@ -24,15 +25,15 @@ const useSubmitFeedback = (): UseSubmitFeedbackReturn => {
   const [name, setName] = useState<string>("");
   const [mediaFile, setMediaFile] = useState<File | null>(null);
   const [mediaPreview, setMediaPreview] = useState<string | null>(null);
-  const { connectedWallet } = useConnectedWallet();
+  const { privyWallet } = useConnectedWallet();
 
   const submit = async () => {
-    if (!name.trim() || !feedback.trim()) {
+    if (!name.trim() || !feedback.trim() || !privyWallet?.address) {
       return;
     }
     setIsLoading(true);
 
-    await submitFeedback(feedback, name, connectedWallet, mediaFile);
+    await submitFeedback(feedback, name, privyWallet.address as Address, mediaFile);
     setFeedback("");
     setName("");
     setMediaFile(null);

@@ -1,7 +1,6 @@
 "use client";
 
 import { Withdraw } from "./Withdraw";
-import { useUserProvider } from "@/providers/UserProvider";
 import SignToInProcess from "../ManagePage/SignToInProcess";
 import { Fragment } from "react";
 import { UsdcBalance } from "../Balances/UsdcBalance";
@@ -10,14 +9,15 @@ import { useSocialWalletBalanceProvider } from "@/providers/SocialWalletBalanceP
 import { Wallet } from "../Balances/Wallet";
 import { Address } from "viem";
 import { usePrivy } from "@privy-io/react-auth";
+import useConnectedWallet from "@/hooks/useConnectedWallet";
 
 const FundsPage = () => {
-  const { connectedAddress } = useUserProvider();
+  const { privyWallet } = useConnectedWallet();
   const { ready } = usePrivy();
   const { isLoading, balance: usdcBalance, ethBalance } = useSocialWalletBalanceProvider();
 
   if (!ready) return <Fragment />;
-  if (!connectedAddress) return <SignToInProcess />;
+  if (!privyWallet?.address) return <SignToInProcess />;
 
   return (
     <main className="min-h-screen p-4 md:p-8">
@@ -31,7 +31,7 @@ const FundsPage = () => {
           </p>
         </div>
         <div className="grid gap-6 md:grid-cols-2">
-          <Wallet address={connectedAddress as Address} title="Social Wallet" />
+          <Wallet address={privyWallet.address as Address} title="Social Wallet" />
           <div className="space-y-6">
             <UsdcBalance isLoading={isLoading} balance={usdcBalance} />
             <EthBalance isLoading={isLoading} balance={ethBalance} />

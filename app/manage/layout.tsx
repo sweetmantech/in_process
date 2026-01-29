@@ -14,10 +14,10 @@ import { usePrivy } from "@privy-io/react-auth";
 
 const ManagePage = ({ children }: { children: ReactNode }) => {
   const { context } = useFrameProvider();
-  const { connectedWallet } = useConnectedWallet();
+  const { privyWallet } = useConnectedWallet();
   const { address } = useAccount();
   const { ready } = usePrivy();
-  const signedWallet = context ? address : connectedWallet;
+  const signedWallet = context ? address : privyWallet?.address;
   const { push } = useRouter();
   const { artistWallet } = useUserProvider();
   const { hasMutualMoments } = useHasMutualMoments(artistWallet);

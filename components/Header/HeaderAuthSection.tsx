@@ -1,25 +1,25 @@
 "use client";
 
 import LoginButton from "../LoginButton";
-import useSignedAddress from "@/hooks/useSignedAddress";
 import { DropdownMenu } from "../LoginButton/DropdownMenu";
 import { useLayoutProvider } from "@/providers/LayoutProvider";
 import CreateCTAButton from "./CreateCTAButton";
 import useIsMobile from "@/hooks/useIsMobile";
 import NotificationButton from "./NotificationButton";
+import useConnectedWallet from "@/hooks/useConnectedWallet";
 
 const HeaderAuthSection = () => {
-  const signedAddress = useSignedAddress();
+  const { privyWallet } = useConnectedWallet();
   const { isOpenNavbar, toggleNavbar, isExpandedSearchInput } = useLayoutProvider();
   const isMobile = useIsMobile();
 
   return (
     <>
-      {signedAddress && <NotificationButton />}
+      {privyWallet?.address && <NotificationButton />}
       {!isMobile && <CreateCTAButton />}
       <div className="flex items-center gap-1 md:relative md:gap-2">
         {!isExpandedSearchInput && <LoginButton />}
-        {signedAddress && (
+        {privyWallet?.address && (
           <button
             onClick={toggleNavbar}
             type="button"
@@ -32,7 +32,7 @@ const HeaderAuthSection = () => {
             <div className="size-2 rounded-full bg-grey-moss-100" />
           </button>
         )}
-        {isOpenNavbar && signedAddress && <DropdownMenu />}
+        {isOpenNavbar && privyWallet?.address && <DropdownMenu />}
       </div>
     </>
   );

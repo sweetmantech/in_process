@@ -16,7 +16,7 @@ const useSaleConfig = () => {
   const [saleStart, setSaleStart] = useState<Date>(new Date());
   const { moment, fetchMomentData } = useMomentProvider();
   const { signTransaction } = useSignTransaction();
-  const { connectedAddress } = useUserProvider();
+  const { socialWalletAddress } = useUserProvider();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const setSale = async () => {
@@ -40,7 +40,7 @@ const useSaleConfig = () => {
       abi: zoraCreator1155ImplABI,
       functionName: "callSale",
       args: [moment.tokenId, zoraCreatorFixedPriceSaleStrategyAddress[CHAIN_ID], calldata],
-      account: connectedAddress as Address,
+      account: socialWalletAddress as Address,
       chain: CHAIN,
     });
     const receipt = await publicClient.waitForTransactionReceipt({ hash });

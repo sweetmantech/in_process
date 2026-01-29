@@ -2,7 +2,6 @@ import useProfile from "@/hooks/useProfile";
 import useArtistWallet from "@/hooks/useArtistWallet";
 import useUser from "@/hooks/useUser";
 import { createContext, useMemo, useContext } from "react";
-import { Address } from "viem";
 
 const UserContext = createContext<
   ReturnType<typeof useUser> &
@@ -19,12 +18,9 @@ const UserContext = createContext<
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const user = useUser();
   const artistwallet = useArtistWallet({
-    connectedAddress: (user.connectedAddress as Address | undefined) ?? undefined,
     isSocialWallet: user.isSocialWallet,
   });
-  const profile = useProfile(
-    artistwallet.artistWallet || (user.connectedAddress as Address | undefined)
-  );
+  const profile = useProfile(artistwallet.artistWallet);
 
   const value = useMemo(
     () => ({

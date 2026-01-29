@@ -3,17 +3,14 @@ import useConnectedWallet from "./useConnectedWallet";
 import { useFrameProvider } from "@/providers/FrameProvider";
 import { useAccount, useConnect } from "wagmi";
 import { config } from "@/providers/WagmiProvider";
-import useSignedAddress from "./useSignedAddress";
-import useBalance from "./useBalance";
+import { Address } from "viem";
 
 const useUser = () => {
   const { user, login } = usePrivy();
-  const { connectedWallet } = useConnectedWallet();
+  const { privyWallet } = useConnectedWallet();
   const { context } = useFrameProvider();
   const { isConnected } = useAccount();
   const { connect } = useConnect();
-  const signedAddress = useSignedAddress();
-  const balances = useBalance();
   const isSocialWallet = Boolean(context || user?.email?.address);
 
   const isPrepared = () => {
@@ -24,7 +21,7 @@ const useUser = () => {
       }
       return true;
     }
-    if (!connectedWallet) {
+    if (!privyWallet) {
       login();
       return false;
     }
@@ -34,9 +31,8 @@ const useUser = () => {
   return {
     email: user?.email?.address,
     isPrepared,
-    connectedAddress: signedAddress,
     isSocialWallet,
-    balances,
+    socialWalletAddress: privyWallet?.address as Address | undefined,
   };
 };
 

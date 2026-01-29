@@ -8,10 +8,10 @@ import GrantMomentPermissionButton from "../MomentManagePage/GrantMomentPermissi
 const AirdropButton = () => {
   const { airdropToItems, onAirdrop, loading } = useAirdropProvider();
   const { owner, momentAdmins } = useMomentProvider();
-  const { connectedAddress, artistWallet } = useUserProvider();
+  const { socialWalletAddress, artistWallet } = useUserProvider();
   const hasWarning = useMomentLegacyWarning();
   const canAirdrop =
-    Boolean(owner?.toLowerCase() === connectedAddress?.toLowerCase()) ||
+    Boolean(owner?.toLowerCase() === socialWalletAddress?.toLowerCase()) ||
     Boolean(owner?.toLowerCase() === artistWallet?.toLowerCase()) ||
     Boolean(artistWallet && momentAdmins?.includes(artistWallet.toLowerCase()));
 

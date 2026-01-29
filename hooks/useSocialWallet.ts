@@ -4,12 +4,12 @@ import { Address } from "viem";
 import { getWalletBalances } from "@/lib/viem/getWalletBalances";
 
 const useSocialWallet = () => {
-  const { connectedAddress } = useUserProvider();
+  const { socialWalletAddress } = useUserProvider();
 
   const query = useQuery({
-    queryKey: ["social_wallet", connectedAddress],
-    queryFn: () => getWalletBalances(connectedAddress as Address),
-    enabled: Boolean(connectedAddress),
+    queryKey: ["social_wallet", socialWalletAddress],
+    queryFn: () => getWalletBalances(socialWalletAddress as Address),
+    enabled: Boolean(socialWalletAddress),
     staleTime: 1000 * 60 * 5, // 5 minutes
     retry: (failureCount) => failureCount < 3,
   });

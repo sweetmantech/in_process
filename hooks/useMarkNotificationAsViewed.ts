@@ -1,21 +1,21 @@
 import { useEffect } from "react";
-import useSignedAddress from "@/hooks/useSignedAddress";
+import useConnectedWallet from "@/hooks/useConnectedWallet";
 import { markNotificationsAsViewed } from "@/lib/notifications/markNotificationsAsViewed";
 
 const useMarkNotificationAsViewed = () => {
-  const signedAddress = useSignedAddress();
+  const { privyWallet } = useConnectedWallet();
 
   useEffect(() => {
-    if (signedAddress) {
+    if (privyWallet?.address) {
       const timer = setTimeout(() => {
-        markNotificationsAsViewed(signedAddress.toLowerCase()).catch((error) => {
+        markNotificationsAsViewed(privyWallet.address.toLowerCase()).catch((error) => {
           console.error("Failed to mark notifications as viewed:", error);
         });
       }, 10000); // 10 second delay
 
       return () => clearTimeout(timer);
     }
-  }, [signedAddress]);
+  }, [privyWallet]);
 };
 
 export default useMarkNotificationAsViewed;
