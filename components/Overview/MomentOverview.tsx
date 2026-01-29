@@ -33,12 +33,15 @@ const MomentOverview = () => {
           },
         ]}
       />
-      <OverviewContent
-        metadata={metadata}
-        name={metadata?.name}
-        address={collection.address as Address}
-        isLoading={isLoading}
-      />
+      {isLoading || !metadata ? (
+        <Skeleton className="w-full h-full" />
+      ) : (
+        <OverviewContent
+          metadata={metadata}
+          name={metadata?.name}
+          address={collection.address as Address}
+        />
+      )}
     </div>
   );
 };
