@@ -2,34 +2,6 @@ import { useEffect, useState } from "react";
 import { useArtistProfile } from "./useArtistProfile";
 import { Address } from "viem";
 import truncateAddress from "@/lib/truncateAddress";
-import { Database } from "@/lib/supabase/types";
-import { IN_PROCESS_API } from "@/lib/consts";
-
-export const updateProfile = async ({
-  address,
-  username,
-  bio,
-  instagram_username,
-  telegram_username,
-  twitter_username,
-  farcaster_username,
-}: Database["public"]["Tables"]["in_process_artists"]["Insert"]) => {
-  await fetch(`${IN_PROCESS_API}/profile/create`, {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-    },
-    body: JSON.stringify({
-      address,
-      username,
-      bio,
-      instagram_username,
-      telegram_username,
-      twitter_username,
-      farcaster_username,
-    }),
-  });
-};
 
 const useProfile = (artistAddress?: Address) => {
   const { data, isLoading, refetch } = useArtistProfile(artistAddress);

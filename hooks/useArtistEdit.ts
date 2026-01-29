@@ -1,8 +1,9 @@
 import { useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Address } from "viem";
-import useProfile, { updateProfile } from "./useProfile";
+import useProfile from "./useProfile";
 import useArtistEditable from "./useArtistEditable";
+import updateProfile from "@/lib/artists/updateProfile";
 
 const useArtistEdit = (
   artistProfile: ReturnType<typeof useProfile>,
