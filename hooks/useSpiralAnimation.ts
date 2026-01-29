@@ -1,49 +1,65 @@
-import { useState, useEffect, useMemo } from "react";
+import { useMemo, useEffect, useRef, RefObject } from "react";
 import useIsMobile from "./useIsMobile";
 import { calculateViewBox } from "@/lib/spiralUtils";
 import { MOBILE_SPIRAL_POINTS, SPIRAL_POINTS } from "@/lib/consts";
 
 interface SpiralAnimationConfig {
-  offset: number;
   viewBox: string;
   animationConfig: {
-    stepSize: number;
     spacerWidth: number;
     loopPadding: number;
-    frameRate: number;
   };
   points: number[][];
+  textPathRef: RefObject<SVGTextPathElement | null>;
 }
 
 export function useSpiralAnimation(): SpiralAnimationConfig {
   const isMobile = useIsMobile();
-  const [offset, setOffset] = useState(-50);
+  const textPathRef = useRef<SVGTextPathElement | null>(null);
+  const offsetRef = useRef(-50);
+  const animationRef = useRef<number | null>(null);
+  const lastTimeRef = useRef<number>(0);
 
-  const animationConfig = useMemo(() => {
-    const baseSpeed = 0.2;
-    const contentFactor = 0.2;
-    const adjustedSpeed = baseSpeed * contentFactor;
-    const spacerWidth = 3;
-    const loopPadding = 20;
-
-    return {
-      stepSize: adjustedSpeed,
-      spacerWidth,
-      loopPadding,
-      frameRate: 15,
-    };
-  }, [isMobile]);
+  const animationConfig = useMemo(
+    () => ({
+      spacerWidth: 3,
+      loopPadding: 20,
+    }),
+    []
+  );
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setOffset((prev) => {
-        if (prev >= 0) return -50;
-        return prev + animationConfig.stepSize;
-      });
-    }, 1000 / animationConfig.frameRate);
+    const speed = 0.015;
 
-    return () => clearInterval(interval);
-  }, [animationConfig]);
+    const animate = (currentTime: number) => {
+      if (!lastTimeRef.current) {
+        lastTimeRef.current = currentTime;
+      }
+
+      const deltaTime = currentTime - lastTimeRef.current;
+      lastTimeRef.current = currentTime;
+
+      offsetRef.current += speed * (deltaTime / 16.67);
+
+      if (offsetRef.current >= 0) {
+        offsetRef.current = -50;
+      }
+
+      if (textPathRef.current) {
+        textPathRef.current.setAttribute("startOffset", `${offsetRef.current}%`);
+      }
+
+      animationRef.current = requestAnimationFrame(animate);
+    };
+
+    animationRef.current = requestAnimationFrame(animate);
+
+    return () => {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+    };
+  }, []);
 
   const viewBox = useMemo(() => {
     const points = isMobile ? MOBILE_SPIRAL_POINTS : SPIRAL_POINTS;
@@ -51,9 +67,9 @@ export function useSpiralAnimation(): SpiralAnimationConfig {
   }, [isMobile]);
 
   return {
-    offset,
     viewBox,
     animationConfig,
     points: isMobile ? MOBILE_SPIRAL_POINTS : SPIRAL_POINTS,
+    textPathRef,
   };
 }
