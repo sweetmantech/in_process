@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import truncated from "@/lib/truncated";
 import HideButton from "../TimelineMoments/HideButton";
 import { type TimelineMoment } from "@/types/moment";
-import CollectionItemSkeleton from "./MomentItemSkeleton";
+import MomentItemSkeleton from "./MomentItemSkeleton";
 
 const MomentItem = ({ m }: { m: TimelineMoment }) => {
   const { data, isLoading } = useMetadata(m.uri);
@@ -19,7 +19,7 @@ const MomentItem = ({ m }: { m: TimelineMoment }) => {
     return;
   };
 
-  if (isLoading) return <CollectionItemSkeleton />;
+  if (isLoading) return <MomentItemSkeleton />;
   if (data)
     return (
       <div
