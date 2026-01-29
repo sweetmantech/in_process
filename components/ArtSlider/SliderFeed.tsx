@@ -10,10 +10,12 @@ interface SliderFeedProps {
 const SliderFeed = ({ feed }: SliderFeedProps) => {
   const { handleMomentClick, isLoading, data } = useMomentClick(feed);
   return (
-    <button
-      className="relative h-[200px] w-full overflow-hidden rounded-md bg-grey-moss-100 font-spectral md:h-auto"
-      type="button"
+    <div
+      role="button"
+      tabIndex={0}
+      className="relative h-[200px] w-full cursor-pointer overflow-hidden rounded-md bg-grey-moss-100 font-spectral md:h-auto"
       onClick={handleMomentClick}
+      onKeyDown={(e) => e.key === "Enter" && handleMomentClick()}
     >
       {isLoading || !data ? (
         <div className="flex size-full items-center justify-center rounded-md border border-grey bg-grey-moss-100">
@@ -22,7 +24,7 @@ const SliderFeed = ({ feed }: SliderFeedProps) => {
       ) : (
         <CarouselItem metadata={data} />
       )}
-    </button>
+    </div>
   );
 };
 export default SliderFeed;

@@ -15,10 +15,12 @@ const GridItem = ({ feed }: GridItemProps) => {
       {isLoading || !data ? (
         <Loading className="size-full border border-grey bg-grey-moss-100 aspect-video" />
       ) : (
-        <button
-          type="button"
+        <div
+          role="button"
+          tabIndex={0}
           onClick={handleMomentClick}
-          className="size-full aspect-video flex flex-col"
+          onKeyDown={(e) => e.key === "Enter" && handleMomentClick()}
+          className="size-full aspect-video flex flex-col cursor-pointer"
         >
           <div className="relative grow w-full overflow-hidden rounded-md bg-grey-moss-100 font-spectral">
             <ContentRenderer metadata={data} />
@@ -29,7 +31,7 @@ const GridItem = ({ feed }: GridItemProps) => {
               {new Date(feed.created_at).toLocaleString()}
             </p>
           </div>
-        </button>
+        </div>
       )}
     </div>
   );

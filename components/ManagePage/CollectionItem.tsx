@@ -21,10 +21,12 @@ const CollectionItem = ({ c }: { c: TimelineMoment }) => {
   if (isLoading) return <div></div>;
   if (data)
     return (
-      <button
-        type="button"
-        className="col-span-1 w-full overflow-hidden rounded-lg bg-grey-moss-300"
+      <div
+        role="button"
+        tabIndex={0}
+        className="col-span-1 w-full cursor-pointer overflow-hidden rounded-lg bg-grey-moss-300"
         onClick={handleClick}
+        onKeyDown={(e) => e.key === "Enter" && handleClick()}
       >
         <div className="relative aspect-video w-full overflow-hidden">
           <div className="absolute bottom-2 right-2 z-20">
@@ -44,7 +46,7 @@ const CollectionItem = ({ c }: { c: TimelineMoment }) => {
           <p className="text-left font-archivo text-white">{truncated(data?.name, 30)}</p>
           <p className="text-left font-archivo text-white">{truncateAddress(c.address)}</p>
         </div>
-      </button>
+      </div>
     );
 };
 
