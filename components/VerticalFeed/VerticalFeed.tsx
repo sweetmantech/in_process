@@ -5,7 +5,7 @@ const VerticalFeed = () => {
   const { moments } = useTimelineProvider();
 
   return (
-    <div className="w-full h-[770px] overflow-y-auto">
+    <div className="w-full h-[770px] overflow-y-auto space-y-4">
       {moments.map((feed) => (
         <SliderFeed feed={feed} key={feed.id} />
       ))}
