@@ -10,9 +10,12 @@ import ConnectButton from "./ConnectButton";
 import PhoneButton from "./PhoneButton";
 import { extractSocialUsername } from "@/lib/socials/extractSocialUsername";
 import { PhoneVerificationProvider } from "@/providers/PhoneVerificationProvider";
+import AccountPageSkeleton from "./AccountPageSkeleton";
+import SignToInProcess from "./SignToInProcess";
 
 const AccountPage = () => {
-  const { profile, artistWallet } = useUserProvider();
+  const { profile, artistWallet, artistWalletLoaded } = useUserProvider();
+
   const {
     twitter,
     instagram,
@@ -43,6 +46,9 @@ const AccountPage = () => {
     });
     setIsLoading(false);
   };
+
+  if (!artistWalletLoaded) return <AccountPageSkeleton />;
+  if (!artistWallet) return <SignToInProcess />;
 
   return (
     <main className="flex flex-col font-archivo">
