@@ -81,7 +81,7 @@ export type Database = {
         Insert: {
           amount: number;
           id?: string;
-          moment?: string;
+          moment: string;
           recipient: string;
           updated_at: string;
         };
@@ -276,6 +276,97 @@ export type Database = {
             isOneToOne: false;
             referencedRelation: "in_process_artists";
             referencedColumns: ["address"];
+          },
+        ];
+      };
+      in_process_message_metadata: {
+        Row: {
+          artist_address: string | null;
+          client: Database["public"]["Enums"]["message_client"];
+          created_at: string;
+          id: string;
+        };
+        Insert: {
+          artist_address?: string | null;
+          client: Database["public"]["Enums"]["message_client"];
+          created_at?: string;
+          id?: string;
+        };
+        Update: {
+          artist_address?: string | null;
+          client?: Database["public"]["Enums"]["message_client"];
+          created_at?: string;
+          id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "in_process_message_metadata_artist_address_fkey";
+            columns: ["artist_address"];
+            isOneToOne: false;
+            referencedRelation: "in_process_artists";
+            referencedColumns: ["address"];
+          },
+        ];
+      };
+      in_process_message_moment: {
+        Row: {
+          id: string;
+          message: string;
+          moment: string;
+        };
+        Insert: {
+          id?: string;
+          message: string;
+          moment: string;
+        };
+        Update: {
+          id?: string;
+          message?: string;
+          moment?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "in_process_message_moment_message_fkey";
+            columns: ["message"];
+            isOneToOne: false;
+            referencedRelation: "in_process_messages";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "in_process_message_moment_moment_fkey";
+            columns: ["moment"];
+            isOneToOne: false;
+            referencedRelation: "in_process_moments";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      in_process_messages: {
+        Row: {
+          id: string;
+          metadata: string;
+          parts: Json;
+          role: Database["public"]["Enums"]["message_role"];
+        };
+        Insert: {
+          id?: string;
+          metadata: string;
+          parts: Json;
+          role: Database["public"]["Enums"]["message_role"];
+        };
+        Update: {
+          id?: string;
+          metadata?: string;
+          parts?: Json;
+          role?: Database["public"]["Enums"]["message_role"];
+        };
+        Relationships: [
+          {
+            foreignKeyName: "in_process_messages_metadata_fkey";
+            columns: ["metadata"];
+            isOneToOne: false;
+            referencedRelation: "in_process_message_metadata";
+            referencedColumns: ["id"];
           },
         ];
       };
@@ -581,7 +672,8 @@ export type Database = {
       };
     };
     Enums: {
-      [_ in never]: never;
+      message_client: "telegram" | "sms";
+      message_role: "user" | "assistant";
     };
     CompositeTypes: {
       [_ in never]: never;
@@ -709,6 +801,9 @@ export const Constants = {
     Enums: {},
   },
   public: {
-    Enums: {},
+    Enums: {
+      message_client: ["telegram", "sms"],
+      message_role: ["user", "assistant"],
+    },
   },
 } as const;
