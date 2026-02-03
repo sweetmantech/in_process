@@ -1,0 +1,66 @@
+# In Process
+
+> A Web3-native platform for documenting and monetizing the creative journey—not just the final product.
+
+In Process is a living archive of artistic evolution where artists, builders, and creatives can upload their work-in-progress and mint it onchain to a collective timeline. Your community, fans, and patrons can collect, comment, and support work as it unfolds.
+
+## What Makes In Process Different
+
+- Focus on process, not polish
+- Permanent, onchain documentation
+- Monetization of in-progress work
+- Decentralized, artist-owned timelines
+- Support for both Web2 and Web3 users
+- Cross-platform embedding of content (onchain + offchain)
+
+## What Content Can You Post
+
+You can upload any part of your creative process:
+- Journals, notes, poetry
+- Demos, drafts, audio clips
+- Sketches, moodboards, visuals
+- Behind-the-scenes footage, vlogs
+- External links and embeds (YouTube, NFTs, Instagram, Google Docs, etc.)
+
+## Timeline Features
+
+- Posts can be backdated (e.g., a sketch from 2021)
+- Posts can be future-dated (e.g., a concept for a 2026 project)
+- Posts can be time-stamped to the present
+- Your personal timeline feeds into the Collective Timeline
+
+## The Collective Timeline
+
+A shared feed where everyone's onchain creative process lives side-by-side. It's a decentralized, living archive of artistic culture across disciplines and styles.
+
+## Who Is In Process For
+
+- Artists (music, visual, literary, film)
+- Builders and developers
+- Web2 creatives transitioning into Web3
+- Fans, patrons, and explorers who want to support artistic journeys
+
+## How Monetization Works
+
+- Set a price per post (in crypto or USD)
+- Collectors pay to own and support your process
+- Proceeds go directly to your wallet
+
+## Technology Stack
+
+- Base: Fast, affordable L2 blockchain
+- Zora Protocol: For minting and managing posts
+- Privy: Web2 login with Web3 access (email login, no wallet needed to start)
+- Supports crypto and card payments
+
+## Documentation
+
+- Main Documentation: https://docs.inprocess.world
+- API Reference: https://docs.inprocess.world/api-reference
+- FAQ: https://inprocess.world/faq
+
+## Links
+
+- Website: https://inprocess.world
+- Documentation: https://docs.inprocess.world
+- FAQ: https://inprocess.world/faq
