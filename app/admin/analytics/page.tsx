@@ -1,5 +1,5 @@
 import AdminAnalyticsPage from "@/components/AdminAnalyticsPage/AdminAnalyticsPage";
 
-export default function Page() {
-  return <AdminAnalyticsPage />;
-}
+const AdminAnalytics = () => <AdminAnalyticsPage />;
+
+export default AdminAnalytics;
