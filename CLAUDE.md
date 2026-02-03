@@ -37,20 +37,28 @@ import { IN_PROCESS_API } from "@/lib/consts";
 const response = await fetch(`${IN_PROCESS_API}/endpoint`);
 ```
 
+**API Documentation**: https://docs.inprocess.world/api-reference
+
 ### Data Fetching Pattern
 
 ```typescript
 // lib/[feature]/fetchSomething.ts - API function
-export const fetchSomething = async (): Promise<SomeType> => {
-  const res = await fetch(`${IN_PROCESS_API}/something`);
+export const fetchSomething = async (accessToken: string): Promise<SomeType> => {
+  const res = await fetch(`${IN_PROCESS_API}/something`, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
   return res.json();
 };
 
-// hooks/useSomething.ts - React Query hook
+// hooks/useSomething.ts - React Query hook with Privy auth
 export const useSomething = () => {
+  const { getAccessToken } = usePrivy();
   return useQuery({
     queryKey: ["something"],
-    queryFn: fetchSomething,
+    queryFn: async () => {
+      const accessToken = await getAccessToken();
+      return fetchSomething(accessToken);
+    },
   });
 };
 ```
