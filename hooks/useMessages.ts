@@ -22,7 +22,7 @@ export function useMessages({
     queryFn: async () => {
       const accessToken = await getAccessToken();
       if (!accessToken) throw new Error("No access token");
-      return fetchMessages({ page: currentPage, limit, accessToken });
+      return fetchMessages({ page: currentPage, limit, accessToken, moment: "true" });
     },
     enabled,
     staleTime: 1000 * 60 * 5,
