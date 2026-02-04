@@ -12,14 +12,13 @@ const DiscPlaceholder = () => {
       style={{ animationDuration: "3s" }}
     >
       {/* Outer ring */}
-      <div className="absolute inset-0 rounded-full border-4 border-neutral-700/50" />
+      <div className="absolute inset-0 rounded-full border-2 border-neutral-700/50 sm:border-4" />
 
-      {/* Vinyl grooves */}
-      <div className="absolute inset-4 rounded-full border border-neutral-600/30" />
-      <div className="absolute inset-8 rounded-full border border-neutral-600/20" />
-      <div className="absolute inset-12 rounded-full border border-neutral-600/30" />
-      <div className="absolute inset-16 rounded-full border border-neutral-600/20" />
-      <div className="absolute inset-20 rounded-full border border-neutral-600/30" />
+      {/* Vinyl grooves - percentage based for mobile */}
+      <div className="absolute inset-[5%] rounded-full border border-neutral-600/30" />
+      <div className="absolute inset-[12%] rounded-full border border-neutral-600/20" />
+      <div className="absolute inset-[19%] rounded-full border border-neutral-600/30" />
+      <div className="absolute inset-[26%] rounded-full border border-neutral-600/20" />
 
       {/* Label area */}
       <div className="absolute inset-[30%] rounded-full bg-gradient-to-br from-green-600 via-green-500 to-green-700 shadow-inner">

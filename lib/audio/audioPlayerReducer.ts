@@ -7,6 +7,8 @@ export const initialAudioPlayerState: AudioPlayerState = {
   bufferedProgress: 0,
   currentTime: 0,
   duration: 0,
+  volume: 1,
+  isMuted: false,
 };
 
 const audioPlayerReducer = (
@@ -26,8 +28,12 @@ const audioPlayerReducer = (
       return { ...state, currentTime: action.payload };
     case "SET_DURATION":
       return { ...state, duration: action.payload };
+    case "SET_VOLUME":
+      return { ...state, volume: action.payload };
+    case "SET_MUTED":
+      return { ...state, isMuted: action.payload };
     case "RESET":
-      return initialAudioPlayerState;
+      return { ...initialAudioPlayerState, volume: state.volume, isMuted: state.isMuted };
     default:
       return state;
   }

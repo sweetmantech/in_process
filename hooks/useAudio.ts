@@ -102,6 +102,35 @@ const useAudio = () => {
     dispatch({ type: "SET_PROGRESS", payload: 0 });
   }, []);
 
+  const handleReset = useCallback(() => {
+    if (audioRef.current) {
+      audioRef.current.currentTime = 0;
+      audioRef.current.pause();
+    }
+    dispatch({ type: "SET_PLAYING", payload: false });
+    dispatch({ type: "SET_PROGRESS", payload: 0 });
+    dispatch({ type: "SET_CURRENT_TIME", payload: 0 });
+  }, []);
+
+  const handleVolumeChange = useCallback((value: number) => {
+    const clampedVolume = Math.max(0, Math.min(1, value));
+    if (audioRef.current) {
+      audioRef.current.volume = clampedVolume;
+    }
+    dispatch({ type: "SET_VOLUME", payload: clampedVolume });
+    if (clampedVolume > 0) {
+      dispatch({ type: "SET_MUTED", payload: false });
+    }
+  }, []);
+
+  const toggleMute = useCallback(() => {
+    if (audioRef.current) {
+      const newMuted = !state.isMuted;
+      audioRef.current.muted = newMuted;
+      dispatch({ type: "SET_MUTED", payload: newMuted });
+    }
+  }, [state.isMuted]);
+
   return {
     state,
     dispatch,
@@ -117,6 +146,9 @@ const useAudio = () => {
     handlePlaying,
     handleProgress,
     handleLoadedMetadata,
+    handleReset,
+    handleVolumeChange,
+    toggleMute,
   };
 };
 

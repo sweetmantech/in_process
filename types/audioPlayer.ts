@@ -5,6 +5,8 @@ export interface AudioPlayerState {
   bufferedProgress: number;
   currentTime: number;
   duration: number;
+  volume: number;
+  isMuted: boolean;
 }
 
 export type AudioPlayerAction =
@@ -14,4 +16,6 @@ export type AudioPlayerAction =
   | { type: "SET_BUFFERED_PROGRESS"; payload: number }
   | { type: "SET_CURRENT_TIME"; payload: number }
   | { type: "SET_DURATION"; payload: number }
+  | { type: "SET_VOLUME"; payload: number }
+  | { type: "SET_MUTED"; payload: boolean }
   | { type: "RESET" };

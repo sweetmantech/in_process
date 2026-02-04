@@ -33,8 +33,8 @@ const AudioPlayer = ({ thumbnailUrl, audioUrl }: { thumbnailUrl?: string; audioU
       )}
 
       {/* Album Art */}
-      <div className="relative z-10 flex flex-1 items-center justify-center p-3">
-        <div className="relative aspect-square w-full max-w-[95%] overflow-hidden rounded-lg shadow-2xl">
+      <div className="relative z-10 flex min-h-0 flex-1 items-center justify-center p-3">
+        <div className="relative aspect-square w-full max-w-[70%] overflow-hidden rounded-lg shadow-2xl sm:max-w-[95%]">
           {thumbnailUrl ? (
             <Image src={thumbnailUrl} alt="Audio cover" fill className="object-cover" unoptimized />
           ) : (
