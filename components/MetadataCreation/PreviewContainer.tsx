@@ -49,7 +49,11 @@ const PreviewContainer = ({ handleImageClick }: PreviewContainerProps) => {
   if (mimeType.includes("audio") && blobUrls.audio) {
     return (
       <Container className="relative">
-        <AudioPlayer audioUrl={blobUrls.audio} thumbnailUrl={blobUrls.preview} />
+        <AudioPlayer
+          audioUrl={blobUrls.audio}
+          thumbnailUrl={blobUrls.preview}
+          allowThumbnailUpload
+        />
         {isUploading && <UploadProgressOverlay uploadProgress={uploadProgress} />}
       </Container>
     );

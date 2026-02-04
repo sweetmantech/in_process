@@ -35,7 +35,11 @@ const MediaUploaded = ({ handleImageClick }: MediaUploadedProps) => {
     if (!animationFileUrl) return <Fragment />;
     return (
       <Container className="relative">
-        <AudioPlayer thumbnailUrl={previewFileUrl} audioUrl={animationFileUrl} />
+        <AudioPlayer
+          thumbnailUrl={previewFileUrl}
+          audioUrl={animationFileUrl}
+          allowThumbnailUpload
+        />
         {isUploading && <UploadProgressOverlay uploadProgress={uploadProgress} />}
       </Container>
     );

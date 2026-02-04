@@ -11,6 +11,9 @@ interface AudioContextValue {
   setAudioSrc: (src: string) => void;
   togglePlayPause: () => Promise<void>;
   handleSliderChange: (value: number[]) => void;
+  handleReset: () => void;
+  handleVolumeChange: (value: number) => void;
+  toggleMute: () => void;
 }
 
 const AudioContext = createContext<AudioContextValue | undefined>(undefined);
@@ -31,6 +34,9 @@ export function AudioProvider({ children }: { children: ReactNode }) {
     handlePlaying,
     handleProgress,
     handleLoadedMetadata,
+    handleReset,
+    handleVolumeChange,
+    toggleMute,
   } = useAudio();
 
   return (
@@ -42,6 +48,9 @@ export function AudioProvider({ children }: { children: ReactNode }) {
         setAudioSrc,
         togglePlayPause,
         handleSliderChange,
+        handleReset,
+        handleVolumeChange,
+        toggleMute,
       }}
     >
       {audioSrc && (
