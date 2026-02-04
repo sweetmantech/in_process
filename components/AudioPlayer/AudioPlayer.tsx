@@ -1,15 +1,12 @@
 import { useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { Pause, Play, Loader2 } from "lucide-react";
-import { Slider } from "@/components/ui/slider";
 import { useAudioProvider } from ".";
 import Image from "next/image";
-import ThumbnailUpload from "../MetadataCreation/ThumbnailUpload";
 import getStreamingUrl from "@/lib/audio/getStreamingUrl";
+import Controls from "./Controls";
+import DiscPlaceholder from "./DiscPlaceholder";
 
 const AudioPlayer = ({ thumbnailUrl, audioUrl }: { thumbnailUrl?: string; audioUrl: string }) => {
-  const { state, audioSrc, setAudioSrc, togglePlayPause, handleSliderChange } = useAudioProvider();
-  const { isPlaying, isLoading, progress, bufferedProgress } = state;
+  const { audioSrc, setAudioSrc } = useAudioProvider();
 
   useEffect(() => {
     const isBlob = audioUrl.startsWith("blob:");
@@ -20,56 +17,33 @@ const AudioPlayer = ({ thumbnailUrl, audioUrl }: { thumbnailUrl?: string; audioU
   }, [audioUrl, audioSrc, setAudioSrc]);
 
   return (
-    <div className="flex size-full flex-col items-center justify-center overflow-hidden rounded-lg bg-white shadow-lg px-2">
-      <div className="relative h-3/4 w-full">
-        {thumbnailUrl ? (
+    <div className="relative flex size-full flex-col overflow-hidden rounded-2xl bg-gradient-to-b from-neutral-900 to-neutral-950">
+      {/* Blurred background - Apple Music style */}
+      {thumbnailUrl && (
+        <div className="absolute inset-0 overflow-hidden">
           <Image
             src={thumbnailUrl}
-            alt="Audio cover"
-            layout="fill"
-            objectFit="contain"
-            objectPosition="center"
+            alt=""
+            fill
+            className="scale-110 blur-3xl opacity-40"
             unoptimized
           />
-        ) : (
-          <ThumbnailUpload />
-        )}
-      </div>
-      <div className="text-center">
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={(e) => {
-            e.stopPropagation();
-            togglePlayPause();
-          }}
-          disabled={isLoading && !isPlaying}
-          className="text-primary hover:text-primary-dark"
-        >
-          {isLoading ? (
-            <Loader2 className="size-6 animate-spin" />
-          ) : isPlaying ? (
-            <Pause className="size-6" />
+          <div className="absolute inset-0 bg-black/50" />
+        </div>
+      )}
+
+      {/* Album Art */}
+      <div className="relative z-10 flex flex-1 items-center justify-center p-3">
+        <div className="relative aspect-square w-full max-w-[95%] overflow-hidden rounded-lg shadow-2xl">
+          {thumbnailUrl ? (
+            <Image src={thumbnailUrl} alt="Audio cover" fill className="object-cover" unoptimized />
           ) : (
-            <Play className="size-6" />
+            <DiscPlaceholder />
           )}
-        </Button>
-      </div>
-      <div onClick={(e) => e.stopPropagation()} className="w-full">
-        <div className="relative">
-          <div
-            className="absolute top-1/2 left-0 h-2 -translate-y-1/2 rounded-full bg-gray-300"
-            style={{ width: `${bufferedProgress}%` }}
-          />
-          <Slider
-            value={[progress]}
-            onValueChange={handleSliderChange}
-            max={100}
-            step={1}
-            className="relative w-full bg-black"
-          />
         </div>
       </div>
+
+      <Controls />
     </div>
   );
 };
