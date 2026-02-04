@@ -4,8 +4,19 @@ import Image from "next/image";
 import getStreamingUrl from "@/lib/audio/getStreamingUrl";
 import Controls from "./Controls";
 import DiscPlaceholder from "./DiscPlaceholder";
+import ThumbnailUpload from "../MetadataCreation/ThumbnailUpload";
 
-const AudioPlayer = ({ thumbnailUrl, audioUrl }: { thumbnailUrl?: string; audioUrl: string }) => {
+interface AudioPlayerProps {
+  thumbnailUrl?: string;
+  audioUrl: string;
+  allowThumbnailUpload?: boolean;
+}
+
+const AudioPlayer = ({
+  thumbnailUrl,
+  audioUrl,
+  allowThumbnailUpload = false,
+}: AudioPlayerProps) => {
   const { audioSrc, setAudioSrc } = useAudioProvider();
 
   useEffect(() => {
@@ -37,6 +48,8 @@ const AudioPlayer = ({ thumbnailUrl, audioUrl }: { thumbnailUrl?: string; audioU
         <div className="relative aspect-square w-full max-w-[70%] overflow-hidden rounded-lg shadow-2xl sm:max-w-[95%]">
           {thumbnailUrl ? (
             <Image src={thumbnailUrl} alt="Audio cover" fill className="object-cover" unoptimized />
+          ) : allowThumbnailUpload ? (
+            <ThumbnailUpload />
           ) : (
             <DiscPlaceholder />
           )}
