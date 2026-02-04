@@ -1,19 +1,32 @@
 import { Button } from "@/components/ui/button";
-import { Pause, Play } from "lucide-react";
+import { Pause, Play, Loader2 } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import { useAudioPlayer } from "@/hooks/useAudioPlayer";
 import Image from "next/image";
 import ThumbnailUpload from "../MetadataCreation/ThumbnailUpload";
+import { useMemo } from "react";
+import { IN_PROCESS_API } from "@/lib/consts";
 
 const AudioPlayer = ({ thumbnailUrl, audioUrl }: { thumbnailUrl?: string; audioUrl: string }) => {
+  const streamingUrl = useMemo(() => {
+    return `${IN_PROCESS_API}/audio/stream?url=${encodeURIComponent(audioUrl)}`;
+  }, [audioUrl]);
+
   const {
     audioRef,
     isPlaying,
+    isLoading,
     progress,
+    bufferedProgress,
     togglePlayPause,
     handleTimeUpdate,
     handleSliderChange,
     handleEnded,
+    handleCanPlay,
+    handleWaiting,
+    handlePlaying,
+    handleProgress,
+    handleLoadedMetadata,
   } = useAudioPlayer();
 
   return (
@@ -32,7 +45,18 @@ const AudioPlayer = ({ thumbnailUrl, audioUrl }: { thumbnailUrl?: string; audioU
           <ThumbnailUpload />
         )}
       </div>
-      <audio ref={audioRef} src={audioUrl} onTimeUpdate={handleTimeUpdate} onEnded={handleEnded} />
+      <audio
+        ref={audioRef}
+        src={streamingUrl}
+        preload="metadata"
+        onTimeUpdate={handleTimeUpdate}
+        onEnded={handleEnded}
+        onCanPlay={handleCanPlay}
+        onWaiting={handleWaiting}
+        onPlaying={handlePlaying}
+        onProgress={handleProgress}
+        onLoadedMetadata={handleLoadedMetadata}
+      />
       <div className="text-center">
         <Button
           variant="ghost"
@@ -41,19 +65,32 @@ const AudioPlayer = ({ thumbnailUrl, audioUrl }: { thumbnailUrl?: string; audioU
             e.stopPropagation();
             togglePlayPause();
           }}
+          disabled={isLoading}
           className="text-primary hover:text-primary-dark"
         >
-          {isPlaying ? <Pause className="size-6" /> : <Play className="size-6" />}
+          {isLoading ? (
+            <Loader2 className="size-6 animate-spin" />
+          ) : isPlaying ? (
+            <Pause className="size-6" />
+          ) : (
+            <Play className="size-6" />
+          )}
         </Button>
       </div>
       <div onClick={(e) => e.stopPropagation()} className="w-full">
-        <Slider
-          value={[progress]}
-          onValueChange={handleSliderChange}
-          max={100}
-          step={1}
-          className="w-full bg-black"
-        />
+        <div className="relative">
+          <div
+            className="absolute top-1/2 left-0 h-2 -translate-y-1/2 rounded-full bg-gray-300"
+            style={{ width: `${bufferedProgress}%` }}
+          />
+          <Slider
+            value={[progress]}
+            onValueChange={handleSliderChange}
+            max={100}
+            step={1}
+            className="relative w-full bg-black"
+          />
+        </div>
       </div>
     </div>
   );
