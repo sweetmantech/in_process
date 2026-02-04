@@ -1,4 +1,4 @@
-import AudioPlayer from "../Renderers/AudioPlayer";
+import { AudioPlayer } from "@/components/AudioPlayer";
 import Image from "next/image";
 import React, { Fragment } from "react";
 import PdfViewer from "../Renderers/PdfViewer";

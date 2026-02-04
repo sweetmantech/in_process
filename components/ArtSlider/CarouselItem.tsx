@@ -2,7 +2,7 @@ import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import { isSafeIframeUrl } from "@/lib/protocolSdk/ipfs/isSafeIframeUrl";
 import PdfViewer from "../Renderers/PdfViewer";
 import VideoPlayer from "../Renderers/VideoPlayer";
-import AudioPlayer from "../Renderers/AudioPlayer";
+import { AudioPlayer } from "@/components/AudioPlayer";
 import Writing from "../Renderers/Writing";
 import ErrorContent from "../Renderers/ErrorContent";
 import { TokenMetadataJson } from "@/lib/protocolSdk";

@@ -1,33 +1,22 @@
+import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Pause, Play, Loader2 } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
-import { useAudioPlayer } from "@/hooks/useAudioPlayer";
+import { useAudioProvider } from ".";
 import Image from "next/image";
 import ThumbnailUpload from "../MetadataCreation/ThumbnailUpload";
-import { useMemo } from "react";
-import { IN_PROCESS_API } from "@/lib/consts";
+import getStreamingUrl from "@/lib/audio/getStreamingUrl";
 
 const AudioPlayer = ({ thumbnailUrl, audioUrl }: { thumbnailUrl?: string; audioUrl: string }) => {
-  const streamingUrl = useMemo(() => {
-    return `${IN_PROCESS_API}/audio/stream?url=${encodeURIComponent(audioUrl)}`;
-  }, [audioUrl]);
+  const { state, audioSrc, setAudioSrc, togglePlayPause, handleSliderChange } = useAudioProvider();
+  const { isPlaying, isLoading, progress, bufferedProgress } = state;
 
-  const {
-    audioRef,
-    isPlaying,
-    isLoading,
-    progress,
-    bufferedProgress,
-    togglePlayPause,
-    handleTimeUpdate,
-    handleSliderChange,
-    handleEnded,
-    handleCanPlay,
-    handleWaiting,
-    handlePlaying,
-    handleProgress,
-    handleLoadedMetadata,
-  } = useAudioPlayer();
+  useEffect(() => {
+    const streamingUrl = getStreamingUrl(audioUrl);
+    if (audioSrc !== streamingUrl) {
+      setAudioSrc(streamingUrl);
+    }
+  }, [audioUrl, audioSrc, setAudioSrc]);
 
   return (
     <div className="flex size-full flex-col items-center justify-center overflow-hidden rounded-lg bg-white shadow-lg px-2">
@@ -45,18 +34,6 @@ const AudioPlayer = ({ thumbnailUrl, audioUrl }: { thumbnailUrl?: string; audioU
           <ThumbnailUpload />
         )}
       </div>
-      <audio
-        ref={audioRef}
-        src={streamingUrl}
-        preload="metadata"
-        onTimeUpdate={handleTimeUpdate}
-        onEnded={handleEnded}
-        onCanPlay={handleCanPlay}
-        onWaiting={handleWaiting}
-        onPlaying={handlePlaying}
-        onProgress={handleProgress}
-        onLoadedMetadata={handleLoadedMetadata}
-      />
       <div className="text-center">
         <Button
           variant="ghost"
@@ -65,7 +42,7 @@ const AudioPlayer = ({ thumbnailUrl, audioUrl }: { thumbnailUrl?: string; audioU
             e.stopPropagation();
             togglePlayPause();
           }}
-          disabled={isLoading}
+          disabled={isLoading && !isPlaying}
           className="text-primary hover:text-primary-dark"
         >
           {isLoading ? (

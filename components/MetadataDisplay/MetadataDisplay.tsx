@@ -3,7 +3,7 @@ import { isSafeIframeUrl } from "@/lib/protocolSdk/ipfs/isSafeIframeUrl";
 import { usePathname } from "next/navigation";
 import PdfViewer from "../Renderers/PdfViewer";
 import VideoPlayer from "../Renderers/VideoPlayer";
-import AudioPlayer from "../Renderers/AudioPlayer";
+import { AudioPlayer } from "@/components/AudioPlayer";
 import useIsMobile from "@/hooks/useIsMobile";
 import Writing from "../Renderers/Writing";
 import { useMomentProvider } from "@/providers/MomentProvider";

@@ -5,7 +5,7 @@ import { isSafeIframeUrl } from "@/lib/protocolSdk/ipfs/isSafeIframeUrl";
 import { usePathname } from "next/navigation";
 import PdfViewer from "./PdfViewer";
 import VideoPlayer from "./VideoPlayer";
-import AudioPlayer from "./AudioPlayer";
+import { AudioPlayer } from "@/components/AudioPlayer";
 import useIsMobile from "@/hooks/useIsMobile";
 import Writing from "./Writing";
 import ErrorContent from "./ErrorContent";
