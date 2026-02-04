@@ -7,8 +7,7 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "In Process",
-  description:
-    "A Web3-native platform for documenting and monetizing the creative journey. Upload work-in-progress, mint onchain, and build a living archive of artistic evolution.",
+  description: "A timeline for artists. Upload work-in-progress, rewrite history in real time.",
   alternates: {
     types: {
       "text/plain": "/llms.txt",
