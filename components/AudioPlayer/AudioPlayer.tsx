@@ -12,9 +12,10 @@ const AudioPlayer = ({ thumbnailUrl, audioUrl }: { thumbnailUrl?: string; audioU
   const { isPlaying, isLoading, progress, bufferedProgress } = state;
 
   useEffect(() => {
-    const streamingUrl = getStreamingUrl(audioUrl);
-    if (audioSrc !== streamingUrl) {
-      setAudioSrc(streamingUrl);
+    const isBlob = audioUrl.startsWith("blob:");
+    const src = isBlob ? audioUrl : getStreamingUrl(audioUrl);
+    if (audioSrc !== src) {
+      setAudioSrc(src);
     }
   }, [audioUrl, audioSrc, setAudioSrc]);
 
