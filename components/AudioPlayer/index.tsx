@@ -1,3 +1,5 @@
+"use client";
+
 import AudioPlayerComponent from "./AudioPlayer";
 import { AudioProvider, useAudioProvider } from "@/providers/AudioProvider";
 
