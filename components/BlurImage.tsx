@@ -2,7 +2,7 @@
 
 import Image, { ImageProps } from "next/image";
 import { useState } from "react";
-import { getBlurUrl } from "@/lib/imageLoader";
+import getBlurUrl from "@/lib/media/getBlurUrl";
 
 type BlurImageProps = ImageProps & {
   src: string;
