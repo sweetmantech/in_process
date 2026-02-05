@@ -59,7 +59,6 @@ const Collections = () => {
                     width={30}
                     height={30}
                     className="h-full w-full object-cover"
-                    unoptimized
                   />
                 </div>
               )}

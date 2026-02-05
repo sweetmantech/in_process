@@ -36,8 +36,8 @@ const AudioPlayer = ({
             src={thumbnailUrl}
             alt=""
             fill
+            sizes="100vw"
             className="scale-110 blur-3xl opacity-40"
-            unoptimized
           />
           <div className="absolute inset-0 bg-black/50" />
         </div>
@@ -47,7 +47,13 @@ const AudioPlayer = ({
       <div className="relative z-10 flex min-h-0 flex-1 items-center justify-center p-3">
         <div className="relative aspect-square w-full max-w-[70%] overflow-hidden rounded-lg shadow-2xl sm:max-w-[95%]">
           {thumbnailUrl ? (
-            <Image src={thumbnailUrl} alt="Audio cover" fill className="object-cover" unoptimized />
+            <Image
+              src={thumbnailUrl}
+              alt="Audio cover"
+              fill
+              sizes="70vw"
+              className="object-cover"
+            />
           ) : allowThumbnailUpload ? (
             <ThumbnailUpload />
           ) : (

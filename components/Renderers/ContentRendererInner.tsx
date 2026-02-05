@@ -6,10 +6,10 @@ import { usePathname } from "next/navigation";
 import PdfViewer from "./PdfViewer";
 import VideoPlayer from "./VideoPlayer";
 import { AudioPlayer } from "@/components/AudioPlayer";
-import useIsMobile from "@/hooks/useIsMobile";
 import Writing from "./Writing";
 import ErrorContent from "./ErrorContent";
 import { TokenMetadataJson } from "@/lib/protocolSdk";
+import BlurImage from "@/components/BlurImage";
 
 interface ContentRendererProps {
   metadata: TokenMetadataJson;
@@ -17,7 +17,6 @@ interface ContentRendererProps {
 
 const ContentRendererInner = ({ metadata }: ContentRendererProps) => {
   const pathname = usePathname();
-  const isMobile = useIsMobile();
   const mimeType = metadata?.content?.mime || "";
   const isCollect = pathname.includes("/collect");
 
@@ -84,16 +83,13 @@ const ContentRendererInner = ({ metadata }: ContentRendererProps) => {
 
   return (
     <div className="relative h-full w-full">
-      {/* eslint-disable-next-line */}
-      <img
+      <BlurImage
         src={(isCollect && animationUrl) || imageUrl || "/images/placeholder.png"}
         alt={metadata?.name || metadata?.description || "Moment image"}
-        className="absolute inset-0 block h-full w-full object-cover"
-        loading="lazy"
-        decoding="async"
+        fill
+        sizes="(max-width: 768px) 100vw, 800px"
         draggable={false}
         style={{
-          imageRendering: isMobile ? "auto" : "pixelated",
           objectFit: "contain",
           objectPosition: "center",
         }}

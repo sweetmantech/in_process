@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import { cn } from "@/lib/utils";
+import BlurImage from "@/components/BlurImage";
 
 interface CollectionImageProps {
   src: string;
@@ -20,7 +20,7 @@ const CollectionImage = ({ src, alt, onClick, className }: CollectionImageProps)
       )}
       onClick={onClick}
     >
-      <Image src={src} alt={alt} fill className="object-cover p-1" unoptimized />
+      <BlurImage src={src} alt={alt} fill className="object-cover p-1" sizes="40px" />
     </div>
   );
 };

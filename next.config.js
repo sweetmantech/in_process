@@ -9,12 +9,8 @@ const nextConfig = {
     "pino",
   ],
   images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "**",
-      },
-    ],
+    loader: "custom",
+    loaderFile: "./lib/imageLoader.ts",
   },
 };
 

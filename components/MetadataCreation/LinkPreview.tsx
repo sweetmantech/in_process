@@ -39,7 +39,6 @@ const LinkPreview = () => {
               blurDataURL="/link.png"
               width={44}
               height={44}
-              unoptimized
               alt="not found link"
             />
             <p className="text-center font-archivo-medium">Paste any link from the internet</p>
@@ -51,8 +50,8 @@ const LinkPreview = () => {
                 src={previewFileUrl}
                 alt="not found image"
                 fill
+                sizes="(max-width: 768px) 90vw, 500px"
                 className="object-contain"
-                unoptimized
               />
             </div>
           )}

@@ -53,14 +53,7 @@ export default function OnboardingModal({ isOpen, onClose }: OnboardingModalProp
         onClick={handleAdvance}
       >
         <button onClick={onClose} className="absolute right-4 top-4 p-1">
-          <Image
-            src="/images/close-icon.svg"
-            alt="Close"
-            width={24}
-            height={24}
-            priority
-            unoptimized
-          />
+          <Image src="/images/close-icon.svg" alt="Close" width={24} height={24} priority />
         </button>
 
         <SlideContent currentSlide={currentSlide} />
