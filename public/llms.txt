@@ -1,6 +1,6 @@
 # In Process
 
-> A timeline for artists. It includes a protocol, an API, and multiple front end clients including Web, Telegram, and SMS.
+> A timeline for artists. It includes a protocol, an API, and multiple front-end clients including Web, Telegram, and SMS.
 
 In Process is a living archive of artistic evolution where artists, builders, and creatives can upload their work-in-progress and mint it onchain to a collective timeline. Your community, fans, and patrons can collect, comment, and support work as it unfolds.
 
