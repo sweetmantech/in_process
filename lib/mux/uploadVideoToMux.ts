@@ -46,8 +46,8 @@ export const uploadVideoToMux = async (
       try {
         // Poll for asset to be ready (max 30 retries, 2 seconds apart)
         let retries = 0;
-        const maxRetries = 30;
-        const retryDelay = 2000;
+        const maxRetries = 60;
+        const retryDelay = 3000;
 
         while (retries < maxRetries) {
           try {
