@@ -4,9 +4,9 @@ import { usePathname } from "next/navigation";
 import PdfViewer from "../Renderers/PdfViewer";
 import VideoPlayer from "../Renderers/VideoPlayer";
 import { AudioPlayer } from "@/components/AudioPlayer";
-import useIsMobile from "@/hooks/useIsMobile";
 import Writing from "../Renderers/Writing";
 import { useMomentProvider } from "@/providers/MomentProvider";
+import BlurImage from "@/components/BlurImage";
 
 /**
  * MetadataDisplay - Displays Moment metadata after creation.
@@ -16,7 +16,6 @@ import { useMomentProvider } from "@/providers/MomentProvider";
 const MetadataDisplay = () => {
   const { metadata } = useMomentProvider();
   const pathname = usePathname();
-  const isMobile = useIsMobile();
 
   if (!metadata) {
     return null;
@@ -96,16 +95,13 @@ const MetadataDisplay = () => {
 
   return (
     <div className="relative h-full w-full">
-      {/* eslint-disable-next-line */}
-      <img
+      <BlurImage
         src={(isCollect && animationUrl) || imageUrl || "/images/placeholder.png"}
         alt={metadata?.name || metadata?.description || "Token image"}
-        className="absolute inset-0 block h-full w-full"
-        loading="lazy"
-        decoding="async"
+        fill
+        sizes="(max-width: 768px) 100vw, 800px"
         draggable={false}
         style={{
-          imageRendering: isMobile ? "auto" : "pixelated",
           objectFit: "contain",
           objectPosition: "center",
         }}

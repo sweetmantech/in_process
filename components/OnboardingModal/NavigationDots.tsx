@@ -22,7 +22,6 @@ export const NavigationDots = ({ currentSlide, onSlideChange }: NavigationDotsPr
           width={16}
           height={16}
           priority
-          unoptimized
         />
       </button>
     ))}

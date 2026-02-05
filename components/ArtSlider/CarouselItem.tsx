@@ -6,6 +6,7 @@ import { AudioPlayer } from "@/components/AudioPlayer";
 import Writing from "../Renderers/Writing";
 import ErrorContent from "../Renderers/ErrorContent";
 import { TokenMetadataJson } from "@/lib/protocolSdk";
+import BlurImage from "@/components/BlurImage";
 
 interface CarouselItemProps {
   metadata: TokenMetadataJson;
@@ -75,14 +76,14 @@ const CarouselItem = ({ metadata }: CarouselItemProps) => {
     );
   }
   return (
-    <div className="relative size-full grow">
-      {/* eslint-disable-next-line */}
-      <img
-        src={getFetchableUrl(metadata.image) || "/images/placeholder.png"}
-        alt="Token Image."
-        className="w-full"
-      />
-    </div>
+    <BlurImage
+      src={getFetchableUrl(metadata.image) || "/images/placeholder.png"}
+      alt="Token Image."
+      width={600}
+      height={600}
+      sizes="(max-width: 768px) 100vw, 600px"
+      className="h-auto w-full"
+    />
   );
 };
 

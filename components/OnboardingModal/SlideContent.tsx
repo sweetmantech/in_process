@@ -23,7 +23,6 @@ export const SlideContent = ({ currentSlide }: SlideContentProps) => (
         height={slides[currentSlide].height}
         className="object-contain"
         priority
-        unoptimized
       />
     </div>
   </>

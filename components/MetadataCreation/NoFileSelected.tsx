@@ -19,7 +19,6 @@ const NoFileSelected = () => (
         src="/moment.svg"
         blurDataURL="moment.png"
         alt="not found moment"
-        unoptimized
         width={108}
         height={186}
         className="self-center"

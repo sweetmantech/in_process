@@ -13,7 +13,7 @@ const SliderFeed = ({ feed }: SliderFeedProps) => {
     <div
       role="button"
       tabIndex={0}
-      className="relative h-[200px] w-full cursor-pointer overflow-hidden rounded-md bg-grey-moss-100 font-spectral md:h-auto"
+      className="relative w-full cursor-pointer overflow-hidden rounded-md font-spectral"
       onClick={handleMomentClick}
       onKeyDown={(e) => e.key === "Enter" && handleMomentClick()}
     >
