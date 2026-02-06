@@ -51,7 +51,7 @@ const MediaUploaded = ({ handleImageClick }: MediaUploadedProps) => {
     }
     return (
       <Container className="relative">
-        <VideoPlayer url={animationFileUrl} thumbnail={previewFileUrl} />
+        <VideoPlayer url={animationFileUrl} thumbnail={previewFileUrl || undefined} />
         {isUploading && <UploadProgressOverlay uploadProgress={uploadProgress} />}
       </Container>
     );

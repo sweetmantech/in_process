@@ -9,7 +9,8 @@ interface VideoPlayerProps {
 }
 
 const VideoPlayer = ({ url, thumbnail }: VideoPlayerProps) => {
-  const { videoRef, isPlaying, isLoaded, stopPropagation, handlePlay, handleLoaded } = useVideo();
+  const { videoRef, isPlaying, isLoaded, stopPropagation, handlePlay, handleLoaded } =
+    useVideo(url);
 
   if (!isPlaying) {
     return (

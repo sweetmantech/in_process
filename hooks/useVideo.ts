@@ -1,9 +1,16 @@
-import { useRef, useState, type SyntheticEvent } from "react";
+import { useEffect, useRef, useState, type SyntheticEvent } from "react";
 
-const useVideo = () => {
+const useVideo = (url?: string) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    setIsPlaying(false);
+    setIsLoaded(false);
+    videoRef.current?.pause();
+    videoRef.current?.load();
+  }, [url]);
 
   const stopPropagation = (e: SyntheticEvent) => {
     e.stopPropagation();
@@ -16,7 +23,8 @@ const useVideo = () => {
 
   const handleLoaded = () => {
     setIsLoaded(true);
-    videoRef.current?.play();
+    const p = videoRef.current?.play();
+    if (p) p.catch(() => {});
   };
 
   return { videoRef, isPlaying, isLoaded, stopPropagation, handlePlay, handleLoaded };
