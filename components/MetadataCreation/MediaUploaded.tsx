@@ -2,7 +2,7 @@ import { AudioPlayer } from "@/components/AudioPlayer";
 import Image from "next/image";
 import React, { Fragment } from "react";
 import PdfViewer from "../Renderers/PdfViewer";
-import VideoPlayer from "../Renderers/VideoPlayer";
+import VideoPlayer from "@/components/VideoPlayer";
 import UploadProgressOverlay from "./UploadProgressOverlay";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 
@@ -51,7 +51,7 @@ const MediaUploaded = ({ handleImageClick }: MediaUploadedProps) => {
     }
     return (
       <Container className="relative">
-        <VideoPlayer url={animationFileUrl} />
+        <VideoPlayer url={animationFileUrl} thumbnail={previewFileUrl || undefined} />
         {isUploading && <UploadProgressOverlay uploadProgress={uploadProgress} />}
       </Container>
     );

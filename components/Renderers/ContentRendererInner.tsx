@@ -4,7 +4,7 @@ import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import { isSafeIframeUrl } from "@/lib/protocolSdk/ipfs/isSafeIframeUrl";
 import { usePathname } from "next/navigation";
 import PdfViewer from "./PdfViewer";
-import VideoPlayer from "./VideoPlayer";
+import VideoPlayer from "@/components/VideoPlayer";
 import { AudioPlayer } from "@/components/AudioPlayer";
 import Writing from "./Writing";
 import ErrorContent from "./ErrorContent";
@@ -41,7 +41,7 @@ const ContentRendererInner = ({ metadata }: ContentRendererProps) => {
     if (!animationUrl) return <ErrorContent />;
     return (
       <div className="flex size-full justify-center">
-        <VideoPlayer url={animationUrl} />
+        <VideoPlayer url={animationUrl} thumbnail={imageUrl || undefined} />
       </div>
     );
   }
