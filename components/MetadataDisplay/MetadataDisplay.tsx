@@ -2,7 +2,7 @@ import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import { isSafeIframeUrl } from "@/lib/protocolSdk/ipfs/isSafeIframeUrl";
 import { usePathname } from "next/navigation";
 import PdfViewer from "../Renderers/PdfViewer";
-import VideoPlayer from "../Renderers/VideoPlayer";
+import VideoPlayer from "@/components/VideoPlayer";
 import { AudioPlayer } from "@/components/AudioPlayer";
 import Writing from "../Renderers/Writing";
 import { useMomentProvider } from "@/providers/MomentProvider";
@@ -50,7 +50,7 @@ const MetadataDisplay = () => {
     if (!animationUrl) return null;
     return (
       <div className="flex size-full justify-center">
-        <VideoPlayer url={animationUrl} />
+        <VideoPlayer url={animationUrl} thumbnail={imageUrl || undefined} />
       </div>
     );
   }

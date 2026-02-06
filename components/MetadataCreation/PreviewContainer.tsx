@@ -2,7 +2,7 @@ import { AudioPlayer } from "@/components/AudioPlayer";
 import Image from "next/image";
 import React, { Fragment } from "react";
 import PdfViewer from "../Renderers/PdfViewer";
-import VideoPlayer from "../Renderers/VideoPlayer";
+import VideoPlayer from "@/components/VideoPlayer";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import Container from "./Container";
 import UploadProgressOverlay from "./UploadProgressOverlay";
@@ -62,7 +62,7 @@ const PreviewContainer = ({ handleImageClick }: PreviewContainerProps) => {
   if (mimeType.includes("video") && blobUrls.video) {
     return (
       <Container className="relative">
-        <VideoPlayer url={blobUrls.video} />
+        <VideoPlayer url={blobUrls.video} thumbnail={blobUrls.preview} />
         {isUploading && <UploadProgressOverlay uploadProgress={uploadProgress} />}
       </Container>
     );

@@ -1,7 +1,7 @@
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import { isSafeIframeUrl } from "@/lib/protocolSdk/ipfs/isSafeIframeUrl";
 import PdfViewer from "../Renderers/PdfViewer";
-import VideoPlayer from "../Renderers/VideoPlayer";
+import VideoPlayer from "@/components/VideoPlayer";
 import { AudioPlayer } from "@/components/AudioPlayer";
 import Writing from "../Renderers/Writing";
 import ErrorContent from "../Renderers/ErrorContent";
@@ -34,7 +34,7 @@ const CarouselItem = ({ metadata }: CarouselItemProps) => {
     if (!animationUrl) return <ErrorContent />;
     return (
       <div className="flex size-full justify-center">
-        <VideoPlayer url={animationUrl} />
+        <VideoPlayer url={animationUrl} thumbnail={getFetchableUrl(metadata.image) || undefined} />
       </div>
     );
   }
