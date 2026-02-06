@@ -52,7 +52,7 @@ const AudioPlayer = ({
               alt="Audio cover"
               fill
               sizes="70vw"
-              className="object-cover"
+              className="object-contain"
             />
           ) : allowThumbnailUpload ? (
             <ThumbnailUpload />
