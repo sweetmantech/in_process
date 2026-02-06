@@ -20,7 +20,7 @@ const AudioPlayer = ({
   const { audioSrc, setAudioSrc } = useAudioProvider();
 
   useEffect(() => {
-    const src = getStreamingUrl(audioSrc);
+    const src = getStreamingUrl(audioUrl);
     if (audioSrc !== src) {
       setAudioSrc(src);
     }
