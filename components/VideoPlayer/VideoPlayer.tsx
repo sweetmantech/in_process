@@ -9,8 +9,16 @@ interface VideoPlayerProps {
 }
 
 const VideoPlayer = ({ url, thumbnail }: VideoPlayerProps) => {
-  const { videoRef, isPlaying, isLoaded, stopPropagation, handlePlay, handleLoaded } =
-    useVideo(url);
+  const {
+    videoRef,
+    isPlaying,
+    isLoaded,
+    isError,
+    stopPropagation,
+    handlePlay,
+    handleLoaded,
+    handleError,
+  } = useVideo(url);
 
   if (!isPlaying) {
     return (
@@ -25,7 +33,8 @@ const VideoPlayer = ({ url, thumbnail }: VideoPlayerProps) => {
           thumbnail={thumbnail}
           onPlay={stopPropagation}
           onStopPropagation={stopPropagation}
-          isLoading
+          isLoading={!isError}
+          isError={isError}
         />
       )}
       <video
@@ -37,6 +46,7 @@ const VideoPlayer = ({ url, thumbnail }: VideoPlayerProps) => {
         onPointerDown={stopPropagation}
         onTouchStart={stopPropagation}
         onCanPlay={handleLoaded}
+        onError={handleError}
         key={url}
       >
         <source src={url} />

@@ -4,10 +4,12 @@ const useVideo = (url?: string) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   useEffect(() => {
     setIsPlaying(false);
     setIsLoaded(false);
+    setIsError(false);
     videoRef.current?.pause();
     videoRef.current?.load();
   }, [url]);
@@ -27,7 +29,20 @@ const useVideo = (url?: string) => {
     if (p) p.catch(() => {});
   };
 
-  return { videoRef, isPlaying, isLoaded, stopPropagation, handlePlay, handleLoaded };
+  const handleError = () => {
+    setIsError(true);
+  };
+
+  return {
+    videoRef,
+    isPlaying,
+    isLoaded,
+    isError,
+    stopPropagation,
+    handlePlay,
+    handleLoaded,
+    handleError,
+  };
 };
 
 export default useVideo;
