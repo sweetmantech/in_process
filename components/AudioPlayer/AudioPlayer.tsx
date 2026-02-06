@@ -20,8 +20,7 @@ const AudioPlayer = ({
   const { audioSrc, setAudioSrc } = useAudioProvider();
 
   useEffect(() => {
-    const isBlob = audioUrl.startsWith("blob:");
-    const src = isBlob ? audioUrl : getStreamingUrl(audioUrl);
+    const src = getStreamingUrl(audioSrc);
     if (audioSrc !== src) {
       setAudioSrc(src);
     }
