@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useAudioProvider } from ".";
 import Image from "next/image";
-import getStreamingUrl from "@/lib/audio/getStreamingUrl";
+import getStreamingUrl from "@/lib/media/getStreamingUrl";
 import Controls from "./Controls";
 import DiscPlaceholder from "./DiscPlaceholder";
 import ThumbnailUpload from "../MetadataCreation/ThumbnailUpload";

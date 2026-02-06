@@ -1,6 +1,7 @@
 "use client";
 
 import useVideo from "@/hooks/useVideo";
+import getStreamingUrl from "@/lib/media/getStreamingUrl";
 import VideoPreview from "./VideoPreview";
 
 interface VideoPlayerProps {
@@ -49,7 +50,7 @@ const VideoPlayer = ({ url, thumbnail }: VideoPlayerProps) => {
         onError={handleError}
         key={url}
       >
-        <source src={url} />
+        <source src={getStreamingUrl(url)} />
         Your browser does not support the video element.
       </video>
     </>
