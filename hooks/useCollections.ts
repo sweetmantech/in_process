@@ -9,7 +9,6 @@ export function useCollections() {
     queryFn: () => fetchCollections(1, 100, artistWallet),
     enabled: Boolean(artistWallet),
     staleTime: 60_000,
-    refetchInterval: 2000,
   });
 
   return {
