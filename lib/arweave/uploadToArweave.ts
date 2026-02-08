@@ -1,7 +1,12 @@
 import Arweave from "arweave";
-import postToArweave from "./postToArweave";
 
-const arweave = Arweave.init({});
+const arweave = Arweave.init({
+  host: "arweave.net",
+  port: 443,
+  protocol: "https",
+  timeout: 20000,
+  logging: false,
+});
 
 const uploadToArweave = async (
   file: File,
@@ -20,22 +25,18 @@ const uploadToArweave = async (
   );
   transaction.addTag("Content-Type", file.type);
   await arweave.transactions.sign(transaction, ARWEAVE_KEY);
+  const uploader = await arweave.transactions.getUploader(transaction);
 
-  const data = transaction.data;
-  const totalChunks = transaction.chunks!.chunks.length;
-
-  // Post transaction header via proxy (with data emptied for chunked upload)
-  transaction.data = new Uint8Array(0);
-  await postToArweave("tx", transaction);
-
-  // Upload each chunk via proxy
-  for (let i = 0; i < totalChunks; i++) {
-    const chunk = transaction.getChunk(i, data);
-    await postToArweave("chunk", chunk);
-    const pctComplete = Math.round(((i + 1) / totalChunks) * 100);
-    console.log(`${pctComplete}% complete, ${i + 1}/${totalChunks}`);
-    getProgress(pctComplete);
+  while (!uploader.isComplete) {
+    console.log(
+      `${uploader.pctComplete}% complete, ${uploader.uploadedChunks}/${uploader.totalChunks}`
+    );
+    getProgress(uploader.pctComplete);
+    await uploader.uploadChunk();
   }
+
+  // Ensure progress callback is called with 100% when upload completes
+  getProgress(100);
 
   return `ar://${transaction.id}`;
 };
