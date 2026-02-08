@@ -1,5 +1,7 @@
+import { IN_PROCESS_API } from "@/lib/consts";
+
 const postToArweave = async (path: string, body: unknown): Promise<Response> => {
-  const res = await fetch(`/api/arweave/${path}`, {
+  const res = await fetch(`${IN_PROCESS_API}/arweave/${path}`, {
     method: "POST",
     headers: { "Content-Type": "application/json", Accept: "text/plain" },
     body: JSON.stringify(body),
