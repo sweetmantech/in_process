@@ -12,6 +12,14 @@ const nextConfig = {
     loader: "custom",
     loaderFile: "./lib/media/imageLoader.ts",
   },
+  async rewrites() {
+    return [
+      {
+        source: "/api/arweave/:path*",
+        destination: "https://arweave.net/:path*",
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;
