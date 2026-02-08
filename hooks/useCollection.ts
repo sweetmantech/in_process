@@ -11,7 +11,6 @@ const useCollection = ({ collectionAddress, chainId }: FetchCollectionParams) =>
         chainId,
       }),
     enabled: Boolean(collectionAddress && chainId),
-    refetchInterval: 2000,
   });
 };
 

@@ -17,7 +17,6 @@ const useMomentData = (moment: Moment) => {
     enabled: Boolean(collectionAddress && tokenId && chainId),
     staleTime: 1000 * 60 * 5, // 5 minutes
     retry: (failureCount) => failureCount < 3,
-    refetchInterval: 3000, // Refetch every 3 seconds
   });
 
   const saleConfig = (query.data?.saleConfig as MomentSaleConfig) ?? null;
