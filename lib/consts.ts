@@ -13,7 +13,7 @@ export const ERC1967_IMPLEMENTATION_SLOT =
 export const IS_TESTNET = process.env.NEXT_PUBLIC_IS_TESTNET === "true" ? true : false;
 
 export const IN_PROCESS_API = `${IS_TESTNET ? "https://in-process-api-git-test-sweetmantechs-projects.vercel.app" : "https://api.inprocess.world"}/api`;
-export const IN_PROCESS_CRON_SOCKET_URL = "wss://178.128.149.25:3000";
+export const IN_PROCESS_CRON_SOCKET_URL = "ws://178.128.149.25:3000";
 
 export const PRIVY_PROJECT_SECRET = process.env.PRIVY_PROJECT_SECRET as string;
 // Coinbase
