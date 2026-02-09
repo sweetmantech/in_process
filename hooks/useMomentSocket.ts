@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { io } from "socket.io-client";
 import { Moment } from "@/types/moment";
 import { getAddress } from "viem";
+import { IN_PROCESS_CRON_SOCKET_URL } from "@/lib/consts";
 
 type MomentUpdatedPayload = {
   collectionAddress: string;
@@ -13,10 +14,7 @@ const useMomentSocket = (moment: Moment, fetchMomentData: () => void) => {
   const { collectionAddress, tokenId, chainId } = moment;
 
   useEffect(() => {
-    const socketUrl = process.env.NEXT_PUBLIC_SOCKET_URL;
-    if (!socketUrl) return;
-
-    const socket = io(socketUrl);
+    const socket = io(IN_PROCESS_CRON_SOCKET_URL);
 
     socket.on("moment:updated", (payload: MomentUpdatedPayload) => {
       const addressMatch = getAddress(payload.collectionAddress) === getAddress(collectionAddress);
