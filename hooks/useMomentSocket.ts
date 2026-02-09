@@ -17,12 +17,17 @@ const useMomentSocket = (moment: Moment, fetchMomentData: () => void) => {
     const socket = io(IN_PROCESS_CRON_SOCKET_URL);
 
     socket.on("moment:updated", (payload: MomentUpdatedPayload) => {
-      const addressMatch = getAddress(payload.collectionAddress) === getAddress(collectionAddress);
-      const tokenMatch = String(payload.tokenId) === String(tokenId);
-      const chainMatch = payload.chainId === chainId;
+      try {
+        const addressMatch =
+          getAddress(payload.collectionAddress) === getAddress(collectionAddress);
+        const tokenMatch = String(payload.tokenId) === String(tokenId);
+        const chainMatch = payload.chainId === chainId;
 
-      if (addressMatch && tokenMatch && chainMatch) {
-        fetchMomentData();
+        if (addressMatch && tokenMatch && chainMatch) {
+          fetchMomentData();
+        }
+      } catch (e) {
+        console.error("moment:updated handler error", e);
       }
     });
 
