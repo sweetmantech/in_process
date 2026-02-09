@@ -1,6 +1,6 @@
 import { IN_PROCESS_API } from "@/lib/consts";
 
-const MAX_RETRIES = 3;
+const MAX_RETRIES = 5;
 
 const postToArweave = async (path: string, body: unknown): Promise<Response> => {
   for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
