@@ -9,7 +9,7 @@ import { useMetadataUploadProvider } from "@/providers/MetadataUploadProvider";
 import { migrateMuxToArweaveApi } from "@/lib/mux/migrateMuxToArweaveApi";
 
 const useUpdateCollectionURI = () => {
-  const { data: collection, refetch } = useCollectionProvider();
+  const { data: collection } = useCollectionProvider();
   const { name, mimeType } = useMetadataFormProvider();
   const { getAccessToken } = usePrivy();
   const { generateMetadataUri } = useMetadataUploadProvider();
@@ -55,9 +55,6 @@ const useUpdateCollectionURI = () => {
           accessToken
         );
       }
-
-      // Fetch updated metadata
-      refetch();
     } catch (error: any) {
       console.error(error);
       toast.error(error?.message || "Failed to update collection metadata");
