@@ -1,4 +1,3 @@
-import React from "react";
 import MomentCount from "@/components/Timeline/MomentCount";
 import CreateButton from "@/components/Timeline/CreateButton";
 
