@@ -17,15 +17,13 @@ const useCollectionSocket = (collectionAddress: string, chainId: number) => {
 
     socket.on("collection:updated", (payload: CollectionUpdatedPayload) => {
       try {
-        console.log("ziad here");
         const addressMatch =
           getAddress(payload.collectionAddress) === getAddress(collectionAddress);
         const chainMatch = payload.chainId === chainId;
 
         if (addressMatch && chainMatch) {
-          console.log("invalidateQueries");
-          queryClient.invalidateQueries({
-            queryKey: ["collection", collectionAddress, chainId],
+          queryClient.resetQueries({
+            queryKey: ["collection"],
           });
         }
       } catch (e) {
