@@ -1,7 +1,6 @@
 "use client";
 
 import { useTimelineProvider } from "@/providers/TimelineProvider";
-import Loading from "@/components/Loading";
 import TimelineHero from "@/components/Timeline/TimelineHero";
 import MobileMomentsSection from "@/components/Timeline/MobileMomentsSection";
 import TimelineSpiral from "@/components/Timeline/TimelineSpiral";
@@ -9,9 +8,11 @@ import TimelineMobileMoon from "@/components/Timeline/TimelineMobileMoon";
 import HorizontalTimeline from "@/components/Timeline/HorizontalTimeline";
 import { TimelineAnimationProvider } from "@/providers/TimelineAnimationProvider";
 import TimelineGrid from "@/components/Timeline/TimelineGrid";
+import { useInProcessMomentsSocket } from "@/hooks/useInProcessMomentsSocket";
 
 const TimelinePage = () => {
   const { error, moments } = useTimelineProvider();
+  useInProcessMomentsSocket();
 
   if (error) return <main>Error loading timeline.</main>;
 
