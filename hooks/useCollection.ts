@@ -11,6 +11,7 @@ const useCollection = ({ collectionAddress, chainId }: FetchCollectionParams) =>
         chainId,
       }),
     enabled: Boolean(collectionAddress && chainId),
+    staleTime: 1000 * 60 * 5,
   });
 };
 
