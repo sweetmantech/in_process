@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { getAddress } from "viem";
 import getSocket from "@/lib/socket/getSocket";
@@ -10,17 +10,16 @@ type CollectionUpdatedPayload = {
 
 const useCollectionSocket = (collectionAddress: string, chainId: number) => {
   const queryClient = useQueryClient();
-  const paramsRef = useRef({ collectionAddress, chainId });
-  paramsRef.current = { collectionAddress, chainId };
 
   useEffect(() => {
     const socket = getSocket();
 
     const handleCollectionUpdate = (payload: CollectionUpdatedPayload) => {
       try {
-        const { collectionAddress: addr, chainId: cId } = paramsRef.current;
-        const addressMatch = getAddress(payload.collectionAddress) === getAddress(addr);
-        const chainMatch = payload.chainId === cId;
+        console.log("ziad here", payload);
+        const addressMatch =
+          getAddress(payload.collectionAddress) === getAddress(collectionAddress);
+        const chainMatch = payload.chainId === chainId;
 
         if (addressMatch && chainMatch) {
           queryClient.invalidateQueries({
@@ -40,7 +39,7 @@ const useCollectionSocket = (collectionAddress: string, chainId: number) => {
       socket.off("collection:admin:updated", handleCollectionUpdate);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [collectionAddress, chainId]);
 };
 
 export default useCollectionSocket;
