@@ -15,7 +15,7 @@ const useCollectionSocket = (collectionAddress: string, chainId: number) => {
   useEffect(() => {
     const socket = io(IN_PROCESS_CRON_SOCKET_URL);
 
-    socket.on("collection:updated", (payload: CollectionUpdatedPayload) => {
+    const handleCollectionUpdate = (payload: CollectionUpdatedPayload) => {
       try {
         const addressMatch =
           getAddress(payload.collectionAddress) === getAddress(collectionAddress);
@@ -29,7 +29,10 @@ const useCollectionSocket = (collectionAddress: string, chainId: number) => {
       } catch (e) {
         console.error("collection:updated handler error", e);
       }
-    });
+    };
+
+    socket.on("collection:updated", handleCollectionUpdate);
+    socket.on("collection:admin:updated", handleCollectionUpdate);
 
     return () => {
       socket.disconnect();
