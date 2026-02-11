@@ -13,7 +13,7 @@ const useCollectionSocket = (collectionAddress: string, chainId: number) => {
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    const socket = io(IN_PROCESS_CRON_SOCKET_URL);
+    const socket = io(IN_PROCESS_CRON_SOCKET_URL, { forceNew: true });
 
     const handleCollectionUpdate = (payload: CollectionUpdatedPayload) => {
       try {
@@ -22,7 +22,7 @@ const useCollectionSocket = (collectionAddress: string, chainId: number) => {
         const chainMatch = payload.chainId === chainId;
 
         if (addressMatch && chainMatch) {
-          queryClient.resetQueries({
+          queryClient.invalidateQueries({
             queryKey: ["collection"],
           });
         }
@@ -35,7 +35,8 @@ const useCollectionSocket = (collectionAddress: string, chainId: number) => {
     socket.on("collection:admin:updated", handleCollectionUpdate);
 
     return () => {
-      socket.removeAllListeners();
+      socket.off("collection:updated", handleCollectionUpdate);
+      socket.off("collection:admin:updated", handleCollectionUpdate);
       socket.disconnect();
     };
   }, [collectionAddress, chainId, queryClient]);
