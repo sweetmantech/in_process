@@ -35,6 +35,7 @@ const useCollectionSocket = (collectionAddress: string, chainId: number) => {
     socket.on("collection:admin:updated", handleCollectionUpdate);
 
     return () => {
+      socket.removeAllListeners();
       socket.disconnect();
     };
   }, [collectionAddress, chainId, queryClient]);
