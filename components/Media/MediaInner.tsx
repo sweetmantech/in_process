@@ -32,11 +32,11 @@ const MediaInner = ({ metadata, isOwner, isLoading, isSaving, SaveButton }: Medi
   return (
     <Fragment>
       <div className="w-full font-archivo">
-        <div className="mt-4 max-w-md rounded-lg bg-white p-6 shadow-sm">
+        <div className="mt-4 max-w-md rounded-lg bg-white p-4 md:p-6 shadow-sm">
           <div className="space-y-4">
             <TitleInput disabled={!isOwner || isSaving} labelHidden={false} />
             <DescriptionInput disabled={!isOwner || isSaving} labelHidden={false} />
-            <div className="md:min-h-auto relative min-h-[400px] bg-[url('/grid.svg')] bg-contain md:aspect-[571/692]">
+            <div className="relative aspect-[571/692] min-h-[300px] bg-[url('/grid.svg')] bg-contain">
               {editActive ? (
                 <AnimationUpload isOwner={isOwner} isSaving={isSaving} />
               ) : (

@@ -26,7 +26,7 @@ const Moment: FC<MomentProps> = ({ moment, hovered, step, height, index }) => {
 
   return (
     <motion.div
-      className="relative px-0"
+      className="relative"
       style={{
         paddingLeft: `${TIMLINE_STEP_OFFSET * step}px`,
       }}

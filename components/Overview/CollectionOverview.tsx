@@ -21,7 +21,7 @@ const CollectionOverview = () => {
   if (isLoading || !metadata) return <CollectionOverviewSkeleton />;
 
   return (
-    <div className="w-full px-4 pt-8 md:px-10">
+    <div className="w-full px-2 pt-0 md:pt-8 md:px-10">
       <Breadcrumbs
         items={[
           {

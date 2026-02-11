@@ -17,7 +17,7 @@ const MomentOverview = () => {
   const collectionHref = `/manage/${networkConfigByChain[collection.chain_id].zoraCollectPathChainName}:${collection.address}`;
 
   return (
-    <div className="w-full px-4 pt-8 md:px-10">
+    <div className="w-full md:pt-8 md:px-10">
       <Breadcrumbs
         items={[
           {
