@@ -20,6 +20,5 @@ export function useInProcessMomentsSocket() {
     return () => {
       socket.off("moments:count-updated", handleCountUpdated);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [queryClient]);
 }

@@ -34,8 +34,7 @@ const useMomentSocket = (moment: Moment, fetchMomentData: () => void) => {
     return () => {
       socket.off("moment:updated", handleMomentUpdate);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [collectionAddress, tokenId, chainId]);
+  }, [collectionAddress, tokenId, chainId, fetchMomentData]);
 };
 
 export default useMomentSocket;
