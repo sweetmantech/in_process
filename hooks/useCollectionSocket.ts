@@ -9,8 +9,6 @@ type CollectionUpdatedPayload = {
   chainId: number;
 };
 
-const DEBOUNCE_MS = 2000;
-
 const useCollectionSocket = (collectionAddress: string, chainId: number) => {
   const queryClient = useQueryClient();
   const debounceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -20,6 +18,8 @@ const useCollectionSocket = (collectionAddress: string, chainId: number) => {
 
     const handleCollectionUpdate = (payload: CollectionUpdatedPayload) => {
       try {
+        const DEBOUNCE_MS = 2000;
+
         const addressMatch =
           getAddress(payload.collectionAddress) === getAddress(collectionAddress);
         const chainMatch = payload.chainId === chainId;
