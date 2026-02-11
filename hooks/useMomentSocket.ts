@@ -1,8 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { io } from "socket.io-client";
 import { Moment } from "@/types/moment";
 import { getAddress } from "viem";
 import { IN_PROCESS_CRON_SOCKET_URL } from "@/lib/consts";
+
 type MomentUpdatedPayload = {
   collectionAddress: string;
   tokenId: number;
@@ -11,11 +12,12 @@ type MomentUpdatedPayload = {
 
 const useMomentSocket = (moment: Moment, fetchMomentData: () => void) => {
   const { collectionAddress, tokenId, chainId } = moment;
+  const debounceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    const socket = io(IN_PROCESS_CRON_SOCKET_URL);
+    const socket = io(IN_PROCESS_CRON_SOCKET_URL, { forceNew: true });
 
-    socket.on("moment:updated", (payload: MomentUpdatedPayload) => {
+    const handleMomentUpdate = (payload: MomentUpdatedPayload) => {
       try {
         const addressMatch =
           getAddress(payload.collectionAddress) === getAddress(collectionAddress);
@@ -23,14 +25,21 @@ const useMomentSocket = (moment: Moment, fetchMomentData: () => void) => {
         const chainMatch = payload.chainId === chainId;
 
         if (addressMatch && tokenMatch && chainMatch) {
-          fetchMomentData();
+          if (debounceTimer.current) clearTimeout(debounceTimer.current);
+          debounceTimer.current = setTimeout(() => {
+            fetchMomentData();
+          }, 2000);
         }
       } catch (e) {
-        console.error("moment:updated handler error", e);
+        console.error("moment update handler error", e);
       }
-    });
+    };
+
+    socket.on("moment:updated", handleMomentUpdate);
+    socket.on("moment:admin:updated", handleMomentUpdate);
 
     return () => {
+      if (debounceTimer.current) clearTimeout(debounceTimer.current);
       socket.disconnect();
     };
   }, [collectionAddress, tokenId, chainId, fetchMomentData]);
