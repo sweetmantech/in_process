@@ -22,7 +22,7 @@ const useCollectionSocket = (collectionAddress: string, chainId: number) => {
         const chainMatch = payload.chainId === chainId;
 
         if (addressMatch && chainMatch) {
-          queryClient.resetQueries({
+          queryClient.invalidateQueries({
             queryKey: ["collection"],
           });
         }
