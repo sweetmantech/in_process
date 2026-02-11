@@ -8,7 +8,7 @@ import { migrateMuxToArweaveApi } from "@/lib/mux/migrateMuxToArweaveApi";
 import useMetadataUpload from "@/hooks/useMetadataUpload";
 
 const useUpdateMomentURI = () => {
-  const { moment, fetchMomentData, metadata } = useMomentProvider();
+  const { moment, metadata } = useMomentProvider();
   const {
     name,
     mimeType,
@@ -73,9 +73,6 @@ const useUpdateMomentURI = () => {
 
       // Reset media state after successful save (for all file types)
       resetMediaState();
-
-      // Fetch updated metadata to show in ContentRenderer
-      fetchMomentData();
     } catch (error: any) {
       console.error(error);
       toast.error(error?.message || "Failed to update token metadata");
