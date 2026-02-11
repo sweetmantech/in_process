@@ -15,7 +15,6 @@ const useCollectionSocket = (collectionAddress: string, chainId: number) => {
   useEffect(() => {
     const socket = io(IN_PROCESS_CRON_SOCKET_URL);
 
-    console.log("ziad here");
     const handleCollectionUpdate = (payload: CollectionUpdatedPayload) => {
       try {
         const addressMatch =
