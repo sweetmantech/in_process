@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { io } from "socket.io-client";
 import { getAddress } from "viem";
@@ -9,49 +9,39 @@ type CollectionUpdatedPayload = {
   chainId: number;
 };
 
+const DEBOUNCE_MS = 2000;
+
 const useCollectionSocket = (collectionAddress: string, chainId: number) => {
   const queryClient = useQueryClient();
+  const debounceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     const socket = io(IN_PROCESS_CRON_SOCKET_URL, { forceNew: true });
 
-    // const handleCollectionUpdate = (payload: CollectionUpdatedPayload) => {
-    //   try {
-    //     const addressMatch =
-    //       getAddress(payload.collectionAddress) === getAddress(collectionAddress);
-    //     const chainMatch = payload.chainId === chainId;
-
-    //     if (addressMatch && chainMatch) {
-    //       queryClient.invalidateQueries({
-    //         queryKey: ["collection"],
-    //       });
-    //     }
-    //   } catch (e) {
-    //     console.error("collection update handler error", e);
-    //   }
-    // };
-    socket.on("collection:admin:updated", (payload: CollectionUpdatedPayload) => {
+    const handleCollectionUpdate = (payload: CollectionUpdatedPayload) => {
       try {
         const addressMatch =
           getAddress(payload.collectionAddress) === getAddress(collectionAddress);
         const chainMatch = payload.chainId === chainId;
 
         if (addressMatch && chainMatch) {
-          queryClient.invalidateQueries({
-            queryKey: ["collection"],
-          });
+          if (debounceTimer.current) clearTimeout(debounceTimer.current);
+          debounceTimer.current = setTimeout(() => {
+            queryClient.invalidateQueries({
+              queryKey: ["collection"],
+            });
+          }, DEBOUNCE_MS);
         }
       } catch (e) {
         console.error("collection update handler error", e);
       }
-    });
+    };
 
-    // socket.on("collection:updated", handleCollectionUpdate);
-    // socket.on("collection:admin:updated", handleCollectionUpdate);
+    socket.on("collection:updated", handleCollectionUpdate);
+    socket.on("collection:admin:updated", handleCollectionUpdate);
 
     return () => {
-      // socket.off("collection:updated", handleCollectionUpdate);
-      // socket.off("collection:admin:updated", handleCollectionUpdate);
+      if (debounceTimer.current) clearTimeout(debounceTimer.current);
       socket.disconnect();
     };
   }, [collectionAddress, chainId, queryClient]);
