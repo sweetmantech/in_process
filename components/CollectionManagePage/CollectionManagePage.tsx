@@ -23,7 +23,7 @@ const CollectionManagePage = () => {
       <MetadataUploadProvider>
         <CollectionOverview />
         <Tabs selectedTab={selectedTab} onChangeTab={(value: number) => setSelectedTab(value)} />
-        <div className="px-4 md:px-10">
+        <div className="px-2 md:px-10">
           {selectedTab === COLLECTION_MANAGE_TABS.MEDIA && <CollectionMedia />}
           {selectedTab === COLLECTION_MANAGE_TABS.ADMINS && <Admins />}
         </div>

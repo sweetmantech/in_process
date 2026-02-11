@@ -12,7 +12,7 @@ interface TabsProps {
 
 const Tabs = ({ selectedTab, onChangeTab }: TabsProps) => {
   return (
-    <section className="w-full px-4 pt-4 md:px-10">
+    <section className="w-full px-2 pt-4 md:px-10">
       <div className="flex gap-1 md:gap-4">
         <TabButton
           label="Media"

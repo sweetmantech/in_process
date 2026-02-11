@@ -24,7 +24,10 @@ const OverviewContent = ({ metadata, name, address }: OverviewContentProps) => {
         <p className="font-archivo-medium text-xl md:text-4xl truncate min-w-0 max-w-[200px]">
           {name}
         </p>
-        <CopyButton text={address} />
+        <CopyButton
+          text={address}
+          className="bg-grey-moss-50 px-3 py-1 text-xs text-grey-moss-200 hover:text-grey-moss-400"
+        />
       </div>
     </div>
   );

@@ -12,7 +12,7 @@ interface ManageTabsProps {
 }
 const ManageTabs = ({ selectedTab, onChangeTab }: ManageTabsProps) => {
   return (
-    <section className="w-full px-4 pt-4 md:px-10">
+    <section className="w-full px-0 pt-4 md:px-10">
       <div className="flex gap-1 md:gap-4">
         <TabButton
           label="Airdrop"

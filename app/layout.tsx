@@ -22,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="bg-grey-moss-100">
-      <body className="flex min-h-screen w-screen flex-col !overflow-x-hidden !lowercase">
+      <body className="flex min-h-screen w-full flex-col !overflow-x-hidden !lowercase">
         <Suspense>
           <Providers>{children}</Providers>
           <Toaster />
