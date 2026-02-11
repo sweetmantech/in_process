@@ -15,7 +15,22 @@ const useCollectionSocket = (collectionAddress: string, chainId: number) => {
   useEffect(() => {
     const socket = io(IN_PROCESS_CRON_SOCKET_URL, { forceNew: true });
 
-    const handleCollectionUpdate = (payload: CollectionUpdatedPayload) => {
+    // const handleCollectionUpdate = (payload: CollectionUpdatedPayload) => {
+    //   try {
+    //     const addressMatch =
+    //       getAddress(payload.collectionAddress) === getAddress(collectionAddress);
+    //     const chainMatch = payload.chainId === chainId;
+
+    //     if (addressMatch && chainMatch) {
+    //       queryClient.invalidateQueries({
+    //         queryKey: ["collection"],
+    //       });
+    //     }
+    //   } catch (e) {
+    //     console.error("collection update handler error", e);
+    //   }
+    // };
+    socket.on("collection:admin:updated", (payload: CollectionUpdatedPayload) => {
       try {
         const addressMatch =
           getAddress(payload.collectionAddress) === getAddress(collectionAddress);
@@ -29,14 +44,14 @@ const useCollectionSocket = (collectionAddress: string, chainId: number) => {
       } catch (e) {
         console.error("collection update handler error", e);
       }
-    };
+    });
 
-    socket.on("collection:updated", handleCollectionUpdate);
-    socket.on("collection:admin:updated", handleCollectionUpdate);
+    // socket.on("collection:updated", handleCollectionUpdate);
+    // socket.on("collection:admin:updated", handleCollectionUpdate);
 
     return () => {
-      socket.off("collection:updated", handleCollectionUpdate);
-      socket.off("collection:admin:updated", handleCollectionUpdate);
+      // socket.off("collection:updated", handleCollectionUpdate);
+      // socket.off("collection:admin:updated", handleCollectionUpdate);
       socket.disconnect();
     };
   }, [collectionAddress, chainId, queryClient]);
