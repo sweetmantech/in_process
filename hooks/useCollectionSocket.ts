@@ -38,7 +38,8 @@ const useCollectionSocket = (collectionAddress: string, chainId: number) => {
       socket.off("collection:updated", handleCollectionUpdate);
       socket.off("collection:admin:updated", handleCollectionUpdate);
     };
-  }, [collectionAddress, chainId, queryClient]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [collectionAddress, chainId]);
 };
 
 export default useCollectionSocket;
