@@ -1,7 +1,8 @@
 import { useEffect } from "react";
+import { io } from "socket.io-client";
 import { Moment } from "@/types/moment";
 import { getAddress } from "viem";
-import getSocket from "@/lib/socket/getSocket";
+import { IN_PROCESS_CRON_SOCKET_URL } from "@/lib/consts";
 type MomentUpdatedPayload = {
   collectionAddress: string;
   tokenId: number;
@@ -12,9 +13,9 @@ const useMomentSocket = (moment: Moment, fetchMomentData: () => void) => {
   const { collectionAddress, tokenId, chainId } = moment;
 
   useEffect(() => {
-    const socket = getSocket();
+    const socket = io(IN_PROCESS_CRON_SOCKET_URL);
 
-    const handleMomentUpdate = (payload: MomentUpdatedPayload) => {
+    socket.on("moment:updated", (payload: MomentUpdatedPayload) => {
       try {
         const addressMatch =
           getAddress(payload.collectionAddress) === getAddress(collectionAddress);
@@ -27,12 +28,10 @@ const useMomentSocket = (moment: Moment, fetchMomentData: () => void) => {
       } catch (e) {
         console.error("moment:updated handler error", e);
       }
-    };
-
-    socket.on("moment:updated", handleMomentUpdate);
+    });
 
     return () => {
-      socket.off("moment:updated", handleMomentUpdate);
+      socket.disconnect();
     };
   }, [collectionAddress, tokenId, chainId, fetchMomentData]);
 };
