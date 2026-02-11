@@ -1,23 +1,24 @@
 import { useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { io } from "socket.io-client";
-import { IN_PROCESS_CRON_SOCKET_URL } from "@/lib/consts";
+import getSocket from "@/lib/socket/getSocket";
 
 export function useInProcessMomentsSocket() {
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    const socket = io(IN_PROCESS_CRON_SOCKET_URL);
+    const socket = getSocket();
 
-    socket.on("moments:count-updated", () => {
+    const handleCountUpdated = () => {
       queryClient.invalidateQueries({ queryKey: ["total-moments-count"] });
       queryClient.resetQueries({
         queryKey: ["timeline"],
       });
-    });
+    };
+
+    socket.on("moments:count-updated", handleCountUpdated);
 
     return () => {
-      socket.disconnect();
+      socket.off("moments:count-updated", handleCountUpdated);
     };
   }, [queryClient]);
 }

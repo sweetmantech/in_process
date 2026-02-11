@@ -1,8 +1,7 @@
 import { useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { io } from "socket.io-client";
 import { getAddress } from "viem";
-import { IN_PROCESS_CRON_SOCKET_URL } from "@/lib/consts";
+import getSocket from "@/lib/socket/getSocket";
 
 type CollectionUpdatedPayload = {
   collectionAddress: string;
@@ -13,7 +12,7 @@ const useCollectionSocket = (collectionAddress: string, chainId: number) => {
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    const socket = io(IN_PROCESS_CRON_SOCKET_URL);
+    const socket = getSocket();
 
     const handleCollectionUpdate = (payload: CollectionUpdatedPayload) => {
       try {
@@ -36,7 +35,8 @@ const useCollectionSocket = (collectionAddress: string, chainId: number) => {
     socket.on("collection:admin:updated", handleCollectionUpdate);
 
     return () => {
-      socket.disconnect();
+      socket.off("collection:updated", handleCollectionUpdate);
+      socket.off("collection:admin:updated", handleCollectionUpdate);
     };
   }, [collectionAddress, chainId, queryClient]);
 };
