@@ -9,6 +9,7 @@ import CommentSection from "./CommentSection";
 import MetadataDisplay from "../MetadataDisplay";
 import BackToTimeline from "./BackToTimeline";
 import MomentAirdrop from "../MomentAirdrop/MomentAirdrop";
+import Collectors from "./Collectors";
 import { useMomentCollectProvider } from "@/providers/MomentCollectProvider";
 
 const Moment = () => {
@@ -34,6 +35,7 @@ const Moment = () => {
               {collected ? <MetaAndComments priceHidden /> : <CollectModal />}
               {!collected && isMobile && <CommentSection />}
               {!collected && isOwner && !isSoldOut && <MomentAirdrop />}
+              <Collectors />
             </div>
           </>
         )}

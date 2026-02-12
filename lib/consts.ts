@@ -20,6 +20,7 @@ export const PRIVY_PROJECT_SECRET = process.env.PRIVY_PROJECT_SECRET as string;
 export const CDP_PAYMASTER_URL = `https://api.developer.coinbase.com/rpc/v1/base${IS_TESTNET ? "-sepolia" : ""}/${process.env.CDP_PAYMASTER_KEY}`;
 
 // Wagmi
+export const EXPLORER_URL = IS_TESTNET ? "https://sepolia.basescan.org" : "https://basescan.org";
 export const CHAIN = IS_TESTNET ? baseSepolia : base;
 export const CHAIN_ID = CHAIN.id;
 // Zora

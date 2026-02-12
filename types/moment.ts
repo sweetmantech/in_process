@@ -96,3 +96,21 @@ export interface MigrateMomentsApiResult {
   message: string;
   results: MigrateMomentsResult[];
 }
+
+export interface Collector {
+  id: string;
+  collector: string;
+  username: string;
+  amount: number;
+  transactionHash: string;
+  timestamp: number;
+}
+
+export interface MomentCollectorsInput {
+  moment: Moment;
+  offset?: number;
+}
+
+export interface MomentCollectorsResult {
+  collectors: Collector[];
+}
