@@ -24,8 +24,8 @@ const MetaAndComments = ({ priceHidden = false, commentsHidden = false }: MetaAn
 
   return (
     <div className="h-fit w-full md:max-w-[400px]">
-      <h3 className="font-spectral text-4xl md:text-5xl">
-        {metadata.name.length > 30 ? `${metadata.name.slice(0, 30)}...` : metadata.name}
+      <h3 className="font-spectral text-3xl md:text-4xl">
+        {metadata.name.length > 100 ? `${metadata.name.slice(0, 100)}...` : metadata.name}
       </h3>
       <Description description={metadata.description || ""} />
       {!priceHidden && isSetSale && (
