@@ -40,7 +40,7 @@ const MomentItem = ({ m, variant = "collection" }: MomentItemProps) => {
       <div
         role="button"
         tabIndex={0}
-        className="group col-span-1 w-full cursor-pointer overflow-hidden rounded-xl bg-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
+        className="group col-span-1 w-full h-fit cursor-pointer overflow-hidden rounded-xl bg-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
         onClick={handleClick}
         onKeyDown={(e) => e.key === "Enter" && handleClick()}
       >
