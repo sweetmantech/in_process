@@ -12,7 +12,7 @@ const CollectorItem = ({ collector, username, amount, transactionHash, timestamp
     <div className="px-1 md:px-2 space-y-0.5">
       <div className="flex items-center justify-between">
         <p className="font-archivo text-sm font-medium">
-          {isYou ? "You" : username || truncateAddress(collector)}
+          {isYou ? "me" : username || truncateAddress(collector)}
         </p>
         <p className="font-archivo text-sm">{amount}x</p>
       </div>
