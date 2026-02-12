@@ -4,6 +4,7 @@ import Moment from "./Moment";
 import { MomentProvider } from "@/providers/MomentProvider";
 import { MomentCommentsProvider } from "@/providers/MomentCommentsProvider";
 import { MomentCollectProvider } from "@/providers/MomentCollectProvider";
+import { MomentCollectorsProvider } from "@/providers/MomentCollectorsProvider";
 import { useParams } from "next/navigation";
 import { parseCollectionAddress } from "@/lib/timeline/parseCollectionAddress";
 import { Address } from "viem";
@@ -31,7 +32,9 @@ const MomentPage = () => {
         >
           <MomentCommentsProvider>
             <MomentCollectProvider>
-              <Moment />
+              <MomentCollectorsProvider>
+                <Moment />
+              </MomentCollectorsProvider>
             </MomentCollectProvider>
           </MomentCommentsProvider>
         </MomentProvider>
