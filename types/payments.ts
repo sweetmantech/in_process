@@ -1,12 +1,24 @@
-import { Database } from "@/lib/supabase/types";
-
 export type InProcessPayment = {
   id: string;
-  moment: Database["public"]["Tables"]["in_process_moments"]["Row"] & {
-    collection: Database["public"]["Tables"]["in_process_collections"]["Row"];
-    fee_recipients: Database["public"]["Tables"]["in_process_moment_fee_recipients"]["Row"][];
+  moment: {
+    id: string;
+    token_id: number;
+    uri: string;
+    collection: {
+      address: string;
+      chain_id: number;
+      default_admin: string;
+      payout_recipient: string;
+    };
+    fee_recipients: Array<{
+      artist_address: string;
+      percent_allocation: number;
+    }>;
   };
-  buyer: Database["public"]["Tables"]["in_process_artists"]["Row"];
+  buyer: {
+    address: string;
+    username: string | null;
+  };
   amount: string;
   transaction_hash: string;
   transferred_at: string;
