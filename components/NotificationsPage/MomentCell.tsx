@@ -3,13 +3,11 @@ import { useMetadata } from "@/hooks/useMetadata";
 import Image from "next/image";
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import { Skeleton } from "@/components/ui/skeleton";
-import type { Database } from "@/lib/supabase/types";
+import type { InProcessPayment } from "@/types/payments";
 import { SITE_ORIGINAL_URL } from "@/lib/consts";
 
 interface MomentCellProps {
-  moment: Database["public"]["Tables"]["in_process_moments"]["Row"] & {
-    collection: Database["public"]["Tables"]["in_process_collections"]["Row"];
-  };
+  moment: InProcessPayment["moment"];
   className?: string;
 }
 
