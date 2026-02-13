@@ -35,14 +35,10 @@ export const useToggleMoment = (moment: TimelineMoment) => {
         chainId: moment.chain_id,
       });
 
-      // Use the actual updated data from the server response
-      if (response.success && response.updated && response.updated.length > 0) {
-        const updatedMoment = response.updated[0];
-        // Update the local state with the server response
-        setIsHidden(updatedMoment.hidden);
-        toast(updatedMoment.hidden ? "Moment hidden" : "Moment revealed");
-      } else {
-        toast("Moment visibility toggled");
+      if (response.success) {
+        const newHidden = !isHidden;
+        setIsHidden(newHidden);
+        toast(newHidden ? "Moment hidden" : "Moment revealed");
       }
       await queryClient.invalidateQueries({ queryKey: ["timeline"] });
     } catch (error) {
