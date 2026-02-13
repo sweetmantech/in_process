@@ -3,8 +3,9 @@ import { TokenMetadataJson } from "@/lib/protocolSdk/ipfs/types";
 import { determineMediaType } from "@/lib/zora/utils";
 import BlurImage from "@/components/BlurImage";
 import TextMomentPreview from "./TextMomentPreview";
-import FilmPlaceholder from "@/components/VideoPlayer/FilmPlaceholder";
 import PdfMomentPreview from "./PdfMomentPreview";
+import AudioMomentPreview from "./AudioMomentPreview";
+import VideoMomentPreview from "./VideoMomentPreview";
 
 interface PreviewProps {
   data: TokenMetadataJson;
@@ -16,22 +17,8 @@ const Preview = ({ data }: PreviewProps) => {
 
   if (!hasImage && mediaType === "text") return <TextMomentPreview data={data} />;
   if (!hasImage && mediaType === "pdf") return <PdfMomentPreview data={data} />;
-
-  if (!hasImage && mediaType === "video") {
-    const label = data.name || data.description;
-    return (
-      <div className="absolute inset-0 z-[1] flex flex-col transition-transform duration-300 group-hover:scale-[1.02]">
-        <div className="flex-1 [&>div]:!aspect-auto [&>div]:!h-full [&>div]:!rounded-none">
-          <FilmPlaceholder />
-        </div>
-        {label && (
-          <div className="bg-neutral-900 px-3 py-2">
-            <p className="line-clamp-2 font-archivo text-xs text-neutral-300">{label}</p>
-          </div>
-        )}
-      </div>
-    );
-  }
+  if (!hasImage && mediaType === "audio") return <AudioMomentPreview data={data} />;
+  if (!hasImage && mediaType === "video") return <VideoMomentPreview data={data} />;
 
   if (!hasImage) {
     return (
