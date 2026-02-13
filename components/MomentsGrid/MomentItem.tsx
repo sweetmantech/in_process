@@ -1,13 +1,12 @@
 import { useMetadata } from "@/hooks/useMetadata";
 import truncateAddress from "@/lib/truncateAddress";
-import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
-import BlurImage from "@/components/BlurImage";
 import { useParams, useRouter } from "next/navigation";
 import truncated from "@/lib/truncated";
 import HideButton from "@/components/TimelineMoments/HideButton";
 import { type TimelineMoment } from "@/types/moment";
 import MomentItemSkeleton from "./MomentItemSkeleton";
 import { Copy, Check } from "lucide-react";
+import Preview from "./Preview";
 import useCopy from "@/hooks/useCopy";
 import useArtistEditable from "@/hooks/useArtistEditable";
 
@@ -50,14 +49,7 @@ const MomentItem = ({ m, variant = "collection" }: MomentItemProps) => {
               <HideButton moment={m} />
             </div>
           )}
-          <BlurImage
-            src={getFetchableUrl(data.image) || "/images/placeholder.png"}
-            alt={data?.name || "Moment image"}
-            className="z-[1] transition-transform duration-300 group-hover:scale-[1.02]"
-            fill
-            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-            style={{ objectFit: "cover", objectPosition: "center" }}
-          />
+          <Preview data={data} />
         </div>
         <div className="p-2">
           <div className="flex items-center justify-between gap-2">
