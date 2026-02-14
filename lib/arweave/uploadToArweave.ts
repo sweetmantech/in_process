@@ -1,13 +1,6 @@
-import Arweave from "arweave";
+import arweave from "./client";
 import postToArweave from "./postToArweave";
-
-const arweave = Arweave.init({
-  host: "arweave.net",
-  port: 443,
-  protocol: "https",
-  timeout: 20000,
-  logging: false,
-});
+import waitForArweave from "./waitForArweave";
 
 const uploadToArweave = async (
   file: File,
@@ -42,6 +35,8 @@ const uploadToArweave = async (
     console.log(`${pctComplete}% complete, ${i + 1}/${totalChunks}`);
     getProgress(pctComplete);
   }
+
+  await waitForArweave(transaction.id);
 
   return `ar://${transaction.id}`;
 };
