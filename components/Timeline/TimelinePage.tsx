@@ -11,7 +11,7 @@ import useIsMobile from "@/hooks/useIsMobile";
 import MobileTimeline from "./MobileTimeline";
 
 const TimelinePage = () => {
-  const { error, moments } = useTimelineProvider();
+  const { error } = useTimelineProvider();
   useInProcessMomentsSocket();
   const isMobile = useIsMobile();
 
