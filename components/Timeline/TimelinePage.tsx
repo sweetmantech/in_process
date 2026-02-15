@@ -3,9 +3,6 @@
 import { useTimelineProvider } from "@/providers/TimelineProvider";
 import TimelineHero from "@/components/Timeline/TimelineHero";
 import MobileMomentsSection from "@/components/Timeline/MobileMomentsSection";
-// import TimelineSpiral from "@/components/Timeline/TimelineSpiral";
-// import TimelineMobileMoon from "@/components/Timeline/TimelineMobileMoon";
-// import TimelineGrid from "@/components/Timeline/TimelineGrid";
 import { useInProcessMomentsSocket } from "@/hooks/useInProcessMomentsSocket";
 import useIsMobile from "@/hooks/useIsMobile";
 import MobileTimeline from "./MobileTimeline";
@@ -22,11 +19,6 @@ const TimelinePage = () => {
       <TimelineHero />
       <MobileMomentsSection />
       {isMobile && <MobileTimeline />}
-      {/* <div className="pt-4">
-        <TimelineMobileMoon />
-      </div> */}
-      {/* <TimelineGrid /> */}
-      {/* <TimelineSpiral /> */}
     </main>
   );
 };
