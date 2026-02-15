@@ -4,7 +4,6 @@ import useFullscreenDetection from "./useFullscreenDetection";
 import { Swiper } from "swiper/types";
 import useCheckTimelineOverflow from "./useCheckTimelineOverflow";
 import useTimelineCenter from "./useTimelineCenter";
-import { TimelineMoment } from "@/types/moment";
 
 interface UseTimelineAnimationReturn {
   nearestIndex: number | null;
@@ -28,7 +27,7 @@ interface NearestButton {
   distance: number;
 }
 
-export const useTimelineAnimation = (moments: TimelineMoment[]): UseTimelineAnimationReturn => {
+export const useTimelineAnimation = (itemsCount: number): UseTimelineAnimationReturn => {
   const isMobile = useIsMobile();
   const { isAnyVideoFullscreen } = useFullscreenDetection();
 
@@ -43,7 +42,7 @@ export const useTimelineAnimation = (moments: TimelineMoment[]): UseTimelineAnim
   const [eventTriggered, setEventTriggered] = useState<boolean>(false);
   const [momentEnded, setMomentEnded] = useState<boolean>(false);
   const checkTimelineOverflow = useCheckTimelineOverflow();
-  const centerIndex = useTimelineCenter({ activeIndex, swiper, moments });
+  const centerIndex = useTimelineCenter({ activeIndex, swiper, itemsCount });
 
   // Reset animation state when moments change
   useEffect(() => {
@@ -52,10 +51,10 @@ export const useTimelineAnimation = (moments: TimelineMoment[]): UseTimelineAnim
     setEventTriggered(false);
 
     // Reset active index if it's beyond the new moments length
-    if (activeIndex >= moments.length) {
-      setActiveIndex(Math.max(0, moments.length - 1));
+    if (activeIndex >= itemsCount) {
+      setActiveIndex(Math.max(0, itemsCount - 1));
     }
-  }, [moments.length, activeIndex]);
+  }, [itemsCount, activeIndex]);
 
   const findNearestButtonIndex = useCallback(
     (currentMouseX: number): NearestButton => {
@@ -68,7 +67,7 @@ export const useTimelineAnimation = (moments: TimelineMoment[]): UseTimelineAnim
           const momentIndex = parseInt(button.getAttribute("data-moment-index") || "-1", 10);
 
           // Skip if index is invalid or beyond moments length
-          if (momentIndex < 0 || momentIndex >= moments.length) return nearest;
+          if (momentIndex < 0 || momentIndex >= itemsCount) return nearest;
 
           const rect = button.getBoundingClientRect();
           const buttonCenterX = rect.left + rect.width / 2;
@@ -79,7 +78,7 @@ export const useTimelineAnimation = (moments: TimelineMoment[]): UseTimelineAnim
         { index: -1, distance: Infinity }
       );
     },
-    [moments.length]
+    [itemsCount]
   );
 
   const handleMouseMove = useCallback(
@@ -104,20 +103,20 @@ export const useTimelineAnimation = (moments: TimelineMoment[]): UseTimelineAnim
       const nearest = findNearestButtonIndex(currentMouseX);
 
       // Only update if we found a valid index within bounds
-      if (nearest.index >= 0 && nearest.index < moments.length && nearest.index !== nearestIndex) {
+      if (nearest.index >= 0 && nearest.index < itemsCount && nearest.index !== nearestIndex) {
         setNearestIndex(nearest.index);
-      } else if (nearest.index < 0 || nearest.index >= moments.length) {
+      } else if (nearest.index < 0 || nearest.index >= itemsCount) {
         // Clear nearest index if out of bounds
         setNearestIndex(null);
       }
     },
-    [findNearestButtonIndex, nearestIndex, isAnyVideoFullscreen, moments.length]
+    [findNearestButtonIndex, nearestIndex, isAnyVideoFullscreen, itemsCount]
   );
 
   const getHeight = useCallback(
     (index: number): number => {
       // Return minimum height if index is out of bounds
-      if (index < 0 || index >= moments.length) return MIN_HEIGHT;
+      if (index < 0 || index >= itemsCount) return MIN_HEIGHT;
 
       if (isMobile) {
         return (!activeIndex && !index) || activeIndex - 1 === index ? MAX_HEIGHT : MIN_HEIGHT;
@@ -141,20 +140,20 @@ export const useTimelineAnimation = (moments: TimelineMoment[]): UseTimelineAnim
       MIN_HEIGHT,
       NEIGHBOR_RANGE,
       HEIGHT_DECREMENT,
-      moments.length,
+      itemsCount,
     ]
   );
 
   const isHovered = useCallback(
     (index: number): boolean => {
       // Return false if index is out of bounds
-      if (index < 0 || index >= moments.length) return false;
+      if (index < 0 || index >= itemsCount) return false;
 
       if (isMobile) return (!activeIndex && !index) || activeIndex - 1 === index;
       if (nearestIndex === 0 && !eventTriggered && index === 0) return true;
       return nearestIndex !== null && index === nearestIndex;
     },
-    [nearestIndex, activeIndex, isMobile, eventTriggered, moments.length]
+    [nearestIndex, activeIndex, isMobile, eventTriggered, itemsCount]
   );
 
   return {
