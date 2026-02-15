@@ -16,7 +16,7 @@ const useTimelineCenter = ({ activeIndex, swiper, itemsCount }: useTimelineCente
     let i = firstIndex;
     for (i = firstIndex - 1; i < itemsCount; i++) {
       acc += TIMLINE_STEP_OFFSET * 1 + 200;
-      if (acc > totalWidth || i === itemsCount) break;
+      if (acc > totalWidth || i === itemsCount - 1) break;
     }
     return Math.floor((firstIndex + i + 1) / 2);
   }, [activeIndex, swiper?.width, itemsCount]);
