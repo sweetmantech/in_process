@@ -8,6 +8,8 @@ import EmailsTableError from "./EmailsTableError";
 import NoEmailsFound from "./NoEmailsFound";
 import EmailsTableContents from "./EmailsTableContents";
 import FetchMore from "@/components/FetchMore";
+import { Download } from "lucide-react";
+import { downloadEmailsCsv } from "@/lib/admin/downloadEmailsCsv";
 
 const EmailsTable = () => {
   const { data, isPending, error, fetchNextPage, hasNextPage, isFetchingNextPage } = useEmails();
@@ -22,7 +24,25 @@ const EmailsTable = () => {
       <CardHeader className="border-b">
         <CardTitle className="flex items-center justify-between">
           <span>Emails</span>
-          <Badge variant="outline">{emails.length} total</Badge>
+          <div className="flex items-center gap-2">
+            <div className="flex flex-col items-end gap-0.5">
+              <button
+                type="button"
+                onClick={() => downloadEmailsCsv(emails)}
+                disabled={!!hasNextPage}
+                className="flex items-center gap-1.5 rounded-sm bg-grey-moss-900 px-3 py-1.5 font-archivo text-sm text-grey-eggshell hover:bg-grey-moss-300 disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                <Download className="size-3.5" />
+                Download CSV
+              </button>
+              {hasNextPage && (
+                <span className="font-archivo text-xs text-grey-secondary">
+                  scroll to load all rows first
+                </span>
+              )}
+            </div>
+            <Badge variant="outline">{emails.length} total</Badge>
+          </div>
         </CardTitle>
       </CardHeader>
       <CardContent className="p-0">
