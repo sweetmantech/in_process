@@ -11,7 +11,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Copy, Check, AlertTriangle } from "lucide-react";
-import { toast } from "sonner";
 import useCopy from "@/hooks/useCopy";
 
 interface ApiKeyModalProps {
@@ -25,7 +24,6 @@ export function ApiKeyModal({ isOpen, onClose, apiKey }: ApiKeyModalProps) {
 
   const handleCopy = (e: React.MouseEvent) => {
     copy(e);
-    toast.success("API key copied to clipboard");
   };
 
   return (

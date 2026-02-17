@@ -1,4 +1,3 @@
-import { toast } from "sonner";
 import truncateAddress from "@/lib/truncateAddress";
 import useCopy from "@/hooks/useCopy";
 import AnimatedCopyIcon from "./AnimatedCopyIcon";
@@ -17,7 +16,6 @@ const CopyButton = ({ text, className = "", shorten = true, children }: CopyButt
 
   const handleCopy = (e: React.MouseEvent) => {
     copy(e);
-    toast.success("copied!");
   };
 
   return (
