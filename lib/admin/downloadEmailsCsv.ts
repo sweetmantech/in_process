@@ -1,10 +1,5 @@
 import { Email } from "@/types/email";
-
-const escapeCsvField = (value: string | null | undefined): string => {
-  const str = value ?? "";
-  const safe = /^[=+\-@]/.test(str) ? `'${str}` : str;
-  return `"${safe.replace(/"/g, '""')}"`;
-};
+import { escapeCsvField } from "./escapeCsvField";
 
 export const downloadEmailsCsv = (emails: Email[]) => {
   const header = "address,email,artist_address,username";

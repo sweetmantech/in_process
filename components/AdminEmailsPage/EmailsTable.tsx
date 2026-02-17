@@ -30,7 +30,7 @@ const EmailsTable = () => {
                 type="button"
                 onClick={() => downloadEmailsCsv(emails)}
                 disabled={!!hasNextPage}
-                className="flex items-center gap-1.5 rounded-sm border border-grey-moss-900 bg-grey-moss-100 px-3 py-1.5 font-archivo text-sm text-grey-moss-900 hover:bg-grey-moss-300 hover:text-grey-eggshell disabled:cursor-not-allowed disabled:opacity-40"
+                className="flex items-center gap-1.5 rounded-sm bg-grey-moss-900 px-3 py-1.5 font-archivo text-sm text-grey-eggshell hover:bg-grey-moss-300 disabled:cursor-not-allowed disabled:opacity-40"
               >
                 <Download className="size-3.5" />
                 Download CSV
