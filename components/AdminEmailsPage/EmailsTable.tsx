@@ -8,6 +8,8 @@ import EmailsTableError from "./EmailsTableError";
 import NoEmailsFound from "./NoEmailsFound";
 import EmailsTableContents from "./EmailsTableContents";
 import FetchMore from "@/components/FetchMore";
+import { Button } from "@/components/ui/button";
+import { downloadEmailsCsv } from "@/lib/admin/downloadEmailsCsv";
 
 const EmailsTable = () => {
   const { data, isPending, error, fetchNextPage, hasNextPage, isFetchingNextPage } = useEmails();
@@ -22,7 +24,12 @@ const EmailsTable = () => {
       <CardHeader className="border-b">
         <CardTitle className="flex items-center justify-between">
           <span>Emails</span>
-          <Badge variant="outline">{emails.length} total</Badge>
+          <div className="flex items-center gap-2">
+            <Button variant="outline" size="sm" onClick={() => downloadEmailsCsv(emails)}>
+              Download CSV
+            </Button>
+            <Badge variant="outline">{emails.length} total</Badge>
+          </div>
         </CardTitle>
       </CardHeader>
       <CardContent className="p-0">
