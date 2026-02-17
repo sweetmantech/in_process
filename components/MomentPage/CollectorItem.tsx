@@ -7,7 +7,6 @@ import { useUserProvider } from "@/providers/UserProvider";
 const CollectorItem = ({ collector, username, amount, transactionHash, timestamp }: Collector) => {
   const { artistWallet } = useUserProvider();
   const isYou = artistWallet?.toLowerCase() === collector.toLowerCase();
-
   return (
     <div className="px-1 md:px-2 space-y-0.5">
       <div className="flex items-center justify-between">
