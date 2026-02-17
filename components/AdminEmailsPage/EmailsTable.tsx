@@ -27,7 +27,7 @@ const EmailsTable = () => {
       </CardHeader>
       <CardContent className="p-0">
         {emails.length === 0 ? <NoEmailsFound /> : <EmailsTableContents emails={emails} />}
-        {hasNextPage && <FetchMore fetchMore={fetchNextPage} />}
+        {!isFetchingNextPage && hasNextPage && <FetchMore fetchMore={fetchNextPage} />}
         {isFetchingNextPage && (
           <div className="py-4 text-center text-sm text-neutral-500">Loading more...</div>
         )}
