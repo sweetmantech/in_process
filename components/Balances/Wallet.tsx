@@ -3,23 +3,13 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Copy, Check, Wallet as WalletIcon } from "lucide-react";
-import { Fragment, useState } from "react";
 import getViemNetwork from "@/lib/viem/getViemNetwork";
 import { CHAIN_ID } from "@/lib/consts";
 import { Address } from "viem";
+import useCopy from "@/hooks/useCopy";
 
 export function Wallet({ address, title }: { address: Address; title: string }) {
-  const [copied, setCopied] = useState(false);
-
-  const handleCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(address);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch (err) {
-      console.error("[v0] Failed to copy:", err);
-    }
-  };
+  const { copied, copy: handleCopy } = useCopy(address);
 
   const formatAddress = (address: string) => {
     return `${address.slice(0, 6)}...${address.slice(-4)}`;

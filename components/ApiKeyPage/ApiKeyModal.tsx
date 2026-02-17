@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -13,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Copy, Check, AlertTriangle } from "lucide-react";
 import { toast } from "sonner";
+import useCopy from "@/hooks/useCopy";
 
 interface ApiKeyModalProps {
   isOpen: boolean;
@@ -21,17 +21,11 @@ interface ApiKeyModalProps {
 }
 
 export function ApiKeyModal({ isOpen, onClose, apiKey }: ApiKeyModalProps) {
-  const [copied, setCopied] = useState(false);
+  const { copied, copy } = useCopy(apiKey);
 
-  const handleCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(apiKey);
-      setCopied(true);
-      toast.success("API key copied to clipboard");
-      setTimeout(() => setCopied(false), 2000);
-    } catch (error: any) {
-      toast.error(error.message || "Failed to copy API key");
-    }
+  const handleCopy = (e: React.MouseEvent) => {
+    copy(e);
+    toast.success("API key copied to clipboard");
   };
 
   return (
