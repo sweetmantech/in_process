@@ -2,6 +2,7 @@ export interface Email {
   address: string;
   email: string;
   artist_address: string | null;
+  username: string | null;
 }
 
 export interface EmailsResponse {

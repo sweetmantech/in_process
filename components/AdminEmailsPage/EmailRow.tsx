@@ -17,10 +17,13 @@ const EmailRow = ({ email }: EmailRowProps) => {
       </TableCell>
       <TableCell className="px-6 py-4">
         {email.artist_address ? (
-          <CopyButton
-            text={email.artist_address}
-            className="bg-transparent px-0 py-0 font-mono text-xs text-foreground hover:text-grey-moss-400"
-          />
+          <div className="flex flex-col gap-0.5">
+            {email.username && <span className="text-xs text-neutral-500">@{email.username}</span>}
+            <CopyButton
+              text={email.artist_address}
+              className="bg-transparent px-0 py-0 font-mono text-xs text-foreground hover:text-grey-moss-400"
+            />
+          </div>
         ) : (
           <span className="text-xs text-neutral-400">—</span>
         )}
