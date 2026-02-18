@@ -7,6 +7,8 @@ import { useInProcessMomentsSocket } from "@/hooks/useInProcessMomentsSocket";
 import useIsMobile from "@/hooks/useIsMobile";
 import MobileTimeline from "./MobileTimeline";
 import TimelineMobileMoon from "./TimelineMobileMoon";
+import TimelineGrid from "./TimelineGrid";
+import TimelineSpiral from "./TimelineSpiral";
 
 const TimelinePage = () => {
   const { error } = useTimelineProvider();
@@ -25,6 +27,8 @@ const TimelinePage = () => {
           <TimelineMobileMoon />
         </>
       )}
+      <TimelineGrid />
+      <TimelineSpiral />
     </main>
   );
 };
