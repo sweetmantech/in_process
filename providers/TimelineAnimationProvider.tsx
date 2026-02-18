@@ -8,12 +8,12 @@ const TimelineAnimationContext = createContext<ReturnType<typeof useTimelineAnim
 
 export function TimelineAnimationProvider({
   children,
-  moments,
+  itemsCount,
 }: {
   children: ReactNode;
-  moments: TimelineMoment[];
+  itemsCount: number;
 }) {
-  const timelineAnimation = useTimelineAnimation(moments);
+  const timelineAnimation = useTimelineAnimation(itemsCount);
 
   const value = useMemo(
     () => ({

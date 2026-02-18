@@ -36,7 +36,7 @@ const MomentsTimeline = ({ alt }: MomentsTimelineProps) => {
     );
 
   return (
-    <TimelineAnimationProvider moments={reversedMoments}>
+    <TimelineAnimationProvider itemsCount={reversedMoments.length}>
       <TimelineMoments moments={reversedMoments} />
     </TimelineAnimationProvider>
   );
