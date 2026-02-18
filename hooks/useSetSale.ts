@@ -49,7 +49,7 @@ const useSetSale = () => {
     priceInput,
     setPriceInput,
     priceUnit,
-    setSale: mutate,
+    setSale: () => mutate(),
     isLoading: isPending,
   };
 };
