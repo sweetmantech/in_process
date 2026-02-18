@@ -6,16 +6,19 @@ interface SaleStartPickerProps {
   setSaleStart: (date: Date) => void;
 }
 
-const SaleStartPicker = ({ saleStart, currentSaleStart, setSaleStart }: SaleStartPickerProps) => (
-  <div>
-    <p className="pb-2">
-      sale start:{" "}
-      {BigInt(currentSaleStart) === BigInt(0)
-        ? "Open"
-        : new Date(parseInt(currentSaleStart.toString(), 10) * 1000).toLocaleDateString()}
-    </p>
-    <DateTimePicker date={saleStart} setDate={setSaleStart} />
-  </div>
-);
+const SaleStartPicker = ({ saleStart, currentSaleStart, setSaleStart }: SaleStartPickerProps) => {
+  const normalized = BigInt(String(Math.floor(Number(currentSaleStart))));
+  return (
+    <div>
+      <p className="pb-2">
+        sale start:{" "}
+        {normalized === BigInt(0)
+          ? "Open"
+          : new Date(Number(normalized) * 1000).toLocaleDateString()}
+      </p>
+      <DateTimePicker date={saleStart} setDate={setSaleStart} />
+    </div>
+  );
+};
 
 export default SaleStartPicker;

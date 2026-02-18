@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useMutation } from "@tanstack/react-query";
 import { usePrivy } from "@privy-io/react-auth";
 import { formatEther, formatUnits, parseEther, parseUnits } from "viem";
 import { toast } from "sonner";
@@ -12,7 +13,6 @@ const useSetSale = () => {
   const [saleStart, setSaleStart] = useState<Date>(new Date());
   const [priceInput, setPriceInput] = useState<string>("");
   const [isErc20, setIsErc20] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
 
   const priceUnit = isErc20 ? "USDC" : "ETH";
 
@@ -30,20 +30,18 @@ const useSetSale = () => {
     );
   }, [sale]);
 
-  const handleSetSale = async () => {
-    setIsLoading(true);
-    try {
+  const { mutate, isPending } = useMutation({
+    mutationFn: async () => {
       const accessToken = await getAccessToken();
+      if (!accessToken) throw new Error("Authentication required");
       const pricePerToken = isErc20
         ? parseUnits(priceInput, 6).toString()
         : parseEther(priceInput).toString();
       const saleStartUnix = Math.floor(saleStart.getTime() / 1000);
-      await setSale(accessToken as string, moment, saleStartUnix, pricePerToken);
-      toast.success("Sale updated successfully");
-    } finally {
-      setIsLoading(false);
-    }
-  };
+      return setSale(accessToken, moment, saleStartUnix, pricePerToken);
+    },
+    onSuccess: () => toast.success("Sale updated successfully"),
+  });
 
   return {
     saleStart,
@@ -51,8 +49,8 @@ const useSetSale = () => {
     priceInput,
     setPriceInput,
     priceUnit,
-    setSale: handleSetSale,
-    isLoading,
+    setSale: mutate,
+    isLoading: isPending,
   };
 };
 
