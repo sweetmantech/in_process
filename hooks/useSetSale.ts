@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { usePrivy } from "@privy-io/react-auth";
 import { formatEther, formatUnits, parseEther, parseUnits } from "viem";
+import { toast } from "sonner";
 import { useMomentProvider } from "@/providers/MomentProvider";
 import { setSale } from "@/lib/moment/setSale";
 import { MomentType } from "@/types/moment";
 
 const useSetSale = () => {
-  const { moment, saleConfig: sale, fetchMomentData } = useMomentProvider();
+  const { moment, saleConfig: sale } = useMomentProvider();
   const { getAccessToken } = usePrivy();
   const [saleStart, setSaleStart] = useState<Date>(new Date());
   const [priceInput, setPriceInput] = useState<string>("");
@@ -38,7 +39,7 @@ const useSetSale = () => {
         : parseEther(priceInput).toString();
       const saleStartUnix = Math.floor(saleStart.getTime() / 1000);
       await setSale(accessToken as string, moment, saleStartUnix, pricePerToken);
-      fetchMomentData();
+      toast.success("Sale updated successfully");
     } finally {
       setIsLoading(false);
     }
