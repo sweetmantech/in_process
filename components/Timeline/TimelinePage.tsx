@@ -6,6 +6,7 @@ import MobileMomentsSection from "@/components/Timeline/MobileMomentsSection";
 import { useInProcessMomentsSocket } from "@/hooks/useInProcessMomentsSocket";
 import useIsMobile from "@/hooks/useIsMobile";
 import MobileTimeline from "./MobileTimeline";
+import TimelineMobileMoon from "./TimelineMobileMoon";
 
 const TimelinePage = () => {
   const { error } = useTimelineProvider();
@@ -18,7 +19,12 @@ const TimelinePage = () => {
     <main className="relative flex grow flex-col px-2 md:px-10">
       <TimelineHero />
       <MobileMomentsSection />
-      {isMobile && <MobileTimeline />}
+      {isMobile && (
+        <>
+          <MobileTimeline />
+          <TimelineMobileMoon />
+        </>
+      )}
     </main>
   );
 };
