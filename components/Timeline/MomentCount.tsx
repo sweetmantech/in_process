@@ -6,8 +6,8 @@ const MomentCount = () => {
 
   return (
     <div className="font-archivo-medium text-lg text-grey-moss-400 md:text-2xl">
-      {count ? count : <Skeleton className="inline-block h-5 w-10 align-middle" />} moments have
-      been shared
+      {count ?? <Skeleton className="inline-block h-5 w-10 align-middle" />} moments have been
+      shared
     </div>
   );
 };

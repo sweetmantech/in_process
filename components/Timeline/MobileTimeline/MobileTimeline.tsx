@@ -8,6 +8,10 @@ import MobileMomentCard from "./MobileMomentCard";
 const MobileTimeline = () => {
   const { moments } = useTimelineProvider();
   const [currentIndex, setCurrentIndex] = useState(0);
+  const reversed = [...moments].reverse();
+  const moment = reversed[currentIndex];
+  const prevMoment = reversed[currentIndex - 1];
+  const nextMoment = reversed[currentIndex + 1];
 
   useEffect(() => {
     if (moments.length > 0) {
@@ -28,7 +32,7 @@ const MobileTimeline = () => {
         <div className="w-10" />
       )}
 
-      <MobileMomentCard currentIndex={currentIndex} />
+      <MobileMomentCard moment={moment} prevMoment={prevMoment} nextMoment={nextMoment} />
 
       {currentIndex < moments.length - 1 ? (
         <button

@@ -18,7 +18,7 @@ const TimelineTable = () => {
       {isMobile ? (
         <MobileTimelineList />
       ) : (
-        <div className="no-scrollbar overflow-auto rounded-md md:block md:max-h-[88vh]">
+        <div className="no-scrollbar overflow-auto rounded-md md:max-h-[88vh]">
           <Table>
             <TableBody>
               {moments.map((moment) => (

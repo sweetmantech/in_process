@@ -2,14 +2,15 @@ import { useMomentClick } from "@/hooks/useMomentClick";
 import truncated from "@/lib/truncated";
 import { Skeleton } from "@/components/ui/skeleton";
 import ContentRenderer from "@/components/Renderers";
-import { useTimelineProvider } from "@/providers/TimelineProvider";
+import { TimelineMoment } from "@/types/moment";
 
-const MobileMomentCard = ({ currentIndex }: { currentIndex: number }) => {
-  const { moments } = useTimelineProvider();
-  const reversed = [...moments].reverse();
-  const prevMoment = reversed[currentIndex - 1];
-  const nextMoment = reversed[currentIndex + 1];
-  const moment = reversed[currentIndex];
+interface MobileMomentCardProps {
+  moment: TimelineMoment | undefined;
+  prevMoment: TimelineMoment | undefined;
+  nextMoment: TimelineMoment | undefined;
+}
+
+const MobileMomentCard = ({ moment, prevMoment, nextMoment }: MobileMomentCardProps) => {
   const { handleMomentClick, isLoading, data: metadata } = useMomentClick(moment);
 
   return (
