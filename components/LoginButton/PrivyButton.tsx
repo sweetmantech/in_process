@@ -36,7 +36,7 @@ export function PrivyButton({ className = "" }: PrivyButtonProps) {
         isOpenNavbar ? "rounded-b-none md:rounded-t-sm" : "md:rounded-sm"
       } font-archivo text-sm lowercase text-white md:bg-grey-moss-400 md:text-base md:hover:bg-grey-moss-900 md:hover:shadow-[0px_1px_1px_1px_#0000002e] ${className}`}
     >
-      <div className="flex items-center gap-2 rounded-md bg-grey-moss-400 px-4 py-2 md:bg-transparent">
+      <div className="flex items-center gap-2 rounded-md bg-grey-moss-400 px-2 md:px-4 py-2 md:bg-transparent">
         <div
           className={`h-2 w-2 rounded-full ${privyWallet ? "bg-grey-moss-100" : "border border-grey-moss-100"}`}
         />
