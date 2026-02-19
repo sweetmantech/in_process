@@ -8,7 +8,7 @@ import MomentItemSkeleton from "./MomentItemSkeleton";
 import { Copy, Check } from "lucide-react";
 import Preview from "./Preview";
 import useCopy from "@/hooks/useCopy";
-import useArtistEditable from "@/hooks/useArtistEditable";
+import useIsMomentAdmin from "@/hooks/useIsMomentAdmin";
 
 export type MomentItemVariant = "collection" | "moment";
 
@@ -22,9 +22,7 @@ const MomentItem = ({ m, variant = "collection" }: MomentItemProps) => {
   const { push } = useRouter();
   const { copied, copy } = useCopy(m.address);
   const { artistAddress } = useParams();
-  const { isEditable } = useArtistEditable();
-
-  const showHideButton = !artistAddress || isEditable;
+  const isMomentAdmin = useIsMomentAdmin(m);
 
   const handleClick = () => {
     if (isLoading) return;
@@ -44,7 +42,7 @@ const MomentItem = ({ m, variant = "collection" }: MomentItemProps) => {
         onKeyDown={(e) => e.key === "Enter" && handleClick()}
       >
         <div className="relative aspect-square w-full overflow-hidden rounded-t-xl bg-grey-moss-50">
-          {showHideButton && (
+          {isMomentAdmin && (
             <div className="absolute right-1.5 top-1.5 z-20">
               <HideButton moment={m} />
             </div>
