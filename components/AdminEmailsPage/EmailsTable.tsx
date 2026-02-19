@@ -24,7 +24,7 @@ const EmailsTable = () => {
         <CardTitle className="flex items-center justify-between">
           <span>Emails</span>
           <div className="flex items-center gap-2">
-            <DownloadCsvButton emails={emails} hasNextPage={!!hasNextPage} />
+            <DownloadCsvButton />
             <Badge variant="outline">{emails.length} total</Badge>
           </div>
         </CardTitle>
