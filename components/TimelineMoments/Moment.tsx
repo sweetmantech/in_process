@@ -7,6 +7,7 @@ import HideButton from "./HideButton";
 import useArtistEditable from "@/hooks/useArtistEditable";
 import { TimelineMoment } from "@/types/moment";
 import { useMomentClick } from "@/hooks/useMomentClick";
+import useIsMomentAdmin from "@/hooks/useIsMomentAdmin";
 
 interface MomentProps {
   moment: TimelineMoment;
@@ -20,7 +21,7 @@ const Moment: FC<MomentProps> = ({ moment, hovered, step, height, index }) => {
   const { handleMomentClick, isLoading, data } = useMomentClick(moment);
   const [isFadingOut, setIsFadingOut] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
-  const { isEditable } = useArtistEditable();
+  const isMomentAdmin = useIsMomentAdmin(moment);
 
   if (isHidden) return null;
 
@@ -71,10 +72,10 @@ const Moment: FC<MomentProps> = ({ moment, hovered, step, height, index }) => {
             </div>
           </div>
         </button>
-        {hovered && isEditable && (
+        {hovered && (
           <div className="relative flex translate-y-6 items-center gap-2 pt-2">
             <p className="font-spectral-italic text-sm md:text-xl">{truncated(data?.name || "")}</p>
-            <HideButton moment={moment} onClick={() => setIsFadingOut(true)} />
+            {isMomentAdmin && <HideButton moment={moment} onClick={() => setIsFadingOut(true)} />}
           </div>
         )}
         <p
