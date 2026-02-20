@@ -9,13 +9,18 @@ import { FeedTooltip } from "@/components/SprialFeeds/FeedTooltip";
 import useSpiralMouseOver from "@/hooks/useSpiralMouseOver";
 import Feed from "@/components/SprialFeeds/Feed";
 import { useTimelineProvider } from "@/providers/TimelineProvider";
+import useIsMobile from "@/hooks/useIsMobile";
 
 const TimelineSpiral = () => {
   const { viewBox, animationConfig, points, textPathRef } = useSpiralAnimation();
   const { handleMouseLeave, handleMouseMove, hoveredFeed } = useSpiralMouseOver();
   const { moments } = useTimelineProvider();
+  const isMobile = useIsMobile();
 
-  const duplicatedMoments = useMemo(() => [...moments, ...moments], [moments]);
+  const duplicatedMoments = useMemo(() => {
+    const sliced = isMobile ? moments.slice(0, 5) : moments;
+    return [...sliced, ...sliced];
+  }, [moments, isMobile]);
 
   return (
     <div className="relative mt-12">
