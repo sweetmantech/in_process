@@ -1,6 +1,6 @@
 import { useMetadata } from "@/hooks/useMetadata";
 import truncateAddress from "@/lib/truncateAddress";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import truncated from "@/lib/truncated";
 import HideButton from "@/components/TimelineMoments/HideButton";
 import { type TimelineMoment } from "@/types/moment";
@@ -21,13 +21,14 @@ const MomentItem = ({ m, variant = "collection" }: MomentItemProps) => {
   const { data, isLoading } = useMetadata(m.uri);
   const { push } = useRouter();
   const { copied, copy } = useCopy(m.address);
-  const { artistAddress } = useParams();
   const isMomentAdmin = useIsMomentAdmin(m);
+  const pathname = usePathname();
+  const isManagePage = pathname.includes("/manage");
 
   const handleClick = () => {
     if (isLoading) return;
     push(
-      `/${artistAddress ? "collect" : "manage"}/${m.chain_id === 8453 ? "base" : "bsep"}:${m.address}${variant === "moment" ? `/${m.token_id}` : ""}`
+      `/${isManagePage ? "manage" : "collect"}/${m.chain_id === 8453 ? "base" : "bsep"}:${m.address}${variant === "moment" ? `/${m.token_id}` : ""}`
     );
   };
 
