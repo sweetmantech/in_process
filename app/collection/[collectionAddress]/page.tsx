@@ -1,4 +1,4 @@
-import { IN_PROCESS_API } from "@/lib/consts";
+import { IN_PROCESS_API, SITE_ORIGINAL_URL } from "@/lib/consts";
 import { Metadata, NextPage } from "next";
 import { parseCollectionAddress } from "@/lib/timeline/parseCollectionAddress";
 import { CHAIN_ID } from "@/lib/consts";
@@ -40,6 +40,24 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         images: [
           `${IN_PROCESS_API}/og/moment?collectionAddress=${address}&chainId=${chainIdInt}&tokenId=0`,
         ],
+      },
+      other: {
+        "fc:frame": JSON.stringify({
+          version: "next",
+          imageUrl: `${IN_PROCESS_API}/og/moment?collectionAddress=${address}&chainId=${chainIdInt}&tokenId=0`,
+          aspectRatio: "3:2",
+          button: {
+            title,
+            action: {
+              type: "launch_frame",
+              name: `${title} - in•process`,
+              url: `${SITE_ORIGINAL_URL}/collection/${collectionAddress}`,
+              iconImageUrl: `${IN_PROCESS_API}/og/moment?collectionAddress=${address}&chainId=${chainIdInt}&tokenId=0`,
+              splashImageUrl: `${SITE_ORIGINAL_URL}/desktop_footer_logo.png`,
+              splashBackgroundColor: "#e9ccbb",
+            },
+          },
+        }),
       },
     };
   } catch {
