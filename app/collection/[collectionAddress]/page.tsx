@@ -8,14 +8,14 @@ import CollectionPage from "@/components/CollectionPage";
 import { getCollectionApi } from "@/lib/collection/getCollectionApi";
 
 type Props = {
-  params: Promise<{ collection: string }>;
+  params: Promise<{ collectionAddress: string }>;
 };
 
 export const revalidate = 300;
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { collection } = await params;
-  const { address, chainId } = parseCollectionAddress(collection);
+  const { collectionAddress } = await params;
+  const { address, chainId } = parseCollectionAddress(collectionAddress);
   if (!address || !isAddress(address)) {
     return { title: "In Process", description: "Imagined by LATASHÁ" };
   }
