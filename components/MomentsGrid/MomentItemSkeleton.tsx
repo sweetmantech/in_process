@@ -1,7 +1,7 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
 const MomentItemSkeleton = () => (
-  <div className="col-span-1 w-full overflow-hidden rounded-xl bg-white shadow-sm">
+  <div className="col-span-1 w-full h-fit overflow-hidden rounded-xl bg-white shadow-sm">
     <Skeleton className="aspect-square w-full rounded-none bg-grey-moss-50" />
     <div className="p-2">
       <Skeleton className="h-4 w-3/4 bg-grey-moss-100" />
