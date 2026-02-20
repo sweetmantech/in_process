@@ -2,10 +2,12 @@ import { IN_PROCESS_API } from "@/lib/consts";
 import { Metadata, NextPage } from "next";
 import { parseCollectionAddress } from "@/lib/timeline/parseCollectionAddress";
 import { CHAIN_ID } from "@/lib/consts";
-import { isAddress } from "viem";
+import { Address, isAddress } from "viem";
 import fetchMetadata from "@/lib/arweave/fetchMetadata";
 import CollectionPage from "@/components/CollectionPage";
 import { getCollectionApi } from "@/lib/collection/getCollectionApi";
+import fetchArtistProfile from "@/lib/fetchArtistProfile";
+import truncateAddress from "@/lib/truncateAddress";
 
 type Props = {
   params: Promise<{ collectionAddress: string }>;
@@ -22,11 +24,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const chainIdInt = chainId || CHAIN_ID;
 
   try {
-    const { uri } = await getCollectionApi(address, chainIdInt);
+    const { uri, default_admin } = await getCollectionApi(address, chainIdInt);
     if (!uri) return { title: "In Process", description: "Imagined by LATASHÁ" };
+    const profile = await fetchArtistProfile(default_admin as Address);
+    const username = profile.username || truncateAddress(default_admin);
     const metadata = await fetchMetadata(uri);
     const title = metadata?.name || "In Process";
-    const description = metadata?.description || "Imagined by LATASHÁ";
+    const description = metadata?.description || `Imagined by ${username}`;
 
     return {
       title,
