@@ -26,8 +26,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   try {
     const { uri, default_admin } = await getCollectionApi(address, chainIdInt);
     if (!uri) return { title: "In Process", description: "Imagined by LATASHÁ" };
-    const profile = await fetchArtistProfile(default_admin as Address);
-    const username = profile.username || truncateAddress(default_admin);
+    const username = default_admin.username || truncateAddress(default_admin.address);
     const metadata = await fetchMetadata(uri);
     const title = metadata?.name || "In Process";
     const description = metadata?.description || `Imagined by ${username}`;
