@@ -92,21 +92,16 @@ export const makeMediaTokenMetadata = async ({
 
 export async function fetchTokenMetadata(tokenMetadataURI: string) {
   const fetchableUrl = getFetchableUrl(tokenMetadataURI);
-  try {
-    if (!fetchableUrl) {
-      throw new Error(`Invalid token metadata URI: ${tokenMetadataURI}`);
-    }
 
-    const response = await fetch(fetchableUrl, { cache: "no-store" });
+  if (!fetchableUrl) {
+    throw new Error(`Invalid token metadata URI: ${tokenMetadataURI}`);
+  }
 
-    if (!response.ok) throw new Error();
+  const json = (await (await fetch(fetchableUrl)).json()) as TokenMetadataJson | undefined;
 
-    const json = (await response.json()) as TokenMetadataJson | undefined;
-
-    if (!json) throw new Error();
-
-    return json;
-  } catch (error) {
+  if (!json) {
     throw new Error(`Failed to fetch metadata from ${fetchableUrl}`);
   }
+
+  return json;
 }
