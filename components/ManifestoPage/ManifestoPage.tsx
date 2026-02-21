@@ -18,7 +18,7 @@ const ManifestoPage = () => {
           objectPosition="right"
         />
       </div>
-      <div className="relative flex w-full justify-center text-grey-moss-900 md:w-2/4">
+      <div className="relative flex w-full justify-center overflow-x-hidden text-grey-moss-900 md:w-2/4 md:overflow-x-visible">
         <div className="relative w-fit">
           <p className="relative z-[2] font-archivo text-2xl uppercase tracking-[-1px] md:text-5xl">
             <strong>IN PROCESS: A MANIFESTO</strong>

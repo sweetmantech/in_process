@@ -4,11 +4,12 @@ import { base } from "viem/chains";
 import { useMetadata } from "./useMetadata";
 import { validateUrl } from "@/lib/url/validateUrl";
 
-export const useMomentClick = (moment: TimelineMoment) => {
+export const useMomentClick = (moment: TimelineMoment | undefined) => {
   const { push } = useRouter();
-  const { data, isLoading } = useMetadata(moment.uri);
+  const { data, isLoading } = useMetadata(moment?.uri || "");
 
   const handleMomentClick = () => {
+    if (!moment) return;
     const { chain_id, address, token_id } = moment;
     if (isLoading || !data) return;
     if (data?.external_url) {

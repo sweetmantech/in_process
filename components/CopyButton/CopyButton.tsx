@@ -1,23 +1,21 @@
-import { toast } from "sonner";
 import truncateAddress from "@/lib/truncateAddress";
-import { useState } from "react";
+import useCopy from "@/hooks/useCopy";
 import AnimatedCopyIcon from "./AnimatedCopyIcon";
 import { cn } from "@/lib/utils";
+import { ReactNode } from "react";
 
 interface CopyButtonProps {
   text: string;
   className?: string;
   shorten?: boolean;
+  children?: ReactNode;
 }
 
-const CopyButton = ({ text, className = "", shorten = true }: CopyButtonProps) => {
-  const [isCopied, setIsCopied] = useState(false);
+const CopyButton = ({ text, className = "", shorten = true, children }: CopyButtonProps) => {
+  const { copied: isCopied, copy } = useCopy(text);
 
-  const handleCopy = async () => {
-    await navigator.clipboard.writeText(text);
-    toast.success("copied!");
-    setIsCopied(true);
-    setTimeout(() => setIsCopied(false), 2000);
+  const handleCopy = (e: React.MouseEvent) => {
+    copy(e);
   };
 
   return (
@@ -29,7 +27,7 @@ const CopyButton = ({ text, className = "", shorten = true }: CopyButtonProps) =
       type="button"
       onClick={handleCopy}
     >
-      {shorten ? truncateAddress(text) : text}
+      {children ?? (shorten ? truncateAddress(text) : text)}
       <AnimatedCopyIcon isCopied={isCopied} />
     </button>
   );

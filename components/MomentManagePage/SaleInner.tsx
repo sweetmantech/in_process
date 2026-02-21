@@ -1,15 +1,17 @@
 "use client";
 
-import useSaleConfig from "@/hooks/useSaleConfig";
-import { DateTimePicker } from "../ui/date-time-picker";
+import useSetSale from "@/hooks/useSetSale";
 import { useMomentProvider } from "@/providers/MomentProvider";
 import useMomentLegacyWarning from "@/hooks/useMomentLegacyWarning";
 import Warning from "./Warning";
 import GrantMomentPermissionButton from "./GrantMomentPermissionButton";
 import SaleSkeleton from "./SaleSkeleton";
+import SaleStartPicker from "./SaleStartPicker";
+import SalePriceInput from "./SalePriceInput";
 
 const SaleInner = () => {
-  const { saleStart, setSaleStart, setSale, isLoading } = useSaleConfig();
+  const { saleStart, setSaleStart, priceInput, setPriceInput, priceUnit, setSale, isLoading } =
+    useSetSale();
   const { saleConfig, isOwner } = useMomentProvider();
   const hasWarning = useMomentLegacyWarning();
 
@@ -23,17 +25,17 @@ const SaleInner = () => {
         ) : (
           <>
             <Warning />
-            <div>
-              <p className="pb-2">
-                sale start:{" "}
-                {BigInt(saleConfig.saleStart) === BigInt(0)
-                  ? "Open"
-                  : new Date(
-                      parseInt(saleConfig.saleStart.toString(), 10) * 1000
-                    ).toLocaleDateString()}
-              </p>
-              <DateTimePicker date={saleStart} setDate={(value) => setSaleStart(value)} />
-            </div>
+            <SaleStartPicker
+              saleStart={saleStart}
+              currentSaleStart={saleConfig.saleStart}
+              setSaleStart={setSaleStart}
+            />
+            <SalePriceInput
+              priceInput={priceInput}
+              priceUnit={priceUnit}
+              disabled={isLoading}
+              setPriceInput={setPriceInput}
+            />
             {hasWarning ? (
               <GrantMomentPermissionButton />
             ) : (

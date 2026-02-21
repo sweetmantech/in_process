@@ -9,6 +9,8 @@ interface TimelineContextValue {
   data: TimelineResponse | undefined;
   moments: TimelineMoment[];
   isLoading: boolean;
+  isFetchingNextPage: boolean;
+  hasNextPage: boolean;
   error: unknown;
   currentPage: number;
   setCurrentPage: (page: number) => void;
@@ -43,7 +45,16 @@ export const TimelineProvider = ({
     type,
   });
 
-  const { data, isLoading, error, currentPage, setCurrentPage, fetchMore } = timeline;
+  const {
+    data,
+    isLoading,
+    isFetchingNextPage,
+    hasNextPage,
+    error,
+    currentPage,
+    setCurrentPage,
+    fetchMore,
+  } = timeline;
   const moments = data?.moments || [];
 
   return (
@@ -52,6 +63,8 @@ export const TimelineProvider = ({
         data,
         moments,
         isLoading,
+        isFetchingNextPage,
+        hasNextPage,
         error,
         currentPage,
         setCurrentPage,

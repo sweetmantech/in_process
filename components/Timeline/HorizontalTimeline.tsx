@@ -58,7 +58,7 @@ const HorizontalTimeline = () => {
           className="!h-0 w-full !overflow-visible"
           slideClassName="!w-fit !m-0"
         >
-          {moments.map((moment, i) => (
+          {moments.reverse().map((moment, i) => (
             <Moment
               key={i}
               moment={moment}

@@ -1,6 +1,6 @@
 import { useMetadata } from "@/hooks/useMetadata";
 import truncateAddress from "@/lib/truncateAddress";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import truncated from "@/lib/truncated";
 import HideButton from "@/components/TimelineMoments/HideButton";
 import { type TimelineMoment } from "@/types/moment";
@@ -8,7 +8,7 @@ import MomentItemSkeleton from "./MomentItemSkeleton";
 import { Copy, Check } from "lucide-react";
 import Preview from "./Preview";
 import useCopy from "@/hooks/useCopy";
-import useArtistEditable from "@/hooks/useArtistEditable";
+import useIsMomentAdmin from "@/hooks/useIsMomentAdmin";
 
 export type MomentItemVariant = "collection" | "moment";
 
@@ -21,15 +21,14 @@ const MomentItem = ({ m, variant = "collection" }: MomentItemProps) => {
   const { data, isLoading } = useMetadata(m.uri);
   const { push } = useRouter();
   const { copied, copy } = useCopy(m.address);
-  const { artistAddress } = useParams();
-  const { isEditable } = useArtistEditable();
-
-  const showHideButton = !artistAddress || isEditable;
+  const isMomentAdmin = useIsMomentAdmin(m);
+  const pathname = usePathname();
+  const isManagePage = pathname.includes("/manage");
 
   const handleClick = () => {
     if (isLoading) return;
     push(
-      `/${artistAddress ? "collect" : "manage"}/${m.chain_id === 8453 ? "base" : "bsep"}:${m.address}${variant === "moment" ? `/${m.token_id}` : ""}`
+      `/${isManagePage ? "manage" : "collect"}/${m.chain_id === 8453 ? "base" : "bsep"}:${m.address}${variant === "moment" ? `/${m.token_id}` : ""}`
     );
   };
 
@@ -44,7 +43,7 @@ const MomentItem = ({ m, variant = "collection" }: MomentItemProps) => {
         onKeyDown={(e) => e.key === "Enter" && handleClick()}
       >
         <div className="relative aspect-square w-full overflow-hidden rounded-t-xl bg-grey-moss-50">
-          {showHideButton && (
+          {isMomentAdmin && (
             <div className="absolute right-1.5 top-1.5 z-20">
               <HideButton moment={m} />
             </div>

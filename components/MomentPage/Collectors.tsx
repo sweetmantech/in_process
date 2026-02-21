@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useMomentCollectorsProvider } from "@/providers/MomentCollectorsProvider";
-import FetchMore from "../FetchMore";
 import CollectorItem from "./CollectorItem";
+import FetchMore from "../FetchMore";
 import { ChevronDown } from "lucide-react";
 
 const Collectors = () => {
