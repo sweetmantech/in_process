@@ -1,15 +1,26 @@
-import { IN_PROCESS_API } from "@/lib/consts";
+import turboClient from "./client";
 
-export const uploadFile = async (file: File): Promise<string> => {
-  try {
-    const data = new FormData();
-    data.set("file", file);
-    const res = await fetch(`${IN_PROCESS_API}/arweave`, { method: "POST", body: data });
-    const arweaveURI = await res.json();
+export const uploadFile = async (
+  file: File,
+  getProgress: (progress: number) => void = () => {}
+): Promise<string> => {
+  const uint8Array = new Uint8Array(await file.arrayBuffer());
 
-    return arweaveURI;
-  } catch (error) {
-    console.error(error);
-    return "";
-  }
+  const { id } = await turboClient.uploadFile({
+    fileStreamFactory: () => Buffer.from(uint8Array),
+    fileSizeFactory: () => file.size,
+    dataItemOpts: {
+      tags: [
+        { name: "Content-Type", value: file.type },
+        { name: "File-Name", value: file.name },
+      ],
+    },
+    events: {
+      onProgress: ({ totalBytes, processedBytes }) => {
+        getProgress(Math.round((processedBytes / totalBytes) * 100));
+      },
+    },
+  });
+
+  return `ar://${id}`;
 };

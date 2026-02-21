@@ -7,10 +7,31 @@ const nextConfig = {
     "@walletconnect/ethereum-provider",
     "thread-stream",
     "pino",
+    "@ardrive/turbo-sdk",
   ],
   images: {
     loader: "custom",
     loaderFile: "./lib/media/imageLoader.ts",
+  },
+  turbopack: {
+    resolveAlias: {
+      buffer: "buffer/",
+      crypto: "crypto-browserify",
+      stream: "stream-browserify",
+      process: "process/browser",
+    },
+  },
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        buffer: require.resolve("buffer/"),
+        crypto: require.resolve("crypto-browserify"),
+        stream: require.resolve("stream-browserify"),
+        process: require.resolve("process/browser"),
+      };
+    }
+    return config;
   },
 };
 
