@@ -12,6 +12,19 @@ const nextConfig = {
     loader: "custom",
     loaderFile: "./lib/media/imageLoader.ts",
   },
+  turbopack: {},
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        buffer: require.resolve("buffer/"),
+        crypto: require.resolve("crypto-browserify"),
+        stream: require.resolve("stream-browserify"),
+        process: require.resolve("process/browser"),
+      };
+    }
+    return config;
+  },
 };
 
 module.exports = nextConfig;

@@ -1,6 +1,4 @@
-import arweave from "./client";
-import postToArweave from "./postToArweave";
-import waitForArweave from "./waitForArweave";
+import { TurboFactory } from "@ardrive/turbo-sdk/web";
 
 const uploadToArweave = async (
   file: File,
@@ -9,36 +7,25 @@ const uploadToArweave = async (
   const ARWEAVE_KEY = JSON.parse(
     Buffer.from(process.env.NEXT_PUBLIC_ARWEAVE_KEY as string, "base64").toString()
   );
-  const buffer = await file.arrayBuffer();
 
-  const transaction = await arweave.createTransaction(
-    {
-      data: buffer,
+  const turbo = TurboFactory.authenticated({ privateKey: ARWEAVE_KEY });
+
+  const fileBuffer = Buffer.from(await file.arrayBuffer());
+
+  const result = await turbo.uploadFile({
+    fileStreamFactory: () => fileBuffer,
+    fileSizeFactory: () => file.size,
+    dataItemOpts: {
+      tags: [{ name: "Content-Type", value: file.type }],
     },
-    ARWEAVE_KEY
-  );
-  transaction.addTag("Content-Type", file.type);
-  await arweave.transactions.sign(transaction, ARWEAVE_KEY);
+    events: {
+      onProgress: ({ totalBytes, processedBytes }) => {
+        getProgress(Math.round((processedBytes / totalBytes) * 100));
+      },
+    },
+  });
 
-  const data = transaction.data;
-  const totalChunks = transaction.chunks!.chunks.length;
-
-  // Post transaction header via proxy (with data emptied for chunked upload)
-  transaction.data = new Uint8Array(0);
-  await postToArweave("tx", transaction);
-
-  // Upload each chunk via proxy
-  for (let i = 0; i < totalChunks; i++) {
-    const chunk = transaction.getChunk(i, data);
-    await postToArweave("chunk", chunk);
-    const pctComplete = Math.round(((i + 1) / totalChunks) * 100);
-    console.log(`${pctComplete}% complete, ${i + 1}/${totalChunks}`);
-    getProgress(pctComplete);
-  }
-
-  await waitForArweave(transaction.id);
-
-  return `ar://${transaction.id}`;
+  return `ar://${result.id}`;
 };
 
 export default uploadToArweave;
