@@ -94,6 +94,9 @@ importers:
       arweave:
         specifier: ^1.15.7
         version: 1.15.7
+      buffer:
+        specifier: ^6.0.3
+        version: 6.0.3
       canvas:
         specifier: 3.2.0
         version: 3.2.0
@@ -151,6 +154,9 @@ importers:
       next-themes:
         specifier: ^0.4.4
         version: 0.4.6(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
+      process:
+        specifier: ^0.11.10
+        version: 0.11.10
       react:
         specifier: ^19.2.1
         version: 19.2.1
@@ -254,9 +260,6 @@ importers:
       autoprefixer:
         specifier: ^10.4.20
         version: 10.4.22(postcss@8.4.31)
-      buffer:
-        specifier: ^6.0.3
-        version: 6.0.3
       eslint:
         specifier: ^9.17.0
         version: 9.39.1(jiti@1.21.7)
@@ -284,9 +287,6 @@ importers:
       prettier-plugin-tailwindcss:
         specifier: ^0.7.2
         version: 0.7.2(prettier@3.7.4)
-      process:
-        specifier: ^0.11.10
-        version: 0.11.10
       tailwindcss:
         specifier: ^3.4.1
         version: 3.4.18(yaml@2.8.2)

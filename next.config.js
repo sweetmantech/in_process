@@ -13,7 +13,14 @@ const nextConfig = {
     loader: "custom",
     loaderFile: "./lib/media/imageLoader.ts",
   },
-  turbopack: {},
+  turbopack: {
+    resolveAlias: {
+      buffer: "buffer/",
+      crypto: "crypto-browserify",
+      stream: "stream-browserify",
+      process: "process/browser",
+    },
+  },
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.resolve.fallback = {
