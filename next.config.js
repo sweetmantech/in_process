@@ -7,6 +7,7 @@ const nextConfig = {
     "@walletconnect/ethereum-provider",
     "thread-stream",
     "pino",
+    "@ardrive/turbo-sdk",
   ],
   images: {
     loader: "custom",
