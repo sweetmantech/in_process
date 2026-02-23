@@ -3,7 +3,7 @@ import { IN_PROCESS_API } from "@/lib/consts";
 
 export interface MigrateMuxToArweaveApiInput {
   collectionAddress: Address;
-  tokenIds: string[];
+  tokenId: string;
   chainId?: number;
 }
 
