@@ -49,7 +49,7 @@ const useUpdateCollectionURI = () => {
         await migrateMuxToArweaveApi(
           {
             collectionAddress: collection.address as Address,
-            tokenIds: ["0"],
+            tokenId: "0",
             chainId: collection.chain_id,
           },
           accessToken

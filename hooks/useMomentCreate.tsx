@@ -47,7 +47,7 @@ export default function useMomentCreate() {
         await migrateMuxToArweaveApi(
           {
             collectionAddress: result.contractAddress as Address,
-            tokenIds: [result.tokenId.toString()],
+            tokenId: result.tokenId.toString(),
             chainId: CHAIN_ID,
           },
           accessToken

@@ -61,14 +61,7 @@ const useUpdateMomentURI = () => {
       });
 
       if (mimeType?.includes("video")) {
-        await migrateMuxToArweaveApi(
-          {
-            collectionAddress: moment.collectionAddress,
-            tokenIds: [moment.tokenId],
-            chainId: moment.chainId,
-          },
-          accessToken
-        );
+        await migrateMuxToArweaveApi(moment, accessToken);
       }
 
       // Reset media state after successful save (for all file types)
