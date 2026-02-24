@@ -12,7 +12,7 @@ const MomentOverview = () => {
   const { metadata, isLoading } = useMomentProvider();
   const { data: collection, isLoading: isCollectionLoading } = useCollectionProvider();
 
-  if (isLoading || !metadata || !collection) return <MomentOverviewSkeleton />;
+  if (isLoading || isCollectionLoading || !collection) return <MomentOverviewSkeleton />;
 
   const collectionHref = `/manage/${networkConfigByChain[collection.chain_id].zoraCollectPathChainName}:${collection.address}`;
 
@@ -25,12 +25,20 @@ const MomentOverview = () => {
             href: "/manage/moments",
           },
           {
-            label: collection.metadata?.name ?? "",
+            label: collection.metadata ? (
+              (collection.metadata.name ?? "")
+            ) : (
+              <span className="text-grey-moss-200">unknown</span>
+            ),
             href: collectionHref,
             isLoading: isCollectionLoading,
           },
           {
-            label: metadata?.name ?? "",
+            label: metadata ? (
+              (metadata.name ?? "")
+            ) : (
+              <span className="text-grey-moss-200">unknown</span>
+            ),
             isLoading,
           },
         ]}
