@@ -7,6 +7,7 @@ export function useMetadata(uri: string) {
     queryFn: () => fetchMetadata(uri),
     staleTime: 1000 * 60 * 5,
     enabled: Boolean(uri),
-    refetchOnMount: true,
+    refetchOnWindowFocus: false,
+    retry: false,
   });
 }
