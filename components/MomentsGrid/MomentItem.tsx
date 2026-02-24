@@ -1,6 +1,6 @@
 import { useMetadata } from "@/hooks/useMetadata";
 import truncateAddress from "@/lib/truncateAddress";
-import { useParams, usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import truncated from "@/lib/truncated";
 import HideButton from "@/components/TimelineMoments/HideButton";
 import { type TimelineMoment } from "@/types/moment";
