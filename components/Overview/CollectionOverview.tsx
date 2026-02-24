@@ -18,7 +18,7 @@ const CollectionOverview = () => {
       ? `/manage/${networkConfigByChain[data.chain_id].zoraCollectPathChainName}:${data.address}`
       : undefined;
 
-  if (isLoading || !metadata) return <CollectionOverviewSkeleton />;
+  if (isLoading) return <CollectionOverviewSkeleton />;
 
   return (
     <div className="w-full px-2 pt-0 md:pt-8 md:px-10">
@@ -29,7 +29,11 @@ const CollectionOverview = () => {
             href: "/manage/moments",
           },
           {
-            label: data?.name ?? "",
+            label: metadata ? (
+              (data?.name ?? "")
+            ) : (
+              <span className="text-grey-moss-200">unknown</span>
+            ),
             href: collectionHref,
             isLoading,
           },

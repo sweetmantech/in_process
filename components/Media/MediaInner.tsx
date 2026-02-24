@@ -25,7 +25,7 @@ const MediaInner = ({ metadata, isOwner, isLoading, isSaving, SaveButton }: Medi
 
   useMediaInitialization(metadata ?? undefined);
 
-  if (isLoading || !metadata) {
+  if (isLoading) {
     return <MediaSkeleton />;
   }
 
@@ -37,7 +37,7 @@ const MediaInner = ({ metadata, isOwner, isLoading, isSaving, SaveButton }: Medi
             <TitleInput disabled={!isOwner || isSaving} labelHidden={false} />
             <DescriptionInput disabled={!isOwner || isSaving} labelHidden={false} />
             <div className="relative aspect-[571/692] min-h-[300px] bg-[url('/grid.svg')] bg-contain">
-              {editActive ? (
+              {editActive || !metadata ? (
                 <AnimationUpload isOwner={isOwner} isSaving={isSaving} />
               ) : (
                 <>

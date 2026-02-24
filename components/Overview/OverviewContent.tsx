@@ -4,7 +4,7 @@ import { Address } from "viem";
 import { TokenMetadataJson } from "@/lib/protocolSdk";
 
 interface OverviewContentProps {
-  metadata: TokenMetadataJson;
+  metadata: TokenMetadataJson | null | undefined;
   name: string | null | undefined;
   address: Address;
 }
@@ -17,12 +17,18 @@ const OverviewContent = ({ metadata, name, address }: OverviewContentProps) => {
 
   return (
     <div className={containerClassName}>
-      <div className="relative aspect-[1/1] w-24">
-        <ContentRenderer metadata={metadata} />
+      <div className="relative aspect-[1/1] w-24 bg-grey-moss-50 flex items-center justify-center">
+        {metadata ? (
+          <ContentRenderer metadata={metadata} />
+        ) : (
+          <p className="text-xs text-grey-moss-200">No Preview</p>
+        )}
       </div>
       <div className="space-y-2">
-        <p className="font-archivo-medium text-xl md:text-4xl truncate min-w-0 max-w-[200px]">
-          {name}
+        <p
+          className={`font-archivo-medium text-xl md:text-4xl truncate min-w-0 max-w-[200px] ${!metadata ? "text-grey-moss-200" : ""}`}
+        >
+          {metadata ? name : "Unknown"}
         </p>
         <CopyButton
           text={address}
