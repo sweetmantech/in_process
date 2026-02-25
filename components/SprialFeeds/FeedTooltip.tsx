@@ -1,7 +1,6 @@
 import React from "react";
 import { useMetadata } from "@/hooks/useMetadata";
 import Loading from "../Loading";
-import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import Image from "next/image";
 import { TimelineMoment } from "@/types/moment";
 
@@ -29,7 +28,7 @@ export const FeedTooltip: React.FC<FeedTooltipProps> = ({ feed, position, isVisi
           <Loading className="size-full" />
         ) : (
           <Image
-            src={getFetchableUrl(data?.image) || "/images/placeholder.png"}
+            src={data?.image || "/images/placeholder.png"}
             alt="not found image"
             layout="fill"
             objectFit="contain"

@@ -14,36 +14,35 @@ interface CarouselItemProps {
 
 const CarouselItem = ({ metadata }: CarouselItemProps) => {
   const mimeType = metadata?.content?.mime || "";
-  const animationUrl = getFetchableUrl(metadata.animation_url);
+  const rawAnimationUri = metadata.animation_url || "";
+  const rawImageUri = metadata.image || "";
 
   if (mimeType.includes("pdf")) {
-    if (!animationUrl) return <ErrorContent />;
-    return <PdfViewer fileUrl={animationUrl} />;
+    const fetchableUrl = getFetchableUrl(rawAnimationUri);
+    if (!fetchableUrl) return <ErrorContent />;
+    return <PdfViewer fileUrl={fetchableUrl} />;
   }
   if (mimeType.includes("audio")) {
-    if (!animationUrl) return <ErrorContent />;
-    const thumbnailUrl = getFetchableUrl(metadata.image);
+    if (!rawAnimationUri) return <ErrorContent />;
     return (
       <AudioPlayer
-        thumbnailUrl={thumbnailUrl || "/images/placeholder.png"}
-        audioUrl={animationUrl}
+        thumbnailUrl={rawImageUri || "/images/placeholder.png"}
+        audioUrl={rawAnimationUri}
       />
     );
   }
   if (mimeType.includes("video")) {
-    if (!animationUrl) return <ErrorContent />;
+    if (!rawAnimationUri) return <ErrorContent />;
     return (
       <div className="flex size-full justify-center">
-        <VideoPlayer url={animationUrl} thumbnail={getFetchableUrl(metadata.image) || undefined} />
+        <VideoPlayer url={rawAnimationUri} thumbnail={rawImageUri || undefined} />
       </div>
     );
   }
 
   if (mimeType.includes("html")) {
-    if (!animationUrl) return <ErrorContent />;
-
     // Only allow IPFS/Arweave URLs in iframes to prevent phishing and malicious content
-    if (!isSafeIframeUrl(metadata.animation_url)) {
+    if (!isSafeIframeUrl(rawAnimationUri)) {
       return (
         <div className="flex size-full items-center justify-center p-4 text-center">
           <p className="text-grey-moss-400">
@@ -53,10 +52,12 @@ const CarouselItem = ({ metadata }: CarouselItemProps) => {
         </div>
       );
     }
+    const fetchableUrl = getFetchableUrl(rawAnimationUri);
+    if (!fetchableUrl) return <ErrorContent />;
     return (
       <div className="flex size-full justify-center">
         <iframe
-          src={animationUrl}
+          src={fetchableUrl}
           className="w-full"
           title={metadata?.name || "Embedded content"}
           sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox"
@@ -77,7 +78,7 @@ const CarouselItem = ({ metadata }: CarouselItemProps) => {
   }
   return (
     <BlurImage
-      src={getFetchableUrl(metadata.image) || "/images/placeholder.png"}
+      src={rawImageUri || "/images/placeholder.png"}
       alt="Token Image."
       width={600}
       height={600}

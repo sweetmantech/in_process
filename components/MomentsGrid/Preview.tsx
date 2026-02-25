@@ -1,4 +1,3 @@
-import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import { TokenMetadataJson } from "@/lib/protocolSdk/ipfs/types";
 import { determineMediaType } from "@/lib/zora/utils";
 import BlurImage from "@/components/BlurImage";
@@ -13,7 +12,7 @@ interface PreviewProps {
 
 const Preview = ({ data }: PreviewProps) => {
   const mediaType = data.content?.mime ? determineMediaType(data.content.mime) : null;
-  const hasImage = !!getFetchableUrl(data.image);
+  const hasImage = !!data.image;
 
   if (!hasImage && mediaType === "text") return <TextMomentPreview data={data} />;
   if (!hasImage && mediaType === "pdf") return <PdfMomentPreview data={data} />;
@@ -32,7 +31,7 @@ const Preview = ({ data }: PreviewProps) => {
 
   return (
     <BlurImage
-      src={getFetchableUrl(data.image)!}
+      src={data.image!}
       alt={data.name || "Moment image"}
       className="z-[1] transition-transform duration-300 group-hover:scale-[1.02]"
       fill

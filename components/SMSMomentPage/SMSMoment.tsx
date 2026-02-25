@@ -8,7 +8,6 @@ import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "../ui/
 import useShareMoment from "@/hooks/useShareMoment";
 import Notes from "./Notes";
 import { Skeleton } from "../ui/skeleton";
-import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import CollectionImage from "../CollectionImage";
 import useMediaInitialization from "@/hooks/useMediaInitialization";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
@@ -36,10 +35,7 @@ const SMSMoment = () => {
   };
 
   const imageUrl =
-    blobUrls?.image ||
-    previewFileUrl ||
-    getFetchableUrl(metadata?.image) ||
-    "/images/placeholder.png";
+    blobUrls?.image || previewFileUrl || metadata?.image || "/images/placeholder.png";
 
   if (!metadata || isLoading)
     return (
