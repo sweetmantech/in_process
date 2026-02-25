@@ -18,16 +18,16 @@ const AirdropRecipientsPopup = () => {
         onClick={() => setIsOpen(true)}
         className="absolute top-1/2 -translate-y-1/2 right-2 whitespace-nowrap rounded-md bg-black px-3 py-2 text-xs font-archivo text-white transition-opacity hover:opacity-80"
       >
-        regular addies
+        recent recipients
       </button>
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogOverlay className="!pointer-events-none opacity-80" />
         <DialogContent className="flex max-w-xl flex-col !gap-0 overflow-hidden !rounded-3xl border-none !bg-white bg-transparent px-8 py-10 shadow-lg">
           <VisuallyHidden>
-            <DialogTitle>Regular Addies</DialogTitle>
+            <DialogTitle>Recent Recipients</DialogTitle>
           </VisuallyHidden>
           <div className="mb-4">
-            <h2 className="text-center font-archivo text-2xl">regular addies</h2>
+            <h2 className="text-center font-archivo text-2xl">recent recipients</h2>
           </div>
           <div className="max-h-[400px] overflow-y-auto">
             {isLoading ? (
