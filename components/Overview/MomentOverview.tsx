@@ -31,7 +31,6 @@ const MomentOverview = () => {
               <span className="text-grey-moss-200">unknown</span>
             ),
             href: collectionHref,
-            isLoading: isCollectionLoading,
           },
           {
             label: metadata ? (
@@ -39,7 +38,6 @@ const MomentOverview = () => {
             ) : (
               <span className="text-grey-moss-200">unknown</span>
             ),
-            isLoading,
           },
         ]}
       />
