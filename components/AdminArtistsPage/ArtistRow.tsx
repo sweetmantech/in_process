@@ -4,21 +4,18 @@ import { Artist } from "@/types/artist";
 
 interface ArtistRowProps {
   artist: Artist;
-  showUsername?: boolean;
 }
 
-const ArtistRow = ({ artist, showUsername = true }: ArtistRowProps) => {
+const ArtistRow = ({ artist }: ArtistRowProps) => {
   return (
     <TableRow className="transition-colors hover:bg-muted/50">
-      {showUsername && (
-        <TableCell className="px-6 py-4">
-          {artist.username ? (
-            <span className="text-sm font-medium">@{artist.username}</span>
-          ) : (
-            <span className="text-xs text-neutral-400">—</span>
-          )}
-        </TableCell>
-      )}
+      <TableCell className="px-6 py-4">
+        {artist.username ? (
+          <span className="text-sm font-medium">@{artist.username}</span>
+        ) : (
+          <span className="text-xs text-neutral-400">—</span>
+        )}
+      </TableCell>
       <TableCell className="px-6 py-4">
         <CopyButton
           text={artist.address}
