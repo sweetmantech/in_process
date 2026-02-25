@@ -23,11 +23,6 @@ const ArtistsTable = () => {
 
   return (
     <Card>
-      <CardHeader className="border-b">
-        <CardTitle className="flex items-center justify-end">
-          <Badge variant="outline">{artists.length} shown</Badge>
-        </CardTitle>
-      </CardHeader>
       <CardContent className="p-0">
         {artists.length === 0 ? (
           <NoArtistsFound />
