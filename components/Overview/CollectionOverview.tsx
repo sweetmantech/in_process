@@ -35,7 +35,6 @@ const CollectionOverview = () => {
               <span className="text-grey-moss-200">unknown</span>
             ),
             href: collectionHref,
-            isLoading,
           },
         ]}
       />
