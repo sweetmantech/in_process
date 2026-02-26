@@ -1,8 +1,7 @@
 import React from "react";
 import { useMetadata } from "@/hooks/useMetadata";
 import Loading from "../Loading";
-import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
-import Image from "next/image";
+import BlurImage from "@/components/BlurImage";
 import { TimelineMoment } from "@/types/moment";
 
 interface FeedTooltipProps {
@@ -28,12 +27,11 @@ export const FeedTooltip: React.FC<FeedTooltipProps> = ({ feed, position, isVisi
         {isLoading ? (
           <Loading className="size-full" />
         ) : (
-          <Image
-            src={getFetchableUrl(data?.image) || "/images/placeholder.png"}
+          <BlurImage
+            src={data?.image || "/images/placeholder.png"}
             alt="not found image"
-            layout="fill"
-            objectFit="contain"
-            objectPosition="center"
+            fill
+            style={{ objectFit: "contain", objectPosition: "center" }}
           />
         )}
       </div>

@@ -20,34 +20,38 @@ const ContentRendererInner = ({ metadata }: ContentRendererProps) => {
   const mimeType = metadata?.content?.mime || "";
   const isCollect = pathname.includes("/collect");
 
-  // Compute all URLs upfront
-  const animationUrl = getFetchableUrl(metadata.animation_url);
-  const imageUrl = getFetchableUrl(metadata.image);
-  const contentUri = getFetchableUrl(metadata?.content?.uri);
+  // Raw URIs for proxy APIs (stream/image) — send ar:// directly
+  const rawAnimationUri = metadata.animation_url || "";
+  const rawImageUri = metadata.image || "";
+  const rawContentUri = metadata?.content?.uri || "";
 
   if (mimeType.includes("pdf")) {
-    if (!animationUrl) return <ErrorContent />;
-    return <PdfViewer fileUrl={animationUrl} />;
+    const fetchableUrl = getFetchableUrl(rawAnimationUri);
+    if (!fetchableUrl) return <ErrorContent />;
+    return <PdfViewer fileUrl={fetchableUrl} />;
   }
 
   if (mimeType.includes("audio")) {
-    if (!animationUrl) return <ErrorContent />;
+    if (!rawAnimationUri) return <ErrorContent />;
     return (
-      <AudioPlayer thumbnailUrl={imageUrl || "/images/placeholder.png"} audioUrl={animationUrl} />
+      <AudioPlayer
+        thumbnailUrl={rawImageUri || "/images/placeholder.png"}
+        audioUrl={rawAnimationUri}
+      />
     );
   }
 
   if (mimeType.includes("video")) {
-    if (!animationUrl) return <ErrorContent />;
+    if (!rawAnimationUri) return <ErrorContent />;
     return (
       <div className="flex size-full justify-center">
-        <VideoPlayer url={animationUrl} thumbnail={imageUrl || undefined} />
+        <VideoPlayer url={rawAnimationUri} thumbnail={rawImageUri || undefined} />
       </div>
     );
   }
 
   if (mimeType.includes("html")) {
-    const iframeUrl = metadata.animation_url;
+    const iframeUrl = rawAnimationUri;
     // Only allow IPFS/Arweave URLs in iframes to prevent phishing and malicious content
     if (!isSafeIframeUrl(iframeUrl)) {
       return (
@@ -59,13 +63,14 @@ const ContentRendererInner = ({ metadata }: ContentRendererProps) => {
         </div>
       );
     }
-    if (!animationUrl) {
+    const fetchableUrl = getFetchableUrl(iframeUrl);
+    if (!fetchableUrl) {
       return <ErrorContent />;
     }
     return (
       <div className="flex size-full justify-center">
         <iframe
-          src={animationUrl}
+          src={fetchableUrl}
           className="h-full w-full"
           title={metadata?.name || "Embedded content"}
           sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox"
@@ -77,14 +82,15 @@ const ContentRendererInner = ({ metadata }: ContentRendererProps) => {
   }
 
   if (mimeType.includes("text/plain")) {
-    if (!contentUri) return <ErrorContent />;
-    return <Writing fileUrl={contentUri} description={metadata?.description || ""} />;
+    const fetchableUrl = getFetchableUrl(rawContentUri);
+    if (!fetchableUrl) return <ErrorContent />;
+    return <Writing fileUrl={fetchableUrl} description={metadata?.description || ""} />;
   }
 
   return (
     <div className="relative h-full w-full">
       <BlurImage
-        src={(isCollect && animationUrl) || imageUrl || "/images/placeholder.png"}
+        src={(isCollect && rawAnimationUri) || rawImageUri || "/images/placeholder.png"}
         alt={metadata?.name || metadata?.description || "Moment image"}
         fill
         sizes="(max-width: 768px) 100vw, 800px"

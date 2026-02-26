@@ -1,7 +1,6 @@
 import { useMemo } from "react";
 import type { CollectionItem } from "@/types/collections";
 import { useMetadata } from "@/hooks/useMetadata";
-import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 
 export const useCollectionItem = (
   collection: CollectionItem
@@ -13,9 +12,7 @@ export const useCollectionItem = (
   }, [collection.name, collection.address]);
 
   const imageUrl = useMemo(() => {
-    return metadata?.image
-      ? getFetchableUrl(metadata.image) || "/images/placeholder.png"
-      : "/images/placeholder.png";
+    return metadata?.image || "/images/placeholder.png";
   }, [metadata?.image]);
 
   return { displayName, imageUrl, isLoading };

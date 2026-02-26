@@ -14,7 +14,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Button } from "@/components/ui/button";
 import { useCollectionsSelection } from "@/hooks/useCollectionsSelection";
 import CollectionListItem from "./CollectionItem";
-import Image from "next/image";
+import BlurImage from "@/components/BlurImage";
 import Spinner from "../ui/spinner";
 import { useCollectionsProvider } from "@/providers/CollectionsProvider";
 import { useCreateCollectionModalTriggerProvider } from "@/providers/CollectionCreateProvider/CreateCollectionModalTriggerProvider";
@@ -52,12 +52,11 @@ const Collections = () => {
               {isLoading || !currentCollection ? (
                 <div className="h-[24px] w-[24px] animate-pulse rounded bg-neutral-200" />
               ) : (
-                <div className="h-[24px] w-[24px] shrink-0 overflow-hidden rounded">
-                  <Image
+                <div className="relative h-[24px] w-[24px] shrink-0 overflow-hidden rounded">
+                  <BlurImage
                     src={imageUrl}
                     alt={displayName}
-                    width={30}
-                    height={30}
+                    fill
                     className="h-full w-full object-cover"
                   />
                 </div>
