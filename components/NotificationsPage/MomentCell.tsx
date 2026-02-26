@@ -1,6 +1,6 @@
 import { TableCell } from "@/components/ui/table";
 import { useMetadata } from "@/hooks/useMetadata";
-import Image from "next/image";
+import BlurImage from "@/components/BlurImage";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { InProcessPayment } from "@/types/payments";
 import { SITE_ORIGINAL_URL } from "@/lib/consts";
@@ -30,8 +30,8 @@ const MomentCell = ({ moment, className }: MomentCellProps) => {
         ) : (
           <>
             {metadata?.image && (
-              <Image
-                src={metadata.image || "/images/placeholder.png"}
+              <BlurImage
+                src={metadata.image}
                 alt={metadata.name || "Moment"}
                 width={48}
                 height={48}
