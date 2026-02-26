@@ -12,7 +12,7 @@ export const useCollectionItem = (
   }, [collection.name, collection.address]);
 
   const imageUrl = useMemo(() => {
-    return metadata?.images || "/images/placeholder.png";
+    return metadata?.image || "/images/placeholder.png";
   }, [metadata?.image]);
 
   return { displayName, imageUrl, isLoading };

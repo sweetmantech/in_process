@@ -20,7 +20,7 @@ const CollectionImage = ({ src, alt, onClick, className }: CollectionImageProps)
       )}
       onClick={onClick}
     >
-      <BlurImage src={src} alt={alt} fill className="object-cover p-1" sizes="40px" />
+      <BlurImage src={src} alt={alt} fill className="object-cover" sizes="40px" />
     </div>
   );
 };

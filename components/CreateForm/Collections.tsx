@@ -52,12 +52,11 @@ const Collections = () => {
               {isLoading || !currentCollection ? (
                 <div className="h-[24px] w-[24px] animate-pulse rounded bg-neutral-200" />
               ) : (
-                <div className="h-[24px] w-[24px] shrink-0 overflow-hidden rounded">
+                <div className="relative h-[24px] w-[24px] shrink-0 overflow-hidden rounded">
                   <BlurImage
                     src={imageUrl}
                     alt={displayName}
-                    width={30}
-                    height={30}
+                    fill
                     className="h-full w-full object-cover"
                   />
                 </div>
