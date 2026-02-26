@@ -21,9 +21,7 @@ export const useSelectedCollection = (
 
   const imageUrl = useMemo(() => {
     if (!selectedCollection) return "/images/placeholder.png";
-    return metadata?.image
-      ? getFetchableUrl(metadata.image) || "/images/placeholder.png"
-      : "/images/placeholder.png";
+    return metadata?.image || "/images/placeholder.png";
   }, [selectedCollection, metadata?.image]);
 
   return { displayName, imageUrl, isLoading };
