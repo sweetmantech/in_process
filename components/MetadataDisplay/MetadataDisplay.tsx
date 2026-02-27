@@ -10,6 +10,7 @@ import { useMomentProvider } from "@/providers/MomentProvider";
 import BlurImage from "@/components/BlurImage";
 import { Skeleton } from "@/components/ui/skeleton";
 import useArweaveUrl from "@/hooks/useArweaveUrl";
+import ErrorContent from "../Renderers/ErrorContent";
 
 /**
  * MetadataDisplay - Displays Moment metadata after creation.
@@ -38,12 +39,7 @@ const MetadataDisplay = () => {
 
   if (mimeType.includes("pdf")) {
     if (animationLoading) return <Skeleton className="size-full" />;
-    if (!animationUrl)
-      return (
-        <div className="flex size-full items-center justify-center p-4 text-center">
-          <p className="text-grey-moss-400">Error loading Moment Content.</p>
-        </div>
-      );
+    if (!animationUrl) return <ErrorContent />;
     return <PdfViewer fileUrl={animationUrl} />;
   }
 
@@ -81,11 +77,7 @@ const MetadataDisplay = () => {
     }
     if (animationLoading) return <Skeleton className="size-full" />;
     if (!animationUrl) {
-      return (
-        <div className="flex size-full items-center justify-center p-4 text-center">
-          <p className="text-grey-moss-400">Error loading HTML content.</p>
-        </div>
-      );
+      return <ErrorContent />;
     }
     return (
       <div className="flex size-full justify-center">
@@ -103,7 +95,8 @@ const MetadataDisplay = () => {
 
   if (mimeType.includes("text/plain")) {
     if (contentLoading) return <Skeleton className="size-full" />;
-    return <Writing fileUrl={contentUrl || ""} description={metadata.description} />;
+    if (!contentUrl) return <ErrorContent />;
+    return <Writing fileUrl={contentUrl} description={metadata.description} />;
   }
 
   return (

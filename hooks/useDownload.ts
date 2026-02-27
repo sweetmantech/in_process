@@ -26,7 +26,9 @@ const useDownload = () => {
         const fetchableUrl = getFetchableUrl(contentUri);
 
         // Validate URL before downloading to prevent malicious downloads
-        if (!fetchableUrl || !validateUrl(fetchableUrl)) {
+        // blob: and data: URIs are local/inline — skip remote URL validation for them
+        const isLocalUri = fetchableUrl?.startsWith("blob:") || fetchableUrl?.startsWith("data:");
+        if (!fetchableUrl || (!isLocalUri && !validateUrl(fetchableUrl))) {
           console.error("Invalid or unsafe URL for download");
           setIsDownloading(false);
           return;
