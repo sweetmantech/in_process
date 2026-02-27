@@ -28,7 +28,7 @@ const VideoPlayer = ({ url, thumbnail }: VideoPlayerProps) => {
   }
 
   return (
-    <>
+    <div className="flex size-full justify-center">
       {!isLoaded && (
         <VideoPreview
           thumbnail={thumbnail}
@@ -53,7 +53,7 @@ const VideoPlayer = ({ url, thumbnail }: VideoPlayerProps) => {
         <source src={getStreamingUrl(url)} />
         Your browser does not support the video element.
       </video>
-    </>
+    </div>
   );
 };
 

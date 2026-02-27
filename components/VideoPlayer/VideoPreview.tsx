@@ -1,4 +1,4 @@
-import Image from "next/image";
+import BlurImage from "@/components/BlurImage";
 import { type KeyboardEvent, type SyntheticEvent } from "react";
 import FilmPlaceholder from "./FilmPlaceholder";
 
@@ -27,7 +27,7 @@ const VideoPreview = ({
 
   return (
     <div
-      className="relative flex w-full cursor-pointer items-center justify-center rounded-md bg-grey-moss-900"
+      className="relative w-full cursor-pointer rounded-md bg-grey-moss-900"
       role="button"
       tabIndex={0}
       onClick={onPlay}
@@ -37,16 +37,19 @@ const VideoPreview = ({
       onTouchStart={onStopPropagation}
     >
       {thumbnail ? (
-        <Image
+        <BlurImage
           src={thumbnail}
           alt="Video thumbnail"
-          width={600}
-          height={600}
-          sizes="(max-width: 768px) 100vw, 600px"
-          className="h-auto w-full rounded-md"
+          width={0}
+          height={0}
+          sizes="(max-width: 768px) 100vw, 800px"
+          style={{ width: "100%", height: "auto" }}
+          className="rounded-md"
         />
       ) : (
-        <FilmPlaceholder />
+        <div className="aspect-video w-full">
+          <FilmPlaceholder />
+        </div>
       )}
       <div className="absolute inset-0 flex items-center justify-center">
         {isError ? (

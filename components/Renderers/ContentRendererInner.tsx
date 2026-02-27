@@ -10,7 +10,7 @@ import ErrorContent from "./ErrorContent";
 import { TokenMetadataJson } from "@/lib/protocolSdk";
 import BlurImage from "@/components/BlurImage";
 import { Skeleton } from "@/components/ui/skeleton";
-import useArweaveUrl from "@/hooks/useArweaveUrl";
+import useMediaContent from "@/hooks/useMediaContent";
 
 interface ContentRendererProps {
   metadata: TokenMetadataJson;
@@ -18,17 +18,16 @@ interface ContentRendererProps {
 
 const ContentRendererInner = ({ metadata }: ContentRendererProps) => {
   const pathname = usePathname();
-  const mimeType = metadata?.content?.mime || "";
   const isCollect = pathname.includes("/collect");
-
-  // Raw URIs for proxy APIs (stream/image) — send ar:// directly
-  const rawAnimationUri = metadata.animation_url || "";
-  const rawImageUri = metadata.image || "";
-  const rawContentUri = metadata?.content?.uri || "";
-
-  // Resolve Arweave URLs via Wayfinder (fastest verified gateway)
-  const { url: animationUrl, isLoading: animationLoading } = useArweaveUrl(rawAnimationUri);
-  const { url: contentUrl, isLoading: contentLoading } = useArweaveUrl(rawContentUri);
+  const {
+    mimeType,
+    rawAnimationUri,
+    rawImageUri,
+    animationUrl,
+    animationLoading,
+    contentUrl,
+    contentLoading,
+  } = useMediaContent(metadata);
 
   if (mimeType.includes("pdf")) {
     if (animationLoading) return <Skeleton className="size-full" />;
@@ -48,17 +47,12 @@ const ContentRendererInner = ({ metadata }: ContentRendererProps) => {
 
   if (mimeType.includes("video")) {
     if (!rawAnimationUri) return <ErrorContent />;
-    return (
-      <div className="flex size-full justify-center">
-        <VideoPlayer url={rawAnimationUri} thumbnail={rawImageUri || undefined} />
-      </div>
-    );
+    return <VideoPlayer url={rawAnimationUri} thumbnail={rawImageUri || undefined} />;
   }
 
   if (mimeType.includes("html")) {
-    const iframeUrl = rawAnimationUri;
     // Only allow IPFS/Arweave URLs in iframes to prevent phishing and malicious content
-    if (!isSafeIframeUrl(iframeUrl)) {
+    if (!isSafeIframeUrl(rawAnimationUri)) {
       return (
         <div className="flex size-full items-center justify-center p-4 text-center">
           <p className="text-grey-moss-400">
@@ -71,16 +65,14 @@ const ContentRendererInner = ({ metadata }: ContentRendererProps) => {
     if (animationLoading) return <Skeleton className="size-full" />;
     if (!animationUrl) return <ErrorContent />;
     return (
-      <div className="flex size-full justify-center">
-        <iframe
-          src={animationUrl}
-          className="h-full w-full"
-          title={metadata?.name || "Embedded content"}
-          sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox"
-          referrerPolicy="no-referrer"
-          loading="lazy"
-        />
-      </div>
+      <iframe
+        src={animationUrl}
+        className="w-full"
+        title={metadata?.name || "Embedded content"}
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox"
+        referrerPolicy="no-referrer"
+        loading="lazy"
+      />
     );
   }
 
@@ -91,19 +83,14 @@ const ContentRendererInner = ({ metadata }: ContentRendererProps) => {
   }
 
   return (
-    <div className="relative h-full w-full">
-      <BlurImage
-        src={(isCollect && rawAnimationUri) || rawImageUri || "/images/placeholder.png"}
-        alt={metadata?.name || metadata?.description || "Moment image"}
-        fill
-        sizes="(max-width: 768px) 100vw, 800px"
-        draggable={false}
-        style={{
-          objectFit: "contain",
-          objectPosition: "center",
-        }}
-      />
-    </div>
+    <BlurImage
+      src={(isCollect && rawAnimationUri) || rawImageUri || "/images/placeholder.png"}
+      alt={metadata?.name || metadata?.description || "Moment image"}
+      width={0}
+      height={0}
+      draggable={false}
+      style={{ width: "100%", height: "auto" }}
+    />
   );
 };
 
