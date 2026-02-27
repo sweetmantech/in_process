@@ -70,7 +70,8 @@ export function Wallet({ address, title }: { address: Address; title: string }) 
           </code>
         </div>
         <p className="font-spectral-italic text-xs text-grey-primary">
-          Send funds directly to this address from any external wallet to top up your balance.
+          Send USDC or ETH on Base directly to this address from any external wallet to top up your
+          balance.
         </p>
       </div>
     </Card>
