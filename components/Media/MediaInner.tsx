@@ -36,7 +36,7 @@ const MediaInner = ({ metadata, isOwner, isLoading, isSaving, SaveButton }: Medi
           <div className="space-y-4">
             <TitleInput disabled={!isOwner || isSaving} labelHidden={false} />
             <DescriptionInput disabled={!isOwner || isSaving} labelHidden={false} />
-            <div className="relative aspect-[571/692] min-h-[300px] bg-[url('/grid.svg')] bg-contain">
+            <div className="relative aspect-[571/692] overflow-hidden bg-[url('/grid.svg')] bg-contain">
               {editActive || !metadata ? (
                 <AnimationUpload isOwner={isOwner} isSaving={isSaving} />
               ) : (

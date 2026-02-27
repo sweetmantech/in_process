@@ -46,21 +46,21 @@ const BlurImage = ({ src, className = "", alt, ...props }: BlurImageProps) => {
   // For width/height images
   return (
     <div className="relative">
-      {/* Low-quality blur image - unoptimized to avoid double-processing */}
+      {/* Low-quality blur image - in-flow initially so container has height before main image loads */}
       <Image
         {...props}
         src={blurUrl}
         alt={alt}
-        className={`${className} absolute inset-0 blur-sm transition-opacity duration-500 ${isLoaded ? "opacity-0" : "opacity-100"}`}
+        className={`${className} blur-sm transition-opacity duration-500 ${isLoaded ? "absolute inset-0 opacity-0" : "opacity-100"}`}
         priority
         unoptimized
       />
-      {/* High-quality image */}
+      {/* High-quality image - absolutely positioned until loaded so it doesn't collapse the container */}
       <Image
         {...props}
         src={src}
         alt={alt}
-        className={`${className} transition-opacity duration-500 ${isLoaded ? "opacity-100" : "opacity-0"}`}
+        className={`${className} transition-opacity duration-500 ${isLoaded ? "opacity-100" : "absolute inset-0 opacity-0"}`}
         onLoad={() => setIsLoaded(true)}
       />
     </div>

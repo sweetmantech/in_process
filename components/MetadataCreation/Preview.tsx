@@ -18,7 +18,7 @@ const Preview = ({ children }: { children: ReactNode }) => {
 
   return (
     <div
-      className={`w-full ${createdTokenId ? (isWritingPage || isCreatingPage ? "min-h-[300px]" : "min-h-auto") : "min-h-[400px]"} md:min-h-auto relative md:aspect-[571/692] ${gridVisible && "bg-[url('/grid.svg')]"} bg-contain`}
+      className={`w-full ${createdTokenId ? (isWritingPage || isCreatingPage ? "min-h-[300px]" : "min-h-auto") : "min-h-[400px]"} md:min-h-auto relative md:aspect-[571/692] overflow-hidden ${gridVisible && "bg-[url('/grid.svg')]"} bg-contain`}
     >
       {children}
     </div>

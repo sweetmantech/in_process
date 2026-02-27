@@ -7,9 +7,10 @@ import VideoPreview from "./VideoPreview";
 interface VideoPlayerProps {
   url: string;
   thumbnail?: string;
+  variant?: "fill" | "natural";
 }
 
-const VideoPlayer = ({ url, thumbnail }: VideoPlayerProps) => {
+const VideoPlayer = ({ url, thumbnail, variant = "fill" }: VideoPlayerProps) => {
   const {
     videoRef,
     isPlaying,
@@ -23,12 +24,17 @@ const VideoPlayer = ({ url, thumbnail }: VideoPlayerProps) => {
 
   if (!isPlaying) {
     return (
-      <VideoPreview thumbnail={thumbnail} onPlay={handlePlay} onStopPropagation={stopPropagation} />
+      <VideoPreview
+        thumbnail={thumbnail}
+        onPlay={handlePlay}
+        onStopPropagation={stopPropagation}
+        variant={variant}
+      />
     );
   }
 
   return (
-    <>
+    <div className="flex size-full justify-center">
       {!isLoaded && (
         <VideoPreview
           thumbnail={thumbnail}
@@ -36,6 +42,7 @@ const VideoPlayer = ({ url, thumbnail }: VideoPlayerProps) => {
           onStopPropagation={stopPropagation}
           isLoading={!isError}
           isError={isError}
+          variant={variant}
         />
       )}
       <video
@@ -53,7 +60,7 @@ const VideoPlayer = ({ url, thumbnail }: VideoPlayerProps) => {
         <source src={getStreamingUrl(url)} />
         Your browser does not support the video element.
       </video>
-    </>
+    </div>
   );
 };
 

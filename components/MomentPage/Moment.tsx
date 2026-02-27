@@ -6,11 +6,11 @@ import MetaAndComments from "./MetaAndComments";
 import MomentCollected from "./MomentCollected";
 import useIsMobile from "@/hooks/useIsMobile";
 import CommentSection from "./CommentSection";
-import MetadataDisplay from "../MetadataDisplay";
 import BackToTimeline from "./BackToTimeline";
 import MomentAirdrop from "../MomentAirdrop/MomentAirdrop";
 import Collectors from "./Collectors";
 import { useMomentCollectProvider } from "@/providers/MomentCollectProvider";
+import ContentRenderer from "../Renderers";
 
 const Moment = () => {
   const { metadata, isOwner, isSoldOut } = useMomentProvider();
@@ -27,7 +27,7 @@ const Moment = () => {
               {collected ? <MomentCollected /> : <MetaAndComments commentsHidden={isMobile} />}
               <div className="flex w-full grow justify-center">
                 <div className="relative aspect-[576/700] h-fit w-full overflow-hidden font-spectral">
-                  <MetadataDisplay />
+                  <ContentRenderer metadata={metadata} />
                 </div>
               </div>
             </div>
