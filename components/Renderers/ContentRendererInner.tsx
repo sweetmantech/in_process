@@ -1,6 +1,5 @@
 "use client";
 
-import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import { isSafeIframeUrl } from "@/lib/protocolSdk/ipfs/isSafeIframeUrl";
 import { usePathname } from "next/navigation";
 import PdfViewer from "./PdfViewer";
@@ -10,6 +9,8 @@ import Writing from "./Writing";
 import ErrorContent from "./ErrorContent";
 import { TokenMetadataJson } from "@/lib/protocolSdk";
 import BlurImage from "@/components/BlurImage";
+import { Skeleton } from "@/components/ui/skeleton";
+import useArweaveUrl from "@/hooks/useArweaveUrl";
 
 interface ContentRendererProps {
   metadata: TokenMetadataJson;
@@ -25,10 +26,14 @@ const ContentRendererInner = ({ metadata }: ContentRendererProps) => {
   const rawImageUri = metadata.image || "";
   const rawContentUri = metadata?.content?.uri || "";
 
+  // Resolve Arweave URLs via Wayfinder (fastest verified gateway)
+  const { url: animationUrl, isLoading: animationLoading } = useArweaveUrl(rawAnimationUri);
+  const { url: contentUrl, isLoading: contentLoading } = useArweaveUrl(rawContentUri);
+
   if (mimeType.includes("pdf")) {
-    const fetchableUrl = getFetchableUrl(rawAnimationUri);
-    if (!fetchableUrl) return <ErrorContent />;
-    return <PdfViewer fileUrl={fetchableUrl} />;
+    if (animationLoading) return <Skeleton className="size-full" />;
+    if (!animationUrl) return <ErrorContent />;
+    return <PdfViewer fileUrl={animationUrl} />;
   }
 
   if (mimeType.includes("audio")) {
@@ -63,14 +68,12 @@ const ContentRendererInner = ({ metadata }: ContentRendererProps) => {
         </div>
       );
     }
-    const fetchableUrl = getFetchableUrl(iframeUrl);
-    if (!fetchableUrl) {
-      return <ErrorContent />;
-    }
+    if (animationLoading) return <Skeleton className="size-full" />;
+    if (!animationUrl) return <ErrorContent />;
     return (
       <div className="flex size-full justify-center">
         <iframe
-          src={fetchableUrl}
+          src={animationUrl}
           className="h-full w-full"
           title={metadata?.name || "Embedded content"}
           sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox"
@@ -82,9 +85,9 @@ const ContentRendererInner = ({ metadata }: ContentRendererProps) => {
   }
 
   if (mimeType.includes("text/plain")) {
-    const fetchableUrl = getFetchableUrl(rawContentUri);
-    if (!fetchableUrl) return <ErrorContent />;
-    return <Writing fileUrl={fetchableUrl} description={metadata?.description || ""} />;
+    if (contentLoading) return <Skeleton className="size-full" />;
+    if (!contentUrl) return <ErrorContent />;
+    return <Writing fileUrl={contentUrl} description={metadata?.description || ""} />;
   }
 
   return (

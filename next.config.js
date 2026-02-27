@@ -19,6 +19,7 @@ const nextConfig = {
       crypto: "crypto-browserify",
       stream: "stream-browserify",
       process: "process/browser",
+      async_hooks: "./lib/async-hooks-stub.js",
     },
   },
   webpack: (config, { isServer }) => {
@@ -29,6 +30,7 @@ const nextConfig = {
         crypto: require.resolve("crypto-browserify"),
         stream: require.resolve("stream-browserify"),
         process: require.resolve("process/browser"),
+        async_hooks: false,
       };
     }
     return config;

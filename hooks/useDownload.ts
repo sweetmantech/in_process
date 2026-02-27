@@ -1,4 +1,6 @@
+import { useWayfinderRequest } from "@ar.io/wayfinder-react";
 import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
+import { isArweaveURL } from "@/lib/protocolSdk/ipfs/arweave";
 import { validateUrl } from "@/lib/url/validateUrl";
 import { useMomentProvider } from "@/providers/MomentProvider";
 import { useState } from "react";
@@ -6,24 +8,35 @@ import { useState } from "react";
 const useDownload = () => {
   const { metadata } = useMomentProvider();
   const [isDownloading, setIsDownloading] = useState<boolean>(false);
+  const request = useWayfinderRequest();
 
   const download = async () => {
     if (!metadata.data) return;
     try {
       setIsDownloading(true);
       const contentUri = metadata.data.content.uri;
-      const fetchableUrl = getFetchableUrl(contentUri);
+      let data: Blob;
 
-      // Validate URL before downloading to prevent malicious downloads
-      if (!fetchableUrl || !validateUrl(fetchableUrl)) {
-        console.error("Invalid or unsafe URL for download");
-        setIsDownloading(false);
-        return;
+      if (isArweaveURL(contentUri)) {
+        const response = await request(contentUri, {
+          verificationSettings: { enabled: true, strict: false },
+        });
+        data = await response.blob();
+      } else {
+        const fetchableUrl = getFetchableUrl(contentUri);
+
+        // Validate URL before downloading to prevent malicious downloads
+        if (!fetchableUrl || !validateUrl(fetchableUrl)) {
+          console.error("Invalid or unsafe URL for download");
+          setIsDownloading(false);
+          return;
+        }
+
+        data = await fetch(fetchableUrl).then((res) => res.blob());
       }
 
       const link = document.createElement("a");
       link.download = metadata.data.name;
-      const data = await fetch(fetchableUrl).then((res) => res.blob());
       link.href = window.URL.createObjectURL(
         new Blob([data], { type: metadata.data.content.mime })
       );

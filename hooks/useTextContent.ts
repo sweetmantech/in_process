@@ -1,14 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import { TokenMetadataJson } from "@/lib/protocolSdk/ipfs/types";
+import useArweaveUrl from "./useArweaveUrl";
 
 const useTextContent = (data: TokenMetadataJson) => {
   const [text, setText] = useState<string>("");
-  const contentUrl = getFetchableUrl(data.content?.uri) || getFetchableUrl(data.animation_url);
+  const rawUri = data.content?.uri || data.animation_url || "";
+  const { url: contentUrl, isLoading: urlLoading } = useArweaveUrl(rawUri);
 
   useEffect(() => {
+    if (urlLoading) return;
     let mounted = true;
     const ac = new AbortController();
     const fetchText = async () => {
@@ -31,7 +33,7 @@ const useTextContent = (data: TokenMetadataJson) => {
       mounted = false;
       ac.abort();
     };
-  }, [contentUrl, data.description, data.name]);
+  }, [contentUrl, urlLoading, data.description, data.name]);
 
   return text;
 };

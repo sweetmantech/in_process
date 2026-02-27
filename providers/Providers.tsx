@@ -7,6 +7,7 @@ import UserProvider from "./UserProvider";
 import FrameProvider from "./FrameProvider";
 import LayoutProvider from "./LayoutProvider";
 import SmartWalletProvider from "./SmartWalletProvider";
+import WayfinderProvider from "./WayfinderProvider";
 import LoadingPage from "@/components/LoadingPage/LoadingPage";
 
 interface ProvidersProps {
@@ -28,7 +29,9 @@ export function Providers({ children }: ProvidersProps): React.ReactElement {
         <FrameProvider>
           <UserProvider>
             <SmartWalletProvider>
-              <LayoutProvider>{children}</LayoutProvider>
+              <WayfinderProvider>
+                <LayoutProvider>{children}</LayoutProvider>
+              </WayfinderProvider>
             </SmartWalletProvider>
           </UserProvider>
         </FrameProvider>

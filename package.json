@@ -11,6 +11,8 @@
     "format:check": "prettier --check ."
   },
   "dependencies": {
+    "@ar.io/wayfinder-core": "^1.9.1",
+    "@ar.io/wayfinder-react": "^1.0.28",
     "@ardrive/turbo-sdk": "^1.41.0",
     "@farcaster/frame-sdk": "^0.0.31",
     "@farcaster/frame-wagmi-connector": "^0.0.19",

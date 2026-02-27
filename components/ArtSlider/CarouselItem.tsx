@@ -1,4 +1,5 @@
-import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
+"use client";
+
 import { isSafeIframeUrl } from "@/lib/protocolSdk/ipfs/isSafeIframeUrl";
 import PdfViewer from "../Renderers/PdfViewer";
 import VideoPlayer from "@/components/VideoPlayer";
@@ -7,6 +8,8 @@ import Writing from "../Renderers/Writing";
 import ErrorContent from "../Renderers/ErrorContent";
 import { TokenMetadataJson } from "@/lib/protocolSdk";
 import BlurImage from "@/components/BlurImage";
+import { Skeleton } from "@/components/ui/skeleton";
+import useArweaveUrl from "@/hooks/useArweaveUrl";
 
 interface CarouselItemProps {
   metadata: TokenMetadataJson;
@@ -17,10 +20,16 @@ const CarouselItem = ({ metadata }: CarouselItemProps) => {
   const rawAnimationUri = metadata.animation_url || "";
   const rawImageUri = metadata.image || "";
 
+  // Resolve Arweave URLs via Wayfinder (fastest verified gateway)
+  const { url: animationUrl, isLoading: animationLoading } = useArweaveUrl(rawAnimationUri);
+  const { url: contentUrl, isLoading: contentLoading } = useArweaveUrl(
+    metadata.content?.uri || ""
+  );
+
   if (mimeType.includes("pdf")) {
-    const fetchableUrl = getFetchableUrl(rawAnimationUri);
-    if (!fetchableUrl) return <ErrorContent />;
-    return <PdfViewer fileUrl={fetchableUrl} />;
+    if (animationLoading) return <Skeleton className="size-full" />;
+    if (!animationUrl) return <ErrorContent />;
+    return <PdfViewer fileUrl={animationUrl} />;
   }
   if (mimeType.includes("audio")) {
     if (!rawAnimationUri) return <ErrorContent />;
@@ -52,12 +61,12 @@ const CarouselItem = ({ metadata }: CarouselItemProps) => {
         </div>
       );
     }
-    const fetchableUrl = getFetchableUrl(rawAnimationUri);
-    if (!fetchableUrl) return <ErrorContent />;
+    if (animationLoading) return <Skeleton className="size-full" />;
+    if (!animationUrl) return <ErrorContent />;
     return (
       <div className="flex size-full justify-center">
         <iframe
-          src={fetchableUrl}
+          src={animationUrl}
           className="w-full"
           title={metadata?.name || "Embedded content"}
           sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox"
@@ -68,11 +77,11 @@ const CarouselItem = ({ metadata }: CarouselItemProps) => {
     );
   }
   if (mimeType.includes("text/plain")) {
-    const fileUrl = getFetchableUrl(metadata.content?.uri);
-    if (!fileUrl) return <ErrorContent />;
+    if (contentLoading) return <Skeleton className="size-full" />;
+    if (!contentUrl) return <ErrorContent />;
     return (
       <div className="size-full">
-        <Writing fileUrl={fileUrl} description={metadata?.description || ""} />
+        <Writing fileUrl={contentUrl} description={metadata?.description || ""} />
       </div>
     );
   }

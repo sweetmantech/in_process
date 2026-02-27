@@ -1,4 +1,5 @@
-import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
+"use client";
+
 import { isSafeIframeUrl } from "@/lib/protocolSdk/ipfs/isSafeIframeUrl";
 import { usePathname } from "next/navigation";
 import PdfViewer from "../Renderers/PdfViewer";
@@ -7,6 +8,8 @@ import { AudioPlayer } from "@/components/AudioPlayer";
 import Writing from "../Renderers/Writing";
 import { useMomentProvider } from "@/providers/MomentProvider";
 import BlurImage from "@/components/BlurImage";
+import { Skeleton } from "@/components/ui/skeleton";
+import useArweaveUrl from "@/hooks/useArweaveUrl";
 
 /**
  * MetadataDisplay - Displays Moment metadata after creation.
@@ -17,27 +20,31 @@ const MetadataDisplay = () => {
   const { metadata } = useMomentProvider();
   const pathname = usePathname();
 
-  if (!metadata) {
-    return null;
-  }
-
   const mimeType = metadata?.content?.mime || "";
   const isCollect = pathname.includes("/collect");
 
   // Raw URIs for proxy APIs (stream/image) — send ar:// directly
-  const rawAnimationUri = metadata.animation_url || "";
-  const rawImageUri = metadata.image || "";
+  const rawAnimationUri = metadata?.animation_url || "";
+  const rawImageUri = metadata?.image || "";
   const rawContentUri = metadata?.content?.uri || "";
 
+  // Resolve Arweave URLs via Wayfinder (fastest verified gateway)
+  const { url: animationUrl, isLoading: animationLoading } = useArweaveUrl(rawAnimationUri);
+  const { url: contentUrl, isLoading: contentLoading } = useArweaveUrl(rawContentUri);
+
+  if (!metadata) {
+    return null;
+  }
+
   if (mimeType.includes("pdf")) {
-    const fetchableUrl = getFetchableUrl(rawAnimationUri);
-    if (!fetchableUrl)
+    if (animationLoading) return <Skeleton className="size-full" />;
+    if (!animationUrl)
       return (
         <div className="flex size-full items-center justify-center p-4 text-center">
           <p className="text-grey-moss-400">Error loading Moment Content.</p>
         </div>
       );
-    return <PdfViewer fileUrl={fetchableUrl} />;
+    return <PdfViewer fileUrl={animationUrl} />;
   }
 
   if (mimeType.includes("audio")) {
@@ -72,8 +79,8 @@ const MetadataDisplay = () => {
         </div>
       );
     }
-    const fetchableUrl = getFetchableUrl(iframeUrl);
-    if (!fetchableUrl) {
+    if (animationLoading) return <Skeleton className="size-full" />;
+    if (!animationUrl) {
       return (
         <div className="flex size-full items-center justify-center p-4 text-center">
           <p className="text-grey-moss-400">Error loading HTML content.</p>
@@ -83,7 +90,7 @@ const MetadataDisplay = () => {
     return (
       <div className="flex size-full justify-center">
         <iframe
-          src={fetchableUrl}
+          src={animationUrl}
           className="h-full w-full"
           title={metadata?.name || "Embedded content"}
           sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox"
@@ -95,8 +102,8 @@ const MetadataDisplay = () => {
   }
 
   if (mimeType.includes("text/plain")) {
-    const fetchableUrl = getFetchableUrl(rawContentUri);
-    return <Writing fileUrl={fetchableUrl || ""} description={metadata.description} />;
+    if (contentLoading) return <Skeleton className="size-full" />;
+    return <Writing fileUrl={contentUrl || ""} description={metadata.description} />;
   }
 
   return (
