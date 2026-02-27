@@ -1,6 +1,5 @@
 "use client";
 
-import { usePathname } from "next/navigation";
 import { TokenMetadataJson } from "@/lib/protocolSdk";
 import useMediaContent from "@/hooks/useMediaContent";
 import PdfContent from "./PdfContent";
@@ -16,8 +15,6 @@ interface ContentRendererProps {
 }
 
 const ContentRendererInner = ({ metadata, variant = "fill" }: ContentRendererProps) => {
-  const pathname = usePathname();
-  const isCollect = pathname.includes("/collect");
   const {
     mimeType,
     rawAnimationUri,
@@ -60,7 +57,6 @@ const ContentRendererInner = ({ metadata, variant = "fill" }: ContentRendererPro
 
   return (
     <ImageContent
-      isCollect={isCollect}
       rawAnimationUri={rawAnimationUri}
       rawImageUri={rawImageUri}
       alt={metadata?.name || metadata?.description || "Moment image"}

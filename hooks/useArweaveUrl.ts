@@ -10,7 +10,9 @@ import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
  */
 const useArweaveUrl = (uri: string | null | undefined) => {
   const txId = isArweaveURL(uri ?? "") ? (uri ?? "").replace("ar://", "") : null;
-  const { resolvedUrl, isLoading, error } = useWayfinderUrl({ txId });
+  const { resolvedUrl, isLoading, error } = useWayfinderUrl(
+    (txId !== null ? { txId } : null) as Parameters<typeof useWayfinderUrl>[0]
+  );
 
   if (!uri) return { url: null, isLoading: false, error: null };
 

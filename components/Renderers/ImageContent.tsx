@@ -1,20 +1,16 @@
 import BlurImage from "@/components/BlurImage";
+import { usePathname } from "next/navigation";
 
 interface ImageContentProps {
-  isCollect: boolean;
   rawAnimationUri: string;
   rawImageUri: string;
   alt: string;
   variant: "fill" | "natural";
 }
 
-const ImageContent = ({
-  isCollect,
-  rawAnimationUri,
-  rawImageUri,
-  alt,
-  variant,
-}: ImageContentProps) => {
+const ImageContent = ({ rawAnimationUri, rawImageUri, alt, variant }: ImageContentProps) => {
+  const pathname = usePathname();
+  const isCollect = pathname.includes("/collect");
   const src = (isCollect && rawAnimationUri) || rawImageUri || "/images/placeholder.png";
 
   if (variant === "natural") {
