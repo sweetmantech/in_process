@@ -1,6 +1,5 @@
 "use client";
 
-import { Deposit } from "./Deposit";
 import { useUserProvider } from "@/providers/UserProvider";
 import SignToInProcess from "../ManagePage/SignToInProcess";
 import { Fragment } from "react";
@@ -37,7 +36,6 @@ const TopupPage = () => {
             <EthBalance isLoading={isLoading} balance={ethBalance} />
           </div>
         </div>
-        <Deposit />
       </div>
     </main>
   );
