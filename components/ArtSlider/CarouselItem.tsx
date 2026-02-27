@@ -22,9 +22,7 @@ const CarouselItem = ({ metadata }: CarouselItemProps) => {
 
   // Resolve Arweave URLs via Wayfinder (fastest verified gateway)
   const { url: animationUrl, isLoading: animationLoading } = useArweaveUrl(rawAnimationUri);
-  const { url: contentUrl, isLoading: contentLoading } = useArweaveUrl(
-    metadata.content?.uri || ""
-  );
+  const { url: contentUrl, isLoading: contentLoading } = useArweaveUrl(metadata.content?.uri || "");
 
   if (mimeType.includes("pdf")) {
     if (animationLoading) return <Skeleton className="size-full" />;
