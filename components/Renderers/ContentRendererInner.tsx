@@ -88,13 +88,12 @@ const ContentRendererInner = ({ metadata, variant = "fill" }: ContentRendererPro
   if (variant === "natural") {
     return (
       <BlurImage
-        src={(isCollect && rawAnimationUri) || rawImageUri || "/images/placeholder.png"}
-        alt={metadata?.name || metadata?.description || "Moment image"}
-        width={0}
-        height={0}
-        sizes="(max-width: 768px) 100vw, 800px"
-        draggable={false}
-        style={{ width: "100%", height: "auto" }}
+        src={rawImageUri || "/images/placeholder.png"}
+        alt="Token Image."
+        width={600}
+        height={600}
+        sizes="(max-width: 768px) 100vw, 600px"
+        className="h-auto w-full"
       />
     );
   }
