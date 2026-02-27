@@ -14,9 +14,10 @@ import useMediaContent from "@/hooks/useMediaContent";
 
 interface ContentRendererProps {
   metadata: TokenMetadataJson;
+  variant?: "fill" | "natural";
 }
 
-const ContentRendererInner = ({ metadata }: ContentRendererProps) => {
+const ContentRendererInner = ({ metadata, variant = "fill" }: ContentRendererProps) => {
   const pathname = usePathname();
   const isCollect = pathname.includes("/collect");
   const {
@@ -47,7 +48,9 @@ const ContentRendererInner = ({ metadata }: ContentRendererProps) => {
 
   if (mimeType.includes("video")) {
     if (!rawAnimationUri) return <ErrorContent />;
-    return <VideoPlayer url={rawAnimationUri} thumbnail={rawImageUri || undefined} />;
+    return (
+      <VideoPlayer url={rawAnimationUri} thumbnail={rawImageUri || undefined} variant={variant} />
+    );
   }
 
   if (mimeType.includes("html")) {
@@ -82,14 +85,28 @@ const ContentRendererInner = ({ metadata }: ContentRendererProps) => {
     return <Writing fileUrl={contentUrl} description={metadata?.description || ""} />;
   }
 
+  if (variant === "natural") {
+    return (
+      <BlurImage
+        src={(isCollect && rawAnimationUri) || rawImageUri || "/images/placeholder.png"}
+        alt={metadata?.name || metadata?.description || "Moment image"}
+        width={0}
+        height={0}
+        sizes="(max-width: 768px) 100vw, 800px"
+        draggable={false}
+        style={{ width: "100%", height: "auto" }}
+      />
+    );
+  }
+
   return (
     <BlurImage
       src={(isCollect && rawAnimationUri) || rawImageUri || "/images/placeholder.png"}
       alt={metadata?.name || metadata?.description || "Moment image"}
-      width={0}
-      height={0}
+      fill
+      sizes="(max-width: 768px) 100vw, 800px"
       draggable={false}
-      style={{ width: "100%", height: "auto" }}
+      style={{ objectFit: "contain", objectPosition: "center" }}
     />
   );
 };

@@ -23,7 +23,7 @@ const SliderFeed = ({ feed }: SliderFeedProps) => {
         </div>
       ) : (
         <div className="w-full">
-          <ContentRenderer metadata={metadata} />
+          <ContentRenderer metadata={metadata} variant="natural" />
         </div>
       )}
     </div>

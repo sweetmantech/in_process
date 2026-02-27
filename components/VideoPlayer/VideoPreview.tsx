@@ -8,6 +8,7 @@ interface VideoPreviewProps {
   onStopPropagation: (e: SyntheticEvent) => void;
   isLoading?: boolean;
   isError?: boolean;
+  variant?: "fill" | "natural";
 }
 
 const VideoPreview = ({
@@ -16,6 +17,7 @@ const VideoPreview = ({
   onStopPropagation,
   isLoading,
   isError,
+  variant = "fill",
 }: VideoPreviewProps) => {
   const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
     if (e.key === "Enter" || e.key === " ") {
@@ -25,9 +27,11 @@ const VideoPreview = ({
     }
   };
 
+  const isFill = variant === "fill";
+
   return (
     <div
-      className="relative w-full cursor-pointer rounded-md bg-grey-moss-900"
+      className={`relative cursor-pointer rounded-md bg-grey-moss-900 ${isFill ? "size-full" : "w-full"}`}
       role="button"
       tabIndex={0}
       onClick={onPlay}
@@ -37,17 +41,21 @@ const VideoPreview = ({
       onTouchStart={onStopPropagation}
     >
       {thumbnail ? (
-        <BlurImage
-          src={thumbnail}
-          alt="Video thumbnail"
-          width={0}
-          height={0}
-          sizes="(max-width: 768px) 100vw, 800px"
-          style={{ width: "100%", height: "auto" }}
-          className="rounded-md"
-        />
+        isFill ? (
+          <BlurImage src={thumbnail} alt="Video thumbnail" fill style={{ objectFit: "contain" }} />
+        ) : (
+          <BlurImage
+            src={thumbnail}
+            alt="Video thumbnail"
+            width={0}
+            height={0}
+            sizes="(max-width: 768px) 100vw, 800px"
+            style={{ width: "100%", height: "auto" }}
+            className="rounded-md"
+          />
+        )
       ) : (
-        <div className="aspect-video w-full">
+        <div className={isFill ? "size-full" : "aspect-video w-full"}>
           <FilmPlaceholder />
         </div>
       )}

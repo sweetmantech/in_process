@@ -1,7 +1,6 @@
 "use client";
 
 import { useMomentProvider } from "@/providers/MomentProvider";
-import MetadataDisplay from "../MetadataDisplay";
 import MomentAirdrop from "../MomentAirdrop/MomentAirdrop";
 import { Share2Icon } from "lucide-react";
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "../ui/tooltip";
