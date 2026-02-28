@@ -55,7 +55,7 @@ const useDownload = () => {
   });
 
   return {
-    mutate: mutation.mutate,
+    download: () => mutation.mutate(),
     isDownloading: mutation.isPending,
   };
 };
