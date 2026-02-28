@@ -1,4 +1,5 @@
 import BlurImage from "@/components/BlurImage";
+import NoPreview from "@/components/NoPreview";
 
 interface ImageContentProps {
   rawImageUri: string;
@@ -10,11 +11,7 @@ const ImageContent = ({ rawImageUri, alt, variant }: ImageContentProps) => {
   const src = rawImageUri;
 
   if (!src) {
-    return (
-      <div className="flex size-full items-center justify-center p-4 text-center bg-white min-h-32">
-        <p className="text-grey-moss-400 text-xl">No preview</p>
-      </div>
-    );
+    return <NoPreview className="min-h-32" />;
   }
 
   if (variant === "natural") {
