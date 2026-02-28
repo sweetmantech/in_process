@@ -5,7 +5,7 @@ import { useState } from "react";
 import getBlurUrl from "@/lib/media/getBlurUrl";
 
 type BlurImageProps = ImageProps & {
-  src: string;
+  src: string | undefined | null;
 };
 
 const BlurImage = ({ src, className = "", alt, ...props }: BlurImageProps) => {

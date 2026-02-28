@@ -57,7 +57,6 @@ const ContentRendererInner = ({ metadata, variant = "fill" }: ContentRendererPro
 
   return (
     <ImageContent
-      rawAnimationUri={rawAnimationUri}
       rawImageUri={rawImageUri}
       alt={metadata?.name || metadata?.description || "Moment image"}
       variant={variant}

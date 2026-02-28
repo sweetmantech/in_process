@@ -26,9 +26,13 @@ export const FeedTooltip: React.FC<FeedTooltipProps> = ({ feed, position, isVisi
       <div className="relative aspect-[1/1] w-[200px] bg-grey-moss-100">
         {isLoading ? (
           <Loading className="size-full" />
+        ) : !data?.image ? (
+          <div className="flex size-full items-center justify-center text-sm text-grey-moss-500">
+            No preview
+          </div>
         ) : (
           <BlurImage
-            src={data?.image || "/images/placeholder.png"}
+            src={data.image}
             alt="not found image"
             fill
             style={{ objectFit: "contain", objectPosition: "center" }}
