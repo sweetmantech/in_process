@@ -1,17 +1,18 @@
 import BlurImage from "@/components/BlurImage";
-import { usePathname } from "next/navigation";
+import NoPreview from "@/components/NoPreview";
 
 interface ImageContentProps {
-  rawAnimationUri: string;
   rawImageUri: string;
   alt: string;
   variant: "fill" | "natural";
 }
 
-const ImageContent = ({ rawAnimationUri, rawImageUri, alt, variant }: ImageContentProps) => {
-  const pathname = usePathname();
-  const isCollect = pathname.includes("/collect");
-  const src = (isCollect && rawAnimationUri) || rawImageUri || "/images/placeholder.png";
+const ImageContent = ({ rawImageUri, alt, variant }: ImageContentProps) => {
+  const src = rawImageUri;
+
+  if (!src) {
+    return <NoPreview className="min-h-32" />;
+  }
 
   if (variant === "natural") {
     return (

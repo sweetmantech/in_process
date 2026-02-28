@@ -2,6 +2,7 @@ import React from "react";
 import { useMetadata } from "@/hooks/useMetadata";
 import Loading from "../Loading";
 import BlurImage from "@/components/BlurImage";
+import NoPreview from "@/components/NoPreview";
 import { TimelineMoment } from "@/types/moment";
 
 interface FeedTooltipProps {
@@ -26,9 +27,11 @@ export const FeedTooltip: React.FC<FeedTooltipProps> = ({ feed, position, isVisi
       <div className="relative aspect-[1/1] w-[200px] bg-grey-moss-100">
         {isLoading ? (
           <Loading className="size-full" />
+        ) : !data?.image ? (
+          <NoPreview />
         ) : (
           <BlurImage
-            src={data?.image || "/images/placeholder.png"}
+            src={data.image}
             alt="not found image"
             fill
             style={{ objectFit: "contain", objectPosition: "center" }}
