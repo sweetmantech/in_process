@@ -13,12 +13,13 @@ const useDownload = () => {
 
   const mutation = useMutation({
     mutationFn: async () => {
-      if (!metadata.data) return;
+      if (!metadata) return;
       const accessToken = await getAccessToken();
-      const contentUri = metadata.data.content.uri;
+      const contentUri = metadata.content.uri;
       let data: Blob;
 
       if (isArweaveURL(contentUri)) {
+        console.log("ziad here");
         const response = await request(contentUri, {
           verificationSettings: { enabled: true, strict: false },
           headers: { Authorization: `Bearer ${accessToken}` },
@@ -41,10 +42,8 @@ const useDownload = () => {
       }
 
       const link = document.createElement("a");
-      link.download = metadata.data.name;
-      link.href = window.URL.createObjectURL(
-        new Blob([data], { type: metadata.data.content.mime })
-      );
+      link.download = metadata.name;
+      link.href = window.URL.createObjectURL(new Blob([data], { type: metadata.content.mime }));
       link.click();
       link.remove();
       window.URL.revokeObjectURL(link.href);
