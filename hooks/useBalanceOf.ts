@@ -8,7 +8,7 @@ import { Address } from "viem";
 const useBalanceOf = () => {
   const [balanceOf, setBalanceOf] = useState<number>(0);
   const { moment } = useMomentProvider();
-  const { socialWalletAddress } = useUserProvider();
+  const { artistWallet } = useUserProvider();
 
   useEffect(() => {
     const getBalanceOf = async () => {
@@ -17,13 +17,13 @@ const useBalanceOf = () => {
         address: moment.collectionAddress,
         abi: zoraCreator1155ImplABI,
         functionName: "balanceOf",
-        args: [socialWalletAddress as Address, BigInt(moment.tokenId)],
+        args: [artistWallet as Address, BigInt(moment.tokenId)],
       });
 
       setBalanceOf(parseInt(response.toString(), 10));
     };
-    if (moment && socialWalletAddress) getBalanceOf();
-  }, [moment, socialWalletAddress]);
+    if (moment && artistWallet) getBalanceOf();
+  }, [moment, artistWallet]);
 
   return {
     balanceOf,
