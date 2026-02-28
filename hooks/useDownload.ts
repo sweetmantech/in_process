@@ -3,23 +3,25 @@ import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import { isArweaveURL } from "@/lib/protocolSdk/ipfs/arweave";
 import { validateUrl } from "@/lib/url/validateUrl";
 import { useMomentProvider } from "@/providers/MomentProvider";
-import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { usePrivy } from "@privy-io/react-auth";
 
 const useDownload = () => {
   const { metadata } = useMomentProvider();
-  const [isDownloading, setIsDownloading] = useState<boolean>(false);
   const request = useWayfinderRequest();
+  const { getAccessToken } = usePrivy();
 
-  const download = async () => {
-    if (!metadata.data) return;
-    try {
-      setIsDownloading(true);
+  const mutation = useMutation({
+    mutationFn: async () => {
+      if (!metadata.data) return;
+      const accessToken = await getAccessToken();
       const contentUri = metadata.data.content.uri;
       let data: Blob;
 
       if (isArweaveURL(contentUri)) {
         const response = await request(contentUri, {
           verificationSettings: { enabled: true, strict: false },
+          headers: { Authorization: `Bearer ${accessToken}` },
         });
         data = await response.blob();
       } else {
@@ -30,11 +32,12 @@ const useDownload = () => {
         const isLocalUri = fetchableUrl?.startsWith("blob:") || fetchableUrl?.startsWith("data:");
         if (!fetchableUrl || (!isLocalUri && !validateUrl(fetchableUrl))) {
           console.error("Invalid or unsafe URL for download");
-          setIsDownloading(false);
           return;
         }
 
-        data = await fetch(fetchableUrl).then((res) => res.blob());
+        data = await fetch(fetchableUrl, {
+          headers: accessToken ? { Authorization: `Bearer ${accessToken}` } : {},
+        }).then((res) => res.blob());
       }
 
       const link = document.createElement("a");
@@ -45,16 +48,15 @@ const useDownload = () => {
       link.click();
       link.remove();
       window.URL.revokeObjectURL(link.href);
-      setIsDownloading(false);
-    } catch (error) {
+    },
+    onError: (error) => {
       console.error(error);
-      setIsDownloading(false);
-    }
-  };
+    },
+  });
 
   return {
-    download,
-    isDownloading,
+    mutate: mutation.mutate,
+    isDownloading: mutation.isPending,
   };
 };
 

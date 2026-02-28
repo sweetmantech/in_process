@@ -18,7 +18,7 @@ interface MetaAndCommentsProps {
 const MetaAndComments = ({ priceHidden = false, commentsHidden = false }: MetaAndCommentsProps) => {
   const { saleConfig, metadata, isLoading, isSetSale } = useMomentProvider();
   const { balanceOf } = useBalanceOf();
-  const { download } = useDownload();
+  const { mutate } = useDownload();
 
   if (!metadata) return <Fragment />;
 
@@ -47,7 +47,7 @@ const MetaAndComments = ({ priceHidden = false, commentsHidden = false }: MetaAn
                     type="button"
                     className="rounded-sm border border-grey-moss-900 bg-white p-1"
                   >
-                    <DownloadIcon onClick={download} className="size-4 text-grey-moss-900" />
+                    <DownloadIcon onClick={() => mutate()} className="size-4 text-grey-moss-900" />
                   </button>
                 )}
               </div>

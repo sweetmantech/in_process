@@ -10,7 +10,7 @@ const Buttons = () => {
   const { push } = useRouter();
   const { privyWallet } = useConnectedWallet();
   const { share } = useShareMoment();
-  const { download, isDownloading } = useDownload();
+  const { mutate, isDownloading } = useDownload();
 
   const visit = () => {
     setCollected(true);
@@ -45,7 +45,7 @@ const Buttons = () => {
       <button
         type="button"
         className="relative w-full rounded-sm border border-grey-moss-900 py-2 font-archivo text-2xl text-black hover:bg-grey-moss-900 hover:text-grey-eggshell"
-        onClick={download}
+        onClick={() => mutate()}
         disabled={isDownloading}
       >
         download
