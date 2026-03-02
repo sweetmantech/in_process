@@ -35,26 +35,26 @@ const MetaAndComments = ({ priceHidden = false, commentsHidden = false }: MetaAn
             {isLoading ? (
               <Skeleton className="h-6 w-full" />
             ) : (
-              <div className="flex items-center gap-2">
-                <p className="w-2/3 rounded-md border border-black bg-grey-moss-50 text-center font-archivo text-sm md:w-full md:text-base">
-                  {BigInt(saleConfig?.pricePerToken) === BigInt(0)
-                    ? "free"
-                    : `${getPrice(saleConfig?.pricePerToken || BigInt(0), saleConfig?.type)} ${getPriceUnit(saleConfig?.type || "")}`}
-                </p>
-                <ShareButton />
-                {balanceOf > 0 && (
-                  <button
-                    type="button"
-                    className="rounded-sm border border-grey-moss-900 bg-white p-1"
-                  >
-                    <DownloadIcon onClick={download} className="size-4 text-grey-moss-900" />
-                  </button>
-                )}
-              </div>
+              <p className="w-2/3 rounded-md border border-black bg-grey-moss-50 text-center font-archivo text-sm md:w-full md:text-base">
+                {BigInt(saleConfig?.pricePerToken) === BigInt(0)
+                  ? "free"
+                  : `${getPrice(saleConfig?.pricePerToken || BigInt(0), saleConfig?.type)} ${getPriceUnit(saleConfig?.type || "")}`}
+              </p>
             )}
           </div>
         </>
       )}
+      <div className="flex items-center gap-2 mt-2">
+        <ShareButton />
+        {balanceOf > 0 && (
+          <button
+            type="button"
+            className="rounded-sm border border-grey-moss-900 bg-white p-1"
+          >
+            <DownloadIcon onClick={download} className="size-4 text-grey-moss-900" />
+          </button>
+        )}
+      </div>
       {!commentsHidden && <CommentSection />}
     </div>
   );
