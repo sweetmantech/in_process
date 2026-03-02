@@ -10,6 +10,7 @@ import PhoneButton from "./PhoneButton";
 import { PhoneVerificationProvider } from "@/providers/PhoneVerificationProvider";
 import AccountPageSkeleton from "./AccountPageSkeleton";
 import SignToInProcess from "./SignToInProcess";
+import TelegramMomentHint from "./TelegramMomentHint";
 
 const AccountPage = () => {
   const { artistWallet, artistWalletLoaded } = useUserProvider();
@@ -100,18 +101,7 @@ const AccountPage = () => {
               value={telegram}
               onChange={(e) => setTelegram(e.target.value)}
             />
-            <p className="pt-1 text-sm text-grey-moss-300 font-spectral-italic">
-              To create the moments via Telegram, set your username and start a conversation with{" "}
-              <a
-                href="https://t.me/in_process_creator_bot"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline"
-              >
-                @in_process_creator_bot
-              </a>{" "}
-              .
-            </p>
+            <TelegramMomentHint />
           </fieldset>
         </div>
       </section>
