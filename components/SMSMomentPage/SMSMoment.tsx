@@ -2,9 +2,6 @@
 
 import { useMomentProvider } from "@/providers/MomentProvider";
 import MomentAirdrop from "../MomentAirdrop/MomentAirdrop";
-import { Share2Icon } from "lucide-react";
-import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "../ui/tooltip";
-import useShareMoment from "@/hooks/useShareMoment";
 import Notes from "./Notes";
 import { Skeleton } from "../ui/skeleton";
 import CollectionImage from "../CollectionImage";
@@ -16,10 +13,10 @@ import { useMomentUriUpdateProvider } from "@/providers/MomentUriUpdateProvider"
 import TitleInput from "../Media/TitleInput";
 import DescriptionInput from "../Media/DescriptionInput";
 import Description from "../MomentPage/Description";
+import ShareButton from "../MomentPage/ShareButton";
 
 const SMSMoment = () => {
   const { metadata, isOwner, isSoldOut, isLoading } = useMomentProvider();
-  const { share } = useShareMoment();
   const { fileInputRef, blobUrls, previewFileUrl } = useMetadataFormProvider();
   const { selectFile } = useMetadataUploadProvider();
   const { isLoading: isUpdating } = useMomentUriUpdateProvider();
@@ -69,23 +66,7 @@ const SMSMoment = () => {
       )}
 
       <div className="flex items-center gap-2 pt-4 pb-2">
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <button
-                type="button"
-                onClick={share}
-                className="rounded-sm border border-grey-moss-900 bg-white p-1"
-                aria-label="Copy SMS link"
-              >
-                <Share2Icon className="size-4 text-grey-moss-900" />
-              </button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>copy link</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+        <ShareButton />
         {isOwner && <SaveMediaButton />}
         <input
           ref={fileInputRef}
