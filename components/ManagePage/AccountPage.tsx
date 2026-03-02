@@ -10,6 +10,7 @@ import PhoneButton from "./PhoneButton";
 import { PhoneVerificationProvider } from "@/providers/PhoneVerificationProvider";
 import AccountPageSkeleton from "./AccountPageSkeleton";
 import SignToInProcess from "./SignToInProcess";
+import TelegramMomentHint from "./TelegramMomentHint";
 
 const AccountPage = () => {
   const { artistWallet, artistWalletLoaded } = useUserProvider();
@@ -100,6 +101,7 @@ const AccountPage = () => {
               value={telegram}
               onChange={(e) => setTelegram(e.target.value)}
             />
+            <TelegramMomentHint />
           </fieldset>
         </div>
       </section>
