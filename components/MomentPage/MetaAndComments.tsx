@@ -50,8 +50,9 @@ const MetaAndComments = ({ priceHidden = false, commentsHidden = false }: MetaAn
           <button
             type="button"
             className="rounded-sm border border-grey-moss-900 bg-white p-1"
+            onClick={download}
           >
-            <DownloadIcon onClick={download} className="size-4 text-grey-moss-900" />
+            <DownloadIcon className="size-4 text-grey-moss-900" />
           </button>
         )}
       </div>
