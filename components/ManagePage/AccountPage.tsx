@@ -100,18 +100,6 @@ const AccountPage = () => {
               value={telegram}
               onChange={(e) => setTelegram(e.target.value)}
             />
-            <p className="pt-1 text-sm text-grey-moss-300 font-spectral-italic">
-              To create the moments via Telegram, set your username and start a conversation with{" "}
-              <a
-                href="https://t.me/in_process_creator_bot"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline"
-              >
-                @in_process_creator_bot
-              </a>{" "}
-              .
-            </p>
           </fieldset>
         </div>
       </section>
