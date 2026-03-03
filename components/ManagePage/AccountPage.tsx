@@ -42,7 +42,7 @@ const AccountPage = () => {
           <fieldset>
             <Label>display name</Label>
             <Input
-              placeholder="ex: ziad.eth"
+              placeholder="ex: sweetman.eth"
               className="mt-1 resize-none font-spectral"
               value={username}
               onChange={(e) => setUserName(e.target.value)}
