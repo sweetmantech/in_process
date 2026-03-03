@@ -1,6 +1,8 @@
-const FilmPlaceholder = () => {
+const FilmPlaceholder = ({ className }: { className?: string }) => {
   return (
-    <div className="relative flex aspect-video w-full items-center justify-center overflow-hidden rounded-md bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900">
+    <div
+      className={`relative flex items-center justify-center overflow-hidden rounded-md bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900 ${className ?? "aspect-video w-full"}`}
+    >
       {/* Film strip left */}
       <div className="absolute left-0 top-0 flex h-full w-[10%] min-w-6 flex-col justify-between bg-neutral-800 py-1">
         {Array.from({ length: 8 }).map((_, i) => (

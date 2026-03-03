@@ -56,7 +56,7 @@ const VideoPreview = ({
         )
       ) : (
         <div className={isFill ? "size-full" : "aspect-video w-full"}>
-          <FilmPlaceholder />
+          <FilmPlaceholder className={isFill ? "size-full" : undefined} />
         </div>
       )}
       <div className="absolute inset-0 flex items-center justify-center">
