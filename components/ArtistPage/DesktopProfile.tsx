@@ -5,14 +5,12 @@ import { Skeleton } from "../ui/skeleton";
 import { Fragment } from "react";
 import EditingStatus from "./EditingStatus";
 import useArtistEditable from "@/hooks/useArtistEditable";
-import truncateAddress from "@/lib/truncateAddress";
-import { useParams } from "next/navigation";
 
 const DesktopProfile = () => {
-  const { artistAddress } = useParams();
   const {
     isEditing,
     toggleEditing,
+    displayName,
     username,
     bio,
     setUserName,
@@ -41,7 +39,7 @@ const DesktopProfile = () => {
               {isLoading ? (
                 <Skeleton className="h-12 w-[150px]" />
               ) : (
-                username || truncateAddress(artistAddress as string)
+                displayName
               )}
             </div>
           )}

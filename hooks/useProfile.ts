@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useArtistProfile } from "./useArtistProfile";
 import { Address } from "viem";
+import truncateAddress from "@/lib/truncateAddress";
 
 const useProfile = (artistAddress?: Address) => {
   const { data, isLoading, refetch } = useArtistProfile(artistAddress);
@@ -35,7 +36,13 @@ const useProfile = (artistAddress?: Address) => {
     setPhoneVerified(false);
   }, [data?.phone]);
 
+  const displayName = useMemo(
+    () => username || truncateAddress(artistAddress as string),
+    [username, artistAddress]
+  );
+
   return {
+    displayName,
     username,
     setUserName,
     bio,
