@@ -1,15 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { Address } from "viem";
 import useMomentCreateParameters from "./useMomentCreateParameters";
 import { useUserProvider } from "@/providers/UserProvider";
 import { createMomentApi } from "@/lib/moment/createMomentApi";
-import { usePrivy } from "@privy-io/react-auth";
 import { toast } from "sonner";
-import { migrateMuxToArweaveApi } from "@/lib/mux/migrateMuxToArweaveApi";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
-import { CHAIN_ID } from "@/lib/consts";
 import { useRouter } from "next/navigation";
 import useTypeParam from "./useTypeParam";
 
@@ -18,8 +14,7 @@ export default function useMomentCreate() {
   const [createdTokenId, setCreatedTokenId] = useState<string>("");
   const { fetchParameters } = useMomentCreateParameters();
   const { isPrepared } = useUserProvider();
-  const { getAccessToken } = usePrivy();
-  const { mimeType, setUploadProgress, setIsUploading } = useMetadataFormProvider();
+  const { setUploadProgress, setIsUploading } = useMetadataFormProvider();
   const { push } = useRouter();
   const type = useTypeParam();
 
@@ -36,22 +31,11 @@ export default function useMomentCreate() {
       }
       const result = await createMomentApi(parameters);
       await new Promise((resolve) => setTimeout(resolve, 3000));
-      const accessToken = await getAccessToken();
 
       setIsUploading(false);
       setUploadProgress(100);
       setCreatedTokenId(result.tokenId.toString());
 
-      if (mimeType.includes("video") && accessToken) {
-        await migrateMuxToArweaveApi(
-          {
-            collectionAddress: result.contractAddress as Address,
-            tokenId: result.tokenId.toString(),
-            chainId: CHAIN_ID,
-          },
-          accessToken
-        );
-      }
       const typeParam = type ? `type=${type}&` : "";
       const collectionParam = `collectionAddress=${result.contractAddress}&`;
       push(`/create/success?${typeParam}${collectionParam}tokenId=${result.tokenId.toString()}`);
