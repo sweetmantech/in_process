@@ -5,10 +5,9 @@ import CommentSection from "./CommentSection";
 import Description from "./Description";
 import getPrice from "@/lib/getPrice";
 import getPriceUnit from "@/lib/getPriceUnit";
-import { DownloadIcon } from "lucide-react";
 import useBalanceOf from "@/hooks/useBalanceOf";
-import useDownload from "@/hooks/useDownload";
 import ShareButton from "./ShareButton";
+import DownloadButton from "./DownloadButton";
 
 interface MetaAndCommentsProps {
   priceHidden?: boolean;
@@ -18,7 +17,6 @@ interface MetaAndCommentsProps {
 const MetaAndComments = ({ priceHidden = false, commentsHidden = false }: MetaAndCommentsProps) => {
   const { saleConfig, metadata, isLoading, isSetSale } = useMomentProvider();
   const { balanceOf } = useBalanceOf();
-  const { download } = useDownload();
 
   if (!metadata) return <Fragment />;
 
@@ -46,15 +44,7 @@ const MetaAndComments = ({ priceHidden = false, commentsHidden = false }: MetaAn
       )}
       <div className="flex items-center gap-2 mt-2">
         <ShareButton />
-        {balanceOf > 0 && (
-          <button
-            type="button"
-            className="rounded-sm border border-grey-moss-900 bg-white p-1"
-            onClick={download}
-          >
-            <DownloadIcon className="size-4 text-grey-moss-900" />
-          </button>
-        )}
+        {balanceOf > 0 && <DownloadButton />}
       </div>
       {!commentsHidden && <CommentSection />}
     </div>
