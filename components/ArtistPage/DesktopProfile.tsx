@@ -36,11 +36,7 @@ const DesktopProfile = () => {
             />
           ) : (
             <div className="font-archivo-medium text-xl tracking-[-1px] md:text-5xl">
-              {isLoading ? (
-                <Skeleton className="h-12 w-[150px]" />
-              ) : (
-                displayName
-              )}
+              {isLoading ? <Skeleton className="h-12 w-[150px]" /> : displayName}
             </div>
           )}
           {isEditable && !isEditing && (
