@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useArtistProfile } from "./useArtistProfile";
 import { Address } from "viem";
-import truncateAddress from "@/lib/truncateAddress";
 
 const useProfile = (artistAddress?: Address) => {
   const { data, isLoading, refetch } = useArtistProfile(artistAddress);
@@ -17,7 +16,7 @@ const useProfile = (artistAddress?: Address) => {
 
   useEffect(() => {
     if (data) {
-      setUserName(data.username || truncateAddress(artistAddress as string));
+      setUserName(data.username || "");
       setBio(data.bio || "");
       setTwitter(data.twitter_username || "");
       setTelegram(data.telegram_username || "");
