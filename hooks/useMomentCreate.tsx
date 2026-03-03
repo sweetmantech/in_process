@@ -39,6 +39,7 @@ export default function useMomentCreate() {
       const typeParam = type ? `type=${type}&` : "";
       const collectionParam = `collectionAddress=${result.contractAddress}&`;
       push(`/create/success?${typeParam}${collectionParam}tokenId=${result.tokenId.toString()}`);
+      setCreating(false);
       return result;
     } catch (err: any) {
       setCreating(false);
