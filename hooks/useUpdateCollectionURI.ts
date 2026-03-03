@@ -6,11 +6,10 @@ import { callUpdateCollectionURI } from "@/lib/collection/callUpdateCollectionUR
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { Address } from "viem";
 import { useMetadataUploadProvider } from "@/providers/MetadataUploadProvider";
-import { migrateMuxToArweaveApi } from "@/lib/mux/migrateMuxToArweaveApi";
 
 const useUpdateCollectionURI = () => {
   const { data: collection } = useCollectionProvider();
-  const { name, mimeType } = useMetadataFormProvider();
+  const { name } = useMetadataFormProvider();
   const { getAccessToken } = usePrivy();
   const { generateMetadataUri } = useMetadataUploadProvider();
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -44,17 +43,6 @@ const useUpdateCollectionURI = () => {
         newUri,
         accessToken,
       });
-
-      if (mimeType.includes("video")) {
-        await migrateMuxToArweaveApi(
-          {
-            collectionAddress: collection.address as Address,
-            tokenId: "0",
-            chainId: collection.chain_id,
-          },
-          accessToken
-        );
-      }
     } catch (error: any) {
       console.error(error);
       toast.error(error?.message || "Failed to update collection metadata");

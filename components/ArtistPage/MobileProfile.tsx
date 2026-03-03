@@ -49,11 +49,7 @@ const MobileProfile = () => {
     <div className="relative">
       <div className="flex items-center gap-3 md:gap-4">
         <p className="font-archivo-medium text-xl tracking-[-1px] md:text-5xl">
-          {isLoading ? (
-            <Skeleton className="h-12 w-[150px]" />
-          ) : (
-            displayName
-          )}
+          {isLoading ? <Skeleton className="h-12 w-[150px]" /> : displayName}
         </p>
         {isEditable && !isEditing && (
           <button
