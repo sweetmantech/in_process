@@ -38,7 +38,6 @@ export default function useMomentCreate() {
       await new Promise((resolve) => setTimeout(resolve, 3000));
       const accessToken = await getAccessToken();
 
-      setCreating(false);
       setIsUploading(false);
       setUploadProgress(100);
       setCreatedTokenId(result.tokenId.toString());
