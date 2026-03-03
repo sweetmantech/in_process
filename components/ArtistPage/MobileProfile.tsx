@@ -4,13 +4,12 @@ import SocialAccounts from "./SocialAccounts";
 import { Skeleton } from "../ui/skeleton";
 import EditingStatus from "./EditingStatus";
 import useArtistEditable from "@/hooks/useArtistEditable";
-import { useParams } from "next/navigation";
-import truncateAddress from "@/lib/truncateAddress";
 
 const MobileProfile = () => {
   const {
     isEditing,
     toggleEditing,
+    displayName,
     username,
     bio,
     isLoading,
@@ -20,7 +19,6 @@ const MobileProfile = () => {
     bioRef,
   } = useProfileProvider();
   const { isEditable } = useArtistEditable();
-  const { artistAddress } = useParams();
 
   if (isEditing)
     return (
@@ -54,7 +52,7 @@ const MobileProfile = () => {
           {isLoading ? (
             <Skeleton className="h-12 w-[150px]" />
           ) : (
-            username || truncateAddress(artistAddress as string)
+            displayName
           )}
         </p>
         {isEditable && !isEditing && (
