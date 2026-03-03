@@ -19,7 +19,6 @@ const useDownload = () => {
       let data: Blob;
 
       if (isArweaveURL(contentUri)) {
-        console.log("ziad here");
         const response = await request(contentUri, {
           verificationSettings: { enabled: true, strict: false },
           headers: { Authorization: `Bearer ${accessToken}` },
