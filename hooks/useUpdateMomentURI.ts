@@ -4,14 +4,12 @@ import { usePrivy } from "@privy-io/react-auth";
 import { toast } from "sonner";
 import { callUpdateMomentURI } from "@/lib/moment/callUpdateMomentURI";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
-import { migrateMuxToArweaveApi } from "@/lib/mux/migrateMuxToArweaveApi";
 import useMetadataUpload from "@/hooks/useMetadataUpload";
 
 const useUpdateMomentURI = () => {
   const { moment, metadata } = useMomentProvider();
   const {
     name,
-    mimeType,
     setIsUploading,
     setUploadProgress,
     setImageFile,
@@ -59,10 +57,6 @@ const useUpdateMomentURI = () => {
         newUri,
         accessToken,
       });
-
-      if (mimeType?.includes("video")) {
-        await migrateMuxToArweaveApi(moment, accessToken);
-      }
 
       // Reset media state after successful save (for all file types)
       resetMediaState();
