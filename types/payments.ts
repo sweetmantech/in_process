@@ -7,7 +7,7 @@ export type InProcessPayment = {
     collection: {
       address: string;
       chain_id: number;
-      default_admin: string;
+      creator: string;
       payout_recipient: string;
     };
     fee_recipients: Array<{

@@ -13,7 +13,7 @@ const BuyerCell = ({ payment }: BuyerCellProps) => {
 
   const buyerUsername = payment.buyer.username;
   const buyerAddress = payment.buyer.address;
-  const sellerAddress = payment.moment.collection.default_admin;
+  const sellerAddress = payment.moment.collection.creator;
 
   const buyerDisplayName = buyerUsername || truncateAddress(buyerAddress);
   const sellerDisplayName = sellerAddress ? truncateAddress(sellerAddress) : "Unknown";

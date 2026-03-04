@@ -36,7 +36,7 @@ const Feed = memo(({ feed, index, spacerWidth, handleMouseLeave, handleMouseMove
         </tspan>{" "}
         &nbsp;&nbsp;&nbsp;&nbsp;
         {formatFeedText(
-          feed.default_admin.username || truncateAddress(feed.default_admin.address),
+          feed.creator.username || truncateAddress(feed.creator.address),
           (data?.name || "").slice(0, 111),
           Date.parse(feed.created_at),
           isMobile ? 14 : 20
