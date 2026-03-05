@@ -10,7 +10,7 @@ export interface CollectionsResponse {
     uri: string;
     name: string;
     created_at: string;
-    default_admin: {
+    creator: {
       username: string | null;
       address: string;
     };
@@ -32,7 +32,7 @@ export interface CollectionResponse {
   name: string;
   uri: string;
   metadata: TokenMetadataJson;
-  default_admin: {
+  creator: {
     address: string;
     username: string | null;
   };

@@ -47,7 +47,7 @@ export interface TimelineMoment {
   chain_id: number;
   id: string;
   uri: string;
-  default_admin: {
+  creator: {
     address: string;
     username: string | null;
     hidden: boolean;

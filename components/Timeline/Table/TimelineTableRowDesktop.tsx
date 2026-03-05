@@ -18,7 +18,7 @@ const TimelineTableRowDesktop = ({ moment }: { moment: TimelineMoment }) => {
         className={`cursor-pointer border-none md:py-3 ${fontFamilies[0]} ${fontSizes[0]}`}
       >
         <p className="font-archivo-medium">
-          {moment.default_admin.username || truncateAddress(moment.default_admin.address)}
+          {moment.creator.username || truncateAddress(moment.creator.address)}
         </p>
       </TableCell>
       <TableCell

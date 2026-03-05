@@ -13,15 +13,14 @@ export const getPaymentAmount = async (
   const feeRecipients = payment.moment.fee_recipients;
   const percentAllocation = feeRecipients.find(
     (recipient) =>
-      recipient.artist_address?.toLowerCase() ===
-      payment.moment.collection.default_admin?.toLowerCase()
+      recipient.artist_address?.toLowerCase() === payment.moment.collection.creator?.toLowerCase()
   )?.percent_allocation;
 
   const symbol = payment.currency === zeroAddress ? "ETH" : "USDC";
 
   if (
     percentAllocation &&
-    (payment.moment.collection.default_admin === artistWallet?.toLowerCase() ||
+    (payment.moment.collection.creator === artistWallet?.toLowerCase() ||
       payment.moment.fee_recipients.find(
         (recipient) => recipient.artist_address === artistWallet?.toLowerCase()
       ))

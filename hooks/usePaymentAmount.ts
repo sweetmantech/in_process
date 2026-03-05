@@ -16,12 +16,12 @@ const usePaymentAmount = (payment: Payment | PaymentWithType): string => {
       "paymentAmount",
       payment.moment.collection.payout_recipient,
       payment.moment.collection.chain_id,
-      payment.moment.collection.default_admin,
+      payment.moment.collection.creator,
       payment.amount,
       artistWallet,
     ],
     queryFn: () => getPaymentAmount(payment, artistWallet),
-    enabled: Boolean(artistWallet && payment.moment.collection.default_admin),
+    enabled: Boolean(artistWallet && payment.moment.collection.creator),
     staleTime: 1000 * 60 * 5, // 5 minutes
     retry: (failureCount) => failureCount < 3,
   });

@@ -19,7 +19,7 @@ const TimelineTableRow = ({ moment }: { moment: TimelineMoment }) => {
         </p>
       </div>
       <p className="text-right font-archivo text-sm">
-        {moment.default_admin.username || truncateAddress(moment.default_admin.address)}
+        {moment.creator.username || truncateAddress(moment.creator.address)}
       </p>
     </button>
   );

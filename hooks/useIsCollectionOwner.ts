@@ -9,7 +9,7 @@ const useIsCollectionOwner = () => {
 
   const isOwner = useMemo(() => {
     if (!collection || !artistWallet) return false;
-    const defaultAdminAddress = collection.default_admin?.address;
+    const defaultAdminAddress = collection.creator?.address;
     if (!defaultAdminAddress) return false;
     return getAddress(artistWallet) === getAddress(defaultAdminAddress);
   }, [collection, artistWallet]);
