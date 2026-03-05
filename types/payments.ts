@@ -8,7 +8,6 @@ export type InProcessPayment = {
       address: string;
       chain_id: number;
       creator: string;
-      payout_recipient: string;
     };
     fee_recipients: Array<{
       artist_address: string;

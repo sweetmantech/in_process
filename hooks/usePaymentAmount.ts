@@ -14,7 +14,6 @@ const usePaymentAmount = (payment: Payment | PaymentWithType): string => {
   const { data: amount = "0" } = useQuery({
     queryKey: [
       "paymentAmount",
-      payment.moment.collection.payout_recipient,
       payment.moment.collection.chain_id,
       payment.moment.collection.creator,
       payment.amount,
