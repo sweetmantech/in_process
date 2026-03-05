@@ -1,5 +1,9 @@
 import { Address, Hash } from "viem";
 
+export enum Protocol {
+  InProcess = "in_process",
+  Catalog = "catalog",
+}
 export interface Moment {
   collectionAddress: Address;
   tokenId: string;
@@ -47,7 +51,7 @@ export interface TimelineMoment {
   chain_id: number;
   id: string;
   uri: string;
-  protocol: "in_process" | "catalog" | null;
+  protocol: Protocol;
   creator: {
     address: string;
     username: string | null;
