@@ -9,6 +9,7 @@ import { Copy, Check } from "lucide-react";
 import Preview from "./Preview";
 import useCopy from "@/hooks/useCopy";
 import useIsMomentAdmin from "@/hooks/useIsMomentAdmin";
+import ProtocolBadge from "./ProtocolBadge";
 
 export type MomentItemVariant = "collection" | "moment";
 
@@ -42,6 +43,9 @@ const MomentItem = ({ m, variant = "collection" }: MomentItemProps) => {
       onKeyDown={(e) => e.key === "Enter" && handleClick()}
     >
       <div className="relative aspect-square w-full overflow-hidden rounded-t-xl bg-grey-moss-50">
+        <div className="absolute left-1.5 top-1.5 z-20">
+          <ProtocolBadge protocol={m.protocol} />
+        </div>
         {isMomentAdmin && (
           <div className="absolute right-1.5 top-1.5 z-20">
             <HideButton moment={m} />

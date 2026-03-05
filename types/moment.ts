@@ -47,6 +47,7 @@ export interface TimelineMoment {
   chain_id: number;
   id: string;
   uri: string;
+  protocol: "in_process" | "catalog" | null;
   creator: {
     address: string;
     username: string | null;
