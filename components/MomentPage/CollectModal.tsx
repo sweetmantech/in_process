@@ -19,14 +19,13 @@ const CollectModal = () => {
     useMomentCommentsProvider();
   const { saleConfig, isLoading, metadata, isSoldOut, isSaleActive } = useMomentProvider();
 
-  const { amountToCollect } = useMomentCollectProvider();
+  const { amountToCollect, canCollect } = useMomentCollectProvider();
   const { isPrepared } = useUserProvider();
 
   const handleCollect = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (!isPrepared()) return;
     setIsOpenCommentModal(true);
-    return;
   };
 
   if (isLoading || !metadata || !saleConfig) return <Fragment />;
@@ -40,7 +39,7 @@ const CollectModal = () => {
         <DialogTrigger
           asChild
           onClick={handleCollect}
-          disabled={!isSaleActive || isSoldOut}
+          disabled={!isSaleActive || isSoldOut || !canCollect}
           className="disabled:cursor-not-allowed disabled:bg-grey-moss-300"
         >
           <button
