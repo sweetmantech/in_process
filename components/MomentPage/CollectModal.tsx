@@ -12,12 +12,14 @@ import getPrice from "@/lib/getPrice";
 import getPriceUnit from "@/lib/getPriceUnit";
 import truncated from "@/lib/truncated";
 import Advanced from "./Advanced";
-import { MomentType } from "@/types/moment";
+import { MomentType, Protocol } from "@/types/moment";
+import { toast } from "sonner";
 
 const CollectModal = () => {
   const { comment, isOpenCommentModal, setIsOpenCommentModal, setComment } =
     useMomentCommentsProvider();
-  const { saleConfig, isLoading, metadata, isSoldOut, isSaleActive } = useMomentProvider();
+  const { saleConfig, isLoading, metadata, isSoldOut, isSaleActive, protocol } =
+    useMomentProvider();
 
   const { amountToCollect } = useMomentCollectProvider();
   const { isPrepared } = useUserProvider();
@@ -25,6 +27,10 @@ const CollectModal = () => {
   const handleCollect = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (!isPrepared()) return;
+    if (protocol === Protocol.Catalog) {
+      toast.info("Collect feature for Catalog moments is coming soon. Stay tuned!");
+      return;
+    }
     setIsOpenCommentModal(true);
     return;
   };
