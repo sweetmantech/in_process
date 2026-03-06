@@ -12,7 +12,7 @@ export const useMomentClick = (moment: TimelineMoment | undefined) => {
     if (!moment) return;
     const { chain_id, address, token_id } = moment;
     if (isLoading || !data) return;
-    if (data?.external_url) {
+    if (data?.external_url && !data?.external_url.includes("catalog.works")) {
       // Validate URL before opening to prevent phishing
       if (validateUrl(data.external_url)) {
         window.open(data.external_url, "_blank", "noopener,noreferrer");
