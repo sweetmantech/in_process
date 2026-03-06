@@ -8,6 +8,7 @@ export function useMetadata(uri: string) {
     staleTime: 1000 * 60 * 5,
     enabled: Boolean(uri),
     refetchOnWindowFocus: false,
-    retry: false,
+    retry: 3,
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
   });
 }
