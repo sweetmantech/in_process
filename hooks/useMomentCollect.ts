@@ -56,6 +56,7 @@ const useMomentCollect = () => {
 
   return {
     collectWithComment,
+    canCollect: protocol !== Protocol.Catalog,
     isLoading,
     amountToCollect,
     setAmountToCollect,

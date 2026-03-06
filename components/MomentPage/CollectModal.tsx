@@ -12,27 +12,20 @@ import getPrice from "@/lib/getPrice";
 import getPriceUnit from "@/lib/getPriceUnit";
 import truncated from "@/lib/truncated";
 import Advanced from "./Advanced";
-import { MomentType, Protocol } from "@/types/moment";
-import { toast } from "sonner";
+import { MomentType } from "@/types/moment";
 
 const CollectModal = () => {
   const { comment, isOpenCommentModal, setIsOpenCommentModal, setComment } =
     useMomentCommentsProvider();
-  const { saleConfig, isLoading, metadata, isSoldOut, isSaleActive, protocol } =
-    useMomentProvider();
+  const { saleConfig, isLoading, metadata, isSoldOut, isSaleActive } = useMomentProvider();
 
-  const { amountToCollect } = useMomentCollectProvider();
+  const { amountToCollect, canCollect } = useMomentCollectProvider();
   const { isPrepared } = useUserProvider();
 
   const handleCollect = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (!isPrepared()) return;
-    if (protocol === Protocol.Catalog) {
-      toast.info("Collect feature for Catalog moments is coming soon. Stay tuned!");
-      return;
-    }
     setIsOpenCommentModal(true);
-    return;
   };
 
   if (isLoading || !metadata || !saleConfig) return <Fragment />;
@@ -46,7 +39,7 @@ const CollectModal = () => {
         <DialogTrigger
           asChild
           onClick={handleCollect}
-          disabled={!isSaleActive || isSoldOut}
+          disabled={!isSaleActive || isSoldOut || !canCollect}
           className="disabled:cursor-not-allowed disabled:bg-grey-moss-300"
         >
           <button
