@@ -24,6 +24,7 @@ const useMomentData = (moment: Moment) => {
   const owner = query.data?.owner ?? null;
   const tokenUri = query.data?.uri ?? null;
   const momentAdmins = query.data?.momentAdmins ?? null;
+  const protocol = query.data?.protocol ?? null;
 
   const isSetSale = useMemo(() => {
     return saleConfig ? BigInt(saleConfig.saleEnd) > BigInt(0) : false;
@@ -45,6 +46,7 @@ const useMomentData = (moment: Moment) => {
 
   return {
     saleConfig,
+    protocol,
     metadata,
     tokenUri,
     momentAdmins,

@@ -7,19 +7,24 @@ import useCollectBalanceValidation from "./useCollectBalanceValidation";
 import { usePrivy } from "@privy-io/react-auth";
 import { collectMomentApi } from "@/lib/moment/collectMomentApi";
 import { useMomentCommentsProvider } from "@/providers/MomentCommentsProvider";
+import { Protocol } from "@/types/moment";
 
 const useMomentCollect = () => {
   const [amountToCollect, setAmountToCollect] = useState(1);
   const [collected, setCollected] = useState(false);
   const { artistWallet } = useUserProvider();
   const [isLoading, setIsLoading] = useState(false);
-  const { moment, saleConfig } = useMomentProvider();
+  const { moment, saleConfig, protocol } = useMomentProvider();
   const { comment, addComment, setComment, setIsOpenCommentModal } = useMomentCommentsProvider();
   const { validateBalance } = useCollectBalanceValidation();
   const { getAccessToken } = usePrivy();
 
   const collectWithComment = async () => {
     try {
+      if (protocol === Protocol.Catalog) {
+        toast.info("Collect feature for Catalog moments is coming soon. Stay tuned!");
+        return;
+      }
       if (!saleConfig) return;
       if (!artistWallet) return;
       setIsLoading(true);
