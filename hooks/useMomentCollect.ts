@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Address } from "viem";
+import { useMutation } from "@tanstack/react-query";
 import { useMomentProvider } from "@/providers/MomentProvider";
 import { useUserProvider } from "@/providers/UserProvider";
 import { toast } from "sonner";
@@ -14,30 +15,28 @@ const useMomentCollect = () => {
   const [amountToCollect, setAmountToCollect] = useState(1);
   const [collected, setCollected] = useState(false);
   const { artistWallet } = useUserProvider();
-  const [isLoading, setIsLoading] = useState(false);
   const { moment, saleConfig, protocol } = useMomentProvider();
   const { comment, addComment, setComment, setIsOpenCommentModal } = useMomentCommentsProvider();
   const { validateBalance } = useCollectBalanceValidation();
   const { getAccessToken } = usePrivy();
 
-  const collectWithComment = async () => {
-    try {
-      if (!artistWallet) return;
-      if (!saleConfig) return;
-      setIsLoading(true);
+  const mutation = useMutation({
+    mutationFn: async () => {
+      if (!artistWallet) throw new Error("No wallet connected");
 
       const accessToken = await getAccessToken();
-      if (!accessToken) {
-        throw new Error("Failed to get access token");
-      }
-
-      validateBalance(saleConfig, amountToCollect);
+      if (!accessToken) throw new Error("Failed to get access token");
 
       if (protocol === Protocol.Catalog) {
-        await collectCatalogMomentApi(moment, amountToCollect, accessToken);
-      } else {
-        if (!saleConfig) return;
-        await collectMomentApi(moment, amountToCollect, comment, accessToken);
+        return collectCatalogMomentApi(moment, amountToCollect, accessToken);
+      }
+
+      if (!saleConfig) throw new Error("Sale config not found");
+      validateBalance(saleConfig, amountToCollect);
+      return collectMomentApi(moment, amountToCollect, comment, accessToken);
+    },
+    onSuccess: () => {
+      if (protocol !== Protocol.Catalog) {
         addComment({
           sender: artistWallet as Address,
           comment,
@@ -48,19 +47,18 @@ const useMomentCollect = () => {
       }
       setCollected(true);
       toast.success("collected!");
-      setIsLoading(false);
-    } catch (error) {
-      const errorMessage = (error as any).message || "Failed to collect moment";
+    },
+    onError: (error: any) => {
+      const errorMessage = error?.message || "Failed to collect moment";
       if (!errorMessage.includes("funds")) {
         toast.error(errorMessage);
       }
-      setIsLoading(false);
-    }
-  };
+    },
+  });
 
   return {
-    collectWithComment,
-    isLoading,
+    collectWithComment: () => mutation.mutate(),
+    isLoading: mutation.isPending,
     amountToCollect,
     setAmountToCollect,
     comment,
