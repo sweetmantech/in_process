@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import useCollectBalanceValidation from "./useCollectBalanceValidation";
 import { usePrivy } from "@privy-io/react-auth";
 import { collectMomentApi } from "@/lib/moment/collectMomentApi";
+import { collectCatalogMomentApi } from "@/lib/catalog/collectCatalogMomentApi";
 import { useMomentCommentsProvider } from "@/providers/MomentCommentsProvider";
 import { Protocol } from "@/types/moment";
 
@@ -21,20 +22,22 @@ const useMomentCollect = () => {
 
   const collectWithComment = async () => {
     try {
-      if (protocol === Protocol.Catalog) {
-        toast.info("Collect feature for Catalog moments is coming soon. Stay tuned!");
-        return;
-      }
-      if (!saleConfig) return;
       if (!artistWallet) return;
       setIsLoading(true);
 
-      validateBalance(saleConfig, amountToCollect);
       const accessToken = await getAccessToken();
       if (!accessToken) {
         throw new Error("Failed to get access token");
       }
-      await collectMomentApi(moment, amountToCollect, comment, accessToken);
+
+      validateBalance(saleConfig, amountToCollect);
+
+      if (protocol === Protocol.Catalog) {
+        await collectCatalogMomentApi(moment, amountToCollect, accessToken);
+      } else {
+        if (!saleConfig) return;
+        await collectMomentApi(moment, amountToCollect, comment, accessToken);
+      }
       addComment({
         sender: artistWallet as Address,
         comment,
@@ -56,7 +59,6 @@ const useMomentCollect = () => {
 
   return {
     collectWithComment,
-    canCollect: protocol !== Protocol.Catalog,
     isLoading,
     amountToCollect,
     setAmountToCollect,
