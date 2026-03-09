@@ -27,12 +27,13 @@ const useMomentCollect = () => {
       const accessToken = await getAccessToken();
       if (!accessToken) throw new Error("Failed to get access token");
 
+      if (!saleConfig) throw new Error("Sale config not found");
+      validateBalance(saleConfig, amountToCollect);
+
       if (protocol === Protocol.Catalog) {
         return collectCatalogMomentApi(moment, amountToCollect, accessToken);
       }
 
-      if (!saleConfig) throw new Error("Sale config not found");
-      validateBalance(saleConfig, amountToCollect);
       return collectMomentApi(moment, amountToCollect, comment, accessToken);
     },
     onSuccess: () => {
