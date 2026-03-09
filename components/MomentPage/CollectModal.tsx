@@ -12,12 +12,13 @@ import getPrice from "@/lib/getPrice";
 import getPriceUnit from "@/lib/getPriceUnit";
 import truncated from "@/lib/truncated";
 import Advanced from "./Advanced";
-import { MomentType } from "@/types/moment";
+import { MomentType, Protocol } from "@/types/moment";
 
 const CollectModal = () => {
   const { comment, isOpenCommentModal, setIsOpenCommentModal, setComment } =
     useMomentCommentsProvider();
-  const { saleConfig, isLoading, metadata, isSoldOut, isSaleActive } = useMomentProvider();
+  const { saleConfig, isLoading, metadata, isSoldOut, isSaleActive, protocol } =
+    useMomentProvider();
 
   const { amountToCollect } = useMomentCollectProvider();
   const { isPrepared } = useUserProvider();
@@ -65,13 +66,17 @@ const CollectModal = () => {
               </>
             )}
           </section>
-          <Label className="mt-4 w-full text-left font-archivo text-lg">comment</Label>
-          <textarea
-            className="w-full !border-none bg-grey-moss-50 p-3 font-spectral !outline-none !ring-0"
-            rows={6}
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-          />
+          {protocol !== Protocol.Catalog && (
+            <>
+              <Label className="mt-4 w-full text-left font-archivo text-lg">comment</Label>
+              <textarea
+                className="w-full !border-none bg-grey-moss-50 p-3 font-spectral !outline-none !ring-0"
+                rows={6}
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+              />
+            </>
+          )}
           <Advanced />
           <div className="mt-4 w-full">
             <CommentButton />

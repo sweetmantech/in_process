@@ -23,6 +23,7 @@ const useMomentCollect = () => {
   const collectWithComment = async () => {
     try {
       if (!artistWallet) return;
+      if (!saleConfig) return;
       setIsLoading(true);
 
       const accessToken = await getAccessToken();
@@ -37,14 +38,14 @@ const useMomentCollect = () => {
       } else {
         if (!saleConfig) return;
         await collectMomentApi(moment, amountToCollect, comment, accessToken);
+        addComment({
+          sender: artistWallet as Address,
+          comment,
+          timestamp: new Date().getTime(),
+        } as any);
+        setComment("");
+        setIsOpenCommentModal(false);
       }
-      addComment({
-        sender: artistWallet as Address,
-        comment,
-        timestamp: new Date().getTime(),
-      } as any);
-      setComment("");
-      setIsOpenCommentModal(false);
       setCollected(true);
       toast.success("collected!");
       setIsLoading(false);
