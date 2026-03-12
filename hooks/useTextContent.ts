@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { TokenMetadataJson } from "@/lib/protocolSdk/ipfs/types";
+import { MomentMetadata } from "@/types/moment";
 import useArweaveUrl from "./useArweaveUrl";
 
-const useTextContent = (data: TokenMetadataJson) => {
+const useTextContent = (data: MomentMetadata) => {
   const [text, setText] = useState<string>("");
   const rawUri = data.content?.uri || data.animation_url || "";
   const { url: contentUrl, isLoading: urlLoading } = useArweaveUrl(rawUri);

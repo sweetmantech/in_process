@@ -1,6 +1,4 @@
 import React from "react";
-import { useMetadata } from "@/hooks/useMetadata";
-import Loading from "../Loading";
 import BlurImage from "@/components/BlurImage";
 import NoPreview from "@/components/NoPreview";
 import { TimelineMoment } from "@/types/moment";
@@ -14,7 +12,7 @@ interface FeedTooltipProps {
 export const FeedTooltip: React.FC<FeedTooltipProps> = ({ feed, position, isVisible }) => {
   if (!isVisible || !position || !feed) return null;
 
-  const { isLoading, data } = useMetadata(feed.uri);
+  const image = feed.metadata?.image;
 
   return (
     <div
@@ -25,13 +23,11 @@ export const FeedTooltip: React.FC<FeedTooltipProps> = ({ feed, position, isVisi
       }}
     >
       <div className="relative aspect-[1/1] w-[200px] bg-grey-moss-100">
-        {isLoading ? (
-          <Loading className="size-full" />
-        ) : !data?.image ? (
+        {!image ? (
           <NoPreview />
         ) : (
           <BlurImage
-            src={data.image}
+            src={image}
             alt="not found image"
             fill
             style={{ objectFit: "contain", objectPosition: "center" }}
