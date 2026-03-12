@@ -21,5 +21,5 @@ export const useMomentClick = (moment: TimelineMoment | undefined) => {
     push(`/collect/${shortName}:${address}/${token_id}`);
   };
 
-  return { handleMomentClick, isLoading: false, data };
+  return { handleMomentClick, data };
 };
