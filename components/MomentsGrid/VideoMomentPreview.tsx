@@ -1,8 +1,8 @@
-import { TokenMetadataJson } from "@/lib/protocolSdk/ipfs/types";
+import { MomentMetadata } from "@/types/moment";
 import FilmPlaceholder from "@/components/VideoPlayer/FilmPlaceholder";
 
 interface VideoMomentPreviewProps {
-  data: TokenMetadataJson;
+  data: MomentMetadata;
 }
 
 const VideoMomentPreview = ({ data }: VideoMomentPreviewProps) => {

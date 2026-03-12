@@ -1,7 +1,7 @@
-import { TokenMetadataJson } from "@/lib/protocolSdk/ipfs/types";
+import { MomentMetadata } from "@/types/moment";
 
 interface AudioMomentPreviewProps {
-  data: TokenMetadataJson;
+  data: MomentMetadata;
 }
 
 const AudioMomentPreview = ({ data }: AudioMomentPreviewProps) => {
