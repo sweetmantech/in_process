@@ -10,7 +10,7 @@ import { uploadFilesToArweave } from "@/lib/metadata/uploadFilesToArweave";
 import { handleWritingMode } from "@/lib/metadata/handleWritingMode";
 import { handleEmbedMode } from "@/lib/metadata/handleEmbedMode";
 import { buildMetadataPayload } from "@/lib/metadata/buildMetadataPayload";
-import { TokenMetadataJson } from "@/lib/protocolSdk";
+import { MomentMetadata } from "@/types/moment";
 
 const useMetadataUpload = () => {
   const type = useTypeParam();
@@ -32,7 +32,7 @@ const useMetadataUpload = () => {
   const { selectFile } = useFileSelect();
   useLinkPreview();
 
-  const generateMetadataUri = async (existingMetadata?: TokenMetadataJson | null) => {
+  const generateMetadataUri = async (existingMetadata?: MomentMetadata | null) => {
     let mime = mimeType;
     let animation_url = "";
     let contentUri = "";
