@@ -1,7 +1,7 @@
 import useArweaveUrl from "@/hooks/useArweaveUrl";
-import { TokenMetadataJson } from "@/lib/protocolSdk";
+import { MomentMetadata } from "@/types/moment";
 
-const useMediaContent = (metadata: TokenMetadataJson | null | undefined) => {
+const useMediaContent = (metadata: MomentMetadata | null | undefined) => {
   const mimeType = metadata?.content?.mime || "";
   const rawAnimationUri = metadata?.animation_url || "";
   const rawImageUri = metadata?.image || "";

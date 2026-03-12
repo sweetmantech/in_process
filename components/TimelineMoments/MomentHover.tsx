@@ -1,11 +1,11 @@
 import { FC } from "react";
 import { Skeleton } from "../ui/skeleton";
 import ContentRenderer from "../Renderers/ContentRenderer";
-import { TokenMetadataJson } from "@/lib/protocolSdk";
+import { MomentMetadata } from "@/types/moment";
 
 interface MomentHoverProps {
   isLoading: boolean;
-  data: TokenMetadataJson;
+  data: MomentMetadata;
 }
 
 const MomentHover: FC<MomentHoverProps> = ({ isLoading, data }) => {
