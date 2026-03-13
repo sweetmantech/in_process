@@ -21,11 +21,7 @@ const MobileMomentCard = ({ moment, prevMoment, nextMoment }: MobileMomentCardPr
       <div className="relative" data-video-hover-area="true">
         <div className="relative z-10 shadow-lg transition-opacity duration-200 ease-out">
           <div className="relative aspect-[360/248] w-[200px] overflow-hidden bg-grey-moss-100 !font-spectral md:w-[300px]">
-            {!metadata ? (
-              <Skeleton className="size-full" />
-            ) : (
-              <ContentRenderer metadata={metadata} />
-            )}
+            <ContentRenderer metadata={metadata} />
           </div>
         </div>
       </div>

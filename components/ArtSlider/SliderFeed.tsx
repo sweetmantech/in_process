@@ -1,4 +1,3 @@
-import Loading from "../Loading";
 import { useMomentClick } from "@/hooks/useMomentClick";
 import { TimelineMoment } from "@/types/moment";
 import ContentRenderer from "../Renderers";
@@ -17,15 +16,9 @@ const SliderFeed = ({ feed }: SliderFeedProps) => {
       onClick={handleMomentClick}
       onKeyDown={(e) => e.key === "Enter" && handleMomentClick()}
     >
-      {!metadata ? (
-        <div className="flex size-full items-center justify-center rounded-md border border-grey bg-grey-moss-100">
-          <Loading className="size-3/4" />
-        </div>
-      ) : (
-        <div className="w-full">
-          <ContentRenderer metadata={metadata} variant="natural" />
-        </div>
-      )}
+      <div className="w-full">
+        <ContentRenderer metadata={metadata} variant="natural" />
+      </div>
     </div>
   );
 };
