@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { Skeleton } from "../ui/skeleton";
 import ContentRenderer from "../Renderers/ContentRenderer";
 import { MomentMetadata } from "@/types/moment";
 
@@ -13,7 +14,7 @@ const MomentHover: FC<MomentHoverProps> = ({ data }) => {
 
       <div className="relative z-10 shadow-lg transition-opacity duration-200 ease-out">
         <div className="relative aspect-[360/248] w-[200px] overflow-hidden bg-grey-moss-100 !font-spectral md:w-[300px]">
-          <ContentRenderer metadata={data} />
+          {!data ? <Skeleton className="size-full" /> : <ContentRenderer metadata={data} />}
         </div>
       </div>
     </div>

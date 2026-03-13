@@ -4,6 +4,7 @@ import MomentHover from "./MomentHover";
 import truncated from "@/lib/truncated";
 import { TIMLINE_STEP_OFFSET } from "@/lib/consts";
 import HideButton from "./HideButton";
+import useArtistEditable from "@/hooks/useArtistEditable";
 import { TimelineMoment } from "@/types/moment";
 import { useMomentClick } from "@/hooks/useMomentClick";
 import useIsMomentAdmin from "@/hooks/useIsMomentAdmin";
