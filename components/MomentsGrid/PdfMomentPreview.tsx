@@ -1,8 +1,8 @@
-import { MomentMetadata } from "@/types/moment";
+import { TokenMetadataJson } from "@/lib/protocolSdk/ipfs/types";
 import { FileText } from "lucide-react";
 
 interface PdfMomentPreviewProps {
-  data: MomentMetadata;
+  data: TokenMetadataJson;
 }
 
 const PdfMomentPreview = ({ data }: PdfMomentPreviewProps) => {

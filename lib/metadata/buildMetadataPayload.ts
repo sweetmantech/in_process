@@ -1,5 +1,5 @@
 import { uploadJson } from "@/lib/arweave/uploadJson";
-import { MomentMetadata } from "@/types/moment";
+import { TokenMetadataJson } from "@/lib/protocolSdk";
 
 export interface MetadataPayload {
   name: string;
@@ -28,7 +28,7 @@ export const buildMetadataPayload = async (
   animationUrl: string,
   mime: string,
   contentUri: string,
-  existingMetadata?: MomentMetadata | null
+  existingMetadata?: TokenMetadataJson | null
 ): Promise<string> => {
   // Merge new values with existing metadata
   // Strategy:
@@ -48,6 +48,8 @@ export const buildMetadataPayload = async (
       mime: mime || existingMetadata?.content?.mime || "",
       uri: contentUri || existingMetadata?.content?.uri || "",
     },
+    // Preserve attributes if they exist
+    ...(existingMetadata?.attributes && { attributes: existingMetadata.attributes }),
   };
 
   return uploadJson(mergedMetadata);

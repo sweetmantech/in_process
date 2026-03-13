@@ -1,10 +1,10 @@
 "use client";
 
-import { MomentMetadata } from "@/types/moment";
+import { TokenMetadataJson } from "@/lib/protocolSdk/ipfs/types";
 import useTextContent from "@/hooks/useTextContent";
 
 interface TextMomentPreviewProps {
-  data: MomentMetadata;
+  data: TokenMetadataJson;
 }
 
 const TextMomentPreview = ({ data }: TextMomentPreviewProps) => {

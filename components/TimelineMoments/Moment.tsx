@@ -18,7 +18,7 @@ interface MomentProps {
 }
 
 const Moment: FC<MomentProps> = ({ moment, hovered, step, height, index }) => {
-  const { handleMomentClick, data } = useMomentClick(moment);
+  const { handleMomentClick, isLoading, data } = useMomentClick(moment);
   const [isFadingOut, setIsFadingOut] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
   const isMomentAdmin = useIsMomentAdmin(moment);
@@ -66,7 +66,7 @@ const Moment: FC<MomentProps> = ({ moment, hovered, step, height, index }) => {
             <div className="relative size-full">
               {hovered && data && (
                 <div className="absolute bottom-full">
-                  <MomentHover data={data} />
+                  <MomentHover isLoading={isLoading} data={data} />
                 </div>
               )}
             </div>

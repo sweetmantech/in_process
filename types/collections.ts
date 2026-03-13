@@ -1,5 +1,5 @@
+import { TokenMetadataJson } from "@/lib/protocolSdk/ipfs/types";
 import { Address, Hash } from "viem";
-import { MomentMetadata } from "./moment";
 
 export interface CollectionsResponse {
   status: "success" | "error";
@@ -31,7 +31,7 @@ export interface CollectionResponse {
   chain_id: number;
   name: string;
   uri: string;
-  metadata: MomentMetadata;
+  metadata: TokenMetadataJson;
   creator: {
     address: string;
     username: string | null;

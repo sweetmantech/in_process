@@ -1,5 +1,6 @@
 "use client";
 
+import { TokenMetadataJson } from "@/lib/protocolSdk";
 import useMediaContent from "@/hooks/useMediaContent";
 import PdfContent from "./PdfContent";
 import AudioContent from "./AudioContent";
@@ -7,10 +8,9 @@ import VideoContent from "./VideoContent";
 import HtmlContent from "./HtmlContent";
 import TextContent from "./TextContent";
 import ImageContent from "./ImageContent";
-import { MomentMetadata } from "@/types/moment";
 
 interface ContentRendererProps {
-  metadata: MomentMetadata;
+  metadata: TokenMetadataJson;
   variant?: "fill" | "natural";
 }
 

@@ -11,7 +11,7 @@ interface MobileMomentCardProps {
 }
 
 const MobileMomentCard = ({ moment, prevMoment, nextMoment }: MobileMomentCardProps) => {
-  const { handleMomentClick, data: metadata } = useMomentClick(moment);
+  const { handleMomentClick, isLoading, data: metadata } = useMomentClick(moment);
 
   return (
     <div
@@ -21,7 +21,7 @@ const MobileMomentCard = ({ moment, prevMoment, nextMoment }: MobileMomentCardPr
       <div className="relative" data-video-hover-area="true">
         <div className="relative z-10 shadow-lg transition-opacity duration-200 ease-out">
           <div className="relative aspect-[360/248] w-[200px] overflow-hidden bg-grey-moss-100 !font-spectral md:w-[300px]">
-            {!metadata ? (
+            {isLoading || !metadata ? (
               <Skeleton className="size-full" />
             ) : (
               <ContentRenderer metadata={metadata} />
@@ -60,7 +60,11 @@ const MobileMomentCard = ({ moment, prevMoment, nextMoment }: MobileMomentCardPr
       </div>
       <div className="mt-4 flex flex-col items-center">
         <div className="font-spectral-italic text-xs">
-          {!metadata ? <Skeleton className="w-12 h-4" /> : truncated(metadata?.name || "", 30)}
+          {isLoading || !metadata ? (
+            <Skeleton className="w-12 h-4" />
+          ) : (
+            truncated(metadata?.name || "", 30)
+          )}
         </div>
         <div className="font-archivo text-xs">
           {moment ? (

@@ -8,7 +8,7 @@ interface SliderFeedProps {
 }
 
 const SliderFeed = ({ feed }: SliderFeedProps) => {
-  const { handleMomentClick, data: metadata } = useMomentClick(feed);
+  const { handleMomentClick, isLoading, data: metadata } = useMomentClick(feed);
   return (
     <div
       role="button"
@@ -17,7 +17,7 @@ const SliderFeed = ({ feed }: SliderFeedProps) => {
       onClick={handleMomentClick}
       onKeyDown={(e) => e.key === "Enter" && handleMomentClick()}
     >
-      {!metadata ? (
+      {isLoading || !metadata ? (
         <div className="flex size-full items-center justify-center rounded-md border border-grey bg-grey-moss-100">
           <Loading className="size-3/4" />
         </div>

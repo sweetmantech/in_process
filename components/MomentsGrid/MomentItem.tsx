@@ -1,8 +1,10 @@
+import { useMetadata } from "@/hooks/useMetadata";
 import truncateAddress from "@/lib/truncateAddress";
 import { usePathname, useRouter } from "next/navigation";
 import truncated from "@/lib/truncated";
 import HideButton from "@/components/TimelineMoments/HideButton";
 import { type TimelineMoment } from "@/types/moment";
+import MomentItemSkeleton from "./MomentItemSkeleton";
 import { Copy, Check } from "lucide-react";
 import Preview from "./Preview";
 import useCopy from "@/hooks/useCopy";
@@ -17,7 +19,7 @@ interface MomentItemProps {
 }
 
 const MomentItem = ({ m, variant = "collection" }: MomentItemProps) => {
-  const data = m.metadata;
+  const { data, isLoading } = useMetadata(m.uri);
   const { push } = useRouter();
   const { copied, copy } = useCopy(m.address);
   const isMomentAdmin = useIsMomentAdmin(m);
@@ -25,10 +27,13 @@ const MomentItem = ({ m, variant = "collection" }: MomentItemProps) => {
   const isManagePage = pathname.includes("/manage");
 
   const handleClick = () => {
+    if (isLoading) return;
     push(
       `/${isManagePage ? "manage" : "collect"}/${m.chain_id === 8453 ? "base" : "bsep"}:${m.address}${variant === "moment" ? `/${m.token_id}` : ""}`
     );
   };
+
+  if (isLoading) return <MomentItemSkeleton />;
   return (
     <div
       role="button"
