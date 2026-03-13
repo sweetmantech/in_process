@@ -1,7 +1,7 @@
 import CopyButton from "../CopyButton";
 import { Address } from "viem";
 import { MomentMetadata } from "@/types/moment";
-import CollectionImage from "../CollectionImage";
+import Preview from "../MomentsGrid/Preview";
 
 interface OverviewContentProps {
   metadata: MomentMetadata | null | undefined;
@@ -14,7 +14,7 @@ const OverviewContent = ({ metadata, name, address }: OverviewContentProps) => {
     <div className="w-fit pt-4 flex flex-col items-center gap-2 md:flex-row">
       <div className="relative aspect-[1/1] w-24 bg-grey-moss-50 flex items-center justify-center">
         {metadata ? (
-          <CollectionImage src={metadata.image} alt="Collection preview" className="size-full" />
+          <Preview data={metadata} />
         ) : (
           <p className="text-xs text-grey-moss-200">No Preview</p>
         )}
