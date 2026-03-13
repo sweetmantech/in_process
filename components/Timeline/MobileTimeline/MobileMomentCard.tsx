@@ -1,5 +1,4 @@
 import { useMomentClick } from "@/hooks/useMomentClick";
-import truncated from "@/lib/truncated";
 import { Skeleton } from "@/components/ui/skeleton";
 import ContentRenderer from "@/components/Renderers";
 import { TimelineMoment } from "@/types/moment";
@@ -55,9 +54,7 @@ const MobileMomentCard = ({ moment, prevMoment, nextMoment }: MobileMomentCardPr
         </div>
       </div>
       <div className="mt-4 flex flex-col items-center">
-        <div className="font-spectral-italic text-xs">
-          {!metadata ? <Skeleton className="w-12 h-4" /> : truncated(metadata?.name || "", 30)}
-        </div>
+        <div className="font-spectral-italic text-xs">truncated(metadata?.name || "", 30)</div>
         <div className="font-archivo text-xs">
           {moment ? (
             new Date(moment.created_at).toLocaleString()
