@@ -1,7 +1,7 @@
-import ContentRenderer from "../Renderers";
 import CopyButton from "../CopyButton";
 import { Address } from "viem";
 import { MomentMetadata } from "@/types/moment";
+import CollectionImage from "../CollectionImage";
 
 interface OverviewContentProps {
   metadata: MomentMetadata | null | undefined;
@@ -10,16 +10,11 @@ interface OverviewContentProps {
 }
 
 const OverviewContent = ({ metadata, name, address }: OverviewContentProps) => {
-  const isPdf = metadata?.content?.mime?.includes("pdf") ?? false;
-  const containerClassName = isPdf
-    ? "w-fit pt-4 flex flex-col items-center gap-2"
-    : "w-fit pt-4 flex flex-col items-center gap-2 md:flex-row";
-
   return (
-    <div className={containerClassName}>
+    <div className="w-fit pt-4 flex flex-col items-center gap-2 md:flex-row">
       <div className="relative aspect-[1/1] w-24 bg-grey-moss-50 flex items-center justify-center">
         {metadata ? (
-          <ContentRenderer metadata={metadata} />
+          <CollectionImage src={metadata.image} alt="Collection preview" className="size-full" />
         ) : (
           <p className="text-xs text-grey-moss-200">No Preview</p>
         )}
