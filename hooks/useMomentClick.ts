@@ -1,17 +1,15 @@
 import { useRouter } from "next/navigation";
 import { TimelineMoment } from "@/types/moment";
 import { base } from "viem/chains";
-import { useMetadata } from "./useMetadata";
 import { validateUrl } from "@/lib/url/validateUrl";
 
 export const useMomentClick = (moment: TimelineMoment | undefined) => {
   const { push } = useRouter();
-  const { data, isLoading } = useMetadata(moment?.uri || "");
+  const data = moment?.metadata;
 
   const handleMomentClick = () => {
     if (!moment) return;
     const { chain_id, address, token_id } = moment;
-    if (isLoading || !data) return;
     if (data?.external_url && !data?.external_url.includes("catalog.works")) {
       // Validate URL before opening to prevent phishing
       if (validateUrl(data.external_url)) {
@@ -23,5 +21,5 @@ export const useMomentClick = (moment: TimelineMoment | undefined) => {
     push(`/collect/${shortName}:${address}/${token_id}`);
   };
 
-  return { handleMomentClick, isLoading, data };
+  return { handleMomentClick, data };
 };

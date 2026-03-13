@@ -1,4 +1,4 @@
-import { TokenMetadataJson } from "@/lib/protocolSdk/ipfs/types";
+import { MomentMetadata } from "@/types/moment";
 import { determineMediaType } from "@/lib/zora/utils";
 import BlurImage from "@/components/BlurImage";
 import TextMomentPreview from "./TextMomentPreview";
@@ -7,7 +7,7 @@ import AudioMomentPreview from "./AudioMomentPreview";
 import VideoMomentPreview from "./VideoMomentPreview";
 
 interface PreviewProps {
-  data: TokenMetadataJson;
+  data: MomentMetadata;
 }
 
 const Preview = ({ data }: PreviewProps) => {
