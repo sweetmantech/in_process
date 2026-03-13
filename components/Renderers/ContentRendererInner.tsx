@@ -10,7 +10,7 @@ import ImageContent from "./ImageContent";
 import { MomentMetadata } from "@/types/moment";
 
 interface ContentRendererProps {
-  metadata: MomentMetadata;
+  metadata?: MomentMetadata;
   variant?: "fill" | "natural";
 }
 
