@@ -1,10 +1,10 @@
 import ContentRenderer from "../Renderers";
 import CopyButton from "../CopyButton";
 import { Address } from "viem";
-import { TokenMetadataJson } from "@/lib/protocolSdk";
+import { MomentMetadata } from "@/types/moment";
 
 interface OverviewContentProps {
-  metadata: TokenMetadataJson | null | undefined;
+  metadata: MomentMetadata | null | undefined;
   name: string | null | undefined;
   address: Address;
 }

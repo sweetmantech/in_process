@@ -62,6 +62,7 @@ export interface TimelineMoment {
     hidden: boolean;
   }>;
   created_at: string;
+  metadata?: MomentMetadata;
 }
 
 export interface TimelinePagination {

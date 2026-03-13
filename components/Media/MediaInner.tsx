@@ -7,12 +7,12 @@ import ResetButton from "../MetadataCreation/ResetButton";
 import AnimationUpload from "./AnimationUpload";
 import MediaSkeleton from "./MediaSkeleton";
 import OwnerWarning from "./OwnerWarning";
-import { TokenMetadataJson } from "@/lib/protocolSdk";
 import TitleInput from "./TitleInput";
 import DescriptionInput from "./DescriptionInput";
+import { MomentMetadata } from "@/types/moment";
 
 interface MediaProps {
-  metadata: TokenMetadataJson | null;
+  metadata: MomentMetadata | null;
   isOwner: boolean;
   isLoading: boolean;
   isSaving: boolean;

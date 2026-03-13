@@ -4,7 +4,6 @@ import MomentHover from "./MomentHover";
 import truncated from "@/lib/truncated";
 import { TIMLINE_STEP_OFFSET } from "@/lib/consts";
 import HideButton from "./HideButton";
-import useArtistEditable from "@/hooks/useArtistEditable";
 import { TimelineMoment } from "@/types/moment";
 import { useMomentClick } from "@/hooks/useMomentClick";
 import useIsMomentAdmin from "@/hooks/useIsMomentAdmin";
@@ -18,7 +17,7 @@ interface MomentProps {
 }
 
 const Moment: FC<MomentProps> = ({ moment, hovered, step, height, index }) => {
-  const { handleMomentClick, isLoading, data } = useMomentClick(moment);
+  const { handleMomentClick, data } = useMomentClick(moment);
   const [isFadingOut, setIsFadingOut] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
   const isMomentAdmin = useIsMomentAdmin(moment);
@@ -66,7 +65,7 @@ const Moment: FC<MomentProps> = ({ moment, hovered, step, height, index }) => {
             <div className="relative size-full">
               {hovered && data && (
                 <div className="absolute bottom-full">
-                  <MomentHover isLoading={isLoading} data={data} />
+                  <MomentHover data={data} />
                 </div>
               )}
             </div>
