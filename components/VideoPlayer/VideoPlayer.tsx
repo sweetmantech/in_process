@@ -56,8 +56,12 @@ const VideoPlayer = ({ url, thumbnail, variant = "fill", onError }: VideoPlayerP
         onTouchStart={stopPropagation}
         onCanPlay={handleLoaded}
         onError={async () => {
-          const recovered = await onError?.();
-          if (!recovered) handleError();
+          try {
+            const recovered = await onError?.();
+            if (!recovered) handleError();
+          } catch {
+            handleError();
+          }
         }}
         key={url}
       >
