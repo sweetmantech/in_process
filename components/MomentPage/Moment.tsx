@@ -36,7 +36,8 @@ const Moment = () => {
                   <ContentRenderer
                     metadata={metadata}
                     onRefresh={async () => {
-                      await fetchMomentData();
+                      const result = await fetchMomentData();
+                      return result.data?.metadata?.animation_url;
                     }}
                   />
                 </div>
