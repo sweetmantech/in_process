@@ -14,7 +14,7 @@ import ContentRenderer from "../Renderers";
 import { Protocol } from "@/types/moment";
 
 const Moment = () => {
-  const { metadata, isOwner, isSoldOut, protocol } = useMomentProvider();
+  const { metadata, isOwner, isSoldOut, protocol, fetchMomentData } = useMomentProvider();
   const { collected } = useMomentCollectProvider();
   const isMobile = useIsMobile();
   const isCatalog = protocol === Protocol.Catalog;
@@ -33,7 +33,13 @@ const Moment = () => {
               )}
               <div className="flex w-full grow justify-center">
                 <div className="relative aspect-[576/700] h-fit w-full overflow-hidden font-spectral">
-                  <ContentRenderer metadata={metadata} />
+                  <ContentRenderer
+                    metadata={metadata}
+                    onRefresh={async () => {
+                      const result = await fetchMomentData();
+                      return result.data?.metadata?.animation_url;
+                    }}
+                  />
                 </div>
               </div>
             </div>

@@ -8,9 +8,10 @@ interface VideoPlayerProps {
   url: string;
   thumbnail?: string;
   variant?: "fill" | "natural";
+  onError?: () => Promise<boolean>;
 }
 
-const VideoPlayer = ({ url, thumbnail, variant = "fill" }: VideoPlayerProps) => {
+const VideoPlayer = ({ url, thumbnail, variant = "fill", onError }: VideoPlayerProps) => {
   const {
     videoRef,
     isPlaying,
@@ -54,7 +55,14 @@ const VideoPlayer = ({ url, thumbnail, variant = "fill" }: VideoPlayerProps) => 
         onPointerDown={stopPropagation}
         onTouchStart={stopPropagation}
         onCanPlay={handleLoaded}
-        onError={handleError}
+        onError={async () => {
+          try {
+            const recovered = await onError?.();
+            if (!recovered) handleError();
+          } catch {
+            handleError();
+          }
+        }}
         key={url}
       >
         <source src={getStreamingUrl(url)} />
