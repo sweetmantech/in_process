@@ -4,12 +4,17 @@ import { Address } from "viem";
 
 const useVideoRefresh = (moment: TimelineMoment) => {
   const handleRefresh = async (): Promise<string | undefined> => {
-    const fresh = await getMomentApi({
-      collectionAddress: moment.address as Address,
-      tokenId: moment.token_id,
-      chainId: moment.chain_id,
-    });
-    return fresh?.metadata?.animation_url;
+    try {
+      const fresh = await getMomentApi({
+        collectionAddress: moment.address as Address,
+        tokenId: moment.token_id,
+        chainId: moment.chain_id,
+      });
+      return fresh?.metadata?.animation_url;
+    } catch (error) {
+      console.error(error);
+      return undefined;
+    }
   };
 
   return { handleRefresh };
