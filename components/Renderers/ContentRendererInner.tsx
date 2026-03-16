@@ -12,9 +12,10 @@ import { MomentMetadata } from "@/types/moment";
 interface ContentRendererProps {
   metadata?: MomentMetadata;
   variant?: "fill" | "natural";
+  onRefresh?: () => Promise<string | undefined | void>;
 }
 
-const ContentRendererInner = ({ metadata, variant = "fill" }: ContentRendererProps) => {
+const ContentRendererInner = ({ metadata, variant = "fill", onRefresh }: ContentRendererProps) => {
   const {
     mimeType,
     rawAnimationUri,
@@ -33,7 +34,12 @@ const ContentRendererInner = ({ metadata, variant = "fill" }: ContentRendererPro
 
   if (mimeType.includes("video"))
     return (
-      <VideoContent rawAnimationUri={rawAnimationUri} rawImageUri={rawImageUri} variant={variant} />
+      <VideoContent
+        rawAnimationUri={rawAnimationUri}
+        rawImageUri={rawImageUri}
+        variant={variant}
+        onRefresh={onRefresh}
+      />
     );
 
   if (mimeType.includes("html"))

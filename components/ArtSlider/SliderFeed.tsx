@@ -1,4 +1,5 @@
 import { useMomentClick } from "@/hooks/useMomentClick";
+import useVideoRefresh from "@/hooks/useVideoRefresh";
 import { TimelineMoment } from "@/types/moment";
 import ContentRenderer from "../Renderers";
 
@@ -8,6 +9,7 @@ interface SliderFeedProps {
 
 const SliderFeed = ({ feed }: SliderFeedProps) => {
   const { handleMomentClick, data: metadata } = useMomentClick(feed);
+  const { handleRefresh } = useVideoRefresh(feed);
   return (
     <div
       role="button"
@@ -17,7 +19,7 @@ const SliderFeed = ({ feed }: SliderFeedProps) => {
       onKeyDown={(e) => e.key === "Enter" && handleMomentClick()}
     >
       <div className="w-full">
-        <ContentRenderer metadata={metadata} variant="natural" />
+        <ContentRenderer metadata={metadata} variant="natural" onRefresh={handleRefresh} />
       </div>
     </div>
   );
