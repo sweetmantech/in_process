@@ -36,8 +36,7 @@ const MomentsTimeline = ({ alt }: MomentsTimelineProps) => {
       </>
     );
 
-  if (isMobile)
-    return <MobileTimeline />;
+  if (isMobile) return <MobileTimeline />;
 
   return (
     <TimelineAnimationProvider itemsCount={reversedMoments.length}>
