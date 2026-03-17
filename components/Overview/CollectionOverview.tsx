@@ -3,6 +3,7 @@
 import { useCollectionProvider } from "@/providers/CollectionProvider";
 import { networkConfigByChain } from "@/lib/protocolSdk/apis/chain-constants";
 import { SITE_ORIGINAL_URL } from "@/lib/consts";
+import { getCollectionTimelineUrl } from "@/lib/collection/getCollectionTimelineUrl";
 import { Address } from "viem";
 import Breadcrumbs from "./Breadcrumbs";
 import OverviewContent from "./OverviewContent";
@@ -20,10 +21,7 @@ const CollectionOverview = () => {
       ? `/manage/${networkConfigByChain[data.chain_id].zoraCollectPathChainName}:${data.address}`
       : undefined;
 
-  const timelineUrl =
-    data?.chain_id !== undefined && data?.address
-      ? `${SITE_ORIGINAL_URL}/collection/${networkConfigByChain[data.chain_id].zoraCollectPathChainName}:${data.address}`
-      : undefined;
+  const timelineUrl = getCollectionTimelineUrl(data?.chain_id, data?.address, SITE_ORIGINAL_URL);
 
   if (isLoading) return <CollectionOverviewSkeleton />;
 
