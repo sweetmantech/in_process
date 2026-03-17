@@ -6,6 +6,7 @@ import FetchMoreInspector from "../FetchMoreInspector";
 import useIsMobile from "@/hooks/useIsMobile";
 import VerticalFeed from "../VerticalFeed";
 import Moments from "../MomentsGrid/Moments";
+import MobileTimeline from "./MobileTimeline";
 
 interface MomentsTimelineProps {
   alt: "timeline" | "grid";
@@ -34,6 +35,9 @@ const MomentsTimeline = ({ alt }: MomentsTimelineProps) => {
         <FetchMoreInspector fetchMore={fetchMore} />
       </>
     );
+
+  if (isMobile)
+    return <MobileTimeline />;
 
   return (
     <TimelineAnimationProvider itemsCount={reversedMoments.length}>
