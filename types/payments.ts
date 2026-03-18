@@ -1,3 +1,5 @@
+import { MomentMetadata } from "./moment";
+
 export type InProcessPayment = {
   id: string;
   moment: {
@@ -13,6 +15,7 @@ export type InProcessPayment = {
       artist_address: string;
       percent_allocation: number;
     }>;
+    metadata: MomentMetadata | null;
   };
   buyer: {
     address: string;
