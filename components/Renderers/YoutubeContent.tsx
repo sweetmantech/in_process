@@ -1,15 +1,8 @@
-import { getYoutubeVideoId } from "@/lib/url/getYoutubeVideoId";
-import NoPreview from "@/components/NoPreview";
-
 interface YoutubeContentProps {
-  externalUrl: string;
+  videoId: string;
 }
 
-const YoutubeContent = ({ externalUrl }: YoutubeContentProps) => {
-  const videoId = getYoutubeVideoId(externalUrl);
-
-  if (!videoId) return <NoPreview className="min-h-32" />;
-
+const YoutubeContent = ({ videoId }: YoutubeContentProps) => {
   return (
     <iframe
       src={`https://www.youtube.com/embed/${videoId}`}

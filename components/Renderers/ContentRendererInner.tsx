@@ -8,7 +8,7 @@ import HtmlContent from "./HtmlContent";
 import TextContent from "./TextContent";
 import ImageContent from "./ImageContent";
 import { MomentMetadata } from "@/types/moment";
-import { isYoutubeUrl } from "@/lib/url/isYoutubeUrl";
+import { getYoutubeVideoId } from "@/lib/url/getYoutubeVideoId";
 import YoutubeContent from "./YoutubeContent";
 
 interface ContentRendererProps {
@@ -28,8 +28,8 @@ const ContentRendererInner = ({ metadata, variant = "fill", onRefresh }: Content
     contentLoading,
   } = useMediaContent(metadata);
 
-  if (metadata?.external_url && isYoutubeUrl(metadata.external_url))
-    return <YoutubeContent externalUrl={metadata.external_url} />;
+  const youtubeId = getYoutubeVideoId(metadata?.external_url ?? "");
+  if (youtubeId) return <YoutubeContent videoId={youtubeId} />;
 
   if (mimeType.includes("pdf"))
     return <PdfContent animationLoading={animationLoading} animationUrl={animationUrl} />;
