@@ -7,7 +7,7 @@ const TelegramMomentHint = () => (
       rel="noopener noreferrer"
       className="underline"
     >
-      @in_process_creator_bot
+      @in_process_chat_bot
     </a>
     .
   </p>
