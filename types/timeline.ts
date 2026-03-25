@@ -11,6 +11,17 @@ export interface TimelineResponse {
   message?: string;
 }
 
+export type AnalyticsPeriod = "day" | "week" | "month" | "all";
+export type AnalyticsChannel = "telegram" | "sms" | "web" | "api";
+export type AnalyticsContentType = "audio" | "image" | "video";
+
+export interface AnalyticsFilters {
+  period?: AnalyticsPeriod;
+  channel?: AnalyticsChannel;
+  artist?: string;
+  contentType?: AnalyticsContentType;
+}
+
 export interface UseTimelineParams {
   page?: number;
   limit?: number;
@@ -19,6 +30,9 @@ export interface UseTimelineParams {
   collection?: string;
   includeHidden?: boolean;
   type?: "mutual" | "default";
+  period?: AnalyticsPeriod;
+  channel?: AnalyticsChannel;
+  contentType?: AnalyticsContentType;
 }
 
 export interface FetchTimelineParams {
@@ -29,4 +43,7 @@ export interface FetchTimelineParams {
   includeHidden?: boolean;
   type?: "mutual" | "default";
   chainId?: number;
+  period?: AnalyticsPeriod;
+  channel?: AnalyticsChannel;
+  contentType?: AnalyticsContentType;
 }

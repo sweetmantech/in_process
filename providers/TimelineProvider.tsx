@@ -4,7 +4,12 @@ import { createContext, useContext, ReactNode } from "react";
 import { useInfiniteTimeline } from "@/hooks/useInfiniteTimeline";
 import { usePaginatedTimeline } from "@/hooks/usePaginatedTimeline";
 import { TimelineMoment } from "@/types/moment";
-import { TimelineResponse } from "@/types/timeline";
+import {
+  TimelineResponse,
+  AnalyticsPeriod,
+  AnalyticsChannel,
+  AnalyticsContentType,
+} from "@/types/timeline";
 
 interface TimelineContextValue {
   data: TimelineResponse | undefined;
@@ -31,6 +36,9 @@ interface TimelineProviderProps {
   type?: "mutual" | "default";
   limit?: number;
   paginated?: boolean;
+  period?: AnalyticsPeriod;
+  channel?: AnalyticsChannel;
+  contentType?: AnalyticsContentType;
 }
 
 export const TimelineProvider = ({
@@ -41,6 +49,9 @@ export const TimelineProvider = ({
   type,
   limit,
   paginated = false,
+  period,
+  channel,
+  contentType,
 }: TimelineProviderProps) => {
   const infiniteResult = useInfiniteTimeline({
     page: 1,
@@ -50,6 +61,9 @@ export const TimelineProvider = ({
     collection,
     includeHidden,
     type,
+    period,
+    channel,
+    contentType,
   });
 
   const paginatedResult = usePaginatedTimeline({
@@ -59,6 +73,9 @@ export const TimelineProvider = ({
     collection,
     includeHidden,
     type,
+    period,
+    channel,
+    contentType,
   });
 
   const timeline = paginated ? paginatedResult : infiniteResult;

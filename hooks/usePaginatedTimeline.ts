@@ -11,6 +11,9 @@ export function usePaginatedTimeline({
   collection,
   includeHidden = false,
   type,
+  period,
+  channel,
+  contentType,
 }: UseTimelineParams = {}) {
   const [currentPage, setCurrentPage] = useState(1);
   const { chainId, address: normalizedCollection } = parseCollectionAddress(collection);
@@ -25,6 +28,9 @@ export function usePaginatedTimeline({
       type,
       chainId,
       currentPage,
+      period,
+      channel,
+      contentType,
     ],
     queryFn: () =>
       fetchTimeline({
@@ -35,6 +41,9 @@ export function usePaginatedTimeline({
         includeHidden,
         type,
         chainId,
+        period,
+        channel,
+        contentType,
       }),
     enabled,
     staleTime: 1000 * 60 * 5,
