@@ -4,7 +4,7 @@ import { fetchTimeline } from "@/lib/timeline/fetchTimeline";
 import { UseTimelineParams } from "@/types/timeline";
 import { parseCollectionAddress } from "@/lib/timeline/parseCollectionAddress";
 
-export function useTimeline({
+export function useInfiniteTimeline({
   page = 1,
   limit = 100,
   enabled = true,
