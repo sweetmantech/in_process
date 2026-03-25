@@ -3,14 +3,22 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { TimelineProvider, useTimelineProvider } from "@/providers/TimelineProvider";
+import { useTimelineProvider } from "@/providers/TimelineProvider";
 import MessagesTableLoading from "@/components/AdminMessagesPage/MessagesTableLoading";
 import NoMessagesFound from "@/components/AdminMessagesPage/NoMessagesFound";
 import MomentCreationsTableContents from "./MomentCreationsTableContents";
 
-const MomentCreationsTableInner = () => {
-  const { moments, isLoading, error, hasNextPage, isFetchingNextPage, fetchMore } =
-    useTimelineProvider();
+const MomentCreationsTable = () => {
+  const {
+    moments,
+    isLoading,
+    error,
+    currentPage,
+    totalPages,
+    hasPrevPage,
+    hasNextPage,
+    setCurrentPage,
+  } = useTimelineProvider();
 
   if (isLoading) return <MessagesTableLoading />;
   if (error) return <p className="text-red-500">Error loading moments</p>;
@@ -20,7 +28,9 @@ const MomentCreationsTableInner = () => {
       <CardHeader>
         <CardTitle className="flex items-center justify-between">
           <span>Moment Creations</span>
-          <Badge variant="outline">{moments.length} loaded</Badge>
+          <Badge variant="outline">
+            Page {currentPage} / {totalPages}
+          </Badge>
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -29,29 +39,32 @@ const MomentCreationsTableInner = () => {
         ) : (
           <>
             <MomentCreationsTableContents moments={moments} />
-            {hasNextPage && (
-              <div className="pt-4 flex justify-center">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={fetchMore}
-                  disabled={isFetchingNextPage}
-                >
-                  {isFetchingNextPage ? "Loading..." : "Load More"}
-                </Button>
-              </div>
-            )}
+            <div className="pt-4 flex items-center justify-between">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setCurrentPage(currentPage - 1)}
+                disabled={!hasPrevPage}
+              >
+                Previous
+              </Button>
+              <span className="text-sm text-muted-foreground">
+                {currentPage} of {totalPages}
+              </span>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setCurrentPage(currentPage + 1)}
+                disabled={!hasNextPage}
+              >
+                Next
+              </Button>
+            </div>
           </>
         )}
       </CardContent>
     </Card>
   );
 };
-
-const MomentCreationsTable = () => (
-  <TimelineProvider includeHidden={true}>
-    <MomentCreationsTableInner />
-  </TimelineProvider>
-);
 
 export default MomentCreationsTable;

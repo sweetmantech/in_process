@@ -1,7 +1,8 @@
 "use client";
 
 import { createContext, useContext, ReactNode } from "react";
-import { useTimeline } from "@/hooks/useTimeline";
+import { useInfiniteTimeline } from "@/hooks/useInfiniteTimeline";
+import { usePaginatedTimeline } from "@/hooks/usePaginatedTimeline";
 import { TimelineMoment } from "@/types/moment";
 import { TimelineResponse } from "@/types/timeline";
 
@@ -11,6 +12,8 @@ interface TimelineContextValue {
   isLoading: boolean;
   isFetchingNextPage: boolean;
   hasNextPage: boolean;
+  hasPrevPage: boolean;
+  totalPages: number;
   error: unknown;
   currentPage: number;
   setCurrentPage: (page: number) => void;
@@ -26,6 +29,8 @@ interface TimelineProviderProps {
   chainId?: string;
   includeHidden?: boolean;
   type?: "mutual" | "default";
+  limit?: number;
+  paginated?: boolean;
 }
 
 export const TimelineProvider = ({
@@ -34,16 +39,29 @@ export const TimelineProvider = ({
   collection,
   includeHidden = false,
   type,
+  limit,
+  paginated = false,
 }: TimelineProviderProps) => {
-  const timeline = useTimeline({
+  const infiniteResult = useInfiniteTimeline({
     page: 1,
-    limit: 100,
-    enabled: true,
+    limit: limit ?? 100,
+    enabled: !paginated,
     artistAddress,
     collection,
     includeHidden,
     type,
   });
+
+  const paginatedResult = usePaginatedTimeline({
+    limit: limit ?? 10,
+    enabled: paginated,
+    artistAddress,
+    collection,
+    includeHidden,
+    type,
+  });
+
+  const timeline = paginated ? paginatedResult : infiniteResult;
 
   const {
     data,
@@ -55,6 +73,9 @@ export const TimelineProvider = ({
     setCurrentPage,
     fetchMore,
   } = timeline;
+
+  const hasPrevPage = "hasPrevPage" in timeline ? (timeline.hasPrevPage ?? false) : false;
+  const totalPages = "totalPages" in timeline ? (timeline.totalPages ?? 1) : 1;
   const moments = data?.moments || [];
 
   return (
@@ -64,7 +85,9 @@ export const TimelineProvider = ({
         moments,
         isLoading,
         isFetchingNextPage,
-        hasNextPage,
+        hasNextPage: hasNextPage ?? false,
+        hasPrevPage,
+        totalPages,
         error,
         currentPage,
         setCurrentPage,
