@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/select";
 import { AnalyticsFilters as Filters } from "@/types/timeline";
 import { Search } from "lucide-react";
+import { useState } from "react";
 
 interface AnalyticsFiltersProps {
   filters: Filters;
@@ -17,18 +18,27 @@ interface AnalyticsFiltersProps {
 }
 
 const AnalyticsFilters = ({ filters, onChange }: AnalyticsFiltersProps) => {
+  const [artistInput, setArtistInput] = useState(filters.artist ?? "");
   const set = (patch: Partial<Filters>) => onChange({ ...filters, ...patch });
+
+  const commitArtist = () => set({ artist: artistInput || undefined });
 
   return (
     <div className="flex flex-wrap justify-end gap-2">
       <div className="relative">
-        <Search className="absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
         <Input
-          className="h-7 w-44 rounded-full pl-8 text-xs"
+          className="h-7 w-44 rounded-full pl-3 pr-8 text-xs"
           placeholder="Artist name or address"
-          value={filters.artist ?? ""}
-          onChange={(e) => set({ artist: e.target.value || undefined })}
+          value={artistInput}
+          onChange={(e) => setArtistInput(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && commitArtist()}
         />
+        <button
+          onClick={commitArtist}
+          className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+        >
+          <Search className="h-3.5 w-3.5" />
+        </button>
       </div>
 
       <Select
