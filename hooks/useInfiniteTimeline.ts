@@ -12,6 +12,9 @@ export function useInfiniteTimeline({
   collection,
   includeHidden = false,
   type,
+  period,
+  channel,
+  contentType,
 }: UseTimelineParams = {}) {
   const [currentPage, setCurrentPage] = useState(page);
 
@@ -26,6 +29,9 @@ export function useInfiniteTimeline({
       includeHidden,
       type,
       chainId,
+      period,
+      channel,
+      contentType,
     ],
     queryFn: ({ pageParam = 1 }) => {
       return fetchTimeline({
@@ -36,6 +42,9 @@ export function useInfiniteTimeline({
         includeHidden,
         type,
         chainId,
+        period,
+        channel,
+        contentType,
       });
     },
     enabled,
