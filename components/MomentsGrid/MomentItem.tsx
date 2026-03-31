@@ -2,7 +2,7 @@ import truncateAddress from "@/lib/truncateAddress";
 import { usePathname, useRouter } from "next/navigation";
 import truncated from "@/lib/truncated";
 import HideButton from "@/components/TimelineMoments/HideButton";
-import { type TimelineMoment } from "@/types/moment";
+import { type TimelineMoment, Protocol } from "@/types/moment";
 import { Copy, Check } from "lucide-react";
 import Preview from "./Preview";
 import useCopy from "@/hooks/useCopy";
@@ -78,7 +78,13 @@ const MomentItem = ({ m, variant = "collection" }: MomentItemProps) => {
               <Copy className="size-3 shrink-0" />
             )}
           </button>
-          <span className="shrink-0">#{m.token_id}</span>
+          <span className="shrink-0">
+            {m.protocol === Protocol.SoundXyz
+              ? Number(m.token_id) === 1
+                ? "free"
+                : "limited"
+              : `#${m.token_id}`}
+          </span>
         </div>
       </div>
     </div>
