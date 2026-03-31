@@ -13,12 +13,13 @@ import getPriceUnit from "@/lib/getPriceUnit";
 import truncated from "@/lib/truncated";
 import Advanced from "./Advanced";
 import { MomentType, Protocol } from "@/types/moment";
+import useCollectAvailability from "@/hooks/useCollectAvailability";
 
 const CollectModal = () => {
   const { comment, isOpenCommentModal, setIsOpenCommentModal, setComment } =
     useMomentCommentsProvider();
-  const { saleConfig, isLoading, metadata, isSoldOut, isSaleActive, protocol } =
-    useMomentProvider();
+  const { saleConfig, isLoading, metadata, protocol } = useMomentProvider();
+  const { isCollectDisabled, collectCtaLabel } = useCollectAvailability();
 
   const { amountToCollect } = useMomentCollectProvider();
   const { isPrepared } = useUserProvider();
@@ -40,14 +41,14 @@ const CollectModal = () => {
         <DialogTrigger
           asChild
           onClick={handleCollect}
-          disabled={!isSaleActive || isSoldOut || protocol === Protocol.SoundXyz}
+          disabled={isCollectDisabled}
           className="disabled:cursor-not-allowed disabled:bg-grey-moss-300"
         >
           <button
             type="button"
             className="h-fit w-full rounded-md bg-black py-2 font-archivo text-2xl text-grey-eggshell hover:bg-grey-moss-300 md:h-[60px] md:w-[420px]"
           >
-            {isSoldOut || protocol === Protocol.SoundXyz ? "sold out" : "collect"}
+            {collectCtaLabel}
           </button>
         </DialogTrigger>
         <DialogContent className="flex max-w-xl flex-col items-center !gap-0 overflow-hidden !rounded-3xl border-none !bg-white bg-transparent px-8 py-10 shadow-lg">
