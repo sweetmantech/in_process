@@ -40,14 +40,14 @@ const CollectModal = () => {
         <DialogTrigger
           asChild
           onClick={handleCollect}
-          disabled={!isSaleActive || isSoldOut}
+          disabled={!isSaleActive || isSoldOut || protocol === Protocol.SoundXyz}
           className="disabled:cursor-not-allowed disabled:bg-grey-moss-300"
         >
           <button
             type="button"
             className="h-fit w-full rounded-md bg-black py-2 font-archivo text-2xl text-grey-eggshell hover:bg-grey-moss-300 md:h-[60px] md:w-[420px]"
           >
-            {isSoldOut ? "sold out" : "collect"}
+            {isSoldOut || protocol === Protocol.SoundXyz ? "sold out" : "collect"}
           </button>
         </DialogTrigger>
         <DialogContent className="flex max-w-xl flex-col items-center !gap-0 overflow-hidden !rounded-3xl border-none !bg-white bg-transparent px-8 py-10 shadow-lg">

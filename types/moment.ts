@@ -3,6 +3,7 @@ import { Address, Hash } from "viem";
 export enum Protocol {
   InProcess = "in_process",
   Catalog = "catalog",
+  SoundXyz = "sound.xyz",
 }
 export interface Moment {
   collectionAddress: Address;
