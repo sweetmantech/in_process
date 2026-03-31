@@ -30,6 +30,10 @@ const useMomentCollect = () => {
       if (!saleConfig) throw new Error("Sale config not found");
       validateBalance(saleConfig, amountToCollect);
 
+      if (protocol === Protocol.SoundXyz) {
+        throw new Error("In*Process is not supported for Sound.xyz moments");
+      }
+
       if (protocol === Protocol.Catalog) {
         return collectCatalogMomentApi(moment, amountToCollect, accessToken);
       }
