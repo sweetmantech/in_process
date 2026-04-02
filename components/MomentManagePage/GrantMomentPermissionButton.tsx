@@ -1,9 +1,9 @@
 "use client";
 
-import useGrantMomentPermission from "@/hooks/useGrantMomentPermission";
+import useGrantMomentPermissionByProtocol from "@/hooks/useGrantMomentPermissionByProtocol";
 
 const GrantMomentPermissionButton = () => {
-  const { grantPermission, isGranting } = useGrantMomentPermission();
+  const { grantPermission, isGranting } = useGrantMomentPermissionByProtocol();
 
   return (
     <button
