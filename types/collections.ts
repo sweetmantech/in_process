@@ -1,5 +1,5 @@
 import { Address, Hash } from "viem";
-import { MomentMetadata } from "./moment";
+import { MomentMetadata, Protocol } from "./moment";
 
 export interface CollectionsResponse {
   status: "success" | "error";
@@ -31,7 +31,7 @@ export interface CollectionResponse {
   chain_id: number;
   name: string;
   uri: string;
-  protocol?: string;
+  protocol?: Protocol;
   metadata: MomentMetadata;
   creator: {
     address: string;

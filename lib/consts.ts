@@ -35,6 +35,8 @@ export const TELEGRAM_MAX_FILE_SIZE = 50 * 1024 * 1024;
 export const PERMISSION_BIT_ADMIN = 2;
 // Sound.xyz OwnableRoles constants (LibOps.sol: ADMIN_ROLE = 1 << 0)
 export const SOUND_ADMIN_ROLE = 1;
+// Catalog PermissionController constants (PermissionController.sol: AUTH_SCOPE_ARTIST = 1 << 1)
+export const CATALOG_AUTH_SCOPE_ARTIST = 2;
 export const MULTICALL3_ADDRESS = "0xcA11bde05977b3631167028862bE2a173976CA11";
 
 export const USDC_ADDRESS: Record<number, Address> = {
