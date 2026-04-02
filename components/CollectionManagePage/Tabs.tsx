@@ -1,4 +1,6 @@
 import TabButton from "./TabButton";
+import { useCollectionProvider } from "@/providers/CollectionProvider";
+import { Protocol } from "@/types/moment";
 
 export enum COLLECTION_MANAGE_TABS {
   MEDIA,
@@ -11,6 +13,9 @@ interface TabsProps {
 }
 
 const Tabs = ({ selectedTab, onChangeTab }: TabsProps) => {
+  const { data } = useCollectionProvider();
+  const hideNonMedia = data?.protocol === Protocol.SoundXyz || data?.protocol === Protocol.Catalog;
+
   return (
     <section className="w-full px-2 pt-4 md:px-10">
       <div className="flex gap-1 md:gap-4">
@@ -19,11 +24,13 @@ const Tabs = ({ selectedTab, onChangeTab }: TabsProps) => {
           active={selectedTab === COLLECTION_MANAGE_TABS.MEDIA}
           onClick={() => onChangeTab(COLLECTION_MANAGE_TABS.MEDIA)}
         />
-        <TabButton
-          label="Admins"
-          active={selectedTab === COLLECTION_MANAGE_TABS.ADMINS}
-          onClick={() => onChangeTab(COLLECTION_MANAGE_TABS.ADMINS)}
-        />
+        {!hideNonMedia && (
+          <TabButton
+            label="Admins"
+            active={selectedTab === COLLECTION_MANAGE_TABS.ADMINS}
+            onClick={() => onChangeTab(COLLECTION_MANAGE_TABS.ADMINS)}
+          />
+        )}
       </div>
     </section>
   );
