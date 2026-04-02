@@ -31,6 +31,7 @@ export interface CollectionResponse {
   chain_id: number;
   name: string;
   uri: string;
+  protocol?: string;
   metadata: MomentMetadata;
   creator: {
     address: string;
