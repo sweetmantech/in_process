@@ -67,3 +67,59 @@ export const useSomething = () => {
 
 - **Chain**: Base (mainnet) or Base Sepolia (testnet via `NEXT_PUBLIC_IS_TESTNET`)
 - **Stack**: Next.js, TanStack Query, Privy (auth), Supabase, Viem
+
+---
+
+## Sound.xyz Admin Permission System
+
+### Contract Architecture
+
+Sound.xyz editions use **ERC721A** (not ERC1155), upgraded with **Solady `OwnableRoles`**. The edition contract (`SoundEditionV2_1`) manages all tiers internally as a uint8 identifier — there is **no per-tier permission model**.
+
+### Role Constants (`contracts/sound.xyz/contracts/core/utils/LibOps.sol`)
+
+| Role        | Value | Description                         |
+| ----------- | ----- | ----------------------------------- |
+| ADMIN_ROLE  | `1`   | `1 << 0` — admin actions on edition |
+| MINTER_ROLE | `2`   | `1 << 1` — minting new tokens       |
+
+### Granting Admin Permission
+
+Call `grantRoles(address user, uint256 roles)` on the edition contract. Only the edition **owner** can call this.
+
+```typescript
+// Minimal ABI
+{ name: "grantRoles", stateMutability: "payable",
+  inputs: [{ name: "user", type: "address" }, { name: "roles", type: "uint256" }] }
+
+// Grant admin to smart wallet
+await client.writeContract({
+  address: editionAddress,
+  abi: soundEditionABI,
+  functionName: "grantRoles",
+  args: [smartWallet, BigInt(SOUND_ADMIN_ROLE)], // SOUND_ADMIN_ROLE = 1
+});
+```
+
+### Comparison with Zora (InProcess) Protocol
+
+| Protocol  | Contract Type | Permission Function                  | Collection Level         | Token/Tier Level             |
+| --------- | ------------- | ------------------------------------ | ------------------------ | ---------------------------- |
+| Zora      | ERC1155       | `addPermission(tokenId, addr, bits)` | `tokenId = 0, bits = 2`  | `tokenId = actual, bits = 2` |
+| Sound.xyz | ERC721A       | `grantRoles(addr, roles)`            | `roles = 1 (ADMIN_ROLE)` | Same — no per-tier model     |
+
+### Hook Structure
+
+| Hook                                        | Context              | Description                                        |
+| ------------------------------------------- | -------------------- | -------------------------------------------------- |
+| `useSoundEditionGrantRoles(editionAddress)` | —                    | Core logic: calls `grantRoles` on edition          |
+| `useGrantSoundEditionPermission`            | `CollectionProvider` | Edition-level grant                                |
+| `useGrantSoundTierPermission`               | `MomentProvider`     | Tier-level grant (uses `moment.collectionAddress`) |
+
+### Key Addresses (`contracts/config.yaml`)
+
+| Contract       | Mainnet (Base 8453)                          |
+| -------------- | -------------------------------------------- |
+| SoundCreatorV2 | `0x0000000000aec84F5BFc2af15EAfb943bf4e3522` |
+| SoundMetadata  | `0x0000000000f5A96Dc85959cAeb0Cfe680f108FB5` |
+| SuperMinterV2  | `0x000000000001A36777f9930aAEFf623771b13e70` |

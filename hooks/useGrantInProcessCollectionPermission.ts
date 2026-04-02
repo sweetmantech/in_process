@@ -12,7 +12,7 @@ import { toast } from "sonner";
 import { isUserRejection } from "@/lib/viem/isUserRejection";
 import { zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
 
-const useGrantCollectionPermission = () => {
+const useGrantInProcessCollectionPermission = () => {
   const { data: collectionData } = useCollectionProvider();
   const { artistWallet } = useUserProvider();
   const { smartWallet } = useSmartWallet();
@@ -91,4 +91,4 @@ const useGrantCollectionPermission = () => {
   };
 };
 
-export default useGrantCollectionPermission;
+export default useGrantInProcessCollectionPermission;

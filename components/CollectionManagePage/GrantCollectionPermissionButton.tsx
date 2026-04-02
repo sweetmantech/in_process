@@ -1,9 +1,9 @@
 "use client";
 
-import useGrantCollectionPermission from "@/hooks/useGrantCollectionPermission";
+import useGrantCollectionPermissionByProtocol from "@/hooks/useGrantCollectionPermissionByProtocol";
 
 const GrantCollectionPermissionButton = () => {
-  const { grantPermission, isGranting } = useGrantCollectionPermission();
+  const { grantPermission, isGranting } = useGrantCollectionPermissionByProtocol();
 
   return (
     <button
