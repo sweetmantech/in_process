@@ -4,8 +4,6 @@ import { Metadata, NextPage } from "next";
 import { parseCollectionAddress } from "@/lib/timeline/parseCollectionAddress";
 import { CHAIN_ID } from "@/lib/consts";
 import { isAddress } from "viem";
-import { getMomentApi } from "@/lib/moment/getMomentApi";
-import fetchMetadata from "@/lib/arweave/fetchMetadata";
 
 type Props = {
   params: Promise<{ collection: string; tokenId: string }>;
@@ -27,12 +25,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 
   try {
-    const { uri } = await getMomentApi(moment);
-    if (!uri) return { title: "In Process", description: "Imagined by LATASHÁ" };
-    const metadata = await fetchMetadata(uri);
-    const title = metadata?.name || "In Process";
-    const description = metadata?.description || "Imagined by LATASHÁ";
-
     const frame = {
       version: "next",
       imageUrl: `${IN_PROCESS_API}/og/moment?collectionAddress=${moment.collectionAddress}&tokenId=${moment.tokenId}&chainId=${moment.chainId}`,
@@ -51,11 +43,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
 
     return {
-      title,
-      description,
       openGraph: {
-        title,
-        description,
         images: [
           `${IN_PROCESS_API}/og/moment?collectionAddress=${moment.collectionAddress}&tokenId=${moment.tokenId}&chainId=${moment.chainId}`,
         ],
