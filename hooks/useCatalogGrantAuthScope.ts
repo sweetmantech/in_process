@@ -4,7 +4,7 @@ import useConnectedWallet from "./useConnectedWallet";
 import useSmartWallet from "./useSmartWallet";
 import { useUserProvider } from "@/providers/UserProvider";
 import { createWalletClient, custom, Address } from "viem";
-import { CHAIN_ID, CATALOG_AUTH_SCOPE_ARTIST } from "@/lib/consts";
+import { CHAIN_ID, CATALOG_AUTH_SCOPE_OWNER, CATALOG_AUTH_SCOPE_ARTIST } from "@/lib/consts";
 import getViemNetwork from "@/lib/viem/getViemNetwork";
 import { getPublicClient } from "@/lib/viem/publicClient";
 import { toast } from "sonner";
@@ -68,7 +68,10 @@ const useCatalogGrantAuthScope = (contractAddress: Address | undefined, tokenId?
               address: contractAddress,
               abi: catalogReleaseABI,
               functionName: "setContractAuthScope" as const,
-              args: [smartWallet as Address, BigInt(CATALOG_AUTH_SCOPE_ARTIST)],
+              args: [
+                smartWallet as Address,
+                BigInt(CATALOG_AUTH_SCOPE_OWNER | CATALOG_AUTH_SCOPE_ARTIST),
+              ],
             }
       );
 
