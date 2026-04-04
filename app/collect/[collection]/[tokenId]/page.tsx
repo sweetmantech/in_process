@@ -14,9 +14,7 @@ export const revalidate = 300;
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { tokenId, collection } = await params;
   const { address, chainId } = parseCollectionAddress(collection);
-  if (!address || !isAddress(address) || !tokenId) {
-    return { title: "In Process", description: "Imagined by LATASHÁ" };
-  }
+  if (!address || !isAddress(address) || !tokenId) return {};
 
   const moment = {
     collectionAddress: address,
@@ -24,37 +22,33 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     chainId: chainId || CHAIN_ID,
   };
 
-  try {
-    const frame = {
-      version: "next",
-      imageUrl: `${IN_PROCESS_API}/og/moment?collectionAddress=${moment.collectionAddress}&tokenId=${moment.tokenId}&chainId=${moment.chainId}`,
-      aspectRatio: "3:2",
-      button: {
-        title: "Collect",
-        action: {
-          type: "launch_frame",
-          name: "In Process",
-          url: `${SITE_ORIGINAL_URL}/collect/${collection}/${tokenId}`,
-          iconImageUrl: `${IN_PROCESS_API}/og/moment?collectionAddress=${moment.collectionAddress}&tokenId=${moment.tokenId}&chainId=${moment.chainId}`,
-          splashImageUrl: `${SITE_ORIGINAL_URL}/desktop_footer_logo.png`,
-          splashBackgroundColor: "#e9ccbb",
-        },
+  const frame = {
+    version: "next",
+    imageUrl: `${IN_PROCESS_API}/og/moment?collectionAddress=${moment.collectionAddress}&tokenId=${moment.tokenId}&chainId=${moment.chainId}`,
+    aspectRatio: "3:2",
+    button: {
+      title: "Collect",
+      action: {
+        type: "launch_frame",
+        name: "In Process",
+        url: `${SITE_ORIGINAL_URL}/collect/${collection}/${tokenId}`,
+        iconImageUrl: `${IN_PROCESS_API}/og/moment?collectionAddress=${moment.collectionAddress}&tokenId=${moment.tokenId}&chainId=${moment.chainId}`,
+        splashImageUrl: `${SITE_ORIGINAL_URL}/desktop_footer_logo.png`,
+        splashBackgroundColor: "#e9ccbb",
       },
-    };
+    },
+  };
 
-    return {
-      openGraph: {
-        images: [
-          `${IN_PROCESS_API}/og/moment?collectionAddress=${moment.collectionAddress}&tokenId=${moment.tokenId}&chainId=${moment.chainId}`,
-        ],
-      },
-      other: {
-        "fc:frame": JSON.stringify(frame),
-      },
-    };
-  } catch {
-    return { title: "In Process", description: "Imagined by LATASHÁ" };
-  }
+  return {
+    openGraph: {
+      images: [
+        `${IN_PROCESS_API}/og/moment?collectionAddress=${moment.collectionAddress}&tokenId=${moment.tokenId}&chainId=${moment.chainId}`,
+      ],
+    },
+    other: {
+      "fc:frame": JSON.stringify(frame),
+    },
+  };
 }
 
 const Moment: NextPage = () => <MomentPage />;
