@@ -6,8 +6,6 @@ import { Providers } from "@/providers/Providers";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "In Process",
-  description: "A timeline for artists. Upload work-in-progress, rewrite history in real time.",
   alternates: {
     types: {
       "text/plain": "/llms.txt",
