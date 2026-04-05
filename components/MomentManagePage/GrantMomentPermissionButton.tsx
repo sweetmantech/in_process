@@ -1,14 +1,14 @@
 "use client";
 
 import useGrantInProcessMomentPermission from "@/hooks/useGrantInProcessMomentPermission";
-import { useCollectionProvider } from "@/providers/CollectionProvider";
+import { useMomentProvider } from "@/providers/MomentProvider";
 import { Protocol } from "@/types/moment";
 
 const GrantMomentPermissionButton = () => {
-  const { data } = useCollectionProvider();
+  const { moment } = useMomentProvider();
   const { grantPermission, isGranting } = useGrantInProcessMomentPermission();
 
-  if (data?.protocol !== Protocol.InProcess) return null;
+  if (moment?.protocol !== Protocol.InProcess) return null;
 
   return (
     <button
