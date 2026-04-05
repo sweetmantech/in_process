@@ -67,7 +67,7 @@ const CollectModal = () => {
               </>
             )}
           </section>
-          {protocol !== Protocol.Catalog && (
+          {protocol === Protocol.InProcess && (
             <>
               <Label className="mt-4 w-full text-left font-archivo text-lg">comment</Label>
               <textarea
