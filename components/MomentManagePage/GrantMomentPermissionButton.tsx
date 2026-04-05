@@ -5,10 +5,10 @@ import { useMomentProvider } from "@/providers/MomentProvider";
 import { Protocol } from "@/types/moment";
 
 const GrantMomentPermissionButton = () => {
-  const { moment } = useMomentProvider();
+  const { protocol } = useMomentProvider();
   const { grantPermission, isGranting } = useGrantInProcessMomentPermission();
 
-  if (moment?.protocol !== Protocol.InProcess) return null;
+  if (protocol !== Protocol.InProcess) return null;
 
   return (
     <button
