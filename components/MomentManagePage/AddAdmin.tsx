@@ -6,7 +6,6 @@ import useAddMomentAdmin from "@/hooks/useAddMomentAdmin";
 import useMomentLegacyWarning from "@/hooks/useMomentLegacyWarning";
 import { useMomentProvider } from "@/providers/MomentProvider";
 import Warning from "./Warning";
-import GrantMomentPermissionButton from "./GrantMomentPermissionButton";
 
 const AddAdmin = () => {
   const { newAdminAddress, setNewAdminAddress, handleAddAdmin, isAdding } = useAddMomentAdmin();
@@ -17,9 +16,7 @@ const AddAdmin = () => {
     <div className="flex flex-col gap-2 border-t border-grey-secondary pt-4">
       <h3 className="font-archivo-medium text-lg">Add New Admin</h3>
       <Warning />
-      {hasWarning ? (
-        <GrantMomentPermissionButton />
-      ) : (
+      {!hasWarning && (
         <div className="flex gap-2">
           <Input
             type="text"

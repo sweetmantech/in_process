@@ -3,7 +3,6 @@ import { useAirdropProvider } from "@/providers/AirdropProvider";
 import { useMomentProvider } from "@/providers/MomentProvider";
 import { useUserProvider } from "@/providers/UserProvider";
 import useMomentLegacyWarning from "@/hooks/useMomentLegacyWarning";
-import GrantMomentPermissionButton from "../MomentManagePage/GrantMomentPermissionButton";
 
 const AirdropButton = () => {
   const { airdropToItems, onAirdrop, loading } = useAirdropProvider();
@@ -15,9 +14,7 @@ const AirdropButton = () => {
     Boolean(owner?.toLowerCase() === artistWallet?.toLowerCase()) ||
     Boolean(artistWallet && momentAdmins?.includes(artistWallet.toLowerCase()));
 
-  if (hasWarning) {
-    return <GrantMomentPermissionButton />;
-  }
+  if (hasWarning) return null;
 
   return (
     <button
