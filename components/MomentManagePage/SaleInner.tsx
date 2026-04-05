@@ -4,7 +4,6 @@ import useSetSale from "@/hooks/useSetSale";
 import { useMomentProvider } from "@/providers/MomentProvider";
 import useMomentLegacyWarning from "@/hooks/useMomentLegacyWarning";
 import Warning from "./Warning";
-import GrantMomentPermissionButton from "./GrantMomentPermissionButton";
 import SaleSkeleton from "./SaleSkeleton";
 import SaleStartPicker from "./SaleStartPicker";
 import SalePriceInput from "./SalePriceInput";
@@ -36,9 +35,7 @@ const SaleInner = () => {
               disabled={isLoading}
               setPriceInput={setPriceInput}
             />
-            {hasWarning ? (
-              <GrantMomentPermissionButton />
-            ) : (
+            {!hasWarning && (
               <button
                 className="w-fit rounded-md bg-black px-8 py-2 text-grey-eggshell disabled:opacity-50"
                 onClick={setSale}

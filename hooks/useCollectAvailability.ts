@@ -4,9 +4,9 @@ import { Protocol } from "@/types/moment";
 const useCollectAvailability = () => {
   const { isSoldOut, isSaleActive, protocol } = useMomentProvider();
 
-  const isSoundXyz = protocol === Protocol.SoundXyz;
-  const isCollectDisabled = !isSaleActive || isSoldOut || isSoundXyz;
-  const collectCtaLabel = isSoldOut || isSoundXyz ? "sold out" : "collect";
+  const isInProcess = protocol === Protocol.InProcess;
+  const isCollectDisabled = !isSaleActive || isSoldOut || !isInProcess;
+  const collectCtaLabel = isSoldOut || !isInProcess ? "sold out" : "collect";
 
   return { isCollectDisabled, collectCtaLabel };
 };

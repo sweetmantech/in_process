@@ -7,7 +7,6 @@ import { toast } from "sonner";
 import useCollectBalanceValidation from "./useCollectBalanceValidation";
 import { usePrivy } from "@privy-io/react-auth";
 import { collectMomentApi } from "@/lib/moment/collectMomentApi";
-import { collectCatalogMomentApi } from "@/lib/catalog/collectCatalogMomentApi";
 import { useMomentCommentsProvider } from "@/providers/MomentCommentsProvider";
 import { Protocol } from "@/types/moment";
 
@@ -30,12 +29,8 @@ const useMomentCollect = () => {
       if (!saleConfig) throw new Error("Sale config not found");
       validateBalance(saleConfig, amountToCollect);
 
-      if (protocol === Protocol.SoundXyz) {
-        throw new Error("In*Process is not supported for Sound.xyz moments");
-      }
-
-      if (protocol === Protocol.Catalog) {
-        return collectCatalogMomentApi(moment, amountToCollect, accessToken);
+      if (protocol !== Protocol.InProcess) {
+        throw new Error("Collecting is not supported for Sound.xyz or Catalog moments");
       }
 
       return collectMomentApi(moment, amountToCollect, comment, accessToken);
