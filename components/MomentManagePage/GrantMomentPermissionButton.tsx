@@ -8,7 +8,7 @@ const GrantMomentPermissionButton = () => {
   const { data } = useCollectionProvider();
   const { grantPermission, isGranting } = useGrantInProcessMomentPermission();
 
-  if (data?.protocol && data.protocol !== Protocol.InProcess) return null;
+  if (data?.protocol !== Protocol.InProcess) return null;
 
   return (
     <button
