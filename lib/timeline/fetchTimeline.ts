@@ -30,6 +30,7 @@ export async function fetchTimeline({
   if (period && period !== "all") params.append("period", period);
   if (channel) params.append("channel", channel);
   if (contentType) params.append("content_type", contentType);
+  params.append("curated", "true");
   const res = await fetch(`${IN_PROCESS_API}/timeline?${params.toString()}`);
   if (!res.ok) throw new Error("Failed to fetch timeline");
   return res.json();
