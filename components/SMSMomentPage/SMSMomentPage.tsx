@@ -11,7 +11,7 @@ import { MomentUriUpdateProvider } from "@/providers/MomentUriUpdateProvider";
 
 const SMSMomentPage = () => {
   const params = useParams();
-  const collectionAddress = params.collectionAddress as string;
+  const collectionAddress = params.collection as string;
   const tokenId = params.tokenId as string;
 
   const { chainId, address } = parseCollectionAddress(collectionAddress);
