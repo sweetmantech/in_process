@@ -6,6 +6,7 @@ import useAddCollectionAdmin from "@/hooks/useAddCollectionAdmin";
 import useCollectionLegacyWarning from "@/hooks/useCollectionLegacyWarning";
 import useIsCollectionOwner from "@/hooks/useIsCollectionOwner";
 import Warning from "./Warning";
+import GrantCollectionPermissionButton from "./GrantCollectionPermissionButton";
 
 const AddCollectionAdmin = () => {
   const { newAdminAddress, setNewAdminAddress, handleAddAdmin, isAdding } = useAddCollectionAdmin();
@@ -18,7 +19,9 @@ const AddCollectionAdmin = () => {
     <div className="flex flex-col gap-2 border-t border-grey-secondary pt-4">
       <h3 className="font-archivo-medium text-lg">Add New Admin</h3>
       <Warning />
-      {!hasWarning && (
+      {hasWarning ? (
+        <GrantCollectionPermissionButton />
+      ) : (
         <div className="flex gap-2">
           <Input
             type="text"
