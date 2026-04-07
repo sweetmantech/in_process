@@ -1,5 +1,6 @@
-import MomentPage from "@/components/MomentPage";
-import { Metadata, NextPage } from "next";
+import { NextPage } from "next";
+import SMSMomentPage from "@/components/SMSMomentPage";
+import { Metadata } from "next";
 import { generateMomentMetadata } from "@/lib/metadata/generateMomentMetadata";
 
 type Props = {
@@ -9,8 +10,8 @@ type Props = {
 export const revalidate = 300;
 
 export const generateMetadata = ({ params }: Props): Promise<Metadata> =>
-  generateMomentMetadata(params, "/collect");
+  generateMomentMetadata(params, "/sms");
 
-const Moment: NextPage = () => <MomentPage />;
+const SMSMoment: NextPage = () => <SMSMomentPage />;
 
-export default Moment;
+export default SMSMoment;
