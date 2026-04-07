@@ -18,10 +18,13 @@ const ConnectButton = () => {
   const { connectWallet } = useConnectWallet({
     onSuccess: async ({ wallet }) => {
       setIsLoading(true);
-      await connectSocialWallet(wallet.address as Address, socialWalletAddress as Address);
-      await migrateProfile(socialWalletAddress as Address, wallet.address as Address);
-      await fetchArtistWallet();
-      setIsLoading(false);
+      try {
+        await connectSocialWallet(wallet.address as Address, socialWalletAddress as Address);
+        await migrateProfile(socialWalletAddress as Address, wallet.address as Address);
+        await fetchArtistWallet();
+      } finally {
+        setIsLoading(false);
+      }
     },
   });
 
