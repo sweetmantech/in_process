@@ -11,6 +11,7 @@ import { collectMomentApi } from "@/lib/moment/collectMomentApi";
 import { useMomentCommentsProvider } from "@/providers/MomentCommentsProvider";
 import { Protocol } from "@/types/moment";
 import { showInsufficientBalanceError } from "@/lib/balance/showInsufficientBalanceError";
+import { isUserRejection } from "@/lib/viem/isUserRejection";
 
 const useMomentCollect = () => {
   const [amountToCollect, setAmountToCollect] = useState(1);
@@ -58,9 +59,10 @@ const useMomentCollect = () => {
       toast.success("collected!");
     },
     onError: (error: any) => {
-      const errorMessage = error?.message || "Failed to collect moment";
-      if (!errorMessage.includes("funds")) {
-        toast.error(errorMessage);
+      if (isUserRejection(error)) {
+        toast.error("Topup rejected");
+      } else if (!error?.message?.includes("funds")) {
+        toast.error("Failed to collect moment");
       }
     },
   });
