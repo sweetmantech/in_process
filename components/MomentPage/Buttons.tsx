@@ -18,7 +18,7 @@ const Buttons = () => {
   };
 
   return (
-    <div className="relative space-y-2 pt-3">
+    <div className="relative space-y-2 pt-3 overflow-hidden">
       <div className="absolute -right-10 bottom-0 aspect-[1/1] w-1/2">
         <Image
           src="/semi-transparent.png"
