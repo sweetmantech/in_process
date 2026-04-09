@@ -5,6 +5,7 @@ import { useState, useEffect, ReactNode, createContext, useContext, useMemo } fr
 
 interface FrameContextType {
   context: Context.FrameContext | undefined;
+  frameReady: boolean; // true once sdk.context has resolved (distinguishes "not Farcaster" from "not yet loaded")
 }
 
 const FrameContext = createContext<FrameContextType>({} as FrameContextType);
@@ -12,12 +13,17 @@ const FrameContext = createContext<FrameContextType>({} as FrameContextType);
 export default function FrameProvider({ children }: { children: ReactNode }) {
   const [isSDKLoaded, setIsSDKLoaded] = useState<boolean>(false);
   const [context, setContext] = useState<Context.FrameContext>();
+  const [frameReady, setFrameReady] = useState<boolean>(false);
 
   useEffect(() => {
     const load = async () => {
-      const context = await sdk.context;
-      setContext(context);
-      sdk.actions.ready();
+      try {
+        const context = await sdk.context;
+        setContext(context);
+        sdk.actions.ready();
+      } finally {
+        setFrameReady(true);
+      }
     };
 
     if (sdk && !isSDKLoaded) {
@@ -29,8 +35,9 @@ export default function FrameProvider({ children }: { children: ReactNode }) {
   const value = useMemo(
     () => ({
       context,
+      frameReady,
     }),
-    [context]
+    [context, frameReady]
   );
 
   return <FrameContext.Provider value={value}>{children}</FrameContext.Provider>;
