@@ -12,6 +12,8 @@ const useFarcasterTopup = () => {
   const publicClient = usePublicClient();
 
   const topup = async (currency: Currency, amount: bigint, smartWallet: Address): Promise<void> => {
+    if (!publicClient) throw new Error("No public client available to confirm transaction");
+
     toast.info(`Requesting ${currency.toUpperCase()} transfer to your smart wallet...`);
 
     let hash: `0x${string}`;
@@ -31,8 +33,6 @@ const useFarcasterTopup = () => {
         chainId: CHAIN_ID,
       });
     }
-
-    if (!publicClient) throw new Error("No public client available to confirm transaction");
 
     toast.info("Waiting for transfer confirmation...");
     const receipt = await publicClient.waitForTransactionReceipt({ hash });

@@ -15,6 +15,8 @@ export const getFarcasterToken = async (): Promise<string> => {
 
   if (!res.ok) throw new Error("Farcaster authentication failed");
 
-  const { token } = await res.json();
-  return token;
+  const body = await res.json();
+  if (typeof body.token !== "string" || body.token.trim().length === 0)
+    throw new Error(`Farcaster auth returned invalid token: ${JSON.stringify(body)}`);
+  return body.token;
 };

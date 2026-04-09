@@ -3,14 +3,11 @@ import useUser from "@/hooks/useUser";
 import { createContext, useMemo, useContext } from "react";
 
 const UserContext = createContext<
-  ReturnType<typeof useUser> & {
-    profile: ReturnType<typeof useProfile>;
-  }
->(
-  {} as ReturnType<typeof useUser> & {
-    profile: ReturnType<typeof useProfile>;
-  }
-);
+  | (ReturnType<typeof useUser> & {
+      profile: ReturnType<typeof useProfile>;
+    })
+  | null
+>(null);
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const user = useUser();

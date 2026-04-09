@@ -17,10 +17,13 @@ export default function FrameProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const load = async () => {
-      const context = await sdk.context;
-      setContext(context);
-      setFrameReady(true);
-      sdk.actions.ready();
+      try {
+        const context = await sdk.context;
+        setContext(context);
+        sdk.actions.ready();
+      } finally {
+        setFrameReady(true);
+      }
     };
 
     if (sdk && !isSDKLoaded) {

@@ -11,6 +11,7 @@ const useAuthHeaders = () => {
   const isFarcasterMiniApp = frameReady && Boolean(context);
 
   return useCallback(async (): Promise<HeadersInit> => {
+    if (!frameReady) throw new Error("auth context not ready");
     if (isFarcasterMiniApp) {
       const token = await getFarcasterToken();
       return { Authorization: `Farcaster ${token}` };
@@ -18,7 +19,7 @@ const useAuthHeaders = () => {
     const token = await getAccessToken();
     if (!token) throw new Error("Privy access token unavailable");
     return { Authorization: `Bearer ${token}` };
-  }, [isFarcasterMiniApp, getAccessToken]);
+  }, [frameReady, isFarcasterMiniApp, getAccessToken]);
 };
 
 export default useAuthHeaders;

@@ -17,13 +17,13 @@ type ArtistWalletState = {
 const INITIAL_STATE: ArtistWalletState = { wallet: undefined, isExternal: false, isLoaded: false };
 
 const useArtistWallet = () => {
-  const { getAccessToken } = usePrivy();
+  const { getAccessToken, user } = usePrivy();
   const { context, frameReady } = useFrameProvider();
   const { address: farcasterAddress } = useConnection();
   const { privyWallet, isPrivyReady } = useConnectedWallet();
 
   const isFarcasterMiniApp = frameReady && Boolean(context);
-  const isSocialWallet = frameReady && Boolean(context || privyWallet);
+  const isSocialWallet = frameReady && Boolean(context || user?.email?.address);
 
   const [state, setState] = useState<ArtistWalletState>(INITIAL_STATE);
 
