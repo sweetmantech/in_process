@@ -23,6 +23,7 @@ const useArtistWallet = () => {
 
   const resolveArtistWallet = useCallback(async () => {
     if (isFarcasterMiniApp) {
+      if (!farcasterAddress) return;
       setArtistWallet(farcasterAddress);
       setIsExternalWallet(false);
       setArtistWalletLoaded(true);

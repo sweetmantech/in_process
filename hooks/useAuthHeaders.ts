@@ -5,8 +5,10 @@ import { getFarcasterToken } from "@/lib/auth/getFarcasterToken";
 
 const useAuthHeaders = () => {
   const { getAccessToken } = usePrivy();
-  const { context } = useFrameProvider();
-  const isFarcasterMiniApp = Boolean(context);
+  const { context, frameReady } = useFrameProvider();
+  // Only treat as Farcaster once the frame SDK has finished loading;
+  // before that, context is undefined in both Farcaster and non-Farcaster environments.
+  const isFarcasterMiniApp = frameReady && Boolean(context);
 
   return useCallback(async (): Promise<HeadersInit> => {
     if (isFarcasterMiniApp) {

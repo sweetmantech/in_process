@@ -1,4 +1,4 @@
-import { erc20Abi, parseEther, parseUnits, Address } from "viem";
+import { erc20Abi, Address } from "viem";
 import { useSendTransaction, useWriteContract, usePublicClient } from "wagmi";
 import { CHAIN_ID, USDC_ADDRESS } from "@/lib/consts";
 import { Currency } from "@/types/balances";
@@ -11,7 +11,7 @@ const useFarcasterTopup = () => {
   const { writeContractAsync } = useWriteContract();
   const publicClient = usePublicClient();
 
-  const topup = async (currency: Currency, amount: number, smartWallet: Address): Promise<void> => {
+  const topup = async (currency: Currency, amount: bigint, smartWallet: Address): Promise<void> => {
     toast.info(`Requesting ${currency.toUpperCase()} transfer to your smart wallet...`);
 
     let hash: `0x${string}`;
@@ -21,19 +21,21 @@ const useFarcasterTopup = () => {
         address: USDC_ADDRESS[CHAIN_ID],
         abi: erc20Abi,
         functionName: "transfer",
-        args: [smartWallet, parseUnits(amount.toString(), 6)],
+        args: [smartWallet, amount], // already in 6-decimal base units
         chainId: CHAIN_ID,
       });
     } else {
       hash = await sendTransactionAsync({
         to: smartWallet,
-        value: parseEther(amount.toString()),
+        value: amount, // already in wei
         chainId: CHAIN_ID,
       });
     }
 
+    if (!publicClient) throw new Error("No public client available to confirm transaction");
+
     toast.info("Waiting for transfer confirmation...");
-    const receipt = await publicClient!.waitForTransactionReceipt({ hash });
+    const receipt = await publicClient.waitForTransactionReceipt({ hash });
 
     if (receipt.status !== "success") {
       throw new Error("Topup transaction failed");

@@ -1,5 +1,6 @@
 import { Moment } from "@/types/moment";
 import { IN_PROCESS_API } from "@/lib/consts";
+import buildHeaders from "@/lib/http/buildHeaders";
 
 export const collectMomentApi = async (
   moment: Moment,
@@ -10,10 +11,7 @@ export const collectMomentApi = async (
   try {
     const response = await fetch(`${IN_PROCESS_API}/moment/collect`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        ...headers,
-      },
+      headers: buildHeaders(headers),
       body: JSON.stringify({
         moment,
         amount,
