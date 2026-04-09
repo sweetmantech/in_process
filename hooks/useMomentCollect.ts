@@ -3,46 +3,37 @@ import { Address } from "viem";
 import { useMutation } from "@tanstack/react-query";
 import { useMomentProvider } from "@/providers/MomentProvider";
 import { useUserProvider } from "@/providers/UserProvider";
-import { useSmartWalletProvider } from "@/providers/SmartWalletProvider";
 import { toast } from "sonner";
 import useCollectBalanceValidation from "./useCollectBalanceValidation";
-import useFarcasterTopup from "./useFarcasterTopup";
+import { usePrivy } from "@privy-io/react-auth";
 import { collectMomentApi } from "@/lib/moment/collectMomentApi";
 import { useMomentCommentsProvider } from "@/providers/MomentCommentsProvider";
 import { Protocol } from "@/types/moment";
-import { showInsufficientBalanceError } from "@/lib/balance/showInsufficientBalanceError";
 
 const useMomentCollect = () => {
   const [amountToCollect, setAmountToCollect] = useState(1);
   const [collected, setCollected] = useState(false);
-  const { artistWallet, isFarcasterMiniApp } = useUserProvider();
+  const { artistWallet } = useUserProvider();
   const { moment, saleConfig, protocol } = useMomentProvider();
   const { comment, addComment, setComment, setIsOpenCommentModal } = useMomentCommentsProvider();
-  const { checkBalance } = useCollectBalanceValidation();
-  const { getAuthHeaders } = useUserProvider();
-  const { topup } = useFarcasterTopup();
-  const { smartWallet } = useSmartWalletProvider();
+  const { validateBalance } = useCollectBalanceValidation();
+  const { getAccessToken } = usePrivy();
 
   const mutation = useMutation({
     mutationFn: async () => {
       if (!artistWallet) throw new Error("No wallet connected");
+
+      const accessToken = await getAccessToken();
+      if (!accessToken) throw new Error("Failed to get access token");
+
       if (!saleConfig) throw new Error("Sale config not found");
+      validateBalance(saleConfig, amountToCollect);
 
       if (protocol !== Protocol.InProcess) {
         throw new Error("Collecting is not supported for Sound.xyz or Catalog moments");
       }
 
-      const { sufficient, currency, shortfall } = checkBalance(saleConfig, amountToCollect);
-      if (!sufficient) {
-        if (isFarcasterMiniApp && smartWallet) {
-          await topup(currency, shortfall, smartWallet as Address);
-        } else {
-          showInsufficientBalanceError(currency);
-        }
-      }
-
-      const headers = await getAuthHeaders();
-      return collectMomentApi(moment, amountToCollect, comment, headers);
+      return collectMomentApi(moment, amountToCollect, comment, accessToken);
     },
     onSuccess: () => {
       if (protocol !== Protocol.Catalog) {

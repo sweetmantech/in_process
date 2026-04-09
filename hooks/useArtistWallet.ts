@@ -1,55 +1,33 @@
 import { useCallback, useEffect, useState } from "react";
-import { usePrivy } from "@privy-io/react-auth";
-import { useFrameProvider } from "@/providers/FrameProvider";
-import { useConnection } from "wagmi";
 import { Address } from "viem";
 import getArtistWallet from "@/lib/artists/getArtistWallet";
+import { usePrivy } from "@privy-io/react-auth";
 import { CHAIN_ID } from "@/lib/consts";
 import { migrateMomentsApi } from "@/lib/moment/migrateMomentsApi";
 import useConnectedWallet from "./useConnectedWallet";
 
-const useArtistWallet = () => {
-  const { getAccessToken } = usePrivy();
-  const { context, frameReady } = useFrameProvider();
-  const { address: farcasterAddress } = useConnection();
+const useArtistWallet = ({ isSocialWallet }: { isSocialWallet: boolean }) => {
   const { privyWallet } = useConnectedWallet();
-
-  const isFarcasterMiniApp = frameReady && Boolean(context);
-  const isSocialWallet = frameReady && Boolean(context || privyWallet);
-
   const [artistWallet, setArtistWallet] = useState<Address | undefined>();
   const [isExternalWallet, setIsExternalWallet] = useState<boolean>(false);
-  const [artistWalletLoaded, setArtistWalletLoaded] = useState<boolean>(false);
+  const { getAccessToken } = usePrivy();
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
-  const resolveArtistWallet = useCallback(async () => {
-    if (isFarcasterMiniApp) {
-      if (!farcasterAddress) return;
-      setArtistWallet(farcasterAddress);
-      setIsExternalWallet(false);
-      setArtistWalletLoaded(true);
-      return;
-    }
-
+  const fetchArtistWallet = useCallback(async () => {
     if (privyWallet !== null) {
       if (!privyWallet?.address) {
         setArtistWallet(undefined);
         setIsExternalWallet(false);
-        setArtistWalletLoaded(true);
+        setIsLoaded(true);
         return;
       }
-
-      const linkedExternalWallet = isSocialWallet
+      const artistWallet = isSocialWallet
         ? await getArtistWallet(privyWallet.address as Address)
-        : null;
-
-      const resolvedWallet = linkedExternalWallet ?? (privyWallet.address as Address);
-      const hasLinkedExternalWallet = Boolean(linkedExternalWallet);
-
-      setIsExternalWallet(hasLinkedExternalWallet);
-      setArtistWallet(resolvedWallet);
-      setArtistWalletLoaded(true);
-
-      if (hasLinkedExternalWallet) {
+        : privyWallet.address;
+      setIsExternalWallet(Boolean(artistWallet));
+      setArtistWallet(artistWallet || (privyWallet.address as Address));
+      setIsLoaded(true);
+      if (artistWallet) {
         try {
           const accessToken = await getAccessToken();
           if (accessToken) {
@@ -60,24 +38,17 @@ const useArtistWallet = () => {
         }
       }
     }
-  }, [
-    isFarcasterMiniApp,
-    farcasterAddress,
-    privyWallet,
-    isSocialWallet,
-    getAccessToken,
-    frameReady,
-  ]);
+  }, [privyWallet, isSocialWallet, getAccessToken]);
 
   useEffect(() => {
-    resolveArtistWallet();
-  }, [resolveArtistWallet]);
+    fetchArtistWallet();
+  }, [fetchArtistWallet]);
 
   return {
     artistWallet,
+    fetchArtistWallet,
     isExternalWallet,
-    artistWalletLoaded,
-    fetchArtistWallet: resolveArtistWallet,
+    artistWalletLoaded: isLoaded,
   };
 };
 

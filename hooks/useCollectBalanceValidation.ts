@@ -1,38 +1,29 @@
 import { MomentSaleConfig, MomentType } from "@/types/moment";
 import { useSmartWalletProvider } from "@/providers/SmartWalletProvider";
 import { showInsufficientBalanceError } from "@/lib/balance/showInsufficientBalanceError";
-import { parseEther, parseUnits } from "viem";
-import { Currency } from "@/types/balances";
-
-export interface BalanceCheckResult {
-  sufficient: boolean;
-  currency: Currency;
-  shortfall: bigint; // base-unit shortfall (wei for ETH, 6-decimal units for USDC)
-}
+import { formatUnits } from "viem";
 
 const useCollectBalanceValidation = () => {
   const { balance, ethBalance } = useSmartWalletProvider();
 
-  const checkBalance = (
-    saleConfig: MomentSaleConfig,
-    mintCount: number = 1
-  ): BalanceCheckResult => {
+  const validateBalance = (saleConfig: MomentSaleConfig, mintCount: number = 1): void => {
     const isErc20Mint = saleConfig.type === MomentType.Erc20Mint;
-    const currency: Currency = isErc20Mint ? "usdc" : "eth";
-
-    const totalPriceBase = BigInt(saleConfig.pricePerToken) * BigInt(mintCount);
-    // Parse formatted strings back to bigint — lossless for stored precision (6 dp USDC, 18 dp ETH)
-    const currentBase = isErc20Mint ? parseUnits(balance, 6) : parseEther(ethBalance);
-
-    return {
-      sufficient: currentBase >= totalPriceBase,
-      currency,
-      shortfall: totalPriceBase > currentBase ? totalPriceBase - currentBase : BigInt(0),
-    };
+    const totalPrice = Number(
+      formatUnits(BigInt(saleConfig.pricePerToken) * BigInt(mintCount), isErc20Mint ? 6 : 18)
+    );
+    if (isErc20Mint) {
+      if (Number(balance) < totalPrice) {
+        showInsufficientBalanceError("usdc");
+      }
+    } else {
+      if (Number(ethBalance) < totalPrice) {
+        showInsufficientBalanceError("eth");
+      }
+    }
   };
 
   return {
-    checkBalance,
+    validateBalance,
   };
 };
 
