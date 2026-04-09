@@ -10,12 +10,12 @@ import useConnectedWallet from "./useConnectedWallet";
 
 const useArtistWallet = () => {
   const { getAccessToken } = usePrivy();
-  const { context } = useFrameProvider();
+  const { context, frameReady } = useFrameProvider();
   const { address: farcasterAddress } = useConnection();
   const { privyWallet } = useConnectedWallet();
 
-  const isFarcasterMiniApp = Boolean(context);
-  const isSocialWallet = Boolean(context || privyWallet);
+  const isFarcasterMiniApp = frameReady && Boolean(context);
+  const isSocialWallet = frameReady && Boolean(context || privyWallet);
 
   const [artistWallet, setArtistWallet] = useState<Address | undefined>();
   const [isExternalWallet, setIsExternalWallet] = useState<boolean>(false);
@@ -60,7 +60,14 @@ const useArtistWallet = () => {
         }
       }
     }
-  }, [isFarcasterMiniApp, farcasterAddress, privyWallet, isSocialWallet, getAccessToken]);
+  }, [
+    isFarcasterMiniApp,
+    farcasterAddress,
+    privyWallet,
+    isSocialWallet,
+    getAccessToken,
+    frameReady,
+  ]);
 
   useEffect(() => {
     resolveArtistWallet();
