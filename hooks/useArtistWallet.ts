@@ -8,76 +8,62 @@ import { CHAIN_ID } from "@/lib/consts";
 import { migrateMomentsApi } from "@/lib/moment/migrateMomentsApi";
 import useConnectedWallet from "./useConnectedWallet";
 
+type ArtistWalletState = {
+  wallet: Address | undefined;
+  isExternal: boolean;
+  isLoaded: boolean;
+};
+
+const INITIAL_STATE: ArtistWalletState = { wallet: undefined, isExternal: false, isLoaded: false };
+
 const useArtistWallet = () => {
   const { getAccessToken } = usePrivy();
   const { context, frameReady } = useFrameProvider();
   const { address: farcasterAddress } = useConnection();
-  const { privyWallet } = useConnectedWallet();
+  const { privyWallet, isPrivyReady } = useConnectedWallet();
 
   const isFarcasterMiniApp = frameReady && Boolean(context);
   const isSocialWallet = frameReady && Boolean(context || privyWallet);
 
-  const [artistWallet, setArtistWallet] = useState<Address | undefined>();
-  const [isExternalWallet, setIsExternalWallet] = useState<boolean>(false);
-  const [artistWalletLoaded, setArtistWalletLoaded] = useState<boolean>(false);
+  const [state, setState] = useState<ArtistWalletState>(INITIAL_STATE);
 
-  const resolveArtistWallet = useCallback(async () => {
+  const fetchArtistWallet = useCallback(async () => {
     if (isFarcasterMiniApp) {
       if (!farcasterAddress) return;
-      setArtistWallet(farcasterAddress);
-      setIsExternalWallet(false);
-      setArtistWalletLoaded(true);
+      setState({ wallet: farcasterAddress, isExternal: false, isLoaded: true });
       return;
     }
 
-    if (privyWallet !== null) {
-      if (!privyWallet?.address) {
-        setArtistWallet(undefined);
-        setIsExternalWallet(false);
-        setArtistWalletLoaded(true);
-        return;
-      }
-
-      const linkedExternalWallet = isSocialWallet
-        ? await getArtistWallet(privyWallet.address as Address)
-        : null;
-
-      const resolvedWallet = linkedExternalWallet ?? (privyWallet.address as Address);
-      const hasLinkedExternalWallet = Boolean(linkedExternalWallet);
-
-      setIsExternalWallet(hasLinkedExternalWallet);
-      setArtistWallet(resolvedWallet);
-      setArtistWalletLoaded(true);
-
-      if (hasLinkedExternalWallet) {
-        try {
-          const accessToken = await getAccessToken();
-          if (accessToken) {
-            await migrateMomentsApi({ chainId: CHAIN_ID }, accessToken);
-          }
-        } catch (error) {
-          console.error("Failed to migrate moments:", error);
-        }
-      }
+    if (!isPrivyReady) return;
+    if (!privyWallet?.address) {
+      setState({ wallet: undefined, isExternal: false, isLoaded: true });
+      return;
     }
-  }, [
-    isFarcasterMiniApp,
-    farcasterAddress,
-    privyWallet,
-    isSocialWallet,
-    getAccessToken,
-    frameReady,
-  ]);
+
+    const privyAddress = privyWallet.address as Address;
+    const linked = isSocialWallet ? await getArtistWallet(privyAddress) : null;
+    setState({ wallet: linked ?? privyAddress, isExternal: Boolean(linked), isLoaded: true });
+  }, [isFarcasterMiniApp, farcasterAddress, privyWallet, isSocialWallet, isPrivyReady]);
 
   useEffect(() => {
-    resolveArtistWallet();
-  }, [resolveArtistWallet]);
+    fetchArtistWallet();
+  }, [fetchArtistWallet]);
+
+  // Migration runs as a separate concern when an external wallet is linked (Farcaster mini app only)
+  useEffect(() => {
+    if (!isFarcasterMiniApp || !state.isExternal) return;
+    getAccessToken()
+      .then((token) => {
+        if (token) return migrateMomentsApi({ chainId: CHAIN_ID }, token);
+      })
+      .catch((error) => console.error("Failed to migrate moments:", error));
+  }, [isFarcasterMiniApp, state.isExternal, getAccessToken]);
 
   return {
-    artistWallet,
-    isExternalWallet,
-    artistWalletLoaded,
-    fetchArtistWallet: resolveArtistWallet,
+    artistWallet: state.wallet,
+    isExternalWallet: state.isExternal,
+    artistWalletLoaded: state.isLoaded,
+    fetchArtistWallet,
   };
 };
 

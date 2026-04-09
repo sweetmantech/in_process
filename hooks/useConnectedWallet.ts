@@ -10,6 +10,7 @@ const useConnectedWallet = () => {
   return {
     externalWallet,
     privyWallet,
+    isPrivyReady: Boolean(ready && wallets),
   };
 };
 

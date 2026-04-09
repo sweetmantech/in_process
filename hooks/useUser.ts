@@ -24,11 +24,8 @@ const useUser = () => {
   // Triggers login/connect if not ready; returns false until the user is connected.
   const isPrepared = () => {
     if (context) {
-      if (!isConnected) {
-        connect({ connector: config.connectors[0] });
-        return false;
-      }
-      return true;
+      if (!isConnected) connect({ connector: config.connectors[0] });
+      return isConnected;
     }
     if (!privyWallet) {
       login();
