@@ -14,7 +14,7 @@ export const getFarcasterToken = async (): Promise<string> => {
     expirationTime: new Date(Date.now() + 100 * 365 * 24 * 60 * 60 * 1000).toISOString(),
   });
 
-  const res = await fetch(`${IN_PROCESS_API}/farcaster/auth`, {
+  const res = await fetch(`${IN_PROCESS_API}/auth/farcaster`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ message, signature }),
