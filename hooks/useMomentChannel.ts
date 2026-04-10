@@ -1,47 +1,48 @@
 import { useEffect, useRef } from "react";
-import { useQueryClient } from "@tanstack/react-query";
+import { Moment } from "@/types/moment";
 import { getAddress } from "viem";
 import { supabase } from "@/lib/supabase/client";
 
-type CollectionUpdatedPayload = {
+type MomentUpdatedPayload = {
   collectionAddress: string;
+  tokenId: number;
   chainId: number;
 };
 
-const useCollectionSocket = (collectionAddress: string, chainId: number) => {
-  const queryClient = useQueryClient();
+const useMomentChannel = (moment: Moment, fetchMomentData: () => void) => {
+  const { collectionAddress, tokenId, chainId } = moment;
   const debounceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    const handleCollectionUpdate = (payload: { payload: CollectionUpdatedPayload }) => {
+    const handleMomentUpdate = (payload: { payload: MomentUpdatedPayload }) => {
       try {
-        const DEBOUNCE_MS = 2000;
         const data = payload.payload;
         const addressMatch = getAddress(data.collectionAddress) === getAddress(collectionAddress);
+        const tokenMatch = String(data.tokenId) === String(tokenId);
         const chainMatch = data.chainId === chainId;
 
-        if (addressMatch && chainMatch) {
+        if (addressMatch && tokenMatch && chainMatch) {
           if (debounceTimer.current) clearTimeout(debounceTimer.current);
           debounceTimer.current = setTimeout(() => {
-            queryClient.invalidateQueries({ queryKey: ["collection"] });
-          }, DEBOUNCE_MS);
+            fetchMomentData();
+          }, 2000);
         }
       } catch (e) {
-        console.error("collection update handler error", e);
+        console.error("moment update handler error", e);
       }
     };
 
     const channel = supabase
       .channel("indexer")
-      .on("broadcast", { event: "collection:updated" }, handleCollectionUpdate)
-      .on("broadcast", { event: "collection:admin:updated" }, handleCollectionUpdate)
+      .on("broadcast", { event: "moment:updated" }, handleMomentUpdate)
+      .on("broadcast", { event: "moment:admin:updated" }, handleMomentUpdate)
       .subscribe();
 
     return () => {
       if (debounceTimer.current) clearTimeout(debounceTimer.current);
       supabase.removeChannel(channel);
     };
-  }, [collectionAddress, chainId, queryClient]);
+  }, [collectionAddress, tokenId, chainId, fetchMomentData]);
 };
 
-export default useCollectionSocket;
+export default useMomentChannel;

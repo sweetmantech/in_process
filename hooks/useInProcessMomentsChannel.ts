@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/lib/supabase/client";
 
-export function useInProcessMomentsSocket() {
+export function useInProcessMomentsChannel() {
   const queryClient = useQueryClient();
 
   useEffect(() => {
