@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { Moment } from "@/types/moment";
 import { getAddress } from "viem";
-import { indexerChannel } from "@/lib/supabase/client";
+import { supabase } from "@/lib/supabase/client";
 
 type MomentUpdatedPayload = {
   collectionAddress: string;
@@ -32,14 +32,15 @@ const useMomentSocket = (moment: Moment, fetchMomentData: () => void) => {
       }
     };
 
-    indexerChannel
+    const channel = supabase
+      .channel("indexer")
       .on("broadcast", { event: "moment:updated" }, handleMomentUpdate)
       .on("broadcast", { event: "moment:admin:updated" }, handleMomentUpdate)
       .subscribe();
 
     return () => {
       if (debounceTimer.current) clearTimeout(debounceTimer.current);
-      indexerChannel.unsubscribe();
+      supabase.removeChannel(channel);
     };
   }, [collectionAddress, tokenId, chainId, fetchMomentData]);
 };
