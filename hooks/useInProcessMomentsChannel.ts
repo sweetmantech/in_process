@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { addIndexerListener, removeIndexerListener } from "@/lib/supabase/indexerChannel";
+import { addIndexerListener } from "@/lib/supabase/indexer/addIndexerListener";
+import { removeIndexerListener } from "@/lib/supabase/indexer/removeIndexerListener";
 
 export function useInProcessMomentsChannel() {
   const queryClient = useQueryClient();

@@ -1,7 +1,8 @@
 import { useEffect, useRef } from "react";
 import { Moment } from "@/types/moment";
 import { getAddress } from "viem";
-import { addIndexerListener, removeIndexerListener } from "@/lib/supabase/indexerChannel";
+import { addIndexerListener } from "@/lib/supabase/indexer/addIndexerListener";
+import { removeIndexerListener } from "@/lib/supabase/indexer/removeIndexerListener";
 
 type MomentUpdatedPayload = {
   collectionAddress: string;
