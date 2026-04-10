@@ -1,8 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { io } from "socket.io-client";
 import { getAddress } from "viem";
-import { IN_PROCESS_CRON_SOCKET_URL } from "@/lib/consts";
+import { indexerChannel } from "@/lib/supabase/client";
 
 type CollectionUpdatedPayload = {
   collectionAddress: string;
@@ -14,22 +13,17 @@ const useCollectionSocket = (collectionAddress: string, chainId: number) => {
   const debounceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    const socket = io(IN_PROCESS_CRON_SOCKET_URL, { forceNew: true });
-
-    const handleCollectionUpdate = (payload: CollectionUpdatedPayload) => {
+    const handleCollectionUpdate = (payload: { payload: CollectionUpdatedPayload }) => {
       try {
         const DEBOUNCE_MS = 2000;
-
-        const addressMatch =
-          getAddress(payload.collectionAddress) === getAddress(collectionAddress);
-        const chainMatch = payload.chainId === chainId;
+        const data = payload.payload;
+        const addressMatch = getAddress(data.collectionAddress) === getAddress(collectionAddress);
+        const chainMatch = data.chainId === chainId;
 
         if (addressMatch && chainMatch) {
           if (debounceTimer.current) clearTimeout(debounceTimer.current);
           debounceTimer.current = setTimeout(() => {
-            queryClient.invalidateQueries({
-              queryKey: ["collection"],
-            });
+            queryClient.invalidateQueries({ queryKey: ["collection"] });
           }, DEBOUNCE_MS);
         }
       } catch (e) {
@@ -37,12 +31,14 @@ const useCollectionSocket = (collectionAddress: string, chainId: number) => {
       }
     };
 
-    socket.on("collection:updated", handleCollectionUpdate);
-    socket.on("collection:admin:updated", handleCollectionUpdate);
+    indexerChannel
+      .on("broadcast", { event: "collection:updated" }, handleCollectionUpdate)
+      .on("broadcast", { event: "collection:admin:updated" }, handleCollectionUpdate)
+      .subscribe();
 
     return () => {
       if (debounceTimer.current) clearTimeout(debounceTimer.current);
-      socket.disconnect();
+      indexerChannel.unsubscribe();
     };
   }, [collectionAddress, chainId, queryClient]);
 };
