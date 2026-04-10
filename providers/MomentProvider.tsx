@@ -3,7 +3,6 @@
 import { Moment } from "@/types/moment";
 import { createContext, useContext, ReactNode } from "react";
 import useMomentData from "@/hooks/useMomentData";
-import useMomentChannel from "@/hooks/useMomentChannel";
 
 const MomentContext = createContext<
   | (ReturnType<typeof useMomentData> & {
@@ -14,7 +13,6 @@ const MomentContext = createContext<
 
 export function MomentProvider({ children, moment }: { children: ReactNode; moment: Moment }) {
   const momentdata = useMomentData(moment);
-  useMomentChannel(moment, momentdata.fetchMomentData);
 
   return (
     <MomentContext.Provider

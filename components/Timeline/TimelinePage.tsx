@@ -3,7 +3,6 @@
 import { useTimelineProvider } from "@/providers/TimelineProvider";
 import TimelineHero from "@/components/Timeline/TimelineHero";
 import MobileMomentsSection from "@/components/Timeline/MobileMomentsSection";
-import { useInProcessMomentsChannel } from "@/hooks/useInProcessMomentsChannel";
 import useIsMobile from "@/hooks/useIsMobile";
 import MobileTimeline from "./MobileTimeline";
 import TimelineMobileMoon from "./TimelineMobileMoon";
@@ -12,7 +11,6 @@ import TimelineSpiral from "./TimelineSpiral";
 
 const TimelinePage = () => {
   const { error } = useTimelineProvider();
-  useInProcessMomentsChannel();
   const isMobile = useIsMobile();
 
   if (error) return <main>Error loading timeline.</main>;
