@@ -1,8 +1,8 @@
 import { useEffect, useRef } from "react";
-import { io } from "socket.io-client";
 import { Moment } from "@/types/moment";
 import { getAddress } from "viem";
-import { IN_PROCESS_CRON_SOCKET_URL } from "@/lib/consts";
+import { addIndexerListener } from "@/lib/supabase/indexer/addIndexerListener";
+import { removeIndexerListener } from "@/lib/supabase/indexer/removeIndexerListener";
 
 type MomentUpdatedPayload = {
   collectionAddress: string;
@@ -10,19 +10,17 @@ type MomentUpdatedPayload = {
   chainId: number;
 };
 
-const useMomentSocket = (moment: Moment, fetchMomentData: () => void) => {
+const useMomentChannel = (moment: Moment, fetchMomentData: () => void) => {
   const { collectionAddress, tokenId, chainId } = moment;
   const debounceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    const socket = io(IN_PROCESS_CRON_SOCKET_URL, { forceNew: true });
-
-    const handleMomentUpdate = (payload: MomentUpdatedPayload) => {
+    const handleMomentUpdate = (payload: { payload: MomentUpdatedPayload }) => {
       try {
-        const addressMatch =
-          getAddress(payload.collectionAddress) === getAddress(collectionAddress);
-        const tokenMatch = String(payload.tokenId) === String(tokenId);
-        const chainMatch = payload.chainId === chainId;
+        const data = payload.payload;
+        const addressMatch = getAddress(data.collectionAddress) === getAddress(collectionAddress);
+        const tokenMatch = String(data.tokenId) === String(tokenId);
+        const chainMatch = data.chainId === chainId;
 
         if (addressMatch && tokenMatch && chainMatch) {
           if (debounceTimer.current) clearTimeout(debounceTimer.current);
@@ -35,14 +33,15 @@ const useMomentSocket = (moment: Moment, fetchMomentData: () => void) => {
       }
     };
 
-    socket.on("moment:updated", handleMomentUpdate);
-    socket.on("moment:admin:updated", handleMomentUpdate);
+    addIndexerListener("moment:updated", handleMomentUpdate);
+    addIndexerListener("moment:admin:updated", handleMomentUpdate);
 
     return () => {
       if (debounceTimer.current) clearTimeout(debounceTimer.current);
-      socket.disconnect();
+      removeIndexerListener("moment:updated", handleMomentUpdate);
+      removeIndexerListener("moment:admin:updated", handleMomentUpdate);
     };
   }, [collectionAddress, tokenId, chainId, fetchMomentData]);
 };
 
-export default useMomentSocket;
+export default useMomentChannel;
