@@ -1,5 +1,5 @@
 import useCollectionMoments from "@/hooks/useCollectionMoments";
-import useCollectionChannel from "@/hooks/useCollectionChannel";
+import useCollectionSocket from "@/hooks/useCollectionSocket";
 import { Address } from "viem";
 import { createContext, useContext, ReactNode } from "react";
 import useCollection from "@/hooks/useCollection";
@@ -25,7 +25,7 @@ export function CollectionProvider({
   };
 }) {
   const tokens = useCollectionMoments(collection);
-  useCollectionChannel(collection.address, collection.chainId);
+  useCollectionSocket(collection.address, collection.chainId);
   const collectiondata = useCollection({
     collectionAddress: collection.address,
     chainId: collection.chainId.toString(),

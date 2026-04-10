@@ -15,6 +15,10 @@ export const IS_TESTNET = process.env.NEXT_PUBLIC_IS_TESTNET === "true" ? true :
 export const IN_PROCESS_API = `${IS_TESTNET ? "https://in-process-api-git-test-sweetmantechs-projects.vercel.app" : "https://api.inprocess.world"}/api`;
 export const IN_PROCESS_CRON_SOCKET_URL = "https://178.128.149.25.nip.io";
 
+export const PRIVY_PROJECT_SECRET = process.env.PRIVY_PROJECT_SECRET as string;
+// Coinbase
+export const CDP_PAYMASTER_URL = `https://api.developer.coinbase.com/rpc/v1/base${IS_TESTNET ? "-sepolia" : ""}/${process.env.CDP_PAYMASTER_KEY}`;
+
 // Wagmi
 export const EXPLORER_URL = IS_TESTNET ? "https://sepolia.basescan.org" : "https://basescan.org";
 export const CHAIN = IS_TESTNET ? baseSepolia : base;
