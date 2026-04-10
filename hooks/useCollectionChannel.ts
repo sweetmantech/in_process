@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { getAddress } from "viem";
-import { supabase } from "@/lib/supabase/client";
+import { addIndexerListener, removeIndexerListener } from "@/lib/supabase/indexerChannel";
 
 type CollectionUpdatedPayload = {
   collectionAddress: string;
@@ -31,15 +31,13 @@ const useCollectionChannel = (collectionAddress: string, chainId: number) => {
       }
     };
 
-    const channel = supabase
-      .channel("indexer")
-      .on("broadcast", { event: "collection:updated" }, handleCollectionUpdate)
-      .on("broadcast", { event: "collection:admin:updated" }, handleCollectionUpdate)
-      .subscribe();
+    addIndexerListener("collection:updated", handleCollectionUpdate);
+    addIndexerListener("collection:admin:updated", handleCollectionUpdate);
 
     return () => {
       if (debounceTimer.current) clearTimeout(debounceTimer.current);
-      supabase.removeChannel(channel);
+      removeIndexerListener("collection:updated", handleCollectionUpdate);
+      removeIndexerListener("collection:admin:updated", handleCollectionUpdate);
     };
   }, [collectionAddress, chainId, queryClient]);
 };

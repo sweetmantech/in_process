@@ -1,21 +1,20 @@
 import { useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { supabase } from "@/lib/supabase/client";
+import { addIndexerListener, removeIndexerListener } from "@/lib/supabase/indexerChannel";
 
 export function useInProcessMomentsChannel() {
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    const channel = supabase
-      .channel("indexer")
-      .on("broadcast", { event: "moments:count-updated" }, () => {
-        queryClient.invalidateQueries({ queryKey: ["total-moments-count"] });
-        queryClient.resetQueries({ queryKey: ["timeline"] });
-      })
-      .subscribe();
+    const handleMomentsCountUpdated = () => {
+      queryClient.invalidateQueries({ queryKey: ["total-moments-count"] });
+      queryClient.resetQueries({ queryKey: ["timeline"] });
+    };
+
+    addIndexerListener("moments:count-updated", handleMomentsCountUpdated);
 
     return () => {
-      supabase.removeChannel(channel);
+      removeIndexerListener("moments:count-updated", handleMomentsCountUpdated);
     };
   }, [queryClient]);
 }
