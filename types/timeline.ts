@@ -33,6 +33,7 @@ export interface UseTimelineParams {
   period?: AnalyticsPeriod;
   channel?: AnalyticsChannel;
   contentType?: AnalyticsContentType;
+  curated?: boolean;
 }
 
 export interface FetchTimelineParams {
@@ -46,4 +47,5 @@ export interface FetchTimelineParams {
   period?: AnalyticsPeriod;
   channel?: AnalyticsChannel;
   contentType?: AnalyticsContentType;
+  curated?: boolean;
 }

@@ -15,6 +15,7 @@ export function useInfiniteTimeline({
   period,
   channel,
   contentType,
+  curated = true,
 }: UseTimelineParams = {}) {
   const [currentPage, setCurrentPage] = useState(page);
 
@@ -32,6 +33,7 @@ export function useInfiniteTimeline({
       period,
       channel,
       contentType,
+      curated,
     ],
     queryFn: ({ pageParam = 1 }) => {
       return fetchTimeline({
@@ -45,6 +47,7 @@ export function useInfiniteTimeline({
         period,
         channel,
         contentType,
+        curated,
       });
     },
     enabled,

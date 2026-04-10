@@ -27,7 +27,7 @@ const ArtistPage = () => {
         <div
           className={`flex grow flex-col px-2 md:px-0 ${alt === "timeline" && "md:px-10 md:pt-20"}`}
         >
-          <TimelineProvider artistAddress={address}>
+          <TimelineProvider artistAddress={address} curated={false}>
             <MomentsTimeline alt={alt} />
           </TimelineProvider>
         </div>

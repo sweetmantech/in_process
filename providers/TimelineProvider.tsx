@@ -39,6 +39,7 @@ interface TimelineProviderProps {
   period?: AnalyticsPeriod;
   channel?: AnalyticsChannel;
   contentType?: AnalyticsContentType;
+  curated?: boolean;
 }
 
 export const TimelineProvider = ({
@@ -52,6 +53,7 @@ export const TimelineProvider = ({
   period,
   channel,
   contentType,
+  curated = true,
 }: TimelineProviderProps) => {
   const infiniteResult = useInfiniteTimeline({
     page: 1,
@@ -64,6 +66,7 @@ export const TimelineProvider = ({
     period,
     channel,
     contentType,
+    curated,
   });
 
   const paginatedResult = usePaginatedTimeline({
@@ -76,6 +79,7 @@ export const TimelineProvider = ({
     period,
     channel,
     contentType,
+    curated,
   });
 
   const timeline = paginated ? paginatedResult : infiniteResult;
