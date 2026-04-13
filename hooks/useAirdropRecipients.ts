@@ -21,7 +21,7 @@ const useAirdropRecipients = () => {
     // Get unique recipients by address
     const uniqueRecipients = new Map<string, AirdropRecipient>();
 
-    query.data.forEach((airdrop) => {
+    query.data.transfers.forEach((airdrop) => {
       const address = airdrop.recipient.address.toLowerCase();
       if (!uniqueRecipients.has(address)) {
         uniqueRecipients.set(address, {

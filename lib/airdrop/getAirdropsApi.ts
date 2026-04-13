@@ -1,15 +1,17 @@
-import { AirdropResponse } from "@/types/airdrop";
+import { AirdropsApiResponse } from "@/types/airdrop";
 import { Address } from "viem";
 import { CHAIN_ID, IN_PROCESS_API } from "../consts";
 
-export const getAirdropsApi = async (artist_address: Address): Promise<AirdropResponse[]> => {
+export const getAirdropsApi = async (artist_address: Address): Promise<AirdropsApiResponse> => {
   const params = new URLSearchParams({
-    artist_address,
+    type: "airdrop",
+    spender: artist_address,
     chainId: CHAIN_ID.toString(),
-    offset: "0",
+    page: "1",
+    limit: "20",
   });
 
-  const response = await fetch(`${IN_PROCESS_API}/airdrops?${params.toString()}`);
+  const response = await fetch(`${IN_PROCESS_API}/transfers?${params.toString()}`);
   if (!response.ok) {
     const error = await response.json().catch(() => ({ message: "Failed to fetch airdrops" }));
     throw new Error(error.message || "Failed to fetch airdrops");
