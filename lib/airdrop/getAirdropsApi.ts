@@ -5,7 +5,7 @@ import { CHAIN_ID, IN_PROCESS_API } from "../consts";
 export const getAirdropsApi = async (artist_address: Address): Promise<AirdropsApiResponse> => {
   const params = new URLSearchParams({
     type: "airdrop",
-    spender: artist_address,
+    artist: artist_address,
     chainId: CHAIN_ID.toString(),
     page: "1",
     limit: "20",

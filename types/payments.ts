@@ -1,67 +1,82 @@
-import { MomentMetadata } from "./moment";
+import type { MomentMetadata, Protocol } from "./moment";
 
-export type InProcessPayment = {
-  id: string;
-  moment: {
-    id: string;
-    token_id: number;
-    uri: string;
-    collection: {
-      address: string;
-      chain_id: number;
-      creator: string;
-    };
-    fee_recipients: Array<{
-      artist_address: string;
-      percent_allocation: number;
-    }>;
-    metadata: MomentMetadata | null;
-  };
-  buyer: {
+export type PaymentsTab = "income" | "outcome";
+
+export interface PaymentFeeRecipient {
+  artist_address: string;
+  percent_allocation: number;
+}
+
+export interface PaymentTransferCollector {
+  address: string;
+  username: string | null;
+}
+
+export interface PaymentTransferMomentArtist {
+  address: string;
+  username: string | null;
+}
+
+export interface PaymentTransferMoment {
+  token_id: number;
+  fee_recipients: PaymentFeeRecipient[];
+  collection: {
     address: string;
-    username: string | null;
+    chain_id: number;
+    protocol: Protocol;
+    artist?: PaymentTransferMomentArtist | null;
   };
-  amount: string;
+  metadata: MomentMetadata | null;
+}
+
+/** GET `/transfers?type=payment` — one row (payments table UI). */
+export interface PaymentTransferRow {
+  id: string | number;
+  quantity: number;
+  value: number;
+  currency: string | null;
   transaction_hash: string;
   transferred_at: string;
-  currency: string;
-};
+  collector: PaymentTransferCollector;
+  moment: PaymentTransferMoment;
+}
 
-export type Payment = InProcessPayment;
-
-export type PaymentWithType = InProcessPayment & {
-  type: "earning" | "expense";
-};
-
-export interface PaymentsResponse {
-  status: "success" | "error";
-  payments: Payment[];
+export interface TransferPaymentsResponse {
+  transfers: PaymentTransferRow[];
   pagination: {
     total_count: number;
     page: number;
     limit: number;
     total_pages: number;
   };
-  message?: string;
 }
 
-export interface PaymentsCombinedResponse extends PaymentsResponse {
-  payments: PaymentWithType[];
-  earningsPagination?: {
-    page: number;
-    total_pages: number;
+/**
+ * Nested `payment` from GET `/notifications` (`in_process_payments` join).
+ * Not the same shape as `PaymentTransferRow` (buyer / amount vs collector / value).
+ */
+export type NotificationPaymentMoment = {
+  id: string;
+  token_id: number;
+  uri: string;
+  collection: {
+    id: string;
+    address: string;
+    chain_id: number;
+    creator: string;
   };
-  expensesPagination?: {
-    page: number;
-    total_pages: number;
-  };
-}
+  metadata?: MomentMetadata | null;
+};
 
-export interface CombinedPaginationState {
-  earningsPage: number;
-  expensesPage: number;
-  earningsTotalPages: number;
-  expensesTotalPages: number;
-  earningsFinished: boolean;
-  expensesFinished: boolean;
-}
+export type NotificationPayment = {
+  id: string;
+  moment: NotificationPaymentMoment;
+  buyer: {
+    address: string;
+    username: string | null;
+  };
+  amount: number;
+  transaction_hash: string;
+  transferred_at: string;
+  currency?: string;
+};

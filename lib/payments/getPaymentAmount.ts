@@ -1,31 +1,30 @@
-import type { Payment, PaymentWithType } from "@/types/payments";
+import type { PaymentTransferRow, PaymentsTab } from "@/types/payments";
 import { zeroAddress } from "viem";
 
 /**
- * Calculates the payment amount, accounting for split contracts.
- * If the payout recipient is a split contract, returns the artist's share.
- * Otherwise, returns the full payment amount.
+ * Income: transfer value × the signed-in artist's fee percent.
+ * Outcome: full transfer value.
  */
-export const getPaymentAmount = async (
-  payment: Payment | PaymentWithType,
-  artistWallet: string | undefined
-): Promise<string> => {
-  const feeRecipients = payment.moment.fee_recipients;
-  const percentAllocation = feeRecipients.find(
-    (recipient) =>
-      recipient.artist_address?.toLowerCase() === payment.moment.collection.creator?.toLowerCase()
-  )?.percent_allocation;
+export const getPaymentAmount = (
+  payment: PaymentTransferRow,
+  artistWallet: string | undefined,
+  paymentsTab: PaymentsTab
+): string => {
+  const currencyAddress = payment.currency ?? zeroAddress;
+  const symbol = currencyAddress === zeroAddress ? "ETH" : "USDC";
+  const valueNum = payment.value;
 
-  const symbol = payment.currency === zeroAddress ? "ETH" : "USDC";
-
-  if (
-    percentAllocation &&
-    (payment.moment.collection.creator === artistWallet?.toLowerCase() ||
-      payment.moment.fee_recipients.find(
-        (recipient) => recipient.artist_address === artistWallet?.toLowerCase()
-      ))
-  ) {
-    return `${Number((Number(payment.amount) * (percentAllocation / 100)).toFixed(9))} ${symbol}`;
+  if (paymentsTab === "income") {
+    if (!artistWallet) return `0 ${symbol}`;
+    const recipient = payment.moment.fee_recipients.find(
+      (r) => r.artist_address.toLowerCase() === artistWallet.toLowerCase()
+    );
+    if (recipient) {
+      const share = valueNum * (recipient.percent_allocation / 100);
+      return `${Number(share.toFixed(9))} ${symbol}`;
+    }
+    return `0 ${symbol}`;
   }
-  return `${Number(Number(payment.amount).toFixed(9))} ${symbol}`;
+
+  return `${valueNum} ${symbol}`;
 };

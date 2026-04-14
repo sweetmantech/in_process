@@ -22,11 +22,11 @@ const useAirdropRecipients = () => {
     const uniqueRecipients = new Map<string, AirdropRecipient>();
 
     query.data.transfers.forEach((airdrop) => {
-      const address = airdrop.recipient.address.toLowerCase();
+      const address = airdrop.collector.address.toLowerCase();
       if (!uniqueRecipients.has(address)) {
         uniqueRecipients.set(address, {
-          address: airdrop.recipient.address,
-          username: airdrop.recipient.username || null,
+          address: airdrop.collector.address,
+          username: airdrop.collector.username || null,
         });
       }
     });

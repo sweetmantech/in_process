@@ -1,19 +1,21 @@
+"use client";
+
 import { TableCell } from "@/components/ui/table";
 import truncateAddress from "@/lib/truncateAddress";
-import type { Payment, PaymentWithType } from "@/types/payments";
+import type { PaymentTransferRow } from "@/types/payments";
 import PaymentsTypeBadge from "./PaymentsTypeBadge";
-import { usePaymentType } from "@/hooks/usePaymentType";
+import { usePaymentsProvider } from "@/providers/PaymentsProvider";
 
 interface BuyerCellProps {
-  payment: Payment | PaymentWithType;
+  payment: PaymentTransferRow;
 }
 
 const BuyerCell = ({ payment }: BuyerCellProps) => {
-  const { isExpense } = usePaymentType(payment);
+  const { isExpense } = usePaymentsProvider();
 
-  const buyerUsername = payment.buyer.username;
-  const buyerAddress = payment.buyer.address;
-  const sellerAddress = payment.moment.collection.creator;
+  const buyerUsername = payment.collector.username;
+  const buyerAddress = payment.collector.address;
+  const sellerAddress = payment.moment.collection.artist?.address;
 
   const buyerDisplayName = buyerUsername || truncateAddress(buyerAddress);
   const sellerDisplayName = sellerAddress ? truncateAddress(sellerAddress) : "Unknown";
