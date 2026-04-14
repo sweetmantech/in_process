@@ -1,44 +1,39 @@
 # 🎨 In Process By LATASHÁ
 
-> **THE TIMELINE WAS NEVER THEIRS. IT WAS ALWAYS OURS.**
+> A timeline for artists. A protocol, an API, and multiple front-end clients including Web, Telegram, and SMS.
 
-In Process is not just a feed—it's a living archive, a record of lineage, drafts, and blueprints that built dynasties. This is a space for process, for the work that platforms tried to erase, for the stories and sounds that algorithms could never own. Here, artists document in real time, onchain, on their terms. Every sketch, verse, sound, and glitch is a timestamp in culture. Here, we own the timeline.
-
-**In Process is not content—it's record-keeping. It's proof. It's legacy.**
-
-> Platforms have always needed us. The algorithm starves without our stories. The stream is silent without our sound. The feed is nothing but a blinking cursor, waiting on us to move. Yet they hold the archive hostage. Rewrite history in real time. Bury what doesn't fit their metrics. And call it discovery. We refuse.
-
-This is where the work lives. Where artists own their evolution. Where every moment is permanent, not ephemeral. Always in process.
+In Process is a living archive of artistic evolution where artists, builders, and creatives can upload their work-in-progress and mint it onchain to a collective timeline. Your community, fans, and patrons can collect, comment, and support work as it unfolds.
 
 ---
 
 ## 🌟 Key Features
 
-- 🖼️ **Digital Art Feed** - Feed of Digital Art
-- **Custom Collection Styling** - Each collection can define its own theme and style
-- **Interactive Comments** - Users can engage with art through comments
-- **Credit Card Integration** - Easy payments with CrossMint
-- **Email Authentication** - Seamless login with Privy
+- **Onchain Timeline** - Mint work-in-progress directly to a permanent, artist-owned timeline
+- **Moments** - Upload any part of your creative process: sketches, demos, journals, footage, links, and more
+- **Flexible Timestamping** - Backdate, future-date, or timestamp moments to the present
+- **Collective Timeline** - A shared feed where every artist's process lives side-by-side
+- **Monetization** - Set a price per moment; collectors pay directly to the artist's wallet
+- **Web2 + Web3 Support** - Accessible to both onchain natives and creators new to Web3
 
 ### 🎯 Core Components
 
-1. **Landing Page**
+1. **Artist Timeline**
 
-- Spiral animation
-- Collection URL input
-- Mobile-responsive design
+- Personal feed of an artist's uploaded moments
+- Supports all content types: visual, audio, text, video, external embeds
+- Feeds into the Collective Timeline
 
-2. **Feed Page**
+2. **Collective Timeline**
 
-- Dynamic digital art loading
-- Grid layout for art display
-- Custom styling per collection
+- Decentralized, living archive of artistic culture
+- Browse moments across all artists and disciplines
+- Real-time updates as new moments are minted
 
-3. **Comment System**
+3. **Moment Detail**
 
-- Real-time updates
-- Pagination support
-- Styled to match collection theme
+- Full metadata, media, artist info, and pricing
+- Collect and support work directly from the moment page
+- Comment and engage with the artist's process
 
 ## 🚀 Quick Start
 
@@ -72,7 +67,7 @@ bun dev
 
 ### Frontend
 
-- **Next.js 15** - React framework
+- **Next.js 16** - React framework
 - **Tailwind CSS** - Styling
 - **Framer Motion** - Animations
 - **shadcn/ui** - UI components
@@ -81,34 +76,37 @@ bun dev
 
 - **Zora Protocol** - Digital art infrastructure
 - **Privy** - Onchain authentication
-- **CrossMint** - Credit card + Google Pay + Apple Pay payments
 - **Base** - L2 blockchain
 
 ### State Management
 
 - **Context API** - React contexts for:
   - Digital art data
-  - Collection styling
   - Authentication state
 
 ## 🔗 Important Links
 
-- [Live Demo](https://in-process.vercel.app)
+- [Live Demo](https://inprocess.world)
 - [GitHub Repo](https://github.com/SweetmanTech/IN_PROCESS)
 - [Zora Documentation](https://docs.zora.co/docs/smart-contracts/protocol/intro)
 - [Base Network](https://base.org)
+
+## 🤖 LLM Context Files
+
+- [llms.txt](https://in-process.vercel.app/llms.txt) — concise project summary for LLMs
+- [llms-full.txt](https://in-process.vercel.app/llms-full.txt) — full documentation for LLMs
 
 ## 🏆 Why We Built This
 
 > This is a space for process. For lineage. For the drafts that built dynasties. For the blueprints they stole, repackaged, and resold. For the histories that deserve permanence, not expiration dates.
 
-In Process aims to revolutionize how we interact with digital art by:
+In Process is built on the belief that:
 
-1. Giving artists true ownership of their timeline and process
-2. Making digital art collections more engaging through social features
-3. Allowing artists to maintain their brand through custom styling
-4. Lowering barriers to entry with credit card payments
-5. Building on Base for fast, affordable transactions
+- Process matters as much as the final product
+- Artist timelines should be permanent and onchain
+- Work-in-progress deserves to be monetized
+- Timelines should be decentralized and artist-owned
+- Both Web2 and Web3 creators belong here
 
 ## 👥 Team
 
