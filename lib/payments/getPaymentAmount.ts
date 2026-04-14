@@ -3,7 +3,7 @@ import { zeroAddress } from "viem";
 
 /**
  * Income: transfer value × the signed-in artist's fee percent.
- * Outcome: full transfer value.
+ * Expense: full transfer value.
  */
 export const getPaymentAmount = (
   payment: PaymentTransferRow,

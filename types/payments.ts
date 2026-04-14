@@ -1,6 +1,6 @@
 import type { MomentMetadata, Protocol } from "./moment";
 
-export type PaymentsTab = "income" | "outcome";
+export type PaymentsTab = "income" | "expense";
 
 export interface PaymentFeeRecipient {
   artist_address: string;

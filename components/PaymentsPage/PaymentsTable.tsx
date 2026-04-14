@@ -18,7 +18,7 @@ const PaymentsTable = () => {
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center justify-between">
-          <span>{paymentsTab === "income" ? "Income" : "Outcome"}</span>
+          <span>{paymentsTab === "income" ? "Income" : "Expenses"}</span>
           <Badge variant="outline">{payments.length} transactions</Badge>
         </CardTitle>
       </CardHeader>
