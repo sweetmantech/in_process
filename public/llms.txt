@@ -62,7 +62,7 @@ A shared feed where everyone's onchain creative process lives side-by-side. It's
 
 ---
 
-## Building a Custom Web Client on In Process
+## Building a Official Web Client on In Process
 
 ### Official Sources (Preferred)
 
