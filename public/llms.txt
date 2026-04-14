@@ -27,11 +27,11 @@ Show moment metadata, media, artist, and pricing/sale state from API responses.
 Prepare user wallet/account context and collection context before collect/create actions.
 - Docs: [API Introduction](https://docs.inprocess.world/api-reference/introduction)
 
-### Step 5: Implement Collect + Upload + Create Flow
-Finish the minimum production flow: collect an existing moment, upload media/metadata, then create a new moment.
-- Collect: [Moment Collect API](https://docs.inprocess.world/api-reference/moment/collect)
+### Step 5: Implement Upload + Create + Collect Flow
+Finish the minimum production flow: upload media/metadata, create a new moment, then collect moments.
 - Upload: [Upload to Arweave](https://docs.inprocess.world/arweave/upload-to-arweave)
 - Create: [Moment Create API](https://docs.inprocess.world/api-reference/moment/create)
+- Collect: [Moment Collect API](https://docs.inprocess.world/api-reference/moment/collect)
 - Sales config docs: [Sales Config](https://docs.inprocess.world/configuration/sales-config)
 
 ## What Makes In Process Different
