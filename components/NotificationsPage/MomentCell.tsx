@@ -1,10 +1,10 @@
 import { TableCell } from "@/components/ui/table";
 import BlurImage from "@/components/BlurImage";
-import type { InProcessPayment, PaymentTransferMoment } from "@/types/payments";
+import type { NotificationPaymentMoment, PaymentTransferMoment } from "@/types/payments";
 import { SITE_ORIGINAL_URL } from "@/lib/consts";
 
 interface MomentCellProps {
-  moment: InProcessPayment["moment"] | PaymentTransferMoment;
+  moment: NotificationPaymentMoment | PaymentTransferMoment;
   className?: string;
 }
 

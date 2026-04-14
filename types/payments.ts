@@ -29,7 +29,7 @@ export interface PaymentTransferMoment {
   metadata: MomentMetadata | null;
 }
 
-/** GET `/transfers?type=payment` — one row (used directly in the payments UI). */
+/** GET `/transfers?type=payment` — one row (payments table UI). */
 export interface PaymentTransferRow {
   id: string | number;
   quantity: number;
@@ -51,21 +51,26 @@ export interface TransferPaymentsResponse {
   };
 }
 
-/** Notifications API shape (differs from transfer rows). */
-export type InProcessPayment = {
+/**
+ * Nested `payment` from GET `/notifications` (`in_process_payments` join).
+ * Not the same shape as `PaymentTransferRow` (buyer / amount vs collector / value).
+ */
+export type NotificationPaymentMoment = {
   id: string;
-  moment: {
+  token_id: number;
+  uri: string;
+  collection: {
     id: string;
-    token_id: number;
-    uri: string;
-    collection: {
-      address: string;
-      chain_id: number;
-      creator: string;
-    };
-    fee_recipients: PaymentFeeRecipient[];
-    metadata: MomentMetadata | null;
+    address: string;
+    chain_id: number;
+    creator: string;
   };
+  metadata?: MomentMetadata | null;
+};
+
+export type NotificationPayment = {
+  id: string;
+  moment: NotificationPaymentMoment;
   buyer: {
     address: string;
     username: string | null;
@@ -73,5 +78,5 @@ export type InProcessPayment = {
   amount: number;
   transaction_hash: string;
   transferred_at: string;
-  currency: string;
+  currency?: string;
 };

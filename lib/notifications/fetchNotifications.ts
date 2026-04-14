@@ -1,10 +1,10 @@
 import { Database } from "@/lib/supabase/types";
 import { IN_PROCESS_API } from "@/lib/consts";
-import { InProcessPayment } from "@/types/payments";
+import type { NotificationPayment } from "@/types/payments";
 
 export type InProcessNotification = {
   id: string;
-  payment: InProcessPayment;
+  payment: NotificationPayment;
   artist: Database["public"]["Tables"]["in_process_artists"]["Row"];
   viewed: boolean;
   created_at: string | null;
