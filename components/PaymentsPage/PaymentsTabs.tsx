@@ -14,9 +14,9 @@ const PaymentsTabs = () => {
           onClick={() => setPaymentsTab("income")}
         />
         <TabButton
-          label="Outcome"
-          active={paymentsTab === "outcome"}
-          onClick={() => setPaymentsTab("outcome")}
+          label="Expenses"
+          active={paymentsTab === "expense"}
+          onClick={() => setPaymentsTab("expense")}
         />
       </div>
     </section>
