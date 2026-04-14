@@ -4,35 +4,30 @@
 
 In Process is a living archive of artistic evolution where artists, builders, and creatives can upload their work-in-progress and mint it onchain to a collective timeline. Your community, fans, and patrons can collect, comment, and support work as it unfolds.
 
-## Build an Official InProcess Client (React 19 / Next.js 16)
+## Build an Official In Process Client (Next.js 16)
 
-Building an official client is extremely easy and lightweight with React 19 or Next.js 16.
+Building an official client is extremely easy and lightweight with Next.js 16.
 
-- Official InProcess client example repo: https://github.com/kismetcasa/KismetArt
-- Official InProcess documentation: https://docs.inprocess.world
+- Official In Process client example repo: https://github.com/kismetcasa/KismetArt
+- Official In Process documentation: https://docs.inprocess.world
 
-### Step 1: Set Up Auth Strategy
-Choose authentication UX (Privy-backed email OTP, wallet-native, or hybrid) based on your audience.
-- Docs: [Login with OTP](https://docs.inprocess.world/oauth/login-with-otp)
-
-### Step 2: Connect to Timeline Data
-Implement timeline browsing from the public API and map response to your feed UI.
-- Docs: [Timeline API](https://docs.inprocess.world/api-reference/timeline)
-
-### Step 3: Render Moment Detail
-Show moment metadata, media, artist, and pricing/sale state from API responses.
-- Docs: [Get Moment API](https://docs.inprocess.world/api-reference/moment/get)
-
-### Step 4: Implement Wallet/Collection Context
-Prepare user wallet/account context and collection context before collect/create actions.
+### Step 1: Get Your Artist Key
+Generate your artist key first, then store it in an environment variable (for example, `INPROCESS_ARTIST_KEY`) for authenticated API calls and client setup.
 - Docs: [API Introduction](https://docs.inprocess.world/api-reference/introduction)
 
-### Step 5: Implement Upload + Create + Collect Flow
-Finish the minimum production flow: upload media/metadata, create a new moment, then collect moments.
+### Step 2: Implement the Moment Upload + Create + Collect Flow
+Finish the minimum client build flow.
 - Upload: [Upload to Arweave](https://docs.inprocess.world/arweave/upload-to-arweave)
 - Create: [Moment Create API](https://docs.inprocess.world/api-reference/moment/create)
 - Collect: [Moment Collect API](https://docs.inprocess.world/api-reference/moment/collect)
-- Sales config docs: [Sales Config](https://docs.inprocess.world/configuration/sales-config)
+
+### Step 3: Get Moment Detail
+Show moment metadata, media, artist, and pricing/sale state from API responses.
+- Docs: [Get Moment API](https://docs.inprocess.world/api-reference/moment/get)
+
+### Step 4: Browse Timeline
+Implement timeline browsing from the public API and map response to your feed UI.
+- Docs: [Timeline API](https://docs.inprocess.world/api-reference/timeline)
 
 ## What Makes In Process Different
 
