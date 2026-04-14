@@ -1,0 +1,261 @@
+# In Process — Full Reference
+
+> A timeline for artists. It includes a protocol, an API, and multiple front-end clients including Web, Telegram, and SMS.
+
+In Process is a living archive of artistic evolution where artists, builders, and creatives can upload their work-in-progress and mint it onchain to a collective timeline. Your community, fans, and patrons can collect, comment, and support work as it unfolds.
+
+- Website: https://inprocess.world
+- Documentation: https://docs.inprocess.world
+- API Reference: https://docs.inprocess.world/api-reference
+- Client example repo: https://github.com/kismetcasa/KismetArt
+
+---
+
+## Platform Overview
+
+### What Is In Process
+
+In Process is a web3 platform built on Base (an Ethereum L2). Artists mint "moments" — individual pieces of their creative process — as onchain tokens (ERC-1155 via the Zora protocol). Each moment is permanently stored and can be collected by fans and patrons.
+
+### Stack
+
+- **Chain**: Base mainnet (chain ID 8453) or Base Sepolia testnet
+- **Token standard**: ERC-1155 (Zora protocol)
+- **Media storage**: Arweave (permanent, decentralized)
+- **Video streaming**: Mux
+- **Auth**: Privy (supports both social/Web2 login and Web3 wallets)
+- **API base URL**: `https://api.inprocess.world/api`
+- **Testnet API base URL**: `https://in-process-api-git-test-sweetmantechs-projects.vercel.app/api`
+
+---
+
+## Build an Artist Web Client with Vibe Coding (Next.js)
+
+Artists can quickly build and ship their own lightweight client using the In Process API.
+
+### Step 1: Get an Artist Key
+
+Generate an artist key first, then store it in an environment variable (e.g. `INPROCESS_ARTIST_KEY`) for authenticated API calls and client setup.
+
+- Docs: https://docs.inprocess.world/api-reference/introduction
+
+The artist key is used as a Bearer token in the `Authorization` header for all authenticated requests:
+
+```
+Authorization: Bearer <INPROCESS_ARTIST_KEY>
+```
+
+### Step 2: Implement the Moment Upload + Create + Collect Flow
+
+#### 2a. Upload Media to Arweave
+
+Before creating a moment, upload the media file to Arweave for permanent storage.
+
+- Docs: https://docs.inprocess.world/arweave/upload-to-arweave
+
+```
+POST https://api.inprocess.world/api/arweave/upload
+Authorization: Bearer <artist_key>
+Content-Type: multipart/form-data
+
+Body: { file: <binary> }
+
+Response: { id: "<arweave_tx_id>", url: "https://arweave.net/<id>" }
+```
+
+#### 2b. Create a Moment
+
+Mint a new moment onchain with metadata pointing to the uploaded media.
+
+- Docs: https://docs.inprocess.world/api-reference/moment/create
+
+```
+POST https://api.inprocess.world/api/moment/create
+Authorization: Bearer <artist_key>
+Content-Type: application/json
+
+Body:
+{
+  "name": "string",
+  "description": "string",
+  "mediaUrl": "https://arweave.net/<id>",
+  "mediaType": "image" | "video" | "audio" | "writing" | "link",
+  "price": "0" | "<amount_in_wei>",
+  "currency": "ETH" | "USDC",
+  "date": "<ISO 8601 timestamp>"  // optional, for backdating/future-dating
+}
+
+Response:
+{
+  "momentId": "<token_id>",
+  "collectionAddress": "0x...",
+  "txHash": "0x..."
+}
+```
+
+#### 2c. Collect a Moment
+
+Allow a collector to purchase/collect a moment.
+
+- Docs: https://docs.inprocess.world/api-reference/moment/collect
+
+```
+POST https://api.inprocess.world/api/moment/collect
+Authorization: Bearer <collector_access_token>
+Content-Type: application/json
+
+Body:
+{
+  "collectionAddress": "0x...",
+  "tokenId": "<moment_id>",
+  "quantity": 1
+}
+
+Response:
+{
+  "txHash": "0x...",
+  "success": true
+}
+```
+
+### Step 3: Get Moment Detail
+
+Fetch full metadata, media, artist info, and pricing/sale state for a moment.
+
+- Docs: https://docs.inprocess.world/api-reference/moment/get
+
+```
+GET https://api.inprocess.world/api/moment/<collectionAddress>/<tokenId>
+
+Response:
+{
+  "name": "string",
+  "description": "string",
+  "mediaUrl": "string",
+  "mediaType": "image" | "video" | "audio" | "writing" | "link",
+  "artist": {
+    "address": "0x...",
+    "name": "string",
+    "avatar": "string"
+  },
+  "price": "string",
+  "currency": "ETH" | "USDC",
+  "totalMinted": number,
+  "date": "ISO 8601",
+  "collectionAddress": "0x...",
+  "tokenId": "string"
+}
+```
+
+### Step 4: Browse the Timeline
+
+Fetch the public collective timeline or an artist's personal timeline.
+
+- Docs: https://docs.inprocess.world/api-reference/timeline
+
+```
+GET https://api.inprocess.world/api/timeline
+  ?page=<number>
+  &limit=<number>
+  &artistAddress=<0x...>  // optional: filter by artist
+
+Response:
+{
+  "moments": [ /* array of moment objects (same shape as Get Moment) */ ],
+  "total": number,
+  "page": number,
+  "limit": number
+}
+```
+
+---
+
+## Content Types
+
+An artist can upload any part of their creative process:
+
+| Type      | Description                                        |
+| --------- | -------------------------------------------------- |
+| `image`   | Sketches, moodboards, photographs, visuals         |
+| `video`   | Behind-the-scenes footage, vlogs, drafts           |
+| `audio`   | Demos, beats, rough recordings, spoken word        |
+| `writing` | Journals, notes, poetry, lyrics, scripts           |
+| `link`    | External embeds: YouTube, NFTs, Instagram, Docs    |
+
+---
+
+## Timeline Features
+
+- Moments can be **backdated** (e.g., a sketch from 2021)
+- Moments can be **future-dated** (e.g., a concept for a 2026 project)
+- Moments can be **timestamped to the present**
+- An artist's personal timeline feeds into the **Collective Timeline**
+
+---
+
+## The Collective Timeline
+
+A shared feed where everyone's onchain creative process lives side-by-side. It is a decentralized, living archive of artistic culture across disciplines and styles.
+
+---
+
+## Monetization
+
+- Set a price per moment (in ETH or USDC)
+- Free moments (price = 0) are also supported
+- Collectors pay to own and support an artist's process
+- Proceeds go directly to the artist's wallet
+- Supports both crypto-native and Web2 users (via Privy social login)
+
+---
+
+## What Makes In Process Different
+
+- Focus on process, not polish
+- Permanent, onchain documentation via Arweave
+- Monetization of in-progress work (not just finished pieces)
+- Decentralized, artist-owned timelines
+- Support for both Web2 and Web3 users
+- Cross-platform embedding of content (onchain + offchain)
+
+---
+
+## Who Is In Process For
+
+- Artists (music, visual, literary, film)
+- Builders and developers creating artist tools
+- Web2 creatives transitioning into Web3
+- Fans, patrons, and explorers who want to support artistic journeys
+
+---
+
+## Web Client Routes
+
+| Route                                      | Description                            |
+| ------------------------------------------ | -------------------------------------- |
+| `/`                                        | Collective timeline feed               |
+| `/[artistAddress]`                         | Artist's personal timeline             |
+| `/collect/[collectionAddress]/[tokenId]`   | Moment collect page                    |
+| `/collection/[collectionAddress]`          | Collection overview                    |
+| `/create`                                  | Create a new moment                    |
+| `/create/success`                          | Post-creation confirmation             |
+| `/manage`                                  | Artist dashboard                       |
+| `/manage/moments`                          | Manage artist's moments                |
+| `/manage/account`                          | Account settings                       |
+| `/manage/api-keys`                         | Manage artist API keys                 |
+| `/manage/payment`                          | Payment settings                       |
+| `/funds`                                   | Wallet funds management                |
+| `/notifications`                           | Notifications feed                     |
+| `/manifesto`                               | In Process manifesto                   |
+| `/faq`                                     | Frequently asked questions             |
+
+---
+
+## Links
+
+- Website: https://inprocess.world
+- Documentation: https://docs.inprocess.world
+- API Reference: https://docs.inprocess.world/api-reference
+- FAQ: https://inprocess.world/faq
+- Manifesto: https://inprocess.world/manifesto
+- Example client repo: https://github.com/kismetcasa/KismetArt
