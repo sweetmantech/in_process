@@ -24,9 +24,9 @@ You can upload any part of your creative process:
 
 ## Timeline Features
 
-- Moments can be backdated (e.g., a sketch from 2021)
-- Moments can be future-dated (e.g., a concept for a 2026 project)
-- Moments can be time-stamped to the present
+- Posts can be backdated (e.g., a sketch from 2021)
+- Posts can be future-dated (e.g., a concept for a 2026 project)
+- Posts can be time-stamped to the present
 - Your personal timeline feeds into the Collective Timeline
 
 ## The Collective Timeline
@@ -42,83 +42,25 @@ A shared feed where everyone's onchain creative process lives side-by-side. It's
 
 ## How Monetization Works
 
-- Set a price per moment (in crypto or USD)
+- Set a price per post (in crypto or USD)
 - Collectors pay to own and support your process
 - Proceeds go directly to your wallet
 
 ## Technology Stack
 
-- Base: Fast, affordable L2 blockchain (Chain ID: 8453)
-- Zora Protocol: For minting and managing moments (ERC-1155)
-- Auth: Privy-backed email OTP login and API key flows are supported
-- Arweave: Permanent decentralized storage for media and metadata
-- Payments: Crypto payments are supported; card checkout depends on your client-side provider integration
+- Base: Fast, affordable L2 blockchain
+- Zora Protocol: For minting and managing posts
+- Privy: Web2 login with Web3 access (email login, no wallet needed to start)
+- Supports crypto and card payments
+
+## Documentation
+
+- Main Documentation: https://docs.inprocess.world
+- API Reference: https://docs.inprocess.world/api-reference
+- FAQ: https://inprocess.world/faq
 
 ## Links
 
 - Website: https://inprocess.world
 - Documentation: https://docs.inprocess.world
 - FAQ: https://inprocess.world/faq
-
----
-
-## Building a Custom Web Client on In Process
-
-### Official Sources (Preferred)
-
-- Reference client repository: https://github.com/homebasedotlove/inprocess-client
-- Public docs site: https://docs.inprocess.world
-- Web client repository: https://github.com/sweetmantech/in_process
-- API repository: https://github.com/sweetmantech/In-Process-API
-- API reference: https://docs.inprocess.world/api-reference
-
-### Step 1: Understand Product and Terminology
-
-Use **moment/moments** terminology and align UX with the public app.
-- Primary docs: https://docs.inprocess.world
-- Product/UI reference: https://github.com/sweetmantech/in_process/blob/main/README.md
-- App shell + metadata reference: https://github.com/sweetmantech/in_process/blob/main/app/layout.tsx
-- Reference client README: https://github.com/homebasedotlove/inprocess-client/blob/main/README.md
-
-### Step 2: Set Up Auth Strategy
-
-Choose authentication UX (Privy-backed email OTP, wallet-native, or hybrid) based on your audience.
-- Primary docs: https://docs.inprocess.world/oauth/login-with-otp
-- Example wallet provider setup: https://github.com/kismetcasa/KismetArt/blob/main/providers/WagmiProvider.tsx
-- Example wagmi config: https://github.com/kismetcasa/KismetArt/blob/main/lib/wagmi.ts
-- Example app-level provider wiring: https://github.com/kismetcasa/KismetArt/blob/main/app/layout.tsx
-
-### Step 3: Connect to Timeline Data
-
-Implement timeline browsing from the public API and map response to your feed UI.
-- Primary docs: https://docs.inprocess.world/api-reference/timeline
-- Example artist client (built from docs): https://github.com/kismetcasa/KismetArt
-- Example timeline API proxy route: https://github.com/kismetcasa/KismetArt/blob/main/app/api/timeline/route.ts
-- Example timeline page usage: https://github.com/kismetcasa/KismetArt/blob/main/app/page.tsx
-- Example shared In Process helpers/types: https://github.com/kismetcasa/KismetArt/blob/main/lib/inprocess.ts
-
-### Step 4: Render Moment Detail
-
-Show moment metadata, media, artist, and pricing/sale state from API responses.
-- Primary docs: https://docs.inprocess.world/api-reference/moment/get
-- Example moment API proxy route: https://github.com/kismetcasa/KismetArt/blob/main/app/api/moment/route.ts
-- Example moment card UI: https://github.com/kismetcasa/KismetArt/blob/main/components/MomentCard.tsx
-
-### Step 5: Implement Wallet/Collection Context
-
-Prepare user wallet/account context and collection context before collect/create actions.
-- Primary docs: https://docs.inprocess.world/api-reference/introduction
-- Example navigation/context entrypoint: https://github.com/kismetcasa/KismetArt/blob/main/components/Nav.tsx
-- Example app routing entrypoint: https://github.com/kismetcasa/KismetArt/blob/main/app/page.tsx
-
-### Step 6: Implement Collect + Upload + Create Flow
-
-Finish the minimum production flow: collect an existing moment, upload media/metadata, then create a new moment.
-- Collect docs: https://docs.inprocess.world/api-reference/moment/collect
-- Upload docs: https://docs.inprocess.world/arweave/upload-to-arweave
-- Create docs: https://docs.inprocess.world/api-reference/moment/create
-- Sales config docs: https://docs.inprocess.world/configuration/sales-config
-- Example collect API proxy route: https://github.com/kismetcasa/KismetArt/blob/main/app/api/collect/route.ts
-- Example upload API proxy route: https://github.com/kismetcasa/KismetArt/blob/main/app/api/upload/route.ts
-- Example create API proxy route: https://github.com/kismetcasa/KismetArt/blob/main/app/api/mint/route.ts
-- Example mint form component: https://github.com/kismetcasa/KismetArt/blob/main/components/MintForm.tsx
