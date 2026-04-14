@@ -4,31 +4,6 @@
 
 In Process is a living archive of artistic evolution where artists, builders, and creatives can upload their work-in-progress and mint it onchain to a collective timeline. Your community, fans, and patrons can collect, comment, and support work as it unfolds.
 
-## Build an Official In Process Client (Next.js 16)
-
-Building an official client is extremely easy and lightweight with Next.js 16.
-
-- Official In Process client example repo: https://github.com/kismetcasa/KismetArt
-- Official In Process documentation: https://docs.inprocess.world
-
-### Step 1: Get Your Artist Key
-Generate your artist key first, then store it in an environment variable (for example, `INPROCESS_ARTIST_KEY`) for authenticated API calls and client setup.
-- Docs: [API Introduction](https://docs.inprocess.world/api-reference/introduction)
-
-### Step 2: Implement the Moment Upload + Create + Collect Flow
-Finish the minimum client build flow.
-- Upload: [Upload to Arweave](https://docs.inprocess.world/arweave/upload-to-arweave)
-- Create: [Moment Create API](https://docs.inprocess.world/api-reference/moment/create)
-- Collect: [Moment Collect API](https://docs.inprocess.world/api-reference/moment/collect)
-
-### Step 3: Get Moment Detail
-Show moment metadata, media, artist, and pricing/sale state from API responses.
-- Docs: [Get Moment API](https://docs.inprocess.world/api-reference/moment/get)
-
-### Step 4: Browse Timeline
-Implement timeline browsing from the public API and map response to your feed UI.
-- Docs: [Timeline API](https://docs.inprocess.world/api-reference/timeline)
-
 ## What Makes In Process Different
 
 - Focus on process, not polish
@@ -71,8 +46,79 @@ A shared feed where everyone's onchain creative process lives side-by-side. It's
 - Collectors pay to own and support your process
 - Proceeds go directly to your wallet
 
+## Technology Stack
+
+- Base: Fast, affordable L2 blockchain (Chain ID: 8453)
+- Zora Protocol: For minting and managing moments (ERC-1155)
+- Auth: Privy-backed email OTP login and API key flows are supported
+- Arweave: Permanent decentralized storage for media and metadata
+- Payments: Crypto payments are supported; card checkout depends on your client-side provider integration
+
 ## Links
 
 - Website: https://inprocess.world
 - Documentation: https://docs.inprocess.world
 - FAQ: https://inprocess.world/faq
+
+---
+
+## Building a Official Web Client on In Process
+
+### Official Sources (Preferred)
+
+- Reference client repository: https://github.com/homebasedotlove/inprocess-client
+- Public docs site: https://docs.inprocess.world
+- Web client repository: https://github.com/sweetmantech/in_process
+- API repository: https://github.com/sweetmantech/In-Process-API
+- API reference: https://docs.inprocess.world/api-reference
+
+### Step 1: Understand Product and Terminology
+
+Use **moment/moments** terminology and align UX with the public app.
+- Primary docs: https://docs.inprocess.world
+- Product/UI reference: https://github.com/sweetmantech/in_process/blob/main/README.md
+- App shell + metadata reference: https://github.com/sweetmantech/in_process/blob/main/app/layout.tsx
+- Reference client README: https://github.com/homebasedotlove/inprocess-client/blob/main/README.md
+
+### Step 2: Set Up Auth Strategy
+
+Choose authentication UX (Privy-backed email OTP, wallet-native, or hybrid) based on your audience.
+- Primary docs: https://docs.inprocess.world/oauth/login-with-otp
+- Example wallet provider setup: https://github.com/kismetcasa/KismetArt/blob/main/providers/WagmiProvider.tsx
+- Example wagmi config: https://github.com/kismetcasa/KismetArt/blob/main/lib/wagmi.ts
+- Example app-level provider wiring: https://github.com/kismetcasa/KismetArt/blob/main/app/layout.tsx
+
+### Step 3: Connect to Timeline Data
+
+Implement timeline browsing from the public API and map response to your feed UI.
+- Primary docs: https://docs.inprocess.world/api-reference/timeline
+- Example artist client (built from docs): https://github.com/kismetcasa/KismetArt
+- Example timeline API proxy route: https://github.com/kismetcasa/KismetArt/blob/main/app/api/timeline/route.ts
+- Example timeline page usage: https://github.com/kismetcasa/KismetArt/blob/main/app/page.tsx
+- Example shared In Process helpers/types: https://github.com/kismetcasa/KismetArt/blob/main/lib/inprocess.ts
+
+### Step 4: Render Moment Detail
+
+Show moment metadata, media, artist, and pricing/sale state from API responses.
+- Primary docs: https://docs.inprocess.world/api-reference/moment/get
+- Example moment API proxy route: https://github.com/kismetcasa/KismetArt/blob/main/app/api/moment/route.ts
+- Example moment card UI: https://github.com/kismetcasa/KismetArt/blob/main/components/MomentCard.tsx
+
+### Step 5: Implement Wallet/Collection Context
+
+Prepare user wallet/account context and collection context before collect/create actions.
+- Primary docs: https://docs.inprocess.world/api-reference/introduction
+- Example navigation/context entrypoint: https://github.com/kismetcasa/KismetArt/blob/main/components/Nav.tsx
+- Example app routing entrypoint: https://github.com/kismetcasa/KismetArt/blob/main/app/page.tsx
+
+### Step 6: Implement Collect + Upload + Create Flow
+
+Finish the minimum production flow: collect an existing moment, upload media/metadata, then create a new moment.
+- Collect docs: https://docs.inprocess.world/api-reference/moment/collect
+- Upload docs: https://docs.inprocess.world/arweave/upload-to-arweave
+- Create docs: https://docs.inprocess.world/api-reference/moment/create
+- Sales config docs: https://docs.inprocess.world/configuration/sales-config
+- Example collect API proxy route: https://github.com/kismetcasa/KismetArt/blob/main/app/api/collect/route.ts
+- Example upload API proxy route: https://github.com/kismetcasa/KismetArt/blob/main/app/api/upload/route.ts
+- Example create API proxy route: https://github.com/kismetcasa/KismetArt/blob/main/app/api/mint/route.ts
+- Example mint form component: https://github.com/kismetcasa/KismetArt/blob/main/components/MintForm.tsx
