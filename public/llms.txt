@@ -24,9 +24,9 @@ You can upload any part of your creative process:
 
 ## Timeline Features
 
-- Posts can be backdated (e.g., a sketch from 2021)
-- Posts can be future-dated (e.g., a concept for a 2026 project)
-- Posts can be time-stamped to the present
+- Moments can be backdated (e.g., a sketch from 2021)
+- Moments can be future-dated (e.g., a concept for a 2026 project)
+- Moments can be time-stamped to the present
 - Your personal timeline feeds into the Collective Timeline
 
 ## The Collective Timeline
@@ -42,16 +42,17 @@ A shared feed where everyone's onchain creative process lives side-by-side. It's
 
 ## How Monetization Works
 
-- Set a price per post (in crypto or USD)
+- Set a price per moment (in crypto or USD)
 - Collectors pay to own and support your process
 - Proceeds go directly to your wallet
 
 ## Technology Stack
 
-- Base: Fast, affordable L2 blockchain
-- Zora Protocol: For minting and managing posts
-- Privy: Web2 login with Web3 access (email login, no wallet needed to start)
-- Supports crypto and card payments
+- Base: Fast, affordable L2 blockchain (Chain ID: 8453)
+- Zora Protocol: For minting and managing moments (ERC-1155)
+- Auth: Privy-backed email OTP login and API key flows are supported
+- Arweave: Permanent decentralized storage for media and metadata
+- Payments: Crypto payments are supported; card checkout depends on your client-side provider integration
 
 ## Documentation
 
@@ -64,3 +65,489 @@ A shared feed where everyone's onchain creative process lives side-by-side. It's
 - Website: https://inprocess.world
 - Documentation: https://docs.inprocess.world
 - FAQ: https://inprocess.world/faq
+
+---
+
+## Building a Custom Web Client on In Process
+
+> This section is for developers and artists who want to build their own web client using the In Process API. Follow these steps in order.
+
+The In Process API is a REST API hosted at `https://api.inprocess.world/api`. It handles all blockchain interactions for you — you do not need to write smart contract code. Your client is a UI layer that calls this API.
+
+**Reference implementation:** https://github.com/homebasedotlove/inprocess-client
+
+### Recommended Architecture
+
+Use Next.js with API proxy routes. Your Next.js `/app/api/` routes forward requests to the In Process API and keep your API key secret on the server. The client only talks to your own server.
+
+```
+Browser → /app/api/timeline   → https://api.inprocess.world/api/timeline
+Browser → /app/api/collect    → https://api.inprocess.world/api/moment/collect
+Browser → /app/api/mint       → https://api.inprocess.world/api/moment/create
+Browser → /app/api/upload     → Arweave (server-side upload route)
+```
+
+Recommended stack: Next.js 15, TanStack Query, arweave-js (for storage), Tailwind CSS.
+
+For wallet/auth UX, choose what fits your audience and product: Privy (email-first onboarding), wagmi + RainbowKit (wallet-native flow), or another provider. In Process APIs are compatible with different auth/connect approaches.
+
+---
+
+### Step 1: Get Your API Key and Collection Address
+
+Before writing any code you need two things:
+
+1. **An API key** — Generated at `https://inprocess.world/manage/api-keys`. Format: `art_sk_...`. Required to collect moments on behalf of users.
+2. **A collection address** — Your ERC-1155 contract address on Base. You can create one at `https://inprocess.world/manage` or via `POST /api/collections`. All moments you mint belong to this collection.
+
+Reference: https://docs.inprocess.world/api-reference/introduction
+
+---
+
+### Step 2: Environment Variables
+
+Create a `.env.local` file in your project root:
+
+```bash
+# Required: your In Process API key (keep this secret, server-side only)
+INPROCESS_API_KEY=art_sk_...
+
+# Required: your collection contract address on Base
+NEXT_PUBLIC_PLATFORM_COLLECTION=0x...
+
+# Required: base64-encoded Arweave private key (JWK format) for media uploads
+ARWEAVE_KEY=...
+
+# Optional: wallet address to receive referral rewards on mints
+NEXT_PUBLIC_CREATE_REFERRAL=0x...
+```
+
+To get your `ARWEAVE_KEY`: generate an Arweave wallet, export the JWK JSON, then base64-encode it: `base64 -w 0 wallet.json` (Linux) or `base64 -i wallet.json` (macOS).
+
+Reference: https://docs.inprocess.world/arweave/upload-to-arweave
+
+---
+
+### Step 3: Display the Timeline
+
+The timeline endpoint is **public** — no API key required.
+
+**Next.js API proxy route** (`app/api/timeline/route.ts`):
+```typescript
+import { NextRequest, NextResponse } from "next/server";
+
+const IN_PROCESS_API = "https://api.inprocess.world/api";
+
+export async function GET(req: NextRequest) {
+  const { searchParams } = new URL(req.url);
+  const page = searchParams.get("page") || "1";
+  const limit = searchParams.get("limit") || "20";
+  const collection = process.env.NEXT_PUBLIC_PLATFORM_COLLECTION;
+
+  const params = new URLSearchParams({ page, limit, collection: collection || "" });
+  const res = await fetch(`${IN_PROCESS_API}/timeline?${params}`, {
+    next: { revalidate: 30 },
+  });
+  const data = await res.json();
+  return NextResponse.json(data);
+}
+```
+
+**GET `/api/timeline` — Query parameters:**
+| Parameter | Type | Description |
+|---|---|---|
+| `page` | number | Page number (default: 1) |
+| `limit` | number | Results per page (default: 20, max: 100) |
+| `collection` | string | Filter by collection address |
+| `artist` | string | Filter by artist wallet address |
+| `content_type` | string | Filter by MIME prefix: `audio`, `image`, `video` |
+| `period` | string | `day`, `week`, `month`, or `all` |
+| `channel` | string | `web`, `telegram`, `sms`, or `api` |
+| `curated` | string | `true` or `false` (default: `true`) |
+
+**Response shape:**
+```json
+{
+  "moments": [
+    {
+      "address": "0x...",
+      "token_id": "1",
+      "chain_id": 8453,
+      "id": "uuid",
+      "uri": "ar://...",
+      "protocol": "in_process",
+      "creator": { "address": "0x...", "username": "artistname", "hidden": false },
+      "created_at": "2024-01-01T00:00:00Z",
+      "metadata": {
+        "name": "Moment title",
+        "description": "Description",
+        "image": "ar://...",
+        "content": { "mime": "image/jpeg", "uri": "ar://..." },
+        "animation_url": "ar://..."
+      }
+    }
+  ],
+  "pagination": { "page": 1, "limit": 20, "total_pages": 5 }
+}
+```
+
+Reference: https://docs.inprocess.world/api-reference/timeline
+
+---
+
+### Step 4: Display a Single Moment and Its Price
+
+Use this to show a moment's metadata and current sale configuration before collecting.
+
+**GET `/api/moment`** — Query parameters: `collectionAddress`, `tokenId`, `chainId` (all required).
+
+```typescript
+const res = await fetch(
+  `https://api.inprocess.world/api/moment?collectionAddress=${address}&tokenId=${tokenId}&chainId=8453`
+);
+const moment = await res.json();
+// moment.saleConfig.pricePerToken — price in wei (string)
+// moment.metadata — same shape as timeline metadata above
+```
+
+**Sale config shape:**
+```json
+{
+  "saleConfig": {
+    "pricePerToken": "1000000000000000",
+    "type": "fixedPrice",
+    "saleStart": 1700000000,
+    "saleEnd": 9999999999,
+    "fundsRecipient": "0x..."
+  }
+}
+```
+
+`pricePerToken` is in wei. Divide by `1e18` for ETH display.
+
+Reference: https://docs.inprocess.world/api-reference/moment/get
+
+---
+
+### Step 5: Connect a Wallet
+
+Use RainbowKit — it handles multi-wallet support with minimal setup.
+
+```bash
+npm install @rainbow-me/rainbowkit wagmi viem @tanstack/react-query
+```
+
+**`lib/wagmi.ts`:**
+```typescript
+import { getDefaultConfig } from "@rainbow-me/rainbowkit";
+import { base } from "wagmi/chains";
+
+export const config = getDefaultConfig({
+  appName: "Your App Name",
+  projectId: "YOUR_WALLETCONNECT_PROJECT_ID",
+  chains: [base],
+});
+```
+
+**`providers/WagmiProvider.tsx`:**
+```typescript
+"use client";
+import { WagmiProvider } from "wagmi";
+import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { config } from "@/lib/wagmi";
+import "@rainbow-me/rainbowkit/styles.css";
+
+const queryClient = new QueryClient();
+
+export function Providers({ children }: { children: React.ReactNode }) {
+  return (
+    <WagmiProvider config={config}>
+      <QueryClientProvider client={queryClient}>
+        <RainbowKitProvider>{children}</RainbowKitProvider>
+      </QueryClientProvider>
+    </WagmiProvider>
+  );
+}
+```
+
+In your layout: wrap with `<Providers>`. Add `<ConnectButton />` from RainbowKit to your nav.
+
+Reference: https://docs.inprocess.world/api-reference/introduction
+
+---
+
+### Step 6: Collect a Moment
+
+Collecting requires your API key (server-side) and a valid moment payload.
+
+**Next.js API proxy route** (`app/api/collect/route.ts`):
+```typescript
+import { NextRequest, NextResponse } from "next/server";
+
+const IN_PROCESS_API = "https://api.inprocess.world/api";
+
+export async function POST(req: NextRequest) {
+  const body = await req.json();
+  const res = await fetch(`${IN_PROCESS_API}/moment/collect`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "x-api-key": process.env.INPROCESS_API_KEY!,
+    },
+    body: JSON.stringify(body),
+  });
+  const data = await res.json();
+  return NextResponse.json(data);
+}
+```
+
+**Request body:**
+```json
+{
+  "moment": {
+    "collectionAddress": "0x...",
+    "tokenId": "1",
+    "chainId": 8453
+  },
+  "amount": 1,
+  "comment": "Love this work"
+}
+```
+
+**Response:**
+```json
+{ "hash": "0x..." }
+```
+
+**CollectButton component** (calls your proxy, not the API directly):
+```typescript
+"use client";
+import { useAccount } from "wagmi";
+
+export function CollectButton({ moment }: { moment: any }) {
+  const { isConnected } = useAccount();
+
+  const handleCollect = async () => {
+    if (!isConnected) return;
+    const res = await fetch("/api/collect", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ moment, amount: 1, comment: "" }),
+    });
+    const { hash } = await res.json();
+    console.log("Collected:", hash);
+  };
+
+  return (
+    <button onClick={handleCollect} disabled={!isConnected}>
+      {isConnected ? "Collect" : "Connect wallet to collect"}
+    </button>
+  );
+}
+```
+
+Reference: https://docs.inprocess.world/api-reference/moment/collect
+
+---
+
+### Step 7: Upload Media to Arweave
+
+All media (images, videos, audio) must be uploaded to Arweave before minting. The result is an `ar://` URI used in the moment's metadata.
+
+**Next.js API proxy route** (`app/api/upload/route.ts`):
+```typescript
+import { NextRequest, NextResponse } from "next/server";
+import Arweave from "arweave";
+
+const arweave = Arweave.init({ host: "arweave.net", port: 443, protocol: "https" });
+
+export async function POST(req: NextRequest) {
+  const formData = await req.formData();
+  const file = formData.get("file") as File;
+  if (!file) return NextResponse.json({ error: "No file" }, { status: 400 });
+
+  const buffer = Buffer.from(await file.arrayBuffer());
+  const key = JSON.parse(
+    Buffer.from(process.env.ARWEAVE_KEY!, "base64").toString("utf-8")
+  );
+
+  const transaction = await arweave.createTransaction({ data: buffer }, key);
+  transaction.addTag("Content-Type", file.type);
+  await arweave.transactions.sign(transaction, key);
+
+  const uploader = await arweave.transactions.getUploader(transaction);
+  while (!uploader.isComplete) {
+    await uploader.uploadChunk();
+  }
+
+  return NextResponse.json({ uri: `ar://${transaction.id}` });
+}
+```
+
+The `ar://` URI is permanent and content-addressed. Use it in your metadata JSON.
+
+Reference: https://docs.inprocess.world/arweave/upload-to-arweave
+
+---
+
+### Step 8: Create (Mint) a Moment
+
+After uploading media and metadata to Arweave, call the create endpoint.
+
+**Metadata JSON structure** — upload this as JSON to Arweave first:
+```json
+{
+  "name": "Moment title",
+  "description": "Description of the work",
+  "image": "ar://IMAGE_TX_ID",
+  "content": {
+    "mime": "image/jpeg",
+    "uri": "ar://MEDIA_TX_ID"
+  }
+}
+```
+
+For video/audio, also set `"animation_url": "ar://MEDIA_TX_ID"`.
+
+**Next.js API proxy route** (`app/api/mint/route.ts`):
+```typescript
+import { NextRequest, NextResponse } from "next/server";
+
+const IN_PROCESS_API = "https://api.inprocess.world/api";
+
+export async function POST(req: NextRequest) {
+  const body = await req.json();
+  const res = await fetch(`${IN_PROCESS_API}/moment/create`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  const data = await res.json();
+  return NextResponse.json(data);
+}
+```
+
+**Request body sent from your client:**
+```json
+{
+  "contract": {
+    "address": "0xYOUR_COLLECTION_ADDRESS"
+  },
+  "token": {
+    "tokenMetadataURI": "ar://METADATA_TX_ID",
+    "createReferral": "0x749B7b7A6944d72266Be9500FC8C221B6A7554Ce",
+    "salesConfig": {
+      "type": "fixedPrice",
+      "pricePerToken": "1000000000000000",
+      "saleStart": "0",
+      "saleEnd": "18446744073709551615"
+    },
+    "mintToCreatorCount": 1
+  },
+  "account": "0xARTIST_WALLET_ADDRESS"
+}
+```
+
+- `pricePerToken` is in wei. `"1000000000000000"` = 0.001 ETH. Use `"0"` for free.
+- `saleEnd: "18446744073709551615"` means no expiry (max uint64).
+- `account` is the artist's wallet address — this determines who owns the token.
+- `createReferral` is optional but recommended; use `NEXT_PUBLIC_CREATE_REFERRAL` from your env.
+
+**Response:**
+```json
+{ "hash": "0x...", "chainId": 8453 }
+```
+
+Reference: https://docs.inprocess.world/api-reference/moment/create
+Reference (sales config): https://docs.inprocess.world/configuration/sales-config
+Reference (splits): https://docs.inprocess.world/configuration/splits
+
+---
+
+### Step 9: Display Artist Profile
+
+**GET `/api/profile?address=0x...`** — public, no auth required.
+
+```typescript
+const res = await fetch(
+  `https://api.inprocess.world/api/profile?address=${walletAddress}`
+);
+const profile = await res.json();
+// profile.username, profile.bio, profile.avatar_url
+// profile.twitter_username, profile.instagram_username, profile.farcaster_username
+```
+
+Reference: https://docs.inprocess.world/api-reference/artists
+
+---
+
+### Step 10: Revenue Splits (Optional)
+
+To split proceeds between multiple wallets, add a `splits` array to the moment create request. Minimum 2 recipients, percentages must sum to 100.
+
+```json
+{
+  "splits": [
+    { "address": "0xARTIST_ADDRESS", "percentAllocation": 80 },
+    { "address": "0xCOLLABORATOR_ADDRESS", "percentAllocation": 20 }
+  ]
+}
+```
+
+Reference: https://docs.inprocess.world/configuration/splits
+
+---
+
+### Minimal File Structure for a Custom Client
+
+```
+your-client/
+├── app/
+│   ├── page.tsx                  # Timeline / discover page
+│   ├── mint/page.tsx             # Mint form page
+│   ├── layout.tsx                # Root layout with providers
+│   └── api/
+│       ├── timeline/route.ts     # Proxy: GET /api/timeline
+│       ├── collect/route.ts      # Proxy: POST /api/moment/collect
+│       ├── mint/route.ts         # Proxy: POST /api/moment/create
+│       └── upload/route.ts       # Upload media to Arweave
+├── components/
+│   ├── MomentCard.tsx            # Displays a single moment
+│   ├── CollectButton.tsx         # Collect button with wallet check
+│   ├── MintForm.tsx              # 3-step upload + mint form
+│   └── Nav.tsx                   # Header with ConnectButton
+├── lib/
+│   ├── inprocess.ts              # Type definitions, helper functions
+│   └── wagmi.ts                  # Wagmi + RainbowKit config
+├── providers/
+│   └── WagmiProvider.tsx         # Provider stack
+└── .env.local                    # Environment variables
+```
+
+---
+
+### Key Concepts Summary
+
+| Concept | Detail |
+|---|---|
+| API base URL | `https://api.inprocess.world/api` |
+| Authentication | `x-api-key: art_sk_...` header (server-side only) |
+| Public endpoints | GET /timeline, GET /moment, GET /collections, GET /profile |
+| Protected endpoints | POST /moment/collect, POST /moment/airdrop, POST /moment/hide |
+| Create moment | POST /moment/create — no API key, but `account` (artist address) required |
+| Blockchain | Base mainnet (chain ID: 8453) |
+| Media storage | Arweave — returns permanent `ar://TX_ID` URIs |
+| Metadata format | JSON with `name`, `description`, `image`, `content.mime`, `content.uri` |
+| Collection | ERC-1155 contract — create once, mint many moments to it |
+| Price unit | wei (1 ETH = 1e18 wei). Use `"0"` for free mints |
+
+---
+
+### Common Mistakes to Avoid
+
+1. **Never expose `INPROCESS_API_KEY` in client-side code.** Always proxy through `/app/api/` routes.
+2. **Upload media to Arweave before calling create.** The `tokenMetadataURI` must be an `ar://` URI pointing to already-uploaded metadata JSON.
+3. **The `account` field in `/moment/create` must match an admin of the collection.** If you get a permission error, verify the wallet is an admin.
+4. **`pricePerToken` is a string, not a number.** The API uses BigInt-as-string to avoid JavaScript precision loss.
+5. **`chainId` is always `8453` for Base mainnet.** Use `84532` only for Base Sepolia testnet during development.
