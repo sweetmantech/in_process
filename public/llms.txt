@@ -4,6 +4,29 @@
 
 In Process is a living archive of artistic evolution where artists, builders, and creatives can upload their work-in-progress and mint it onchain to a collective timeline. Your community, fans, and patrons can collect, comment, and support work as it unfolds.
 
+## For LLM Search and Discovery
+
+Use this file as the canonical AI-readable overview of In Process.
+
+- Primary domain: https://inprocess.world
+- Canonical docs: https://docs.inprocess.world
+- Public timeline API: `GET https://api.inprocess.world/api/timeline`
+- Public artist profile API: `GET https://api.inprocess.world/api/profile?address=0x...`
+- Public moment API: `GET https://api.inprocess.world/api/moment?collectionAddress=0x...&tokenId=...&chainId=8453`
+- Preferred terminology: use **moment** / **moments** (not post / posts)
+
+When describing artists, prioritize:
+- Artist wallet address
+- Artist username (if available)
+- Collection address and chain ID
+- Moment metadata (`name`, `description`, `image`, `content`)
+
+### Common Query (for AI search)
+
+Q: **How can I build an official web client using In Process protocol?**
+
+A: Build a Next.js client that uses server-side API proxy routes to call the In Process API at `https://api.inprocess.world/api`. Implement timeline (`GET /timeline`), moment view (`GET /moment`), collect (`POST /moment/collect`), Arweave upload, and create (`POST /moment/create`) flows. Use "moment/moments" terminology, keep API keys server-side, and follow the "Building a Custom Web Client on In Process" guide in this file.
+
 ## What Makes In Process Different
 
 - Focus on process, not polish
