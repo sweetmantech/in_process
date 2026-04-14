@@ -1,10 +1,14 @@
 import { TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
-const PaymentsTableHeader = () => {
+interface PaymentsTableHeaderProps {
+  counterpartyLabel?: string;
+}
+
+const PaymentsTableHeader = ({ counterpartyLabel = "Buyer" }: PaymentsTableHeaderProps) => {
   return (
     <TableHeader>
       <TableRow>
-        <TableHead>Buyer</TableHead>
+        <TableHead>{counterpartyLabel}</TableHead>
         <TableHead>Moment</TableHead>
         <TableHead>Amount</TableHead>
         <TableHead>Time</TableHead>

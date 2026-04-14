@@ -1,19 +1,23 @@
+"use client";
+
 import { TableCell, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import type { Payment, PaymentWithType } from "@/types/payments";
+import type { PaymentTransferRow } from "@/types/payments";
 import MomentCell from "@/components/NotificationsPage/MomentCell";
 import NotificationDateCell from "@/components/NotificationsPage/NotificationDateCell";
 import BuyerCell from "./BuyerCell";
-import usePaymentAmount from "@/hooks/usePaymentAmount";
-import { usePaymentType } from "@/hooks/usePaymentType";
+import { getPaymentAmount } from "@/lib/payments/getPaymentAmount";
+import { usePaymentsProvider } from "@/providers/PaymentsProvider";
+import { useUserProvider } from "@/providers/UserProvider";
 
 interface PaymentRowProps {
-  payment: Payment | PaymentWithType;
+  payment: PaymentTransferRow;
 }
 
 const PaymentRow = ({ payment }: PaymentRowProps) => {
-  const { isExpense } = usePaymentType(payment);
-  const amount = usePaymentAmount(payment);
+  const { isExpense, paymentsTab } = usePaymentsProvider();
+  const { artistWallet } = useUserProvider();
+  const amount = getPaymentAmount(payment, artistWallet, paymentsTab);
   return (
     <TableRow className="border border-transparent hover:border-b-grey-moss-200">
       <BuyerCell payment={payment} />

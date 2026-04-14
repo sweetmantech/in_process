@@ -13,7 +13,7 @@ export interface AirdropTransfer {
   value: string | null;
   currency: string | null;
   transaction_hash?: string;
-  recipient: {
+  collector: {
     address: string;
     username: string | null;
   };
@@ -23,7 +23,7 @@ export interface AirdropTransfer {
       address: string;
       chain_id: number;
       protocol: Protocol;
-      spender?: {
+      artist?: {
         address: string;
         username: string | null;
       };
