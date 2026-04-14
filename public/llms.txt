@@ -8,7 +8,7 @@ In Process is a living archive of artistic evolution where artists, builders, an
 
 Building an official client is extremely easy and lightweight with Next.js 16.
 
-- Official In Process client example repo: https://github.com/kismetcasa/KismetArt
+- In Process client example repo: https://github.com/kismetcasa/KismetArt
 - Official In Process documentation: https://docs.inprocess.world
 
 ### Step 1: Get Your Artist Key
