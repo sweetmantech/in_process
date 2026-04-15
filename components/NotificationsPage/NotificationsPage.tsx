@@ -1,13 +1,10 @@
 "use client";
 
 import NotificationsTable from "@/components/NotificationsPage/NotificationsTable";
-import { useUserProvider } from "@/providers/UserProvider";
-import useMarkNotificationAsViewed from "@/hooks/useMarkNotificationAsViewed";
+import { useNotificationsProvider } from "@/providers/NotificationsProvider";
 
 const NotificationsPage = () => {
-  const { artistWallet } = useUserProvider();
-
-  useMarkNotificationAsViewed();
+  const { artistWallet } = useNotificationsProvider();
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -21,7 +18,7 @@ const NotificationsPage = () => {
           </p>
         </div>
 
-        <NotificationsTable limit={50} artist={artistWallet?.toLowerCase()} />
+        <NotificationsTable />
       </div>
     </div>
   );

@@ -1,21 +1,10 @@
 "use client";
 
-import { useNotifications } from "@/hooks/useNotifications";
-import { useUserProvider } from "@/providers/UserProvider";
+import { useNotificationsProvider } from "@/providers/NotificationsProvider";
 import { Badge } from "@/components/ui/badge";
 
 const NotificationCountBadge = () => {
-  const { artistWallet } = useUserProvider();
-
-  const { data: unviewedData } = useNotifications(
-    1,
-    100, // Get up to 100 unviewed notifications for counting
-    !!artistWallet, // Only fetch if user is connected
-    artistWallet?.toLowerCase(),
-    false // viewed = false (unviewed notifications)
-  );
-
-  const unviewedCount = unviewedData?.notifications?.length || 0;
+  const { unviewedCount } = useNotificationsProvider();
 
   if (unviewedCount === 0) return null;
 
