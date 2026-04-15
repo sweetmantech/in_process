@@ -3,7 +3,6 @@ import { useState } from "react";
 import { Address, isAddress } from "viem";
 import { toast } from "sonner";
 import { useSmartWalletProvider } from "@/providers/SmartWalletProvider";
-import { usePrivy } from "@privy-io/react-auth";
 import { executeAirdrop } from "@/lib/moment/executeAirdrop";
 import { useMomentProvider } from "@/providers/MomentProvider";
 import { AirdropItem } from "@/types/airdrop";
@@ -13,10 +12,9 @@ import resolveAddressForAirdrop from "@/lib/ens/resolveAddressForAirdrop";
 const useAirdrop = () => {
   const { moment } = useMomentProvider();
   const [airdropToItems, setAirdropToItems] = useState<AirdropItem[]>([]);
-  const { artistWallet, isPrepared } = useUserProvider();
+  const { artistWallet, isPrepared, getAuthHeaders } = useUserProvider();
   const { smartWallet } = useSmartWalletProvider();
   const [loading, setLoading] = useState<boolean>(false);
-  const { getAccessToken } = usePrivy();
 
   const onChangeAddress = async (value: string) => {
     if (!value) return;
@@ -92,15 +90,14 @@ const useAirdrop = () => {
         return;
       }
 
-      const accessToken = await getAccessToken();
-      if (!accessToken) throw Error("No access token found");
+      const headers = await getAuthHeaders();
 
       const hash = await executeAirdrop({
         airdropToItems: validItems,
         moment,
         smartWallet: smartWallet as Address,
         artistWallet: artistWallet as Address,
-        accessToken,
+        headers,
       });
 
       // Clear airdrop items after successful airdrop

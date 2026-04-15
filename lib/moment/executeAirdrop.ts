@@ -2,6 +2,7 @@ import { Address } from "viem";
 import getPermission from "@/lib/zora/getPermission";
 import { PERMISSION_BIT_ADMIN, IN_PROCESS_API } from "@/lib/consts";
 import { Moment } from "@/types/moment";
+import buildHeaders from "@/lib/http/buildHeaders";
 
 export interface AirdropRecipient {
   recipientAddress: string;
@@ -13,7 +14,7 @@ export interface ExecuteAirdropParams {
   moment: Moment;
   smartWallet: Address;
   artistWallet: Address;
-  accessToken: string;
+  headers: HeadersInit;
 }
 
 export const executeAirdrop = async ({
@@ -21,7 +22,7 @@ export const executeAirdrop = async ({
   moment,
   smartWallet,
   artistWallet,
-  accessToken,
+  headers,
 }: ExecuteAirdropParams) => {
   // Create recipients array from airdropToItems
   const recipients = Array.from({ length: airdropToItems.length }).map((_, i) => ({
@@ -49,10 +50,7 @@ export const executeAirdrop = async ({
       recipients,
       moment,
     }),
-    headers: {
-      "content-type": "application/json",
-      Authorization: `Bearer ${accessToken}`,
-    },
+    headers: buildHeaders(headers),
   });
 
   if (!response.ok) throw new Error();
