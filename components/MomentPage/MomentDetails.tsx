@@ -11,11 +11,12 @@ import DetailButtons from "./DetailButtons";
 import MomentAirdrop from "../MomentAirdrop/MomentAirdrop";
 import Collectors from "./Collectors";
 import ContentRenderer from "../Renderers";
+import { useUserProvider } from "@/providers/UserProvider";
 
 const MomentDetails = () => {
   const { metadata, fetchMomentData } = useMomentProvider();
   const isMobile = useIsMobile();
-
+  const { isFarcasterMiniApp } = useUserProvider();
   if (!metadata) return null;
 
   return (
@@ -43,7 +44,7 @@ const MomentDetails = () => {
       <div className="md:!min-w-[420px]">
         <CollectModal />
         {isMobile && <Comments />}
-        {/* <MomentAirdrop /> */}
+        {!isFarcasterMiniApp && <MomentAirdrop />}
         <Collectors />
       </div>
     </>
