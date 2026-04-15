@@ -43,7 +43,7 @@ const MomentDetails = () => {
       <div className="md:!min-w-[420px]">
         <CollectModal />
         {isMobile && <Comments />}
-        <MomentAirdrop />
+        {/* <MomentAirdrop /> */}
         <Collectors />
       </div>
     </>
