@@ -5,7 +5,7 @@ import { useMomentCollectProvider } from "@/providers/MomentCollectProvider";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-const Buttons = () => {
+const CollectedButtons = () => {
   const { setCollected } = useMomentCollectProvider();
   const { push } = useRouter();
   const { privyWallet } = useConnectedWallet();
@@ -54,4 +54,4 @@ const Buttons = () => {
   );
 };
 
-export default Buttons;
+export default CollectedButtons;

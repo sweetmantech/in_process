@@ -16,7 +16,7 @@ import Description from "../MomentPage/Description";
 import ShareButton from "../MomentPage/ShareButton";
 
 const SMSMoment = () => {
-  const { metadata, isOwner, isSoldOut, isLoading } = useMomentProvider();
+  const { metadata, isOwner, isLoading } = useMomentProvider();
   const { fileInputRef, blobUrls, previewFileUrl } = useMetadataFormProvider();
   const { selectFile } = useMetadataUploadProvider();
   const { isLoading: isUpdating } = useMomentUriUpdateProvider();
@@ -77,7 +77,7 @@ const SMSMoment = () => {
           disabled={!isOwner || isUpdating}
         />
       </div>
-      {isOwner && !isSoldOut && <MomentAirdrop />}
+      <MomentAirdrop />
       <Notes />
     </div>
   );
