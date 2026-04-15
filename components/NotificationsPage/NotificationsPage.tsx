@@ -1,10 +1,10 @@
 "use client";
 
 import NotificationsTable from "@/components/NotificationsPage/NotificationsTable";
-import { useNotificationsProvider } from "@/providers/NotificationsProvider";
+import { useUserProvider } from "@/providers/UserProvider";
 
 const NotificationsPage = () => {
-  const { artistWallet } = useNotificationsProvider();
+  const { artistWallet } = useUserProvider();
 
   return (
     <div className="container mx-auto px-4 py-8">

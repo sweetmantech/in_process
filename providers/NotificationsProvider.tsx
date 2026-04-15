@@ -2,33 +2,28 @@
 
 import { createContext, useContext, useMemo } from "react";
 import { useNotifications } from "@/hooks/useNotifications";
-import { useUserProvider } from "@/providers/UserProvider";
 import useMarkNotificationAsViewed from "@/hooks/useMarkNotificationAsViewed";
 
 interface NotificationsContextValue {
   notifications: ReturnType<typeof useNotifications>;
   unviewedCount: number;
-  artistWallet: string | undefined;
 }
 
 const NotificationsContext = createContext<NotificationsContextValue | null>(null);
 
 export const NotificationsProvider = ({ children }: { children: React.ReactNode }) => {
-  const { artistWallet } = useUserProvider();
-
-  const notifications = useNotifications(1, 100, artistWallet, false);
+  const notifications = useNotifications(1, 100, false);
   const unviewedCount = notifications.data?.pagination?.total_count || 0;
 
-  useMarkNotificationAsViewed(artistWallet);
+  useMarkNotificationAsViewed();
 
   const value = useMemo(
     () => ({
       notifications,
       unviewedCount,
-      artistWallet,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [notifications.data, unviewedCount, artistWallet]
+    [notifications.data, unviewedCount]
   );
 
   return <NotificationsContext.Provider value={value}>{children}</NotificationsContext.Provider>;

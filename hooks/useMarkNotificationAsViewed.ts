@@ -1,7 +1,10 @@
 import { useEffect } from "react";
 import { markNotificationsAsViewed } from "@/lib/notifications/markNotificationsAsViewed";
+import { useUserProvider } from "@/providers/UserProvider";
 
-const useMarkNotificationAsViewed = (artistWallet?: string) => {
+const useMarkNotificationAsViewed = () => {
+  const { artistWallet } = useUserProvider();
+
   useEffect(() => {
     if (!artistWallet) return;
     const timer = setTimeout(() => {
