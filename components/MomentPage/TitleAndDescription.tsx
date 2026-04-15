@@ -1,6 +1,7 @@
 import { Fragment } from "react";
 import { useMomentProvider } from "@/providers/MomentProvider";
 import Description from "./Description";
+import Title from "./Title";
 
 const TitleAndDescription = () => {
   const { metadata } = useMomentProvider();
@@ -9,10 +10,8 @@ const TitleAndDescription = () => {
 
   return (
     <>
-      <h3 className="font-spectral text-3xl md:text-4xl">
-        {metadata.name.length > 100 ? `${metadata.name.slice(0, 100)}...` : metadata.name}
-      </h3>
-      <Description description={metadata.description || ""} />
+      <Title />
+      <Description />
     </>
   );
 };
