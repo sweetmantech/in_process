@@ -9,7 +9,7 @@ import { useSmartWalletProvider } from "@/providers/SmartWalletProvider";
 import useCollectionParam from "./useCollectionParam";
 
 const useMomentCreateParameters = () => {
-  const { artistWallet, isExternalWallet } = useUserProvider();
+  const { artistWallet, isExternalWallet, isFarcasterMiniApp } = useUserProvider();
   const { smartWallet } = useSmartWalletProvider();
   const { form, priceUnit, price, startDate, name } = useMetadataFormProvider();
   const { generateMetadataUri } = useMetadataUploadProvider();
@@ -47,7 +47,7 @@ const useMomentCreateParameters = () => {
         createReferral: REFERRAL_RECIPIENT,
         salesConfig,
         mintToCreatorCount: 1,
-        payoutRecipient: isExternalWallet ? artistWallet : smartWallet,
+        payoutRecipient: isFarcasterMiniApp || isExternalWallet ? artistWallet : smartWallet,
         ...(totalSupply !== undefined && { maxSupply: totalSupply }),
       },
       account: artistWallet as Address,

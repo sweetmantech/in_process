@@ -3,7 +3,7 @@ import { Currency } from "@/types/balances";
 import { IN_PROCESS_API } from "@/lib/consts";
 
 export interface WithdrawApiParams {
-  accessToken: string;
+  headers: HeadersInit;
   amount: string;
   currency: Currency;
   to: Address;
@@ -16,7 +16,7 @@ export interface WithdrawApiResult {
 }
 
 export async function withdrawApi({
-  accessToken,
+  headers,
   amount,
   currency,
   to,
@@ -26,7 +26,7 @@ export async function withdrawApi({
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${accessToken}`,
+      ...headers,
     },
     body: JSON.stringify({
       amount,

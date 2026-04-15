@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useUserProvider } from "@/providers/UserProvider";
 import { toast } from "sonner";
-import { usePrivy } from "@privy-io/react-auth";
 import { CHAIN_ID } from "@/lib/consts";
 import { withdrawApi } from "@/lib/smartwallets/withdrawApi";
 import { useSocialSmartWalletsBalancesProvider } from "@/providers/SocialSmartWalletsBalancesProvider";
@@ -11,10 +10,9 @@ export const useWithdraw = () => {
   const [withdrawAmount, setWithdrawAmount] = useState<string>("");
   const [currency, setCurrency] = useState<Currency>("usdc");
   const [recipientAddress, setRecipientAddress] = useState<string>("");
-  const { isExternalWallet, artistWallet } = useUserProvider();
+  const { isExternalWallet, artistWallet, getAuthHeaders } = useUserProvider();
   const [isOpen, setIsOpen] = useState(false);
   const [isWithdrawing, setIsWithdrawing] = useState<boolean>(false);
-  const { getAccessToken } = usePrivy();
   const { refetch, totalEthBalance, totalUsdcBalance } = useSocialSmartWalletsBalancesProvider();
 
   useEffect(() => {
@@ -53,11 +51,10 @@ export const useWithdraw = () => {
 
     setIsWithdrawing(true);
     try {
-      const accessToken = await getAccessToken();
-      if (!accessToken) throw new Error("No access token found");
+      const headers = await getAuthHeaders();
 
       await withdrawApi({
-        accessToken,
+        headers,
         amount: withdrawAmount,
         currency,
         to: recipientAddress as `0x${string}`,
