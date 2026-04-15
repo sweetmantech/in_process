@@ -59,11 +59,7 @@ const SMSMoment = () => {
         )}
       </div>
 
-      {isOwner ? (
-        <DescriptionInput disabled={!canEdit} labelHidden />
-      ) : (
-        <Description description={metadata.description || ""} />
-      )}
+      {isOwner ? <DescriptionInput disabled={!canEdit} labelHidden /> : <Description />}
 
       <div className="flex items-center gap-2 pt-4 pb-2">
         <ShareButton />
