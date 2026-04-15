@@ -1,14 +1,11 @@
 import { useEffect, useRef, useState } from "react";
-import useConnectedWallet from "./useConnectedWallet";
 
 const useLayout = () => {
   const menuRef = useRef(null) as any;
-  const { privyWallet } = useConnectedWallet();
   const [isOpenNavbar, setIsOpenNavbar] = useState<boolean>(false);
   const [isExpandedSearchInput, setIsExpandedSearchInput] = useState<boolean>(false);
 
   const toggleNavbar = () => {
-    if (!privyWallet?.address) return;
     setIsOpenNavbar(!isOpenNavbar);
   };
 
