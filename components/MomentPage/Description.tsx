@@ -1,11 +1,8 @@
 import { useState } from "react";
 import { useMomentProvider } from "@/providers/MomentProvider";
 
-interface DescriptionProps {
-  truncateLength?: number;
-}
-
-const Description = ({ truncateLength = 150 }: DescriptionProps) => {
+const Description = () => {
+  const truncateLength = 150;
   const { metadata } = useMomentProvider();
   const description = metadata?.description || "";
   const [isExpanded, setIsExpanded] = useState(false);
