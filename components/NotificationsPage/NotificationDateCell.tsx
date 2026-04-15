@@ -1,8 +1,12 @@
 import { TableCell } from "@/components/ui/table";
-import type { NotificationPayment, PaymentTransferRow } from "@/types/payments";
+
+interface DateCellData {
+  transferred_at: string;
+  transaction_hash: string;
+}
 
 interface NotificationDateCellProps {
-  payment: NotificationPayment | PaymentTransferRow;
+  payment: DateCellData;
   className?: string;
 }
 

@@ -1,12 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { fetchNotifications, InProcessNotification } from "@/lib/notifications/fetchNotifications";
-
-export type Notification = InProcessNotification;
+import { getNotifications } from "@/lib/notifications/getNotifications";
+import { InProcessNotification } from "@/types/notification";
 
 export interface NotificationsResponse {
   status: "success" | "error";
-  notifications: Notification[];
+  notifications: InProcessNotification[];
   message?: string;
 }
 
@@ -22,7 +21,7 @@ export function useNotifications(
   const query = useQuery({
     queryKey: ["notifications", currentPage, limit, artist, viewed],
     queryFn: async () => {
-      return fetchNotifications(currentPage, limit, artist, viewed);
+      return getNotifications(currentPage, limit, artist, viewed);
     },
     enabled,
     staleTime: 1000 * 60 * 5, // 5 minutes
