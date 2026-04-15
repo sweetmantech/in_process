@@ -18,8 +18,16 @@ export type InProcessNotification = {
   artist: { username: string | null };
 };
 
+export interface NotificationsPagination {
+  page: number;
+  limit: number;
+  total_count: number;
+  total_pages: number;
+}
+
 export interface NotificationsResponse {
   status: "success" | "error";
   notifications: InProcessNotification[];
+  pagination: NotificationsPagination;
   message?: string;
 }

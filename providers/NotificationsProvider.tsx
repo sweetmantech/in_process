@@ -16,8 +16,8 @@ const NotificationsContext = createContext<NotificationsContextValue | null>(nul
 export const NotificationsProvider = ({ children }: { children: React.ReactNode }) => {
   const { artistWallet } = useUserProvider();
 
-  const notifications = useNotifications(1, 100, true, artistWallet, undefined);
-  const unviewedCount = notifications.data?.notifications?.filter((n) => !n.viewed).length || 0;
+  const notifications = useNotifications(1, 100, artistWallet, false);
+  const unviewedCount = notifications.data?.pagination?.total_count || 0;
 
   useMarkNotificationAsViewed(artistWallet);
 
@@ -27,7 +27,8 @@ export const NotificationsProvider = ({ children }: { children: React.ReactNode 
       unviewedCount,
       artistWallet,
     }),
-    [notifications, unviewedCount, artistWallet]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [notifications.data, unviewedCount, artistWallet]
   );
 
   return <NotificationsContext.Provider value={value}>{children}</NotificationsContext.Provider>;
