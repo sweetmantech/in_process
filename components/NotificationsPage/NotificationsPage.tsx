@@ -2,9 +2,11 @@
 
 import NotificationsTable from "@/components/NotificationsPage/NotificationsTable";
 import { useUserProvider } from "@/providers/UserProvider";
+import useMarkNotificationAsViewed from "@/hooks/useMarkNotificationAsViewed";
 
 const NotificationsPage = () => {
   const { artistWallet } = useUserProvider();
+  useMarkNotificationAsViewed();
 
   return (
     <div className="container mx-auto px-4 py-8">

@@ -2,7 +2,6 @@
 
 import { createContext, useContext, useMemo } from "react";
 import { useNotifications } from "@/hooks/useNotifications";
-import useMarkNotificationAsViewed from "@/hooks/useMarkNotificationAsViewed";
 
 interface NotificationsContextValue {
   notifications: ReturnType<typeof useNotifications>;
@@ -14,8 +13,6 @@ const NotificationsContext = createContext<NotificationsContextValue | null>(nul
 export const NotificationsProvider = ({ children }: { children: React.ReactNode }) => {
   const notifications = useNotifications(1, 100, false);
   const unviewedCount = notifications.data?.pagination?.total_count || 0;
-
-  useMarkNotificationAsViewed();
 
   const value = useMemo(
     () => ({
