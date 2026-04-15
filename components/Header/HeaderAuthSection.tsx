@@ -6,20 +6,20 @@ import { useLayoutProvider } from "@/providers/LayoutProvider";
 import CreateCTAButton from "./CreateCTAButton";
 import useIsMobile from "@/hooks/useIsMobile";
 import NotificationButton from "./NotificationButton";
-import useConnectedWallet from "@/hooks/useConnectedWallet";
+import { useUserProvider } from "@/providers/UserProvider";
 
 const HeaderAuthSection = () => {
-  const { privyWallet } = useConnectedWallet();
+  const { artistWallet } = useUserProvider();
   const { isOpenNavbar, toggleNavbar, isExpandedSearchInput } = useLayoutProvider();
   const isMobile = useIsMobile();
 
   return (
     <>
-      {privyWallet?.address && <NotificationButton />}
+      {artistWallet && <NotificationButton />}
       {!isMobile && <CreateCTAButton />}
       <div className="flex items-center gap-1 md:relative md:gap-2">
         {!isExpandedSearchInput && <LoginButton />}
-        {privyWallet?.address && (
+        {artistWallet && (
           <button
             onClick={toggleNavbar}
             type="button"
@@ -32,7 +32,7 @@ const HeaderAuthSection = () => {
             <div className="size-2 rounded-full bg-grey-moss-100" />
           </button>
         )}
-        {isOpenNavbar && privyWallet?.address && <DropdownMenu />}
+        {isOpenNavbar && artistWallet && <DropdownMenu />}
       </div>
     </>
   );
