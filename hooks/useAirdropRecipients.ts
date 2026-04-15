@@ -16,17 +16,20 @@ const useAirdropRecipients = () => {
   });
 
   const recipients = useMemo(() => {
-    if (!query.data) return [];
+    const transfers = query.data?.transfers;
+    if (!Array.isArray(transfers)) return [];
 
     // Get unique recipients by address
     const uniqueRecipients = new Map<string, AirdropRecipient>();
 
-    query.data.transfers.forEach((airdrop) => {
-      const address = airdrop.collector.address.toLowerCase();
+    transfers.forEach((airdrop) => {
+      const rawAddress = airdrop?.collector?.address;
+      if (typeof rawAddress !== "string" || rawAddress.length === 0) return;
+      const address = rawAddress.toLowerCase();
       if (!uniqueRecipients.has(address)) {
         uniqueRecipients.set(address, {
-          address: airdrop.collector.address,
-          username: airdrop.collector.username || null,
+          address: rawAddress,
+          username: airdrop?.collector?.username || null,
         });
       }
     });

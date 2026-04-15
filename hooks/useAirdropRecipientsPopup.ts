@@ -7,9 +7,13 @@ const useAirdropRecipientsPopup = () => {
 
   const handleRecipientClick = useCallback(
     (address: string) => {
+      if (!address) return;
       // Check if recipient is already in airdropToItems
       const existingIndex = airdropToItems.findIndex(
-        (item) => item.address.toLowerCase() === address.toLowerCase()
+        (item) =>
+          typeof item.address === "string" &&
+          item.address.length > 0 &&
+          item.address.toLowerCase() === address.toLowerCase()
       );
 
       if (existingIndex !== -1) {
@@ -25,7 +29,13 @@ const useAirdropRecipientsPopup = () => {
 
   const isRecipientActive = useCallback(
     (address: string): boolean => {
-      return airdropToItems.some((item) => item.address.toLowerCase() === address.toLowerCase());
+      if (!address) return false;
+      return airdropToItems.some(
+        (item) =>
+          typeof item.address === "string" &&
+          item.address.length > 0 &&
+          item.address.toLowerCase() === address.toLowerCase()
+      );
     },
     [airdropToItems]
   );

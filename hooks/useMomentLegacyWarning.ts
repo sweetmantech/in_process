@@ -4,9 +4,10 @@ import { useSmartWalletProvider } from "@/providers/SmartWalletProvider";
 const useMomentLegacyWarning = () => {
   const { smartWallet } = useSmartWalletProvider();
   const { momentAdmins, isOwner } = useMomentProvider();
+  const hasMomentAdmins = Array.isArray(momentAdmins);
 
   const hasWarning =
-    smartWallet && momentAdmins && !momentAdmins.includes(smartWallet.toLowerCase()) && isOwner;
+    smartWallet && hasMomentAdmins && !momentAdmins.includes(smartWallet.toLowerCase()) && isOwner;
 
   return hasWarning;
 };
