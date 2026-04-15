@@ -2,14 +2,14 @@ import { Moment } from "@/types/moment";
 import { IN_PROCESS_API } from "@/lib/consts";
 
 export const toggleMoment = async (
-  accessToken: string,
+  authHeaders: HeadersInit,
   moment: Moment
 ): Promise<{ success: boolean }> => {
   const response = await fetch(`${IN_PROCESS_API}/moment/hide`, {
     method: "POST",
     headers: {
       "content-type": "application/json",
-      authorization: `Bearer ${accessToken}`,
+      ...authHeaders,
     },
     body: JSON.stringify({ moment }),
   });

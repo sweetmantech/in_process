@@ -2,10 +2,10 @@ import { useState, useEffect } from "react";
 import { Moment, type TimelineMoment } from "@/types/moment";
 import { toggleMoment } from "@/lib/timeline/toggleMoment";
 import { toast } from "sonner";
-import { usePrivy } from "@privy-io/react-auth";
 import { Address } from "viem";
 import { useQueryClient } from "@tanstack/react-query";
 import { useMomentAdminHidden } from "./useMomentAdminHidden";
+import useAuthHeaders from "./useAuthHeaders";
 
 /**
  * Hook for toggling moment visibility state
@@ -14,7 +14,7 @@ import { useMomentAdminHidden } from "./useMomentAdminHidden";
 export const useToggleMoment = (moment: TimelineMoment) => {
   const hidden = useMomentAdminHidden(moment);
   const [isHidden, setIsHidden] = useState(false);
-  const { getAccessToken } = usePrivy();
+  const getAuthHeaders = useAuthHeaders();
   const queryClient = useQueryClient();
 
   // Sync local state when hidden value changes
@@ -24,12 +24,8 @@ export const useToggleMoment = (moment: TimelineMoment) => {
 
   const toggle = async (): Promise<void> => {
     try {
-      const accessToken = await getAccessToken();
-      if (!accessToken) {
-        toast("No access token found");
-        return;
-      }
-      const response = await toggleMoment(accessToken, {
+      const authHeaders = await getAuthHeaders();
+      const response = await toggleMoment(authHeaders, {
         collectionAddress: moment.address as Address,
         tokenId: moment.token_id,
         chainId: moment.chain_id,
