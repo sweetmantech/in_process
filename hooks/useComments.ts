@@ -8,7 +8,7 @@ import { useMomentProvider } from "@/providers/MomentProvider";
 const COMMENTS_PER_PAGE = 20;
 
 export function useComments() {
-  const { moment } = useMomentProvider();
+  const { moment, protocol } = useMomentProvider();
   const queryClient = useQueryClient();
   const { collectionAddress, tokenId, chainId } = moment;
 
@@ -19,7 +19,7 @@ export function useComments() {
         moment,
         offset: pageParam as number,
       }),
-    enabled: Boolean(collectionAddress && tokenId && chainId),
+    enabled: Boolean(collectionAddress && tokenId && chainId && protocol === "in_process"),
     staleTime: 1000 * 60 * 5, // 5 minutes
     retry: (failureCount) => failureCount < 3,
     getNextPageParam: (lastPage, allPages) => {

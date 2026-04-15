@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useUserProvider } from "@/providers/UserProvider";
 import { getMomentApi } from "@/lib/moment/getMomentApi";
-import { Moment, MomentSaleConfig } from "@/types/moment";
+import { Moment, MomentSaleConfig, Protocol } from "@/types/moment";
 import useIsSoldOut from "./useIsSoldOut";
 
 const useMomentData = (moment: Moment) => {
@@ -56,7 +56,7 @@ const useMomentData = (moment: Moment) => {
     owner,
     isOwner,
     isSaleActive,
-    isSoldOut: isSoldOut || saleEndMs < Date.now(),
+    isSoldOut: isSoldOut || saleEndMs < Date.now() || protocol !== Protocol.InProcess,
   };
 };
 

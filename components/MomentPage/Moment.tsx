@@ -17,7 +17,7 @@ const Moment = () => {
   const { metadata, isOwner, isSoldOut, protocol, fetchMomentData } = useMomentProvider();
   const { collected } = useMomentCollectProvider();
   const isMobile = useIsMobile();
-  const isCatalog = protocol === Protocol.Catalog;
+  const isInProcess = protocol === Protocol.InProcess;
 
   return (
     <div className="w-full">
@@ -29,7 +29,7 @@ const Moment = () => {
               {collected ? (
                 <MomentCollected />
               ) : (
-                <MetaAndComments commentsHidden={isMobile || isCatalog} />
+                <MetaAndComments commentsHidden={isMobile || !isInProcess} />
               )}
               <div className="flex w-full grow justify-center">
                 <div className="relative aspect-[576/700] h-fit w-full overflow-hidden font-spectral">
@@ -45,11 +45,11 @@ const Moment = () => {
             </div>
             <div className="md:!min-w-[420px]">
               {collected ? (
-                <MetaAndComments priceHidden commentsHidden={isCatalog} />
+                <MetaAndComments priceHidden commentsHidden={!isInProcess} />
               ) : (
                 <CollectModal />
               )}
-              {!collected && isMobile && !isCatalog && <CommentSection />}
+              {!collected && isMobile && isInProcess && <CommentSection />}
               {!collected && isOwner && !isSoldOut && <MomentAirdrop />}
               <Collectors />
             </div>
