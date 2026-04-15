@@ -1,9 +1,9 @@
 "use client";
 
-import { createContext, useContext, useEffect, useMemo } from "react";
+import { createContext, useContext, useMemo } from "react";
 import { useNotifications } from "@/hooks/useNotifications";
 import { useUserProvider } from "@/providers/UserProvider";
-import { markNotificationsAsViewed } from "@/lib/notifications/markNotificationsAsViewed";
+import useMarkNotificationAsViewed from "@/hooks/useMarkNotificationAsViewed";
 
 interface NotificationsContextValue {
   notifications: ReturnType<typeof useNotifications>;
@@ -19,15 +19,7 @@ export const NotificationsProvider = ({ children }: { children: React.ReactNode 
   const notifications = useNotifications(1, 100, true, artistWallet, undefined);
   const unviewedCount = notifications.data?.notifications?.filter((n) => !n.viewed).length || 0;
 
-  useEffect(() => {
-    if (!artistWallet) return;
-    const timer = setTimeout(() => {
-      markNotificationsAsViewed(artistWallet).catch((error) => {
-        console.error("Failed to mark notifications as viewed:", error);
-      });
-    }, 10000);
-    return () => clearTimeout(timer);
-  }, [artistWallet]);
+  useMarkNotificationAsViewed(artistWallet);
 
   const value = useMemo(
     () => ({
