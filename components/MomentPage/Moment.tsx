@@ -1,60 +1,20 @@
 "use client";
 
 import { useMomentProvider } from "@/providers/MomentProvider";
-import CollectModal from "./CollectModal";
-import MetaAndComments from "./MetaAndComments";
-import MomentCollected from "./MomentCollected";
-import useIsMobile from "@/hooks/useIsMobile";
-import CommentSection from "./CommentSection";
 import BackToTimeline from "./BackToTimeline";
-import MomentAirdrop from "../MomentAirdrop/MomentAirdrop";
-import Collectors from "./Collectors";
 import { useMomentCollectProvider } from "@/providers/MomentCollectProvider";
-import ContentRenderer from "../Renderers";
-import { Protocol } from "@/types/moment";
+import MomentCollected from "@/components/MomentPage/MomentCollected";
+import MomentDetails from "./MomentDetails";
 
 const Moment = () => {
-  const { metadata, isOwner, isSoldOut, protocol, fetchMomentData } = useMomentProvider();
+  const { metadata } = useMomentProvider();
   const { collected } = useMomentCollectProvider();
-  const isMobile = useIsMobile();
-  const isInProcess = protocol === Protocol.InProcess;
 
   return (
     <div className="w-full">
       <BackToTimeline />
       <div className="relative flex flex-col gap-10 px-3 pb-20 md:flex-row md:px-10">
-        {metadata && (
-          <>
-            <div className="flex grow flex-col gap-4 md:flex-row md:gap-10">
-              {collected ? (
-                <MomentCollected />
-              ) : (
-                <MetaAndComments commentsHidden={isMobile || !isInProcess} />
-              )}
-              <div className="flex w-full grow justify-center">
-                <div className="relative aspect-[576/700] h-fit w-full overflow-hidden font-spectral">
-                  <ContentRenderer
-                    metadata={metadata}
-                    onRefresh={async () => {
-                      const result = await fetchMomentData();
-                      return result.data?.metadata?.animation_url;
-                    }}
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="md:!min-w-[420px]">
-              {collected ? (
-                <MetaAndComments priceHidden commentsHidden={!isInProcess} />
-              ) : (
-                <CollectModal />
-              )}
-              {!collected && isMobile && isInProcess && <CommentSection />}
-              {!collected && isOwner && !isSoldOut && <MomentAirdrop />}
-              <Collectors />
-            </div>
-          </>
-        )}
+        {metadata && <>{collected ? <MomentCollected /> : <MomentDetails />}</>}
       </div>
     </div>
   );

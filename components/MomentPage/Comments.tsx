@@ -4,10 +4,16 @@ import { Skeleton } from "../ui/skeleton";
 import { Comment } from "./Comment";
 import FetchMore from "../FetchMore";
 import { useMomentCommentsProvider } from "@/providers/MomentCommentsProvider";
+import { Protocol } from "@/types/moment";
+import { Fragment } from "react";
 
-const CommentSection = () => {
+const Comments = () => {
   const { comments, hasMore, isLoading, fetchMore } = useMomentCommentsProvider();
-  const { isSetSale } = useMomentProvider();
+  const { isSetSale, protocol } = useMomentProvider();
+  const isInProcess = protocol === Protocol.InProcess;
+  const commentsHidden = !isInProcess;
+
+  if (commentsHidden) return <Fragment />;
 
   if (isLoading)
     return (
@@ -37,4 +43,4 @@ const CommentSection = () => {
   );
 };
 
-export default CommentSection;
+export default Comments;
