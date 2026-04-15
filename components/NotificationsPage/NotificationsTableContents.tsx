@@ -1,10 +1,10 @@
 import { Table, TableBody, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import type { Notification } from "@/hooks/useNotifications";
+import type { InProcessNotification } from "@/types/notification";
 // Import NotificationRow component
 import NotificationRow from "./NotificationRow";
 
 interface NotificationsTableContentsProps {
-  notifications: Notification[];
+  notifications: InProcessNotification[];
 }
 
 const NotificationsTableContents = ({ notifications }: NotificationsTableContentsProps) => {
