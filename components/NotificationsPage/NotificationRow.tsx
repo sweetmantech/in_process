@@ -1,23 +1,25 @@
 import { TableCell, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import type { Notification } from "@/hooks/useNotifications";
 import MomentCell from "./MomentCell";
 import NotificationDateCell from "./NotificationDateCell";
+import { InProcessNotification } from "@/types/notification";
 
 interface NotificationRowProps {
-  notification: Notification;
+  notification: InProcessNotification;
 }
 
 const NotificationRow = ({ notification }: NotificationRowProps) => {
+  const { transfer, artist, viewed } = notification;
+
   return (
     <TableRow className="hover:bg-neutral-50 dark:hover:bg-neutral-900">
       <TableCell className="w-1/3 font-medium">
         <div className="flex flex-col gap-2">
           <span className="font-archivo-medium text-sm">
-            {notification.artist.username || "Unknown"} was paid ${notification.payment.amount} by{" "}
-            {notification.payment.buyer.username || "Unknown"}
+            {artist.username || "Unknown"} was paid ${transfer.value ?? 0} by{" "}
+            {transfer.collector.username || "Unknown"}
           </span>
-          {!notification.viewed && (
+          {!viewed && (
             <div className="flex justify-start">
               <Badge
                 variant="secondary"
@@ -29,8 +31,8 @@ const NotificationRow = ({ notification }: NotificationRowProps) => {
           )}
         </div>
       </TableCell>
-      <MomentCell moment={notification.payment.moment} className="w-1/3" />
-      <NotificationDateCell payment={notification.payment} className="w-1/3" />
+      <MomentCell moment={transfer.moment} className="w-1/3" />
+      <NotificationDateCell payment={transfer} className="w-1/3" />
     </TableRow>
   );
 };

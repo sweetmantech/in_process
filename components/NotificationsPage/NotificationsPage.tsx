@@ -6,7 +6,6 @@ import useMarkNotificationAsViewed from "@/hooks/useMarkNotificationAsViewed";
 
 const NotificationsPage = () => {
   const { artistWallet } = useUserProvider();
-
   useMarkNotificationAsViewed();
 
   return (
@@ -21,7 +20,7 @@ const NotificationsPage = () => {
           </p>
         </div>
 
-        <NotificationsTable limit={50} artist={artistWallet?.toLowerCase()} />
+        <NotificationsTable />
       </div>
     </div>
   );

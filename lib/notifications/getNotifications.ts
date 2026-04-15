@@ -1,22 +1,7 @@
-import { Database } from "@/lib/supabase/types";
 import { IN_PROCESS_API } from "@/lib/consts";
-import type { NotificationPayment } from "@/types/payments";
+import { NotificationsResponse } from "@/types/notification";
 
-export type InProcessNotification = {
-  id: string;
-  payment: NotificationPayment;
-  artist: Database["public"]["Tables"]["in_process_artists"]["Row"];
-  viewed: boolean;
-  created_at: string | null;
-};
-
-export interface NotificationsResponse {
-  status: "success" | "error";
-  notifications: InProcessNotification[];
-  message?: string;
-}
-
-export async function fetchNotifications(
+export async function getNotifications(
   page = 1,
   limit = 20,
   artist?: string,

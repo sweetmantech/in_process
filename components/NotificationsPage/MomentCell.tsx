@@ -1,10 +1,15 @@
 import { TableCell } from "@/components/ui/table";
 import BlurImage from "@/components/BlurImage";
-import type { NotificationPaymentMoment, PaymentTransferMoment } from "@/types/payments";
 import { SITE_ORIGINAL_URL } from "@/lib/consts";
 
+interface MomentCellMoment {
+  token_id: number;
+  collection: { address: string };
+  metadata?: { image: string | null; name: string | null } | null;
+}
+
 interface MomentCellProps {
-  moment: NotificationPaymentMoment | PaymentTransferMoment;
+  moment: MomentCellMoment;
   className?: string;
 }
 

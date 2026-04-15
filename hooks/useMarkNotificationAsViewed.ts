@@ -1,21 +1,19 @@
 import { useEffect } from "react";
-import useConnectedWallet from "@/hooks/useConnectedWallet";
 import { markNotificationsAsViewed } from "@/lib/notifications/markNotificationsAsViewed";
+import { useUserProvider } from "@/providers/UserProvider";
 
 const useMarkNotificationAsViewed = () => {
-  const { privyWallet } = useConnectedWallet();
+  const { artistWallet } = useUserProvider();
 
   useEffect(() => {
-    if (privyWallet?.address) {
-      const timer = setTimeout(() => {
-        markNotificationsAsViewed(privyWallet.address.toLowerCase()).catch((error) => {
-          console.error("Failed to mark notifications as viewed:", error);
-        });
-      }, 10000); // 10 second delay
-
-      return () => clearTimeout(timer);
-    }
-  }, [privyWallet]);
+    if (!artistWallet) return;
+    const timer = setTimeout(() => {
+      markNotificationsAsViewed(artistWallet).catch((error) => {
+        console.error("Failed to mark notifications as viewed:", error);
+      });
+    }, 10000);
+    return () => clearTimeout(timer);
+  }, [artistWallet]);
 };
 
 export default useMarkNotificationAsViewed;

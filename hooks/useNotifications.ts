@@ -1,30 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { fetchNotifications, InProcessNotification } from "@/lib/notifications/fetchNotifications";
+import { getNotifications } from "@/lib/notifications/getNotifications";
+import { useUserProvider } from "@/providers/UserProvider";
 
-export type Notification = InProcessNotification;
-
-export interface NotificationsResponse {
-  status: "success" | "error";
-  notifications: Notification[];
-  message?: string;
-}
-
-export function useNotifications(
-  page = 1,
-  limit = 20,
-  enabled = true,
-  artist?: string,
-  viewed?: boolean
-) {
+export function useNotifications(page = 1, limit = 20, viewed?: boolean) {
+  const { artistWallet } = useUserProvider();
   const [currentPage, setCurrentPage] = useState(page);
 
   const query = useQuery({
-    queryKey: ["notifications", currentPage, limit, artist, viewed],
+    queryKey: ["notifications", currentPage, limit, artistWallet, viewed],
     queryFn: async () => {
-      return fetchNotifications(currentPage, limit, artist, viewed);
+      return getNotifications(currentPage, limit, artistWallet, viewed);
     },
-    enabled,
+    enabled: !!artistWallet,
     staleTime: 1000 * 60 * 5, // 5 minutes
     retry: (failureCount) => failureCount < 3,
   });

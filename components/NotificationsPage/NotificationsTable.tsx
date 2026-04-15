@@ -1,6 +1,6 @@
 "use client";
 
-import { useNotifications } from "@/hooks/useNotifications";
+import { useNotificationsProvider } from "@/providers/NotificationsProvider";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import NotificationsTableLoading from "./NotificationsTableLoading";
@@ -8,14 +8,10 @@ import NotificationsTableError from "./NotificationsTableError";
 import NoNotificationsFound from "./NoNotificationsFound";
 import NotificationsTableContents from "./NotificationsTableContents";
 
-interface NotificationsTableProps {
-  limit?: number;
-  artist?: string;
-  viewed?: boolean;
-}
-
-const NotificationsTable = ({ limit = 20, artist, viewed }: NotificationsTableProps) => {
-  const { data, isLoading, error } = useNotifications(1, limit, true, artist, viewed);
+const NotificationsTable = () => {
+  const {
+    notifications: { data, isLoading, error },
+  } = useNotificationsProvider();
 
   if (isLoading) return <NotificationsTableLoading />;
   if (error) return <NotificationsTableError error={error} />;
