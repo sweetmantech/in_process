@@ -2,7 +2,8 @@
 
 import { useMomentProvider } from "@/providers/MomentProvider";
 import ContentRenderer from "../Renderers";
-import TitleAndDescription from "./TitleAndDescription";
+import Title from "./Title";
+import Description from "./Description";
 import Comments from "./Comments";
 import Collectors from "./Collectors";
 import CollectedButtons from "./CollectedButtons";
@@ -33,7 +34,8 @@ const MomentCollected = () => {
       </div>
       <div className="md:!min-w-[420px]">
         <div className="h-fit w-full md:max-w-[400px]">
-          <TitleAndDescription />
+          <Title />
+          <Description />
           <Comments />
         </div>
         <Collectors />

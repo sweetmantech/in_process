@@ -4,7 +4,8 @@ import { useMomentProvider } from "@/providers/MomentProvider";
 import useIsMobile from "@/hooks/useIsMobile";
 import CollectModal from "./CollectModal";
 import Comments from "./Comments";
-import TitleAndDescription from "./TitleAndDescription";
+import Title from "./Title";
+import Description from "./Description";
 import Price from "./Price";
 import DetailButtons from "./DetailButtons";
 import MomentAirdrop from "../MomentAirdrop/MomentAirdrop";
@@ -21,7 +22,8 @@ const MomentDetails = () => {
     <>
       <div className="flex grow flex-col gap-4 md:flex-row md:gap-10">
         <div className="h-fit w-full md:max-w-[400px]">
-          <TitleAndDescription />
+          <Title />
+          <Description />
           <Price />
           <DetailButtons />
           {!isMobile && <Comments />}
