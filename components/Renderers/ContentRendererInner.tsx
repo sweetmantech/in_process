@@ -21,6 +21,7 @@ const ContentRendererInner = ({ metadata, variant = "fill", onRefresh }: Content
   const {
     mimeType,
     rawAnimationUri,
+    rawContentUri,
     rawImageUri,
     animationUrl,
     animationLoading,
@@ -35,12 +36,14 @@ const ContentRendererInner = ({ metadata, variant = "fill", onRefresh }: Content
     return <PdfContent animationLoading={animationLoading} animationUrl={animationUrl} />;
 
   if (mimeType.includes("audio"))
-    return <AudioContent rawAnimationUri={rawAnimationUri} rawImageUri={rawImageUri} />;
+    return (
+      <AudioContent rawAnimationUri={rawAnimationUri || rawContentUri} rawImageUri={rawImageUri} />
+    );
 
   if (mimeType.includes("video"))
     return (
       <VideoContent
-        rawAnimationUri={rawAnimationUri}
+        rawAnimationUri={rawAnimationUri || rawContentUri}
         rawImageUri={rawImageUri}
         variant={variant}
         onRefresh={onRefresh}
