@@ -8,6 +8,7 @@ import Preview from "./Preview";
 import useCopy from "@/hooks/useCopy";
 import useIsMomentAdmin from "@/hooks/useIsMomentAdmin";
 import ProtocolBadge from "./ProtocolBadge";
+import ChainLogo from "./ChainLogo";
 
 export type MomentItemVariant = "collection" | "moment";
 
@@ -46,6 +47,7 @@ const MomentItem = ({ m, variant = "collection" }: MomentItemProps) => {
             <HideButton moment={m} />
           </div>
         )}
+        <ChainLogo chainId={m.chain_id} />
         {data ? (
           <Preview data={data} />
         ) : (
