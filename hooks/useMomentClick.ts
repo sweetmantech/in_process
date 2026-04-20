@@ -1,8 +1,8 @@
 import { useRouter } from "next/navigation";
 import { TimelineMoment } from "@/types/moment";
-import { base } from "viem/chains";
 import { validateUrl } from "@/lib/url/validateUrl";
 import { isYoutubeUrl } from "@/lib/url/isYoutubeUrl";
+import { getShortNameFromChainId } from "@/lib/zora/getShortNameFromChainId";
 
 export const useMomentClick = (moment: TimelineMoment | undefined) => {
   const { push } = useRouter();
@@ -22,7 +22,8 @@ export const useMomentClick = (moment: TimelineMoment | undefined) => {
       }
       return;
     }
-    const shortName = chain_id === base.id ? "base" : "bsep";
+    const shortName = getShortNameFromChainId(chain_id);
+    if (!shortName) return;
     push(`/collect/${shortName}:${address}/${token_id}`);
   };
 
