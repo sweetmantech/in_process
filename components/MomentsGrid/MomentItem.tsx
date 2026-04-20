@@ -9,6 +9,7 @@ import useCopy from "@/hooks/useCopy";
 import useIsMomentAdmin from "@/hooks/useIsMomentAdmin";
 import ProtocolBadge from "./ProtocolBadge";
 import ChainLogo from "./ChainLogo";
+import { getShortNameFromChainId } from "@/lib/zora/getShortNameFromChainId";
 
 export type MomentItemVariant = "collection" | "moment";
 
@@ -26,8 +27,10 @@ const MomentItem = ({ m, variant = "collection" }: MomentItemProps) => {
   const isManagePage = pathname.includes("/manage");
 
   const handleClick = () => {
+    const shortName = getShortNameFromChainId(m.chain_id);
+    if (!shortName) return;
     push(
-      `/${isManagePage ? "manage" : "collect"}/${m.chain_id === 8453 ? "base" : "bsep"}:${m.address}${variant === "moment" ? `/${m.token_id}` : ""}`
+      `/${isManagePage ? "manage" : "collect"}/${shortName}:${m.address}${variant === "moment" ? `/${m.token_id}` : ""}`
     );
   };
   return (
