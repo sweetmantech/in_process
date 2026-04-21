@@ -10,7 +10,7 @@ const ChainLogo = ({ chainId }: ChainLogoProps) => {
   if (!chainLogo) return null;
 
   return (
-    <div className="absolute top-1.5 right-1.5 z-20">
+    <div className="absolute bottom-1.5 right-1.5 z-20">
       <Image
         src={chainLogo.src}
         alt={chainLogo.alt}
