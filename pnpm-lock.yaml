@@ -22,6 +22,9 @@ importers:
       "@farcaster/frame-wagmi-connector":
         specifier: ^0.0.19
         version: 0.0.19(@farcaster/frame-sdk@0.0.31(typescript@5.9.3)(zod@3.25.76))(@wagmi/core@3.0.0(@tanstack/query-core@5.90.12)(@types/react@19.2.7)(immer@11.1.4)(react@19.2.1)(typescript@5.9.3)(use-sync-external-store@1.4.0(react@19.2.1))(viem@2.41.2(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@3.25.76)))(viem@2.41.2(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@3.25.76))
+      "@google/model-viewer":
+        specifier: ^4.2.0
+        version: 4.2.0(three@0.182.0)
       "@hookform/resolvers":
         specifier: ^5.2.2
         version: 5.2.2(react-hook-form@7.68.0(react@19.2.1))
@@ -1083,6 +1086,15 @@ packages:
     peerDependencies:
       viem: ">=2.0.0"
 
+  "@google/model-viewer@4.2.0":
+    resolution:
+      {
+        integrity: sha512-RjpAI5cLs9CdvPcMRsOs8Bea/lNmGTTyaPyl16o9Fv6Qn8VSpgBMmXFr/11yb0hTrsojp2dOACEcY77R8hVUVA==,
+      }
+    engines: { node: ">=6.0.0" }
+    peerDependencies:
+      three: ^0.182.0
+
   "@hcaptcha/loader@2.3.0":
     resolution:
       {
@@ -1583,6 +1595,14 @@ packages:
         integrity: sha512-w8CVbdkDrVXFJbfBSlDfafDR6BAkpDmv1bC1UJVCoVny5tW2RKAdn9i68Xf7asYT4TnUhl/hN4zfUiKQq9II4g==,
       }
     engines: { node: ">=16.0.0" }
+
+  "@monogrid/gainmap-js@3.4.0":
+    resolution:
+      {
+        integrity: sha512-2Z0FATFHaoYJ8b+Y4y4Hgfn3FRFwuU5zRrk+9dFWp4uGAdHGqVEdP7HP+gLA3X469KXHmfupJaUbKo1b/aDKIg==,
+      }
+    peerDependencies:
+      three: ">= 0.159.0"
 
   "@msgpack/msgpack@3.1.2":
     resolution:
@@ -7370,6 +7390,12 @@ packages:
       }
     engines: { node: ">= 4" }
 
+  immediate@3.0.6:
+    resolution:
+      {
+        integrity: sha512-XXOFtyqDjNDAQxVfYxuF7g9Il/IbWmmlQg2MYKOH8ExIT1qg6xc4zyS3HaEEATgs1btfzxq15ciUiY7gjSXRGQ==,
+      }
+
   immer@10.2.0:
     resolution:
       {
@@ -7609,6 +7635,12 @@ packages:
     resolution:
       {
         integrity: sha512-bCYeRA2rVibKZd+s2625gGnGF/t7DSqDs4dP7CrLA1m7jKWz6pps0LpYLJN8Q64HtmPKJ1hrN3nzPNKFEKOUiQ==,
+      }
+
+  is-promise@2.2.2:
+    resolution:
+      {
+        integrity: sha512-+lP4/6lKUBfQjZ2pdxThZvLUAafmZb8OAxFb8XXtiQmS35INgr85hdOGoEs124ez1FCnZJt6jau/T+alh58QFQ==,
       }
 
   is-regex@1.2.1:
@@ -7988,6 +8020,12 @@ packages:
     resolution:
       {
         integrity: sha512-gR0JEFPeN3831lB9+ogooQk0KH4K5LSMIO5Prd5Q5XYR2wHFtZfPg0eP7t1oJIWq+UIzlU4WVeBxZ97mt28tXw==,
+      }
+
+  lie@3.3.0:
+    resolution:
+      {
+        integrity: sha512-UaiMJzeWRlEujzAuw5LokY1L5ecNQYZKfmyZ9L7wDHb/p5etKaxXhohBcrw0EYby+G/NA52vRSN4N39dxHAIwQ==,
       }
 
   lilconfig@3.1.3:
@@ -9206,6 +9244,12 @@ packages:
         integrity: sha512-cdGef/drWFoydD1JsMzuFf8100nZl+GT+yacc2bEced5f9Rjk4z+WtFUTBu9PhOi9j/jfmBPu0mMEY4wIdAF8A==,
       }
     engines: { node: ">= 0.6.0" }
+
+  promise-worker-transferable@1.0.4:
+    resolution:
+      {
+        integrity: sha512-bN+0ehEnrXfxV2ZQvU2PetO0n4gqBD4ulq3MI1WOPLgr7/Mg9yRQkX5+0v1vagr74ZTsl7XtzlaYDo2EuCeYJw==,
+      }
 
   prompts@2.4.2:
     resolution:
@@ -10455,6 +10499,12 @@ packages:
     resolution:
       {
         integrity: sha512-OqyPZ9u96VohAyMfJykzmivOrY2wfMSf3C5TtFJVgN+Hm6aj+voFhlK+kZEIv2FBh1X6Xp3DlnCOfEQ3B2J86A==,
+      }
+
+  three@0.182.0:
+    resolution:
+      {
+        integrity: sha512-GbHabT+Irv+ihI1/f5kIIsZ+Ef9Sl5A1Y7imvS5RQjWgtTPfPnZ43JmlYI7NtCRDK9zir20lQpfg8/9Yd02OvQ==,
       }
 
   throttle-debounce@3.0.1:
@@ -12478,6 +12528,12 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  "@google/model-viewer@4.2.0(three@0.182.0)":
+    dependencies:
+      "@monogrid/gainmap-js": 3.4.0(three@0.182.0)
+      lit: 3.3.0
+      three: 0.182.0
+
   "@hcaptcha/loader@2.3.0": {}
 
   "@hcaptcha/react-hcaptcha@1.16.0(react-dom@19.2.1(react@19.2.1))(react@19.2.1)":
@@ -12850,6 +12906,11 @@ snapshots:
       uuid: 9.0.1
     transitivePeerDependencies:
       - supports-color
+
+  "@monogrid/gainmap-js@3.4.0(three@0.182.0)":
+    dependencies:
+      promise-worker-transferable: 1.0.4
+      three: 0.182.0
 
   "@msgpack/msgpack@3.1.2": {}
 
@@ -18462,6 +18523,8 @@ snapshots:
 
   ignore@7.0.5: {}
 
+  immediate@3.0.6: {}
+
   immer@10.2.0: {}
 
   immer@11.1.4: {}
@@ -18590,6 +18653,8 @@ snapshots:
   is-number@7.0.0: {}
 
   is-potential-custom-element-name@1.0.1: {}
+
+  is-promise@2.2.2: {}
 
   is-regex@1.2.1:
     dependencies:
@@ -18821,6 +18886,10 @@ snapshots:
   libsodium-wrappers-sumo@0.7.16:
     dependencies:
       libsodium-sumo: 0.7.16
+
+  lie@3.3.0:
+    dependencies:
+      immediate: 3.0.6
 
   lilconfig@3.1.3: {}
 
@@ -19608,6 +19677,11 @@ snapshots:
   process-warning@5.0.0: {}
 
   process@0.11.10: {}
+
+  promise-worker-transferable@1.0.4:
+    dependencies:
+      is-promise: 2.2.2
+      lie: 3.3.0
 
   prompts@2.4.2:
     dependencies:
@@ -20485,6 +20559,8 @@ snapshots:
   thread-stream@3.1.0:
     dependencies:
       real-require: 0.2.0
+
+  three@0.182.0: {}
 
   throttle-debounce@3.0.1: {}
 

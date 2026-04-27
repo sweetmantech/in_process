@@ -7,9 +7,11 @@ import VideoContent from "./VideoContent";
 import HtmlContent from "./HtmlContent";
 import TextContent from "./TextContent";
 import ImageContent from "./ImageContent";
+import GlbContent from "./GlbContent";
 import { MomentMetadata } from "@/types/moment";
 import { getYoutubeVideoId } from "@/lib/url/getYoutubeVideoId";
 import YoutubeContent from "./YoutubeContent";
+import { isModelGltfMime } from "@/lib/media/isModelGltfMime";
 
 interface ContentRendererProps {
   metadata?: MomentMetadata;
@@ -47,6 +49,17 @@ const ContentRendererInner = ({ metadata, variant = "fill", onRefresh }: Content
         rawImageUri={rawImageUri}
         variant={variant}
         onRefresh={onRefresh}
+      />
+    );
+
+  if (isModelGltfMime(mimeType))
+    return (
+      <GlbContent
+        animationLoading={animationLoading}
+        animationUrl={animationUrl}
+        poster={rawImageUri || undefined}
+        alt={metadata?.name || metadata?.description || "3D model"}
+        variant={variant}
       />
     );
 
