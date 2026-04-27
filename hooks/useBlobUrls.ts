@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { isModelGltfLike } from "@/lib/media/isModelGltfLike";
 
 interface BlobUrls {
   preview?: string;
@@ -6,6 +7,7 @@ interface BlobUrls {
   pdf?: string;
   video?: string;
   audio?: string;
+  model?: string;
 }
 
 interface UseBlobUrlsParams {
@@ -112,10 +114,27 @@ export const useBlobUrls = ({
     }
   }, [animationFile, mimeType]);
 
+  // Create blob URL for GLB / GLTF (using animationFile)
+  useEffect(() => {
+    if (isModelGltfLike(mimeType, animationFile?.name) && animationFile) {
+      const blobUrl = URL.createObjectURL(animationFile);
+      setBlobUrls((prev) => ({ ...prev, model: blobUrl }));
+      return () => URL.revokeObjectURL(blobUrl);
+    } else {
+      setBlobUrls((prev) => {
+        if (prev.model) URL.revokeObjectURL(prev.model);
+        return {
+          ...prev,
+          model: undefined,
+        };
+      });
+    }
+  }, [animationFile, mimeType]);
+
   return {
     blobUrls,
     // Legacy blob URLs for backward compatibility
     previewFileUrl: blobUrls.preview || "",
-    animationFileUrl: blobUrls.video || blobUrls.pdf || blobUrls.audio || "",
+    animationFileUrl: blobUrls.video || blobUrls.pdf || blobUrls.audio || blobUrls.model || "",
   };
 };

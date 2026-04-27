@@ -16,6 +16,7 @@
     "@ardrive/turbo-sdk": "^1.41.0",
     "@farcaster/frame-sdk": "^0.0.31",
     "@farcaster/frame-wagmi-connector": "^0.0.19",
+    "@google/model-viewer": "^4.2.0",
     "@hookform/resolvers": "^5.2.2",
     "@lottiefiles/dotlottie-react": "^0.17.8",
     "@mux/upchunk": "^3.5.0",

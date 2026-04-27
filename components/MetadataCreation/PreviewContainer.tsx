@@ -3,6 +3,7 @@ import Image from "next/image";
 import React, { Fragment } from "react";
 import PdfViewer from "../Renderers/PdfViewer";
 import VideoPlayer from "@/components/VideoPlayer";
+import GlbContent from "@/components/Renderers/GlbContent";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import Container from "./Container";
 import UploadProgressOverlay from "./UploadProgressOverlay";
@@ -63,6 +64,21 @@ const PreviewContainer = ({ handleImageClick }: PreviewContainerProps) => {
     return (
       <Container className="relative">
         <VideoPlayer url={blobUrls.video} thumbnail={blobUrls.preview} />
+        {isUploading && <UploadProgressOverlay uploadProgress={uploadProgress} />}
+      </Container>
+    );
+  }
+
+  if (blobUrls.model) {
+    return (
+      <Container className="relative">
+        <GlbContent
+          animationLoading={false}
+          animationUrl={blobUrls.model}
+          poster={blobUrls.preview}
+          alt="3D preview"
+          variant="fill"
+        />
         {isUploading && <UploadProgressOverlay uploadProgress={uploadProgress} />}
       </Container>
     );
