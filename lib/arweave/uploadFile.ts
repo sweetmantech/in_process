@@ -1,4 +1,5 @@
 import turboClient from "./client";
+import { getUploadTransactionId } from "./getUploadTransactionId";
 
 export const uploadFile = async (
   file: File,
@@ -6,12 +7,12 @@ export const uploadFile = async (
 ): Promise<string> => {
   const uint8Array = new Uint8Array(await file.arrayBuffer());
 
-  const { id } = await turboClient.uploadFile({
+  const result = await turboClient.uploadFile({
     fileStreamFactory: () => Buffer.from(uint8Array),
     fileSizeFactory: () => file.size,
     dataItemOpts: {
       tags: [
-        { name: "Content-Type", value: file.type },
+        { name: "Content-Type", value: file.type || "application/octet-stream" },
         { name: "File-Name", value: file.name },
       ],
     },
@@ -21,6 +22,11 @@ export const uploadFile = async (
       },
     },
   });
+
+  const id = getUploadTransactionId(result);
+  if (!id) {
+    throw new Error(`Arweave upload did not return a transaction id: ${JSON.stringify(result)}`);
+  }
 
   return `ar://${id}`;
 };
