@@ -10,6 +10,7 @@ import { uploadFilesToArweave } from "@/lib/metadata/uploadFilesToArweave";
 import { handleWritingMode } from "@/lib/metadata/handleWritingMode";
 import { handleEmbedMode } from "@/lib/metadata/handleEmbedMode";
 import { buildMetadataPayload } from "@/lib/metadata/buildMetadataPayload";
+import { isModelGltfLike } from "@/lib/media/isModelGltfLike";
 import { MomentMetadata } from "@/types/moment";
 
 const useMetadataUpload = () => {
@@ -94,12 +95,21 @@ const useMetadataUpload = () => {
       // For non-videos: use Arweave URLs
       animation_url = fileUploadResult.animationUrl || animation_url;
 
-      // For PDFs, images, and other files: content.uri should be same as animation_url
+      // For PDFs, images, and glTF/GLB: content.uri should mirror animation_url when we have a single main asset
       // (Videos are handled separately above with Mux URLs)
       const isPdf = mimeType.includes("pdf");
       const isImage = mimeType.includes("image");
+      const isModel = isModelGltfLike(mimeType, animationFile?.name ?? null);
       if ((isPdf || isImage) && animation_url) {
         contentUri = animation_url;
+      }
+      if (isModel && animation_url) {
+        contentUri = animation_url;
+        if (!mime.trim()) {
+          mime = /\.glb$/i.test(animationFile?.name ?? "")
+            ? "model/gltf-binary"
+            : "model/gltf+json";
+        }
       }
     }
 

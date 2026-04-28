@@ -1,3 +1,4 @@
+import { isInvalidArUri } from "@/lib/arweave/isInvalidArUri";
 import { uploadJson } from "@/lib/arweave/uploadJson";
 import { MomentMetadata } from "@/types/moment";
 
@@ -30,6 +31,9 @@ export const buildMetadataPayload = async (
   contentUri: string,
   existingMetadata?: MomentMetadata | null
 ): Promise<string> => {
+  const safeAnimationUrl = animationUrl && !isInvalidArUri(animationUrl) ? animationUrl : "";
+  const safeContentUri = contentUri && !isInvalidArUri(contentUri) ? contentUri : "";
+
   // Merge new values with existing metadata
   // Strategy:
   // - Name/description: Always use new values from form (form is initialized with existing in update flow)
@@ -43,10 +47,10 @@ export const buildMetadataPayload = async (
     // For media fields, only use new values if they're non-empty (file was uploaded)
     // Otherwise preserve existing values
     image: image || existingMetadata?.image || "",
-    animation_url: animationUrl || existingMetadata?.animation_url || null,
+    animation_url: safeAnimationUrl || existingMetadata?.animation_url || null,
     content: {
       mime: mime || existingMetadata?.content?.mime || "",
-      uri: contentUri || existingMetadata?.content?.uri || "",
+      uri: safeContentUri || existingMetadata?.content?.uri || "",
     },
   };
 
