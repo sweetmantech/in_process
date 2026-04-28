@@ -40,8 +40,13 @@ const GlbContent = ({
       ? { width: "100%", height: "100%", minHeight: 280 }
       : { width: "100%", height: "min(70vh, 640px)" };
 
+  const shellClass =
+    variant === "fill"
+      ? "relative size-full min-h-[280px] overflow-hidden rounded-lg border border-grey-moss-100 bg-grey-moss-50"
+      : "relative w-full overflow-hidden rounded-lg border border-grey-moss-100 bg-grey-moss-50";
+
   return (
-    <div className={variant === "fill" ? "relative size-full min-h-[280px]" : "relative w-full"}>
+    <div className={shellClass}>
       <model-viewer
         alt={alt ?? "3D model"}
         auto-rotate

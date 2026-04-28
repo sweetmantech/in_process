@@ -7,8 +7,8 @@ interface GlbWebGLFallbackProps {
 const GlbWebGLFallback = ({ animationUrl, poster, variant = "fill" }: GlbWebGLFallbackProps) => {
   const wrapper =
     variant === "fill"
-      ? "relative flex size-full min-h-[280px] flex-col items-center justify-center gap-4 bg-black/20 px-4 py-8"
-      : "relative flex w-full flex-col items-center justify-center gap-4 px-4 py-8";
+      ? "relative flex size-full min-h-[280px] flex-col items-center justify-center gap-4 overflow-hidden rounded-lg border border-grey-moss-100 bg-grey-moss-50 px-4 py-8"
+      : "relative flex w-full flex-col items-center justify-center gap-4 overflow-hidden rounded-lg border border-grey-moss-100 bg-grey-moss-50 px-4 py-8";
 
   return (
     <div className={wrapper}>
