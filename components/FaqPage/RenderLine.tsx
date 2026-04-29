@@ -10,7 +10,7 @@ export const RenderLine = (line: string, lineIndex: number) => {
   return (
     <div key={lineIndex} className={`mb-1 ${isBulletPoint ? "ml-4" : ""}`}>
       <span
-        className={`font-spectral text-[14px] font-normal lowercase leading-[200%] tracking-[-0.05em] text-[#1B1504] antialiased md:text-[18px]`}
+        className={`font-spectral text-[14px] font-normal leading-[200%] tracking-[-0.05em] text-[#1B1504] antialiased md:text-[18px]`}
       >
         {parseHTML(line, false)}
       </span>

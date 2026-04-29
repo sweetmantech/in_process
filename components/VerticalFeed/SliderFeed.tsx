@@ -19,9 +19,7 @@ const SliderFeed = ({ feed }: SliderFeedProps) => {
             <div className="aspect-[1/1] w-[9px] rotate-[45deg] bg-black" />
             <p className="font-spectral text-sm">{metadata?.name || ""}</p>
           </div>
-          <p className="font-archivo text-sm lowercase">
-            {new Date(feed.created_at).toLocaleString()}
-          </p>
+          <p className="font-archivo text-sm">{new Date(feed.created_at).toLocaleString()}</p>
         </div>
       </div>
     </div>

@@ -30,7 +30,7 @@ const CollectorItem = ({ collector, username, amount, transactionHash, timestamp
           tx {truncateAddress(transactionHash)}
         </CopyButton>
         <span className="text-neutral-300">|</span>
-        <span className="lowercase">{new Date(timestamp).toLocaleString()}</span>
+        <span>{new Date(timestamp).toLocaleString()}</span>
       </div>
     </div>
   );
