@@ -16,7 +16,7 @@ export const Comment = (comment: MintComment) => {
           {username || data?.username || truncatedAddress}
         </p>
       </div>
-      <p className="font-archivo text-sm lowercase">{new Date(timestamp).toLocaleString()}</p>
+      <p className="font-archivo text-sm">{new Date(timestamp).toLocaleString()}</p>
     </div>
   );
 };

@@ -40,21 +40,21 @@ const FaqPage = () => {
         <div className="px-1 md:px-2">
           <ImageGallery
             images={faqImageGalleries.gettingStarted.slice(0, 2)}
-            captionClassName="font-spectral lowercase text-left font-medium tracking-tight text-[#1B1504] text-[14px] md:text-[20px] ml-6 md:ml-4"
+            captionClassName="font-spectral text-left font-medium tracking-tight text-[#1B1504] text-[14px] md:text-[20px] ml-6 md:ml-4"
           />
         </div>
 
         <div className="mt-8 px-1 md:mt-12 md:px-2">
           <ImageGallery
             images={faqImageGalleries.gettingStarted.slice(2, 4)}
-            captionClassName="font-spectral lowercase text-left font-medium tracking-tight text-[#1B1504] text-[14px] md:text-[20px] ml-6 md:ml-4"
+            captionClassName="font-spectral text-left font-medium tracking-tight text-[#1B1504] text-[14px] md:text-[20px] ml-6 md:ml-4"
           />
         </div>
 
         <div className="mt-8 px-1 md:mt-12 md:px-2">
           <ImageGallery
             images={faqImageGalleries.gettingStarted.slice(4, 6)}
-            captionClassName="font-spectral lowercase text-left font-medium tracking-tight text-[#1B1504] text-[14px] md:text-[20px] ml-6 md:ml-4"
+            captionClassName="font-spectral text-left font-medium tracking-tight text-[#1B1504] text-[14px] md:text-[20px] ml-6 md:ml-4"
           />
         </div>
 

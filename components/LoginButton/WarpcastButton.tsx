@@ -33,7 +33,7 @@ export function WarpcastButton({ className = "" }: WarpcastButtonProps) {
         isOpenNavbar
           ? "rounded-t-xs rounded-b-none bg-grey-moss-900 md:rounded-t-sm"
           : "rounded-xs bg-grey-moss-400 hover:bg-grey-moss-900 hover:shadow-[0px_1px_1px_1px_#0000002e] md:rounded-sm"
-      } font-archivo text-sm lowercase text-white md:text-base ${className}`}
+      } font-archivo text-sm text-white md:text-base ${className}`}
     >
       <div className="flex items-center">
         <div
