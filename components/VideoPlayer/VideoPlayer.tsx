@@ -1,7 +1,7 @@
 "use client";
 
 import useVideo from "@/hooks/useVideo";
-import useVideoPlaybackUrl from "@/hooks/useVideoPlaybackUrl";
+import getStreamingUrl from "@/lib/media/getStreamingUrl";
 import VideoPreview from "./VideoPreview";
 
 interface VideoPlayerProps {
@@ -12,7 +12,6 @@ interface VideoPlayerProps {
 }
 
 const VideoPlayer = ({ url, thumbnail, variant = "fill", onError }: VideoPlayerProps) => {
-  const playback = useVideoPlaybackUrl(url);
   const {
     videoRef,
     isPlaying,
@@ -32,20 +31,6 @@ const VideoPlayer = ({ url, thumbnail, variant = "fill", onError }: VideoPlayerP
         onStopPropagation={stopPropagation}
         variant={variant}
       />
-    );
-  }
-
-  if (!playback.srcReady || !playback.src) {
-    return (
-      <div className="flex size-full justify-center">
-        <VideoPreview
-          thumbnail={thumbnail}
-          onPlay={stopPropagation}
-          onStopPropagation={stopPropagation}
-          isLoading
-          variant={variant}
-        />
-      </div>
     );
   }
 
@@ -78,9 +63,9 @@ const VideoPlayer = ({ url, thumbnail, variant = "fill", onError }: VideoPlayerP
             handleError();
           }
         }}
-        key={playback.src}
+        key={url}
       >
-        <source src={playback.src} />
+        <source src={getStreamingUrl(url)} />
         Your browser does not support the video element.
       </video>
     </div>
