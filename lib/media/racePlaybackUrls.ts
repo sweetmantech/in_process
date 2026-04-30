@@ -1,8 +1,9 @@
-import probeUrlResponseTime from "@/lib/arweave/probeUrlResponseTime";
+import probePlaybackCandidate from "./probePlaybackCandidate";
 
 /**
  * Races InProcess stream proxy vs another playback URL (IPFS CDN, turbo Arweave, etc.).
- * First successful probe wins; the losing request is aborted. Both fail → `streamUrl`.
+ * First successful probe wins; the losing request is aborted.
+ * Both fail → `peerUrl` (browser `<video>` can still load gateways when probe fetch blocked).
  */
 const racePlaybackUrls = async (streamUrl: string, peerUrl: string): Promise<string> => {
   const abortStream = new AbortController();
@@ -24,16 +25,16 @@ const racePlaybackUrls = async (streamUrl: string, peerUrl: string): Promise<str
       failures += 1;
       if (failures === 2) {
         settled = true;
-        resolve(streamUrl);
+        resolve(peerUrl);
       }
     };
 
-    probeUrlResponseTime(streamUrl, 8000, abortStream.signal).then((r) => {
+    probePlaybackCandidate(streamUrl, 8000, abortStream.signal).then((r) => {
       if (r) onSuccess(r.url, abortPeer);
       else onFailure();
     });
 
-    probeUrlResponseTime(peerUrl, 8000, abortPeer.signal).then((r) => {
+    probePlaybackCandidate(peerUrl, 8000, abortPeer.signal).then((r) => {
       if (r) onSuccess(r.url, abortStream);
       else onFailure();
     });
