@@ -6,7 +6,7 @@ export type MuxVideoAsset = {
   downloadUrl: string;
 };
 
-export type MuxVideoAssetResponse = {
+type MuxVideoAssetResponse = {
   playbackUrl?: string | null;
   assetId?: string;
   downloadUrl?: string;

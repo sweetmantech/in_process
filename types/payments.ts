@@ -2,22 +2,22 @@ import type { MomentMetadata, Protocol } from "./moment";
 
 export type PaymentsTab = "income" | "expense";
 
-export interface PaymentFeeRecipient {
+interface PaymentFeeRecipient {
   artist_address: string;
   percent_allocation: number;
 }
 
-export interface PaymentTransferCollector {
+interface PaymentTransferCollector {
   address: string;
   username: string | null;
 }
 
-export interface PaymentTransferMomentArtist {
+interface PaymentTransferMomentArtist {
   address: string;
   username: string | null;
 }
 
-export interface PaymentTransferMoment {
+interface PaymentTransferMoment {
   token_id: number;
   fee_recipients: PaymentFeeRecipient[];
   collection: {

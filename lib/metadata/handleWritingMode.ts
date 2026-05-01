@@ -1,6 +1,6 @@
 import { generateAndUploadPreview } from "@/lib/writing/generateAndUploadPreview";
 
-export interface WritingModeResult {
+interface WritingModeResult {
   mime: string;
   animationUrl: string;
   contentUri: string;

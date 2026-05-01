@@ -1,7 +1,7 @@
 import { Moment } from "@/types/moment";
 import { IN_PROCESS_API } from "@/lib/consts";
 
-export interface CallUpdateMomentURIInput {
+interface CallUpdateMomentURIInput {
   moment: Moment;
   newUri: string;
   accessToken: string;

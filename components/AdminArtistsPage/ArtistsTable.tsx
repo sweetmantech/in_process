@@ -1,8 +1,7 @@
 "use client";
 
 import { useAdminArtists } from "@/hooks/useAdminArtists";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
 import ArtistsTableLoading from "./ArtistsTableLoading";
 import ArtistsTableError from "./ArtistsTableError";
 import NoArtistsFound from "./NoArtistsFound";

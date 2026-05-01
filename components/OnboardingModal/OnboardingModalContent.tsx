@@ -1,4 +1,4 @@
-export interface Slide {
+interface Slide {
   title: string;
   subtitle: string;
   img: string;

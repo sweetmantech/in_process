@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Moment, type TimelineMoment } from "@/types/moment";
+import { type TimelineMoment } from "@/types/moment";
 import { toggleMoment } from "@/lib/timeline/toggleMoment";
 import { toast } from "sonner";
 import { Address } from "viem";

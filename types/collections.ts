@@ -47,16 +47,6 @@ export interface FetchCollectionParams {
   chainId?: string;
 }
 
-export interface UpdateCollectionURIInput {
-  collection: {
-    address: Address;
-    chainId: number;
-  };
-  newUri: string;
-  newCollectionName: string;
-  artistAddress: Address;
-}
-
 export interface CreateCollectionInput {
   account: Address;
   uri: string;

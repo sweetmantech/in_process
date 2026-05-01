@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useCallback, useMemo } from "react";
 import { useInfiniteQuery, useQueryClient, InfiniteData } from "@tanstack/react-query";
 import { MintComment } from "@/types/moment";

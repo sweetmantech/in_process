@@ -2,13 +2,13 @@ import { Moment } from "@/types/moment";
 import { Address } from "viem";
 import { IN_PROCESS_API } from "@/lib/consts";
 
-export interface RemoveMomentAdminInput {
+interface RemoveMomentAdminInput {
   moment: Moment;
   adminAddress: Address;
   accessToken: string;
 }
 
-export interface RemoveMomentAdminResult {
+interface RemoveMomentAdminResult {
   hash: string;
   chainId: number;
 }

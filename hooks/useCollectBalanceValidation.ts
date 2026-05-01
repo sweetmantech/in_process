@@ -1,10 +1,9 @@
 import { MomentSaleConfig, MomentType } from "@/types/moment";
 import { useSmartWalletProvider } from "@/providers/SmartWalletProvider";
-import { showInsufficientBalanceError } from "@/lib/balance/showInsufficientBalanceError";
 import { parseEther, parseUnits } from "viem";
 import { Currency } from "@/types/balances";
 
-export interface BalanceCheckResult {
+interface BalanceCheckResult {
   sufficient: boolean;
   currency: Currency;
   shortfall: bigint; // base-unit shortfall (wei for ETH, 6-decimal units for USDC)

@@ -2,11 +2,10 @@ import { IN_PROCESS_API, SITE_ORIGINAL_URL } from "@/lib/consts";
 import { Metadata, NextPage } from "next";
 import { parseCollectionAddress } from "@/lib/timeline/parseCollectionAddress";
 import { CHAIN_ID } from "@/lib/consts";
-import { Address, isAddress } from "viem";
+import { isAddress } from "viem";
 import fetchMetadata from "@/lib/arweave/fetchMetadata";
 import CollectionPage from "@/components/CollectionPage";
 import { getCollectionApi } from "@/lib/collection/getCollectionApi";
-import fetchArtistProfile from "@/lib/fetchArtistProfile";
 import truncateAddress from "@/lib/truncateAddress";
 
 type Props = {

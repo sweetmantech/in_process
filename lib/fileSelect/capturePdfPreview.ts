@@ -2,7 +2,7 @@ import base64ToFile from "@/lib/base64ToFile";
 import { PDFJS_DIST_VERSION } from "@/lib/consts";
 import { loadPdfJs } from "@/lib/fileSelect/loadPdfJs";
 
-export interface PdfPreviewResult {
+interface PdfPreviewResult {
   previewFile: File;
 }
 

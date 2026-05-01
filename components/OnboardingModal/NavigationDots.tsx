@@ -17,7 +17,7 @@ export const NavigationDots = ({ currentSlide, onSlideChange }: NavigationDotsPr
         }}
       >
         <Image
-          src={index === currentSlide ? "/images/modal-dot-active.svg" : "images/modal-dot.svg"}
+          src={index === currentSlide ? "/images/modal-dot-active.svg" : "/images/modal-dot.svg"}
           alt={`Slide ${index + 1}`}
           width={16}
           height={16}

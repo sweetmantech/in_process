@@ -1,6 +1,5 @@
 import { createContext, useContext, ReactNode, useMemo } from "react";
 import { useTimelineAnimation } from "@/hooks/useTimelineAnimation";
-import { TimelineMoment } from "@/types/moment";
 
 const TimelineAnimationContext = createContext<ReturnType<typeof useTimelineAnimation> | null>(
   null

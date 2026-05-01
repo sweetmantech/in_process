@@ -2,13 +2,13 @@ import { Moment } from "@/types/moment";
 import { Address } from "viem";
 import { IN_PROCESS_API } from "@/lib/consts";
 
-export interface AddMomentAdminInput {
+interface AddMomentAdminInput {
   moment: Moment;
   adminAddress: Address;
   accessToken: string;
 }
 
-export interface AddMomentAdminResult {
+interface AddMomentAdminResult {
   hash: string;
   chainId: number;
 }

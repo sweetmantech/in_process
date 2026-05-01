@@ -2,18 +2,6 @@ import { isInvalidArUri } from "@/lib/arweave/isInvalidArUri";
 import { uploadJson } from "@/lib/arweave/uploadJson";
 import { MomentMetadata } from "@/types/moment";
 
-export interface MetadataPayload {
-  name: string;
-  description: string;
-  external_url: string;
-  image: string;
-  animation_url: string;
-  content: {
-    mime: string;
-    uri: string;
-  };
-}
-
 /**
  * Builds and uploads the metadata JSON to Arweave.
  * Merges new values with existing metadata to preserve unchanged fields.
