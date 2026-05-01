@@ -6,7 +6,7 @@ export interface AirdropItem {
   ensName: string;
 }
 
-export interface AirdropTransfer {
+interface AirdropTransfer {
   id?: string;
   transferred_at: string;
   quantity: string;
@@ -37,7 +37,7 @@ export interface AirdropRecipient {
   username: string | null;
 }
 
-export interface AirdropPagination {
+interface AirdropPagination {
   total_count: number;
   page: number;
   limit: number;

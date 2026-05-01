@@ -1,12 +1,12 @@
 import { IN_PROCESS_API } from "@/lib/consts";
 import { toast } from "sonner";
 
-export interface CreateMomentParameters {
+interface CreateMomentParameters {
   // Add the actual parameter types based on what fetchParameters returns
   [key: string]: any;
 }
 
-export interface CreateMomentResult {
+interface CreateMomentResult {
   contractAddress: string;
   tokenId: number;
 }

@@ -1,6 +1,6 @@
 import { uploadVideoToMux } from "@/lib/mux/uploadVideoToMux";
 
-export interface VideoUploadResult {
+interface VideoUploadResult {
   animationUrl: string;
   contentUri: string;
 }

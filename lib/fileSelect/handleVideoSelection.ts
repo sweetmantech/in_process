@@ -1,6 +1,6 @@
 import { captureVideoPreview, VideoPreviewResult } from "./captureVideoPreview";
 
-export interface VideoSelectionHandlers {
+interface VideoSelectionHandlers {
   setAnimationFile: (file: File | null) => void;
   setMimeType: (mimeType: string) => void;
   setPreviewFile: (file: File | null) => void;

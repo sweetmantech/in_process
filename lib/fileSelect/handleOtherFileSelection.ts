@@ -1,6 +1,6 @@
 import { capturePdfPreview } from "./capturePdfPreview";
 
-export interface OtherFileSelectionHandlers {
+interface OtherFileSelectionHandlers {
   setMimeType: (mimeType: string) => void;
   setAnimationFile: (file: File | null) => void;
   setPreviewFile: (file: File | null) => void;

@@ -2,18 +2,9 @@ import { Point } from "@/types/spiral";
 import { baseSepolia, base } from "viem/chains";
 import { Address } from "viem";
 
-export const INPROCESS_GROUP_CHAT_ID = "-1002592953370";
-
-export const ETH_USDC_WRAPPER = "0x8b7e5b73a187aA50B1660455566E4818f88Fdd72";
-export const NULL_DATA = "0x0000000000000000000000000000000000000000000000000000000000000000";
-
-export const ERC1967_IMPLEMENTATION_SLOT =
-  "0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc";
-
 export const IS_TESTNET = process.env.NEXT_PUBLIC_IS_TESTNET === "true" ? true : false;
 
 export const IN_PROCESS_API = `${IS_TESTNET ? "https://in-process-api-git-test-sweetmantechs-projects.vercel.app" : "https://api.inprocess.world"}/api`;
-export const IN_PROCESS_CRON_SOCKET_URL = "https://178.128.149.25.nip.io";
 
 // Wagmi
 export const EXPLORER_URL = IS_TESTNET ? "https://sepolia.basescan.org" : "https://basescan.org";
@@ -21,20 +12,13 @@ export const CHAIN = IS_TESTNET ? baseSepolia : base;
 export const CHAIN_ID = CHAIN.id;
 // Zora
 export const REFERRAL_RECIPIENT = "0x749B7b7A6944d72266Be9500FC8C221B6A7554Ce";
-export const ROYALTY_BPS_DEFAULT = 1000; // Default royalty bps (10%)
 // IPFS
-export const ONE_MB = 1024 * 1024;
+const ONE_MB = 1024 * 1024;
 export const MAX_FILE_SIZE = 222 * ONE_MB;
 // TELEGRAM
 export const TELEGRAM_MAX_FILE_SIZE = 50 * 1024 * 1024;
 
 export const PERMISSION_BIT_ADMIN = 2;
-// Sound.xyz OwnableRoles constants (LibOps.sol: ADMIN_ROLE = 1 << 0)
-export const SOUND_ADMIN_ROLE = 1;
-// Catalog PermissionController constants (PermissionController.sol: AUTH_SCOPE_OWNER = 1 << 0, AUTH_SCOPE_ARTIST = 1 << 1)
-export const CATALOG_AUTH_SCOPE_OWNER = 1;
-export const CATALOG_AUTH_SCOPE_ARTIST = 2;
-export const MULTICALL3_ADDRESS = "0xcA11bde05977b3631167028862bE2a173976CA11";
 
 export const USDC_ADDRESS: Record<number, Address> = {
   [base.id]: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
@@ -44,17 +28,7 @@ export const USDC_ADDRESS: Record<number, Address> = {
 export const SITE_ORIGINAL_URL = IS_TESTNET
   ? "https://in-process-git-test-sweetmantechs-projects.vercel.app"
   : "https://inprocess.world";
-export const BLOCKLISTS = [
-  "0x323e8bcb41ae2454c3f4899e094c599aab6b84bc",
-  "0x51027631b9def86e088c33368ec4e3a4be0ad264",
-  "0xf498624bbf806048296cf1757f0ea349228803a5",
-  "0x1053db8955355d967BB0f3cabe7a71FD23ebfAB7",
-];
 
-export const TELNYX_SECONDARY_PHONE_NUMBER = "+15135971101";
-export const TELNYX_TOLL_FREE_PHONE_NUMBER = "+18885993909";
-export const TELNYX_MESSAGING_PROFILE_ID = "40019b4c-b5af-4052-966b-3f7546c2e7c0";
-export const INDEXER_ID = "802bf29";
 export const TIMLINE_STEP_OFFSET = 12;
 export const Z_BEHIND_PRIVY = 999999;
 

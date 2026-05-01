@@ -66,12 +66,6 @@ export interface TimelineMoment {
   metadata?: MomentMetadata;
 }
 
-export interface TimelinePagination {
-  page: number;
-  limit: number;
-  total_pages: number;
-}
-
 export type MomentSaleConfig = {
   pricePerToken: string;
   saleStart: number;
@@ -81,17 +75,11 @@ export type MomentSaleConfig = {
   type: MomentType;
 };
 
-export interface UpdateMomentURIInput {
-  moment: Moment;
-  newUri: string;
-  artistAddress: Address;
-}
-
 export interface MigrateMomentsApiInput {
   chainId?: number;
 }
 
-export interface MigrateMomentsResult {
+interface MigrateMomentsResult {
   hash: Hash;
   chainId: number;
 }

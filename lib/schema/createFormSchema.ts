@@ -2,7 +2,7 @@ import { z } from "zod";
 import { validateSplitAddress } from "@/lib/splits/validateSplitAddress";
 import { calculateTotalPercentage } from "@/lib/splits/calculateTotalPercentage";
 
-export const formSplitSchema = z.object({
+const formSplitSchema = z.object({
   address: z.string().min(1, "Address is required"),
   percentAllocation: z
     .number()

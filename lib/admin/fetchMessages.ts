@@ -1,7 +1,7 @@
 import { IN_PROCESS_API } from "@/lib/consts";
 import { MessagesResponse } from "@/types/message";
 
-export interface FetchMessagesParams {
+interface FetchMessagesParams {
   page?: number;
   limit?: number;
   messageId?: string;

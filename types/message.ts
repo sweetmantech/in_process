@@ -1,9 +1,9 @@
 import { Database } from "@/lib/supabase/types";
 
-export type MessageRole = Database["public"]["Enums"]["message_role"];
-export type MessageClient = Database["public"]["Enums"]["message_client"];
+type MessageRole = Database["public"]["Enums"]["message_role"];
+type MessageClient = Database["public"]["Enums"]["message_client"];
 
-export interface MessageMetadata {
+interface MessageMetadata {
   id: string;
   artist_address: string | null;
   client: MessageClient;

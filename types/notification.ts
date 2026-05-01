@@ -1,4 +1,4 @@
-export type InProcessNotificationTransfer = {
+type InProcessNotificationTransfer = {
   value: number | null;
   currency: string | null;
   transaction_hash: string;
@@ -18,7 +18,7 @@ export type InProcessNotification = {
   artist: { username: string | null };
 };
 
-export interface NotificationsPagination {
+interface NotificationsPagination {
   page: number;
   limit: number;
   total_count: number;

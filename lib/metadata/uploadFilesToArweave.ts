@@ -1,6 +1,6 @@
 import uploadToArweave from "@/lib/arweave/uploadToArweave";
 
-export interface FileUploadResult {
+interface FileUploadResult {
   uploadedPreviewUri: string;
   uploadedImageUri: string;
   uploadedAnimationUri: string;

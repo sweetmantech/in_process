@@ -1,6 +1,6 @@
 import { Point } from "@/types/spiral";
 
-export const getCatmullRomControlPoints = (
+const getCatmullRomControlPoints = (
   p0: Point,
   p1: Point,
   p2: Point,

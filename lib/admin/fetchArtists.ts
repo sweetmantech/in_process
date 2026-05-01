@@ -1,7 +1,7 @@
 import { IN_PROCESS_API } from "@/lib/consts";
 import { ArtistsResponse } from "@/types/artist";
 
-export interface FetchArtistsParams {
+interface FetchArtistsParams {
   accessToken: string;
   page?: number;
   limit?: number;

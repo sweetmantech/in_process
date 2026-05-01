@@ -2,7 +2,7 @@ import { createImage } from "./createImage";
 import { getRadianAngle } from "./getRadianAngle";
 import { rotateSize } from "./rotateSize";
 
-export interface PixelCrop {
+interface PixelCrop {
   x: number;
   y: number;
   width: number;

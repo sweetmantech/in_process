@@ -2,7 +2,7 @@ import { Address } from "viem";
 import { Currency } from "@/types/balances";
 import { IN_PROCESS_API } from "@/lib/consts";
 
-export interface WithdrawApiParams {
+interface WithdrawApiParams {
   headers: HeadersInit;
   amount: string;
   currency: Currency;
@@ -10,7 +10,7 @@ export interface WithdrawApiParams {
   chainId: number;
 }
 
-export interface WithdrawApiResult {
+interface WithdrawApiResult {
   hash: string;
   chainId: number;
 }

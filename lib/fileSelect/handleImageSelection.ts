@@ -1,4 +1,4 @@
-export interface ImageSelectionHandlers {
+interface ImageSelectionHandlers {
   setMimeType: (mimeType: string) => void;
   setImageFile: (file: File | null) => void;
   setPreviewFile: (file: File | null) => void;

@@ -4,12 +4,7 @@ import { PERMISSION_BIT_ADMIN, IN_PROCESS_API } from "@/lib/consts";
 import { Moment } from "@/types/moment";
 import buildHeaders from "@/lib/http/buildHeaders";
 
-export interface AirdropRecipient {
-  recipientAddress: string;
-  tokenId: string;
-}
-
-export interface ExecuteAirdropParams {
+interface ExecuteAirdropParams {
   airdropToItems: Array<{ address: string }>;
   moment: Moment;
   smartWallet: Address;

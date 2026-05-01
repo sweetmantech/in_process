@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export interface UseWriteCommentReturn {
+interface UseWriteCommentReturn {
   comment: string;
   setComment: (value: string) => void;
 }

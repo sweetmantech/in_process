@@ -4,7 +4,7 @@ import getUsdcBalance from "@/lib/balance/getUsdcBalance";
 import { getPublicClient } from "@/lib/viem/publicClient";
 import { CHAIN_ID } from "@/lib/consts";
 
-export interface SmartWalletBalance {
+interface SmartWalletBalance {
   smartWallet: Address;
   usdcBalance: string;
   ethBalance: string;

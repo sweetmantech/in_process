@@ -3,7 +3,7 @@ import getUsdcBalance from "@/lib/balance/getUsdcBalance";
 import { getPublicClient } from "@/lib/viem/publicClient";
 import { CHAIN_ID } from "@/lib/consts";
 
-export interface WalletBalances {
+interface WalletBalances {
   usdcBalance: string;
   ethBalance: string;
 }

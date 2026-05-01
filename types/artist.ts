@@ -9,7 +9,7 @@ export interface Artist {
   username: string | null;
 }
 
-export interface ArtistsPagination {
+interface ArtistsPagination {
   page: number;
   limit: number;
   total_pages: number;

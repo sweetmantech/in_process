@@ -1,6 +1,6 @@
 import { IN_PROCESS_API } from "@/lib/consts";
 
-export interface MarkNotificationsAsViewedResponse {
+interface MarkNotificationsAsViewedResponse {
   status: "success" | "error";
   updated: number;
   message?: string;

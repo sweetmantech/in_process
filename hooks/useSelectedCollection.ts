@@ -1,6 +1,5 @@
 import { useMemo } from "react";
 import { useMetadata } from "@/hooks/useMetadata";
-import { getFetchableUrl } from "@/lib/protocolSdk/ipfs/gateway";
 import { useCollectionsProvider } from "@/providers/CollectionsProvider";
 
 export const useSelectedCollection = (

@@ -1,4 +1,4 @@
-export interface EmbedModeResult {
+interface EmbedModeResult {
   mime: string;
   animationUrl: string;
   contentUri: string;
