@@ -4,8 +4,6 @@ import { useFrameProvider } from "@/providers/FrameProvider";
 import { useConnection } from "wagmi";
 import { Address } from "viem";
 import getArtistWallet from "@/lib/artists/getArtistWallet";
-import { CHAIN_ID } from "@/lib/consts";
-import { migrateMomentsApi } from "@/lib/moment/migrateMomentsApi";
 import useConnectedWallet from "./useConnectedWallet";
 
 type ArtistWalletState = {
@@ -17,7 +15,7 @@ type ArtistWalletState = {
 const INITIAL_STATE: ArtistWalletState = { wallet: undefined, isExternal: false, isLoaded: false };
 
 const useArtistWallet = () => {
-  const { getAccessToken, user } = usePrivy();
+  const { user } = usePrivy();
   const { context, frameReady } = useFrameProvider();
   const { address: farcasterAddress } = useConnection();
   const { privyWallet, isPrivyReady } = useConnectedWallet();
@@ -48,16 +46,6 @@ const useArtistWallet = () => {
   useEffect(() => {
     fetchArtistWallet();
   }, [fetchArtistWallet]);
-
-  // Migration runs as a separate concern when an external wallet is linked (Farcaster mini app only)
-  useEffect(() => {
-    if (!isFarcasterMiniApp || !state.isExternal) return;
-    getAccessToken()
-      .then((token) => {
-        if (token) return migrateMomentsApi({ chainId: CHAIN_ID }, token);
-      })
-      .catch((error) => console.error("Failed to migrate moments:", error));
-  }, [isFarcasterMiniApp, state.isExternal, getAccessToken]);
 
   return {
     artistWallet: state.wallet,
