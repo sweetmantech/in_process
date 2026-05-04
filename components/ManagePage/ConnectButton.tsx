@@ -1,13 +1,14 @@
 import connectSocialWallet from "@/lib/artists/connectSocialWallet";
 import migrateProfile from "@/lib/artists/migrateProfile";
 import { useUserProvider } from "@/providers/UserProvider";
-import { useConnectWallet } from "@privy-io/react-auth";
+import { useConnectWallet, usePrivy } from "@privy-io/react-auth";
 import { Fragment, useState } from "react";
 import { Address } from "viem";
 import CopyButton from "../CopyButton";
 import disconnectSocialWallet from "@/lib/artists/disconnectSocialWallet";
 
 const ConnectButton = () => {
+  const { getAccessToken } = usePrivy();
   const { artistWallet, fetchArtistWallet, isSocialWallet, socialWalletAddress } =
     useUserProvider();
   const shouldConnect =
@@ -19,7 +20,9 @@ const ConnectButton = () => {
     onSuccess: async ({ wallet }) => {
       setIsLoading(true);
       try {
-        await connectSocialWallet(wallet.address as Address, socialWalletAddress as Address);
+        const accessToken = await getAccessToken();
+        if (!accessToken) return;
+        await connectSocialWallet(accessToken, wallet.address as Address);
         await migrateProfile(socialWalletAddress as Address, wallet.address as Address);
         await fetchArtistWallet();
       } finally {
