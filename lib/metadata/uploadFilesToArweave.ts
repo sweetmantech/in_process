@@ -1,4 +1,5 @@
 import uploadToArweave from "@/lib/arweave/uploadToArweave";
+import logArweaveUpload from "@/lib/arweave/logArweaveUpload";
 
 interface FileUploadResult {
   uploadedPreviewUri: string;
@@ -14,6 +15,7 @@ interface FileUploadResult {
  * Returns uploaded URIs and determines image/animation URLs.
  */
 export const uploadFilesToArweave = async (
+  authHeaders: HeadersInit,
   previewFile: File | null,
   imageFile: File | null,
   animationFile: File | null,
@@ -63,10 +65,10 @@ export const uploadFilesToArweave = async (
       setUploadProgress?.(Math.min(Math.round(overallProgress), 100));
     };
 
-    // Upload file and get URI
-    const uploadedUri = await uploadToArweave(file, fileProgressCallback);
+    const uploadResult = await uploadToArweave(file, fileProgressCallback);
+    logArweaveUpload(uploadResult, authHeaders ?? {});
+    const uploadedUri = uploadResult.arweave_uri;
 
-    // Assign uploaded URI based on file type
     if (name === "preview") {
       uploadedPreviewUri = uploadedUri;
     } else if (name === "image") {
@@ -75,8 +77,6 @@ export const uploadFilesToArweave = async (
       uploadedAnimationUri = uploadedUri;
     }
 
-    // Ensure 100% progress is set when file completes
-    // This handles cases where the final progress callback might not reach exactly 100%
     setUploadProgress?.(Math.min(Math.round(fileStartProgress + fileContribution), 100));
   }
 

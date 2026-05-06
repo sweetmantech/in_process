@@ -12,19 +12,14 @@ interface VideoUploadResult {
 export const uploadVideoToMuxIfNeeded = async (
   animationFile: File | null,
   mimeType: string,
-  getAccessToken: () => Promise<string | null>,
+  authHeaders: HeadersInit,
   onProgress?: (progress: number) => void
 ): Promise<VideoUploadResult> => {
   if (!animationFile || !mimeType.includes("video")) {
     return { animationUrl: "", contentUri: "" };
   }
 
-  const accessToken = await getAccessToken();
-  if (!accessToken) {
-    throw new Error("Authentication required for video upload");
-  }
-
-  const muxResult = await uploadVideoToMux(animationFile, accessToken, onProgress);
+  const muxResult = await uploadVideoToMux(animationFile, authHeaders, onProgress);
   return {
     animationUrl: muxResult.playbackUrl,
     contentUri: muxResult.downloadUrl,
