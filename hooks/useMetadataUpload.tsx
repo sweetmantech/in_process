@@ -4,7 +4,6 @@ import useWriting from "./useWriting";
 import useFileSelect from "./useFileSelect";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import useTypeParam from "./useTypeParam";
-import { usePrivy } from "@privy-io/react-auth";
 import { uploadVideoToMuxIfNeeded } from "@/lib/metadata/uploadVideoToMuxIfNeeded";
 import { uploadFilesToArweave } from "@/lib/metadata/uploadFilesToArweave";
 import { handleWritingMode } from "@/lib/metadata/handleWritingMode";
@@ -12,10 +11,11 @@ import { handleEmbedMode } from "@/lib/metadata/handleEmbedMode";
 import { buildMetadataPayload } from "@/lib/metadata/buildMetadataPayload";
 import { isModelGltfLike } from "@/lib/media/isModelGltfLike";
 import { MomentMetadata } from "@/types/moment";
+import { useUserProvider } from "@/providers/UserProvider";
 
 const useMetadataUpload = () => {
   const type = useTypeParam();
-  const { getAccessToken } = usePrivy();
+  const { getAuthHeaders } = useUserProvider();
   const {
     description,
     mimeType,
@@ -34,6 +34,8 @@ const useMetadataUpload = () => {
   useLinkPreview();
 
   const generateMetadataUri = async (existingMetadata?: MomentMetadata | null) => {
+    const authHeaders = await getAuthHeaders();
+
     let mime = mimeType;
     let animation_url = "";
     let contentUri = "";
@@ -51,7 +53,7 @@ const useMetadataUpload = () => {
     const videoResult = await uploadVideoToMuxIfNeeded(
       animationFile,
       mimeType,
-      getAccessToken,
+      authHeaders,
       setUploadProgress
     );
     if (videoResult.animationUrl) {
@@ -80,7 +82,8 @@ const useMetadataUpload = () => {
       animationFile,
       animation_url,
       setUploadProgress,
-      mimeType
+      mimeType,
+      authHeaders
     );
 
     // Use file upload results for metadata

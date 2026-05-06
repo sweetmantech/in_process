@@ -7,7 +7,8 @@ const uploadToArweave = async (
 ): Promise<string> => {
   const restoreFetch = patchFetch();
   try {
-    return await uploadFile(file, getProgress);
+    const { arweave_uri } = await uploadFile(file, getProgress);
+    return arweave_uri;
   } finally {
     restoreFetch();
   }

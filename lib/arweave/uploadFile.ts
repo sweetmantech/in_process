@@ -1,13 +1,17 @@
 import turboClient from "./client";
-import { getUploadTransactionId } from "./getUploadTransactionId";
+
+export type UploadFileResult = {
+  arweave_uri: string;
+  winc_cost: string;
+};
 
 export const uploadFile = async (
   file: File,
   getProgress: (progress: number) => void = () => {}
-): Promise<string> => {
+): Promise<UploadFileResult> => {
   const uint8Array = new Uint8Array(await file.arrayBuffer());
 
-  const result = await turboClient.uploadFile({
+  const { id, winc } = await turboClient.uploadFile({
     fileStreamFactory: () => Buffer.from(uint8Array),
     fileSizeFactory: () => file.size,
     dataItemOpts: {
@@ -23,10 +27,5 @@ export const uploadFile = async (
     },
   });
 
-  const id = getUploadTransactionId(result);
-  if (!id) {
-    throw new Error(`Arweave upload did not return a transaction id: ${JSON.stringify(result)}`);
-  }
-
-  return `ar://${id}`;
+  return { arweave_uri: `ar://${id}`, winc_cost: winc };
 };
