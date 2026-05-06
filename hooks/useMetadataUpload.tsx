@@ -6,7 +6,6 @@ import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import useTypeParam from "./useTypeParam";
 import { uploadVideoToMuxIfNeeded } from "@/lib/metadata/uploadVideoToMuxIfNeeded";
 import { uploadFilesToArweave } from "@/lib/metadata/uploadFilesToArweave";
-import { handleEmbedMode } from "@/lib/metadata/handleEmbedMode";
 import { buildMetadataPayload } from "@/lib/metadata/buildMetadataPayload";
 import logArweaveUpload from "@/lib/arweave/logArweaveUpload";
 import { isModelGltfLike } from "@/lib/media/isModelGltfLike";
@@ -131,7 +130,7 @@ const useMetadataUpload = () => {
 
     // Handle embed mode
     if (type === "embed") {
-      const embedResult = await handleEmbedMode(uploadEmbedCode);
+      const embedResult = await uploadEmbedCode();
       mime = embedResult.mime;
       animation_url = embedResult.animationUrl;
       contentUri = embedResult.contentUri;

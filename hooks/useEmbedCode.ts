@@ -10,10 +10,13 @@ const useEmbedCode = () => {
   const uploadEmbedCode = async () => {
     const blob = new Blob([`<html>\n      ${embedCode}\n      </html>`], { type: "text/html" });
     const textImage = new File([blob], "embed", { type: "text/html" });
-    const result = await uploadToArweave(textImage);
-    const authHeaders = await getAuthHeaders();
+    const [result, authHeaders] = await Promise.all([uploadToArweave(textImage), getAuthHeaders()]);
     logArweaveUpload(result, authHeaders);
-    return result.arweave_uri;
+    return {
+      mime: "text/html" as const,
+      animationUrl: result.arweave_uri,
+      contentUri: result.arweave_uri,
+    };
   };
 
   return {
