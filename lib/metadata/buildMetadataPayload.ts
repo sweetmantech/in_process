@@ -1,5 +1,6 @@
 import { isInvalidArUri } from "@/lib/arweave/isInvalidArUri";
 import { uploadJson } from "@/lib/arweave/uploadJson";
+import type { UploadFileResult } from "@/lib/arweave/uploadFile";
 import { MomentMetadata } from "@/types/moment";
 
 /**
@@ -18,7 +19,7 @@ export const buildMetadataPayload = async (
   mime: string,
   contentUri: string,
   existingMetadata?: MomentMetadata | null
-): Promise<string> => {
+): Promise<UploadFileResult> => {
   const safeAnimationUrl = animationUrl && !isInvalidArUri(animationUrl) ? animationUrl : "";
   const safeContentUri = contentUri && !isInvalidArUri(contentUri) ? contentUri : "";
 

@@ -1,14 +1,13 @@
-import { uploadFile } from "./uploadFile";
+import { uploadFile, type UploadFileResult } from "./uploadFile";
 import patchFetch from "./patchFetch";
 
 const uploadToArweave = async (
   file: File,
   getProgress: (progress: number) => void = () => {}
-): Promise<string> => {
+): Promise<UploadFileResult> => {
   const restoreFetch = patchFetch();
   try {
-    const { arweave_uri } = await uploadFile(file, getProgress);
-    return arweave_uri;
+    return await uploadFile(file, getProgress);
   } finally {
     restoreFetch();
   }

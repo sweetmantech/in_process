@@ -6,9 +6,9 @@ import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import useTypeParam from "./useTypeParam";
 import { uploadVideoToMuxIfNeeded } from "@/lib/metadata/uploadVideoToMuxIfNeeded";
 import { uploadFilesToArweave } from "@/lib/metadata/uploadFilesToArweave";
-import { handleWritingMode } from "@/lib/metadata/handleWritingMode";
 import { handleEmbedMode } from "@/lib/metadata/handleEmbedMode";
 import { buildMetadataPayload } from "@/lib/metadata/buildMetadataPayload";
+import logArweaveUpload from "@/lib/arweave/logArweaveUpload";
 import { isModelGltfLike } from "@/lib/media/isModelGltfLike";
 import { MomentMetadata } from "@/types/moment";
 import { useUserProvider } from "@/providers/UserProvider";
@@ -21,7 +21,6 @@ const useMetadataUpload = () => {
     mimeType,
     name,
     link,
-    writingText,
     imageFile,
     animationFile,
     previewFile,
@@ -77,13 +76,13 @@ const useMetadataUpload = () => {
     // Upload files to Arweave if they exist as blobs (deferred upload)
     // Note: Videos are excluded from Arweave upload (they go to Mux)
     const fileUploadResult = await uploadFilesToArweave(
+      authHeaders,
       previewFile,
       imageFile,
       animationFile,
       animation_url,
       setUploadProgress,
-      mimeType,
-      authHeaders
+      mimeType
     );
 
     // Use file upload results for metadata
@@ -123,7 +122,7 @@ const useMetadataUpload = () => {
 
     // Handle writing mode
     if (type === "writing") {
-      const writingResult = await handleWritingMode(uploadWriting, writingText);
+      const writingResult = await uploadWriting();
       mime = writingResult.mime;
       animation_url = writingResult.animationUrl;
       contentUri = writingResult.contentUri;
@@ -138,7 +137,7 @@ const useMetadataUpload = () => {
       contentUri = embedResult.contentUri;
     }
 
-    return buildMetadataPayload(
+    const metadataResult = await buildMetadataPayload(
       name,
       description,
       link,
@@ -148,6 +147,8 @@ const useMetadataUpload = () => {
       contentUri,
       existingMetadata
     );
+    logArweaveUpload(metadataResult, authHeaders);
+    return metadataResult.arweave_uri;
   };
 
   return {

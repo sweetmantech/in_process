@@ -3,6 +3,8 @@ import turboClient from "./client";
 export type UploadFileResult = {
   arweave_uri: string;
   winc_cost: string;
+  file_size_bytes: number;
+  content_type: string;
 };
 
 export const uploadFile = async (
@@ -27,5 +29,10 @@ export const uploadFile = async (
     },
   });
 
-  return { arweave_uri: `ar://${id}`, winc_cost: winc };
+  return {
+    arweave_uri: `ar://${id}`,
+    winc_cost: winc,
+    file_size_bytes: file.size,
+    content_type: file.type || "application/octet-stream",
+  };
 };

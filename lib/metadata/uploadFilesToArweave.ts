@@ -1,5 +1,4 @@
-import { uploadFile } from "@/lib/arweave/uploadFile";
-import patchFetch from "@/lib/arweave/patchFetch";
+import uploadToArweave from "@/lib/arweave/uploadToArweave";
 import logArweaveUpload from "@/lib/arweave/logArweaveUpload";
 
 interface FileUploadResult {
@@ -16,13 +15,13 @@ interface FileUploadResult {
  * Returns uploaded URIs and determines image/animation URLs.
  */
 export const uploadFilesToArweave = async (
+  authHeaders: HeadersInit,
   previewFile: File | null,
   imageFile: File | null,
   animationFile: File | null,
   existingAnimationUrl: string,
   setUploadProgress?: (progress: number) => void,
-  mimeType?: string,
-  authHeaders?: HeadersInit | null
+  mimeType?: string
 ): Promise<FileUploadResult> => {
   let uploadedPreviewUri = "";
   let uploadedImageUri = "";
@@ -66,17 +65,8 @@ export const uploadFilesToArweave = async (
       setUploadProgress?.(Math.min(Math.round(overallProgress), 100));
     };
 
-    const restoreFetch = patchFetch();
-    const uploadResult = await uploadFile(file, fileProgressCallback).finally(restoreFetch);
-
-    if (authHeaders) {
-      logArweaveUpload(
-        uploadResult,
-        { file_size_bytes: file.size, content_type: file.type || "application/octet-stream" },
-        authHeaders
-      );
-    }
-
+    const uploadResult = await uploadToArweave(file, fileProgressCallback);
+    logArweaveUpload(uploadResult, authHeaders ?? {});
     const uploadedUri = uploadResult.arweave_uri;
 
     if (name === "preview") {
