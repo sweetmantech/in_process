@@ -4,6 +4,11 @@ import { callUpdateMomentURI } from "@/lib/moment/callUpdateMomentURI";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import useMetadataUpload from "@/hooks/useMetadataUpload";
 import { useUserProvider } from "@/providers/UserProvider";
+import { useCollectionsProvider } from "@/providers/CollectionsProvider";
+import useMomentCreateParameters from "./useMomentCreateParameters";
+import { createMomentApi } from "@/lib/moment/createMomentApi";
+import { Address } from "viem";
+import { buildMetadataPayload } from "@/lib/metadata/buildMetadataPayload";
 
 const useUpdateMomentURI = () => {
   const { moment, metadata } = useMomentProvider();
@@ -23,6 +28,8 @@ const useUpdateMomentURI = () => {
   const { getAuthHeaders } = useUserProvider();
   const { generateMetadataUri } = useMetadataUpload();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { selectedCollection } = useCollectionsProvider();
+  const { createParameters } = useMomentCreateParameters();
 
   const resetMediaState = () => {
     // Clear all files and media-related state (preserve name and description)
@@ -37,8 +44,8 @@ const useUpdateMomentURI = () => {
   };
 
   const updateTokenURI = async () => {
-    setIsLoading(true);
     try {
+      setIsLoading(true);
       if (!name) {
         throw new Error("Missing token name");
       }
@@ -46,14 +53,33 @@ const useUpdateMomentURI = () => {
       const existingMetadata = metadata ?? null;
       const newUri = await generateMetadataUri(existingMetadata);
 
+      let contractAddress = moment.collectionAddress;
+      const shouldChangeCollection = selectedCollection !== moment.collectionAddress;
+      if (shouldChangeCollection) {
+        const parameters = createParameters(newUri);
+        const result = await createMomentApi(parameters);
+        contractAddress = result.contractAddress as Address;
+      }
+
       const authHeaders = await getAuthHeaders();
+
+      const { arweave_uri } = await buildMetadataPayload({
+        name: "",
+        description: "",
+        externalUrl: `https://inprocess.world/collect/base:${contractAddress}/${moment.tokenId}`,
+        image: "",
+        animationUrl: "",
+        mime: "",
+        contentUri: "",
+        authHeaders,
+        getRecaptchaToken: async () => undefined,
+      });
 
       await callUpdateMomentURI({
         moment,
-        newUri,
+        newUri: arweave_uri,
         authHeaders,
       });
-
       // Reset media state after successful save (for all file types)
       resetMediaState();
     } catch (error: any) {

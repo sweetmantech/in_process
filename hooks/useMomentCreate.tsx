@@ -28,9 +28,6 @@ export default function useMomentCreate() {
       setUploadProgress(0);
 
       const parameters = await fetchParameters();
-      if (!parameters) {
-        throw new Error("Parameters not ready");
-      }
       const result = await createMomentApi(parameters);
       setSelectedCollection(result.contractAddress);
       await new Promise((resolve) => setTimeout(resolve, 3000));

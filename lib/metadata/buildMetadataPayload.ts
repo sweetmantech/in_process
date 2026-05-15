@@ -3,18 +3,31 @@ import { uploadJson } from "@/lib/arweave/uploadJson";
 import type { UploadResult } from "@/lib/arweave/uploadViaApi";
 import { MomentMetadata } from "@/types/moment";
 
-export const buildMetadataPayload = async (
-  name: string,
-  description: string,
-  externalUrl: string,
-  image: string,
-  animationUrl: string,
-  mime: string,
-  contentUri: string,
-  authHeaders: HeadersInit,
-  getRecaptchaToken: () => Promise<string | undefined>,
-  existingMetadata?: MomentMetadata | null
-): Promise<UploadResult> => {
+interface BuildMetadataPayloadParams {
+  name: string;
+  description: string;
+  externalUrl: string;
+  image: string;
+  animationUrl: string;
+  mime: string;
+  contentUri: string;
+  authHeaders: HeadersInit;
+  getRecaptchaToken: () => Promise<string | undefined>;
+  existingMetadata?: MomentMetadata | null;
+}
+
+export const buildMetadataPayload = async ({
+  name,
+  description,
+  externalUrl,
+  image,
+  animationUrl,
+  mime,
+  contentUri,
+  authHeaders,
+  getRecaptchaToken,
+  existingMetadata,
+}: BuildMetadataPayloadParams): Promise<UploadResult> => {
   const safeAnimationUrl = animationUrl && !isInvalidArUri(animationUrl) ? animationUrl : "";
   const safeContentUri = contentUri && !isInvalidArUri(contentUri) ? contentUri : "";
 
