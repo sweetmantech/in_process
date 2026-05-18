@@ -34,7 +34,9 @@ const CollectionChangeWarningModal = ({
         <Button variant="outline" onClick={onCancel}>
           Cancel
         </Button>
-        <Button onClick={onConfirm}>Confirm</Button>
+        <Button className="bg-black text-grey-eggshell" onClick={onConfirm}>
+          Confirm
+        </Button>
       </DialogFooter>
     </DialogContent>
   </Dialog>
