@@ -9,6 +9,9 @@ import useMomentCreateParameters from "./useMomentCreateParameters";
 import { createMomentApi } from "@/lib/moment/createMomentApi";
 import { Address } from "viem";
 import { buildMetadataPayload } from "@/lib/metadata/buildMetadataPayload";
+import { useRouter } from "next/navigation";
+import { CHAIN_ID } from "@/lib/consts";
+import { getShortNameFromChainId } from "@/lib/zora/getShortNameFromChainId";
 
 const useUpdateMomentURI = () => {
   const { moment, metadata } = useMomentProvider();
@@ -30,6 +33,7 @@ const useUpdateMomentURI = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { selectedCollection } = useCollectionsProvider();
   const { createParameters } = useMomentCreateParameters();
+  const { push } = useRouter();
 
   const resetMediaState = () => {
     // Clear all files and media-related state (preserve name and description)
@@ -44,6 +48,9 @@ const useUpdateMomentURI = () => {
   };
 
   const updateTokenURI = async () => {
+    const shouldChangeCollection = selectedCollection !== moment.collectionAddress;
+    let contractAddress = moment.collectionAddress;
+
     try {
       setIsLoading(true);
       if (!name) {
@@ -52,9 +59,6 @@ const useUpdateMomentURI = () => {
 
       const existingMetadata = metadata ?? null;
       let newUri = await generateMetadataUri(existingMetadata);
-
-      let contractAddress = moment.collectionAddress;
-      const shouldChangeCollection = selectedCollection !== moment.collectionAddress;
 
       const authHeaders = await getAuthHeaders();
 
@@ -81,6 +85,7 @@ const useUpdateMomentURI = () => {
         newUri,
         authHeaders,
       });
+
       // Reset media state after successful save (for all file types)
       resetMediaState();
     } catch (error: any) {
@@ -89,6 +94,7 @@ const useUpdateMomentURI = () => {
       setIsLoading(false);
       setIsUploading(false);
       setUploadProgress(0);
+      push(`/manage/${getShortNameFromChainId(CHAIN_ID)}:${contractAddress}/${moment.tokenId}`);
     }
   };
 
