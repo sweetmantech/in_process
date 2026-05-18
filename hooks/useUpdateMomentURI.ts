@@ -58,7 +58,14 @@ const useUpdateMomentURI = () => {
       const shouldChangeCollection = selectedCollection !== moment.collectionAddress;
 
       if (shouldChangeCollection) {
-        const isConfirm = await toast.confirm("Are you sure you want to change the collection?");
+        const isConfirm = toast.warning("Are you sure you want to change the collection?", {
+          action: {
+            label: "Yes",
+            onClick: () => {
+              return true;
+            },
+          },
+        });
         if (!isConfirm) {
           return;
         }
