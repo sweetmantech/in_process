@@ -50,7 +50,6 @@ const useUpdateMomentURI = () => {
   const updateTokenURI = async () => {
     const shouldChangeCollection = selectedCollection !== moment.collectionAddress;
     let contractAddress = moment.collectionAddress;
-    let tokenId = moment.tokenId;
 
     try {
       setIsLoading(true);
@@ -67,7 +66,7 @@ const useUpdateMomentURI = () => {
         const parameters = createParameters(newUri);
         const result = await createMomentApi(parameters);
         contractAddress = result.contractAddress as Address;
-        tokenId = result.tokenId.toString();
+
         const { arweave_uri } = await buildMetadataPayload({
           name: "",
           description: "",
@@ -95,7 +94,7 @@ const useUpdateMomentURI = () => {
       setIsLoading(false);
       setIsUploading(false);
       setUploadProgress(0);
-      push(`/manage/${getShortNameFromChainId(CHAIN_ID)}:${contractAddress}/${tokenId}`);
+      push(`/manage/${getShortNameFromChainId(CHAIN_ID)}:${contractAddress}/${moment.tokenId}`);
     }
   };
 
