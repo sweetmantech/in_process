@@ -54,7 +54,10 @@ const useMomentData = (moment: Moment) => {
       metadata?.external_url &&
       COLLECT_PAGE_REGEX.test(metadata.external_url)
     ) {
-      router.replace(metadata.external_url);
+      const targetPath = new URL(metadata.external_url, window.location.origin).pathname;
+      if (targetPath !== window.location.pathname) {
+        router.replace(metadata.external_url);
+      }
     }
   }, [metadata, router]);
 
