@@ -26,7 +26,6 @@ export default function MiniAppProvider({ children }: { children: ReactNode }) {
         setIsInMiniApp(inMiniApp);
         if (inMiniApp) {
           setContext(ctx);
-          document.documentElement.classList.remove("dark");
           await sdk.actions.ready();
         }
       } finally {

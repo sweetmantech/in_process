@@ -51,6 +51,10 @@
   outline: none !important;
   box-shadow: none !important;
 }
+:root {
+  color-scheme: light;
+}
+
 @layer base {
   :root {
     color-scheme: light;
