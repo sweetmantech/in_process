@@ -2,10 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  color: #1B1504;
-}
-
 @font-face {
   font-family: "Archivo-Regular";
   src: url("/fonts/Archivo-Regular.ttf") format("truetype");
@@ -55,13 +51,9 @@ body {
   outline: none !important;
   box-shadow: none !important;
 }
-:root {
-  color-scheme: light;
-}
 
 @layer base {
   :root {
-    color-scheme: light;
     --background: 0 0% 100%;
     --foreground: 222.2 47.4% 11.2%;
 
