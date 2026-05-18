@@ -7,7 +7,8 @@ import { getMomentApi } from "@/lib/moment/getMomentApi";
 import { Moment, MomentSaleConfig, Protocol } from "@/types/moment";
 import useIsSoldOut from "./useIsSoldOut";
 
-const COLLECT_PAGE_REGEX = /https?:\/\/[^/]+\/collect\/(base|eth|bsep):(0x[0-9a-fA-F]{40})\/\d+/;
+const COLLECT_PAGE_REGEX =
+  /https?:\/\/[^/]+\/(collect|manage)\/(base|eth|bsep):(0x[0-9a-fA-F]{40})\/\d+/;
 
 const useMomentData = (moment: Moment) => {
   const { collectionAddress, tokenId, chainId } = moment;
