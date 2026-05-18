@@ -1,12 +1,13 @@
 "use client";
 import { useMomentProvider } from "@/providers/MomentProvider";
-import { useMomentUriUpdateProvider } from "@/providers/MomentUriUpdateProvider";
 import { toast } from "sonner";
 import { useFormState } from "react-hook-form";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import useMomentLegacyWarning from "@/hooks/useMomentLegacyWarning";
+import { useCollectionChangeWarning } from "@/hooks/useCollectionChangeWarning";
 import Warning from "./Warning";
 import GrantMomentPermissionButton from "./GrantMomentPermissionButton";
+import CollectionChangeWarningModal from "./CollectionChangeWarningModal";
 
 interface SaveMediaButtonProps {
   onSuccess?: () => void;
@@ -14,10 +15,12 @@ interface SaveMediaButtonProps {
 
 const SaveMediaButton = ({ onSuccess }: SaveMediaButtonProps) => {
   const { isOwner } = useMomentProvider();
-  const { updateTokenURI, isLoading: isSaving } = useMomentUriUpdateProvider();
   const { form } = useMetadataFormProvider();
   const { errors } = useFormState({ control: form.control });
   const hasWarning = useMomentLegacyWarning();
+
+  const { open, isSaving, isCollectionChanged, save, openWarning, handleConfirm, handleCancel } =
+    useCollectionChangeWarning(onSuccess);
 
   const handleSave = async () => {
     const isValid = await form.trigger();
@@ -31,13 +34,12 @@ const SaveMediaButton = ({ onSuccess }: SaveMediaButtonProps) => {
       return;
     }
 
-    try {
-      await updateTokenURI();
-      onSuccess?.();
-      toast.info("Successfully saved media. Metadata update will show up after a few seconds...");
-    } catch (error: any) {
-      toast.error(error?.message || "Failed to save media");
+    if (isCollectionChanged) {
+      openWarning();
+      return;
     }
+
+    await save();
   };
 
   // Watch name value reactively
@@ -60,6 +62,7 @@ const SaveMediaButton = ({ onSuccess }: SaveMediaButtonProps) => {
           {isSaving ? "saving..." : "Save"}
         </button>
       )}
+      <CollectionChangeWarningModal open={open} onConfirm={handleConfirm} onCancel={handleCancel} />
     </div>
   );
 };

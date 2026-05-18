@@ -1,5 +1,11 @@
 import { erc20Abi, Address } from "viem";
-import { useSendTransaction, useWriteContract, usePublicClient } from "wagmi";
+import {
+  useSendTransaction,
+  useWriteContract,
+  usePublicClient,
+  useChainId,
+  useSwitchChain,
+} from "wagmi";
 import { CHAIN_ID, USDC_ADDRESS } from "@/lib/consts";
 import { Currency } from "@/types/balances";
 import { toast } from "sonner";
@@ -7,12 +13,19 @@ import { toast } from "sonner";
 // Transfers ETH or USDC from the Farcaster-connected wallet to the smart wallet.
 // Used instead of the topup page modal when running inside a Farcaster mini-app.
 const useFarcasterTopup = () => {
-  const { sendTransactionAsync } = useSendTransaction();
-  const { writeContractAsync } = useWriteContract();
-  const publicClient = usePublicClient();
+  const { mutateAsync: sendTransactionAsync } = useSendTransaction();
+  const { mutateAsync: writeContractAsync } = useWriteContract();
+  const { mutateAsync: switchChainAsync } = useSwitchChain();
+  const publicClient = usePublicClient({ chainId: CHAIN_ID });
+  const chainId = useChainId();
 
   const topup = async (currency: Currency, amount: bigint, smartWallet: Address): Promise<void> => {
     if (!publicClient) throw new Error("No public client available to confirm transaction");
+
+    if (chainId !== CHAIN_ID) {
+      toast.info("Switching to the correct network...");
+      await switchChainAsync({ chainId: CHAIN_ID });
+    }
 
     toast.info(`Requesting ${currency.toUpperCase()} transfer to your smart wallet...`);
 

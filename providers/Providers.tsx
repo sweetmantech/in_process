@@ -4,7 +4,7 @@ import React, { ReactNode, useState, useEffect } from "react";
 import PrivyProvider from "./PrivyProvider";
 import { WagmiProvider } from "./WagmiProvider";
 import UserProvider from "./UserProvider";
-import FrameProvider from "./FrameProvider";
+import MiniAppProvider from "./MiniAppProvider";
 import LayoutProvider from "./LayoutProvider";
 import SmartWalletProvider from "./SmartWalletProvider";
 import WayfinderProvider from "./WayfinderProvider";
@@ -29,7 +29,7 @@ export function Providers({ children }: ProvidersProps): React.ReactElement {
     <GoogleReCaptchaProvider reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ?? ""}>
       <WagmiProvider>
         <PrivyProvider>
-          <FrameProvider>
+          <MiniAppProvider>
             <UserProvider>
               <NotificationsProvider>
                 <SmartWalletProvider>
@@ -39,7 +39,7 @@ export function Providers({ children }: ProvidersProps): React.ReactElement {
                 </SmartWalletProvider>
               </NotificationsProvider>
             </UserProvider>
-          </FrameProvider>
+          </MiniAppProvider>
         </PrivyProvider>
       </WagmiProvider>
     </GoogleReCaptchaProvider>

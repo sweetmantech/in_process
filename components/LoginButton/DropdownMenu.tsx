@@ -1,4 +1,4 @@
-import { useFrameProvider } from "@/providers/FrameProvider";
+import { useMiniAppProvider } from "@/providers/MiniAppProvider";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import Divider from "./Divider";
@@ -7,7 +7,7 @@ import { usePrivy } from "@privy-io/react-auth";
 import { useUserProvider } from "@/providers/UserProvider";
 
 export function DropdownMenu() {
-  const { context } = useFrameProvider();
+  const { isMiniApp } = useMiniAppProvider();
   const { push } = useRouter();
   const { toggleNavbar } = useLayoutProvider();
   const { logout } = usePrivy();
@@ -35,7 +35,7 @@ export function DropdownMenu() {
       >
         manage
       </button>
-      {!context && (
+      {!isMiniApp && (
         <>
           <Divider />
           <button

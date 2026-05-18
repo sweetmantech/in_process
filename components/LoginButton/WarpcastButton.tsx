@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import truncateAddress from "@/lib/truncateAddress";
-import { useFrameProvider } from "@/providers/FrameProvider";
+import { useMiniAppProvider } from "@/providers/MiniAppProvider";
 import { config } from "@/providers/WagmiProvider";
 import { useAccount, useConnect } from "wagmi";
 import { useLayoutProvider } from "@/providers/LayoutProvider";
@@ -12,7 +12,7 @@ interface WarpcastButtonProps {
   className?: string;
 }
 export function WarpcastButton({ className = "" }: WarpcastButtonProps) {
-  const { context } = useFrameProvider();
+  const { context } = useMiniAppProvider();
   const { isConnected, address } = useAccount();
   const { connect } = useConnect();
   const { toggleNavbar, isOpenNavbar } = useLayoutProvider();

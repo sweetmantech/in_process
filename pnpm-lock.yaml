@@ -13,12 +13,12 @@ importers:
       "@ar.io/wayfinder-react":
         specifier: ^1.0.28
         version: 1.0.28(bufferutil@4.0.9)(react-dom@19.2.1(react@19.2.1))(react@19.2.1)(utf-8-validate@5.0.10)
-      "@farcaster/frame-sdk":
-        specifier: ^0.0.31
-        version: 0.0.31(typescript@5.9.3)(zod@3.25.76)
-      "@farcaster/frame-wagmi-connector":
-        specifier: ^0.0.19
-        version: 0.0.19(@farcaster/frame-sdk@0.0.31(typescript@5.9.3)(zod@3.25.76))(@wagmi/core@3.0.0(@tanstack/query-core@5.90.12)(@types/react@19.2.7)(immer@11.1.4)(react@19.2.1)(typescript@5.9.3)(use-sync-external-store@1.4.0(react@19.2.1))(viem@2.41.2(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@3.25.76)))(viem@2.41.2(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@3.25.76))
+      "@farcaster/miniapp-sdk":
+        specifier: ^0.3.0
+        version: 0.3.0(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@3.25.76)
+      "@farcaster/miniapp-wagmi-connector":
+        specifier: ^2.0.0
+        version: 2.0.0(@farcaster/miniapp-sdk@0.3.0(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@3.25.76))(@wagmi/core@3.0.0(@tanstack/query-core@5.90.12)(@types/react@19.2.7)(immer@11.1.4)(react@19.2.1)(typescript@5.9.3)(use-sync-external-store@1.4.0(react@19.2.1))(viem@2.41.2(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@3.25.76)))(viem@2.41.2(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@3.25.76))
       "@google/model-viewer":
         specifier: ^4.2.0
         version: 4.2.0(three@0.182.0)
@@ -935,27 +935,35 @@ packages:
         integrity: sha512-2df9bbXicZws2Sb5S6ET493uJ0Z84Fjr3pC4tu/qlnZERibZCeUVuqdtt+7Tv9xxhUxHoIekIA7avrKUWHrezg==,
       }
 
-  "@farcaster/frame-core@0.0.29":
+  "@farcaster/miniapp-core@0.6.0":
     resolution:
       {
-        integrity: sha512-+iQjOS4OE0YCeW7hhBOg0QK8Pch7/C3mlkfD0OLey0Thnj4Uab4tWmvmfKxnsJNSYnESx9BT+Sw/pn9cueCl1Q==,
+        integrity: sha512-sgDQdU6fQDXYbNbjuvvwhww1rwf/S0JCnKsp/o2K+ubtboA3SOiy3Wrc+taBnAh56CCxVbZN9Hck3OpYh9wINw==,
       }
 
-  "@farcaster/frame-sdk@0.0.31":
+  "@farcaster/miniapp-sdk@0.3.0":
     resolution:
       {
-        integrity: sha512-ZRFA4HyfE1PIcEi++27ulSqrArv2qdVeYww7juM90DYgvqyGLtX6cTZS0UEoRL7iog2U8Rv2aq1ORLbePCBZuA==,
+        integrity: sha512-mxze24B5SSLwqpPqUmzthfsGGPeevJvDuOEbLJay1DDgPS/B0LswA0XXfz4d6pViA7Y4TkbeAPMAfuVZ9nIqgQ==,
       }
 
-  "@farcaster/frame-wagmi-connector@0.0.19":
+  "@farcaster/miniapp-wagmi-connector@2.0.0":
     resolution:
       {
-        integrity: sha512-Ey9lEEk4SudkOiTtqY2eMGVTFZwW1lLMEtnAYqb7dCc/mDQowj3GfxNW9a2bdPoq5UEwAwJxxLiVvdERI+Hy3A==,
+        integrity: sha512-Ek41lXTc79SJSZYL06EXMSpz4q4fnrisMaU8B9IZWH/pt7L4IrblnjjYZGC/a0PITCqWgOPkgLNbP08+4Q3PDg==,
       }
     peerDependencies:
-      "@farcaster/frame-sdk": ^0.0.31
+      "@farcaster/miniapp-sdk": ^0.3.0
       "@wagmi/core": ^2.14.1
       viem: ^2.21.55
+
+  "@farcaster/quick-auth@0.0.6":
+    resolution:
+      {
+        integrity: sha512-tiZndhpfDtEhaKlkmS5cVDuS+A/tafqZT3y9I44rC69m3beJok6e8dIH2JhxVy3EvOWTyTBnrmNn6GOOh+qK6A==,
+      }
+    peerDependencies:
+      typescript: 5.8.3
 
   "@floating-ui/core@1.7.3":
     resolution:
@@ -7659,6 +7667,12 @@ packages:
         integrity: sha512-1vUQX+IdDMVPj4k8kOxgUqlcK518yluMuGZwqlr44FS1ppZB/5GWh4rZG89erpOBOJjU/OBsnCVFfapsRz6nEA==,
       }
 
+  jose@5.10.0:
+    resolution:
+      {
+        integrity: sha512-s+3Al/p9g32Iq+oqXxkW//7jk2Vig6FF1CFqzVXoTUXt2qz89YWbL+OwS17NFYEvxC35n0FKeGO2LGYSxeM2Gg==,
+      }
+
   jose@6.1.3:
     resolution:
       {
@@ -8518,10 +8532,10 @@ packages:
       typescript:
         optional: true
 
-  ox@0.4.4:
+  ox@0.14.21:
     resolution:
       {
-        integrity: sha512-oJPEeCDs9iNiPs6J0rTx+Y0KGeCGyCAA3zo94yZhm8G5WpOxrwUtn2Ie/Y8IyARSqqY/j9JTKA3Fc1xs1DvFnw==,
+        integrity: sha512-vOdnp3ievmJMwfzqJupqn+1LNbqW8/c0s/DX3YEIGvQwiDhX0DBzGmaekL1O3j1+k8H50vyCkUVAoKLcJdiZyA==,
       }
     peerDependencies:
       typescript: ">=5.4.0"
@@ -10817,6 +10831,7 @@ packages:
       {
         integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==,
       }
+    deprecated: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
     hasBin: true
 
   uuid@9.0.1:
@@ -12078,28 +12093,42 @@ snapshots:
       "@ethersproject/properties": 5.8.0
       "@ethersproject/strings": 5.8.0
 
-  "@farcaster/frame-core@0.0.29(typescript@5.9.3)":
+  "@farcaster/miniapp-core@0.6.0(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)":
     dependencies:
-      ox: 0.4.4(typescript@5.9.3)(zod@3.25.76)
-      zod: 3.25.76
+      "@solana/web3.js": 1.98.4(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)
+      ox: 0.14.21(typescript@5.9.3)(zod@4.1.13)
+      zod: 4.1.13
     transitivePeerDependencies:
+      - bufferutil
+      - encoding
       - typescript
+      - utf-8-validate
 
-  "@farcaster/frame-sdk@0.0.31(typescript@5.9.3)(zod@3.25.76)":
+  "@farcaster/miniapp-sdk@0.3.0(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@3.25.76)":
     dependencies:
-      "@farcaster/frame-core": 0.0.29(typescript@5.9.3)
+      "@farcaster/miniapp-core": 0.6.0(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)
+      "@farcaster/quick-auth": 0.0.6(typescript@5.9.3)
       comlink: 4.4.2
       eventemitter3: 5.0.1
-      ox: 0.4.4(typescript@5.9.3)(zod@3.25.76)
+      ox: 0.14.21(typescript@5.9.3)(zod@3.25.76)
     transitivePeerDependencies:
+      - bufferutil
+      - encoding
       - typescript
+      - utf-8-validate
       - zod
 
-  "@farcaster/frame-wagmi-connector@0.0.19(@farcaster/frame-sdk@0.0.31(typescript@5.9.3)(zod@3.25.76))(@wagmi/core@3.0.0(@tanstack/query-core@5.90.12)(@types/react@19.2.7)(immer@11.1.4)(react@19.2.1)(typescript@5.9.3)(use-sync-external-store@1.4.0(react@19.2.1))(viem@2.41.2(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@3.25.76)))(viem@2.41.2(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@3.25.76))":
+  "@farcaster/miniapp-wagmi-connector@2.0.0(@farcaster/miniapp-sdk@0.3.0(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@3.25.76))(@wagmi/core@3.0.0(@tanstack/query-core@5.90.12)(@types/react@19.2.7)(immer@11.1.4)(react@19.2.1)(typescript@5.9.3)(use-sync-external-store@1.4.0(react@19.2.1))(viem@2.41.2(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@3.25.76)))(viem@2.41.2(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@3.25.76))":
     dependencies:
-      "@farcaster/frame-sdk": 0.0.31(typescript@5.9.3)(zod@3.25.76)
+      "@farcaster/miniapp-sdk": 0.3.0(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@3.25.76)
       "@wagmi/core": 3.0.0(@tanstack/query-core@5.90.12)(@types/react@19.2.7)(immer@11.1.4)(react@19.2.1)(typescript@5.9.3)(use-sync-external-store@1.4.0(react@19.2.1))(viem@2.41.2(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@3.25.76))
       viem: 2.41.2(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@3.25.76)
+
+  "@farcaster/quick-auth@0.0.6(typescript@5.9.3)":
+    dependencies:
+      jose: 5.10.0
+      typescript: 5.9.3
+      zod: 3.25.76
 
   "@floating-ui/core@1.7.3":
     dependencies:
@@ -14091,7 +14120,7 @@ snapshots:
 
   "@scure/bip32@1.7.0":
     dependencies:
-      "@noble/curves": 1.9.1
+      "@noble/curves": 1.9.7
       "@noble/hashes": 1.8.0
       "@scure/base": 1.2.6
 
@@ -16304,11 +16333,6 @@ snapshots:
       typescript: 5.9.3
       zod: 3.25.76
 
-  abitype@1.1.0(typescript@5.9.3)(zod@4.1.13):
-    optionalDependencies:
-      typescript: 5.9.3
-      zod: 4.1.13
-
   abitype@1.2.3(typescript@5.9.3)(zod@3.22.4):
     optionalDependencies:
       typescript: 5.9.3
@@ -16318,6 +16342,11 @@ snapshots:
     optionalDependencies:
       typescript: 5.9.3
       zod: 3.25.76
+
+  abitype@1.2.3(typescript@5.9.3)(zod@4.1.13):
+    optionalDependencies:
+      typescript: 5.9.3
+      zod: 4.1.13
 
   abort-controller@3.0.0:
     dependencies:
@@ -18253,6 +18282,8 @@ snapshots:
 
   jose@4.15.9: {}
 
+  jose@5.10.0: {}
+
   jose@6.1.3: {}
 
   joycon@3.1.1: {}
@@ -18762,14 +18793,30 @@ snapshots:
     transitivePeerDependencies:
       - zod
 
-  ox@0.4.4(typescript@5.9.3)(zod@3.25.76):
+  ox@0.14.21(typescript@5.9.3)(zod@3.25.76):
     dependencies:
       "@adraffy/ens-normalize": 1.11.1
-      "@noble/curves": 1.9.7
+      "@noble/ciphers": 1.3.0
+      "@noble/curves": 1.9.1
       "@noble/hashes": 1.8.0
       "@scure/bip32": 1.7.0
       "@scure/bip39": 1.6.0
-      abitype: 1.1.0(typescript@5.9.3)(zod@3.25.76)
+      abitype: 1.2.3(typescript@5.9.3)(zod@3.25.76)
+      eventemitter3: 5.0.1
+    optionalDependencies:
+      typescript: 5.9.3
+    transitivePeerDependencies:
+      - zod
+
+  ox@0.14.21(typescript@5.9.3)(zod@4.1.13):
+    dependencies:
+      "@adraffy/ens-normalize": 1.11.1
+      "@noble/ciphers": 1.3.0
+      "@noble/curves": 1.9.1
+      "@noble/hashes": 1.8.0
+      "@scure/bip32": 1.7.0
+      "@scure/bip39": 1.6.0
+      abitype: 1.2.3(typescript@5.9.3)(zod@4.1.13)
       eventemitter3: 5.0.1
     optionalDependencies:
       typescript: 5.9.3
@@ -18781,9 +18828,9 @@ snapshots:
       "@adraffy/ens-normalize": 1.11.1
       "@noble/curves": 1.9.7
       "@noble/hashes": 1.8.0
-      "@scure/bip32": 1.6.2
-      "@scure/bip39": 1.5.4
-      abitype: 1.1.0(typescript@5.9.3)(zod@3.25.76)
+      "@scure/bip32": 1.7.0
+      "@scure/bip39": 1.6.0
+      abitype: 1.2.3(typescript@5.9.3)(zod@3.25.76)
       eventemitter3: 5.0.1
     optionalDependencies:
       typescript: 5.9.3
@@ -18793,11 +18840,11 @@ snapshots:
   ox@0.6.9(typescript@5.9.3)(zod@3.25.76):
     dependencies:
       "@adraffy/ens-normalize": 1.11.1
-      "@noble/curves": 1.9.1
+      "@noble/curves": 1.9.7
       "@noble/hashes": 1.8.0
       "@scure/bip32": 1.7.0
       "@scure/bip39": 1.6.0
-      abitype: 1.1.0(typescript@5.9.3)(zod@3.25.76)
+      abitype: 1.2.3(typescript@5.9.3)(zod@3.25.76)
       eventemitter3: 5.0.1
     optionalDependencies:
       typescript: 5.9.3
@@ -18812,7 +18859,7 @@ snapshots:
       "@noble/hashes": 1.8.0
       "@scure/bip32": 1.7.0
       "@scure/bip39": 1.6.0
-      abitype: 1.1.0(typescript@5.9.3)(zod@3.25.76)
+      abitype: 1.2.3(typescript@5.9.3)(zod@3.25.76)
       eventemitter3: 5.0.1
     optionalDependencies:
       typescript: 5.9.3
@@ -18827,7 +18874,7 @@ snapshots:
       "@noble/hashes": 1.8.0
       "@scure/bip32": 1.7.0
       "@scure/bip39": 1.6.0
-      abitype: 1.1.0(typescript@5.9.3)(zod@4.1.13)
+      abitype: 1.2.3(typescript@5.9.3)(zod@4.1.13)
       eventemitter3: 5.0.1
     optionalDependencies:
       typescript: 5.9.3
@@ -18842,7 +18889,7 @@ snapshots:
       "@noble/hashes": 1.8.0
       "@scure/bip32": 1.7.0
       "@scure/bip39": 1.6.0
-      abitype: 1.1.0(typescript@5.9.3)(zod@3.25.76)
+      abitype: 1.2.3(typescript@5.9.3)(zod@3.25.76)
       eventemitter3: 5.0.1
     optionalDependencies:
       typescript: 5.9.3
@@ -18857,7 +18904,7 @@ snapshots:
       "@noble/hashes": 1.8.0
       "@scure/bip32": 1.7.0
       "@scure/bip39": 1.6.0
-      abitype: 1.1.0(typescript@5.9.3)(zod@3.25.76)
+      abitype: 1.2.3(typescript@5.9.3)(zod@3.25.76)
       eventemitter3: 5.0.1
     optionalDependencies:
       typescript: 5.9.3

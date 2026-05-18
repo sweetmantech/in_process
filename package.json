@@ -13,8 +13,8 @@
   "dependencies": {
     "@ar.io/wayfinder-core": "^1.9.1",
     "@ar.io/wayfinder-react": "^1.0.28",
-    "@farcaster/frame-sdk": "^0.0.31",
-    "@farcaster/frame-wagmi-connector": "^0.0.19",
+    "@farcaster/miniapp-sdk": "^0.3.0",
+    "@farcaster/miniapp-wagmi-connector": "^2.0.0",
     "@google/model-viewer": "^4.2.0",
     "@hookform/resolvers": "^5.2.2",
     "@lottiefiles/dotlottie-react": "^0.17.8",

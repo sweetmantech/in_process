@@ -1,4 +1,4 @@
-import sdk from "@farcaster/frame-sdk";
+import sdk from "@farcaster/miniapp-sdk";
 import { IN_PROCESS_API } from "@/lib/consts";
 import { getTimeNonce } from "./getTimeNonce";
 
