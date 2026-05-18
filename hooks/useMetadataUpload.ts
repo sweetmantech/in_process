@@ -133,7 +133,6 @@ const useMetadataUpload = () => {
       mime,
       contentUri,
       authHeaders,
-      getRecaptchaToken,
       existingMetadata,
     });
     return metadataResult.arweave_uri;

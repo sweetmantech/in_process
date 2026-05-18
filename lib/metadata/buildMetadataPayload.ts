@@ -12,7 +12,7 @@ interface BuildMetadataPayloadParams {
   mime: string;
   contentUri: string;
   authHeaders: HeadersInit;
-  getRecaptchaToken: () => Promise<string | undefined>;
+  getRecaptchaToken?: () => Promise<string | undefined>;
   existingMetadata?: MomentMetadata | null;
 }
 

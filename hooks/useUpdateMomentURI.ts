@@ -9,7 +9,6 @@ import useMomentCreateParameters from "./useMomentCreateParameters";
 import { createMomentApi } from "@/lib/moment/createMomentApi";
 import { Address } from "viem";
 import { buildMetadataPayload } from "@/lib/metadata/buildMetadataPayload";
-import { toast } from "sonner";
 
 const useUpdateMomentURI = () => {
   const { moment, metadata } = useMomentProvider();
@@ -52,47 +51,34 @@ const useUpdateMomentURI = () => {
       }
 
       const existingMetadata = metadata ?? null;
-      const newUri = await generateMetadataUri(existingMetadata);
+      let newUri = await generateMetadataUri(existingMetadata);
 
       let contractAddress = moment.collectionAddress;
       const shouldChangeCollection = selectedCollection !== moment.collectionAddress;
 
-      if (shouldChangeCollection) {
-        const isConfirm = toast.warning("Are you sure you want to change the collection?", {
-          action: {
-            label: "Yes",
-            onClick: () => {
-              return true;
-            },
-          },
-        });
-        if (!isConfirm) {
-          return;
-        }
-      }
+      const authHeaders = await getAuthHeaders();
+
       if (shouldChangeCollection) {
         const parameters = createParameters(newUri);
         const result = await createMomentApi(parameters);
         contractAddress = result.contractAddress as Address;
+
+        const { arweave_uri } = await buildMetadataPayload({
+          name: "",
+          description: "",
+          externalUrl: `https://inprocess.world/collect/base:${contractAddress}/${moment.tokenId}`,
+          image: "",
+          animationUrl: "",
+          mime: "",
+          contentUri: "",
+          authHeaders,
+        });
+        newUri = arweave_uri;
       }
-
-      const authHeaders = await getAuthHeaders();
-
-      const { arweave_uri } = await buildMetadataPayload({
-        name: "",
-        description: "",
-        externalUrl: `https://inprocess.world/collect/base:${contractAddress}/${moment.tokenId}`,
-        image: "",
-        animationUrl: "",
-        mime: "",
-        contentUri: "",
-        authHeaders,
-        getRecaptchaToken: async () => undefined,
-      });
 
       await callUpdateMomentURI({
         moment,
-        newUri: arweave_uri,
+        newUri,
         authHeaders,
       });
       // Reset media state after successful save (for all file types)
