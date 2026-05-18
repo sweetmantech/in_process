@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  color: #1B1504;
+}
+
 @font-face {
   font-family: "Archivo-Regular";
   src: url("/fonts/Archivo-Regular.ttf") format("truetype");
