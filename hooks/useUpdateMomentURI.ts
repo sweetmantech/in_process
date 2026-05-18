@@ -4,6 +4,8 @@ import { callUpdateMomentURI } from "@/lib/moment/callUpdateMomentURI";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import useMetadataUpload from "@/hooks/useMetadataUpload";
 import { useUserProvider } from "@/providers/UserProvider";
+import { useCollectionsProvider } from "@/providers/CollectionsProvider";
+import { Address } from "viem";
 
 const useUpdateMomentURI = () => {
   const { moment, metadata } = useMomentProvider();
@@ -23,6 +25,7 @@ const useUpdateMomentURI = () => {
   const { getAuthHeaders } = useUserProvider();
   const { generateMetadataUri } = useMetadataUpload();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { selectedCollection } = useCollectionsProvider();
 
   const resetMediaState = () => {
     // Clear all files and media-related state (preserve name and description)
@@ -48,9 +51,15 @@ const useUpdateMomentURI = () => {
 
       const authHeaders = await getAuthHeaders();
 
+      const newCollectionAddress =
+        selectedCollection && selectedCollection !== moment?.collectionAddress
+          ? (selectedCollection as Address)
+          : undefined;
+
       await callUpdateMomentURI({
         moment,
         newUri,
+        newCollectionAddress,
         authHeaders,
       });
 
