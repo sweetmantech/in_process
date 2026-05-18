@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { Suspense } from "react";
 import { Analytics } from "@vercel/analytics/react";
 import { Providers } from "@/providers/Providers";
-import { Metadata } from "next";
+import { Metadata, Viewport } from "next";
 
 export const metadata: Metadata = {
   alternates: {
@@ -11,6 +11,10 @@ export const metadata: Metadata = {
       "text/plain": "/llms.txt",
     },
   },
+};
+
+export const viewport: Viewport = {
+  colorScheme: "light",
 };
 
 export default function RootLayout({
