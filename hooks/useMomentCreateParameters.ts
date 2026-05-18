@@ -17,9 +17,9 @@ const useMomentCreateParameters = () => {
 
   // Use priceUnit to determine if USDC
   const isUsdc = priceUnit === "usdc";
-
-  const createParameters = (uri: string) => {
-    if (!name) throw new Error("Missing moment name");
+  const fetchParameters = async () => {
+    const momentMetadataUri = await generateMetadataUri();
+    if (!name) return;
     const salesConfig = getSalesConfig(
       getSaleConfigType(isUsdc ? "erc20Mint" : "fixedPrice"),
       price,
@@ -37,13 +37,13 @@ const useMomentCreateParameters = () => {
         }
       : {
           name: name,
-          uri,
+          uri: momentMetadataUri,
         };
 
     return {
       contract,
       token: {
-        tokenMetadataURI: uri,
+        tokenMetadataURI: momentMetadataUri,
         createReferral: REFERRAL_RECIPIENT,
         salesConfig,
         mintToCreatorCount: 1,
@@ -55,12 +55,7 @@ const useMomentCreateParameters = () => {
     };
   };
 
-  const fetchParameters = async () => {
-    const momentMetadataUri = await generateMetadataUri();
-    return createParameters(momentMetadataUri);
-  };
-
-  return { fetchParameters, createParameters };
+  return { fetchParameters };
 };
 
 export default useMomentCreateParameters;

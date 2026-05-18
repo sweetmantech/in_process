@@ -124,17 +124,18 @@ const useMetadataUpload = () => {
       contentUri = embedResult.contentUri;
     }
 
-    const metadataResult = await buildMetadataPayload({
+    const metadataResult = await buildMetadataPayload(
       name,
       description,
-      externalUrl: link,
+      link,
       image,
-      animationUrl: animation_url,
+      animation_url,
       mime,
       contentUri,
       authHeaders,
-      existingMetadata,
-    });
+      getRecaptchaToken,
+      existingMetadata
+    );
     return metadataResult.arweave_uri;
   };
 
