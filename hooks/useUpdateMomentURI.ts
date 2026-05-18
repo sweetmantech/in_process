@@ -9,6 +9,7 @@ import useMomentCreateParameters from "./useMomentCreateParameters";
 import { createMomentApi } from "@/lib/moment/createMomentApi";
 import { Address } from "viem";
 import { buildMetadataPayload } from "@/lib/metadata/buildMetadataPayload";
+import { toast } from "sonner";
 
 const useUpdateMomentURI = () => {
   const { moment, metadata } = useMomentProvider();
@@ -55,6 +56,13 @@ const useUpdateMomentURI = () => {
 
       let contractAddress = moment.collectionAddress;
       const shouldChangeCollection = selectedCollection !== moment.collectionAddress;
+
+      if (shouldChangeCollection) {
+        const isConfirm = await toast.confirm("Are you sure you want to change the collection?");
+        if (!isConfirm) {
+          return;
+        }
+      }
       if (shouldChangeCollection) {
         const parameters = createParameters(newUri);
         const result = await createMomentApi(parameters);
