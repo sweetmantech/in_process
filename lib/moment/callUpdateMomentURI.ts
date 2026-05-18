@@ -14,7 +14,7 @@ export async function callUpdateMomentURI({
   newUri,
   newCollectionAddress,
   authHeaders,
-}: CallUpdateMomentURIInput): Promise<void> {
+}: CallUpdateMomentURIInput): Promise<{ contractAddress: Address; tokenId: number }> {
   try {
     const response = await fetch(`${IN_PROCESS_API}/moment`, {
       method: "PATCH",
@@ -33,7 +33,7 @@ export async function callUpdateMomentURI({
     if (!response.ok) {
       throw new Error(data.message || "Failed to update moment metadata");
     }
-    return data.hash;
+    return data;
   } catch (error: any) {
     throw new Error(error?.message || "Failed to update moment metadata");
   }
