@@ -1,4 +1,4 @@
-import { fetchCollection } from "@/lib/collections/fetchCollection";
+import { callGetCollectionApi } from "@/lib/collection/callGetCollectionApi";
 import { FetchCollectionParams } from "@/types/collections";
 import { useQuery } from "@tanstack/react-query";
 
@@ -6,7 +6,7 @@ const useCollection = ({ collectionAddress, chainId }: FetchCollectionParams) =>
   return useQuery({
     queryKey: ["collection", collectionAddress, chainId],
     queryFn: () =>
-      fetchCollection({
+      callGetCollectionApi({
         collectionAddress,
         chainId,
       }),

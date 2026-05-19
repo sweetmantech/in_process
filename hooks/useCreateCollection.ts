@@ -6,7 +6,7 @@ import { useUserProvider } from "@/providers/UserProvider";
 import { useCollectionsProvider } from "@/providers/CollectionsProvider";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { useCreateCollectionModalTriggerProvider } from "@/providers/CollectionCreateProvider/CreateCollectionModalTriggerProvider";
-import { callCreateCollectionApi } from "@/lib/collections/callCreateCollectionApi";
+import { callCreateCollectionApi } from "@/lib/collection/callCreateCollectionApi";
 import useCreateCollectionParameters from "./useCreateCollectionParameters";
 
 export const useCreateCollection = () => {
