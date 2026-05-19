@@ -1,7 +1,7 @@
 import { CollectionResponse, FetchCollectionParams } from "@/types/collections";
 import { IN_PROCESS_API } from "@/lib/consts";
 
-export async function fetchCollection({
+export async function callGetCollectionApi({
   collectionAddress,
   chainId,
 }: FetchCollectionParams): Promise<CollectionResponse> {

@@ -5,7 +5,7 @@ import { CHAIN_ID } from "@/lib/consts";
 import { isAddress } from "viem";
 import fetchMetadata from "@/lib/arweave/fetchMetadata";
 import CollectionPage from "@/components/CollectionPage";
-import { getCollectionApi } from "@/lib/collection/getCollectionApi";
+import { callGetCollectionApi } from "@/lib/collection/callGetCollectionApi";
 import truncateAddress from "@/lib/truncateAddress";
 
 type Props = {
@@ -23,7 +23,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const chainIdInt = chainId || CHAIN_ID;
 
   try {
-    const { uri, creator } = await getCollectionApi(address, chainIdInt);
+    const { uri, creator } = await callGetCollectionApi({
+      collectionAddress: address,
+      chainId: String(chainIdInt),
+    });
     if (!uri) return { title: "In Process", description: "Imagined by LATASHÁ" };
     const username = creator.username || truncateAddress(creator.address);
     const metadata = await fetchMetadata(uri);
