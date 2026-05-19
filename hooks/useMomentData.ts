@@ -1,20 +1,16 @@
 import { getAddress } from "viem";
-import { useMemo, useEffect } from "react";
+import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
 import { useUserProvider } from "@/providers/UserProvider";
 import { getMomentApi } from "@/lib/moment/getMomentApi";
 import { Moment, MomentSaleConfig, Protocol } from "@/types/moment";
 import useIsSoldOut from "./useIsSoldOut";
-
-const COLLECT_PAGE_REGEX =
-  /https?:\/\/[^/]+\/(collect|manage)\/(base|eth|bsep):(0x[0-9a-fA-F]{40})\/\d+/;
+import useMigratedCollectionRedirect from "./useMigratedCollectionRedirect";
 
 const useMomentData = (moment: Moment) => {
   const { collectionAddress, tokenId, chainId } = moment;
   const { artistWallet } = useUserProvider();
   const { isLoading: isCheckingSoldOut, data: isSoldOut } = useIsSoldOut(moment);
-  const router = useRouter();
 
   const query = useQuery({
     queryKey: ["tokenInfo", collectionAddress, tokenId, chainId],
@@ -49,18 +45,7 @@ const useMomentData = (moment: Moment) => {
     return saleConfig?.saleEnd ? saleConfig.saleEnd * 1000 : 0;
   }, [saleConfig]);
 
-  useEffect(() => {
-    if (
-      metadata?.content?.uri === "" &&
-      metadata?.external_url &&
-      COLLECT_PAGE_REGEX.test(metadata.external_url)
-    ) {
-      const targetPath = new URL(metadata.external_url, window.location.origin).pathname;
-      if (targetPath !== window.location.pathname) {
-        router.replace(metadata.external_url);
-      }
-    }
-  }, [metadata, router]);
+  useMigratedCollectionRedirect(metadata);
 
   return {
     saleConfig,
