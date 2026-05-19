@@ -11,10 +11,6 @@ export interface CallUpdateCollectionURIInput {
   accessToken: string;
 }
 
-/**
- * Calls the API endpoint to update collection URI.
- * Handles authentication and error responses.
- */
 export async function callUpdateCollectionURI({
   collection,
   newUri,
@@ -22,8 +18,8 @@ export async function callUpdateCollectionURI({
   accessToken,
 }: CallUpdateCollectionURIInput): Promise<string> {
   try {
-    const response = await fetch(`${IN_PROCESS_API}/collection/uri`, {
-      method: "POST",
+    const response = await fetch(`${IN_PROCESS_API}/collection`, {
+      method: "PATCH",
       headers: {
         "content-type": "application/json",
         authorization: `Bearer ${accessToken}`,
